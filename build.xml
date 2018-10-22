@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<project name="LateraCamundaExtension" default="pack" basedir=".">
+  <description>
+    Camunda extension with some stuff needed for Hydra BSS and Hydra Order Management System (homs)
+  </description>
+
+
+  <property name="src" location="src" />
+  <property name="dst" location="target" />
+  <property name="dst.build" location="${dst}/build" />
+  <property name="dst.lib" location="${dst}/lib" />
+
+  <property name="groovy.home" value="/usr/local/share/groovy" />
+  <property name="groovy.version" value="2.4.12" />
+  <property name="java.libs" value="/usr/local/share/java" />
+  <property name="version" value="1.0" />
+  <path id="groovy.classpath">
+    <fileset dir="${groovy.home}/${groovy.version}/libexec/embeddable">
+      <include name="groovy-all-${groovy.version}.jar" />
+    </fileset>
+    <fileset dir="${java.libs}">
+      <include name="commons-logging.jar" />
+    </fileset>
+  </path>
+  <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.classpath" />
+
+  <property name="camunda.home" value="/tmp/camunda-bpm-tomcat-7.8.0" />
+  <property name="camunda.version" value="7.8.0" />
+  <property name="camunda.commons.version" value="1.4.0" />
+  <property name="slf4j.version" value="1.7.7"/>
+  <property name="commons-io.version" value="2.6" />
+  <property name="http-builder.version" value="0.7.1" />
+  <property name="httpclient.version" value="4.5.4" />
+  <property name="httpcore.version" value="4.4.9" />
+  <path id="project.classpath">
+    <fileset dir="${camunda.home}/lib">
+      <include name="camunda-engine-${camunda.version}.jar" />
+      <include name="camunda-bpmn-model-${camunda.version}.jar" />
+      <include name="camunda-xml-model-${camunda.version}.jar" />
+      <include name="camunda-commons-utils-${camunda.commons.version}.jar" />
+      <include name="camunda-commons-typed-values-${camunda.commons.version}.jar" />
+      <include name="slf4j-api-${slf4j.version}.jar" />
+      <include name="commons-io-${commons-io.version}.jar" />
+      <include name="http-builder-${http-builder.version}.jar" />
+      <include name="httpclient-${httpclient.version}.jar" />
+      <include name="httpcore-${httpcore.version}.jar" />
+    </fileset>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${dst.build}" />
+    <groovyc srcdir="${src}" listfiles="true" destdir="${dst.build}" classpathref="project.classpath" />
+  </target>
+
+  <target name="pack" depends="compile">
+    <mkdir dir="${dst.lib}" />
+    <jar jarfile="${dst.lib}/camunda-latera-${version}.jar" basedir="${dst.build}"/>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${dst.build}" />
+    <delete dir="${dst.lib}" />
+  </target>
+</project>
