@@ -2,25 +2,24 @@ package org.camunda.latera.bss.executionListeners
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.ExecutionListener
-import org.camunda.latera.bss.logging.Logging
+import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.http.HTTPRestProcessor
-import org.slf4j.Logger
 
 class AutoSaveOrderData implements ExecutionListener {
 
   void notify(DelegateExecution execution) {
 
-    def logger = Logging.getLogger(execution)
+    SimpleLogger logger = new SimpleLogger(execution)
     if (isSavePossible(execution)) {
       def orderData = getOrderData(execution)
 
       if (orderData != execution.getVariable('homsOrdDataBuffer')) {
-        Logging.log('/ Saving order data...', "info", logger)
-        saveOrderData(orderData, execution, logger)
+        logger.log('/ Saving order data...', "info")
+        saveOrderData(orderData, execution)
         execution.setVariable('homsOrdDataBuffer', orderData)
-        Logging.log('\\ Order data saved', "info", logger)
+        logger.log('\\ Order data saved', "info")
       } else {
-        Logging.log('Order data has not changed, save not needed', "info", logger)
+        logger.log('Order data has not changed, save not needed', "info")
       }
     }
   }
@@ -43,7 +42,7 @@ class AutoSaveOrderData implements ExecutionListener {
     orderData
   }
 
-  static private saveOrderData(orderData, execution, logger) {
+  static private saveOrderData(orderData, execution) {
     def homsUrl = execution.getVariable("homsUrl")
     def homsUser = execution.getVariable("homsUser")
     def homsPassword = execution.getVariable("homsPassword")
@@ -55,8 +54,8 @@ class AutoSaveOrderData implements ExecutionListener {
         ]
     ]
 
-    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/")
+    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/", execution: execution)
     httpProcessor.httpClient.auth.basic(homsUser, homsPassword)
-    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj, logger: logger)
+    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj)
   }
 }

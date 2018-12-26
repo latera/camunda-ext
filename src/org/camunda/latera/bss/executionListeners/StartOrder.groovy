@@ -2,13 +2,12 @@ package org.camunda.latera.bss.executionListeners
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.ExecutionListener
-import org.camunda.latera.bss.logging.Logging
+import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.http.HTTPRestProcessor
-import org.slf4j.Logger
 
 class StartOrder implements ExecutionListener {
 
-  static void startOrder(DelegateExecution execution, Logger logger) {
+  static void startOrder(DelegateExecution execution) {
     def homsUrl = execution.getVariable("homsUrl")
     def homsUser = execution.getVariable("homsUser")
     def homsPassword = execution.getVariable("homsPassword")
@@ -25,17 +24,17 @@ class StartOrder implements ExecutionListener {
         ]
     ]
 
-    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/")
+    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/", execution: execution)
     httpProcessor.httpClient.auth.basic(homsUser, homsPassword)
-    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj, logger: logger)
+    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj)
   }
 
   void notify(DelegateExecution execution) {
 
-    def logger = Logging.getLogger(execution)
+    SimpleLogger logger = new SimpleLogger(execution)
 
-    Logging.log('/ Starting order...', "info", logger)
-    startOrder(execution, logger)
-    Logging.log('\\ Order started', "info", logger)
+    logger.log('/ Starting order...', "info")
+    startOrder(execution)
+    logger.log('\\ Order started', "info")
   }
 }

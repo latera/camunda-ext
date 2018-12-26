@@ -2,13 +2,12 @@ package org.camunda.latera.bss.executionListeners
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.bpm.engine.delegate.ExecutionListener
-import org.camunda.latera.bss.logging.Logging
+import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.http.HTTPRestProcessor
-import org.slf4j.Logger
 
 class SaveOrderData implements ExecutionListener {
 
-  static void saveOrderData(DelegateExecution execution, Logger logger) {
+  static void saveOrderData(DelegateExecution execution) {
     def homsUrl = execution.getVariable("homsUrl")
     def homsUser = execution.getVariable("homsUser")
     def homsPassword = execution.getVariable("homsPassword")
@@ -28,17 +27,17 @@ class SaveOrderData implements ExecutionListener {
       homsRequestObj.order.data[dataKey] = e.value
     }
 
-    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/")
+    def httpProcessor = new HTTPRestProcessor(baseUrl: "$homsUrl/api/", execution: execution)
     httpProcessor.httpClient.auth.basic(homsUser, homsPassword)
-    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj, logger: logger)
+    httpProcessor.sendRequest('put', path: "orders/$homsOrderCode", body: homsRequestObj)
   }
 
   void notify(DelegateExecution execution) {
 
-    def logger = Logging.getLogger(execution)
+    SimpleLogger logger = new SimpleLogger(execution)
 
-    Logging.log('/ Saving order data...', logger: logger)
-    saveOrderData(execution, logger)
-    Logging.log('\\ Order data saved', logger: logger)
+    logger.log('/ Saving order data...', 'info')
+    saveOrderData(execution)
+    logger.log('\\ Order data saved', 'info')
   }
 }
