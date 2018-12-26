@@ -11,9 +11,9 @@
   <property name="dst.lib" location="${dst}/lib" />
 
   <property name="groovy.home" value="/usr/local/share/groovy" />
-  <property name="groovy.version" value="2.4.12" />
+  <property name="groovy.version" value="2.4.16" />
   <property name="java.libs" value="/usr/local/share/java" />
-  <property name="version" value="1.0" />
+  <property name="version" value="1.0.1" />
   <path id="groovy.classpath">
     <fileset dir="${groovy.home}/${groovy.version}/libexec/embeddable">
       <include name="groovy-all-${groovy.version}.jar" />
@@ -24,14 +24,14 @@
   </path>
   <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="groovy.classpath" />
 
-  <property name="camunda.home" value="/tmp/camunda-bpm-tomcat-7.8.0" />
-  <property name="camunda.version" value="7.8.0" />
-  <property name="camunda.commons.version" value="1.4.0" />
+  <property name="camunda.home" value="/Users/ebelousov/Downloads/camunda-bpm-tomcat-7.9.0" />
+  <property name="camunda.version" value="7.9.0" />
+  <property name="camunda.commons.version" value="1.5.0" />
   <property name="slf4j.version" value="1.7.7"/>
   <property name="commons-io.version" value="2.6" />
   <property name="http-builder.version" value="0.7.1" />
-  <property name="httpclient.version" value="4.5.4" />
-  <property name="httpcore.version" value="4.4.9" />
+  <property name="httpclient.version" value="4.5.6" />
+  <property name="httpcore.version" value="4.4.10" />
   <path id="project.classpath">
     <fileset dir="${camunda.home}/lib">
       <include name="camunda-engine-${camunda.version}.jar" />
