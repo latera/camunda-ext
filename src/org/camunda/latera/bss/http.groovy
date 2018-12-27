@@ -13,6 +13,10 @@ class HTTPRestProcessor {
   HTTPRestProcessor(parameters) {
     this.httpClient = new RESTClient(parameters.baseUrl)
     this.logger = new SimpleLogger(parameters.execution)
+
+    if (parameters.user && parameters.password) {
+      this.processor.httpClient.auth.basic(parameters.user, parameters.password)
+    }
   }
 
   def private responseBlock(Boolean failure=false) {
