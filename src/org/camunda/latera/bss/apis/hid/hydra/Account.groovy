@@ -11,7 +11,7 @@ trait Account {
     LinkedHashMap where = [
       n_account_id: accountId
     ]
-    if (accountTypeId != null) {
+    if (accountTypeId) {
       where.n_account_type_id = accountTypeId
     }
     return this.hid.getTableData(this.accountsTable, where: where)
@@ -24,7 +24,7 @@ trait Account {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    if (accountTypeId != null) {
+    if (accountTypeId) {
       where.n_account_type_id = accountTypeId
     }
     return this.hid.getTableData(this.accountsTable, where: where)

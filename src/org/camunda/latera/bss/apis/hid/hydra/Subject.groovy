@@ -31,7 +31,7 @@ trait Subject {
     LinkedHashMap where = [
       vc_code: code
     ]
-    if (subjTypeId == null) {
+    if (subjTypeId) {
       where.n_subj_type_id = subjTypeId
     }
     return this.hid.getTableFirst('SI_V_SUBJ_VALUES_TYPE', fields: 'n_subj_value_type_id', where: where)

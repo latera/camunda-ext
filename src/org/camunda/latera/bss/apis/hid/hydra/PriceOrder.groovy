@@ -5,7 +5,7 @@ trait PriceOrder {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    if (state != null) {
+    if (stateId) {
       where.n_doc_state_id = stateId
     }
     return this.hid.getTableData('SD_V_PRICE_ORDERS_T', where: where)

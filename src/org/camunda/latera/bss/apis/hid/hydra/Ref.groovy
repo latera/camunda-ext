@@ -12,7 +12,7 @@ trait Ref {
         FROM   DUAL
       """)?.n_ref_id
 
-      if (refId != null) {
+      if (refId ) {
         this.refsCache[code] = refId
       }
       return refId
@@ -28,7 +28,7 @@ trait Ref {
         FROM   DUAL
       """)?.vc_code
 
-      if (refCode != null) {
+      if (refCode) {
         this.refsCache[refCode] = id
       }
       return refCode
