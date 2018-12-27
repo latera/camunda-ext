@@ -35,7 +35,7 @@ trait Table {
     LinkedHashMap where = this.defaultWhere,
     List order = this.defaultOrder
   ) {
-    String query = "SELECT "
+    String query = "SELECT"
     
     if (fields == '*' || fields == null) {
       fields = this.getTableColumns(tableName)
@@ -43,51 +43,42 @@ trait Table {
     
     fields.each{ field ->
       query += """
-      '${field.toLowerCase()}', ${field}
-      """ + (field == fields.last() ? '' : ',')
+      '${field.toLowerCase()}', ${field}""" + (field == fields.last() ? '' : ',')
     }
     query += """
-    FROM ${tableName}
-    """
+    FROM ${tableName}"""
 
     if (where?.size() > 0) {
       query += """
-      WHERE 1 = 1
-      """
+    WHERE 1 = 1"""
 
       where.each{ field, value ->
         if (value instanceof LinkedHashMap) {
           value.each { condition, content ->
             query += """
-              AND ${field} ${condition} ${content}
-            """
+    AND ${field} ${condition} ${content}"""
           }
         } else if (value instanceof List) {
           value.each { condition ->
             query += """
-              AND ${field} ${condition}
-            """
+    AND ${field} ${condition}"""
           }
         } else if (value instanceof String) {
           query += """
-            AND ${field} = '${value}'
-          """
+    AND ${field} = '${value}'"""
         } else {
           query += """
-            AND ${field} = ${value}
-          """
+    AND ${field} = ${value}"""
         }
       }
     }
 
     if (order?.size() > 0) {
       query += """
-      ORDER BY
-      """
+    ORDER BY"""
       order.each{column ->
         query += """
-        ${column}
-        """ + (column == order.last() ? '' : ',')
+        ${column}""" + (column == order.last() ? '' : ',')
       }
     }
     return this.queryDatabase(query)
