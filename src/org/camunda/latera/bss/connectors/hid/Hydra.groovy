@@ -1,22 +1,22 @@
-package org.camunda.latera.bss.apis.hid
+package org.camunda.latera.bss.connectors.hid
 
 import groovy.net.xmlrpc.*
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.camunda.latera.bss.apis.HID
-import org.camunda.latera.bss.apis.hid.hydra.Ref
-import org.camunda.latera.bss.apis.hid.hydra.Good
-import org.camunda.latera.bss.apis.hid.hydra.Document
-import org.camunda.latera.bss.apis.hid.hydra.PriceOrder
-import org.camunda.latera.bss.apis.hid.hydra.PriceLine
-import org.camunda.latera.bss.apis.hid.hydra.Subject
-import org.camunda.latera.bss.apis.hid.hydra.Company
-import org.camunda.latera.bss.apis.hid.hydra.Person
-import org.camunda.latera.bss.apis.hid.hydra.Customer
-import org.camunda.latera.bss.apis.hid.hydra.Account
-import org.camunda.latera.bss.apis.hid.hydra.Equipment
-import org.camunda.latera.bss.apis.hid.hydra.Region
-import org.camunda.latera.bss.apis.hid.hydra.Address
+import org.camunda.latera.bss.connectors.HID
+import org.camunda.latera.bss.connectors.hid.hydra.Ref
+import org.camunda.latera.bss.connectors.hid.hydra.Good
+import org.camunda.latera.bss.connectors.hid.hydra.Document
+import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
+import org.camunda.latera.bss.connectors.hid.hydra.PriceLine
+import org.camunda.latera.bss.connectors.hid.hydra.Subject
+import org.camunda.latera.bss.connectors.hid.hydra.Company
+import org.camunda.latera.bss.connectors.hid.hydra.Person
+import org.camunda.latera.bss.connectors.hid.hydra.Customer
+import org.camunda.latera.bss.connectors.hid.hydra.Account
+import org.camunda.latera.bss.connectors.hid.hydra.Equipment
+import org.camunda.latera.bss.connectors.hid.hydra.Region
+import org.camunda.latera.bss.connectors.hid.hydra.Address
 
 class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Company, Person, Customer, Account, Equipment, Region, Address {
   HID hid

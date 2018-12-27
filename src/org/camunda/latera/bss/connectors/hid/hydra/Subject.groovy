@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.apis.hid.hydra
+package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 trait Subject {

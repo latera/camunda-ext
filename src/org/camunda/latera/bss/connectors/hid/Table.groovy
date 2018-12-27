@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.apis.hid
+package org.camunda.latera.bss.connectors.hid
 
 trait Table {
   static LinkedHashMap tableColumnsCache = [:]

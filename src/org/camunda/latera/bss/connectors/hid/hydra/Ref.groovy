@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.apis.hid.hydra
+package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Ref {
   static LinkedHashMap refsCache = [null: null]

@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.apis.hid.hydra
+package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Account {
   static accountsTable = 'SI_V_SUBJ_ACCOUNTS'

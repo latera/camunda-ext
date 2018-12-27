@@ -1,9 +1,9 @@
-package org.camunda.latera.bss.apis
+package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.*
 import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.apis.hid.Table
+import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 //@Mixin(Table)

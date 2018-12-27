@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.apis
+package org.camunda.latera.bss.connectors
 
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
