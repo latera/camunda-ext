@@ -1,35 +1,41 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import org.camunda.latera.bss.logging.Logging
 trait Ref {
-  static LinkedHashMap refsCache = [null: null]
+  static LinkedHashMap REFS_CACHE = [null: null]
+  static String REFS_TABLE = 'SI_V_REF'
 
   def getRefIdByCode(String code) {
-    if (this.refsCache.containsKey(code)) {
-      return this.refsCache[code]
+    if (REFS_CACHE.containsKey(code)) {
+      return REFS_CACHE[code]
     } else {
-      def refId = this.hid.queryFirst("""
-        SELECT 'n_ref_id', SI_REF_PKG_S.GET_ID_BY_CODE('${code}') 
-        FROM   DUAL
-      """)?.n_ref_id
+      def logger = new Logging()
 
-      if (refId ) {
-        this.refsCache[code] = refId
+      def refId = hid.queryFirst("""
+      SELECT SI_REF_PKG_S.GET_ID_BY_CODE('${code}') FROM DUAL
+      """, false)
+      
+      logger.log(refId)
+      
+      refId = refId.getAt(0)
+
+      if (refId) {
+        REFS_CACHE[code] = refId
       }
       return refId
     }
   }
 
   String getRefCodeById(def id) {
-    if (this.refsCache.containsValue(code)) {
-      return this.refsCache.find{it.value == code}?.key
+    if (REFS_CACHE.containsValue(code)) {
+      return REFS_CACHE.find{it.value == code}?.key
     } else {
-      String refCode = this.hid.queryFirst("""
-        SELECT 'vc_code', SI_REF_PKG_S.GET_CODE_BY_ID('${code}') 
-        FROM   DUAL
-      """)?.vc_code
+      String refCode = hid.queryFirst("""
+      SELECT SI_REF_PKG_S.GET_CODE_BY_ID(${id}) FROM DUAL
+      """, false)?.getAt(0)
 
       if (refCode) {
-        this.refsCache[refCode] = id
+        REFS_CACHE[refCode] = id
       }
       return refCode
     }

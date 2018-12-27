@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Region {
-  //Regions staff
+  static String REGIONS_TABLE = 'SR_V_REGIONS'
   static LinkedHashMap REGION_HIERARCHY = [
     state    : ['REGION_TYPE_State'],
     oblast   : ['REGION_TYPE_Oblast'],
@@ -10,56 +10,48 @@ trait Region {
     city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement', 'REGION_TYPE_Village'],
     street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard']
   ]
-  static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values() as List
+  static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values().flatten()
   static List REGION_NAMES = REGION_HIERARCHY.keySet() as List
-  static List REGION_TYPES = REGION_NAMES.each{ it -> it + "Type" }
+  static List REGION_TYPES = REGION_NAMES*.concat("Type")
 
   LinkedHashMap getRegion(regionId) {
     LinkedHashMap where = [
       n_region_id: regionId
     ]
-    return this.hid.getTableFirst('SR_V_REGIONS', where: where)
+    return hid.getTableFirst(REGIONS_TABLE, where: where)
   }
 
   LinkedHashMap getRegionTree(regionId) {
     //Get region data from database
     String query = """
-    SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(R.N_REGION_TYPE_ID),
-    """
-    List fields = this.hid.getTableColumns('SR_V_REGIONS')
+    SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(N_REGION_TYPE_ID),"""
+    List fields = hid.getTableColumns(REGIONS_TABLE)
     fields.each{ field ->
       query += """
-      '${field}', ${field},
-      """
+      '${field.toLowerCase()}', ${field},"""
     }
 
-    query += this.REGION_HIERARCHY_FLATTEN.map{ type_name ->
-      """
-      '${type_name}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(R.N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${type_name}'))
-      """
+    REGION_HIERARCHY_FLATTEN.each{ typeName ->
+      query += """
+      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}'))""" + (typeName == REGION_HIERARCHY_FLATTEN.last() ? '' : ',')
     }.join(',')
 
     query += """
-    FROM
-      SR_V_REGIONS R
-    WHERE
-      R.N_REGION_ID = ${regionId}
-    """
+    FROM ${REGIONS_TABLE}
+    WHERE N_REGION_ID = ${regionId}"""
 
-    LinkedHashMap data = this.hid.queryFirst(query)
+    LinkedHashMap data = hid.queryFirst(query)
 
     //Replace empty hierarchial values
     LinkedHashMap result = [
-      type: this.REGION_HIERARCHY_FLATTEN[0]
+      type: REGION_HIERARCHY_FLATTEN[0]
     ]
-    this.REGION_HIERARCHY_FLATTEN.each{ code ->
+    REGION_HIERARCHY_FLATTEN.each{ code ->
       if (data[code]) {
-        for (item in this.REGION_HIERARCHY) {
-          String name = item.key
-          List values = item.value
+        REGION_HIERARCHY.each { name, values ->
           if (values.contains(code)) {
             result[name] = data[code] //oblast = 'Some'
-            result[this.REGION_TYPES[this.REGION_NAMES.findIndexOf{it == name}]] = name //oblastType = 'REGION_TYPE_Oblast'
+            result[REGION_TYPES[REGION_NAMES.findIndexOf{it == name}]] = code //oblastType = 'REGION_TYPE_Oblast'
           }
         }
       }

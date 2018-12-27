@@ -1,30 +1,34 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Person {
-  LinkedHashMap getPerson(subjectId) {
+  static String PERSONS_TABLE         = 'SI_V_PERSONS'
+  static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
+  static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
+
+  LinkedHashMap getPerson(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return this.hid.getTableFirst('SI_V_PERSONS_PRIVATE', where: where)
+    return hid.getTableFirst(PERSONS_TABLE, where: where)
   }
 
-  LinkedHashMap getPersonPrivate(subjectId) {
+  LinkedHashMap getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return this.hid.getTableFirst('SI_V_PERSONS', where: where)
+    return hid.getTableFirst(PERSONS_PRIVATE_TABLE, where: where)
   }
 
   Boolean isPerson(String subjectType) {
-    return subjectType == 'SUBJ_TYPE_Person'
+    return subjectType == PERSON_TYPE
   }
 
   Boolean isPerson(def subjectTypeId) {
-    return subjectTypeId == this.getRefCodeById('SUBJ_TYPE_Person')
+    return subjectTypeId == getRefCodeById(PERSON_TYPE)
   }
 
   LinkedHashMap putPerson(LinkedHashMap input) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       id            :  null,
       firstName     :  null,
       secondName    :  null,
@@ -43,12 +47,12 @@ trait Person {
       birthPlace    :  null,
       rem           :  null,
       groupId       :  null,
-      firmId        :  100,
-      stateId       :  this.getRefIdByCode('SUBJ_STATE_On')
+      firmId        :  DEFAULT_FIRM,
+      stateId       :  getRefIdByCode(DEFAULT_SUBJECT_STATE)
     ], input)
     try {
-      this.logger.log("Putting person named ${params.firstName} ${params.secondName} ${params.lastName} in firm ${params.firmId}")
-      LinkedHashMap person = this.hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
+      logger.info("Putting person named ${params.firstName} ${params.secondName} ${params.lastName} in firm ${params.firmId}")
+      LinkedHashMap person = hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
         num_N_SUBJECT_ID       : params.id,
         num_N_FIRM_ID          : params.firmId,
         num_N_SUBJ_STATE_ID    : params.stateId,
@@ -70,11 +74,11 @@ trait Person {
         vch_VC_BIRTH_PLACE     : params.birthPlace,
         vch_VC_REM             : params.rem
       ])
-      this.logger.log("   Person ${personId.num_N_SUBJECT_ID} was put successfully!")
+      logger.info("   Person ${personId.num_N_SUBJECT_ID} was put successfully!")
       return person
     } catch (Exception e){
-      this.logger.log("Error while creating person!")
-      this.logger.log(e)
+      logger.error("Error while creating person!")
+      logger.error(e)
       return null
     }
   }

@@ -2,18 +2,22 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 trait Subject {
+  static String SUBJECTS_TABLE                  = 'SI_V_SUBJECTS'
+  static String SUBJECT_ADDITIONAL_PARAMS_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
+  static String DEFAULT_SUBJECT_STATE           = 'SUBJ_STATE_On'
+
   LinkedHashMap getSubject(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return this.hid.getTableFirst('SI_V_SUBJECTS', where: where)
+    return hid.getTableFirst(SUBJECTS_TABLE, where: where)
   }
 
   def getSubjectTypeId(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return this.hid.getTableFirst('SI_V_SUBJECTS', fields: 'n_subj_type_id', where: where)
+    return hid.getTableFirst(SUBJECTS_TABLE, 'n_subj_type_id', where)
   }
 
   Boolean isSubject(String entityType) {
@@ -21,7 +25,7 @@ trait Subject {
   }
 
   Boolean isSubject(def entityTypeId) {
-    return this.getRefCodeById(entityTypeId)?.contains('SUBJ')
+    return getRefCodeById(entityTypeId)?.contains('SUBJ')
   }
 
   def getSubjectValueTypeIdByCode(
@@ -34,7 +38,7 @@ trait Subject {
     if (subjTypeId) {
       where.n_subj_type_id = subjTypeId
     }
-    return this.hid.getTableFirst('SI_V_SUBJ_VALUES_TYPE', fields: 'n_subj_value_type_id', where: where)
+    return hid.getTableFirst(SUBJECT_ADDITIONAL_PARAMS_TABLE, 'n_subj_value_type_id', where)
   }
 
   void putSubjectAddParam(LinkedHashMap input) {
@@ -48,15 +52,15 @@ trait Subject {
       refId     :  null
     ]
     if (input.containsKey('param')) {
-      input.paramId = this.getSubjectValueTypeIdByCode(input.param, this.getSubjectTypeId(input.subjectId))
+      input.paramId = getSubjectValueTypeIdByCode(input.param, getSubjectTypeId(input.subjectId))
       input.remove('param')
     }
-    LinkedHashMap params = this.mergeParams(defaultParams, input)
+    LinkedHashMap params = mergeParams(defaultParams, input)
     try {
       def paramValue = params.date ?: params.string ?: params.number ?: params.bool ?: params.refId
-      this.logger.log("Putting additional param ${params.paramId} value ${paramValue} to subject ${params.subjectId}")
+      logger.info("Putting additional param ${params.paramId} value ${paramValue} to subject ${params.subjectId}")
 
-      this.hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
+      hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
         num_N_SUBJECT_ID         : params.subjectId,
         num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
         dt_D_VALUE               : params.date,
@@ -65,10 +69,10 @@ trait Subject {
         ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      this.logger.log("   Additional param value was put successfully!")
+      logger.info("   Additional param value was put successfully!")
     } catch (Exception e){
-      this.logger.log("Error while putting additional param!")
-      this.logger.log(e)
+      logger.error("Error while putting additional param!")
+      logger.error(e)
     }
   }
 }

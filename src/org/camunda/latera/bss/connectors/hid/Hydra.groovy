@@ -19,6 +19,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Region
 import org.camunda.latera.bss.connectors.hid.hydra.Address
 
 class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Company, Person, Customer, Account, Equipment, Region, Address {
+  static Integer DEFAULT_FIRM = 100
   HID hid
   def firmId
   DelegateExecution execution
@@ -31,7 +32,7 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
 
     def user     = execution.getVariable('hydraUser') ?: 'hydra'
     def password = execution.getVariable('hydraPassword')
-    this.firmId  = execution.getVariable('hydraFirmId') ?: 100
+    this.firmId  = execution.getVariable('hydraFirmId') ?: DEFAULT_FIRM
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',
@@ -59,7 +60,7 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
       if (group.size() > 0) {
         String noIdName = group[0][1]
         if (params.containsKey(noIdName)) {
-          result[noIdName] = this.getRefIdByCode(value)
+          result[noIdName] = getRefIdByCode(value)
         } else {
           result[name] = value
         }

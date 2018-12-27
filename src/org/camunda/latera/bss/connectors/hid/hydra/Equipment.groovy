@@ -2,19 +2,21 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 trait Equipment {
+  static String EQUIPMENT_TABLE = 'SI_V_OBJECTS'
+
   LinkedHashMap getEquipment(equipmentId) {
     LinkedHashMap where = [
       n_object_id: equipmentId
     ]
-    return this.hid.getTableFirst('SI_V_OBJECTS', where: where)
+    return hid.getTableFirst(EQUIPMENT_TABLE, where: where)
   }
 
   def getEquipmentValueTypeIdByCode(String code) {
-    return this.getGoodValueTypeIdByCode(code)
+    return getGoodValueTypeIdByCode(code)
   }
 
   LinkedHashMap putEquipment(LinkedHashMap input) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       id            :  null,
       typeId        :  null,
       ownerId       :  null,
@@ -27,8 +29,8 @@ trait Equipment {
       bindRoleId    :  null
     ], input)
     try {
-      this.logger.log("Putting new eqipment ${params.code} with type ${params.typeId} and owner ${params.ownerId}")
-      LinkedHashMap equipment = this.hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE',[
+      logger.info("Putting new eqipment ${params.code} with type ${params.typeId} and owner ${params.ownerId}")
+      LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
         num_N_OBJECT_ID        : id,
         num_N_GOOD_ID          : typeId,
         num_N_USER_ID          : ownerId,
@@ -40,45 +42,49 @@ trait Equipment {
         num_N_BIND_MAIN_OBJ_ID : bindMainId,
         num_N_OBJ_ROLE_ID      : bindRoleId
       ])
-      this.logger.log("   Equipment ${equipmentId.num_N_OBJECT_ID} was put successfully!")
+      logger.info("   Equipment ${equipmentId.num_N_OBJECT_ID} was put successfully!")
       return equipment
     } catch (Exception e){
-      this.logger.log("Error while putting new equipment!")
-      this.logger.log(e)
+      logger.error("Error while putting new equipment!")
+      logger.error(e)
       return null
     }
   }
 
   void deleteEquipment(Long equipmentId) {
     try {
-      this.logger.log("Deleting eqipment ${equipmentId}")
-      this.hid.execute('SI_DEVICES_PKG.SI_DEVICES_DEL', [
+      logger.info("Deleting eqipment ${equipmentId}")
+      hid.execute('SI_DEVICES_PKG.SI_DEVICES_DEL', [
         num_N_OBJECT_ID: equipmentId
       ])
-      this.logger.log("   Equipment deleted successfully!")
+      logger.info("   Equipment deleted successfully!")
     } catch (Exception e){
-      this.logger.log("Error while deleting equipment!")
-      this.logger.log(e)
+      logger.error("Error while deleting equipment!")
+      logger.error(e)
     }
     return null
   }
 
   void putEquipmentAddParam(LinkedHashMap input) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap defaultParams = [
       equipmentId :  null,
       paramId     :  null,
       date        :  null,
       string      :  null,
       bool        :  null,
       refId       :  null
-    ], input)
-    try {
-      this.logger.log("Putting additional param ${param} value ${paramValue} to equipment ${equipmentId}")
-      if (params.containsKey(param)) {
-        params.paramId = this.getEquipmentValueTypeIdByCode(param)
-      }
+    ]
 
-      this.hid.execute('SI_OBJECTS_PKG.PUT_OBJ_VALUE', [
+    if (input.containsKey('param')) {
+      input.paramId = getEquipmentValueTypeIdByCode(input.param)
+      input.remove('param')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
+    try {
+      def paramValue = params.date ?: params.string ?: params.number ?: params.bool ?: params.refId
+      logger.info("Putting additional param ${params.paramId} value ${paramValue} to equipment ${params.equipmentId}")
+
+      hid.execute('SI_OBJECTS_PKG.PUT_OBJ_VALUE', [
         num_N_OBJECT_ID          : params.equipmentId,
         num_N_OBJ_VALUE_TYPE_ID  : params.paramId,
         dt_D_VALUE               : params.date,
@@ -87,10 +93,10 @@ trait Equipment {
         ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      this.logger.log("   Additional param value was put successfully!")
+      logger.info("   Additional param value was put successfully!")
     } catch (Exception e){
-      this.logger.log("Error while putting additional param!")
-      this.logger.log(e)
+      logger.error("Error while putting additional param!")
+      logger.error(e)
     }
   }
 }

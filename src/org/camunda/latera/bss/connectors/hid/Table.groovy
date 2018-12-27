@@ -1,19 +1,19 @@
 package org.camunda.latera.bss.connectors.hid
 
 trait Table {
-  static LinkedHashMap tableColumnsCache = [:]
-  static List defaultFields = null
-  static LinkedHashMap defaultWhere = [:]
-  static List defaultOrder = null
+  static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
+  static LinkedHashMap DEFAULT_WHERE       = [:]
+  static List          DEFAULT_FIELDS      = null
+  static List          DEFAULT_ORDER       = null
 
   List getTableColumns(String tableName, String tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
-    if (this.tableColumnsCache.containsKey(tableFullName)) {
-      return this.tableColumnsCache[tableFullName]
+    if (TABLE_COLUMNS_CACHE.containsKey(tableFullName)) {
+      return TABLE_COLUMNS_CACHE[tableFullName]
     } else {
       List columnsList = null
 
-      List result = this.queryDatabase("""
+      List result = queryDatabase("""
         SELECT COLUMN_NAME
         FROM   ALL_TAB_COLUMNS
         WHERE  TABLE_NAME = '${tableName}'
@@ -23,7 +23,7 @@ trait Table {
       columnsList = result*.getAt(0) //get only first column values
 
       if (columnsList) {
-        this.tableColumnsCache[tableFullName] = columnsList
+        TABLE_COLUMNS_CACHE[tableFullName] = columnsList
       }
       return columnsList
     }
@@ -31,14 +31,14 @@ trait Table {
 
   List getTableData(
     String tableName,
-    fields = this.defaultFields,
-    LinkedHashMap where = this.defaultWhere,
-    List order = this.defaultOrder
+    fields = DEFAULT_FIELDS,
+    LinkedHashMap where = DEFAULT_WHERE,
+    List order = DEFAULT_ORDER
   ) {
     String query = "SELECT"
     
     if (fields == '*' || fields == null) {
-      fields = this.getTableColumns(tableName)
+      fields = getTableColumns(tableName)
     }
     
     fields.each{ field ->
@@ -81,7 +81,7 @@ trait Table {
         ${column}""" + (column == order.last() ? '' : ',')
       }
     }
-    return this.queryDatabase(query)
+    return queryDatabase(query)
   }
 
   List getTableData(
@@ -89,11 +89,11 @@ trait Table {
     String tableName
   ) {
     LinkedHashMap params = [
-      fields: this.defaultFields,
-      where:  this.defaultWhere,
-      order:  this.defaultOrder
+      fields: DEFAULT_FIELDS,
+      where:  DEFAULT_WHERE,
+      order:  DEFAULT_ORDER
     ] + options
-    return this.getTableData(tableName, params.fields, params.where, params.order)
+    return getTableData(tableName, params.fields, params.where, params.order)
   }
 
   List getTableData(
@@ -101,23 +101,23 @@ trait Table {
   ) {
     LinkedHashMap params = [
       tableName: '',
-      fields:    this.defaultFields,
-      where:     this.defaultWhere,
-      order:     this.defaultOrder
+      fields:    DEFAULT_FIELDS,
+      where:     DEFAULT_WHERE,
+      order:     DEFAULT_ORDER
     ] + input
-    return this.getTableData(params.tableName, params.fields, params.where, params.order)
+    return getTableData(params.tableName, params.fields, params.where, params.order)
   }
 
   Object getTableFirst(
     String tableName,
-    fields = this.defaultFields,
-    LinkedHashMap where = this.defaultWhere,
-    List order = this.defaultOrder
+    fields = DEFAULT_FIELDS,
+    LinkedHashMap where = DEFAULT_WHERE,
+    List order = DEFAULT_ORDER
   ) {
     if (fields instanceof String && fields != '*') {
-      return this.getTableData(tableName, [fields], where)?.getAt(0)?."${fields}"
+      return getTableData(tableName, [fields], where)?.getAt(0)?."${fields}"
     }
-    return this.getTableData(tableName, fields, where)?.getAt(0)
+    return getTableData(tableName, fields, where)?.getAt(0)
   }
 
   Object getTableFirst(
@@ -125,11 +125,11 @@ trait Table {
     String tableName
   ) {
     LinkedHashMap params = [
-      fields: this.defaultFields,
-      where:  this.defaultWhere,
-      order:  this.defaultOrder
+      fields: DEFAULT_FIELDS,
+      where:  DEFAULT_WHERE,
+      order:  DEFAULT_ORDER
     ] + options
-    return this.getTableFirst(tableName, params.fields, params.where, params.order)
+    return getTableFirst(tableName, params.fields, params.where, params.order)
   }
 
   Object getTableFirst(
@@ -137,10 +137,10 @@ trait Table {
   ) {
     LinkedHashMap params = [
       tableName: '',
-      fields:    this.defaultFields,
-      where:     this.defaultWhere,
-      order:     this.defaultOrder
+      fields:    DEFAULT_FIELDS,
+      where:     DEFAULT_WHERE,
+      order:     DEFAULT_ORDER
     ] + input
-    return this.getTableFirst(params.tableName, params.fields, params.where, params.order)
+    return getTableFirst(params.tableName, params.fields, params.where, params.order)
   }
 }

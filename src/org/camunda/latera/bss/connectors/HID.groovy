@@ -6,7 +6,6 @@ import org.camunda.latera.bss.utils.Oracle
 import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
-//@Mixin(Table)
 class HID implements Table {
   XMLRPCServerProxy proxy
 
@@ -50,11 +49,11 @@ class HID implements Table {
     return result
   }
 
-  LinkedHashMap queryFirst(String query, Boolean asMap = true) {
-    this.queryDatabase(query, asMap)?.getAt(0)
+  Object queryFirst(String query, Boolean asMap = true) {
+    return this.queryDatabase(query, asMap)?.getAt(0)
   }
 
-  Object execute(String execName ,LinkedHashMap params) {
+  Object execute(String execName, LinkedHashMap params) {
     LinkedHashMap encodedParams = [:]
     params.each{ key, value ->
       encodedParams[key] = Oracle.encodeNull(value)

@@ -1,23 +1,26 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Company {
+  static String COMPANIES_TABLE = 'SI_V_COMPANIES'
+  static String COMPANY_TYPE = 'SUBJ_TYPE_Company'
+
   Boolean isCompany(String subjectType) {
-    return subjectType == 'SUBJ_TYPE_Company'
+    return subjectType == COMPANY_TYPE
   }
 
   Boolean isCompany(def subjectTypeId) {
-    return subjectTypeId == this.getRefCodeById('SUBJ_TYPE_Company')
+    return subjectTypeId == getRefCodeById(COMPANY_TYPE)
   }
   
   LinkedHashMap getCompany(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return this.hid.getTableFirst('SI_V_COMPANIES', where: where)
+    return hid.getTableFirst(COMPANIES_TABLE, where: where)
   }
 
   LinkedHashMap putCompany(LinkedHashMap input) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       id      :  null,
       name    :  null,
       code    :  null,
@@ -26,12 +29,12 @@ trait Company {
       kpp     :  null,
       rem     :  null,
       groupId :  null,
-      firmId  :  100,
-      stateId :  this.getRefIdByCode('SUBJ_STATE_On')
+      firmId  :  DEFAULT_FIRM,
+      stateId :  getRefIdByCode(DEFAULT_SUBJECT_STATE)
     ], input)
     try {
-      this.logger.log("Putting company named ${params.name} to firm ${params.firmId}")
-      LinkedHashMap companyId = this.hid.execute('SI_COMPANIES_PKG.SI_COMPANIES_PUT',[
+      logger.info("Putting company named ${params.name} to firm ${params.firmId}")
+      LinkedHashMap companyId = hid.execute('SI_COMPANIES_PKG.SI_COMPANIES_PUT',[
         num_N_SUBJECT_ID    : params.id,
         num_N_FIRM_ID       : params.firmId,
         num_N_SUBJ_STATE_ID : params.stateId,
@@ -43,11 +46,11 @@ trait Company {
         vch_VC_KPP          : params.kpp,
         vch_VC_REM          : params.rem
       ]).num_N_SUBJECT_ID
-      this.logger.log("   Company ${companyId} was put successfully!")
+      logger.info("   Company ${companyId} was put successfully!")
       return companyId
     } catch (Exception e){
-      this.logger.log("Error while creating company!")
-      this.logger.log(e)
+      logger.error("Error while creating company!")
+      logger.error(e)
       return null
     }
   }

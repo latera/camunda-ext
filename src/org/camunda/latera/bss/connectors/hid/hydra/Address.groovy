@@ -1,8 +1,15 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import org.camunda.latera.bss.utils.Oracle
+
 trait Address {
-  //Address staff
-  static String DEFAULT_ADDRESS  = 'Российская Федерация'
+  static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
+  static String SUBJECT_ADDRESSES_TABLE = 'SI_V_SUBJ_ADDRESSES'
+  static String OBJECT_ADDRESSES_TABLE  = 'SI_V_OBJ_ADDRESSES'
+
+  static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
+  static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
+  static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
   static LinkedHashMap ADDRESS_ITEMS = [
     home      : 'д.',
     corpus    : 'корп.',
@@ -12,116 +19,79 @@ trait Address {
     flat      : 'кв.'
   ]
 
-  List getEntityAddresses (entityTypeId, entityId, addrTypeId = this.getRefIdByCode('ADDR_TYPE_FactPlace'), bindAddrTypeId = this.getRefIdByCode('BIND_ADDR_TYPE_Serv'), addrStateId = this.getRefIdByCode('ADDR_STATE_On'), isMain = null) {
-    Boolean isSubj = this.isSubject(entityTypeId)
-    String addressQuery = """
-    SELECT
-        'n_region_id',       A.N_REGION_ID,
-        'n_address_id',      A.N_ADDRESS_ID,
-    """
-    if (isSubj) {
-      addressQuery += 
-    """
-        'n_subj_address_id', A.N_SUBJ_ADDRESS_ID,
-    """
-    } else {
-    """
-        'n_obj_address_id',  A.N_OBJ_ADDRESS_ID,
-    """
-    }
-    addressQuery += """
-        'n_entrance_no',     A.N_ENTRANCE_NO,
-        'n_floor_no',        A.N_FLOOR_NO,
-        'vc_flat',           A.VC_FLAT,
-        'vc_visual_code',    A.VC_VISUAL_CODE,
-        'vc_code',           A.VC_CODE,
-        'c_fl_main',         A.C_FL_MAIN
-    """
-    
-    if (isSubj) {
-      addressQuery += """
-      FROM
-            SI_V_SUBJ_ADDRESSES A
-      WHERE
-            A.n_subject_Id = ${entityId}
-      """
-      if (bindAddrTypeId) {
-        addressQuery += """
-        AND   A.n_subj_addr_type_id = ${bindAddrTypeId}
-        """
-      }
-    } else {
-      addressQuery += """
-      FROM
-            SI_V_OBJ_ADDRESSES A
-      WHERE
-            A.n_object_Id = ${entityId}
-      """
-      if (bindAddrTypeId) {
-        addressQuery += """
-        AND   A.n_obj_addr_type_id = ${bindAddrTypeId}
-        """
-      }
+  List getEntityAddresses(
+    def entityTypeId,
+    def entityId,
+    def addrTypeId     = getRefIdByCode(DEFAULT_ADDRESS_TYPE),
+    def bindAddrTypeId = getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE),
+    def addrStateId    = getRefIdByCode(DEFAULT_ADDRESS_STATE),
+    Boolean isMain     = null
+  ) {
+    Boolean isSubj = isSubject(entityTypeId)
+    String entityPrefix = isSubj ? 'subj' : 'obj'
+    String tableName    = isSubj ? SUBJECT_ADDRESSES_TABLE : OBJECT_ADDRESSES_TABLE
+
+    LinkedHashMap where = [
+      "n_${entityPrefix}ect_id": entityId
+    ]
+
+    if (bindAddrTypeId) {
+      where."n_${entityPrefix}_addr_type_id" = bindAddrTypeId
     }
 
     if (addrTypeId) {
-      addressQuery += """
-      AND   A.n_addr_type_id = ${addrTypeId}
-      """
+      where.n_addr_type_id = addrTypeId
     }
 
     if (addrStateId) {
-      addressQuery += """
-      AND   A.n_addr_state_id = ${addrStateId}
-      """
+      where.n_addr_state_id = addrStateId
     }
 
     if (isMain != null) {
-      addressQuery += """
-      AND   A.c_fl_main = ${this.encodeNull(isMain)}
-      """
+      where.c_fl_main = Oracle.encodeNull(isMain)
     }
 
-    addressQuery += """
-    ORDER BY c_fl_main DESC
-    """
-    
-    return this.hid.queryDatabase(addressQuery)
+    return hid.getTableData(tableName, where: where, order: ['C_FL_MAIN DESC'])
   }
 
   List getEntityAddresses (
     LinkedHashMap input
   ) {
-    LinkedHashMap args = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       entityTypeId   : null,
       entityId       : null,
-      addrTypeId     : this.getRefIdByCode('ADDR_TYPE_FactPlace'),
-      bindAddrTypeId : this.getRefIdByCode('BIND_ADDR_TYPE_Serv'),
-      addrStateId    : this.getRefIdByCode('ADDR_STATE_On'),
-      isMain         : false
+      addrTypeId     : getRefIdByCode(DEFAULT_ADDRESS_TYPE),
+      bindAddrTypeId : getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE),
+      addrStateId    : getRefIdByCode(DEFAULT_ADDRESS_STATE),
+      isMain         : null
     ], input)
-    return this.getEntityAddresses(*args)
+    return getEntityAddresses(params.entityTypeId,
+                                   params.entityId,
+                                   params.addrTypeId,
+                                   params.bindAddrTypeId,
+                                   params.addrStateId,
+                                   params.isMain)
   }
 
   LinkedHashMap getEntityAddress (
     LinkedHashMap input
   ) {
-    return this.getEntityAddresses(input)?.getAt(0)
+    return getEntityAddresses(input)?.getAt(0)
   }
 
-  LinkedHashMap getAddress (
+  LinkedHashMap getAddress(
     def addressId
   ) {
     LinkedHashMap where = [
       n_address_id: addressId
     ]
-    return this.hid.getTableFirst('SI_V_ADDRESSES', where: where)
+    return hid.getTableFirst(MAIN_ADDRESSES_TABLE, where: where)
   }
 
-  LinkedHashMap putSubjAddress (
+  LinkedHashMap putSubjAddress(
     LinkedHashMap input
   ) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       subjAddressId  :  null,
       addressId      :  null,
       subjectId      :  null,
@@ -133,12 +103,12 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  this.getRefIdByCode('ADDR_STATE_On'),
+      stateId        :  getRefIdByCode(DEFAULT_ADDRESS_STATE),
       isMain         :  false
     ], input)
     try {
-      this.logger.log("Putting address with code ${params.code} to subject with id ${params.subjectId}")
-      LinkedHashMap address = this.hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
+      logger.info("Putting address with code ${params.code} to subject with id ${params.subjectId}")
+      LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
           num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
           num_N_ADDRESS_ID        : params.addressId,
           num_N_SUBJECT_ID        : params.subjectId,
@@ -155,19 +125,19 @@ trait Address {
           vch_VC_REM              : params.rem,
           b_UpdateRegister        : 0
       ])
-      this.logger.log("   Address ${addressId.num_N_ADDRESS_ID} added to subject!")
+      logger.info("   Address ${addressId.num_N_ADDRESS_ID} added to subject!")
       return address
     } catch (Exception e){
-      this.logger.log("Error while adding a subject address!")
-      this.logger.log(e)
+      logger.error("Error while adding a subject address!")
+      logger.error(e)
       return null
     }
   }
 
-  LinkedHashMap putObjAddress (
+  LinkedHashMap putObjAddress(
     LinkedHashMap input
   ) {
-    LinkedHashMap params = this.mergeParams([
+    LinkedHashMap params = mergeParams([
       objAddressId   :  null,
       addressId      :  null,
       objectId       :  null,
@@ -179,12 +149,12 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  this.getRefIdByCode('ADDR_STATE_On'),
+      stateId        :  getRefIdByCode(DEFAULT_ADDRESS_STATE),
       isMain         :  false
     ], input)
     try {
-      this.logger.log("Putting address with code ${params.code} to object with id ${params.objectId}")
-      LinkedHashMap address = this.hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
+      logger.info("Putting address with code ${params.code} to object with id ${params.objectId}")
+      LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
           num_N_OBJ_ADDRESS_ID    : params.objAddressId,
           num_N_ADDRESS_ID        : params.addressId,
           num_N_OBJ_ADDR_TYPE_ID  : params.bindAddrTypeId,
@@ -200,43 +170,44 @@ trait Address {
           vch_VC_REM              : params.rem,
           b_UpdateRegister        : 0
       ])
-      this.logger.log("   Address ${address.num_N_ADDRESS_ID} added to object!")
+      logger.info("   Address ${address.num_N_ADDRESS_ID} added to object!")
       return address
     } catch (Exception e){
-      this.logger.log("Error while adding an object address!")
-      this.logger.log(e)
+      logger.error("Error while adding an object address!")
+      logger.error(e)
       return null
     }
   }
 
-  String calcAddress (
+  String calcAddress(
     LinkedHashMap input
   ) {
-    String address = this.DEFAULT_ADDRESS
+    String address = ''
 
-    String regionQuery = this.REGION_TYPES.eachWithIndex{ type, i -> """
-      SELECT R.VC_VALUE, NVL(R.VC_VALUE_2,'N'), '${input[this.REGION_NAMES[i]] ?: ''}'
-      FROM   SI_V_REF     R
-      WHERE  R.VC_CODE = '${type}'
-    """
-    }.join("""
-      UNION ALL
-    """)
-
-    List addressItemsValues = this.ADDRESS_ITEMS.each{ type, value -> 
-      [0, type, 'N', input[value] ?: ""]
+    String regionQuery = ""
+    REGION_TYPES.eachWithIndex{ type, i -> 
+      regionQuery += """
+      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
+      FROM   ${REFS_TABLE}
+      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
+      UNION ALL""")
     }
 
-    List addressResult = this.hid.queryDatabase(regionQuery, false)
+    List addressItemsValues = []
+    ADDRESS_ITEMS.each{ type, value -> 
+      addressItemsValues.add([value, 'N', input[type] ?: ""])
+    }
+    List addressResult = hid.queryDatabase(regionQuery, false)
 
     if(addressResult){
-      (addressResult + addressItemsValues).each{ it ->
-        String  name  = it[2]
-        Boolean after = this.decodeBool(it[1])
+      def result = addressResult + addressItemsValues
+      result.eachWithIndex{ it, i ->
         String  part  = it[0]
+        Boolean after = Oracle.decodeBool(it[1])
+        String  name  = it[2]
         if (name != null && name != '' && name != ' ' && name != 'null'){
-          String item = (!after ? part + ' ' : '') + name + (after ? ' ' + part : '')
-          address += ', ' + item
+          String item = (!after ? (part ?  part + ' ' : '') : '') + name + (after ? (part ?  ' ' + part : '') : '')
+          address += (i > 0 ? ', ' : '') + item
         }
       }
     }
