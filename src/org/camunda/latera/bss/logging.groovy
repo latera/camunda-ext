@@ -1,6 +1,8 @@
 package org.camunda.latera.bss.logging
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
+import org.camunda.latera.bss.utils.DateTimeUtil
+import java.time.format.DateTimeFormatter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -29,28 +31,23 @@ class Logging {
 class SimpleLogger {
   String processInstanceID
   String homsOrderCode
-  String dateFormat
+  DateTimeFormatter dateFormat
 
   SimpleLogger(DelegateExecution execution) {
     this.processInstanceID = execution.getProcessInstanceId()
-    this.homsOrderCode = execution.getVariable('homsOrderCode')
-    this.dateFormat = execution.getVariable('loggingDateFormat')?:"yyyy-MM-dd HH:mm:ss"
+    this.homsOrderCode = execution.getVariable('homsOrderCode') ?: 'ORD-NONE'
+    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DateTimeUtil.dateTimeFormat
   }
 
   void log(Object message, String level = "info") {
-    String timestamp = new Date().format(this.dateFormat)
+    String timestamp = DateTimeUtil.now().format(this.dateFormat)
     String logPrefix
 
-    if (homsOrderCode) {
-      logPrefix = "${timestamp} ${processInstanceID} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
-    } else {
-      logPrefix = "${timestamp} ${processInstanceID} ${level.toUpperCase().padRight(5, ' ')} - ".toString()
-    }
+    logPrefix = "${timestamp} ${processInstanceID} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
 
     message.toString().split('\n').each { it ->
       println(logPrefix + it)
     }
-
   }
 
   void debug(Object message) {
