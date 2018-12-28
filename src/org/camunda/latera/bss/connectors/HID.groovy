@@ -18,7 +18,7 @@ class HID implements Table {
     this.proxy.setBasicAuth(user, password)
   }
 
-  Object queryDatabase(String query, Boolean asMap = true) {
+  Object queryDatabase(String query, Boolean asMap = false) {
     List result = []
     List rows = this.proxy.invokeMethod('SELECT', [query]).SelectResult
     if (rows) {
