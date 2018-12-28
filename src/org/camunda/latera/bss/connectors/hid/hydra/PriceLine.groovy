@@ -1,7 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait PriceLine {
-  static String PRICE_LINES_TABLE = 'SD_V_PRICE_ORDERS_C'
+  private static String PRICE_LINES_TABLE = 'SD_V_PRICE_ORDERS_C'
+
   List getPriceLines(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId

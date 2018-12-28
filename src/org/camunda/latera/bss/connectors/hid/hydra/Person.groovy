@@ -1,9 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Person {
-  static String PERSONS_TABLE         = 'SI_V_PERSONS'
-  static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
-  static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
+  private static String PERSONS_TABLE         = 'SI_V_PERSONS'
+  private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
+  private static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
 
   LinkedHashMap getPerson(def subjectId) {
     LinkedHashMap where = [

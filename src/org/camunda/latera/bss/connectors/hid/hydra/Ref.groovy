@@ -2,8 +2,8 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.logging.Logging
 trait Ref {
-  static LinkedHashMap REFS_CACHE = [null: null]
-  static String REFS_TABLE = 'SI_V_REF'
+  private static LinkedHashMap REFS_CACHE = [null: null]
+  private static String REFS_TABLE = 'SI_V_REF'
 
   def getRefIdByCode(String code) {
     if (REFS_CACHE.containsKey(code)) {

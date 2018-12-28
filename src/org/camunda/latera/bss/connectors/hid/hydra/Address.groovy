@@ -3,14 +3,14 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import org.camunda.latera.bss.utils.Oracle
 
 trait Address {
-  static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
-  static String SUBJECT_ADDRESSES_TABLE = 'SI_V_SUBJ_ADDRESSES'
-  static String OBJECT_ADDRESSES_TABLE  = 'SI_V_OBJ_ADDRESSES'
+  private static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
+  private static String SUBJECT_ADDRESSES_TABLE = 'SI_V_SUBJ_ADDRESSES'
+  private static String OBJECT_ADDRESSES_TABLE  = 'SI_V_OBJ_ADDRESSES'
 
-  static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
-  static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
-  static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
-  static LinkedHashMap ADDRESS_ITEMS = [
+  private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
+  private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
+  private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
+  private static LinkedHashMap ADDRESS_ITEMS = [
     home      : 'д.',
     corpus    : 'корп.',
     construct : 'стр.',

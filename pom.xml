@@ -7,8 +7,7 @@
   <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gmaven.version>1.5</gmaven.version>
-    <gmaven.ProviderSelection>2.0</gmaven.ProviderSelection>
+    <gmavenplus.version>1.6.2</gmavenplus.version>
     <groovy.version>2.4.16</groovy.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
@@ -106,9 +105,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.gmaven</groupId>
-        <artifactId>gmaven-plugin</artifactId>
-        <version>${gmaven.version}</version>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>${gmavenplus.version}</version>
         <configuration>
           <sources>
             <source>
@@ -118,14 +117,15 @@
               </includes>
             </source>
           </sources>
-          <providerSelection>${gmaven.ProviderSelection}</providerSelection>
           <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
         </configuration>
         <executions>
           <execution>
             <goals>
+              <goal>addSources</goal>
               <goal>generateStubs</goal>
               <goal>compile</goal>
+              <goal>removeStubs</goal>
             </goals>
           </execution>
         </executions>

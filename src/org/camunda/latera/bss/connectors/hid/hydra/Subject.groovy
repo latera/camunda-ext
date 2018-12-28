@@ -2,9 +2,9 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 trait Subject {
-  static String SUBJECTS_TABLE                  = 'SI_V_SUBJECTS'
-  static String SUBJECT_ADDITIONAL_PARAMS_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
-  static String DEFAULT_SUBJECT_STATE           = 'SUBJ_STATE_On'
+  private static String SUBJECTS_TABLE                  = 'SI_V_SUBJECTS'
+  private static String SUBJECT_ADDITIONAL_PARAMS_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
+  private static String DEFAULT_SUBJECT_STATE           = 'SUBJ_STATE_On'
 
   LinkedHashMap getSubject(subjectId) {
     LinkedHashMap where = [

@@ -1,8 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Account {
-  static String ACCOUNTS_TABLE       = 'SI_V_SUBJ_ACCOUNTS'
-  static String DEFAULT_ACCOUNT_TYPE = 'ACC_TYPE_Personal'
+  private static String ACCOUNTS_TABLE       = 'SI_V_SUBJ_ACCOUNTS'
+  private static String DEFAULT_ACCOUNT_TYPE = 'ACC_TYPE_Personal'
 
   List getAccounts(
     def accountId,

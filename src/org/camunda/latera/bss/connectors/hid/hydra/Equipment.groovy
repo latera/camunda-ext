@@ -2,7 +2,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 trait Equipment {
-  static String EQUIPMENT_TABLE = 'SI_V_OBJECTS'
+  private static String EQUIPMENT_TABLE = 'SI_V_OBJECTS'
 
   LinkedHashMap getEquipment(equipmentId) {
     LinkedHashMap where = [

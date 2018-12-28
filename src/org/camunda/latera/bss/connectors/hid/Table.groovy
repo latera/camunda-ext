@@ -1,10 +1,10 @@
 package org.camunda.latera.bss.connectors.hid
 
 trait Table {
-  static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
-  static LinkedHashMap DEFAULT_WHERE       = [:]
-  static List          DEFAULT_FIELDS      = null
-  static List          DEFAULT_ORDER       = null
+  private static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
+  private static LinkedHashMap DEFAULT_WHERE       = [:]
+  private static List          DEFAULT_FIELDS      = null
+  private static List          DEFAULT_ORDER       = null
 
   List getTableColumns(String tableName, String tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"

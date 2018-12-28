@@ -1,11 +1,11 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Document {
-  static String DOCUMENTS_TABLE            = 'SD_V_DOCUMENTS'
-  static String DOCUMENT_VALUES_TABLE      = 'SD_V_DOC_VALUES'
-  static String DOCUMENT_VALUE_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
-  static String DEFAULT_DOCUMENT_TYPE      = 'DOC_TYPE_Contract'
-  static String DEFAULT_DOCUMENT_STATE     = 'DOC_STATE_Actual'
+  private static String DOCUMENTS_TABLE            = 'SD_V_DOCUMENTS'
+  private static String DOCUMENT_VALUES_TABLE      = 'SD_V_DOC_VALUES'
+  private static String DOCUMENT_VALUE_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
+  private static String DEFAULT_DOCUMENT_TYPE      = 'DOC_TYPE_Contract'
+  private static String DEFAULT_DOCUMENT_STATE     = 'DOC_STATE_Actual'
 
   List getDocument(
     def docId,

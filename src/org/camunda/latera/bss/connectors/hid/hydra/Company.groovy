@@ -1,8 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Company {
-  static String COMPANIES_TABLE = 'SI_V_COMPANIES'
-  static String COMPANY_TYPE = 'SUBJ_TYPE_Company'
+  private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
+  private static String COMPANY_TYPE    = 'SUBJ_TYPE_Company'
 
   Boolean isCompany(String subjectType) {
     return subjectType == COMPANY_TYPE

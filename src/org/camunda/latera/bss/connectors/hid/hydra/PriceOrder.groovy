@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait PriceOrder {
-  static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'
+  private static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'
 
   LinkedHashMap getPriceOrder(def docId) {
     LinkedHashMap where = [

@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Customer {
-  static String CUSTOMERS_TABLE = 'SI_V_USERS'
+  private static String CUSTOMERS_TABLE = 'SI_V_USERS'
 
   LinkedHashMap getCustomer(def customerId) {
     LinkedHashMap where = [

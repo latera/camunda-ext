@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Good {
-  static String GOODS_TABLE = 'SR_V_GOODS'
+  private static String GOODS_TABLE = 'SR_V_GOODS'
 
   LinkedHashMap getGood(def goodId) {
     LinkedHashMap where = [

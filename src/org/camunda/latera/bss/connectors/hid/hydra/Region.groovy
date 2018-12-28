@@ -1,8 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Region {
-  static String REGIONS_TABLE = 'SR_V_REGIONS'
-  static LinkedHashMap REGION_HIERARCHY = [
+  private static String REGIONS_TABLE = 'SR_V_REGIONS'
+  private static LinkedHashMap REGION_HIERARCHY = [
     state    : ['REGION_TYPE_State'],
     oblast   : ['REGION_TYPE_Oblast'],
     okrug    : ['REGION_TYPE_Okrug'],
@@ -10,9 +10,9 @@ trait Region {
     city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement', 'REGION_TYPE_Village'],
     street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard']
   ]
-  static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values().flatten()
-  static List REGION_NAMES = REGION_HIERARCHY.keySet() as List
-  static List REGION_TYPES = REGION_NAMES*.concat("Type")
+  private static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values().flatten()
+  private static List REGION_NAMES = REGION_HIERARCHY.keySet() as List
+  private static List REGION_TYPES = REGION_NAMES*.concat("Type")
 
   LinkedHashMap getRegion(regionId) {
     LinkedHashMap where = [
