@@ -19,12 +19,24 @@ trait Address {
     flat      : 'кв.'
   ]
 
+  def getDefaultAddressType() {
+    return getRefIdByCode(DEFAULT_ADDRESS_TYPE)
+  }
+
+  def getDefaultAddressBindType() {
+    return getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE)
+  }
+
+  def getDefaultAddressState() {
+    return getRefIdByCode(DEFAULT_ADDRESS_STATE)
+  }
+
   List getEntityAddresses(
     def entityTypeId,
     def entityId,
-    def addrTypeId     = getRefIdByCode(DEFAULT_ADDRESS_TYPE),
-    def bindAddrTypeId = getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE),
-    def addrStateId    = getRefIdByCode(DEFAULT_ADDRESS_STATE),
+    def addrTypeId     = getDefaultAddressType(),
+    def bindAddrTypeId = getDefaultAddressBindType(),
+    def addrStateId    = getDefaultAddressState(),
     Boolean isMain     = null
   ) {
     Boolean isSubj = isSubject(entityTypeId)
@@ -60,9 +72,9 @@ trait Address {
     LinkedHashMap params = mergeParams([
       entityTypeId   : null,
       entityId       : null,
-      addrTypeId     : getRefIdByCode(DEFAULT_ADDRESS_TYPE),
-      bindAddrTypeId : getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE),
-      addrStateId    : getRefIdByCode(DEFAULT_ADDRESS_STATE),
+      addrTypeId     : getDefaultAddressType(),
+      bindAddrTypeId : getDefaultAddressBindType(),
+      addrStateId    : getDefaultAddressState(),
       isMain         : null
     ], input)
     return getEntityAddresses(params.entityTypeId,
@@ -103,7 +115,7 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  getRefIdByCode(DEFAULT_ADDRESS_STATE),
+      stateId        :  getDefaultAddressState(),
       isMain         :  false
     ], input)
     try {
@@ -149,7 +161,7 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  getRefIdByCode(DEFAULT_ADDRESS_STATE),
+      stateId        :  getDefaultAddressState(),
       isMain         :  false
     ], input)
     try {
@@ -179,28 +191,25 @@ trait Address {
     }
   }
 
+  static List getAddressItemsValues(
+    LinkedHashMap input
+  ) {
+    List addressItemsValues = []
+    ADDRESS_ITEMS.each{ type, value -> 
+      addressItemsValues.add([value, 'N', input[type] ?: ""])
+    }
+    return addressItemsValues
+  }
+
   String calcAddress(
     LinkedHashMap input
   ) {
     String address = ''
 
-    String regionQuery = ""
-    REGION_TYPES.eachWithIndex{ type, i -> 
-      regionQuery += """
-      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
-      FROM   ${REFS_TABLE}
-      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
-      UNION ALL""")
-    }
+    List regionItemsValues = getRegionItemsValues(input)
 
-    List addressItemsValues = []
-    ADDRESS_ITEMS.each{ type, value -> 
-      addressItemsValues.add([value, 'N', input[type] ?: ""])
-    }
-    List addressResult = hid.queryDatabase(regionQuery, false)
-
-    if(addressResult){
-      def result = addressResult + addressItemsValues
+    if(regionItemsValues){
+      def result = regionItemsValues + getAddressItemsValues(input)
       result.eachWithIndex{ it, i ->
         String  part  = it[0]
         Boolean after = Oracle.decodeBool(it[1])

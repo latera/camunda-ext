@@ -71,4 +71,19 @@ trait Region {
 
     return result
   }
+
+  List getRegionItemsValues(
+    LinkedHashMap input
+  ) {
+    String regionQuery = ""
+    REGION_TYPES.eachWithIndex{ type, i -> 
+      regionQuery += """
+      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
+      FROM   SI_V_REF
+      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
+      UNION ALL""")
+    }
+
+    return hid.queryDatabase(regionQuery, false)
+  }
 }

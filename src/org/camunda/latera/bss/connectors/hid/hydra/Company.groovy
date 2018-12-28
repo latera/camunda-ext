@@ -30,7 +30,7 @@ trait Company {
       rem     :  null,
       groupId :  null,
       firmId  :  DEFAULT_FIRM,
-      stateId :  getRefIdByCode(DEFAULT_SUBJECT_STATE)
+      stateId :  getDefaultSubjectState()
     ], input)
     try {
       logger.info("Putting company named ${params.name} to firm ${params.firmId}")

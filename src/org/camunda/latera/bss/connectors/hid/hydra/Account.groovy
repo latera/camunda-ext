@@ -4,9 +4,13 @@ trait Account {
   private static String ACCOUNTS_TABLE       = 'SI_V_SUBJ_ACCOUNTS'
   private static String DEFAULT_ACCOUNT_TYPE = 'ACC_TYPE_Personal'
 
+  def getDefaultAccountType() {
+    return getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+  }
+
   List getAccounts(
     def accountId,
-    def accountTypeId = getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+    def accountTypeId = getDefaultAccountType()
   ) {
     LinkedHashMap where = [
       n_account_id: accountId
@@ -19,7 +23,7 @@ trait Account {
 
   List getSubjectAccounts(
     def subjectId,
-    def accountTypeId = getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+    def accountTypeId = getDefaultAccountType()
   ) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -32,14 +36,14 @@ trait Account {
 
   LinkedHashMap getAccount(
     def accountId,
-    def accountTypeId = getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+    def accountTypeId = getDefaultAccountType()
   ) {
     return getAccounts(accountId, accountTypeId)?.getAt(0)
   }
 
   LinkedHashMap getSubjectAccount(
     def subjectId,
-    def accountTypeId = getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+    def accountTypeId = getDefaultAccountType()
   ) {
     return getCustomerAccounts(subjectId, accountTypeId)
   }
