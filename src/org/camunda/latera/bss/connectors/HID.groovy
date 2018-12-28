@@ -49,8 +49,14 @@ class HID implements Table {
     return result
   }
 
-  Object queryFirst(String query, Boolean asMap = true) {
-    return this.queryDatabase(query, asMap)?.getAt(0)
+  Object queryFirst(String query, Boolean asMap = false) {
+    def result = this.queryDatabase(query, asMap)
+
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
   }
 
   Object execute(String execName, LinkedHashMap params) {

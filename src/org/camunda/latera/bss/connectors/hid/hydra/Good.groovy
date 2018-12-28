@@ -10,9 +10,23 @@ trait Good {
     return hid.getTableData(GOODS_TABLE, where: where)
   }
 
+  LinkedHashMap getGoodByCode(String code) {
+    LinkedHashMap where = [
+      vc_code: code
+    ]
+    return hid.getTableData(GOODS_TABLE, where: where)
+  }
+
+  LinkedHashMap getGoodByName(String name) {
+    LinkedHashMap where = [
+      vc_name: name
+    ]
+    return hid.getTableData(GOODS_TABLE, where: where)
+  }
+
   def getGoodValueTypeIdByCode(String code) {
     return hid.queryFirst("""
       SELECT SR_GOODS_PKG_S.GET_GOOD_VALUE_TYPE_ID('${code}') FROM DUAL
-    """, false)?.getAt(0)
+    """)?.getAt(0)
   }
 }
