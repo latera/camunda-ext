@@ -55,16 +55,21 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
 
     //If it is set opf instead of opfId, get proper reference ids from Hydra
     LinkedHashMap result = [:]
+    List keysToExclude = []
     params.each{ name, value ->
       def group = (name =~ /^(.*)Id$/)
       if (group.size() > 0) {
         String noIdName = group[0][1]
         if (params.containsKey(noIdName)) {
-          result[noIdName] = getRefIdByCode(value)
-        } else {
-          result[name] = value
+          result[name] = getRefIdByCode(params[noIdName])
+          keysToExclude.add(name)
+          keysToExclude.add(noIdName)
         }
-      } else {
+      }
+    }
+    //And then remove non-id key if id was set above
+    params.each{ name, value ->
+      if (!keysToExclude.contains(name)) {
         result[name] = value
       }
     }
