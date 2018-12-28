@@ -15,7 +15,7 @@ class HTTPRestProcessor {
     this.logger = new SimpleLogger(parameters.execution)
 
     if (parameters.user && parameters.password) {
-      this.processor.httpClient.auth.basic(parameters.user, parameters.password)
+      this.httpClient.auth.basic(parameters.user, parameters.password)
     }
   }
 

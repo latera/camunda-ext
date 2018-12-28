@@ -18,7 +18,7 @@ trait Table {
         FROM   ALL_TAB_COLUMNS
         WHERE  TABLE_NAME = '${tableName}'
         AND    OWNER      = '${tableOwner}'
-      """, false)
+      """)
 
       columnsList = result*.getAt(0) //get only first column values
 
@@ -81,7 +81,7 @@ trait Table {
         ${column}""" + (column == order.last() ? '' : ',')
       }
     }
-    return queryDatabase(query)
+    return queryDatabase(query, true)
   }
 
   List getTableData(

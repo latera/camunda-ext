@@ -6,6 +6,10 @@ trait Subject {
   private static String SUBJECT_ADDITIONAL_PARAMS_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
   private static String DEFAULT_SUBJECT_STATE           = 'SUBJ_STATE_On'
 
+  def getDefaultSubjectState() {
+    return getRefIdByCode(DEFAULT_SUBJECT_STATE)
+  }
+
   LinkedHashMap getSubject(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId

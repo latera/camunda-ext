@@ -48,7 +48,7 @@ trait Person {
       rem           :  null,
       groupId       :  null,
       firmId        :  DEFAULT_FIRM,
-      stateId       :  getRefIdByCode(DEFAULT_SUBJECT_STATE)
+      stateId       :  getDefaultSubjectState()
     ], input)
     try {
       logger.info("Putting person named ${params.firstName} ${params.secondName} ${params.lastName} in firm ${params.firmId}")

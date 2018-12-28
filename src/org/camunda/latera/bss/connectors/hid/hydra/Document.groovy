@@ -7,10 +7,18 @@ trait Document {
   private static String DEFAULT_DOCUMENT_TYPE      = 'DOC_TYPE_Contract'
   private static String DEFAULT_DOCUMENT_STATE     = 'DOC_STATE_Actual'
 
+  def getDefaultDocumentType() {
+    return getRefIdByCode(DEFAULT_DOCUMENT_TYPE)
+  }
+
+  def getDefaultDocumentState() {
+    return getRefIdByCode(DEFAULT_DOCUMENT_STATE)
+  }
+
   List getDocument(
     def docId,
-    def docTypeId  = getRefIdByCode(DEFAULT_DOCUMENT_TYPE),
-    def docStateId = getRefIdByCode(DEFAULT_DOCUMENT_STATE)
+    def docTypeId  = getDefaultDocumentType(),
+    def docStateId = getDefaultDocumentState()
   ) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -29,8 +37,8 @@ trait Document {
     def docId
   ) {
     LinkedHashMap params = mergeParams([
-      docTypeId  : getRefIdByCode(DEFAULT_DOCUMENT_TYPE),
-      docStateId : getRefIdByCode(DEFAULT_DOCUMENT_STATE)
+      docTypeId  : getDefaultDocumentType(),
+      docStateId : getDefaultDocumentState()
     ], options)
 
     return getDocument(docId, params.docTypeId, params.docStateId)
@@ -41,8 +49,8 @@ trait Document {
   ) {
     LinkedHashMap params = mergeParams([
       docId      : null,
-      docTypeId  : getRefIdByCode(DEFAULT_DOCUMENT_TYPE),
-      docStateId : getRefIdByCode(DEFAULT_DOCUMENT_STATE)
+      docTypeId  : getDefaultDocumentType(),
+      docStateId : getDefaultDocumentState()
     ], options)
 
     return getDocument(params, params.docId)
