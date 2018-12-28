@@ -15,15 +15,15 @@ class HOMS {
     this.execution = execution
     this.logger    = new SimpleLogger(this.execution)
 
-    url       = execution.getVariable("homsUrl")
-    user      = execution.getVariable("homsUser")
-    password  = execution.getVariable("homsPassword")
-    /*
-    token     = execution.getVariable("hbwToken")
-    this.headers = [
-      'Token': this.token
-    ]
-    */
+    def url       = execution.getVariable("homsUrl")
+    def user      = execution.getVariable("homsUser")
+    def password  = execution.getVariable("homsPassword")
+    def token     = execution.getVariable("hbwToken")
+    if (token) {
+      this.headers = [
+        'Token': token
+      ]
+    }
     this.processor = new HTTPRestProcessor(baseUrl:   url,
                                            user:      user,
                                            password:  password,
