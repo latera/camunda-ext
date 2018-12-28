@@ -2,13 +2,12 @@ package org.camunda.latera.bss.utils
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import groovy.time.TimeCategory
 
 class DateTimeUtil {
-  static DateTimeFormatter ISOFormat = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-  static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern('dd.MM.yyyy')
-  static DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
-  static DateTimeFormatter simpleDateTimeFormat = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
+  static final DateTimeFormatter ISO_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy')
+  static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
+  static final DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
 
   static def now() {
     return LocalDateTime.now()
@@ -16,7 +15,7 @@ class DateTimeUtil {
 
   static def parse(
     String dt,
-    def format = this.simpleDateTimeFormat
+    def format = this.SIMPLE_DATE_TIME_FORMAT
   ) {
     return LocalDateTime.parse(dt, format)
   }

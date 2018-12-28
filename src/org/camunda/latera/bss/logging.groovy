@@ -36,7 +36,7 @@ class SimpleLogger {
   SimpleLogger(DelegateExecution execution) {
     this.processInstanceID = execution.getProcessInstanceId()
     this.homsOrderCode = execution.getVariable('homsOrderCode') ?: 'ORD-NONE'
-    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DateTimeUtil.dateTimeFormat
+    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DateTimeUtil.DATE_TIME_FORMAT
   }
 
   void log(Object message, String level = "info") {
