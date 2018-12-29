@@ -19,29 +19,57 @@ trait Address {
     flat      : 'кв.'
   ]
 
+  def getMainAddressesTable() {
+    return MAIN_ADDRESSES_TABLE
+  }
+
+  def getSubjectAddressesTable() {
+    return SUBJECT_ADDRESSES_TABLE
+  }
+
+  def getObjectAddressesTable() {
+    return OBJECT_ADDRESSES_TABLE
+  }
+
   def getDefaultAddressType() {
-    return getRefIdByCode(DEFAULT_ADDRESS_TYPE)
+    return DEFAULT_ADDRESS_TYPE
+  }
+
+  def getAddressItems() {
+    return ADDRESS_ITEMS
+  }
+
+  def getDefaultAddressTypeId() {
+    return getRefIdByCode(getDefaultAddressType())
   }
 
   def getDefaultAddressBindType() {
-    return getRefIdByCode(DEFAULT_ADDRESS_BIND_TYPE)
+    return DEFAULT_ADDRESS_BIND_TYPE
+  }
+
+  def getDefaultAddressBindTypeId() {
+    return getRefIdByCode(getDefaultAddressBindType())
   }
 
   def getDefaultAddressState() {
-    return getRefIdByCode(DEFAULT_ADDRESS_STATE)
+    return DEFAULT_ADDRESS_STATE
+  }
+
+  def getDefaultAddressStateId() {
+    return getRefIdByCode(getDefaultAddressState())
   }
 
   List getEntityAddresses(
     def entityTypeId,
     def entityId,
-    def addrTypeId     = getDefaultAddressType(),
-    def bindAddrTypeId = getDefaultAddressBindType(),
-    def addrStateId    = getDefaultAddressState(),
+    def addrTypeId     = getDefaultAddressTypeId(),
+    def bindAddrTypeId = getDefaultAddressBindTypeId(),
+    def addrStateId    = getDefaultAddressStateId(),
     Boolean isMain     = null
   ) {
     Boolean isSubj = isSubject(entityTypeId)
     String entityPrefix = isSubj ? 'subj' : 'obj'
-    String tableName    = isSubj ? SUBJECT_ADDRESSES_TABLE : OBJECT_ADDRESSES_TABLE
+    String tableName    = isSubj ? getSubjectAddressesTable() : getObjectAddressesTable()
 
     LinkedHashMap where = [
       "n_${entityPrefix}ect_id": entityId
@@ -72,9 +100,9 @@ trait Address {
     LinkedHashMap params = mergeParams([
       entityTypeId   : null,
       entityId       : null,
-      addrTypeId     : getDefaultAddressType(),
-      bindAddrTypeId : getDefaultAddressBindType(),
-      addrStateId    : getDefaultAddressState(),
+      addrTypeId     : getDefaultAddressTypeId(),
+      bindAddrTypeId : getDefaultAddressBindTypeId(),
+      addrStateId    : getDefaultAddressStateId(),
       isMain         : null
     ], input)
     return getEntityAddresses(params.entityTypeId,
@@ -97,7 +125,7 @@ trait Address {
     LinkedHashMap where = [
       n_address_id: addressId
     ]
-    return hid.getTableFirst(MAIN_ADDRESSES_TABLE, where: where)
+    return hid.getTableFirst(getMainAddressesTable(), where: where)
   }
 
   LinkedHashMap putSubjAddress(
@@ -115,7 +143,7 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  getDefaultAddressState(),
+      stateId        :  getDefaultAddressStateId(),
       isMain         :  false
     ], input)
     try {
@@ -161,7 +189,7 @@ trait Address {
       flat           :  null,
       entrance       :  null,
       rem            :  null,
-      stateId        :  getDefaultAddressState(),
+      stateId        :  getDefaultAddressStateId(),
       isMain         :  false
     ], input)
     try {
@@ -191,11 +219,11 @@ trait Address {
     }
   }
 
-  static List getAddressItemsValues(
+  List getAddressItemsValues(
     LinkedHashMap input
   ) {
     List addressItemsValues = []
-    ADDRESS_ITEMS.each{ type, value -> 
+    getAddressItems().each{ type, value -> 
       addressItemsValues.add([value, 'N', input[type] ?: ""])
     }
     return addressItemsValues

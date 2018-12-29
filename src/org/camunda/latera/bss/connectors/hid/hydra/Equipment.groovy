@@ -4,11 +4,19 @@ import org.camunda.latera.bss.utils.Oracle
 trait Equipment {
   private static String EQUIPMENT_TABLE = 'SI_V_OBJECTS'
 
+  def getEquipmentTable() {
+    return EQUIPMENT_TABLE
+  }
+
+  def getObjectsTable() {
+    return getEquipmentTable()
+  }
+
   LinkedHashMap getEquipment(equipmentId) {
     LinkedHashMap where = [
       n_object_id: equipmentId
     ]
-    return hid.getTableFirst(EQUIPMENT_TABLE, where: where)
+    return hid.getTableFirst(getEquipmentTable(), where: where)
   }
 
   def getEquipmentValueTypeIdByCode(String code) {
@@ -51,7 +59,7 @@ trait Equipment {
     }
   }
 
-  void deleteEquipment(Long equipmentId) {
+  void deleteEquipment(def equipmentId) {
     try {
       logger.info("Deleting eqipment ${equipmentId}")
       hid.execute('SI_DEVICES_PKG.SI_DEVICES_DEL', [
@@ -62,7 +70,6 @@ trait Equipment {
       logger.error("Error while deleting equipment!")
       logger.error(e)
     }
-    return null
   }
 
   void putEquipmentAddParam(LinkedHashMap input) {

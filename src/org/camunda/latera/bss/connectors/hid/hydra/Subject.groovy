@@ -4,32 +4,71 @@ import org.camunda.latera.bss.utils.Oracle
 trait Subject {
   private static String SUBJECTS_TABLE                  = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADDITIONAL_PARAMS_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
-  private static String DEFAULT_SUBJECT_STATE           = 'SUBJ_STATE_On'
+  private static String SUBJECT_STATE_ON                = 'SUBJ_STATE_On'
+  private static String SUBJECT_STATE_LOCKED            = 'SUBJ_STATE_Locked'
+  private static String SUBJECT_STATE_SUSPENDED         = 'SUBJ_STATE_ManuallySuspended'
+  private static String SUBJECT_STATE_DISABLED          = 'SUBJ_STATE_Disabled'
 
-  def getDefaultSubjectState() {
-    return getRefIdByCode(DEFAULT_SUBJECT_STATE)
+  def getSubjectsTable() {
+    return SUBJECTS_TABLE
+  }
+
+  def getSubjectsAdditionalParamsTable() {
+    return SUBJECT_ADDITIONAL_PARAMS_TABLE
+  }
+
+  def getSubjectStateOn() {
+    return SUBJECT_STATE_ON
+  }
+
+  def getSubjectStateOnId() {
+    return getRefIdByCode(getSubjectStateOn())
+  }
+
+  def getSubjectStateLocked() {
+    return SUBJECT_STATE_LOCKED
+  }
+
+  def getSubjectStateLockedId() {
+    return getRefIdByCode(getSubjectStateLocked())
+  }
+
+  def getSubjectStateSuspended() {
+    return SUBJECT_STATE_SUSPENDED
+  }
+
+  def getSubjectStateSuspendedId() {
+    return getRefIdByCode(getSubjectStateSuspended())
+  }
+
+  def getSubjectStateDisabled() {
+    return SUBJECT_STATE_DISABLED
+  }
+
+  def getSubjectStateDisabledId() {
+    return getRefIdByCode(getSubjectStateDisabled())
   }
 
   LinkedHashMap getSubject(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return hid.getTableFirst(SUBJECTS_TABLE, where: where)
+    return hid.getTableFirst(getSubjectsTable(), where: where)
   }
 
   def getSubjectTypeId(subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return hid.getTableFirst(SUBJECTS_TABLE, 'n_subj_type_id', where)
+    return hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where)
   }
 
-  Boolean isSubject(String entityType) {
+  Boolean isSubject(String subjectType) {
     return entityType.contains('SUBJ')
   }
 
-  Boolean isSubject(def entityTypeId) {
-    return getRefCodeById(entityTypeId)?.contains('SUBJ')
+  Boolean isSubject(def subjectIdOrSubjectTypeId) {
+    return getRefCodeById(subjectIdOrSubjectTypeId)?.contains('SUBJ') || getSubject(subjectIdOrSubjectTypeId) != null
   }
 
   def getSubjectValueTypeIdByCode(
@@ -42,7 +81,7 @@ trait Subject {
     if (subjTypeId) {
       where.n_subj_type_id = subjTypeId
     }
-    return hid.getTableFirst(SUBJECT_ADDITIONAL_PARAMS_TABLE, 'n_subj_value_type_id', where)
+    return hid.getTableFirst(getSubjectsAdditionalParamsTable(), 'n_subj_value_type_id', where)
   }
 
   void putSubjectAddParam(LinkedHashMap input) {

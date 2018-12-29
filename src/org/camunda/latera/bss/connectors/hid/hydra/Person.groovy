@@ -5,31 +5,47 @@ trait Person {
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
   private static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
 
+  def getPersonType() {
+    return PERSON_TYPE
+  }
+
+  def getPersonTypeId() {
+    return getRefIdByCode(getPersonType())
+  }
+
+  def getPersonsTable() {
+    return PERSONS_TABLE
+  }
+
+  def getPersonsPrivateTable() {
+    return PERSONS_PRIVATE_TABLE
+  }
+
   LinkedHashMap getPerson(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return hid.getTableFirst(PERSONS_TABLE, where: where)
+    return hid.getTableFirst(getPersonsTable(), where: where)
   }
 
   LinkedHashMap getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return hid.getTableFirst(PERSONS_PRIVATE_TABLE, where: where)
+    return hid.getTableFirst(getPersonsPrivateTable(), where: where)
   }
 
   Boolean isPerson(String subjectType) {
-    return subjectType == PERSON_TYPE
+    return subjectType == getPersonType()
   }
 
-  Boolean isPerson(def subjectTypeId) {
-    return subjectTypeId == getRefCodeById(PERSON_TYPE)
+  Boolean isPerson(def subjectIdOrSubjectTypeId) {
+    return subjectIdOrSubjectTypeId == getPersonTypeId() || getPerson(subjectIdOrSubjectTypeId) != null
   }
 
   LinkedHashMap putPerson(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      id            :  null,
+      subjectId      :  null,
       firstName     :  null,
       secondName    :  null,
       lastName      :  null,
@@ -47,13 +63,13 @@ trait Person {
       birthPlace    :  null,
       rem           :  null,
       groupId       :  null,
-      firmId        :  DEFAULT_FIRM,
-      stateId       :  getDefaultSubjectState()
+      firmId        :  getFirmId(),
+      stateId       :  getSubjectStateOnId()
     ], input)
     try {
       logger.info("Putting person named ${params.firstName} ${params.secondName} ${params.lastName} in firm ${params.firmId}")
       LinkedHashMap person = hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
-        num_N_SUBJECT_ID       : params.id,
+        num_N_SUBJECT_ID       : params.subjectId,
         num_N_FIRM_ID          : params.firmId,
         num_N_SUBJ_STATE_ID    : params.stateId,
         num_N_SUBJ_GROUP_ID    : params.groupId,
@@ -74,10 +90,10 @@ trait Person {
         vch_VC_BIRTH_PLACE     : params.birthPlace,
         vch_VC_REM             : params.rem
       ])
-      logger.info("   Person ${personId.num_N_SUBJECT_ID} was put successfully!")
+      logger.info("   Person ${person.num_N_SUBJECT_ID} was put successfully!")
       return person
     } catch (Exception e){
-      logger.error("Error while creating person!")
+      logger.error("Error while putting person!")
       logger.error(e)
       return null
     }

@@ -118,7 +118,7 @@ trait Region {
     REGION_TYPES.eachWithIndex{ type, i -> 
       regionQuery += """
       SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
-      FROM   SI_V_REF
+      FROM   ${getRefsTable()}
       WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
       UNION ALL""")
     }

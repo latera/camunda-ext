@@ -4,6 +4,10 @@ trait Ref {
   private static LinkedHashMap REFS_CACHE = [null: null]
   private static String REFS_TABLE = 'SI_V_REF'
 
+  def getRefsTable() {
+    return REFS_TABLE
+  }
+
   def getRefIdByCode(String code) {
     if (REFS_CACHE.containsKey(code)) {
       return REFS_CACHE[code]
@@ -20,8 +24,8 @@ trait Ref {
   }
 
   String getRefCodeById(def id) {
-    if (REFS_CACHE.containsValue(code)) {
-      return REFS_CACHE.find{it.value == code}?.key
+    if (REFS_CACHE.containsValue(id)) {
+      return REFS_CACHE.find{it.value == id}?.key
     } else {
       String refCode = hid.queryFirst("""
       SELECT SI_REF_PKG_S.GET_CODE_BY_ID(${id}) FROM DUAL
@@ -32,5 +36,17 @@ trait Ref {
       }
       return refCode
     }
+  }
+
+  def getDefaultCurrencyId() {
+    return getRefIdByCode('CURR_Ruble')
+  }
+
+  def getUnknownUnitId() {
+    return getRefIdByCode('UNIT_Unknown')
+  }
+
+  def getPieceUnitId() {
+    return getRefIdByCode('UNIT_Piece')
   }
 }
