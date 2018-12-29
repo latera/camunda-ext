@@ -9,11 +9,11 @@ class DateTimeUtil {
   static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
   static final DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
 
-  static def now() {
+  static LocalDateTime now() {
     return LocalDateTime.now()
   }
 
-  static def parse(
+  static LocalDateTime parse(
     String dt,
     def format = this.SIMPLE_DATE_TIME_FORMAT
   ) {
