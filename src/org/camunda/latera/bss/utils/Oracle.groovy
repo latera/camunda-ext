@@ -29,6 +29,19 @@ class Oracle {
     return value == 'Y'
   }
 
+  static Object encodeFlag(value) {
+    Object result = encodeNull(value)
+    if (result != 'NULL') {
+      return value ? 1 : 0
+    } else {
+      return result
+    }
+  }
+
+  static Boolean decodeFlag(value) {
+    return value == 1
+  }
+
   static Object nvl(nullable, replacement, args = []) {
     Boolean result = decodeNull(nullable)
     if (result != null) {
