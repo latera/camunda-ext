@@ -7,6 +7,7 @@ import org.camunda.latera.bss.connectors.HID
 import org.camunda.latera.bss.connectors.hid.hydra.Ref
 import org.camunda.latera.bss.connectors.hid.hydra.Good
 import org.camunda.latera.bss.connectors.hid.hydra.Document
+import org.camunda.latera.bss.connectors.hid.hydra.Contract
 import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
 import org.camunda.latera.bss.connectors.hid.hydra.PriceLine
 import org.camunda.latera.bss.connectors.hid.hydra.Subject
@@ -14,14 +15,16 @@ import org.camunda.latera.bss.connectors.hid.hydra.Company
 import org.camunda.latera.bss.connectors.hid.hydra.Person
 import org.camunda.latera.bss.connectors.hid.hydra.Customer
 import org.camunda.latera.bss.connectors.hid.hydra.Account
+import org.camunda.latera.bss.connectors.hid.hydra.Subscription
 import org.camunda.latera.bss.connectors.hid.hydra.Equipment
 import org.camunda.latera.bss.connectors.hid.hydra.Region
 import org.camunda.latera.bss.connectors.hid.hydra.Address
 
-class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Company, Person, Customer, Account, Equipment, Region, Address {
-  static Integer DEFAULT_FIRM = 100
+class Hydra implements Ref, Good, Document, Contract, PriceOrder, PriceLine, Subject, Company, Person, Customer, Account, Subscription, Equipment, Region, Address {
+  private static Integer DEFAULT_FIRM = 100
   HID hid
   def firmId
+  def resellerId
   DelegateExecution execution
   SimpleLogger logger
 
@@ -30,9 +33,18 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
     this.logger = new SimpleLogger(this.execution)
     this.hid = new HID(execution)
 
-    def user     = execution.getVariable('hydraUser') ?: 'hydra'
-    def password = execution.getVariable('hydraPassword')
-    this.firmId  = execution.getVariable('hydraFirmId') ?: DEFAULT_FIRM
+    def user       = execution.getVariable('hydraUser') ?: 'hydra'
+    def password   = execution.getVariable('hydraPassword')
+    def firmId     = execution.getVariable('hydraFirmId')
+    def resellerId = execution.getVariable('hydraResellerId')
+
+    if (resellerId && !firmId) {
+      this.firmId = getSubject(firmId).n_reseller_id
+      this.resellerId = resellerId
+    } else {
+      this.firmId = firmId ?: DEFAULT_FIRM
+      this.resellerId = null
+    }
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',
@@ -43,7 +55,7 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
     ])
 
     this.hid.execute('MAIN.SET_ACTIVE_FIRM', [
-      num_N_FIRM_ID: firmId
+      num_N_FIRM_ID: getFirmId()
     ])
   }
 
@@ -74,6 +86,18 @@ class Hydra implements Ref, Good, Document, PriceOrder, PriceLine, Subject, Comp
       }
     }
     return result
+  }
+
+  def getDefaultFirmId() {
+    return DEFAULT_FIRM
+  }
+
+  def getFirmId() {
+    return firmId
+  }
+
+  def getResellerId() {
+    return resellerId
   }
 
   //Other methods are imported from traits
