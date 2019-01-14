@@ -10,18 +10,18 @@ class HTTPRestProcessor {
   public RESTClient httpClient
   SimpleLogger logger
 
-  HTTPRestProcessor(parameters) {
+  HTTPRestProcessor(Map parameters) {
     this.httpClient = new RESTClient(parameters.baseUrl)
     this.logger = new SimpleLogger(parameters.execution)
   }
 
-  def private responseBlock(Boolean failure=false) {
+  def private responseBlock(Boolean failure=false, Boolean supress=false) {
     {resp, reader ->
       def respStatusLine = resp.statusLine
 
       logger.log("Response status: ${respStatusLine}", "info")
       logger.log("Response data: -----", "info")
-      if (reader) {
+      if (!supress && reader) {
         if (reader instanceof InputStreamReader) {
           logger.log(IOUtils.toString(reader), "info")
         } else {
@@ -38,7 +38,7 @@ class HTTPRestProcessor {
     }
   }
 
-  def sendRequest(params, String method) {
+  def sendRequest(Map params, String method) {
 
     if (!params.requestContentType) {
       params.requestContentType = ContentType.JSON
@@ -47,12 +47,17 @@ class HTTPRestProcessor {
     logger.log("/ Sending HTTP ${method.toUpperCase()} request (${httpClient.defaultURI}${params.path})...", "info")
     if (params.body) {
       logger.log("Request data: ------", "info")
-      logger.log(params.body.toString(), "info")
+      if (!params.supressRequestBodyLog) {
+        logger.log(params.body.toString(), "info")
+      }
       logger.log("--------------------", "info")
     }
 
-    httpClient.handler.success = responseBlock(false)
-    httpClient.handler.failure = responseBlock(true)
+    httpClient.handler.success = responseBlock(false, params.supressResponseBodyLog)
+    httpClient.handler.failure = responseBlock(true, params.supressResponseBodyLog)
+
+    params.remove('supressRequestBodyLog')
+    params.remove('supressResponseBodyLog')
 
     def result = httpClient."${method}"(params)
     logger.log("\\ HTTP request sent", "info")
