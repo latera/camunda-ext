@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
+import org.camunda.latera.bss.utils.DateTimeUtil
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
@@ -11,6 +12,7 @@ trait Address {
   private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
   private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
   private static LinkedHashMap ADDRESS_ITEMS = [
+    building  : 'зд.',
     home      : 'д.',
     corpus    : 'корп.',
     construct : 'стр.',
@@ -18,6 +20,7 @@ trait Address {
     floor     : 'этаж',
     flat      : 'кв.'
   ]
+  private static List ADDRESS_ITEMS_NAMES = ADDRESS_ITEMS.keySet() as List
 
   def getMainAddressesTable() {
     return MAIN_ADDRESSES_TABLE
@@ -37,6 +40,10 @@ trait Address {
 
   def getAddressItems() {
     return ADDRESS_ITEMS
+  }
+
+  def getAddressItemsNames() {
+    return ADDRESS_ITEMS_NAMES
   }
 
   def getDefaultAddressTypeId() {
@@ -59,92 +66,171 @@ trait Address {
     return getRefIdByCode(getDefaultAddressState())
   }
 
-  List getEntityAddresses(
-    def entityTypeId,
-    def entityId,
-    def addrTypeId     = getDefaultAddressTypeId(),
-    def bindAddrTypeId = getDefaultAddressBindTypeId(),
-    def addrStateId    = getDefaultAddressStateId(),
-    Boolean isMain     = null
-  ) {
-    Boolean isSubj = isSubject(entityTypeId)
+  List getEntityAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      entityAddressId : null,
+      entityTypeId    : null,
+      entityId        : null,
+      addressId       : null,
+      addrTypeId      : getDefaultAddressTypeId(),
+      parAddressId    : null,
+      code            : null,
+      regionId        : null,
+      rawAddress      : null,
+      flat            : null,
+      floor           : null,
+      entrance        : null,
+      rem             : null,
+      bindAddrTypeId  : getDefaultAddressBindTypeId(),
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      operationDate   : null,
+      beginDate       : null,
+      endDate         : null
+    ], input)
+    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
     String entityPrefix = isSubj ? 'subj' : 'obj'
     String tableName    = isSubj ? getSubjectAddressesTable() : getObjectAddressesTable()
 
-    LinkedHashMap where = [
-      "n_${entityPrefix}ect_id": entityId
-    ]
-
-    if (bindAddrTypeId) {
-      where."n_${entityPrefix}_addr_type_id" = bindAddrTypeId
+    LinkedHashMap where = [:]
+    if (params.entityAddressId) {
+      where."n_${entityPrefix}_address_id" = params.entityAddressId
     }
-
-    if (addrTypeId) {
-      where.n_addr_type_id = addrTypeId
+    if (params.entityId) {
+      where."n_${entityPrefix}ect_id" = params.entityId
     }
-
-    if (addrStateId) {
-      where.n_addr_state_id = addrStateId
+    if (params.bindAddrTypeId) {
+      where."n_${entityPrefix}_addr_type_id" = params.bindAddrTypeId
     }
-
-    if (isMain != null) {
-      where.c_fl_main = Oracle.encodeNull(isMain)
+    if (params.addressId) {
+      where.n_address_id = params.addressId
     }
-
+    if (params.addrTypeId) {
+      where.n_addr_type_id = params.addrTypeId
+    }
+    if (params.parAddressId) {
+      where.n_par_addr_id = params.parAddressId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.regionId) {
+      where.n_region_id = params.regionId
+    }
+    if (params.rawAddress) {
+      where.vc_address = params.rawAddress
+    }
+    if (params.flat) {
+      where.vc_flat = params.flat
+    }
+    if (params.floor) {
+      where.n_floor = params.floor
+    }
+    if (params.entrance) {
+      where.n_entrance_no = params.entrance
+    }
+    if (params.rem) {
+      where.vc_rem = params.rem
+    }
+    if (params.stateId) {
+      where.n_addr_state_id = params.stateId
+    }
+    if (params.isMain != null) {
+      where.c_fl_main = Oracle.encodeBool(params.isMain)
+    }
+    // Only for objects addresses
+    if (!isSubj && params.beginDate) {
+      where.d_begin = params.beginDate
+    }
+    if (!isSubj && params.endDate) {
+      where.d_end = params.endDate
+    }
+    if (!isSubj && !params.operationDate && !params.endDate && !params.beginDate) {
+      params.operationDate = DateTimeUtil.now()
+    }
+    if (!isSubj && params.operationDate) {
+      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+    }
     return hid.getTableData(tableName, where: where, order: ['C_FL_MAIN DESC'])
   }
 
-  List getEntityAddresses (
-    LinkedHashMap input
-  ) {
-    LinkedHashMap params = mergeParams([
-      entityTypeId   : null,
-      entityId       : null,
-      addrTypeId     : getDefaultAddressTypeId(),
-      bindAddrTypeId : getDefaultAddressBindTypeId(),
-      addrStateId    : getDefaultAddressStateId(),
-      isMain         : null
-    ], input)
-    return getEntityAddresses(params.entityTypeId,
-                                   params.entityId,
-                                   params.addrTypeId,
-                                   params.bindAddrTypeId,
-                                   params.addrStateId,
-                                   params.isMain)
-  }
-
-  LinkedHashMap getEntityAddress (
-    LinkedHashMap input
-  ) {
+  LinkedHashMap getEntityAddress(LinkedHashMap input) {
     return getEntityAddresses(input)?.getAt(0)
   }
 
-  LinkedHashMap getAddress(
-    def addressId
-  ) {
-    LinkedHashMap where = [
-      n_address_id: addressId
-    ]
-    return hid.getTableFirst(getMainAddressesTable(), where: where)
+  List getAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      addressId    : null,
+      addrTypeId   : getDefaultAddressTypeId(),
+      parAddressId : null,
+      code         : null,
+      regionId     : null,
+      rawAddress   : null,
+      flat         : null,
+      floor        : null,
+      entrance     : null,
+      rem          : null
+    ], input)
+
+    LinkedHashMap where = [:]
+    if (params.addressId) {
+      where.n_address_id = params.addressId
+    }
+    if (params.addrTypeId) {
+      where.n_addr_type_id = params.addrTypeId
+    }
+    if (params.parAddressId) {
+      where.n_par_addr_id = params.parAddressId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.regionId) {
+      where.n_region_id = params.regionId
+    }
+    if (params.rawAddress) {
+      where.vc_address = params.rawAddress
+    }
+    if (params.flat) {
+      where.vc_flat = params.flat
+    }
+    if (params.floor) {
+      where.n_floor = params.floor
+    }
+    if (params.entrance) {
+      where.n_entrance_no = params.entrance
+    }
+    if (params.rem) {
+      where.vc_rem = params.rem
+    }
+    return hid.getTableData(getMainAddressesTable(), where: where, order: ['N_ADDRESS_ID ASC'])
   }
 
-  LinkedHashMap putSubjAddress(
-    LinkedHashMap input
-  ) {
+  LinkedHashMap getAddress(LinkedHashMap input) {
+    return getAddresses(input)?.getAt(0)
+  }
+
+  LinkedHashMap getAddress(def addressId) {
+    return getAddress(addressId: addressId)
+  }
+
+  LinkedHashMap putSubjAddress(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      subjAddressId  :  null,
-      addressId      :  null,
-      subjectId      :  null,
-      bindAddrTypeId :  null,
-      addrTypeId     :  null,
-      code           :  null,
-      regionId       :  null,
-      rawAddress     :  null,
-      flat           :  null,
-      entrance       :  null,
-      rem            :  null,
-      stateId        :  getDefaultAddressStateId(),
-      isMain         :  false
+      subjAddressId  : null,
+      addressId      : null,
+      subjectId      : null,
+      bindAddrTypeId : null,
+      addrTypeId     : null,
+      code           : null,
+      regionId       : null,
+      rawAddress     : null,
+      flat           : null,
+      floor          : null,
+      entrance       : null,
+      rem            : null,
+      stateId        : getDefaultAddressStateId(),
+      isMain         : null
     ], input)
     try {
       logger.info("Putting address with code ${params.code} to subject with id ${params.subjectId}")
@@ -160,78 +246,148 @@ trait Address {
           vch_VC_FLAT             : params.flat,
           num_N_ENTRANCE_NO       : params.entrance,
           num_N_FLOOR_NO          : params.floor,
-          ch_C_FL_MAIN            : params.isMain,
+          ch_C_FL_MAIN            : Oracle.encodeBool(params.isMain),
           num_N_ADDR_STATE_ID     : params.stateId,
-          vch_VC_REM              : params.rem,
-          b_UpdateRegister        : 0
+          vch_VC_REM              : params.rem
       ])
-      logger.info("   Address ${addressId.num_N_ADDRESS_ID} added to subject!")
+      logger.info("   Address ${address.num_N_ADDRESS_ID} added to subject!")
       return address
     } catch (Exception e){
-      logger.error("Error while adding a subject address!")
-      logger.error(e)
+      logger.error("   Error while adding a subject address!")
+      logger.error_oracle(e)
       return null
     }
   }
 
-  LinkedHashMap putObjAddress(
-    LinkedHashMap input
-  ) {
+  LinkedHashMap putObjAddress(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      objAddressId   :  null,
-      addressId      :  null,
-      objectId       :  null,
-      bindAddrTypeId :  null,
-      addrTypeId     :  null,
-      code           :  null,
-      regionId       :  null,
-      rawAddress     :  null,
-      flat           :  null,
-      entrance       :  null,
-      rem            :  null,
-      stateId        :  getDefaultAddressStateId(),
-      isMain         :  false
+      objAddressId   : null,
+      addressId      : null,
+      objectId       : null,
+      bindAddrTypeId : null,
+      addrTypeId     : null,
+      code           : null,
+      regionId       : null,
+      rawAddress     : null,
+      flat           : null,
+      floor          : null,
+      entrance       : null,
+      rem            : null,
+      stateId        : getDefaultAddressStateId(),
+      isMain         : null,
+      beginDate      : DateTimeUtil.now(),
+      endDate        : null
     ], input)
     try {
       logger.info("Putting address with code ${params.code} to object with id ${params.objectId}")
       LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
-          num_N_OBJ_ADDRESS_ID    : params.objAddressId,
-          num_N_ADDRESS_ID        : params.addressId,
-          num_N_OBJ_ADDR_TYPE_ID  : params.bindAddrTypeId,
-          num_N_ADDR_TYPE_ID      : params.addrTypeId,
-          vch_VC_CODE             : params.code,
-          vch_VC_ADDRESS          : params.rawAddress,
-          num_N_REGION_ID         : params.regionId,
-          vch_VC_FLAT             : params.flat,
-          num_N_ENTRANCE_NO       : params.entrance,
-          num_N_FLOOR_NO          : params.floor,
-          ch_C_FL_MAIN            : params.isMain,
-          num_N_ADDR_STATE_ID     : params.stateId,
-          vch_VC_REM              : params.rem,
-          b_UpdateRegister        : 0
+          num_N_OBJ_ADDRESS_ID   : params.objAddressId,
+          num_N_ADDRESS_ID       : params.addressId,
+          num_N_OBJECT_ID        : params.objectId,
+          num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+          num_N_ADDR_TYPE_ID     : params.addrTypeId,
+          vch_VC_CODE            : params.code,
+          vch_VC_ADDRESS         : params.rawAddress,
+          num_N_REGION_ID        : params.regionId,
+          vch_VC_FLAT            : params.flat,
+          num_N_ENTRANCE_NO      : params.entrance,
+          num_N_FLOOR_NO         : params.floor,
+          ch_C_FL_MAIN           : Oracle.encodeBool(params.isMain),
+          dt_D_BEGIN             : params.beginDate ?: DateTimeUtil.now(),
+          dt_D_END               : params.endDate,
+          num_N_ADDR_STATE_ID    : params.stateId,
+          vch_VC_REM             : params.rem
       ])
       logger.info("   Address ${address.num_N_ADDRESS_ID} added to object!")
       return address
     } catch (Exception e){
-      logger.error("Error while adding an object address!")
-      logger.error(e)
+      logger.error("   Error while adding an object address!")
+      logger.error_oracle(e)
       return null
     }
   }
 
-  List getAddressItemsValues(
-    LinkedHashMap input
-  ) {
+  LinkedHashMap putEntityAddress(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      entityAddressId : null,
+      entityId        : null,
+      entityTypeId    : null,
+      addressId       : null,
+      bindAddrTypeId  : null,
+      addrTypeId      : null,
+      code            : null,
+      regionId        : null,
+      rawAddress      : null,
+      flat            : null,
+      floor           : null,
+      entrance        : null,
+      rem             : null,
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      beginDate       : DateTimeUtil.now(),
+      endDate         : null
+    ], input)
+
+    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
+
+    if (isSubj) {
+      def address = putSubjAddress(
+        subjAddressId  : params.entityAddressId,
+        addressId      : params.addressId,
+        subjectId      : params.entityId,
+        bindAddrTypeId : params.bindAddrTypeId,
+        addrTypeId     : params.addrTypeId,
+        code           : params.code,
+        regionId       : params.regionId,
+        rawAddress     : params.rawAddress,
+        flat           : params.flat,
+        floor          : params.floor,
+        entrance       : params.entrance,
+        rem            : params.rem,
+        stateId        : params.stateId,
+        isMain         : params.isMain
+      )
+      if (address) {
+        address.num_N_ENTITY_ADDRESS_ID = address.num_N_SUBJ_ADDRESS_ID
+        address.num_N_ENTITY_ID         = address.num_N_SUBJECT_ID
+      }
+      return address
+    } else {
+      def address = putObjAddress(
+        objAddressId   : params.entityAddressId,
+        addressId      : params.addressId,
+        objectId       : params.entityId,
+        bindAddrTypeId : params.bindAddrTypeId,
+        addrTypeId     : params.addrTypeId,
+        code           : params.code,
+        regionId       : params.regionId,
+        rawAddress     : params.rawAddress,
+        flat           : params.flat,
+        floor          : params.floor,
+        entrance       : params.entrance,
+        rem            : params.rem,
+        stateId        : params.stateId,
+        isMain         : params.isMain,
+        beginDate      : params.beginDate,
+        endDate        : params.endDate
+      )
+      if (address) {
+        address.num_N_ENTITY_ADDRESS_ID = address.num_N_OBJ_ADDRESS_ID
+        address.num_N_ENTITY_ID         = address.num_N_OBJECT_ID
+      }
+      return address
+    }
+  }
+
+  List getAddressItemsValues(LinkedHashMap input) {
     List addressItemsValues = []
-    getAddressItems().each{ type, value -> 
+    getAddressItems().each{ type, value ->
       addressItemsValues.add([value, 'N', input[type] ?: ""])
     }
     return addressItemsValues
   }
 
-  String calcAddress(
-    LinkedHashMap input
-  ) {
+  String calcAddress(LinkedHashMap input) {
     String address = ''
 
     List regionItemsValues = getRegionItemsValues(input)
@@ -249,5 +405,580 @@ trait Address {
       }
     }
     return address
+  }
+
+  Boolean deleteSubjAddress(def subjAddressId) {
+    try {
+      logger.info("Deleting subject address id ${subjAddressId}")
+      hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_DEL', [
+        num_N_SUBJ_ADDRESS_ID : subjAddressId
+      ])
+      logger.info("   Subject address was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting a subject address!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteObjAddress(def objAddressId) {
+    try {
+      logger.info("Deleting object address id ${objAddressId}")
+      hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_DEL', [
+        num_N_OBJ_ADDRESS_ID : objAddressId
+      ])
+      logger.info("   Object address was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting an object address!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteEntityAddress(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      entityAddressId : null,
+      entityTypeId    : null,
+      addressId       : null,
+      entityId        : null,
+      bindAddrTypeId  : null,
+      addrTypeId      : null,
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null
+    ], input)
+
+    Boolean isSubj = false
+
+    if (params.entityAddressId) {
+      if (params.entityTypeId || params.entityId) {
+        isSubj = isSubject(params.entityTypeId ?: params.entityId)
+      } else {
+        def objAddress = getEntityAddresses(
+          entityAddressId : params.entityAddressId,
+          entityId        : params.entityId,
+          addressId       : params.addressId,
+          addrTypeId      : params.addrTypeId,
+          bindAddrTypeId  : params.bindAddrTypeId,
+          stateId         : params.stateId,
+          isMain          : params.isMain
+        )
+        def subjAddress = getEntityAddresses(
+          entityType      : 'SUBJ_TYPE_Company',
+          entityAddressId : params.entityAddressId,
+          entityId        : params.entityId,
+          addressId       : params.addressId,
+          addrTypeId      : params.addrTypeId,
+          bindAddrTypeId  : params.bindAddrTypeId,
+          stateId         : params.stateId,
+          isMain          : params.isMain
+        )
+        if (objAddress) {
+          isSubj = false
+        } else if (subjAddress) {
+          isSubj = true
+        } else {
+          logger.info("No address found!")
+          return true
+        }
+      }
+    } else {
+      LinkedHashMap address = getEntityAddress(
+        addressId      : params.addressId,
+        entityTypeId   : params.entityTypeId,
+        entityId       : params.entityId,
+        addrTypeId     : params.addrTypeId,
+        bindAddrTypeId : params.bindAddrTypeId,
+        stateId        : params.stateId,
+        isMain         : params.isMain
+      )
+      if (!address) {
+        logger.info("No address found!")
+        return true
+      }
+      if (address.n_obj_address_id) {
+        isSubj = false
+        params.entityAddressId = address?.n_obj_address_id
+      } else {
+        isSubj = true
+        params.entityAddressId = address?.n_subj_address_id
+      }
+    }
+
+    if (isSubj) {
+      return deleteSubjAddress(params.entityAddressId)
+    } else {
+      return deleteObjAddress(params.entityAddressId)
+    }
+  }
+
+  Boolean closeObjAddress(
+    def objAddressId,
+    def endDate = DateTimeUtil.now()
+  ) {
+    try {
+      logger.info("Closing object address id ${objAddressId} with end date ${endDate}")
+      hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_CLOSE', [
+        num_N_OBJ_ADDRESS_ID : objAddressId,
+        dt_D_END             : endDate
+      ])
+      logger.info("   Object address was closed successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while closing an object address!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean closeObjAddress(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      entityAddressId : null,
+      addressId       : null,
+      entityId        : null,
+      bindAddrTypeId  : null,
+      addrTypeId      : null,
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      endDate         : DateTimeUtil.now()
+    ], input)
+
+    if (!params.entityAddressId) {
+      LinkedHashMap address = getEntityAddress(
+        addressId      : params.addressId,
+        entityId       : params.entityId,
+        addrTypeId     : params.addrTypeId,
+        bindAddrTypeId : params.bindAddrTypeId,
+        operationDate  : params.endDate,
+        stateId        : params.stateId,
+        isMain         : params.isMain
+      )
+      if (!address) {
+        logger.error("No address found!")
+        return false
+      }
+      params.entityAddressId = address.n_obj_address_id
+    }
+
+    return closeObjAddress(params.entityAddressId, params.endDate)
+  }
+
+  Boolean closeEntityAddress(LinkedHashMap input) {
+    return closeObjAddress(input)
+  }
+
+  List getFreeIPAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      groupId         : null,
+      subnetAddressId : null,
+      operationDate   : DateTimeUtil.now(),
+      firmId          : getFirmId()
+    ], input)
+
+    def addresses = []
+    def date = Oracle.encodeDateStr(params.operationDate)
+
+    try {
+      if (groupId) {
+        addresses = hid.queryDatabase("""
+          SELECT
+              'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                num_N_PROVIDER_ID    => ${params.firmId})),
+              'n_subnet_id', A.N_ADDRESS_ID,
+              'vc_subnet',   A.VC_CODE
+          FROM
+              SI_V_ADDRESSES A,
+              RG_PAR_ADDRESSES RG
+          WHERE
+              ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+          AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
+          AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+          AND RG.N_PROVIDER_ID       = ${params.firmId}
+        """, true)
+      } else {
+        addresses = hid.queryFirst("""
+          SELECT
+              'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                num_N_PROVIDER_ID    => ${params.firmId})),
+              'n_subnet_id', A.N_ADDRESS_ID,
+              'vc_subnet',   A.VC_CODE
+          FROM
+              SI_V_ADDRESSES A
+          WHERE
+              A.N_ADDRESS_ID = ${params.subnetAddressId}
+        """, true)
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+  LinkedHashMap getFreeIPAddress(LinkedHashMap input) {
+    def result = getFreeIPAddresses(input)
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
+  }
+
+  String getFreeIP(LinkedHashMap input) {
+    return getFreeIPAddress(input)?.vc_ip
+  }
+
+  List getFreeTelephoneNumbers(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      groupId       : null,
+      telCodeId     : null,
+      operationDate : DateTimeUtil.now(),
+      firmId        : getFirmId()
+    ], input)
+
+    def addresses = []
+    def date = Oracle.encodeDateStr(params.operationDate)
+
+    try {
+      if (params.groupId) {
+        addresses = hid.queryDatabase("""
+          SELECT
+              'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
+                num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
+                num_N_PROVIDER_ID => ${params.firmId}),
+              'n_telcode_id', A.N_ADDRESS_ID,
+              'vc_tel_code',  A.VC_CODE
+          FROM
+              SI_V_ADDRESSES A,
+              RG_PAR_ADDRESSES RG
+          WHERE
+              ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+          AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
+          AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+          AND RG.N_PROVIDER_ID       = ${params.firmId}
+        """, true)
+      } else {
+        addresses = hid.queryFirst("""
+          SELECT
+              'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
+                num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
+                num_N_PROVIDER_ID => ${params.firmId}),
+              'n_telcode_id', A.N_ADDRESS_ID,
+              'vc_tel_code',  A.VC_CODE
+          FROM
+              SI_V_ADDRESSES A
+          WHERE
+              A.N_ADDRESS_ID = ${params.subnetAddressId}
+        """, true)
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+  LinkedHashMap getFreeTelephoneNumber(LinkedHashMap input) {
+    def result = getFreeTelephoneNumbers(input)
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
+  }
+
+  String getFreePhoneNumber(LinkedHashMap input) {
+    return getFreeTelephoneNumber(input)?.vc_phone_number
+  }
+
+  List getFreeSubnetAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      groupId       : null,
+      rootId        : null,
+      mask          : null,
+      operationDate : DateTimeUtil.now(),
+      firmId        : getFirmId()
+    ], input)
+
+    def addresses = []
+    def date = Oracle.encodeDateStr(params.operationDate)
+    def filter = params.mask ? "SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}'" : '1=1'
+    def notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
+      SELECT 1
+      FROM
+          SI_V_OBJ_ADDRESSES OA
+      WHERE
+          OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+      AND OA.N_ADDRESS_ID        = RA.N_ADDRESS_ID
+      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+    )"""
+    def notAssignedChild = params.mask != '30' ? """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+      SELECT 1
+      FROM
+          SI_V_OBJ_ADDRESSES OA,
+          RG_PAR_ADDRESSES   RP
+      WHERE
+          OA.N_ADDR_TYPE_ID      = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+      AND OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+      AND RP.N_ADDRESS_ID        = OA.N_ADDRESS_ID
+      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+      AND ${date} BETWEEN RP.D_BEGIN AND NVL(RP.D_END, ${date})
+      AND RP.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+      AND RP.N_PROVIDER_ID       = ${params.firmId}
+      START WITH
+          RP.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+      CONNECT BY PRIOR
+          RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
+    )""" : '1=1'
+
+    // WARN Чтобы получение подсети работало, подсети нужного размера должны быть нарезаны
+    try {
+      if (params.groupId) {
+        addresses = hid.queryDatabase("""
+          WITH SUBNETS AS (
+            SELECT DISTINCT
+                A.N_ADDRESS_ID,
+                A.VC_CODE,
+                A.N_VALUE,
+                RA.N_PAR_ADDR_ID
+            FROM
+                SI_V_ADDRESSES   A,
+                RG_PAR_ADDRESSES RG,
+                RG_PAR_ADDRESSES RA
+            WHERE
+                ${filter}
+            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+            AND RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+            AND ${notAssigned}
+            AND ${notAssignedChild}
+            START WITH
+                RA.N_ADDRESS_ID        = RG.N_ADDRESS_ID
+            AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+            AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+            AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+            AND RG.N_PROVIDER_ID       = ${params.firmId}
+            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+            AND RA.N_PROVIDER_ID       = ${params.firmId}
+            CONNECT BY PRIOR
+                RA.N_ADDRESS_ID        = RA.N_PAR_ADDR_ID
+            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+            AND RA.N_PROVIDER_ID       = ${params.firmId}
+            ORDER BY A.N_VALUE ASC
+          )
+
+          SELECT
+              'n_subnet_id',   S.N_ADDRESS_ID,
+              'vc_subnet',     S.VC_CODE,
+              'n_par_addr_id', S.N_PAR_ADDR_ID
+          FROM SUBNETS S
+          WHERE ROWNUM < 10
+        """, true)
+      } else {
+        addresses = hid.queryDatabase("""
+          WITH SUBNETS AS (
+            SELECT DISTINCT
+                A.N_ADDRESS_ID,
+                A.VC_CODE,
+                A.N_VALUE,
+                RA.N_PAR_ADDR_ID
+            FROM
+                SI_V_ADDRESSES   A,
+                RG_PAR_ADDRESSES RA
+            WHERE
+                ${filter}
+            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+            AND RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+            AND ${notAssigned}
+            AND ${notAssignedChild}
+            START WITH
+                RA.N_ADDRESS_ID        = ${params.rootId}
+            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+            AND RA.N_PROVIDER_ID       = ${params.firmId}
+            CONNECT BY PRIOR
+                RA.N_ADDRESS_ID        = RA.N_PAR_ADDR_ID
+            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+            AND RA.N_PROVIDER_ID       = ${params.firmId}
+            ORDER BY A.N_VALUE ASC
+          )
+
+          SELECT
+              'n_subnet_id',   S.N_ADDRESS_ID,
+              'vc_subnet',     S.VC_CODE,
+              'n_par_addr_id', S.N_PAR_ADDR_ID
+          FROM SUBNETS S
+          WHERE ROWNUM < 10
+        """, true)
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+  LinkedHashMap getFreeSubnetAddress(LinkedHashMap input) {
+    def result = getFreeSubnetAddresses(input)
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
+  }
+
+  String getFreeSubnet(LinkedHashMap input) {
+    return getFreeSubnetAddress(input)?.vc_subnet
+  }
+
+  def getSubnetIdByIP(String ip) {
+    def subnetId = null
+    try {
+      subnetId = hid.queryFirst("""
+        SELECT SI_ADDRESSES_PKG_S.GET_SUBNET_BY_IP_ADDRESS('$ip')
+        FROM   DUAL
+      """)?.getAt(0)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return subnetId
+  }
+
+  String getSubnetByIP(String ip) {
+    def subnetId = getSubnetIdByIP(ip)
+    def subnet = null
+    if (subnetId) {
+      subnet = getAddress(addressId: subnetId, addrType: 'ADDR_TYPE_SUBNET')?.vc_code
+    }
+    return subnet
+  }
+
+  String getSubnetMaskById(def subnetId) {
+    def mask = ''
+    try {
+      mask = hid.queryFirst("""
+        SELECT SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(SI_ADDRESSES_PKG_S.GET_N_MASK_BY_SUBNET(${subnetId}))
+        FROM   DUAL
+      """)?.getAt(0)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return mask
+  }
+
+  String getSubnetMask(String subnet) {
+    def mask = ''
+    def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
+    if (subnetId) {
+      mask = getSubnetMaskById(subnetId)
+    }
+    return mask
+  }
+
+  List getParentSubnetAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      addressId     : null,
+      code          : null,
+      mask          : null,
+      operationDate : DateTimeUtil.now(),
+      firmId        : getFirmId()
+    ], input)
+
+    def addresses = []
+    def date = Oracle.encodeDateStr(params.operationDate)
+    def startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
+
+    try {
+      addresses = hid.queryDatabase("""
+        SELECT DISTINCT
+            'n_address_id',  A.N_ADDRESS_ID,
+            'code',          A.VC_CODE,
+            'n_value',       A.N_VALUE,
+            'n_par_addr_id', RA.N_PAR_ADDR_ID,
+            'level',         LEVEL
+        FROM
+            SI_V_ADDRESSES   A,
+            RG_PAR_ADDRESSES RA
+        WHERE
+            RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+        AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+        AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+        AND RA.N_PROVIDER_ID       = ${params.firmId}
+        START WITH
+            ${startWith}
+        CONNECT BY PRIOR
+            RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+        ORDER BY LEVEL ASC
+      """, true)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+  LinkedHashMap getVLANAddressBySubnet(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      addressId     : null,
+      code          : null,
+      operationDate : DateTimeUtil.now(),
+      firmId        : getFirmId()
+    ], input)
+
+    def address = null
+    def date = Oracle.encodeDateStr(params.operationDate)
+    def startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
+
+    try {
+      address = hid.queryFirst("""
+        WITH SUBNETS AS (
+          SELECT DISTINCT
+              A.N_ADDRESS_ID,
+              A.VC_CODE,
+              A.N_VALUE,
+              RA.N_PAR_ADDR_ID,
+              LEVEL
+          FROM
+              SI_V_ADDRESSES   A,
+              RG_PAR_ADDRESSES RA
+          WHERE
+              RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+          AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+          AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+          AND RA.N_PROVIDER_ID       = ${params.firmId}
+          START WITH
+              ${startWith}
+          CONNECT BY PRIOR
+              RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+          ORDER BY LEVEL ASC
+        )
+
+        SELECT
+            'n_vlan_id',     A.N_ADDRESS_ID,
+            'vc_vlan',       A.VC_CODE
+        FROM
+            SUBNETS          S,
+            SI_V_ADDRESSES   A,
+            RG_PAR_ADDRESSES RG
+        WHERE
+            RG.N_ADDRESS_ID        = S.N_ADDRESS_ID
+        AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+        AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
+        AND RG.N_PROVIDER_ID       = ${params.firmId}
+        AND RG.N_PAR_ADDR_ID       = A.N_ADDRESS_ID
+        AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
+      """, true)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return address
+  }
+
+  String getVLANBySubnet(LinkedHashMap input) {
+    return getVLANAddressBySubnet(input)?.vc_vlan
   }
 }

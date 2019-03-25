@@ -1,8 +1,10 @@
 package org.camunda.latera.bss.utils
 
+import org.camunda.latera.bss.utils.DateTimeUtil
+
 class Oracle {
   static Object encodeNull(value) {
-    if (value != 'NULL' && value != null) {
+    if (value != 'NULL' && value != null && value != '') {
       return value
     } else {
       return 'NULL'
@@ -53,5 +55,13 @@ class Oracle {
         return replacement
       }
     }
+  }
+
+  static Date encodeDate(input) {
+    return Date.from(DateTimeUtil.local(input).toInstant())
+  }
+
+  static String encodeDateStr(input) {
+    return "TO_DATE('${DateTimeUtil.local(input).format(DateTimeUtil.SIMPLE_DATE_TIME_FORMAT)}', '${DateTimeUtil.DATE_TIME_FORMAT_ORACLE}')"
   }
 }

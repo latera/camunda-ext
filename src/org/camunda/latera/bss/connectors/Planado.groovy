@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors
 
 import groovy.json.JsonOutput
-import groovyx.net.http.HttpResponseException
+import groovyx.net.http.HttpException
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
@@ -15,10 +15,12 @@ class Planado {
   private SimpleLogger logger
 
   Planado(DelegateExecution execution) {
-    logger = new SimpleLogger(execution)
-    planadoApiKey = execution.getVariable('planadoApiKey')
-    http = new HTTPRestProcessor(baseUrl: 'https://api.planadoapp.com/api/v1/')
-    http.httpClient.client.setRedirectStrategy(new LaxRedirectStrategy())
+    this.logger = new SimpleLogger(execution)
+    this.planadoApiKey = execution.getVariable('planadoApiKey')
+    def headers = ["X-Planado-Api-Token": planadoApiKey]
+    def url = 'https://api.planadoapp.com/api/v1/'
+    http = new HTTPRestProcessor(baseUrl: url,
+                                 headers: headers)
   }
 
   private String __makeExtID(String s) {
@@ -33,10 +35,10 @@ class Planado {
       return http.sendRequest(
           'get',
           path: "clients/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
@@ -49,7 +51,7 @@ class Planado {
           headers: ["X-Planado-Api-Token": planadoApiKey]
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
@@ -62,7 +64,7 @@ class Planado {
           headers: ["X-Planado-Api-Token": planadoApiKey]
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       logger.error(ex)
     }
   }
@@ -112,9 +114,7 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: JsonOutput.toJson(payload))
 
     return extID
   }
@@ -165,9 +165,7 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: JsonOutput.toJson(payload))
 
     return extID
   }
@@ -176,28 +174,25 @@ class Planado {
     try {
       http.sendRequest(
           "delete",
-          path: "jobs/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "jobs/${extID}.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       logger.error(ex)
     }
   }
 
   String createJob(Map jobData) {
     HashMap payload = [
-        template_id:    jobData.templateId,
-        client_id:      jobData.clientId,
-        scheduled_at:   jobData.startDate
+        template_id  : jobData.templateId,
+        client_id    : jobData.clientId,
+        scheduled_at : jobData.startDate
     ]
 
     def res = http.sendRequest(
         'post',
         path: 'jobs.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: JsonOutput.toJson(payload))
 
     return res?.job_id?:null
   }
@@ -206,11 +201,10 @@ class Planado {
     try {
       return http.sendRequest(
           'get',
-          path: "jobs/${jobID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "jobs/${jobID}.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
@@ -223,7 +217,7 @@ class Planado {
           headers: ["X-Planado-Api-Token": planadoApiKey]
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }

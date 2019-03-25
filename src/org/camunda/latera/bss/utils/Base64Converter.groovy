@@ -6,6 +6,10 @@ class Base64Converter {
     return Base64.getEncoder().encodeToString(bytes)
   }
 
+  static String to(String str) {
+    return Base64.getEncoder().encodeToString(str.getBytes())
+  }
+
   static byte[] from(String str) {
     return Base64.getDecoder().decode(str)
   }

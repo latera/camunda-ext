@@ -1,7 +1,10 @@
 package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.*
+import java.time.LocalDateTime
+import org.codehaus.groovy.runtime.GStringImpl
 import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.Oracle
 import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
@@ -18,9 +21,11 @@ class HID implements Table {
     this.proxy.setBasicAuth(user, password)
   }
 
-  Object queryDatabase(String query, Boolean asMap = false) {
+  Object queryDatabase(String query, Boolean asMap = false, Boolean noLimit = false) {
     List result = []
-    List rows = this.proxy.invokeMethod('SELECT', [query]).SelectResult
+    def pageNumber = noLimit ? 0 : 1
+    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query, pageNumber])
+    List rows = answer.SelectResult
     if (rows) {
       rows.each{ row ->
         // There is row number, just remove it
@@ -49,7 +54,7 @@ class HID implements Table {
     return result
   }
 
-  Object queryFirst(String query, Boolean asMap = false) {
+  Object queryFirst(String query, Boolean asMap = false, Boolean noLimit = false) {
     def result = this.queryDatabase(query, asMap)
 
     if (result) {
@@ -62,6 +67,12 @@ class HID implements Table {
   Object execute(String execName, LinkedHashMap params) {
     LinkedHashMap encodedParams = [:]
     params.each{ key, value ->
+      if (DateTimeUtil.isDate(value)) {
+        value = Oracle.encodeDate(value)
+      }
+      if (value instanceof GStringImpl) {
+        value = value.toString()
+      }
       encodedParams[key] = Oracle.encodeNull(value)
     }
     return this.proxy.invokeMethod(execName, [encodedParams])

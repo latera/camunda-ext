@@ -30,14 +30,45 @@ class StringUtil {
     return null
   }
 
-  static Boolean notEmpty(String input) {
+  static String camelize(String input, Boolean firstUpper = false) {
+    def words = input.split(/_/);
+    String first = firstUpper ? capitalize(words[0]) : words[0].toLowerCase();
+    StringBuilder builder = new StringBuilder(first);
+    for (int i = 1; i < words.length; i++) {
+      builder.append(capitalize(words[i]))
+    }
+    return builder.toString()
+  }
+
+  static String camelize(LinkedHashMap options, String input) {
+    return camelize(input, options.firstUpper)
+  }
+
+  static String capitalize(String input){
+    return input?.capitalize()
+  }
+
+  static String decapitalize(String input){
+    if (input.length() == 0) {
+      return ''
+    } else if (input.length() == 1) {
+      return input.toLowerCase()
+    } else {
+      return (input?.getAt(0).toLowerCase() + input?.substring(1)).toString()
+    }
+  }
+
+  static Boolean notEmpty(def input) {
     if (input) {
-      return (input?.trim() as boolean)
+      if (input instanceof String) {
+        return (input.trim() as Boolean)
+      }
+      return (input as Boolean)
     }
     return false
   }
 
-  static Boolean isEmpty(String input) {
+  static Boolean isEmpty(def input) {
     return !notEmpty(input)
   }
 

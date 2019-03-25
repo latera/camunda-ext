@@ -5,10 +5,8 @@ import org.camunda.bpm.engine.delegate.ExecutionListener
 import org.camunda.latera.bss.logging.SimpleLogger
 
 class EventLogging implements ExecutionListener {
-
   void notify(DelegateExecution execution) {
-
     String eventString = "Occurred ${execution.getEventName()} ${execution.getCurrentActivityId()} ${execution.getCurrentActivityName()?:''}"
-    new SimpleLogger(execution).log(eventString, 'info')
+    new SimpleLogger(execution).info(eventString)
   }
 }

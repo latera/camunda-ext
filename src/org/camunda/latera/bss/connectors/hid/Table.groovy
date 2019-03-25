@@ -1,10 +1,13 @@
 package org.camunda.latera.bss.connectors.hid
 
+import org.camunda.latera.bss.utils.DateTimeUtil
+import org.camunda.latera.bss.utils.Oracle
+
 trait Table {
   private static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
   private static LinkedHashMap DEFAULT_WHERE       = [:]
+  private static LinkedHashMap DEFAULT_ORDER       = [:]
   private static List          DEFAULT_FIELDS      = null
-  private static List          DEFAULT_ORDER       = null
 
   List getTableColumns(String tableName, String tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
@@ -18,7 +21,7 @@ trait Table {
         FROM   ALL_TAB_COLUMNS
         WHERE  TABLE_NAME = '${tableName}'
         AND    OWNER      = '${tableOwner}'
-      """)
+      """, false, true)
 
       columnsList = result*.getAt(0) //get only first column values
 
@@ -33,7 +36,7 @@ trait Table {
     String tableName,
     fields = DEFAULT_FIELDS,
     LinkedHashMap where = DEFAULT_WHERE,
-    List order = DEFAULT_ORDER
+    order = DEFAULT_ORDER
   ) {
     String query = "SELECT"
     
@@ -43,16 +46,20 @@ trait Table {
     
     fields.each{ field ->
       query += """
-      '${field.toLowerCase()}', ${field}""" + (field == fields.last() ? '' : ',')
+      '${field.toLowerCase()}', T.${field}""" + (field == fields.last() ? '' : ',')
     }
     query += """
-    FROM ${tableName}"""
+    FROM ${tableName} T"""
 
     if (where?.size() > 0) {
       query += """
     WHERE 1 = 1"""
 
       where.each{ field, value ->
+        if (field ==~ /^[_]+(.*)$/) {
+          //Allow to use same fields name several times
+          field = field.replaceFirst(/^[_]+(.*)$/, '$1')
+        }
         if (value instanceof LinkedHashMap) {
           value.each { condition, content ->
             query += """
@@ -66,6 +73,9 @@ trait Table {
         } else if (value instanceof String) {
           query += """
     AND ${field} = '${value}'"""
+        } else if (DateTimeUtil.isDate(value)) {
+          query += """
+    AND ${field} = ${Oracle.encodeDateStr(value)}"""
         } else {
           query += """
     AND ${field} = ${value}"""
@@ -76,9 +86,17 @@ trait Table {
     if (order?.size() > 0) {
       query += """
     ORDER BY"""
-      order.each{column ->
+
+      if (order instanceof LinkedHashMap) {
+        order.each { column, direction ->
         query += """
-        ${column}""" + (column == order.last() ? '' : ',')
+          ${column} ${direction}""" + (column == order.keySet().last() ? '' : ',')
+        }
+      } else if (order instanceof List) {
+        order.each { column ->
+        query += """
+          ${column}""" + (column == order.last() ? '' : ',')
+        }
       }
     }
     return queryDatabase(query, true)
@@ -89,9 +107,9 @@ trait Table {
     String tableName
   ) {
     LinkedHashMap params = [
-      fields: DEFAULT_FIELDS,
-      where:  DEFAULT_WHERE,
-      order:  DEFAULT_ORDER
+      fields : DEFAULT_FIELDS,
+      where  : DEFAULT_WHERE,
+      order  : DEFAULT_ORDER
     ] + options
     return getTableData(tableName, params.fields, params.where, params.order)
   }
@@ -100,10 +118,10 @@ trait Table {
     LinkedHashMap input
   ) {
     LinkedHashMap params = [
-      tableName: '',
-      fields:    DEFAULT_FIELDS,
-      where:     DEFAULT_WHERE,
-      order:     DEFAULT_ORDER
+      tableName : '',
+      fields    : DEFAULT_FIELDS,
+      where     : DEFAULT_WHERE,
+      order     : DEFAULT_ORDER
     ] + input
     return getTableData(params.tableName, params.fields, params.where, params.order)
   }
@@ -112,7 +130,7 @@ trait Table {
     String tableName,
     fields = DEFAULT_FIELDS,
     LinkedHashMap where = DEFAULT_WHERE,
-    List order = DEFAULT_ORDER
+    order = DEFAULT_ORDER
   ) {
     if (fields instanceof String && fields != '*') {
       return getTableData(tableName, [fields], where)?.getAt(0)?."${fields}"
@@ -125,9 +143,9 @@ trait Table {
     String tableName
   ) {
     LinkedHashMap params = [
-      fields: DEFAULT_FIELDS,
-      where:  DEFAULT_WHERE,
-      order:  DEFAULT_ORDER
+      fields : DEFAULT_FIELDS,
+      where  : DEFAULT_WHERE,
+      order  : DEFAULT_ORDER
     ] + options
     return getTableFirst(tableName, params.fields, params.where, params.order)
   }
@@ -136,10 +154,10 @@ trait Table {
     LinkedHashMap input
   ) {
     LinkedHashMap params = [
-      tableName: '',
-      fields:    DEFAULT_FIELDS,
-      where:     DEFAULT_WHERE,
-      order:     DEFAULT_ORDER
+      tableName : '',
+      fields    : DEFAULT_FIELDS,
+      where     : DEFAULT_WHERE,
+      order     : DEFAULT_ORDER
     ] + input
     return getTableFirst(params.tableName, params.fields, params.where, params.order)
   }

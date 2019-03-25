@@ -13,7 +13,7 @@
     <camunda.commons.version>1.5.0</camunda.commons.version>
     <slf4j.version>1.7.7</slf4j.version>
     <commons-io.version>2.6</commons-io.version>
-    <http-builder.version>0.7.1</http-builder.version>
+    <http-builder-ng.version>1.0.3</http-builder-ng.version>
     <groovy-xmlrpc.version>0.8</groovy-xmlrpc.version>
     <httpclient.version>4.5.6</httpclient.version>
     <httpcore.version>4.4.10</httpcore.version>
@@ -78,9 +78,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.groovy.modules.http-builder</groupId>
-      <artifactId>http-builder</artifactId>
-      <version>${http-builder.version}</version>
+      <groupId>io.github.http-builder-ng</groupId>
+      <artifactId>http-builder-ng-core</artifactId>
+      <version>${http-builder-ng.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
