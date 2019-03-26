@@ -4,20 +4,21 @@ import org.camunda.latera.bss.utils.Oracle
 import org.camunda.latera.bss.utils.StringUtil
 
 trait Customer {
-  private static String CUSTOMERS_TABLE           = 'SI_V_USERS'
-  private static String CUSTOMER_TYPE             = 'SUBJ_TYPE_User'
-  private static String NET_SERVICE_TYPE          = 'SUBJ_SERV_ServiceUse'
-  private static String APPLICATION_TYPE          = 'SUBJ_SERV_AppAccess'
-  private static String AUTH_LOGIN_PASS_TYPE      = 'AUTH_TYPE_LoginPass'
-  private static String PASS_HASH_MD5_TYPE        = 'PASS_HASH_TYPE_MD5'
-  private static String PASS_HASH_SHA1_TYPE       = 'PASS_HASH_TYPE_SHA1'
-  private static String PASS_HASH_SSHA1_TYPE      = 'PASS_HASH_TYPE_SSHA1'
-  private static String PASS_HASH_CRYPT_TYPE      = 'PASS_HASH_TYPE_Crypt'
-  private static String PASS_HASH_MD5_SALTY_TYPE  = 'PASS_HASH_TYPE_MD5_salty'
-  private static String PASS_HASH_SHA1_SALTY_TYPE = 'PASS_HASH_TYPE_SHA1_salty'
-  private static String SELF_CARE_APPLICATION     = 'NETSERV_ARM_Private_Office'
-  private static String ISP_APPLICATION           = 'NETSERV_ARM_ISP'
-  private static String HID_APPLICATION           = 'NETSERV_HID'
+  private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
+  private static String CUSTOMER_NET_SERVICES_TABLE = 'SI_SUBJ_SERVICES'
+  private static String CUSTOMER_TYPE               = 'SUBJ_TYPE_User'
+  private static String NET_SERVICE_TYPE            = 'SUBJ_SERV_ServiceUse'
+  private static String APPLICATION_TYPE            = 'SUBJ_SERV_AppAccess'
+  private static String AUTH_LOGIN_PASS_TYPE        = 'AUTH_TYPE_LoginPass'
+  private static String PASS_HASH_MD5_TYPE          = 'PASS_HASH_TYPE_MD5'
+  private static String PASS_HASH_SHA1_TYPE         = 'PASS_HASH_TYPE_SHA1'
+  private static String PASS_HASH_SSHA1_TYPE        = 'PASS_HASH_TYPE_SSHA1'
+  private static String PASS_HASH_CRYPT_TYPE        = 'PASS_HASH_TYPE_Crypt'
+  private static String PASS_HASH_MD5_SALTY_TYPE    = 'PASS_HASH_TYPE_MD5_salty'
+  private static String PASS_HASH_SHA1_SALTY_TYPE   = 'PASS_HASH_TYPE_SHA1_salty'
+  private static String SELF_CARE_APPLICATION       = 'NETSERV_ARM_Private_Office'
+  private static String ISP_APPLICATION             = 'NETSERV_ARM_ISP'
+  private static String HID_APPLICATION             = 'NETSERV_HID'
 
   def getCustomersTable() {
     return CUSTOMERS_TABLE
@@ -25,6 +26,10 @@ trait Customer {
 
   def getCustomerType() {
     return CUSTOMER_TYPE
+  }
+
+  def getCustomerNetServicesTable() {
+    return CUSTOMER_NET_SERVICES_TABLE
   }
 
   def getCustomerTypeId() {
@@ -196,7 +201,6 @@ trait Customer {
     return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
   }
 
-
   LinkedHashMap putCustomer(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
@@ -273,7 +277,7 @@ trait Customer {
   }
 
   List getCustomerNetServicesAccessBy(LinkedHashMap input) {
-    def params = mergeParams([
+    LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
       netServiceId   : null,
@@ -315,7 +319,7 @@ trait Customer {
     if (params.hashTypeId) {
       where.n_hash_type_id = hashTypeId
     }
-    return hid.getTableData(getSubjectNetServicesTable(), where:where)
+    return hid.getTableData(getCustomerNetServicesTable(), where:where)
   }
 
   LinkedHashMap getCustomerNetServiceAccessBy(LinkedHashMap input) {
@@ -399,7 +403,7 @@ trait Customer {
   }
 
   List getCustomerAppsAccessBy(LinkedHashMap input) {
-    def params = mergeParams([
+    LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
       applicationId  : null,

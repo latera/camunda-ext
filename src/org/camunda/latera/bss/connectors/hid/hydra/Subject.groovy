@@ -7,7 +7,6 @@ trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'
   private static String SUBJECT_ADD_PARAM_TYPES_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
-  private static String SUBJECT_NET_SERVICES_TABLE    = 'SI_SUBJ_SERVICES'
   private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
@@ -25,8 +24,8 @@ trait Subject {
     return SUBJECT_ADD_PARAM_TYPES_TABLE
   }
 
-  def getSubjectNetServicesTable() {
-    return SUBJECT_NET_SERVICES_TABLE
+  def getSubjectGroupsTable() {
+    return SUBJECT_GROUPS_TABLE
   }
 
   def getSubjectStateOn() {
@@ -226,7 +225,7 @@ trait Subject {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getSubjectAddParamsTable(), where:where)
+    return hid.getTableData(getSubjectAddParamsTable(), where: where)
   }
 
   LinkedHashMap getSubjectAddParamBy(LinkedHashMap input) {
