@@ -7,6 +7,7 @@ trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'
   private static String SUBJECT_ADD_PARAM_TYPES_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
+  private static String SUBJECT_GROUPS_TABLE          = 'SI_V_SUBJECT_BIND_GROUPS'
   private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
@@ -282,5 +283,97 @@ trait Subject {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  List getSubjectGroupsBy(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      subjectId : null,
+      groupId   : null,
+      isMain    : null
+    ], input)
+    LinkedHashMap where = [:]
+    LinkedHashMap order = [c_fl_main: 'DESC']
+
+    if (params.subjectId) {
+      where.n_subject_id = params.subjectId
+    }
+    if (params.groupId) {
+      where.n_subj_group_id = params.groupId
+    }
+    if (params.isMain != null) {
+      where.c_fl_main = Oracle.encodeBool(params.isMain)
+    }
+    return hid.getTableData(getSubjectGroupsTable(), where: where, order: order)
+  }
+
+  LinkedHashMap getSubjectGroupBy(LinkedHashMap input) {
+    return getSubjectGroupsBy(input)?.getAt(0)
+  }
+
+  List getSubjectGroups(def subjectId) {
+    return getSubjectGroupsBy(subjectId: subjectId)
+  }
+
+  LinkedHashMap getSubjectGroup(def subjectId) {
+    return getSubjectGroupBy(subjectId: subjectId, isMain: true)
+  }
+
+  LinkedHashMap putSubjectGroup(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      subjSubjectId : null,
+      subjectId     : null,
+      groupId       : null,
+      isMain        : null
+    ], input)
+    try {
+      logger.info("Putting subject id ${params.subjectId} group id ${params.groupId} with main flag ${params.isMain}")
+
+      LinkedHashMap subjSubject = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SUBJECTS_PUT', [
+        num_N_SUBJ_SUBJECT_ID : params.subjSubjectId,
+        num_N_SUBJECT_ID      : params.subjectId,
+        num_N_SUBJECT_BIND_ID : params.groupId,
+        ch_C_FL_MAIN          : Oracle.encodeBool(params.isMain)
+      ])
+      logger.info("   Subject group was put successfully!")
+      return subjSubject
+    } catch (Exception e){
+      logger.error("   Error while putting subject group!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  Boolean deleteSubjectGroup(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      subjSubjectId : null,
+      subjectId     : null,
+      groupId       : null,
+      isMain        : null
+    ], input)
+    try {
+      if (params.subjSubjectId == null) {
+        def group = getSubjectGroupBy(input)
+        if (group) {
+          params.subjSubjectId = group.n_subj_subject_id
+        } else {
+          throw new Exception('No group found!')
+        }
+      }
+
+      logger.info("Deleting subject group id ${subjSubjectId}")
+      hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_SUBJECTS_DEL', [
+        num_N_SUBJ_SUBJECT_ID : subjSubjectId
+      ])
+      logger.info("   Subject group was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting a subject group!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteSubjectGroup(def subjSubjectId) {
+    return deleteSubjGroup(subjSubjectId: subjSubjectId)
   }
 }

@@ -276,6 +276,50 @@ trait Customer {
     disableSubject(customerId)
   }
 
+  List getCustomerGroupsBy(LinkedHashMap input) {
+    if (input.containsKey('customerId')) {
+      input.subjectId = input.customerId
+      input.remove('customerId')
+    }
+    return getSubjectGroupsBy(input)
+  }
+
+  LinkedHashMap getCustomerGroupBy(LinkedHashMap input) {
+    if (input.containsKey('customerId')) {
+      input.subjectId = input.customerId
+      input.remove('customerId')
+    }
+    return getSubjectGroupBy(input)
+  }
+
+  List getCustomerGroups(def customerId) {
+    return getSubjectGroups(customerId)
+  }
+
+  List getCustomerGroup(def customerId) {
+    return getSubjectGroup(customerId)
+  }
+
+  LinkedHashMap putCustomerGroup(LinkedHashMap input) {
+    if (input.containsKey('customerId')) {
+      input.subjectId = input.customerId
+      input.remove('customerId')
+    }
+    return putSubjectGroup(input)
+  }
+
+  Boolean deleteCustomerGroup(LinkedHashMap input) {
+    if (input.containsKey('customerId')) {
+      input.subjectId = input.customerId
+      input.remove('customerId')
+    }
+    return deleteSubjectGroup(input)
+  }
+
+  Boolean deleteCustomerGroup(def customerId) {
+    return deleteSubjectGroup(customerId)
+  }
+
   List getCustomerNetServicesAccessBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
