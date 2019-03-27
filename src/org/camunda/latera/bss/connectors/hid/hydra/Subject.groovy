@@ -217,7 +217,7 @@ trait Subject {
     if (params.string) {
       where.vc_value = params.string
     }
-    if (params.paramInumberd) {
+    if (params.number) {
       where.n_value = params.number
     }
     if (params.bool != null) {
