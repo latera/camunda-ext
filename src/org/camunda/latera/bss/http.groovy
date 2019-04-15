@@ -6,6 +6,7 @@ import groovyx.net.http.HttpException
 import org.apache.commons.io.IOUtils
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.JSON
 
 class HTTPRestProcessor {
   HttpBuilder httpClient
@@ -107,6 +108,10 @@ class HTTPRestProcessor {
     }
 
     logger.info("/ Sending HTTP ${method.toUpperCase()} request (${baseUrl}${params.path})...")
+
+    if (params.body) {
+      params.body = JSON.escape(params.body)
+    }
     if (params.body || params.query) {
       logger.info("Request data: ------")
       if (!supressRequestBody) {
