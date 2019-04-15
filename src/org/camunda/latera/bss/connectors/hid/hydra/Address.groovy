@@ -66,11 +66,10 @@ trait Address {
     return getRefIdByCode(getDefaultAddressState())
   }
 
-  List getEntityAddresses(LinkedHashMap input) {
+  List getObjAddresses(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      entityAddressId : null,
-      entityTypeId    : null,
-      entityId        : null,
+      objAddressId    : null,
+      objectId        : null,
       addressId       : null,
       addrTypeId      : getDefaultAddressTypeId(),
       parAddressId    : null,
@@ -88,19 +87,16 @@ trait Address {
       beginDate       : null,
       endDate         : null
     ], input)
-    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
-    String entityPrefix = isSubj ? 'subj' : 'obj'
-    String tableName    = isSubj ? getSubjectAddressesTable() : getObjectAddressesTable()
 
     LinkedHashMap where = [:]
-    if (params.entityAddressId) {
-      where."n_${entityPrefix}_address_id" = params.entityAddressId
+    if (params.objAddressId) {
+      where.objAddressId = params.objAddressId
     }
-    if (params.entityId) {
-      where."n_${entityPrefix}ect_id" = params.entityId
+    if (params.objectId) {
+      where.n_object_id = params.objectId
     }
     if (params.bindAddrTypeId) {
-      where."n_${entityPrefix}_addr_type_id" = params.bindAddrTypeId
+      where.n_obj_addr_type_id = params.bindAddrTypeId
     }
     if (params.addressId) {
       where.n_address_id = params.addressId
@@ -139,20 +135,131 @@ trait Address {
       where.c_fl_main = Oracle.encodeBool(params.isMain)
     }
     // Only for objects addresses
-    if (!isSubj && params.beginDate) {
+    if (params.beginDate) {
       where.d_begin = params.beginDate
     }
-    if (!isSubj && params.endDate) {
+    if (params.endDate) {
       where.d_end = params.endDate
     }
-    if (!isSubj && !params.operationDate && !params.endDate && !params.beginDate) {
+    if (!params.operationDate && !params.endDate && !params.beginDate) {
       params.operationDate = DateTimeUtil.now()
     }
-    if (!isSubj && params.operationDate) {
+    if (params.operationDate) {
       String oracleDate = Oracle.encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    return hid.getTableData(tableName, where: where, order: ['C_FL_MAIN DESC'])
+    return hid.getTableData(getObjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
+  }
+
+  LinkedHashMap getSubjAddress(LinkedHashMap input) {
+    return getSubjAddresses(input)?.getAt(0)
+  }
+
+  List getSubjAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      subjAddressId   : null,
+      subjectId       : null,
+      addressId       : null,
+      addrTypeId      : getDefaultAddressTypeId(),
+      parAddressId    : null,
+      code            : null,
+      regionId        : null,
+      rawAddress      : null,
+      flat            : null,
+      floor           : null,
+      entrance        : null,
+      rem             : null,
+      bindAddrTypeId  : getDefaultAddressBindTypeId(),
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null
+    ], input)
+
+    LinkedHashMap where = [:]
+    if (params.subjAddressId) {
+      where.n_sub_address_id = params.subjAddressId
+    }
+    if (params.subjectId) {
+      where.n_subject_id = params.subjectId
+    }
+    if (params.bindAddrTypeId) {
+      where.n_subj_addr_type_id = params.bindAddrTypeId
+    }
+    if (params.addressId) {
+      where.n_address_id = params.addressId
+    }
+    if (params.addrTypeId) {
+      where.n_addr_type_id = params.addrTypeId
+    }
+    if (params.parAddressId) {
+      where.n_par_addr_id = params.parAddressId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.regionId) {
+      where.n_region_id = params.regionId
+    }
+    if (params.rawAddress) {
+      where.vc_address = params.rawAddress
+    }
+    if (params.flat) {
+      where.vc_flat = params.flat
+    }
+    if (params.floor) {
+      where.n_floor = params.floor
+    }
+    if (params.entrance) {
+      where.n_entrance_no = params.entrance
+    }
+    if (params.rem) {
+      where.vc_rem = params.rem
+    }
+    if (params.stateId) {
+      where.n_addr_state_id = params.stateId
+    }
+    if (params.isMain != null) {
+      where.c_fl_main = Oracle.encodeBool(params.isMain)
+    }
+    return hid.getTableData(getSubjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
+  }
+
+  LinkedHashMap getObjAddress(LinkedHashMap input) {
+    return getObjAddresses(input)?.getAt(0)
+  }
+
+  List getEntityAddresses(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      entityAddressId : null,
+      entityTypeId    : null,
+      entityId        : null,
+      addressId       : null,
+      addrTypeId      : getDefaultAddressTypeId(),
+      parAddressId    : null,
+      code            : null,
+      regionId        : null,
+      rawAddress      : null,
+      flat            : null,
+      floor           : null,
+      entrance        : null,
+      rem             : null,
+      bindAddrTypeId  : getDefaultAddressBindTypeId(),
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      operationDate   : null,
+      beginDate       : null,
+      endDate         : null
+    ], input)
+    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
+
+    if (isSubj) {
+      params.subjAddressId = params.entityAddressId
+      params.subjectId     = params.entityId
+      return getSubjAddresses(params)
+    } else {
+      params.objAddressId  = params.entityAddressId
+      params.objectId      = params.entityId
+      return getObjAddresses(params)
+    }
   }
 
   LinkedHashMap getEntityAddress(LinkedHashMap input) {
@@ -331,46 +438,18 @@ trait Address {
     Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
 
     if (isSubj) {
-      def address = putSubjAddress(
-        subjAddressId  : params.entityAddressId,
-        addressId      : params.addressId,
-        subjectId      : params.entityId,
-        bindAddrTypeId : params.bindAddrTypeId,
-        addrTypeId     : params.addrTypeId,
-        code           : params.code,
-        regionId       : params.regionId,
-        rawAddress     : params.rawAddress,
-        flat           : params.flat,
-        floor          : params.floor,
-        entrance       : params.entrance,
-        rem            : params.rem,
-        stateId        : params.stateId,
-        isMain         : params.isMain
-      )
+      params.subjAddressId = params.entityAddressId
+      params.subjectId     = params.entityId
+      def address = putSubjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_SUBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_SUBJECT_ID
       }
       return address
     } else {
-      def address = putObjAddress(
-        objAddressId   : params.entityAddressId,
-        addressId      : params.addressId,
-        objectId       : params.entityId,
-        bindAddrTypeId : params.bindAddrTypeId,
-        addrTypeId     : params.addrTypeId,
-        code           : params.code,
-        regionId       : params.regionId,
-        rawAddress     : params.rawAddress,
-        flat           : params.flat,
-        floor          : params.floor,
-        entrance       : params.entrance,
-        rem            : params.rem,
-        stateId        : params.stateId,
-        isMain         : params.isMain,
-        beginDate      : params.beginDate,
-        endDate        : params.endDate
-      )
+      params.objAddressId  = params.entityAddressId
+      params.objectId      = params.entityId
+      def address = putObjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_OBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_OBJECT_ID
