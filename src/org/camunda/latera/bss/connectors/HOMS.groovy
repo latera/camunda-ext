@@ -77,21 +77,20 @@ class HOMS {
     def orderData = Order.getData(execution)
     LinkedHashMap body = [
       order: [
-        data: orderData ?: [:]
+        data: orderData
       ]
     ]
-    logger.log('/ Saving order data...', 'info')
+    logger.info('/ Saving order data...')
     def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
                                             body: body,
                                             'put')
-    logger.log('\\ Order data saved', 'info')
+    logger.info('\\ Order data saved')
   }
 
   void getOrderData() {
-    logger.log('/ Receiving order data...', "info")
+    logger.info('/ Receiving order data...')
     def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
                                             'get')
-    Order.saveData(result.order.data, execution)
     homsOrderId = result.order.id
     execution.setVariable('homsOrderId', homsOrderId)
 
@@ -99,8 +98,9 @@ class HOMS {
     result.order.data.each { k,v -> //Magic, do not touch
       orderData[k] = v
     }
+    Order.saveData(orderData, execution)
     execution.setVariable('homsOrdDataBuffer', orderData)
-    logger.log('\\ Order data received', "info")
+    logger.info('\\ Order data received')
   }
 
   void finishOrder() {

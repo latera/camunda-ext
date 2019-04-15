@@ -17,7 +17,7 @@ class AutoSaveOrderData implements ExecutionListener {
         def homs = new HOMS(execution)
         homs.saveOrderData()
       } else {
-        logger.log('Order data has not changed, save not needed', "info")
+        logger.info('Order data has not changed, save not needed')
       }
     }
   }

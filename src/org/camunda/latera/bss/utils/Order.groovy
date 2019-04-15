@@ -7,7 +7,7 @@ class Order {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
       if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
-        String dataKey = key.replaceFirst(/^homsOrderData/, "")
+        String dataKey = key.replaceFirst(/^homsOrderData/, '')
         data[StringUtil.decapitalize(dataKey)] = value
       }
     }
