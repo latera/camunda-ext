@@ -200,7 +200,7 @@ trait Document {
       String oracleDate = Oracle.encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    def order = [d_begin: 'asc']
+    def order = [d_begin: 'asc', vc_doc_no: 'asc']
     return hid.getTableData(getDocumentsTable(), where: where, order: order)
   }
 
