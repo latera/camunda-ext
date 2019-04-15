@@ -458,7 +458,7 @@ trait Customer {
       passwordHash   : null,
       hashTypeId     : null
     ], input)
-    return getCustomerNetServiceAccessBy(params + [netServiceId: params.appId])
+    return getCustomerNetServicesAccessBy(params + [netServiceId: params.appId])
   }
 
   LinkedHashMap getCustomerAppAccessBy(LinkedHashMap input) {
