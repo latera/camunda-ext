@@ -19,17 +19,18 @@ trait Subscription {
 
   List getSubscriptionsBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      subscriptionId    : null,
-      customerId        : null,
-      accountId         : null,
-      docId             : null,
-      goodId            : null,
-      equipmentId       : null,
-      parSubscriptionId : null,
-      isClosed          : null,
-      operationDate     : null,
-      beginDate         : null,
-      endDate           : null
+      subscriptionId     : null,
+      customerId         : null,
+      accountId          : null,
+      docId              : null,
+      goodId             : null,
+      equipmentId        : null,
+      parSubscriptionId  : null,
+      prevSubscriptionId : null,
+      isClosed           : null,
+      operationDate      : null,
+      beginDate          : null,
+      endDate            : null
     ], input)
     LinkedHashMap where = [:]
 
@@ -53,6 +54,9 @@ trait Subscription {
     }
     if (params.parSubscriptionId) {
       where.n_par_subscription_id = params.parSubscriptionId
+    }
+    if (params.prevSubscriptionId) {
+      where.n_prev_subscription_id = params.prevSubscriptionId
     }
     if (params.isClosed != null) {
       where.c_fl_closed = Oracle.encodeBool(params.isClosed)
