@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.DateTimeUtil
+import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.Oracle
 import java.time.LocalDateTime
 
@@ -73,14 +74,15 @@ trait Contract {
     ]
     LinkedHashMap params = mergeParams(defaultParams, input)
     try {
-      def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId']
+      def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
-      if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames)) {
+      if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && StringUtil.isEmpty(params.number)) {
         logger.info("Creating new contract with receiver ${params.receiverId} and parent ${params.parentDocId}")
         contract = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
           num_N_USER_ID          : params.receiverId,
           num_N_FIRM_ID          : params.providerId,
-          num_N_BASE_CONTRACT_ID : params.parentDocId
+          num_N_BASE_CONTRACT_ID : params.parentDocId,
+          num_N_CONTRACT_ID      : null
         ])
         contract.num_N_DOC_ID = contract.num_N_CONTRACT_ID
         logger.info("   Contract ${contract.num_N_DOC_ID} was put successfully!")
