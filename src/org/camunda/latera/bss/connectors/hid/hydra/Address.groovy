@@ -791,7 +791,7 @@ trait Address {
           SI_V_OBJ_ADDRESSES OA
       WHERE
           OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-      AND OA.N_ADDRESS_ID        = RA.N_ADDRESS_ID
+      AND OA.N_ADDRESS_ID        = FA.N_ADDRESS_ID
       AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
     )"""
     def notAssignedChild = params.mask != '30' ? """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
@@ -808,93 +808,58 @@ trait Address {
       AND RP.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
       AND RP.N_PROVIDER_ID       = ${params.firmId}
       START WITH
-          RP.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+          RP.N_PAR_ADDR_ID       = FA.N_ADDRESS_ID
       CONNECT BY PRIOR
           RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
     )""" : '1=1'
 
     // WARN Чтобы получение подсети работало, подсети нужного размера должны быть нарезаны
     try {
-      if (params.groupId) {
-        addresses = hid.queryDatabase("""
-          WITH SUBNETS AS (
-            SELECT DISTINCT
-                A.N_ADDRESS_ID,
-                A.VC_CODE,
-                A.N_VALUE,
-                RA.N_PAR_ADDR_ID
-            FROM
-                SI_V_ADDRESSES   A,
-                RG_PAR_ADDRESSES RG,
-                RG_PAR_ADDRESSES RA
-            WHERE
-                ${filter}
-            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-            AND RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
-            AND ${notAssigned}
-            AND ${notAssignedChild}
-            START WITH
-                RA.N_ADDRESS_ID        = RG.N_ADDRESS_ID
-            AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-            AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-            AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-            AND RG.N_PROVIDER_ID       = ${params.firmId}
-            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-            AND RA.N_PROVIDER_ID       = ${params.firmId}
-            CONNECT BY PRIOR
-                RA.N_ADDRESS_ID        = RA.N_PAR_ADDR_ID
-            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-            AND RA.N_PROVIDER_ID       = ${params.firmId}
-            ORDER BY A.N_VALUE ASC
-          )
-
-          SELECT
-              'n_subnet_id',   S.N_ADDRESS_ID,
-              'vc_subnet',     S.VC_CODE,
-              'n_par_addr_id', S.N_PAR_ADDR_ID
-          FROM SUBNETS S
-          WHERE ROWNUM < 10
-        """, true)
-      } else {
-        addresses = hid.queryDatabase("""
-          WITH SUBNETS AS (
-            SELECT DISTINCT
-                A.N_ADDRESS_ID,
-                A.VC_CODE,
-                A.N_VALUE,
-                RA.N_PAR_ADDR_ID
-            FROM
-                SI_V_ADDRESSES   A,
-                RG_PAR_ADDRESSES RA
-            WHERE
-                ${filter}
-            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-            AND RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
-            AND ${notAssigned}
-            AND ${notAssignedChild}
-            START WITH
-                RA.N_ADDRESS_ID        = ${params.rootId}
-            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-            AND RA.N_PROVIDER_ID       = ${params.firmId}
-            CONNECT BY PRIOR
-                RA.N_ADDRESS_ID        = RA.N_PAR_ADDR_ID
-            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-            AND RA.N_PROVIDER_ID       = ${params.firmId}
-            ORDER BY A.N_VALUE ASC
-          )
-
-          SELECT
-              'n_subnet_id',   S.N_ADDRESS_ID,
-              'vc_subnet',     S.VC_CODE,
-              'n_par_addr_id', S.N_PAR_ADDR_ID
-          FROM SUBNETS S
-          WHERE ROWNUM < 10
-        """, true)
-      }
+      addresses = hid.queryDatabase("""
+      WITH AVAILABLE_SUBNETS AS (
+        SELECT RA.*
+        FROM   RG_PAR_ADDRESSES   RA
+        WHERE  RA.N_PROVIDER_ID = ${params.firmId}
+        CONNECT BY PRIOR
+              RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
+        AND   RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+        START WITH
+              RA.N_PAR_ADDR_ID = ${params.groupId ? params.groupId : params.rootId}
+      ),
+      FILTERED_SUBNETS AS (
+        SELECT
+            AA.*,
+            A.VC_CODE,
+            A.N_VALUE
+        FROM
+            AVAILABLE_SUBNETS AA,
+            SI_V_ADDRESSES    A
+        WHERE
+            A.N_ADDRESS_ID        = AA.N_ADDRESS_ID
+        AND ${filter}
+        AND A.N_ADDR_TYPE_ID      = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+      ),
+      FREE_SUBNETS AS (
+        SELECT DISTINCT
+            *
+        FROM
+            FILTERED_SUBNETS FA
+        WHERE
+            ${notAssigned}
+        AND ${notAssignedChild}
+      ),
+      SORTED_SUBNETS AS (
+        SELECT *
+        FROM FREE_SUBNETS
+        ORDER BY N_VALUE
+      )
+      SELECT
+          'n_subnet_id',   N_ADDRESS_ID,
+          'vc_subnet',     VC_CODE,
+          'n_par_addr_id', N_PAR_ADDR_ID
+      FROM  SORTED_SUBNETS
+      WHERE ROWNUM < 10
+      """, true)
     } catch (Exception e){
       logger.error_oracle(e)
     }
