@@ -277,6 +277,7 @@ trait Address {
       flat         : null,
       floor        : null,
       entrance     : null,
+      providerId   : getFirmId(),
       rem          : null
     ], input)
 
@@ -307,6 +308,9 @@ trait Address {
     }
     if (params.entrance) {
       where.n_entrance_no = params.entrance
+    }
+    if (params.providerId) {
+      where."DECODE(n_provider_id, NULL, ${params.providerId}, n_provider_id)" = params.providerId
     }
     if (params.rem) {
       where.vc_rem = params.rem
