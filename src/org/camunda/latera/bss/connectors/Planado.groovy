@@ -1,12 +1,10 @@
 package org.camunda.latera.bss.connectors
 
-import groovy.json.JsonOutput
-import groovyx.net.http.HttpResponseException
+import groovyx.net.http.HttpException
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.apache.http.impl.client.LaxRedirectStrategy
-import java.net.URLEncoder
 
 import java.security.MessageDigest
 
@@ -16,10 +14,12 @@ class Planado {
   private SimpleLogger logger
 
   Planado(DelegateExecution execution) {
-    logger = new SimpleLogger(execution)
-    planadoApiKey = execution.getVariable('planadoApiKey')
-    http = new HTTPRestProcessor(baseUrl: 'https://api.planadoapp.com/api/v1/', execution: execution)
-    http.httpClient.client.setRedirectStrategy(new LaxRedirectStrategy())
+    this.logger = new SimpleLogger(execution)
+    this.planadoApiKey = execution.getVariable('planadoApiKey')
+    def headers = ["X-Planado-Api-Token": planadoApiKey]
+    def url = 'https://api.planadoapp.com/api/v1/'
+    http = new HTTPRestProcessor(baseUrl: url,
+                                 headers: headers)
   }
 
   private String __makeExtID(String s) {
@@ -29,46 +29,44 @@ class Planado {
     return new BigInteger(1, messageDigest.digest()).toString(16)
   }
 
-  Object getCustomer(String extID) {
+  Object getUser(String extID) {
     try {
       return http.sendRequest(
           'get',
           path: "clients/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
 
-  Object getCustomers() {
+  Object getUsers() {
     try {
       return http.sendRequest(
           'get',
-          path: "clients.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "clients.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
 
-  void deleteCustomer(String extID) {
+  void deleteUser(String extID) {
     try {
       http.sendRequest(
           "delete",
-          path: "clients/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "clients/${extID}.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       logger.error(ex)
     }
   }
 
-  String createCustomer(Map userData) {
+  String createUser(Map userData) {
     String extID = __makeExtID(
         [
             userData.firstName,
@@ -79,10 +77,10 @@ class Planado {
             userData.addressFloor,
             userData.addressApartment,
             userData.phone
-        ].findAll { it -> it.toString()?.trim()?.asBoolean() }.join(';')
+        ].findAll { it -> !it?.isEmpty() }.join(';')
     )
 
-    if (getCustomer(extID)) {
+    if (getUser(extID)) {
       logger.debug("User exists")
       return extID
     }
@@ -93,11 +91,11 @@ class Planado {
         first_name  : userData.firstName,
         middle_name : userData.middleName,
         last_name   : userData.lastName,
-        name        : [userData.lastName, userData.firstName].findAll { it -> it.toString()?.trim()?.asBoolean() }.join(' '),
+        name        : [userData.lastName, userData.firstName].findAll { it -> !it?.isEmpty() }.join(' '),
         site_address : [
             formatted  : userData.addressStreet,
-            entrance_no: userData.addressEntrance.toString(),
-            floor      : userData.addressFloor.toString(),
+            entrance_no: userData.addressEntrance,
+            floor      : userData.addressFloor,
             apartment  : userData.addressApartment,
             description: userData.addressDescription?:""
         ],
@@ -113,9 +111,7 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: payload)
 
     return extID
   }
@@ -131,10 +127,10 @@ class Planado {
             companyData.addressFloor,
             companyData.addressApartment,
             companyData.phone
-        ].findAll { it -> it.toString()?.trim()?.asBoolean() }.join(';')
+        ].findAll { it -> !it?.isEmpty() }.join(';')
     )
 
-    if (getCustomer(extID)) {
+    if (getUser(extID)) {
       logger.debug("Company exists")
       return extID
     }
@@ -144,8 +140,8 @@ class Planado {
         organization_name: companyData.companyName,
         site_address: [
             formatted  : companyData.addressStreet,
-            entrance_no: companyData.addressEntrance.toString(),
-            floor      : companyData.addressFloor.toString(),
+            entrance_no: companyData.addressEntrance,
+            floor      : companyData.addressFloor,
             apartment  : companyData.addressApartment,
             description: companyData.addressDescription?:""
         ],
@@ -166,94 +162,58 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: payload)
 
     return extID
   }
 
-  void deleteJob(Object jobID) {
+  void deleteJob(String jobID) {
     try {
       http.sendRequest(
           "delete",
-          path: "jobs/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "jobs/${extID}.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       logger.error(ex)
     }
   }
 
   String createJob(Map jobData) {
     HashMap payload = [
-        template_id:          jobData.templateId,
-        client_id:            jobData.clientId,
-        scheduled_at:         jobData.startDate,
-        assignee_subject_id:  jobData.assigneeId
+        template_id  : jobData.templateId,
+        client_id    : jobData.clientId,
+        scheduled_at : jobData.startDate
     ]
 
     def res = http.sendRequest(
         'post',
         path: 'jobs.json',
-        body: JsonOutput.toJson(payload),
-        headers: ["X-Planado-Api-Token": planadoApiKey],
-        requestContentType: "application/json")
+        body: payload)
 
     return res?.job_id?:null
   }
 
-  Object getJob(Object jobID) {
+  Object getJob(String jobID) {
     try {
       return http.sendRequest(
           'get',
-          path: "jobs/${jobID.toString()}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "jobs/${jobID}.json"
       )
     }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }
 
-  Object getJobTemplate(Object templateID) {
+  Object getJobTemplate(String templateID) {
     try {
       return http.sendRequest(
           'get',
-          path: "templates/${templateID.toString()}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "templates/${templateID}.json"
       )
     }
-    catch (HttpResponseException ex) {
-      return null
-    }
-  }
-
-  Object getUser(String email) {
-    try {
-      String emailEncoded = URLEncoder.encode(email, "UTF-8")
-      return http.sendRequest(
-          'get',
-          // uri instead of path because of incorrect urlencode behavior for '+'s and '@'s in path
-          uri: "https://api.planadoapp.com/api/v1/users/${emailEncoded}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
-      )
-    }
-    catch (HttpResponseException ex) {
-      return null
-    }
-  }
-
-  Object getUsers() {
-    try {
-      return http.sendRequest(
-          'get',
-          path: "users.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
-      )
-    }
-    catch (HttpResponseException ex) {
+    catch (HttpException ex) {
       return null
     }
   }

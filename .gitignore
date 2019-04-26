@@ -3,4 +3,4 @@
 .project
 activiti-ext.iml
 dst/*
-target/
+target/*

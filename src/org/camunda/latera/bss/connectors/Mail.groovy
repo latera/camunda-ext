@@ -2,38 +2,36 @@ package org.camunda.latera.bss.connectors
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import javax.mail.*
-import javax.mail.internet.*
-import javax.activation.*
+import javax.mail.Message
 
 class MailSender {
 
-  private String smtp_host
-  private Integer smtp_port
-  private String smtp_user
-  private String smtp_password
-  private Session session
-  private Message message
-  private Multipart multipart
+  private String     host
+  private Integer    port
+  private String     user
+  private String     password
+  private Session    session
+  private Message    message
+  private Multipart  multipart
   private Properties props
 
   MailSender(DelegateExecution execution) {
-    smtp_host = execution.getVariable('smtp_host')
-    smtp_port = execution.getVariable('smtp_port')?execution.getVariable('smtp_port').toInteger():587
-    smtp_user = execution.getVariable('smtp_user')
-    smtp_password = execution.getVariable('smtp_password')
+    host     = execution.getVariable('smtpHost')
+    port     = execution.getVariable('smtpPort') ?: 587
+    user     = execution.getVariable('smtpUser')
+    password = execution.getVariable('smtpPassword')
 
     props = System.getProperties()
-
-    props.put("mail.smtp.auth", "true")
+    props.put("mail.smtp.auth",           "true")
     props.put("mail.smtp.starttls.enable", true)
-    props.put("mail.smtp.ssl.trust", true)
-    props.put("mail.smtp.host", smtp_host)
-    props.put("mail.smtp.port", smtp_port)
-    props.put("mail.smtp.user", smtp_user)
-    props.put("mail.smtp.password", smtp_password)
+    props.put("mail.smtp.ssl.trust",       true)
+    props.put("mail.smtp.host",            host)
+    props.put("mail.smtp.port",            port)
+    props.put("mail.smtp.user",            user)
+    props.put("mail.smtp.password",        password)
 
-    session = Session.getDefaultInstance(props, null)
-    message = new MimeMessage(session)
+    session   = Session.getDefaultInstance(props, null)
+    message   = new MimeMessage(session)
     multipart = new MimeMultipart()
   }
 
@@ -41,7 +39,7 @@ class MailSender {
     message.setFrom(new InternetAddress(from))
   }
 
-  def addRecipient(String recipient, Message.RecipientType type=Message.RecipientType.TO) {
+  def addRecipient(String recipient, Message.RecipientType type = Message.RecipientType.TO) {
     message.addRecipient(type, new InternetAddress(recipient))
   }
 
@@ -64,7 +62,7 @@ class MailSender {
 
   def send(){
     Transport transport = session.getTransport("smtp")
-    transport.connect(smtp_host, smtp_port, smtp_user, smtp_password)
+    transport.connect(host, port, user, password)
     try {
       message.setContent(multipart)
       transport.sendMessage(message, message.getAllRecipients())
