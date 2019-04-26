@@ -77,7 +77,7 @@ trait Contract {
       def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
       if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && StringUtil.isEmpty(params.number)) {
-        logger.info("Creating new contract with receiver ${params.receiverId} and parent ${params.parentDocId}")
+        logger.info("Creating new contract with params ${params}")
         contract = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
           num_N_USER_ID          : params.receiverId,
           num_N_FIRM_ID          : params.providerId,
@@ -87,7 +87,7 @@ trait Contract {
         contract.num_N_DOC_ID = contract.num_N_CONTRACT_ID
         logger.info("   Contract ${contract.num_N_DOC_ID} was put successfully!")
       } else {
-        logger.info("Putting contract with number ${params.number} parent ${params.parentDocId}, begin date ${params.beginDate} and end date ${params.endDate}")
+        logger.info("Putting contract with params ${params}")
         contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_PUT', [
           num_N_DOC_ID        : params.docId,
           num_N_DOC_TYPE_ID   : getContractTypeId(),

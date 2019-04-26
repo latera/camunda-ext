@@ -254,7 +254,7 @@ trait Region {
     ]
     LinkedHashMap params = mergeParams(defaultParams, input)
     try {
-      logger.info("Putting region type ${params.regionTypeId} with parent ${params.parRegionId}, code ${params.code}, name ${params.name}, home ${params.home}, building ${params.building}, construct ${params.construct} and realty ${params.realtyGoodId}")
+      logger.info("Putting region with params ${params}")
 
       def region = hid.execute('SR_REGIONS_PKG.SR_REGIONS_PUT', [
         num_N_REGION_ID      : params.regionId,

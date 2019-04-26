@@ -138,7 +138,7 @@ trait Person {
       stateId       : getSubjectStateOnId()
     ], input)
     try {
-      logger.info("Putting person named ${params.firstName} ${params.secondName} ${params.lastName} in firm ${params.firmId}")
+      logger.info("Putting person with params ${params}")
       LinkedHashMap person = hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
         num_N_SUBJECT_ID       : params.personId,
         num_N_FIRM_ID          : params.firmId,

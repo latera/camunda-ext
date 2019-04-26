@@ -132,7 +132,7 @@ trait Company {
       stateId   : getSubjectStateOnId()
     ], input)
     try {
-      logger.info("Putting company named ${params.name} to firm ${params.firmId}")
+      logger.info("Putting company with params ${params}")
       LinkedHashMap company = hid.execute('SI_COMPANIES_PKG.SI_COMPANIES_PUT',[
         num_N_SUBJECT_ID    : params.companyId,
         num_N_FIRM_ID       : params.firmId,

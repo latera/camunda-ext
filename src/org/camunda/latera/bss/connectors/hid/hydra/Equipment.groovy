@@ -224,7 +224,7 @@ trait Equipment {
       bindRoleId  : null
     ], input)
     try {
-      logger.info("Putting equipment ${params.code} with type ${params.typeId} and owner ${params.ownerId}")
+      logger.info("Putting equipment with params ${params}")
       LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
         num_N_OBJECT_ID        : params.equipmentId,
         num_N_GOOD_ID          : params.typeId,
@@ -262,7 +262,7 @@ trait Equipment {
         def componentGood = getGoodBy(baseGoodId: equipment?.n_good_id)
         params.typeId = componentGood?.n_good_id
       }
-      logger.info("Putting equipment id ${params.equipmentId} component with code ${params.code} and type ${params.typeId}")
+      logger.info("Putting equipment component with params ${params}")
       LinkedHashMap component = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
         num_N_SPEC_OBJECT_ID : null,
         num_N_OBJECT_ID      : params.equipmentId,

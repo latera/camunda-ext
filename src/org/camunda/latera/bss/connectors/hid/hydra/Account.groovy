@@ -141,7 +141,7 @@ trait Account {
       rem                  : null
     ], input)
     try {
-      logger.info("Putting account number ${params.number}, name ${params.name}, code ${params.code} and currency ${params.currencyId} to customer ${params.customerId}")
+      logger.info("Putting account with params ${params}")
 
       LinkedHashMap account = hid.execute('SI_ACCOUNTS_PKG.CUSTOMER_ACCOUNT_PUT', [
         num_N_ACCOUNT_ID          : params.accountId,
@@ -202,7 +202,7 @@ trait Account {
     def endDate   = null
   ) {
     try {
-      logger.info("Processing account ${accountId}")
+      logger.info("Processing account id ${accountId}")
       hid.execute('SD_CHARGE_LOGS_CHARGING_PKG.PROCESS_ACCOUNT', [
         num_N_ACCOUNT_ID : accountId,
         dt_D_OPER        : beginDate,

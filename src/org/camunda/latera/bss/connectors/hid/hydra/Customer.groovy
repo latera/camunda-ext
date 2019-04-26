@@ -213,7 +213,7 @@ trait Customer {
       stateId       : getSubjectStateOnId()
     ], input)
     try {
-      logger.info("Putting customer with code ${params.code} to base subject ${params.baseSubjectId} with main group ${params.groupId} and state ${params.stateId} in firm ${params.firmId} reseller ${params.resellerId}")
+      logger.info("Putting customer with params ${params}")
       LinkedHashMap args = [
         num_N_SUBJECT_ID      : params.subjectId,
         num_N_FIRM_ID         : params.firmId,
@@ -381,7 +381,7 @@ trait Customer {
       password       : null
     ], input)
     try {
-      logger.info("Putting net service id ${params.netServiceId} access with login ${params.login} and passwod ${params.password} to customer id ${params.customerId}")
+      logger.info("Putting net service access with params ${params}")
       LinkedHashMap access = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SERVICES_PUT', [
         num_N_SUBJ_SERV_ID      : params.subjServId,
         num_N_SUBJECT_ID        : params.customerId,
@@ -476,7 +476,7 @@ trait Customer {
       password       : null
     ], input)
     try {
-      logger.info("Putting application id ${params.applicationId} access with login ${params.login} and passwod ${params.password} to customer id ${params.customerId}")
+      logger.info("Putting application access with params ${params}")
       LinkedHashMap access = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SERVICES_PUT', [
         num_N_SUBJ_SERV_ID      : params.subjServId,
         num_N_SUBJECT_ID        : params.customerId,
@@ -518,7 +518,7 @@ trait Customer {
       firmId     : getFirmId()
     ], input)
     try {
-      logger.info("Providing Self-Care portal access with login ${params.login} and password ${params.password} to customer id ${params.customerId}")
+      logger.info("Providing Self-Care portal access with params ${params}")
       LinkedHashMap access = hid.execute('SI_USERS_PKG.SET_PRIVATE_OFFICE_ACCESS', [
         num_N_USER_ID     : params.customerId,
         num_N_FIRM_ID     : params.firmId,

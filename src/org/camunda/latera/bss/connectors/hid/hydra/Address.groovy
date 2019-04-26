@@ -344,7 +344,7 @@ trait Address {
       isMain         : null
     ], input)
     try {
-      logger.info("Putting address with code ${params.code} to subject with id ${params.subjectId}")
+      logger.info("Putting address with params ${params}")
       LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
           num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
           num_N_ADDRESS_ID        : params.addressId,
@@ -390,7 +390,7 @@ trait Address {
       endDate        : null
     ], input)
     try {
-      logger.info("Putting address with code ${params.code} to object with id ${params.objectId}")
+      logger.info("Putting address with params ${params}")
       LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
           num_N_OBJ_ADDRESS_ID   : params.objAddressId,
           num_N_ADDRESS_ID       : params.addressId,
