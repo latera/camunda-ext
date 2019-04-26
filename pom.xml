@@ -77,7 +77,7 @@
       <version>${commons-io.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
+    <dependency
       <groupId>io.github.http-builder-ng</groupId>
       <artifactId>http-builder-ng-core</artifactId>
       <version>${http-builder-ng.version}</version>

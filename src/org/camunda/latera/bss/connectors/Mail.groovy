@@ -3,8 +3,6 @@ package org.camunda.latera.bss.connectors
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import javax.mail.*
 import javax.mail.Message
-import javax.mail.internet.*
-import javax.activation.*
 
 class MailSender {
 

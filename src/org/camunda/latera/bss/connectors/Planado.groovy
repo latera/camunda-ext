@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.connectors
 
-import groovy.json.JsonOutput
 import groovyx.net.http.HttpException
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
@@ -47,8 +46,7 @@ class Planado {
     try {
       return http.sendRequest(
           'get',
-          path: "clients.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "clients.json"
       )
     }
     catch (HttpException ex) {
@@ -60,8 +58,7 @@ class Planado {
     try {
       http.sendRequest(
           "delete",
-          path: "clients/${extID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "clients/${extID}.json"
       )
     }
     catch (HttpException ex) {
@@ -114,7 +111,7 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload))
+        body: payload)
 
     return extID
   }
@@ -165,7 +162,7 @@ class Planado {
     http.sendRequest(
         'post',
         path: 'clients.json',
-        body: JsonOutput.toJson(payload))
+        body: payload)
 
     return extID
   }
@@ -192,7 +189,7 @@ class Planado {
     def res = http.sendRequest(
         'post',
         path: 'jobs.json',
-        body: JsonOutput.toJson(payload))
+        body: payload)
 
     return res?.job_id?:null
   }
@@ -213,8 +210,7 @@ class Planado {
     try {
       return http.sendRequest(
           'get',
-          path: "templates/${templateID}.json",
-          headers: ["X-Planado-Api-Token": planadoApiKey]
+          path: "templates/${templateID}.json"
       )
     }
     catch (HttpException ex) {
