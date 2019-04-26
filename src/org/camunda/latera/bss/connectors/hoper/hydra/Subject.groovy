@@ -42,13 +42,13 @@ trait Subject {
       content   : [] as byte[]
     ] + input
 
-    def file = [
-      file_name      : params.name,
-      base64_content : Base64Converter.to(params.content)
-    ]
     def result = null
-
     try {
+      def file = [
+        file_name      : params.name,
+        base64_content : params.content ? Base64Converter.to(params.content) : ''
+      ]
+
       logger.info("Putting subject ${params.subjectId} file id ${params.id} and name ${params.name}")
 
       if (params.id != null) {
