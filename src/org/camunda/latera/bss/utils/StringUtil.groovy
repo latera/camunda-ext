@@ -44,6 +44,26 @@ class StringUtil {
     return camelize(input, options.firstUpper)
   }
 
+  static LinkedHashMap camelizeKeys(LinkedHashMap input, Boolean firstUpper = false) {
+    def result = [:]
+    input.each { key, value ->
+      result[camelize(key, firstUpper)] = value
+    }
+    return result
+  }
+
+  static String snakeCase(String input) {
+    return input.replaceAll(/([A-Z])/,/_$1/).toLowerCase().replaceAll(/^_/,'')
+  }
+
+  static LinkedHashMap snakeCaseKeys(LinkedHashMap input) {
+    def result = [:]
+    input.each { key, value ->
+      result[snakeCase(key)] = value
+    }
+    return result
+  }
+
   static String capitalize(String input){
     return input?.capitalize()
   }
