@@ -39,11 +39,11 @@ trait Table {
     order = DEFAULT_ORDER
   ) {
     String query = "SELECT"
-    
+
     if (fields == '*' || fields == null) {
       fields = getTableColumns(tableName)
     }
-    
+
     fields.each{ field ->
       query += """
       '${field.toLowerCase()}', T.${field}""" + (field == fields.last() ? '' : ',')

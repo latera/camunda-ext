@@ -2,6 +2,8 @@ package org.camunda.latera.bss.connectors
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import javax.mail.*
+import javax.mail.internet.*
+import javax.activation.*
 import javax.mail.Message
 
 class MailSender {
@@ -17,7 +19,7 @@ class MailSender {
 
   MailSender(DelegateExecution execution) {
     host     = execution.getVariable('smtpHost')
-    port     = execution.getVariable('smtpPort') ?: 587
+    port     = execution.getVariable('smtpPort').toInteger() ?: 587
     user     = execution.getVariable('smtpUser')
     password = execution.getVariable('smtpPassword')
 
