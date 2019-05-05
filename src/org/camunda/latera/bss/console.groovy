@@ -26,8 +26,8 @@ class Console {
   }
 
   def runCommand(String command, List args = []) {
-    def cmd = ([command] + args).join(' ')
-    logger.info("Running command: ${cmd}")
+    def cmd = [command] + args
+    logger.info("Running command: ${cmd.join(' ')}")
     def stdout = new StringBuilder(), stderr = new StringBuilder()
     def proc = cmd.execute()
     proc.consumeProcessOutput(stdout, stderr)
