@@ -107,7 +107,7 @@ trait Country {
     return createEntity(getCountryStateEntityType(), params)
   }
 
-  LinkedHashMap updateCountryState(def id, LinkedHashMap data, LinkedHashMap additionalParams = [:]) {
+  LinkedHashMap updateCountryState(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     LinkedHashMap params = getCountryStateParams(input, additionalParams)
     return updateEntity(getCountryStateEntityType(), id, params)
   }

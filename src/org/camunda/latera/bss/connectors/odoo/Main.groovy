@@ -72,7 +72,7 @@ trait Main {
     return result
   }
 
-  LinkedHashMap updateEntity(def id, LinkedHashMap params) {
+  LinkedHashMap updateEntity(def type, def id, LinkedHashMap params) {
     def result = null
     try {
       logger.info("Updating ${type} id ${id} with params ${params}")

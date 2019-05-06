@@ -79,7 +79,7 @@ trait Lead {
     return createEntity(getLeadEntityType(), params)
   }
 
-  LinkedHashMap updateLead(def id, LinkedHashMap data, LinkedHashMap additionalParams = [:]) {
+  LinkedHashMap updateLead(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     LinkedHashMap params = getLeadParams(input, additionalParams)
     return updateEntity(getLeadEntityType(), id, params)
   }

@@ -74,7 +74,7 @@ trait Customer {
     return createEntity(getCustomerEntityType(), params)
   }
 
-  LinkedHashMap updateCustomer(def id, LinkedHashMap data, LinkedHashMap additionalParams = [:]) {
+  LinkedHashMap updateCustomer(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return updateEntity(getCustomerEntityType(), id, params)
   }
