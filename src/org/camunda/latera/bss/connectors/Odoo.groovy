@@ -6,11 +6,12 @@ import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
 
 import org.camunda.latera.bss.connectors.odoo.Main
+import org.camunda.latera.bss.connectors.odoo.Entity
 import org.camunda.latera.bss.connectors.odoo.types.Lead
 import org.camunda.latera.bss.connectors.odoo.types.Customer
 import org.camunda.latera.bss.connectors.odoo.types.Country
 
-class Odoo implements Main, Lead, Customer, Country {
+class Odoo implements Main, Entity, Lead, Customer, Country {
   String url
   private String user
   private String password
