@@ -9,7 +9,7 @@ class Hoper {
   String url
   private String user
   private String password
-  String version
+  Integer version
   HTTPRestProcessor http
   DelegateExecution execution
   SimpleLogger logger
@@ -18,8 +18,8 @@ class Hoper {
     this.execution = execution
     this.logger    = new SimpleLogger(execution)
 
-    this.url      = execution.getVariable("hoperUrl")
-    this.version  = execution.getVariable("hoperVersion") ?: '2'
+    this.url      = execution.getVariable("hoperUrl")     ?: 'http://hoper:3000'
+    this.version  = execution.getVariable("hoperVersion") ?: 2
     this.user     = execution.getVariable("hydraUser")
     this.password = execution.getVariable("hydraPassword")
     this.http     = new HTTPRestProcessor(baseUrl   : this.url,
@@ -41,16 +41,16 @@ class Hoper {
   }
 
   private def authBasic() {
-    def auth = "${user}:${password}"
+    def auth = "${this.user}:${this.password}"
     return Base64Converter.to(auth)
   }
 
   private def authHeader() {
-    if (version.toString() == '1') {
-      return ['Authorization': "Basic ${authBasic}"]
+    if (this.version == 1) {
+      return ['Authorization': "Basic ${this.authBasic()}"]
     }
-    if (version.toString() == '2') {
-      return ['Authorization': "Token token=\"${authToken}\""]
+    if (this.version == 2) {
+      return ['Authorization': "Token token=\"${this.authToken()}\""]
     }
     return []
   }
@@ -59,8 +59,8 @@ class Hoper {
     if (!input.headers) {
       input.headers = [:]
     }
-    input.headers += authHeader
-    input.path = "/rest/v${version}/${input.path}".toString()
+    input.headers += this.authHeader()
+    input.path = "/rest/v${this.version}/${input.path}".toString()
     return http.sendRequest(input, method)
   }
 }

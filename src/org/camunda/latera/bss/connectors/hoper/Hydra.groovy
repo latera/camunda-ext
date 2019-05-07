@@ -4,9 +4,12 @@ import groovy.net.xmlrpc.*
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.Hoper
+import org.camunda.latera.bss.connectors.hoper.hydra.Main
+import org.camunda.latera.bss.connectors.hoper.hydra.Entity
 import org.camunda.latera.bss.connectors.hoper.hydra.Subject
+import org.camunda.latera.bss.connectors.hoper.hydra.Person
 
-class Hydra implements Subject {
+class Hydra implements Main, Entity, Subject, Person {
   private static Integer DEFAULT_FIRM = 100
   Hoper hoper
   def firmId
