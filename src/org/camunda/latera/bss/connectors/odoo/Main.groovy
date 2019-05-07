@@ -108,7 +108,11 @@ trait Main {
     def params = [:]
     input.each { key, value ->
       if (value != null) {
-        params[key] = value
+        if (value == 'null' || value == 'NULL') {
+          params[key] = null
+        } else {
+          params[key] = value
+        }
       }
     }
 
