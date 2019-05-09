@@ -143,7 +143,22 @@ trait Contract {
     }
   }
 
-  boolean dissolveContract(def docId, LocalDateTime endDate = DateTimeUtil.now(), Boolean checkInvoices = false) {
+  Boolean dissolveContract(def docId, LocalDateTime endDate = DateTimeUtil.now(), Boolean checkInvoices = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  }
+
+  Boolean refreshContractsTree() {
+    try {
+      logger.info("Refreshing contracts tree")
+      hid.execute('UTILS_PKG_S.REFRESH_MATERIALIZED_VIEW', [
+        vch_VC_VIEW_NAME : 'SD_MV_CONTRACTS_TREE'
+      ])
+      logger.info("   Contracts tree was refreshed successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while refreshing contracts tree!")
+      logger.error_oracle(e)
+      return false
+    }
   }
 }
