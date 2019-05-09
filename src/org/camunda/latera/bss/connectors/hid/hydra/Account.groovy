@@ -196,6 +196,107 @@ trait Account {
     }
   }
 
+  Boolean putPermanentOverdraft(
+    def accountId,
+    def sum = 0,
+    def reasonId = null
+  ) {
+    if (sum <= 0) {
+      logger.info("Trying to add zero sum permanent overdraft - delete it instead")
+      return deletePermanentOverdraft(accountId)
+    }
+    try {
+      logger.info("Putting permanent overdraft with params ${params}")
+      hid.execute('SD_OVERDRAFTS_PKG.SET_PERMANENT_OVERDRAFT', [
+        num_N_ACCOUNT_ID      : accountId,
+        num_N_ISSUE_REASON_ID : reasonId,
+        num_N_SUM             : sum,
+      ])
+      logger.info("   Permanent overdraft was put successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while putting permanent overdraft!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean putPermanentOverdraft(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      accountId : null,
+      reasonId  : null,
+      sum       : 0
+    ], input)
+    return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
+  }
+
+  Boolean deletePermanentOverdraft(def accountId) {
+    try {
+      logger.info("Deleting permanent overdraft with params ${params}")
+      hid.execute('SD_OVERDRAFTS_PKG.UNSET_PERMANENT_OVERDRAFT', [
+        num_N_ACCOUNT_ID : accountId
+      ])
+      logger.info("   Permanent overdraft was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting permanent overdraft!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean putTemporalOverdraft(
+    def accountId,
+    def sum     = 0,
+    def endDate = DateTimeUtil.dayEnd(),
+    def reasonId = null
+  ) {
+    if (sum <= 0) {
+      logger.info("Trying to add zero sum temporal overdraft - remove it instead")
+      return deleteTemporalOverdraft(accountId)
+    }
+    try {
+      logger.info("Putting temporal overdraft with params ${params}")
+      hid.execute('SD_OVERDRAFTS_PKG.SET_TEMPORAL_OVERDRAFT', [
+        num_N_ACCOUNT_ID      : accountId,
+        num_N_ISSUE_REASON_ID : reasonId,
+        dt_D_END              : endDate,
+        num_N_SUM             : sum,
+      ])
+      logger.info("   Temporal overdraft was put successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while putting temporal overdraft!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean putTemporalOverdraft(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      accountId : null,
+      sum       : 0,
+      endDate   : DateTimeUtil.dayEnd(),
+      reasonId  : null
+    ], input)
+    return putTemporalOverdraft(params.accountId, params.sum, params.endDate, params.reasonId)
+  }
+
+  Boolean deleteTemporalOverdraft(def accountId) {
+    try {
+      logger.info("Deleting temporal overdraft with params ${params}")
+      hid.execute('SD_OVERDRAFTS_PKG.UNSET_TEMPORAL_OVERDRAFT', [
+        num_N_ACCOUNT_ID : accountId
+      ])
+      logger.info("   Temporal overdraft was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting temporal overdraft!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
   Boolean processAccount(
     def accountId,
     def beginDate = DateTimeUtil.now(),
