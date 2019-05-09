@@ -11,18 +11,26 @@ trait Entity {
     return [:]
   }
 
+  LinkedHashMap getPaginationDefaultParams() {
+    return [
+      per_page : 10,
+      page     : 1
+    ]
+  }
+
   LinkedHashMap getEntityParams(LinkedHashMap input) {
     def params = getEntityDefaultParams() + input
     def where  = getEntityParamsMap(params)
     return getEntityParamsMap(params)
   }
 
-  LinkedHashMap getEntity(def type, def id) {
+  LinkedHashMap getEntity(def type, def id, LinkedHashMap query = [:]) {
     def result = null
     try {
       result = hoper.sendRequest(
         'get',
-        path : "${type.parent}/${type.plural}/${id}"
+        path : "${type.parent}/${type.plural}/${id}",
+        query : query
       )?."${type.one}"
     } catch (Exception e) {
       logger.error(e)
