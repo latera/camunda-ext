@@ -11,8 +11,9 @@ import org.camunda.latera.bss.connectors.hoper.hydra.Person
 import org.camunda.latera.bss.connectors.hoper.hydra.Company
 import org.camunda.latera.bss.connectors.hoper.hydra.Address
 import org.camunda.latera.bss.connectors.hoper.hydra.Customer
+import org.camunda.latera.bss.connectors.hoper.hydra.Account
 
-class Hydra implements Main, Entity, Subject, Person, Company, Address, Customer {
+class Hydra implements Main, Entity, Subject, Person, Company, Address, Customer, Account {
   private static Integer DEFAULT_FIRM = 100
   Hoper hoper
   def firmId
