@@ -18,7 +18,11 @@ class JSON {
       }
       return newList
     } else if (DateTimeUtil.isDate(obj)) {
-      return DateTimeUtil.format(obj, DateTimeUtil.ISO_FORMAT)
+      try {
+        return DateTimeUtil.format(obj, DateTimeUtil.ISO_FORMAT)
+      } catch(Exception e) {
+        return DateTimeUtil.format(obj, DateTimeUtil.ISO_FORMAT_NO_TZ)
+      }
     } else {
       return obj
     }

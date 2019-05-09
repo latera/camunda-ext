@@ -9,6 +9,7 @@ import java.time.temporal.ChronoUnit
 
 class DateTimeUtil {
   static final DateTimeFormatter ISO_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  static final DateTimeFormatter ISO_FORMAT_NO_TZ = DateTimeFormatter.ISO_LOCAL_DATE_TIME
   static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd')
   static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
   static final DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
