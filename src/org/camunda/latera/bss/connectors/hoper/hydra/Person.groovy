@@ -29,8 +29,8 @@ trait Person {
       birthPlace    : null,
       rem           : null,
       groupId       : null,
-      stateId       : null
-      //firmId        : getFirmId()
+      stateId       : null,
+      firmId        : null
     ]
   }
 
@@ -66,6 +66,11 @@ trait Person {
     def params = getPersonDefaultParams() + input
     def data   = getPersonParamsMap(params + additionalParams)
     return nvlParams(data)
+  }
+
+  List getPersons(LinkedHashMap input = [:]) {
+    def params = getPaginationDefaultParams() + input
+    return getEntities(getPersonEntityType(), params)
   }
 
   LinkedHashMap getPerson(def id) {
