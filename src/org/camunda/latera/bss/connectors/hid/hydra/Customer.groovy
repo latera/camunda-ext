@@ -2,6 +2,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
 import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.DateTimeUtil
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
@@ -537,5 +538,35 @@ trait Customer {
 
   Boolean changeSelfCarePassword(LinkedHashMap input) {
     return changeNetServicePassword(input)
+  }
+
+  Boolean processCustomer(
+    def customerId,
+    def beginDate = DateTimeUtil.now(),
+    def endDate   = null
+  ) {
+    try {
+      logger.info("Processing customer id ${customerId}")
+      hid.execute('SD_CHARGE_LOGS_CHARGING_PKG.PROCESS_SUBJECT', [
+        num_N_SUBJECT_ID : customerId,
+        dt_D_OPER        : beginDate,
+        dt_D_OPER_END    : endDate
+      ])
+      logger.info("   Customer was processed successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while processing customer!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean processCustomer(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      customerId : null,
+      beginDate  : DateTimeUtil.now(),
+      endDate    : null
+    ], input)
+    return processCustomer(params.customerId, params.beginDate, params.endDate)
   }
 }
