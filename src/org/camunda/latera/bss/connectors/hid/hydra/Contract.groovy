@@ -121,6 +121,15 @@ trait Contract {
     }
   }
 
+  LinkedHashMap createContract(LinkedHashMap input) {
+    input.remove('docId')
+    return putContract(input)
+  }
+
+  LinkedHashMap updateContract(def docId, LinkedHashMap input) {
+    return putContract(input + [docId: docId])
+  }
+
   Boolean dissolveContract(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       docId          : null,

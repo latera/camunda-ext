@@ -164,6 +164,15 @@ trait Account {
     }
   }
 
+  LinkedHashMap createCustomerAccount(LinkedHashMap input) {
+    input.remove('accountId')
+    return putCustomerAccount(input)
+  }
+
+  LinkedHashMap updateCustomerAccount(def accountId, LinkedHashMap input) {
+    return putCustomerAccount(input + [accountId: accountId])
+  }
+
   Boolean putAdjustment(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
@@ -194,6 +203,14 @@ trait Account {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  Boolean addAdjustment(LinkedHashMap input) {
+    return putAdjustment(input)
+  }
+
+  Boolean addAdjustment(def accountId, LinkedHashMap input) {
+    return putAdjustment(input + [accountId: accountId])
   }
 
   Boolean putPermanentOverdraft(
@@ -228,6 +245,18 @@ trait Account {
       sum       : 0
     ], input)
     return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
+  }
+
+  Boolean addPermanentOverdraft(
+    def accountId,
+    def sum = 0,
+    def reasonId = null
+  ) {
+    return putPermanentOverdraft(accountId, sum, reasonId)
+  }
+
+  Boolean addPermanentOverdraft(LinkedHashMap input) {
+    return putPermanentOverdraft(input)
   }
 
   Boolean deletePermanentOverdraft(def accountId) {
@@ -280,6 +309,19 @@ trait Account {
       reasonId  : null
     ], input)
     return putTemporalOverdraft(params.accountId, params.sum, params.endDate, params.reasonId)
+  }
+
+  Boolean addTemporalOverdraft(
+    def accountId,
+    def sum = 0,
+    def endDate = DateTimeUtil.dayEnd(),
+    def reasonId = null
+  ) {
+    return putTemporalOverdraft(accountId, sum, endDate, reasonId)
+  }
+
+  Boolean addTemporalOverdraft(LinkedHashMap input) {
+    return putTemporalOverdraft(input)
   }
 
   Boolean deleteTemporalOverdraft(def accountId) {

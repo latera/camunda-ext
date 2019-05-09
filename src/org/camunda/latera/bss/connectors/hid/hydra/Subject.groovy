@@ -285,6 +285,14 @@ trait Subject {
     }
   }
 
+  Boolean addSubjectAddParam(LinkedHashMap input) {
+    return putSubjectAddParam(input)
+  }
+
+  Boolean addSubjectAddParam(def subjectId, LinkedHashMap input) {
+    return putSubjectAddParam(input + [subjectId: subjectId])
+  }
+
   List getSubjectGroupsBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subjectId : null,
@@ -341,6 +349,14 @@ trait Subject {
       logger.error_oracle(e)
       return null
     }
+  }
+
+  Boolean addSubjectGroup(LinkedHashMap input) {
+    return putSubjectGroup(input)
+  }
+
+  Boolean addSubjectGroup(def subjectId, LinkedHashMap input) {
+    return putSubjectGroup(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectGroup(LinkedHashMap input) {

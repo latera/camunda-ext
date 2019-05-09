@@ -462,6 +462,45 @@ trait Address {
     }
   }
 
+  LinkedHashMap createSubjAddress(LinkedHashMap input) {
+    input.remove('subjAddressId')
+    return putSubjAddress(input)
+  }
+
+  LinkedHashMap createObjAddress(LinkedHashMap input) {
+    input.remove('objAddressId')
+    return putObjAddress(input)
+  }
+
+  LinkedHashMap createEntityAddress(LinkedHashMap input) {
+    input.remove('entityAddressId')
+    return putEntityAddress(input)
+  }
+
+  LinkedHashMap createSubjAddress(def subjectId, LinkedHashMap input) {
+    return putSubjAddress(input + [subjectId: subjectId])
+  }
+
+  LinkedHashMap createObjAddress(def objectId, LinkedHashMap input) {
+    return putObjAddress(input + [objectId: objectId])
+  }
+
+  LinkedHashMap createEntityAddress(def entityId, LinkedHashMap input) {
+    return putEntityAddress(input + [entityId: entityId])
+  }
+
+  LinkedHashMap updateSubjAddress(def subjAddressId, LinkedHashMap input) {
+    return putSubjAddress(input + [subjAddressId: subjAddressId])
+  }
+
+  LinkedHashMap updateObjAddress(def objAddressId, LinkedHashMap input) {
+    return putObjAddress(input + [objAddressId: objAddressId])
+  }
+
+  LinkedHashMap updateEntityAddress(def entityAddressId, LinkedHashMap input) {
+    return putEntityAddress(input + [entityAddressId: entityAddressId])
+  }
+
   List getAddressItemsValues(LinkedHashMap input) {
     List addressItemsValues = []
     getAddressItems().each{ type, value ->

@@ -265,6 +265,14 @@ trait Document {
     }
   }
 
+  LinkedHashMap addDocumentSubject(LinkedHashMap input) {
+    return putDocumentSubject(input)
+  }
+
+  LinkedHashMap addDocumentSubject(def docId, LinkedHashMap input) {
+    return putDocumentSubject(input + [docId: docId])
+  }
+
   Boolean changeDocumentState(
     def docId,
     def stateId

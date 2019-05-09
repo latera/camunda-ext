@@ -161,6 +161,15 @@ trait Company {
     }
   }
 
+  LinkedHashMap createCompany(LinkedHashMap input) {
+    input.remove('companyId')
+    return putCompany(input)
+  }
+
+  LinkedHashMap updateCompany(def companyId, LinkedHashMap input) {
+    return putCompany(input + [companyId: companyId])
+  }
+
   def getCompanyAddParamTypeIdByCode(String code) {
     return getSubjectAddParamTypeIdByCode(code, getCompanyTypeId())
   }
@@ -187,5 +196,13 @@ trait Company {
       input.remove('companyId')
     }
     return putSubjectAddParam(input)
+  }
+
+  Boolean addCompanyAddParam(LinkedHashMap input) {
+    return putCompanyAddParam(input)
+  }
+
+  Boolean addCompanyAddParam(def companyId, LinkedHashMap input) {
+    return putCompanyAddParam(input + [companyId: companyId])
   }
 }

@@ -247,6 +247,15 @@ trait Equipment {
     }
   }
 
+  LinkedHashMap createEquipment(LinkedHashMap input) {
+    input.remove('equipmentId')
+    return putEquipment(input)
+  }
+
+  LinkedHashMap updateEquipment(def equipmentId, LinkedHashMap input) {
+    return putEquipment(input + [equipmentId: equipmentId])
+  }
+
   LinkedHashMap putEquipmentComponent(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       equipmentId : null,
@@ -279,6 +288,16 @@ trait Equipment {
       logger.error_oracle(e)
       return null
     }
+  }
+
+  LinkedHashMap createEquipmentComponent(LinkedHashMap input) {
+    input.remove('equipmentComponentId')
+    return putEquipmentComponent(input)
+  }
+
+  LinkedHashMap createEquipmentComponent(def equipmentId, LinkedHashMap input) {
+    input.remove('equipmentComponentId')
+    return putEquipment(input + [equipmentId: equipmentId])
   }
 
   Boolean deleteEquipment(def equipmentId) {
@@ -378,6 +397,14 @@ trait Equipment {
     }
   }
 
+  LinkedHashMap addEquipmentAddParam(LinkedHashMap input) {
+    return putEquipmentAddParam(input)
+  }
+
+  LinkedHashMap addEquipmentAddParam(def equipmentId, LinkedHashMap input) {
+    return putEquipmentAddParam(input + [equipmentId: equipmentId])
+  }
+
   LinkedHashMap putEquipmentBind(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       bindId          : null,
@@ -404,6 +431,10 @@ trait Equipment {
       logger.error_oracle(e)
       return null
     }
+  }
+
+  LinkedHashMap addEquipmentBind(LinkedHashMap input) {
+    return putEquipmentBind(input)
   }
 
   Boolean deleteEquipmentBind(def bindId) {

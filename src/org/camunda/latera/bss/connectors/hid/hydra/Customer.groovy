@@ -237,6 +237,15 @@ trait Customer {
     }
   }
 
+  LinkedHashMap createCustomer(LinkedHashMap input) {
+    input.remove('customerId')
+    return putCustomer(input)
+  }
+
+  LinkedHashMap updateCustomer(def customerId, LinkedHashMap input) {
+    return putCustomer(input + [customerId: customerId])
+  }
+
   def getCustomerAddParamTypeIdByCode(String code) {
     return getSubjectAddParamTypeIdByCode(code, getCustomerTypeId())
   }
@@ -263,6 +272,14 @@ trait Customer {
       input.remove('customerId')
     }
     return putSubjectAddParam(input)
+  }
+
+  Boolean addCustomerAddParam(LinkedHashMap input) {
+    return putCustomerAddParam(input)
+  }
+
+  Boolean addCustomerAddParam(def customerId, LinkedHashMap input) {
+    return putCustomerAddParam(input + [customerId: customerId])
   }
 
   Boolean enableCustomer(def customerId) {
@@ -307,6 +324,14 @@ trait Customer {
       input.remove('customerId')
     }
     return putSubjectGroup(input)
+  }
+
+  LinkedHashMap addCustomerGroup(LinkedHashMap input) {
+    return putCustomerGroup(input)
+  }
+
+  LinkedHashMap addCustomerGroup(def customerId, LinkedHashMap input) {
+    return putCustomerGroup(input + [customerId: customerId])
   }
 
   Boolean deleteCustomerGroup(LinkedHashMap input) {
@@ -406,6 +431,14 @@ trait Customer {
     }
   }
 
+  LinkedHashMap addCustomerNetServiceAccess(LinkedHashMap input) {
+    return putCustomerNetServiceAccess(input)
+  }
+
+  LinkedHashMap addCustomerNetServiceAccess(def customerId, LinkedHashMap input) {
+    return putCustomerNetServiceAccess(input + [customerId: customerId])
+  }
+
   Boolean changeNetServicePassword(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subjServId      : null,
@@ -501,6 +534,14 @@ trait Customer {
     }
   }
 
+  LinkedHashMap addCustomerAppAccess(LinkedHashMap input) {
+    return putCustomerAppAccess(input)
+  }
+
+  LinkedHashMap addCustomerAppAccess(def customerId, LinkedHashMap input) {
+    return putCustomerAppAccess(input + [customerId: customerId])
+  }
+
   Boolean changeAppPassword(LinkedHashMap input) {
     return changeNetServicePassword(input)
   }
@@ -534,6 +575,14 @@ trait Customer {
       logger.error_oracle(e)
       return null
     }
+  }
+
+  LinkedHashMap addCustomerSelfCareAccess(LinkedHashMap input) {
+    return putCustomerSelfCareAccess(input)
+  }
+
+  LinkedHashMap addCustomerSelfCareAccess(def customerId, LinkedHashMap input) {
+    return putCustomerSelfCareAccess(input + [customerId: customerId])
   }
 
   Boolean changeSelfCarePassword(LinkedHashMap input) {

@@ -115,6 +115,15 @@ trait Person {
     return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
   }
 
+  LinkedHashMap createPerson(LinkedHashMap input) {
+    input.remove('personId')
+    return putPerson(input)
+  }
+
+  LinkedHashMap updatePerson(def personId, LinkedHashMap input) {
+    return putPerson(input + [personId: personId])
+  }
+
   LinkedHashMap putPerson(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       personId      : null,
@@ -195,5 +204,13 @@ trait Person {
       input.remove('personId')
     }
     return putSubjectAddParam(input)
+  }
+
+  Boolean addPersonAddParam(LinkedHashMap input) {
+    return putPersonAddParam(input)
+  }
+
+  Boolean addPersonAddParam(def personId, LinkedHashMap input) {
+    return putPersonAddParam(input + [personId: personId])
   }
 }
