@@ -39,7 +39,7 @@ trait Entity {
         path : "${type.parent}/${type.plural}",
         body : ["${type.one}": params]
       )?."${type.one}"
-      logger.info("   ${StringUtil.capitalize(type.one.toUppercase} was created successfully!")
+      logger.info("   ${StringUtil.capitalize(type.one)} was created successfully!")
     } catch (Exception e) {
       logger.error("   Error while creating ${type.one}")
       logger.error(e)
@@ -56,7 +56,7 @@ trait Entity {
         path : "${type.parent}/${type.plural}/${id}",
         body : ["${type.one}": params]
       )?."${type.one}"
-      logger.info("   ${StringUtil.capitalize(type.one.toUppercase} was updated successfully!")
+      logger.info("   ${StringUtil.capitalize(type.one)} was updated successfully!")
     } catch (Exception e) {
       logger.error("   Error while updating ${type.one}")
       logger.error(e)
@@ -71,7 +71,7 @@ trait Entity {
         'delete',
         path : "${type.parent}/${type.plural}/${id}"
       )
-      logger.info("   ${StringUtil.capitalize(type.one.toUppercase} was deleted successfully!")
+      logger.info("   ${StringUtil.capitalize(type.one)} was deleted successfully!")
       return true
     } catch (Exception e) {
       logger.error("   Error while deleting ${type.one}")
