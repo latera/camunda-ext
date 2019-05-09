@@ -30,6 +30,20 @@ trait Entity {
     return result
   }
 
+  List getEntities(def type, LinkedHashMap query = [:]) {
+    def result = null
+    try {
+      result = hoper.sendRequest(
+        'get',
+        path  : "${type.parent}/${type.plural}",
+        query : query
+      )?."${type.plural}"
+    } catch (Exception e) {
+      logger.error(e)
+    }
+    return result
+  }
+
   LinkedHashMap createEntity(def type, LinkedHashMap params) {
     def result = null
     try {
