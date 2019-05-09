@@ -15,7 +15,7 @@ trait Company {
   def getCompaniesTable() {
     return COMPANIES_TABLE
   }
-  
+
   LinkedHashMap getCompany(def companyId) {
     LinkedHashMap where = [
       n_subject_id: companyId

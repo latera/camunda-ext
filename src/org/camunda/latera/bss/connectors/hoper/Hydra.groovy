@@ -22,12 +22,10 @@ class Hydra implements Main, Entity, Subject, Person, Company, Address, Customer
   Hoper hoper
   def firmId
   def resellerId
-  DelegateExecution execution
   SimpleLogger logger
 
   Hydra(DelegateExecution execution) {
-    this.execution = execution
-    this.logger    = new SimpleLogger(this.execution)
+    this.logger    = new SimpleLogger(execution)
     this.hoper     = new Hoper(execution)
 
     this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())

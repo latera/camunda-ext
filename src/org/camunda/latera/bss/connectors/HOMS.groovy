@@ -8,7 +8,10 @@ import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.utils.Base64Converter
 
 class HOMS {
-  HTTPRestProcessor processor
+  String url
+  String user
+  private String password
+  HTTPRestProcessor http
   DelegateExecution execution
   String homsOrderCode
   String homsOrderId
@@ -18,17 +21,19 @@ class HOMS {
     this.execution  = execution
     this.logger     = new SimpleLogger(this.execution)
 
-    def url         = execution.getVariable("homsUrl")
-    def user        = execution.getVariable("homsUser")
-    def password    = execution.getVariable("homsPassword")
+    this.url        = execution.getVariable("homsUrl")
+    this.user       = execution.getVariable("homsUser")
+    this.password   = execution.getVariable("homsPassword")
     def supress     = execution.getVariable('homsOrderSupress') ?: false
 
-    this.processor  = new HTTPRestProcessor(baseUrl   : url,
-                                            user      : user,
-                                            password  : password,
-                                            supressRequestBodyLog:  supress,
-                                            supressResponseBodyLog: supress,
-                                            execution : execution)
+    this.http       = new HTTPRestProcessor(
+      baseUrl   : this.url,
+      user      : this.user,
+      password  : this.password,
+      supressRequestBodyLog:  supress,
+      supressResponseBodyLog: supress,
+      execution : this.execution
+    )
     this.homsOrderCode = execution.getVariable('homsOrderCode')
     this.homsOrderId   = execution.getVariable('homsOrderId')
   }
@@ -41,11 +46,13 @@ class HOMS {
       ]
     ]
     logger.info("/ Creating new order ...")
-    def result = processor.sendRequest(path: '/api/orders',
-                                       supressRequestBodyLog:  false,
-                                       supressResponseBodyLog: false,
-                                       body: body,
-                                       'post')
+    def result = http.sendRequest(
+      'post',
+      path: '/api/orders',
+      supressRequestBodyLog:  false,
+      supressResponseBodyLog: false,
+      body: body
+    )
     LinkedHashMap order = result.order
     homsOrderCode = order.code
     homsOrderId   = order.id
@@ -67,9 +74,11 @@ class HOMS {
       ]
     ]
     logger.info("/ Starting order ...")
-    def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
-                                            body: body,
-                                            'put')
+    def result = this.http.sendRequest(
+      'put',
+      path: "/api/orders/${homsOrderCode}",
+      body: body
+    )
     logger.info('\\ Order started')
   }
 
@@ -81,16 +90,20 @@ class HOMS {
       ]
     ]
     logger.info('/ Saving order data...')
-    def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
-                                            body: body,
-                                            'put')
+    def result = this.http.sendRequest(
+      'put',
+      path: "/api/orders/${homsOrderCode}",
+      body: body
+    )
     logger.info('\\ Order data saved')
   }
 
   void getOrderData() {
     logger.info('/ Receiving order data...')
-    def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
-                                            'get')
+    def result = this.http.sendRequest(
+      'get',
+      path: "/api/orders/${homsOrderCode}"
+    )
     homsOrderId = result.order.id
     execution.setVariable('homsOrderId', homsOrderId)
 
@@ -112,9 +125,11 @@ class HOMS {
       ]
     ]
     logger.info("/ Finishing order ...")
-    def result = this.processor.sendRequest(path: "/api/orders/${homsOrderCode}",
-                                            body: body,
-                                            'put')
+    def result = this.http.sendRequest(
+      'put',
+      path: "/api/orders/${homsOrderCode}",
+      body: body
+    )
     logger.info('\\ Order finished')
   }
 
@@ -128,9 +143,11 @@ class HOMS {
       files: JSON.to(files)
     ]
     logger.info("Attaching files to order ${homsOrderId}")
-    def newFiles =  processor.sendRequest(path: '/widget/file_upload',
-                                          body: body,
-                                          'post')
+    def newFiles =  this.http.sendRequest(
+      'post',
+      path: '/widget/file_upload',
+      body: body
+    )
     if (save) {
       def existingFiles = JSON.from(execution.getVariable('homsOrderDataFileList'))
       def newList = existingFiles + newFiles

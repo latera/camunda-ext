@@ -25,25 +25,25 @@ import org.camunda.latera.bss.connectors.hid.hydra.Address
 class Hydra implements Ref, Good, Document, Contract, PriceOrder, Invoice, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address {
   private static Integer DEFAULT_FIRM = 100
   HID hid
+  String user
+  private String password
   def firmId
   def resellerId
-  DelegateExecution execution
   SimpleLogger logger
 
   Hydra(DelegateExecution execution) {
-    this.execution = execution
-    this.logger = new SimpleLogger(this.execution)
-    this.hid = new HID(execution)
+    this.logger = new SimpleLogger(execution)
+    this.hid    = new HID(execution)
 
-    def user        = execution.getVariable('hydraUser') ?: 'hydra'
-    def password    = execution.getVariable('hydraPassword')
+    this.user       = execution.getVariable('hydraUser') ?: 'hydra'
+    this.password   = execution.getVariable('hydraPassword')
     this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())
     this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',
-      vch_VC_USER     : user,
-      vch_VC_PASS     : password,
+      vch_VC_USER     : this.user,
+      vch_VC_PASS     : this.password,
       vch_VC_APP_CODE : 'NETSERV_HID',
       vch_VC_CLN_APPID: 'HydraOMS'
     ])

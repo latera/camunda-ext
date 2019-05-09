@@ -7,37 +7,39 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class Hoper {
   String url
-  private String user
+  String user
   private String password
   Integer version
   HTTPRestProcessor http
-  DelegateExecution execution
   SimpleLogger logger
 
   Hoper(DelegateExecution execution) {
-    this.execution = execution
     this.logger    = new SimpleLogger(execution)
 
     this.url      = execution.getVariable("hoperUrl")     ?: 'http://hoper:3000'
     this.version  = execution.getVariable("hoperVersion") ?: 2
     this.user     = execution.getVariable("hydraUser")
     this.password = execution.getVariable("hydraPassword")
-    this.http     = new HTTPRestProcessor(baseUrl   : this.url,
-                                          execution : execution)
+    this.http     = new HTTPRestProcessor(
+      baseUrl   : this.url,
+      execution : execution
+    )
   }
 
   private def authToken() {
     def auth = [
       session: [
-        login    : user,
-        password : password
+        login    : this.user,
+        password : this.password
       ]
     ]
-    return http.sendRequest('get',
-                            path : "/rest/v${this.version}/login",
-                            body : auth,
-                            supressRequestBodyLog  : true,
-                            supressResponseBodyLog : true)?.session?.token
+    return http.sendRequest(
+      'get',
+      path : "/rest/v${this.version}/login",
+      body : auth,
+      supressRequestBodyLog  : true,
+      supressResponseBodyLog : true
+    )?.session?.token
   }
 
   private def authBasic() {

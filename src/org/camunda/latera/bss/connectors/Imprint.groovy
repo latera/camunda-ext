@@ -6,27 +6,30 @@ import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class Imprint {
-  HTTPRestProcessor processor
+  String url
+  String version
+  private String token
+  HTTPRestProcessor http
   LinkedHashMap headers
-  DelegateExecution execution
   SimpleLogger logger
   String locale
 
   Imprint(DelegateExecution execution) {
-    this.execution = execution
     this.logger    = new SimpleLogger(execution)
 
     this.locale = execution.getVariable("locale") ?: 'en'
-    def url     = execution.getVariable("imprintUrl")
-    def version = execution.getVariable("imprintVersion")
-    def token   = execution.getVariable("imprintToken")
+    this.url     = execution.getVariable("imprintUrl")
+    this.version = execution.getVariable("imprintVersion")
+    this.token   = execution.getVariable("imprintToken")
     def headers = [
-      'X_IMPRINT_API_VERSION' : version,
-      'X_IMPRINT_API_TOKEN'   : token
+      'X_IMPRINT_API_VERSION' : this.version,
+      'X_IMPRINT_API_TOKEN'   : this.token
     ]
-    this.processor = new HTTPRestProcessor(baseUrl   : url,
-                                           headers   : headers,
-                                           execution : execution)
+    this.http = new HTTPRestProcessor(
+      baseUrl   : url,
+      headers   : headers,
+      execution : execution
+    )
   }
 
   def print(String template, LinkedHashMap data) {
@@ -39,10 +42,12 @@ class Imprint {
                   todayFull : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.FULL_DATE_FORMAT, this.locale)
                 ] + data
     ]
-    def result = this.processor.sendRequest(path        : '/api/print',
-                                            body        : body,
-                                            contentType : 'application/json',
-                                            'post')
+    def result = this.http.sendRequest(
+      'post',
+      path        : '/api/print',
+      body        : body,
+      contentType : 'application/json'
+    )
     def file = result
     return file
   }

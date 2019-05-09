@@ -10,15 +10,18 @@ import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class HID implements Table {
+  String url
+  String user
+  private String password
   XMLRPCServerProxy proxy
 
   HID(DelegateExecution execution) {
-    def url      = execution.getVariable('hidUrl')  ?: 'http://hid:10080'
-    def user     = execution.getVariable('hidUser') ?: 'hydra'
-    def password = execution.getVariable('hidPassword')
+    this.url      = execution.getVariable('hidUrl')  ?: 'http://hid:10080'
+    this.user     = execution.getVariable('hidUser') ?: 'hydra'
+    this.password = execution.getVariable('hidPassword')
 
-    this.proxy = new XMLRPCServerProxy(url)
-    this.proxy.setBasicAuth(user, password)
+    this.proxy = new XMLRPCServerProxy(this.url)
+    this.proxy.setBasicAuth(this.user, this.password)
   }
 
   Object queryDatabase(String query, Boolean asMap = false, Boolean noLimit = false) {
@@ -50,7 +53,7 @@ class HID implements Table {
         }
       }
     }
-  
+
     return result
   }
 

@@ -13,7 +13,7 @@ import org.camunda.latera.bss.connectors.odoo.types.Country
 
 class Odoo implements Main, Entity, Lead, Customer, Country {
   String url
-  private String user
+  String user
   private String password
   private String token
   String db
@@ -30,9 +30,11 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
     this.password = execution.getVariable('crmPassword')
     this.token    = execution.getVariable('crmToken')
     this.db       = execution.getVariable('crmDatabase') ?: 'odoo'
-    this.http     = new HTTPRestProcessor(baseUrl     : url,
-                                          contentType : 'application/x-www-form-urlencoded',
-                                          execution   : execution)
+    this.http     = new HTTPRestProcessor(
+      baseUrl     : url,
+      contentType : 'application/x-www-form-urlencoded',
+      execution   : execution
+    )
   }
 
   private String authToken() {
@@ -49,7 +51,8 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
     return http.sendRequest(
         'get',
         path  : '/api/auth/token',
-        query : query)?.access_token?.toString()
+        query : query
+    )?.access_token?.toString()
   }
 
   private LinkedHashMap authHeader() {

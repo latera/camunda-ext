@@ -9,17 +9,22 @@ import org.apache.http.impl.client.LaxRedirectStrategy
 import java.security.MessageDigest
 
 class Planado {
-  private String planadoApiKey
-  private HTTPRestProcessor http
-  private SimpleLogger logger
+  String url
+  private String planadoToken
+  HTTPRestProcessor http
+  SimpleLogger logger
 
   Planado(DelegateExecution execution) {
     this.logger = new SimpleLogger(execution)
-    this.planadoApiKey = execution.getVariable('planadoApiKey')
-    def headers = ["X-Planado-Api-Token": planadoApiKey]
-    def url = 'https://api.planadoapp.com/api/v1/'
-    http = new HTTPRestProcessor(baseUrl: url,
-                                 headers: headers)
+
+    this.url = 'https://api.planadoapp.com/api/v1/'
+    this.planadoToken = execution.getVariable('planadoApiKey')
+
+    def headers = ["X-Planado-Api-Token": planadoToken]
+    http = new HTTPRestProcessor(
+      baseUrl: url,
+      headers: headers
+    )
   }
 
   private String __makeExtID(String s) {
@@ -32,9 +37,8 @@ class Planado {
   Object getUser(String extID) {
     try {
       return http.sendRequest(
-          'get',
-          path: "clients/${extID}.json",
-
+        'get',
+        path: "clients/${extID}.json",
       )
     }
     catch (HttpException ex) {
@@ -45,8 +49,8 @@ class Planado {
   Object getUsers() {
     try {
       return http.sendRequest(
-          'get',
-          path: "clients.json"
+        'get',
+        path: "clients.json"
       )
     }
     catch (HttpException ex) {
@@ -57,8 +61,8 @@ class Planado {
   void deleteUser(String extID) {
     try {
       http.sendRequest(
-          "delete",
-          path: "clients/${extID}.json"
+        "delete",
+        path: "clients/${extID}.json"
       )
     }
     catch (HttpException ex) {
@@ -68,16 +72,16 @@ class Planado {
 
   String createUser(Map userData) {
     String extID = __makeExtID(
-        [
-            userData.firstName,
-            userData.middleName,
-            userData.lastName,
-            userData.addressStreet,
-            userData.addressEntrance,
-            userData.addressFloor,
-            userData.addressApartment,
-            userData.phone
-        ].findAll { it -> !it?.isEmpty() }.join(';')
+      [
+        userData.firstName,
+        userData.middleName,
+        userData.lastName,
+        userData.addressStreet,
+        userData.addressEntrance,
+        userData.addressFloor,
+        userData.addressApartment,
+        userData.phone
+      ].findAll { it -> !it?.isEmpty() }.join(';')
     )
 
     if (getUser(extID)) {
@@ -86,32 +90,33 @@ class Planado {
     }
 
     HashMap payload = [
-        external_id : extID,
-        organization: false,
-        first_name  : userData.firstName,
-        middle_name : userData.middleName,
-        last_name   : userData.lastName,
-        name        : [userData.lastName, userData.firstName].findAll { it -> !it?.isEmpty() }.join(' '),
-        site_address : [
-            formatted  : userData.addressStreet,
-            entrance_no: userData.addressEntrance,
-            floor      : userData.addressFloor,
-            apartment  : userData.addressApartment,
-            description: userData.addressDescription?:""
-        ],
-        email       : userData.email,
-        cell_phone  : userData.phone
+      external_id   : extID,
+      organization  : false,
+      first_name    : userData.firstName,
+      middle_name   : userData.middleName,
+      last_name     : userData.lastName,
+      name          : [userData.lastName, userData.firstName].findAll { it -> !it?.isEmpty() }.join(' '),
+      site_address  : [
+        formatted   : userData.addressStreet,
+        entrance_no : userData.addressEntrance,
+        floor       : userData.addressFloor,
+        apartment   : userData.addressApartment,
+        description : userData.addressDescription?:""
+      ],
+      email         : userData.email,
+      cell_phone    : userData.phone
     ]
 
     if (userData.addressLat && userData.addressLon) payload.site_address.geolocation = [
-        latitude : userData.addressLat,
-        longitude: userData.addressLon
+      latitude : userData.addressLat,
+      longitude: userData.addressLon
     ]
 
     http.sendRequest(
-        'post',
-        path: 'clients.json',
-        body: payload)
+      'post',
+      path: 'clients.json',
+      body: payload
+    )
 
     return extID
   }
@@ -120,14 +125,14 @@ class Planado {
       Map companyData
   ) {
     String extID = __makeExtID(
-        [
-            companyData.companyName,
-            companyData.addressStreet,
-            companyData.addressEntrance,
-            companyData.addressFloor,
-            companyData.addressApartment,
-            companyData.phone
-        ].findAll { it -> !it?.isEmpty() }.join(';')
+      [
+        companyData.companyName,
+        companyData.addressStreet,
+        companyData.addressEntrance,
+        companyData.addressFloor,
+        companyData.addressApartment,
+        companyData.phone
+      ].findAll { it -> !it?.isEmpty() }.join(';')
     )
 
     if (getUser(extID)) {
@@ -135,23 +140,23 @@ class Planado {
       return extID
     }
     HashMap payload = [
-        external_id      : extID,
-        organization     : true,
-        organization_name: companyData.companyName,
-        site_address: [
-            formatted  : companyData.addressStreet,
-            entrance_no: companyData.addressEntrance,
-            floor      : companyData.addressFloor,
-            apartment  : companyData.addressApartment,
-            description: companyData.addressDescription?:""
-        ],
-        email      : companyData.email,
-        contacts   : [[
-                          type : "phone",
-                          name : companyData.companyName,
-                          value: companyData.phone,
-                          value_normalized: companyData.phone
-                      ]]
+      external_id       : extID,
+      organization      : true,
+      organization_name : companyData.companyName,
+      site_address      : [
+        formatted   : companyData.addressStreet,
+        entrance_no : companyData.addressEntrance,
+        floor       : companyData.addressFloor,
+        apartment   : companyData.addressApartment,
+        description : companyData.addressDescription?:""
+      ],
+      email    : companyData.email,
+      contacts : [[
+                  type : "phone",
+                  name : companyData.companyName,
+                  value: companyData.phone,
+                  value_normalized: companyData.phone
+                ]]
     ]
 
     if (companyData.addressLat && companyData.addressLon) payload.site_address.geolocation = [
@@ -160,9 +165,10 @@ class Planado {
     ]
 
     http.sendRequest(
-        'post',
-        path: 'clients.json',
-        body: payload)
+      'post',
+      path: 'clients.json',
+      body: payload
+    )
 
     return extID
   }
@@ -170,8 +176,8 @@ class Planado {
   void deleteJob(String jobID) {
     try {
       http.sendRequest(
-          "delete",
-          path: "jobs/${extID}.json"
+        "delete",
+        path: "jobs/${extID}.json"
       )
     }
     catch (HttpException ex) {
@@ -187,9 +193,10 @@ class Planado {
     ]
 
     def res = http.sendRequest(
-        'post',
-        path: 'jobs.json',
-        body: payload)
+      'post',
+      path: 'jobs.json',
+      body: payload
+    )
 
     return res?.job_id?:null
   }
@@ -197,8 +204,8 @@ class Planado {
   Object getJob(String jobID) {
     try {
       return http.sendRequest(
-          'get',
-          path: "jobs/${jobID}.json"
+        'get',
+        path: "jobs/${jobID}.json"
       )
     }
     catch (HttpException ex) {
@@ -209,8 +216,8 @@ class Planado {
   Object getJobTemplate(String templateID) {
     try {
       return http.sendRequest(
-          'get',
-          path: "templates/${templateID}.json"
+        'get',
+        path: "templates/${templateID}.json"
       )
     }
     catch (HttpException ex) {

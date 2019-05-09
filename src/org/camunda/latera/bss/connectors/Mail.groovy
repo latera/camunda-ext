@@ -8,9 +8,9 @@ import javax.mail.Message
 
 class MailSender {
 
-  private String     host
-  private Integer    port
-  private String     user
+  String     host
+  Integer    port
+  String     user
   private String     password
   private Session    session
   private Message    message
