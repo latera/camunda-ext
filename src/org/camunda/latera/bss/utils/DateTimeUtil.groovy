@@ -76,6 +76,18 @@ class DateTimeUtil {
     return format(input, params.format, params.locale)
   }
 
+  static String iso(Date input) {
+    return input.format(this.ISO_FORMAT_NO_TZ)
+  }
+
+  static String iso(LocalDateTime input) {
+    return input.format(this.ISO_FORMAT_NO_TZ)
+  }
+
+  static String iso(ZonedDateTime input) {
+    return input.format(this.ISO_FORMAT)
+  }
+
   static ZonedDateTime atZone(Date input, ZoneId zone) {
     return input.toInstant().atZone(zone)
   }

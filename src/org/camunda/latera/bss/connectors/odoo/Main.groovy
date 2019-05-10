@@ -37,7 +37,7 @@ trait Main {
           }
 
           if (DateTimeUtil.isDate(value)) {
-            content = DateTimeUtil.format(value, DateTimeUtil.ISO_FORMAT)
+            content = DateTimeUtil.iso(value)
           }
           query += """('${field}','${condition}','${content}')"""
         }
