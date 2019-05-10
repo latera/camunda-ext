@@ -24,7 +24,7 @@ trait Main {
       where.each{ field, value ->
         if (value instanceof LinkedHashMap) {
           value.each { condition, content ->
-            query += """('${field}','${condition}','${content}')'"""
+            query += """('${field}','${condition}','${content}')"""
           }
         } else {
           def condition = '='
@@ -39,7 +39,7 @@ trait Main {
           if (DateTimeUtil.isDate(value)) {
             content = DateTimeUtil.format(value, DateTimeUtil.ISO_FORMAT)
           }
-          query += """('${field}','${condition}','${content}')'"""
+          query += """('${field}','${condition}','${content}')"""
         }
       }
     }

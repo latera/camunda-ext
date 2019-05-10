@@ -28,14 +28,14 @@ trait Entity {
     return result
   }
 
-  List getEntitiesBy(def type, LinkedHashMap input) {
+  List getEntitiesBy(def type, LinkedHashMap params) {
     def result = []
-    def query = searchQuery(input)
+    def query = searchQuery(params)
     try {
       result = sendRequest(
         'get',
-        path : "${type}/",
-        body : query
+        path  : "${type}/",
+        query : query
       )?.data
     } catch (Exception e) {
       logger.error(e)
@@ -43,8 +43,8 @@ trait Entity {
     return result
   }
 
-  LinkedHashMap getEntityBy(def type, LinkedHashMap input) {
-    return getEntitiesBy(type, input)?.getAt(0)
+  LinkedHashMap getEntityBy(def type, LinkedHashMap params) {
+    return getEntitiesBy(type, params)?.getAt(0)
   }
 
   LinkedHashMap createEntity(def type, LinkedHashMap params) {
@@ -53,7 +53,7 @@ trait Entity {
       logger.info("Creating ${type} with params ${params}")
       result = sendRequest(
         'post',
-        path : "${type}/",
+        path : "${type}",
         body : params
       )?.data
     } catch (Exception e) {
