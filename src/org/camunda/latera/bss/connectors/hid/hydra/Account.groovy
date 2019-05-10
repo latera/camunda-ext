@@ -4,15 +4,28 @@ import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.Oracle
 
 trait Account {
-  private static String ACCOUNTS_TABLE       = 'SI_V_SUBJ_ACCOUNTS'
-  private static String DEFAULT_ACCOUNT_TYPE = 'ACC_TYPE_Personal'
+  private static String ACCOUNTS_TABLE           = 'SI_V_SUBJ_ACCOUNTS'
+  private static String DEFAULT_ACCOUNT_TYPE     = 'ACC_TYPE_Personal'
+  private static String DEFAULT_OVERDRAFT_REASON = 'OVERDRAFT_Manual'
 
   def getAccountsTable() {
     return ACCOUNTS_TABLE
   }
 
+  def getDefaultAccountType() {
+    return DEFAULT_ACCOUNT_TYPE
+  }
+
   def getDefaultAccountTypeId() {
-    return getRefIdByCode(DEFAULT_ACCOUNT_TYPE)
+    return getRefIdByCode(getDefaultAccountType())
+  }
+
+  def getDefaultOverdraftReason() {
+    return DEFAULT_OVERDRAFT_REASON
+  }
+
+  def getDefaultOverdraftReasonId() {
+    return getRefIdByCode(getDefaultOverdraftReason())
   }
 
   LinkedHashMap getAccount(
@@ -213,21 +226,22 @@ trait Account {
     return putAdjustment(input + [accountId: accountId])
   }
 
-  Boolean putPermanentOverdraft(
-    def accountId,
-    def sum = 0,
-    def reasonId = null
-  ) {
-    if (sum <= 0) {
+  Boolean putPermanentOverdraft(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      accountId : null,
+      reasonId  : getDefaultOverdraftReasonId(),
+      sum       : 0
+    ], input)
+    if (params.sum <= 0) {
       logger.info("Trying to add zero sum permanent overdraft - delete it instead")
-      return deletePermanentOverdraft(accountId)
+      return deletePermanentOverdraft(params.accountId)
     }
     try {
       logger.info("Putting permanent overdraft with params ${params}")
       hid.execute('SD_OVERDRAFTS_PKG.SET_PERMANENT_OVERDRAFT', [
-        num_N_ACCOUNT_ID      : accountId,
-        num_N_ISSUE_REASON_ID : reasonId,
-        num_N_SUM             : sum,
+        num_N_ACCOUNT_ID      : params.accountId,
+        num_N_ISSUE_REASON_ID : params.reasonId,
+        num_N_SUM             : params.sum,
       ])
       logger.info("   Permanent overdraft was put successfully!")
       return true
@@ -236,27 +250,31 @@ trait Account {
       logger.error_oracle(e)
       return false
     }
+    return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
   }
 
-  Boolean putPermanentOverdraft(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
-      accountId : null,
-      reasonId  : null,
-      sum       : 0
-    ], input)
-    return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
+  Boolean putPermanentOverdraft(
+    def accountId,
+    def sum = 0,
+    def reasonId = getDefaultOverdraftReasonId()
+  ) {
+    return putPermanentOverdraft(
+      accountId : accountId,
+      sum       : sum,
+      reasonId  : reasonId
+    )
+  }
+
+  Boolean addPermanentOverdraft(LinkedHashMap input) {
+    return putPermanentOverdraft(input)
   }
 
   Boolean addPermanentOverdraft(
     def accountId,
     def sum = 0,
-    def reasonId = null
+    def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putPermanentOverdraft(accountId, sum, reasonId)
-  }
-
-  Boolean addPermanentOverdraft(LinkedHashMap input) {
-    return putPermanentOverdraft(input)
   }
 
   Boolean deletePermanentOverdraft(def accountId) {
@@ -274,23 +292,24 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(
-    def accountId,
-    def sum     = 0,
-    def endDate = DateTimeUtil.dayEnd(),
-    def reasonId = null
-  ) {
-    if (sum <= 0) {
+  Boolean putTemporalOverdraft(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      accountId : null,
+      sum       : 0,
+      endDate   : DateTimeUtil.dayEnd(),
+      reasonId  : getDefaultOverdraftReasonId()
+    ], input)
+    if (params.sum <= 0) {
       logger.info("Trying to add zero sum temporal overdraft - remove it instead")
-      return deleteTemporalOverdraft(accountId)
+      return deleteTemporalOverdraft(params.accountId)
     }
     try {
       logger.info("Putting temporal overdraft with params ${params}")
       hid.execute('SD_OVERDRAFTS_PKG.SET_TEMPORAL_OVERDRAFT', [
-        num_N_ACCOUNT_ID      : accountId,
-        num_N_ISSUE_REASON_ID : reasonId,
-        dt_D_END              : endDate,
-        num_N_SUM             : sum,
+        num_N_ACCOUNT_ID      : params.accountId,
+        num_N_ISSUE_REASON_ID : params.reasonId,
+        dt_D_END              : params.endDate,
+        num_N_SUM             : params.sum,
       ])
       logger.info("   Temporal overdraft was put successfully!")
       return true
@@ -301,27 +320,31 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
-      accountId : null,
-      sum       : 0,
-      endDate   : DateTimeUtil.dayEnd(),
-      reasonId  : null
-    ], input)
-    return putTemporalOverdraft(params.accountId, params.sum, params.endDate, params.reasonId)
+  Boolean putTemporalOverdraft(
+    def accountId,
+    def sum     = 0,
+    def endDate = DateTimeUtil.dayEnd(),
+    def reasonId = getDefaultOverdraftReasonId()
+  ) {
+    return putTemporalOverdraft(
+      accountId : accountId,
+      sum       : sum,
+      endDate   : endDate,
+      reasonId  : reasonId
+    )
+  }
+
+  Boolean addTemporalOverdraft(LinkedHashMap input) {
+    return putTemporalOverdraft(input)
   }
 
   Boolean addTemporalOverdraft(
     def accountId,
     def sum = 0,
     def endDate = DateTimeUtil.dayEnd(),
-    def reasonId = null
+    def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putTemporalOverdraft(accountId, sum, endDate, reasonId)
-  }
-
-  Boolean addTemporalOverdraft(LinkedHashMap input) {
-    return putTemporalOverdraft(input)
   }
 
   Boolean deleteTemporalOverdraft(def accountId) {
