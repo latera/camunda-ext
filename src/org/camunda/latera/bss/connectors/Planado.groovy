@@ -1,227 +1,263 @@
 package org.camunda.latera.bss.connectors
 
-import groovyx.net.http.HttpException
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.apache.http.impl.client.LaxRedirectStrategy
 
 import java.security.MessageDigest
 
 class Planado {
   String url
-  private String planadoToken
+  private String token
+  Integer version
   HTTPRestProcessor http
   SimpleLogger logger
 
   Planado(DelegateExecution execution) {
     this.logger = new SimpleLogger(execution)
 
-    this.url = 'https://api.planadoapp.com/api/v1/'
-    this.planadoToken = execution.getVariable('planadoApiKey')
+    this.url     = 'https://api.planadoapp.com'
+    this.version = execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: 1
+    this.token   = execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')
 
-    def headers = ["X-Planado-Api-Token": planadoToken]
-    http = new HTTPRestProcessor(
-      baseUrl: url,
-      headers: headers
+    def headers = ['X-Planado-Api-Token': token]
+    this.http = new HTTPRestProcessor(
+      baseUrl   : url,
+      headers   : headers,
+      execution : execution
     )
   }
 
-  private String __makeExtID(String s) {
-    logger.debug("Generating external ID for Planado entity")
+  private String makeExtId(String input) {
+    logger.info('Generating externalId for Planado entity')
     def messageDigest = MessageDigest.getInstance("MD5")
-    messageDigest.update(s.getBytes())
+    messageDigest.update(input.getBytes())
     return new BigInteger(1, messageDigest.digest()).toString(16)
   }
 
-  Object getUser(String extID) {
+  private String makeExtId(List input) {
+    def str = input.findAll { it -> !it?.isEmpty() }.join(';').toString()
+    return makeExtId(str)
+  }
+
+  LinkedHashMap getUser(String extId) {
     try {
-      return http.sendRequest(
+      return sendRequest(
         'get',
-        path: "clients/${extID}.json",
+        path: "clients/${extId}.json",
       )
     }
-    catch (HttpException ex) {
+    catch (Exception e) {
+      logger.error(e)
       return null
     }
   }
 
-  Object getUsers() {
+  LinkedHashMap getUsers() {
     try {
-      return http.sendRequest(
+      return sendRequest(
         'get',
         path: "clients.json"
       )
     }
-    catch (HttpException ex) {
+    catch (Exception e) {
+      logger.error(e)
       return null
     }
   }
 
-  void deleteUser(String extID) {
+  Boolean deleteUser(String extId) {
     try {
-      http.sendRequest(
+      sendRequest(
         "delete",
-        path: "clients/${extID}.json"
+        path: "clients/${extId}.json"
       )
+      return true
     }
-    catch (HttpException ex) {
-      logger.error(ex)
+    catch (Exception e) {
+      logger.error(e)
+      return false
     }
   }
 
-  String createUser(Map userData) {
-    String extID = __makeExtID(
-      [
-        userData.firstName,
-        userData.middleName,
-        userData.lastName,
-        userData.addressStreet,
-        userData.addressEntrance,
-        userData.addressFloor,
-        userData.addressApartment,
-        userData.phone
-      ].findAll { it -> !it?.isEmpty() }.join(';')
-    )
+  LinkedHashMap createUser(Map data) {
+    String extId = data.extId ?: makeExtId([
+      data.firstName,
+      data.middleName,
+      data.lastName,
+      data.addressStreet,
+      data.addressEntrance,
+      data.addressFloor,
+      data.addressApartment,
+      data.phone
+    ])
 
-    if (getUser(extID)) {
-      logger.debug("User exists")
-      return extID
+    logger.info('Checking if user exists')
+    def existingUser = getUser(extId)
+    if (existingUser) {
+      logger.info("User exists")
+      return existingUser
     }
 
-    HashMap payload = [
-      external_id   : extID,
+    LinkedHashMap payload = [
+      external_id   : extId,
       organization  : false,
-      first_name    : userData.firstName,
-      middle_name   : userData.middleName,
-      last_name     : userData.lastName,
-      name          : [userData.lastName, userData.firstName].findAll { it -> !it?.isEmpty() }.join(' '),
+      first_name    : data.firstName,
+      middle_name   : data.middleName,
+      last_name     : data.lastName,
+      name          : [data.lastName, data.firstName].join(' ').trim(),
       site_address  : [
-        formatted   : userData.addressStreet,
-        entrance_no : userData.addressEntrance,
-        floor       : userData.addressFloor,
-        apartment   : userData.addressApartment,
-        description : userData.addressDescription?:""
+        formatted   : data.addressStreet,
+        entrance_no : data.addressEntrance,
+        floor       : data.addressFloor,
+        apartment   : data.addressApartment,
+        description : data.addressDescription ?: ''
       ],
-      email         : userData.email,
-      cell_phone    : userData.phone
+      email         : data.email,
+      cell_phone    : data.phone
     ]
 
-    if (userData.addressLat && userData.addressLon) payload.site_address.geolocation = [
-      latitude : userData.addressLat,
-      longitude: userData.addressLon
-    ]
+    if (data.addressLat && data.addressLon) {
+      payload.site_address.geolocation = [
+        latitude  : data.addressLat,
+        longitude : data.addressLon
+      ]
+    }
 
-    http.sendRequest(
-      'post',
-      path: 'clients.json',
-      body: payload
-    )
-
-    return extID
+    try {
+      logger.info('Creating new user')
+      return sendRequest(
+        'post',
+        path: 'clients.json',
+        body: payload
+      )
+    } catch (Exception e) {
+      logger.error(e)
+      return null
+    }
   }
 
-  String createCompany(
-      Map companyData
-  ) {
-    String extID = __makeExtID(
-      [
-        companyData.companyName,
-        companyData.addressStreet,
-        companyData.addressEntrance,
-        companyData.addressFloor,
-        companyData.addressApartment,
-        companyData.phone
-      ].findAll { it -> !it?.isEmpty() }.join(';')
-    )
+  LinkedHashMap createCompany(Map data) {
+    String extId = data.extId ?: makeExtId([
+      data.companyName,
+      data.addressStreet,
+      data.addressEntrance,
+      data.addressFloor,
+      data.addressApartment,
+      data.phone
+    ])
 
-    if (getUser(extID)) {
-      logger.debug("Company exists")
-      return extID
+    logger.info('Checking if company exists')
+    def existingCompany = getUser(extId)
+    if (existingCompany) {
+      logger.info("Company exists")
+      return existingCompany
     }
-    HashMap payload = [
-      external_id       : extID,
+
+    LinkedHashMap payload = [
+      external_id       : extId,
       organization      : true,
-      organization_name : companyData.companyName,
+      organization_name : data.companyName,
       site_address      : [
-        formatted   : companyData.addressStreet,
-        entrance_no : companyData.addressEntrance,
-        floor       : companyData.addressFloor,
-        apartment   : companyData.addressApartment,
-        description : companyData.addressDescription?:""
+        formatted   : data.addressStreet,
+        entrance_no : data.addressEntrance,
+        floor       : data.addressFloor,
+        apartment   : data.addressApartment,
+        description : data.addressDescription ?: ''
       ],
-      email    : companyData.email,
+      email    : data.email,
       contacts : [[
-                  type : "phone",
-                  name : companyData.companyName,
-                  value: companyData.phone,
-                  value_normalized: companyData.phone
+                  type  : "phone",
+                  name  : data.companyName,
+                  value : data.phone,
+                  value_normalized: data.phone
                 ]]
     ]
 
-    if (companyData.addressLat && companyData.addressLon) payload.site_address.geolocation = [
-        latitude : companyData.addressLat,
-        longitude: companyData.addressLon
-    ]
+    if (data.addressLat && data.addressLon) {
+      payload.site_address.geolocation = [
+        latitude  : data.addressLat,
+        longitude : data.addressLon
+      ]
+    }
 
-    http.sendRequest(
-      'post',
-      path: 'clients.json',
-      body: payload
-    )
-
-    return extID
-  }
-
-  void deleteJob(String jobID) {
     try {
-      http.sendRequest(
-        "delete",
-        path: "jobs/${extID}.json"
+      logger.info('Creating new company')
+      return sendRequest(
+        'post',
+        path: 'clients.json',
+        body: payload
       )
-    }
-    catch (HttpException ex) {
-      logger.error(ex)
+    } catch (Exception e) {
+      logger.error(e)
+      return null
     }
   }
 
-  String createJob(Map jobData) {
-    HashMap payload = [
-        template_id  : jobData.templateId,
-        client_id    : jobData.clientId,
-        scheduled_at : jobData.startDate
+  Boolean deleteJob(String jobId) {
+    try {
+      sendRequest(
+        'delete',
+        path: "jobs/${jobId}.json"
+      )
+      return true
+    }
+    catch (Exception e) {
+      logger.error(e)
+      return false
+    }
+  }
+
+  LinkedHashMap createJob(Map data) {
+    if (data.extId && !data.clientId) {
+      data.clientId = getUser(data.extId)?.client_id
+    }
+    LinkedHashMap payload = [
+      template_id  : data.templateId,
+      client_id    : data.clientId,
+      scheduled_at : data.startDate,
+      description  : data.description
     ]
 
-    def res = http.sendRequest(
+    try {
+      logger.info('Creating new job')
+      return sendRequest(
       'post',
       path: 'jobs.json',
       body: payload
     )
-
-    return res?.job_id?:null
-  }
-
-  Object getJob(String jobID) {
-    try {
-      return http.sendRequest(
-        'get',
-        path: "jobs/${jobID}.json"
-      )
-    }
-    catch (HttpException ex) {
+    } catch (Exception e) {
+      logger.error(e)
       return null
     }
   }
 
-  Object getJobTemplate(String templateID) {
+  LinkedHashMap getJob(String jobId) {
     try {
-      return http.sendRequest(
+      return sendRequest(
+        'get',
+        path: "jobs/${jobId}.json"
+      )
+    }
+    catch (Exception e) {
+      return null
+    }
+  }
+
+  LinkedHashMap getJobTemplate(String templateID) {
+    try {
+      return sendRequest(
         'get',
         path: "templates/${templateID}.json"
       )
     }
-    catch (HttpException ex) {
+    catch (Exception e) {
       return null
     }
+  }
+
+  def sendRequest(Map input, String method = 'get') {
+    input.path = "/api/v${this.version}/${input.path}".toString()
+    return http.sendRequest(input, method)
   }
 }
