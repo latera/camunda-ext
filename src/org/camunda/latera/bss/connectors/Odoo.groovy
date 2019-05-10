@@ -18,11 +18,9 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
   private String token
   String db
   HTTPRestProcessor http
-  DelegateExecution execution
   SimpleLogger logger
 
   Odoo(DelegateExecution execution) {
-    this.execution = execution
     this.logger    = new SimpleLogger(execution)
 
     this.url      = execution.getVariable('crmUrl')
@@ -51,7 +49,9 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
     return http.sendRequest(
         'get',
         path  : '/api/auth/token',
-        query : query
+        query : query,
+        supressRequestBodyLog  : true,
+        supressResponseBodyLog : true
     )?.access_token?.toString()
   }
 
