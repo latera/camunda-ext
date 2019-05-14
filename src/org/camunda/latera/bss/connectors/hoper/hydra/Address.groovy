@@ -152,6 +152,19 @@ trait Address {
     return updateEntity(getCompanyAddressEntityType(companyId), subjAddressId, params)
   }
 
+  LinkedHashMap putAddress(LinkedHashMap input) {
+    def personId = input.personId
+    input.remove('personId')
+    def companyId = input.companyId
+    input.remove('companyId')
+
+    if (personId) {
+      return putPersonAddress(personId, input)
+    } else if (companyId) {
+      return putCompanyAddress(companyId, input)
+    }
+  }
+
   Boolean putAddress(def entityType = 'person', def entityId, LinkedHashMap input) {
     if (entityType == getPersonEntityType().one) {
       return putPersonAddress(entityId, input)

@@ -159,6 +159,12 @@ trait Equipment {
     return updateEntity(getEquipmentEntryEntityType(equipmentId), entryId, params)
   }
 
+  LinkedHashMap putCustomerEquipment(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return putCustomerEquipment(customerId, input, additionalParams)
+  }
+
   LinkedHashMap putCustomerEquipment(def customerId, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def equipmentId = input.equipmentId
     input.remove('equipmentId')
@@ -168,6 +174,13 @@ trait Equipment {
     } else {
       return createCustomerEquipment(customerId, input, additionalParams)
     }
+  }
+
+  LinkedHashMap putEquipmentEntry(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+    def equipmentId = input.equipmentId
+    input.remove('equipmentId')
+
+    return putEquipmentEntry(equipmentId, input, additionalParams)
   }
 
   LinkedHashMap putEquipmentEntry(def equipmentId, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
