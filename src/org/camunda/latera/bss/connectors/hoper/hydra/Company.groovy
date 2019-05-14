@@ -30,7 +30,7 @@ trait Company {
       kpp       : null,
       rem       : null,
       stateId   : null,
-      firmId    : null,
+      firmId    : getFirmId()
     ]
   }
 
@@ -41,10 +41,10 @@ trait Company {
       n_opf_id        : params.opfId,
       vc_inn          : params.inn,
       vc_kpp          : params.kpp,
+      vc_rem          : params.rem,
       n_subj_state_id : params.stateId,
       n_firm_id       : params.firmId,
-      t_tags          : params.tags,
-      vc_rem          : params.rem
+      t_tags          : params.tags
     ]
     if (additionalParams) {
       result.additional_values = params.additionalParams

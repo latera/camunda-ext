@@ -17,7 +17,8 @@ trait Customer {
       baseSubjectId : null,
       groupId       : null,
       groupIds      : null,
-      rem           : null
+      rem           : null,
+      firmId        : getFirmId()
     ]
   }
 
@@ -28,6 +29,7 @@ trait Customer {
       n_subj_group_id   : params.groupId,
       group_ids         : params.groupIds,
       vc_rem            : params.rem,
+      n_firm_id         : params.firmId,
       t_tags            : params.tags
     ]
     if (additionalParams) {

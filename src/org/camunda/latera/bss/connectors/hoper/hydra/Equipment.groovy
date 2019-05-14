@@ -55,6 +55,7 @@ trait Equipment {
       invNo           : null,
       serialNo        : null,
       rem             : null,
+      firmId          : getFirmId(),
       stateId         : getEquipmentStateActualId()
     ]
   }
@@ -76,7 +77,8 @@ trait Equipment {
       vc_inventory_number : params.invNo,
       vc_serial_number    : params.serialNo,
       vc_rem              : params.rem,
-      n_obj_state_id      : params.stateId
+      n_obj_state_id      : params.stateId,
+      n_firm_id           : params.firmId
     ]
     if (additionalParams) {
       result.additional_values = params.additionalParams
@@ -170,7 +172,6 @@ trait Equipment {
 
   LinkedHashMap putEquipmentEntry(def equipmentId, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def entryId = input.entryId ?: input.objectId
-    input.remove('equipmentId')
     input.remove('objectId')
 
     if (entryId) {

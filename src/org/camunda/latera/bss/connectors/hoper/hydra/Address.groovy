@@ -50,7 +50,8 @@ trait Address {
       stateId         : getDefaultAddressStateId(),
       isMain          : null,
       beginDate       : null,
-      endDate         : null
+      endDate         : null,
+      firmId          : getFirmId()
     ]
   }
 
@@ -70,7 +71,8 @@ trait Address {
       n_addr_state_id     : params.stateId,
       c_fl_main           : params.isMain,
       d_begin             : params.beginDate,
-      d_end               : params.endDate
+      d_end               : params.endDate,
+      n_firm_id           : params.firmId
     ]
   }
 

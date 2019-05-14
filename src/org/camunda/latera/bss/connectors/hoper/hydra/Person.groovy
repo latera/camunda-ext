@@ -30,7 +30,7 @@ trait Person {
       rem           : null,
       groupId       : null,
       stateId       : null,
-      firmId        : null
+      firmId        : getFirmId()
     ]
   }
 
