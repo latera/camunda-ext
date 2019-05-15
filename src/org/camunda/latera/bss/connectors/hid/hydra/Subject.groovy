@@ -217,6 +217,7 @@ trait Subject {
 
   List getSubjectAddParamsBy(LinkedHashMap input) {
     def params = mergeParams([
+      subjValueId : null,
       subjectId   : null,
       paramId     : null,
       date        : null,
@@ -227,6 +228,9 @@ trait Subject {
     ], prepareSubjectAddParam(input))
     def where = [:]
 
+    if (params.subjValueId) {
+      where.n_subj_value_id = params.subjValueId
+    }
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
     }
@@ -257,6 +261,7 @@ trait Subject {
 
   Boolean putSubjectAddParam(LinkedHashMap input) {
     def params = mergeParams([
+      subjValueId : null,
       subjectId   : null,
       paramId     : null,
       date        : null,
@@ -266,17 +271,32 @@ trait Subject {
       refId       : null
     ], prepareSubjectAddParam(input))
     try {
-      logger.info("Putting subject additional value with params ${params}")
-      hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
-        num_N_SUBJECT_ID         : params.subjectId,
-        num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
-        dt_D_VALUE               : params.date,
-        vch_VC_VALUE             : params.string,
-        num_N_VALUE              : params.number,
-        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
-        num_N_REF_ID             : params.refId
-      ])
-      logger.info("   Additional param value was created successfully!")
+      if (params.subjValueId) {
+        logger.info("Putting subject additional value with params ${params}")
+        hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_PUT', [
+          num_N_SUBJ_VALUE_ID      : params.subjValueId,
+          num_N_SUBJECT_ID         : params.subjectId,
+          num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
+          dt_D_VALUE               : params.date,
+          vch_VC_VALUE             : params.string,
+          num_N_VALUE              : params.number,
+          ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+          num_N_REF_ID             : params.refId
+        ])
+        logger.info("   Additional param value was put successfully!")
+      } else {
+        logger.info("Creating subject additional value with params ${params}")
+        hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
+          num_N_SUBJECT_ID         : params.subjectId,
+          num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
+          dt_D_VALUE               : params.date,
+          vch_VC_VALUE             : params.string,
+          num_N_VALUE              : params.number,
+          ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+          num_N_REF_ID             : params.refId
+        ])
+        logger.info("   Additional param value was created successfully!")
+      }
       return true
     } catch (Exception e){
       logger.error("   Error while putting or creating additional param!")
