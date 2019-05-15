@@ -62,7 +62,7 @@ trait Subject {
   }
 
   List getSubjectsBy(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
+    def params = mergeParams([
       subjectId        : null,
       baseSubjectId    : null,
       parentSubjectId  : null,
@@ -130,7 +130,7 @@ trait Subject {
   }
 
   def getSubjectTypeId(def subjectId) {
-    LinkedHashMap where = [
+    def where = [
       n_subject_id: subjectId
     ]
     return hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where)
@@ -188,22 +188,41 @@ trait Subject {
     return hid.getTableFirst(getSubjectAddParamTypesTable(), 'n_subj_value_type_id', where)
   }
 
-  List getSubjectAddParamsBy(LinkedHashMap input) {
-    def defaultParams = [
-      subjectId : null,
-      paramId   : null,
-      date      : null,
-      string    : null,
-      number    : null,
-      bool      : null,
-      refId     : null
-    ]
+  LinkedHashMap prepareSubjectAddParam(LinkedHashMap input) {
     if (input.containsKey('param')) {
       input.paramId = getSubjectAddParamTypeIdByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
       input.remove('param')
     }
-    LinkedHashMap params = mergeParams(defaultParams, input)
-    LinkedHashMap where = [:]
+
+    if (input.containsKey('value')) {
+      def value = input.value
+      if (value instanceof Boolean) {
+        input.bool = value
+      } else if (value instanceof BigInteger) {
+        input.refId = value
+      } else if (value instanceof String) {
+        input.string = value
+      } else if (DateTimeUtil.isDate(value)) {
+        input.date = value
+      } else {
+        input.number = value
+      }
+      input.remove('value')
+    }
+    return input
+  }
+
+  List getSubjectAddParamsBy(LinkedHashMap input) {
+    def params = mergeParams([
+      subjectId   : null,
+      paramId     : null,
+      date        : null,
+      string      : null,
+      number      : null,
+      bool        : null,
+      refId       : null
+    ], prepareSubjectAddParam(input))
+    def where = [:]
 
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
@@ -234,39 +253,17 @@ trait Subject {
   }
 
   Boolean putSubjectAddParam(LinkedHashMap input) {
-    def defaultParams = [
-      subjectId : null,
-      paramId   : null,
-      date      : null,
-      string    : null,
-      number    : null,
-      bool      : null,
-      refId     : null
-    ]
-    if (input.containsKey('param')) {
-      input.paramId = getSubjectAddParamTypeIdByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
-      input.remove('param')
-    }
-    if (input.containsKey('value')) {
-      def value = input.value
-      if (value instanceof Boolean) {
-        input.bool   = value
-      } else if (value instanceof BigInteger) {
-        input.refId  = value
-      } else if (value instanceof String) {
-        input.string = value
-      } else if (DateTimeUtil.isDate(value)) {
-        input.date   = value
-      } else {
-        input.number = value
-      }
-      input.remove('value')
-    }
-    LinkedHashMap params = mergeParams(defaultParams, input)
+    def params = mergeParams([
+      subjectId   : null,
+      paramId     : null,
+      date        : null,
+      string      : null,
+      number      : null,
+      bool        : null,
+      refId       : null
+    ], prepareSubjectAddParam(input))
     try {
-      def paramValue = params.date ?: params.string ?: params.number ?: params.bool ?: params.refId
-      logger.info("Putting additional param ${params.paramId} value ${paramValue} to subject ${params.subjectId}")
-
+      logger.info("Putting subject additional value with params ${params}")
       hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
         num_N_SUBJECT_ID         : params.subjectId,
         num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
@@ -276,10 +273,10 @@ trait Subject {
         ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      logger.info("   Additional param value was put successfully!")
+      logger.info("   Additional param value was created successfully!")
       return true
     } catch (Exception e){
-      logger.error("   Error while putting additional param!")
+      logger.error("   Error while putting or creating additional param!")
       logger.error_oracle(e)
       return false
     }
@@ -299,8 +296,8 @@ trait Subject {
       groupId   : null,
       isMain    : null
     ], input)
-    LinkedHashMap where = [:]
-    LinkedHashMap order = [c_fl_main: 'DESC']
+    def where = [:]
+    def order = [c_fl_main: 'DESC']
 
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
@@ -327,7 +324,7 @@ trait Subject {
   }
 
   LinkedHashMap putSubjectGroup(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
+    def params = mergeParams([
       subjSubjectId : null,
       subjectId     : null,
       groupId       : null,
