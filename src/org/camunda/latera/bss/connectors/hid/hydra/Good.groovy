@@ -88,8 +88,87 @@ trait Good {
     return getGood(goodId).n_unit_id
   }
 
+  LinkedHashMap getGoodAddParamType(def paramId) {
+    def where = [
+      n_good_value_type_id: paramId
+    ]
+    return hid.getTableData(getGoodAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getGoodAddParamTypesBy(LinkedHashMap input) {
+    def params = mergeParams([
+      goodValueTypeId : null,
+      goodId          : null,
+      dataTypeId      : null,
+      code            : null,
+      name            : null,
+      refTypeId       : null,
+      canModify       : null,
+      isMulti         : null,
+      isObject        : null,
+      rem             : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.goodValueTypeId || params.paramId) {
+      where.n_good_value_type_id = params.goodValueTypeId ?: params.paramId
+    }
+    if (params.goodId) {
+      where.n_good_type_id = params.goodId
+    }
+    if (params.dataTypeId) {
+      where.n_data_type_id = params.dataTypeId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.refTypeId || params.refId) {
+      where.n_ref_type_id = params.refTypeId ?: params.refId
+    }
+    if (params.canModify != null) {
+      where.c_can_modify = Oracle.encodeBool(params.canModify)
+    }
+    if (params.isMulti != null) {
+      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+    }
+    if (params.isObject != null) {
+      where.c_fl_object = Oracle.encodeBool(params.isObject)
+    }
+    return hid.getTableData(getGoodAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getGoodAddParamTypeBy(LinkedHashMap input) {
+    return getGoodAddParamTypesBy(input)?.getAt(0)
+  }
+
+  def getGoodAddParamTypeByCode(String code) {
+    return getGoodAddParamTypeBy(code: code)
+  }
+
+  LinkedHashMap prepareGoodAddParam(LinkedHashMap input) {
+    def param = null
+    if (input.containsKey('param')) {
+      param = getGoodAddParamTypeByCode(input.param.toString())
+      input.paramId = param?.n_good_value_type_id
+      input.remove('param')
+    } else if (input.containsKey('paramId')) {
+      param = getGoodAddParamType(input.paramId)
+    }
+    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+
+    if (input.containsKey('value')) {
+      def valueType = getAddParamDataType(param)
+      input."${valueType}" = input.value
+      input.remove('value')
+    }
+    return input
+  }
+
   List getGoodAddParamsBy(LinkedHashMap input) {
-    def defaultParams = [
+    def params = mergeParams([
       goodId  : null,
       paramId : null,
       date    : null,
@@ -97,12 +176,7 @@ trait Good {
       number  : null,
       bool    : null,
       refId   : null
-    ]
-    if (input.containsKey('param')) {
-      input.paramId = getGoodAddParamTypeIdByCode(input.param.toString())
-      input.remove('param')
-    }
-    LinkedHashMap params = mergeParams(defaultParams, input)
+    ], prepareGoodAddParam(input))
     LinkedHashMap where = [:]
 
     if (params.goodId) {
