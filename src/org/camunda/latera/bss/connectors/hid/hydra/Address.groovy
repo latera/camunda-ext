@@ -66,7 +66,7 @@ trait Address {
     return getRefIdByCode(getDefaultAddressState())
   }
 
-  List getObjAddresses(LinkedHashMap input) {
+  List getObjAddressesBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       objAddressId    : null,
       objectId        : null,
@@ -90,7 +90,7 @@ trait Address {
 
     LinkedHashMap where = [:]
     if (params.objAddressId) {
-      where.objAddressId = params.objAddressId
+      where.n_obj_address_id = params.objAddressId
     }
     if (params.objectId) {
       where.n_object_id = params.objectId
@@ -151,11 +151,18 @@ trait Address {
     return hid.getTableData(getObjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
   }
 
-  LinkedHashMap getSubjAddress(LinkedHashMap input) {
-    return getSubjAddresses(input)?.getAt(0)
+  LinkedHashMap getObjAddressBy(LinkedHashMap input) {
+    return getObjAddressesBy(input)?.getAt(0)
   }
 
-  List getSubjAddresses(LinkedHashMap input) {
+  LinkedHashMap getObjAddress(def objAddressId) {
+    def where = [
+      n_obj_address_id: objAddressId
+    ]
+    return hid.getTableData(getObjectAddressesTable(), where: where)
+  }
+
+  List getSubjAddressesBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subjAddressId   : null,
       subjectId       : null,
@@ -223,11 +230,18 @@ trait Address {
     return hid.getTableData(getSubjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
   }
 
-  LinkedHashMap getObjAddress(LinkedHashMap input) {
-    return getObjAddresses(input)?.getAt(0)
+  LinkedHashMap getSubjAddressBy(LinkedHashMap input) {
+    return getSubjAddressesBy(input)?.getAt(0)
   }
 
-  List getEntityAddresses(LinkedHashMap input) {
+  LinkedHashMap getSubjAddress(def subjAddressId) {
+    def where = [
+      n_subj_address_id: subjAddressId
+    ]
+    return hid.getTableData(getSubjectAddressesTable(), where: where)
+  }
+
+  List getEntityAddressesBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
       entityTypeId    : null,
@@ -262,11 +276,21 @@ trait Address {
     }
   }
 
-  LinkedHashMap getEntityAddress(LinkedHashMap input) {
-    return getEntityAddresses(input)?.getAt(0)
+  LinkedHashMap getEntityAddressBy(LinkedHashMap input) {
+    return getEntityAddressesBy(input)?.getAt(0)
   }
 
-  List getAddresses(LinkedHashMap input) {
+  LinkedHashMap getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
+    Boolean isSubj = isSubject(entityOrEntityTypeId)
+
+    if (isSubj) {
+      return getSubjAddress(entityAddressId)
+    } else {
+      return getObjAddress(entityAddressId)
+    }
+  }
+
+  List getAddressesBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       addressId    : null,
       addrTypeId   : getDefaultAddressTypeId(),
@@ -318,12 +342,15 @@ trait Address {
     return hid.getTableData(getMainAddressesTable(), where: where, order: ['N_ADDRESS_ID ASC'])
   }
 
-  LinkedHashMap getAddress(LinkedHashMap input) {
-    return getAddresses(input)?.getAt(0)
+  LinkedHashMap getAddressBy(LinkedHashMap input) {
+    return getAddressesBy(input)?.getAt(0)
   }
 
   LinkedHashMap getAddress(def addressId) {
-    return getAddress(addressId: addressId)
+    def where = [
+      n_address_id: addressId
+    ]
+    return hid.getTableData(getMainAddressesTable(), where: where)
   }
 
   LinkedHashMap putSubjAddress(LinkedHashMap input) {
