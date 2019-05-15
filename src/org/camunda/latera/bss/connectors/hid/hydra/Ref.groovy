@@ -3,7 +3,10 @@ import org.camunda.latera.bss.utils.Numeric
 
 trait Ref {
   private static LinkedHashMap REFS_CACHE = [null: null]
-  private static String REFS_TABLE = 'SI_V_REF'
+  private static String REFS_TABLE        = 'SI_V_REF'
+  private static String DEFAULT_CURRENCY  = 'CURR_Ruble'
+  private static String UNKNOWN_UNIT      = 'UNIT_Unknown'
+  private static String PIECE_UNIT        = 'UNIT_Piece'
 
   def getRefsTable() {
     return REFS_TABLE
@@ -47,15 +50,27 @@ trait Ref {
     return refName
   }
 
+  def getDefaultCurrency() {
+    return DEFAULT_CURRENCY
+  }
+
   def getDefaultCurrencyId() {
-    return getRefIdByCode('CURR_Ruble')
+    return getRefIdByCode(getDefaultCurrency())
+  }
+
+  def getUnknownUnit() {
+    return UNKNOWN_UNIT
   }
 
   def getUnknownUnitId() {
-    return getRefIdByCode('UNIT_Unknown')
+    return getRefIdByCode(getUnknownUnit())
+  }
+
+  def getPieceUnit() {
+    return PIECE_UNIT
   }
 
   def getPieceUnitId() {
-    return getRefIdByCode('UNIT_Piece')
+    return getRefIdByCode(getPieceUnit())
   }
 }
