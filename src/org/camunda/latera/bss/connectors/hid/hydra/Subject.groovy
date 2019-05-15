@@ -126,7 +126,10 @@ trait Subject {
   }
 
   LinkedHashMap getSubject(def subjectId) {
-    return hid.getTableFirst(getSubjectsTable(), where: [n_subject_id: subjectId]) // Do not use getSubjectBy there just because we need to fetch firmId of existing subject before MAIN.INIT
+    def where = [
+      n_subject_id: subjectId
+    ]
+    return hid.getTableFirst(getSubjectsTable(), where: where)
   }
 
   def getSubjectTypeId(def subjectId) {
