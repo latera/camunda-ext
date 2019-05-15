@@ -1,7 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
 
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
@@ -178,38 +177,80 @@ trait Subject {
     changeSubjectState(subjectId, getSubjectStateDisabledId())
   }
 
-  def getSubjectAddParamTypeIdByCode(
-    String code,
-    def    subjTypeId = null
-  ) {
-    LinkedHashMap where = [
-      vc_code: code
+  LinkedHashMap getSubjectAddParamType(def paramId) {
+    def where = [
+      n_subj_value_type_id: paramId
     ]
-    if (subjTypeId) {
-      where.n_subj_type_id = subjTypeId
+    return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getSubjectAddParamTypesBy(LinkedHashMap input) {
+    def params = mergeParams([
+      subjValueTypeId : null,
+      subjTypeId      : null,
+      dataTypeId      : null,
+      code            : null,
+      name            : null,
+      refTypeId       : null,
+      canModify       : null,
+      isMulti         : null,
+      isReadOnly      : null,
+      rem             : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.subjValueTypeId || params.paramId) {
+      where.n_subj_value_type_id = params.subjValueTypeId ?: params.paramId
     }
-    return hid.getTableFirst(getSubjectAddParamTypesTable(), 'n_subj_value_type_id', where)
+    if (params.subjTypeId) {
+      where.n_subj_type_id = params.subjTypeId
+    }
+    if (params.dataTypeId) {
+      where.n_data_type_id = params.dataTypeId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.refTypeId || params.refId) {
+      where.n_ref_type_id = params.refTypeId ?: params.refId
+    }
+    if (params.canModify != null) {
+      where.c_can_modify = Oracle.encodeBool(params.canModify)
+    }
+    if (params.isMulti != null) {
+      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+    }
+    if (params.isReadOnly != null) {
+      where.c_fl_read_only = Oracle.encodeBool(params.isReadOnly)
+    }
+    return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getSubjectAddParamTypeBy(LinkedHashMap input) {
+    return getSubjectAddParamTypesBy(input)?.getAt(0)
+  }
+
+  def getSubjectAddParamTypeByCode(String code, def subjTypeId = null) {
+    return getSubjectAddParamTypeBy(code: code, subjTypeId: subjTypeId)
   }
 
   LinkedHashMap prepareSubjectAddParam(LinkedHashMap input) {
+    def param = null
     if (input.containsKey('param')) {
-      input.paramId = getSubjectAddParamTypeIdByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
+      param = getSubjectAddParamTypeByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
+      input.paramId = param?.n_subj_value_type_id
       input.remove('param')
+    } else if (input.containsKey('paramId')) {
+      param = getSubjectAddParamType(input.paramId)
     }
+    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      def value = input.value
-      if (value instanceof Boolean) {
-        input.bool = value
-      } else if (value instanceof BigInteger) {
-        input.refId = value
-      } else if (value instanceof String) {
-        input.string = value
-      } else if (DateTimeUtil.isDate(value)) {
-        input.date = value
-      } else {
-        input.number = value
-      }
+      def valueType = getAddParamDataType(param)
+      input."${valueType}" = input.value
       input.remove('value')
     }
     return input
@@ -259,7 +300,7 @@ trait Subject {
     return getSubjectAddParamsBy(input)?.getAt(0)
   }
 
-  Boolean putSubjectAddParam(LinkedHashMap input) {
+  LinkedHashMap putSubjectAddParam(LinkedHashMap input) {
     def params = mergeParams([
       subjValueId : null,
       subjectId   : null,
@@ -271,46 +312,60 @@ trait Subject {
       refId       : null
     ], prepareSubjectAddParam(input))
     try {
-      if (params.subjValueId) {
-        logger.info("Putting subject additional value with params ${params}")
-        hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_PUT', [
-          num_N_SUBJ_VALUE_ID      : params.subjValueId,
-          num_N_SUBJECT_ID         : params.subjectId,
-          num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
-          dt_D_VALUE               : params.date,
-          vch_VC_VALUE             : params.string,
-          num_N_VALUE              : params.number,
-          ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
-          num_N_REF_ID             : params.refId
-        ])
-        logger.info("   Additional param value was put successfully!")
-      } else {
-        logger.info("Creating subject additional value with params ${params}")
-        hid.execute('SI_SUBJECTS_PKG.PUT_SUBJ_VALUE', [
-          num_N_SUBJECT_ID         : params.subjectId,
-          num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
-          dt_D_VALUE               : params.date,
-          vch_VC_VALUE             : params.string,
-          num_N_VALUE              : params.number,
-          ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
-          num_N_REF_ID             : params.refId
-        ])
-        logger.info("   Additional param value was created successfully!")
+
+      if (!params.subjValueId && !params.isMultiple) {
+        params.subjValueId = getSubjectAddParamBy(
+          subjectId : input.subjectId,
+          paramId   : input.paramId
+        )?.n_subj_value_id
       }
-      return true
+
+      logger.info("${params.subjValueId ? 'Putting' : 'Creating'} subject additional value with params ${params}")
+      def result = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_PUT', [
+        num_N_SUBJ_VALUE_ID      : params.subjValueId,
+        num_N_SUBJECT_ID         : params.subjectId,
+        num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
+        dt_D_VALUE               : params.date,
+        vch_VC_VALUE             : params.string,
+        num_N_VALUE              : params.number,
+        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+        num_N_REF_ID             : params.refId
+      ])
+      logger.info("   Additional param value was ${params.subjValueId ? 'put' : 'created'} successfully!")
+      return result
     } catch (Exception e){
       logger.error("   Error while putting or creating additional param!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  LinkedHashMap addSubjectAddParam(LinkedHashMap input) {
+    return putSubjectAddParam(input)
+  }
+
+  LinkedHashMap addSubjectAddParam(def subjectId, LinkedHashMap input) {
+    return putSubjectAddParam(input + [subjectId: subjectId])
+  }
+
+  Boolean deleteSubjectAddParam(def subjValueId) {
+    try {
+      logger.info("Deleting additional param value id ${subjValueId}")
+      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_DEL', [
+        num_N_SUBJ_VALUE_ID : subjValueId
+      ])
+      logger.info("   Additional param value was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting additional param!")
       logger.error_oracle(e)
       return false
     }
   }
 
-  Boolean addSubjectAddParam(LinkedHashMap input) {
-    return putSubjectAddParam(input)
-  }
-
-  Boolean addSubjectAddParam(def subjectId, LinkedHashMap input) {
-    return putSubjectAddParam(input + [subjectId: subjectId])
+  Boolean deleteSubjectAddParam(LinkedHashMap input) {
+    def subjValueId = getSubjectAddParamBy(input)?.n_subj_value_id
+    return deleteSubjectAddParam(subjValueId)
   }
 
   List getSubjectGroupsBy(LinkedHashMap input) {

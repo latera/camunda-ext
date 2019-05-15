@@ -5,6 +5,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.HID
 import org.camunda.latera.bss.connectors.hid.hydra.Ref
+import org.camunda.latera.bss.connectors.hid.hydra.DataType
+import org.camunda.latera.bss.connectors.hid.hydra.AddParam
 import org.camunda.latera.bss.connectors.hid.hydra.Good
 import org.camunda.latera.bss.connectors.hid.hydra.Document
 import org.camunda.latera.bss.connectors.hid.hydra.Contract
@@ -22,7 +24,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Equipment
 import org.camunda.latera.bss.connectors.hid.hydra.Region
 import org.camunda.latera.bss.connectors.hid.hydra.Address
 
-class Hydra implements Ref, Good, Document, Contract, PriceOrder, Invoice, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address {
+class Hydra implements Ref, DataType, AddParam, Good, Document, Contract, PriceOrder, Invoice, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address {
   private static Integer DEFAULT_FIRM = 100
   HID hid
   String user
