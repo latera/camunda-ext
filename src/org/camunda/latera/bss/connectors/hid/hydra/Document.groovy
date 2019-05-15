@@ -16,8 +16,8 @@ trait Document {
   private static String DOCUMENT_STATE_DISSOLVED   = 'DOC_STATE_Dissolved'
   private static String DOCUMENT_STATE_PROCESSING  = 'DOC_STATE_Processing'
   private static String DOCUMENT_STATE_PREPARED    = 'DOC_STATE_Prepared'
-  private static String PROVIDER_ROLE = 'SUBJ_ROLE_Provider'
-  private static String RECEIVER_ROLE = 'SUBJ_ROLE_Receiver'
+  private static String PROVIDER_ROLE              = 'SUBJ_ROLE_Provider'
+  private static String RECEIVER_ROLE              = 'SUBJ_ROLE_Receiver'
 
   def getDocumentsTable() {
     return DOCUMENTS_TABLE
@@ -209,7 +209,10 @@ trait Document {
   }
 
   LinkedHashMap getDocument(def docId) {
-    return getDocumentBy(docId: docId)
+    def where = [
+      n_doc_id: docId
+    ]
+    return hid.getTableData(getDocumentsTable(), where: where, order: order)
   }
 
   Boolean isDocument(String docType) {
