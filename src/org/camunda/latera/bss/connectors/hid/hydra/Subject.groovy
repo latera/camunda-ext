@@ -331,10 +331,10 @@ trait Subject {
         ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      logger.info("   Additional param value was ${params.subjValueId ? 'put' : 'created'} successfully!")
+      logger.info("   Subject additional value was ${params.subjValueId ? 'put' : 'created'} successfully!")
       return result
     } catch (Exception e){
-      logger.error("   Error while putting or creating additional param!")
+      logger.error("   Error while putting or creating subject additional value!")
       logger.error_oracle(e)
       return null
     }
@@ -350,14 +350,14 @@ trait Subject {
 
   Boolean deleteSubjectAddParam(def subjValueId) {
     try {
-      logger.info("Deleting additional param value id ${subjValueId}")
+      logger.info("Deleting subject additional value id ${subjValueId}")
       hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_DEL', [
         num_N_SUBJ_VALUE_ID : subjValueId
       ])
-      logger.info("   Additional param value was deleted successfully!")
+      logger.info("   Subject additional value was deleted successfully!")
       return true
     } catch (Exception e){
-      logger.error("   Error while deleting additional param!")
+      logger.error("   Error while deleting subject additional value!")
       logger.error_oracle(e)
       return false
     }
