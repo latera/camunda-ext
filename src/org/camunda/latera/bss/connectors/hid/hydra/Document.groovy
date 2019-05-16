@@ -3,21 +3,21 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import org.camunda.latera.bss.utils.Oracle
 
 trait Document {
-  private static String DOCUMENTS_TABLE            = 'SD_V_DOCUMENTS'
-  private static String DOCUMENT_SUBJECTS_TABLE    = 'SI_V_DOC_SUBJECTS'
-  private static String DOCUMENT_VALUES_TABLE      = 'SD_V_DOC_VALUES'
-  private static String DOCUMENT_VALUE_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
-  private static String DEFAULT_DOCUMENT_TYPE      = 'DOC_TYPE_CustomerContract'
-  private static String DOCUMENT_STATE_ACTUAL      = 'DOC_STATE_Actual'
-  private static String DOCUMENT_STATE_EXECUTED    = 'DOC_STATE_Executed'
-  private static String DOCUMENT_STATE_DRAFT       = 'DOC_STATE_Draft'
-  private static String DOCUMENT_STATE_CANCELED    = 'DOC_STATE_Canceled'
-  private static String DOCUMENT_STATE_CLOSED      = 'DOC_STATE_Closed'
-  private static String DOCUMENT_STATE_DISSOLVED   = 'DOC_STATE_Dissolved'
-  private static String DOCUMENT_STATE_PROCESSING  = 'DOC_STATE_Processing'
-  private static String DOCUMENT_STATE_PREPARED    = 'DOC_STATE_Prepared'
-  private static String PROVIDER_ROLE              = 'SUBJ_ROLE_Provider'
-  private static String RECEIVER_ROLE              = 'SUBJ_ROLE_Receiver'
+  private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
+  private static String DOCUMENT_SUBJECTS_TABLE        = 'SI_V_DOC_SUBJECTS'
+  private static String DOCUMENT_ADD_PARAMS_TABLE      = 'SD_V_DOC_VALUES'
+  private static String DOCUMENT_ADD_PARAM_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
+  private static String DEFAULT_DOCUMENT_TYPE          = 'DOC_TYPE_CustomerContract'
+  private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
+  private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
+  private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
+  private static String DOCUMENT_STATE_CANCELED        = 'DOC_STATE_Canceled'
+  private static String DOCUMENT_STATE_CLOSED          = 'DOC_STATE_Closed'
+  private static String DOCUMENT_STATE_DISSOLVED       = 'DOC_STATE_Dissolved'
+  private static String DOCUMENT_STATE_PROCESSING      = 'DOC_STATE_Processing'
+  private static String DOCUMENT_STATE_PREPARED        = 'DOC_STATE_Prepared'
+  private static String PROVIDER_ROLE                  = 'SUBJ_ROLE_Provider'
+  private static String RECEIVER_ROLE                  = 'SUBJ_ROLE_Receiver'
 
   def getDocumentsTable() {
     return DOCUMENTS_TABLE
@@ -26,12 +26,13 @@ trait Document {
   def getDocumentSubjectsTable() {
     return DOCUMENT_SUBJECTS_TABLE
   }
-  def getDocumentsValuesTable() {
-    return DOCUMENT_VALUES_TABLE
+
+  def getDocumentAddParamsTable() {
+    return DOCUMENT_ADD_PARAMS_TABLE
   }
 
-  def getDocumentsValueTypesTable() {
-    return DOCUMENT_VALUE_TYPES_TABLE
+  def getDocumentAddParamTypesTable() {
+    return DOCUMENT_ADD_PARAM_TYPES_TABLE
   }
 
   def getDefaultDocumentType() {
@@ -212,7 +213,21 @@ trait Document {
     def where = [
       n_doc_id: docId
     ]
-    return hid.getTableData(getDocumentsTable(), where: where, order: order)
+    return hid.getTableData(getDocumentsTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentTypeId(def docId) {
+    def where = [
+      n_doc_id: docId
+    ]
+    return hid.getTableData(getDocumentsTable(), 'n_doc_type_id', where)
+  }
+
+  def getDocumentWorkflowId(def docId) {
+    LinkedHashMap where = [
+      n_doc_id: docId
+    ]
+    return hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where)
   }
 
   Boolean isDocument(String docType) {
@@ -221,24 +236,6 @@ trait Document {
 
   Boolean isDocument(def docIdOrDocTypeId) {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
-  }
-
-  def getDocumentValueTypeIdByCode(String code) {
-    LinkedHashMap where = [
-      vc_code: code
-    ]
-    return hid.getTableFirst(getDocumentsValueTypesTable(), 'n_doc_value_type_id', where)
-  }
-
-  def getDocValueTypeIdByCode(String code) {
-    return getDocumentValueTypeIdByCode(code)
-  }
-
-  def getDocumentWorkflowId(def docId) {
-    LinkedHashMap where = [
-      n_doc_id: docId
-    ]
-    return hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where)
   }
 
   Boolean putDocumentSubject(LinkedHashMap input) {
@@ -274,6 +271,194 @@ trait Document {
 
   LinkedHashMap addDocumentSubject(def docId, LinkedHashMap input) {
     return putDocumentSubject(input + [docId: docId])
+  }
+
+  LinkedHashMap getDocumentAddParamType(def paramId) {
+    def where = [
+      n_doc_value_type_id: paramId
+    ]
+    return hid.getTableData(getDocumentAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentAddParamTypesBy(LinkedHashMap input) {
+    def params = mergeParams([
+      docValueTypeId  : null,
+      docTypeId       : null,
+      dataTypeId      : null,
+      code            : null,
+      name            : null,
+      refTypeId       : null,
+      canModify       : null,
+      isMulti         : null,
+      rem             : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.docValueTypeId || params.paramId) {
+      where.n_doc_value_type_id = params.docValueTypeId ?: params.paramId
+    }
+    if (params.docTypeId) {
+      where.n_doc_type_id = params.docTypeId
+    }
+    if (params.dataTypeId) {
+      where.n_data_type_id = params.dataTypeId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.refTypeId || params.refId) {
+      where.n_ref_type_id = params.refTypeId ?: params.refId
+    }
+    if (params.canModify != null) {
+      where.c_can_modify = Oracle.encodeBool(params.canModify)
+    }
+    if (params.isMulti != null) {
+      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+    }
+    return hid.getTableData(getDocumentAddParamTypesTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentAddParamTypeBy(LinkedHashMap input) {
+    return getDocumentAddParamTypesBy(input)?.getAt(0)
+  }
+
+  def getDocumentAddParamTypeByCode(String code, def docTypeId = null) {
+    return getDocumentAddParamTypeBy(code: code, docTypeId: docTypeId)
+  }
+
+  def getDocumentAddParamTypeIdByCode(String code) {
+    return getDocumentAddParamTypeByCode(code)?.n_doc_value_type_id
+  }
+
+  LinkedHashMap prepareDocumentAddParam(LinkedHashMap input) {
+    def param = null
+    if (input.containsKey('param')) {
+      def docTypeId = input.docTypeId ?: getDocumentTypeId(input.docId)
+      param = getDocumentAddParamTypeByCode(input.param.toString(), docTypeId)
+      input.paramId = param?.n_doc_value_type_id
+      input.remove('param')
+    } else if (input.containsKey('paramId')) {
+      param = getDocumentAddParamType(input.paramId)
+    }
+    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+
+    if (input.containsKey('value')) {
+      def valueType = getAddParamDataType(param)
+      input."${valueType}" = input.value
+      input.remove('value')
+    }
+    return input
+  }
+
+  List getDocumentAddParamsBy(LinkedHashMap input) {
+    def params = mergeParams([
+      docId   : null,
+      paramId : null,
+      date    : null,
+      string  : null,
+      number  : null,
+      bool    : null,
+      refId   : null
+    ], prepareDocumentAddParam(input))
+    LinkedHashMap where = [:]
+
+    if (params.docId) {
+      where.n_doc_id = params.docId
+    }
+    if (params.paramId) {
+      where.n_doc_value_type_id = params.paramId
+    }
+    if (params.date) {
+      where.d_value = params.date
+    }
+    if (params.string) {
+      where.vc_value = params.string
+    }
+    if (params.number) {
+      where.n_value = params.number
+    }
+    if (params.bool != null) {
+      where.c_fl_value = Oracle.encodeBool(params.bool)
+    }
+    if (params.refId) {
+      where.n_ref_id = params.refId
+    }
+    return hid.getTableData(getDocumentAddParamsTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentAddParamBy(LinkedHashMap input) {
+    return getDocumentAddParamsBy(input)?.getAt(0)
+  }
+
+  LinkedHashMap putDocumentAddParam(LinkedHashMap input) {
+    def params = mergeParams([
+      docValueId : null,
+      docId      : null,
+      paramId    : null,
+      date       : null,
+      string     : null,
+      number     : null,
+      bool       : null,
+      refId      : null
+    ], prepareDocumentAddParam(input))
+    try {
+
+      if (!params.docValueId && !params.isMultiple) {
+        params.docValueId = getDocumentAddParamBy(
+          docId   : input.docId,
+          paramId : input.paramId
+        )?.n_doc_value_id
+      }
+
+      logger.info("${params.docValueId ? 'Putting' : 'Creating'} document additional value with params ${params}")
+      def result = hid.execute('SI_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
+        num_N_DOC_VALUE_ID       : params.docValueId,
+        num_N_DOC_ID             : params.docId,
+        num_N_DOC_VALUE_TYPE_ID  : params.paramId,
+        dt_D_VALUE               : params.date,
+        vch_VC_VALUE             : params.string,
+        num_N_VALUE              : params.number,
+        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+        num_N_REF_ID             : params.refId
+      ])
+      logger.info("   Document additional value was ${params.docValueId ? 'put' : 'created'} successfully!")
+      return result
+    } catch (Exception e){
+      logger.error("   Error while putting or creating document additional value!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  LinkedHashMap addDocumentAddParam(LinkedHashMap input) {
+    return putDocumentAddParam(input)
+  }
+
+  LinkedHashMap addDocumentAddParam(def docId, LinkedHashMap input) {
+    return putDocumentAddParam(input + [docId: docId])
+  }
+
+  Boolean deleteDocumentAddParam(def docValueId) {
+    try {
+      logger.info("Deleting document additional value id ${docValueId}")
+      hid.execute('SI_DOCUMENTS_PKG.SD_DOC_VALUES_DEL', [
+        num_N_DOC_VALUE_ID : docValueId
+      ])
+      logger.info("   Document additional value was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting document additional value!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteDocumentAddParam(LinkedHashMap input) {
+    def docValueId = getDocumentAddParamBy(input)?.n_doc_value_id
+    return deleteDocumentAddParam(docValueId)
   }
 
   Boolean changeDocumentState(
