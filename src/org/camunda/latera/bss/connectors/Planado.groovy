@@ -14,11 +14,12 @@ class Planado {
   SimpleLogger logger
 
   Planado(DelegateExecution execution) {
-    this.logger = new SimpleLogger(execution)
+    this.logger  =  new SimpleLogger(execution)
+    def ENV      =  System.getenv()
 
-    this.url     = 'https://api.planadoapp.com'
-    this.version = execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: 1
-    this.token   = execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')
+    this.url     =  ENV['PLANADO_URL']     ?: 'https://api.planadoapp.com'
+    this.version = (ENV['PLANADO_VERSION'] ?: ENV['PLANADO_API_VERSION'] ?: execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: 1)?.toInteger()
+    this.token   =  ENV['PLANADO_TOKEN']   ?: ENV['PLANADO_API_KEY']     ?: execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')
 
     def headers = ['X-Planado-Api-Token': token]
     this.http = new HTTPRestProcessor(

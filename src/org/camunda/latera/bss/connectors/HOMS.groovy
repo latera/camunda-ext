@@ -20,10 +20,11 @@ class HOMS {
   HOMS(DelegateExecution execution) {
     this.execution  = execution
     this.logger     = new SimpleLogger(this.execution)
+    def ENV         = System.getenv()
 
-    this.url        = execution.getVariable("homsUrl")
-    this.user       = execution.getVariable("homsUser")
-    this.password   = execution.getVariable("homsPassword")
+    this.url        = ENV['HOMS_URL']      ?: execution.getVariable("homsUrl")
+    this.user       = ENV['HOMS_USER']     ?: execution.getVariable("homsUser")
+    this.password   = ENV['HOMS_PASSWORD'] ?: execution.getVariable("homsPassword")
     def supress     = execution.getVariable('homsOrderSupress') ?: false
 
     this.http       = new HTTPRestProcessor(
@@ -66,11 +67,11 @@ class HOMS {
     def initiatorEmail = execution.getVariable("initiatorEmail")
     LinkedHashMap body = [
       order: [
-        state:      "in_progress",
-        done_at:    null,
-        bp_id:      execution.getProcessInstanceId(),
-        bp_state:   "in_progress",
-        user_email: initiatorEmail,
+        state      : "in_progress",
+        done_at    : null,
+        bp_id      : execution.getProcessInstanceId(),
+        bp_state   : "in_progress",
+        user_email : initiatorEmail,
       ]
     ]
     logger.info("/ Starting order ...")

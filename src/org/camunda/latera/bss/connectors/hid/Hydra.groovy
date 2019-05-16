@@ -34,11 +34,12 @@ class Hydra implements Ref, DataType, AddParam, Good, Document, Contract, PriceO
   SimpleLogger logger
 
   Hydra(DelegateExecution execution) {
-    this.logger = new SimpleLogger(execution)
-    this.hid    = new HID(execution)
+    this.logger     = new SimpleLogger(execution)
+    this.hid        = new HID(execution)
+    def ENV         = System.getenv()
 
-    this.user       = execution.getVariable('hydraUser') ?: 'hydra'
-    this.password   = execution.getVariable('hydraPassword')
+    this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: 'hydra'
+    this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
     this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())
     this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
 

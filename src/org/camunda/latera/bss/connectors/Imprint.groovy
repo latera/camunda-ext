@@ -15,12 +15,13 @@ class Imprint {
   String locale
 
   Imprint(DelegateExecution execution) {
-    this.logger    = new SimpleLogger(execution)
+    this.logger  = new SimpleLogger(execution)
+    def ENV      = System.getenv()
 
-    this.locale = execution.getVariable("locale") ?: 'en'
-    this.url     = execution.getVariable("imprintUrl")
-    this.version = execution.getVariable("imprintVersion")
-    this.token   = execution.getVariable("imprintToken")
+    this.locale  = execution.getVariable("locale") ?: 'en'
+    this.url     =  ENV['IMPRINT_URL']     ?: execution.getVariable("imprintUrl")
+    this.version = (ENV['IMPRINT_VERSION'] ?: execution.getVariable("imprintVersion"))?.toInteger()
+    this.token   =  ENV['IMPRINT_TOKEN']   ?: execution.getVariable("imprintToken")
     def headers = [
       'X_IMPRINT_API_VERSION' : this.version,
       'X_IMPRINT_API_TOKEN'   : this.token

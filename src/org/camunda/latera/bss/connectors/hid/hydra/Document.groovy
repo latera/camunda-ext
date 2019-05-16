@@ -405,7 +405,6 @@ trait Document {
       refId      : null
     ], prepareDocumentAddParam(input))
     try {
-
       if (!params.docValueId && !params.isMultiple) {
         params.docValueId = getDocumentAddParamBy(
           docId   : input.docId,

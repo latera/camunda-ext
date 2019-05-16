@@ -18,23 +18,25 @@ class MailSender {
   private Properties props
 
   MailSender(DelegateExecution execution) {
-    host     = execution.getVariable('smtpHost')
-    port     = execution.getVariable('smtpPort').toInteger() ?: 587
-    user     = execution.getVariable('smtpUser')
-    password = execution.getVariable('smtpPassword')
+    def ENV       = System.getenv()
 
-    props = System.getProperties()
-    props.put("mail.smtp.auth",           "true")
-    props.put("mail.smtp.starttls.enable", true)
-    props.put("mail.smtp.ssl.trust",       true)
-    props.put("mail.smtp.host",            host)
-    props.put("mail.smtp.port",            port)
-    props.put("mail.smtp.user",            user)
-    props.put("mail.smtp.password",        password)
+    this.host     = ENV['SMTP_HOST']     ?: execution.getVariable('smtpHost')
+    this.port     = ENV['SMTP_PORT']     ?: execution.getVariable('smtpPort').toInteger() ?: 587
+    this.user     = ENV['SMTP_USER']     ?: execution.getVariable('smtpUser')
+    this.password = ENV['SMTP_PASSWORD'] ?: execution.getVariable('smtpPassword')
 
-    session   = Session.getDefaultInstance(props, null)
-    message   = new MimeMessage(session)
-    multipart = new MimeMultipart()
+    this.props = System.getProperties()
+    this.props.put("mail.smtp.auth",           "true")
+    this.props.put("mail.smtp.starttls.enable", true)
+    this.props.put("mail.smtp.ssl.trust",       true)
+    this.props.put("mail.smtp.host",            host)
+    this.props.put("mail.smtp.port",            port)
+    this.props.put("mail.smtp.user",            user)
+    this.props.put("mail.smtp.password",        password)
+
+    this.session   = Session.getDefaultInstance(props, null)
+    this.message   = new MimeMessage(session)
+    this.multipart = new MimeMultipart()
   }
 
   def setFrom(String from) {

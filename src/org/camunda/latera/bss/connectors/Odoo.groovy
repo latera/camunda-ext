@@ -21,13 +21,14 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
   SimpleLogger logger
 
   Odoo(DelegateExecution execution) {
-    this.logger    = new SimpleLogger(execution)
+    this.logger   = new SimpleLogger(execution)
+    def ENV       = System.getenv()
 
-    this.url      = execution.getVariable('crmUrl')
-    this.user     = execution.getVariable('crmUser')
-    this.password = execution.getVariable('crmPassword')
-    this.token    = execution.getVariable('crmToken')
-    this.db       = execution.getVariable('crmDatabase') ?: 'odoo'
+    this.url      = ENV['ODOO_URL']      ?: execution.getVariable('odooUrl')
+    this.user     = ENV['ODOO_USER']     ?: execution.getVariable('odooUser')
+    this.password = ENV['ODOO_PASSWORD'] ?: execution.getVariable('odooPassword')
+    this.token    = ENV['ODOO_TOKEN']    ?: execution.getVariable('odooToken')
+    this.db       = ENV['ODOO_DB']       ?: execution.getVariable('odooDatabase') ?: 'odoo'
     this.http     = new HTTPRestProcessor(
       baseUrl     : url,
       contentType : 'application/x-www-form-urlencoded',

@@ -16,9 +16,10 @@ class HID implements Table {
   XMLRPCServerProxy proxy
 
   HID(DelegateExecution execution) {
-    this.url      = execution.getVariable('hidUrl')  ?: 'http://hid:10080'
-    this.user     = execution.getVariable('hidUser') ?: 'hydra'
-    this.password = execution.getVariable('hidPassword')
+    def ENV       = System.getenv()
+    this.url      = ENV['HID_URL']      ?: execution.getVariable('hidUrl')  ?: 'http://hid:10080'
+    this.user     = ENV['HID_USER']     ?: execution.getVariable('hidUser') ?: 'hydra'
+    this.password = ENV['HID_PASSWORD'] ?: execution.getVariable('hidPassword')
 
     this.proxy = new XMLRPCServerProxy(this.url)
     this.proxy.setBasicAuth(this.user, this.password)

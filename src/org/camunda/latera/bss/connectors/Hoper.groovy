@@ -14,13 +14,14 @@ class Hoper {
   SimpleLogger logger
 
   Hoper(DelegateExecution execution) {
-    this.logger    = new SimpleLogger(execution)
+    this.logger   =  new SimpleLogger(execution)
+    def ENV       =  System.getenv()
 
-    this.url      = execution.getVariable("hoperUrl")     ?: 'http://hoper:3000'
-    this.version  = execution.getVariable("hoperVersion") ?: 2
-    this.user     = execution.getVariable("hydraUser")
-    this.password = execution.getVariable("hydraPassword")
-    this.http     = new HTTPRestProcessor(
+    this.url      =  ENV['HOPER_URL']      ?: execution.getVariable("hoperUrl")     ?: 'http://hoper:3000'
+    this.version  = (ENV['HOPER_VERSION']  ?: execution.getVariable("hoperVersion") ?: 2)?.toInteger()
+    this.user     =  ENV['HYDRA_USER']     ?: execution.getVariable("hydraUser")
+    this.password =  ENV['HYDRA_PASSWORD'] ?: execution.getVariable("hydraPassword")
+    this.http     =  new HTTPRestProcessor(
       baseUrl   : this.url,
       execution : execution
     )
