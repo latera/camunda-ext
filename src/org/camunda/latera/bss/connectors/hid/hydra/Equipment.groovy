@@ -170,10 +170,6 @@ trait Equipment {
     return getEquipmentComponentBy(componentId: componentId)
   }
 
-  def getEquipmentAddParamTypeIdByCode(String code) {
-    return getGoodAddParamTypeIdByCode(code)
-  }
-
   List getEquipmentBindsBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       bindId          : null,
@@ -315,8 +311,64 @@ trait Equipment {
     }
   }
 
+  Boolean deleteComponent(def componentId) {
+    return deleteEquipment(componentId)
+  }
+
+  def getEquipmentAddParamType(def paramId) {
+    return getGoodAddParamType(paramId)
+  }
+
+  def getEquipmentAddParamTypesBy(LinkedHashMap input) {
+    return getGoodAddParamTypesBy(input)
+  }
+
+  def getEquipmentAddParamTypeBy(LinkedHashMap input) {
+    return getGoodAddParamTypeBy(input)
+  }
+
+  def getEquipmentAddParamTypeByCode(String code) {
+    return getEquipmentAddParamTypeBy(code: code)
+  }
+
+  def getObjectAddParamType(def paramId) {
+    return getEquipmentAddParamType(paramId)
+  }
+
+  def getObjectAddParamTypesBy(LinkedHashMap input) {
+    return getEquipmentAddParamTypesBy(input)
+  }
+
+  def getObjectAddParamTypeBy(LinkedHashMap input) {
+    return getEquipmentAddParamTypeBy(input)
+  }
+
+  def getObjectAddParamTypeByCode(String code) {
+    return getEquipmentAddParamTypeByCode(code)
+  }
+
+  LinkedHashMap prepareEquipmentAddParam(LinkedHashMap input) {
+    def param = null
+    if (input.containsKey('param')) {
+      param = getEquipmentAddParamTypeBy(input.param.toString())
+      input.paramId = param?.n_good_value_type_id
+      input.remove('param')
+    } else if (input.containsKey('paramId')) {
+      param = getEquipmentAddParamType(input.paramId)
+    }
+    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+
+    if (input.containsKey('value')) {
+      def valueType = getAddParamDataType(param)
+      input."${valueType}" = input.value
+      input.remove('value')
+    }
+    return input
+  }
+
   List getEquipmentAddParamsBy(LinkedHashMap input) {
-    def defaultParams = [
+    def params = mergeParams([
+      objValueId  : null,
       equipmentId : null,
       paramId     : null,
       date        : null,
@@ -324,14 +376,12 @@ trait Equipment {
       number      : null,
       bool        : null,
       refId       : null
-    ]
-    if (input.containsKey('param')) {
-      input.paramId = getEquipmentAddParamTypeIdByCode(input.param.toString())
-      input.remove('param')
-    }
-    LinkedHashMap params = mergeParams(defaultParams, input)
+    ], prepareEquipmentAddParam(input))
     LinkedHashMap where = [:]
 
+    if (params.objValueId) {
+      where.n_obj_value_id = params.objValueId
+    }
     if (params.equipmentId) {
       where.n_object_id = params.equipmentId
     }
@@ -360,8 +410,9 @@ trait Equipment {
     return getEquipmentAddParamsBy(input)?.getAt(0)
   }
 
-  Boolean putEquipmentAddParam(LinkedHashMap input) {
-    LinkedHashMap defaultParams = [
+  LinkedHashMap putEquipmentAddParam(LinkedHashMap input) {
+    def params = mergeParams([
+      objValueId  : null,
       equipmentId : null,
       paramId     : null,
       date        : null,
@@ -369,17 +420,19 @@ trait Equipment {
       number      : null,
       bool        : null,
       refId       : null
-    ]
-    if (input.containsKey('param')) {
-      input.paramId = getEquipmentAddParamTypeIdByCode(input.param.toString())
-      input.remove('param')
-    }
-    LinkedHashMap params = mergeParams(defaultParams, input)
+    ], prepareEquipmentAddParam(input))
     try {
-      def paramValue = params.date ?: params.string ?: params.number ?: params.bool ?: params.refId
-      logger.info("Putting additional param ${params.paramId} value ${paramValue} to equipment ${params.equipmentId}")
+      if (!params.objValueId && !params.isMultiple) {
+        params.objValueId = getEquipmentAddParamBy(
+          objectId : input.objectId,
+          paramId  : input.paramId
+        )?.n_obj_value_id
+      }
 
-      hid.execute('SI_OBJECTS_PKG.PUT_OBJ_VALUE', [
+      logger.info("${params.objValueId ? 'Putting' : 'Creating'} object additional value with params ${params}")
+
+      def result = hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_PUT', [
+        num_N_OBJ_VALUE_ID       : params.objValueId,
         num_N_OBJECT_ID          : params.equipmentId,
         num_N_GOOD_VALUE_TYPE_ID : params.paramId,
         dt_D_VALUE               : params.date,
@@ -388,13 +441,23 @@ trait Equipment {
         ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      logger.info("   Additional param value was put successfully!")
-      return true
+      logger.info("   Object additional value was ${params.objValueId ? 'put' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("  Error while putting additional param!")
+      logger.error("  Error while putting object additional value!")
       logger.error_oracle(e)
-      return false
+      return null
     }
+  }
+
+  LinkedHashMap putEquipmentComponentAddParam(LinkedHashMap input) {
+    def componentId = input.componentId ?: input.equipmentId
+    input.remove('componentId')
+    return putEquipmentAddParam(input + [equipmentId: componentId])
+  }
+
+  LinkedHashMap putObjectAddParam(LinkedHashMap input) {
+    return putEquipmentAddParam(input)
   }
 
   LinkedHashMap addEquipmentAddParam(LinkedHashMap input) {
@@ -402,7 +465,62 @@ trait Equipment {
   }
 
   LinkedHashMap addEquipmentAddParam(def equipmentId, LinkedHashMap input) {
-    return putEquipmentAddParam(input + [equipmentId: equipmentId])
+    return addEquipmentAddParam(input + [equipmentId: equipmentId])
+  }
+
+  LinkedHashMap addEquipmentComponentAddParam(LinkedHashMap input) {
+    return putEquipmentComponentAddParam(input)
+  }
+
+  LinkedHashMap addEquipmentComponentAddParam(def componentId, LinkedHashMap input) {
+    return addEquipmentComponentAddParam(input + [componentId: componentId])
+  }
+
+  LinkedHashMap addObjectAddParam(LinkedHashMap input) {
+    def objectId = input.objectId ?: input.equipmentId
+    input.remove('objectId')
+    return putEquipmentAddParam(input + [equipmentId: objectId])
+  }
+
+  LinkedHashMap addObjectAddParam(def objectId, LinkedHashMap input) {
+    return addObjectAddParam(input + [objectId: objectId])
+  }
+
+  Boolean deleteEquipmentAddParam(def objValueId) {
+    try {
+      logger.info("Deleting object additional alue id ${objValueId}")
+      hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_DEL', [
+        num_N_OBJ_VALUE_ID : objValueId
+      ])
+      logger.info("   Object additional value was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting object additional value!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteEquipmentAddParam(LinkedHashMap input) {
+    def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
+    return deleteEquipmentAddParam(objValueId)
+  }
+
+  Boolean deleteEquipmentComponentAddParam(def objValueId) {
+    return deleteEquipmentAddParam(objValueId)
+  }
+
+  Boolean deleteEquipmentComponentAddParam(LinkedHashMap input) {
+    def objValueId = getEquipmentComponentAddParamBy(input)?.n_obj_value_id
+    return deleteEquipmentComponentAddParam(objValueId)
+  }
+
+  Boolean deleteObjectAddParam(def objValueId) {
+    return deleteEquipmentAddParam(objValueId)
+  }
+
+  Boolean deleteObjectAddParam(LinkedHashMap input) {
+    return deleteEquipmentAddParam(objValueId)
   }
 
   LinkedHashMap putEquipmentBind(LinkedHashMap input) {
