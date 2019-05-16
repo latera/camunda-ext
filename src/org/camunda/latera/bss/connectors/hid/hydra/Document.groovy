@@ -481,22 +481,22 @@ trait Document {
   }
 
   Boolean actualizeDocument(def docId) {
-    changeDocumentState(docId, getDocumentStateActualId())
+    return changeDocumentState(docId, getDocumentStateActualId())
   }
 
   Boolean executeDocument(def docId) {
-    changeDocumentState(docId, getDocumentStateExecutedId())
+    return changeDocumentState(docId, getDocumentStateExecutedId())
   }
 
   Boolean cancelDocument(def docId) {
-    changeDocumentState(docId, getDocumentStateCanceledId())
+    return changeDocumentState(docId, getDocumentStateCanceledId())
   }
 
   Boolean closeDocument(def docId) {
-    changeDocumentState(docId, getDocumentStateClosedId())
+    return changeDocumentState(docId, getDocumentStateClosedId())
   }
 
   Boolean dissolveDocument(def docId) {
-    changeDocumentState(docId, getDocumentStateDissolvedId())
+    return changeDocumentState(docId, getDocumentStateDissolvedId())
   }
 }

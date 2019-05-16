@@ -148,6 +148,10 @@ trait Good {
     return getGoodAddParamTypeBy(code: code)
   }
 
+  def getGoodAddParamTypeIdByCode(String code) {
+    return getGoodAddParamTypeByCode(code)?.n_good_value_type_id
+  }
+
   LinkedHashMap prepareGoodAddParam(LinkedHashMap input) {
     def param = null
     if (input.containsKey('param')) {
@@ -205,12 +209,5 @@ trait Good {
 
   LinkedHashMap getGoodAddParamBy(LinkedHashMap input) {
     return getGoodAddParamsBy(input)?.getAt(0)
-  }
-
-  def getGoodAddParamTypeIdByCode(String code) {
-    LinkedHashMap where = [
-      vc_code: code
-    ]
-    return hid.getTableFirst(getGoodAddParamTypesTable(), where: where)?.n_good_value_type_id
   }
 }

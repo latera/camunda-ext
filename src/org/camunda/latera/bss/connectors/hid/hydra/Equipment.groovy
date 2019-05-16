@@ -587,14 +587,14 @@ trait Equipment {
   }
 
   Boolean actualizeEquipment(def equipmentId) {
-    changeEquipmentState(equipmentId, getEquipmentStateActualId())
+    return changeEquipmentState(equipmentId, getEquipmentStateActualId())
   }
 
   Boolean deactivateEquipment(def equipmentId) {
-    changeEquipmentState(equipmentId, getEquipmentStateNotActiveId())
+    return changeEquipmentState(equipmentId, getEquipmentStateNotActiveId())
   }
 
   Boolean unregisterEquipment(def equipmentId) {
-    changeEquipmentState(equipmentId, getEquipmentStateRegisterOffId())
+    return changeEquipmentState(equipmentId, getEquipmentStateRegisterOffId())
   }
 }

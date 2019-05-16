@@ -166,15 +166,15 @@ trait Subject {
   }
 
   Boolean enableSubject(def subjectId) {
-    changeSubjectState(subjectId, getSubjectStateOnId())
+    return changeSubjectState(subjectId, getSubjectStateOnId())
   }
 
   Boolean suspendSubject(def subjectId) {
-    changeSubjectState(subjectId, getSubjectStateSuspendedId())
+    return changeSubjectState(subjectId, getSubjectStateSuspendedId())
   }
 
   Boolean disableSubject(def subjectId) {
-    changeSubjectState(subjectId, getSubjectStateDisabledId())
+    return changeSubjectState(subjectId, getSubjectStateDisabledId())
   }
 
   LinkedHashMap getSubjectAddParamType(def paramId) {

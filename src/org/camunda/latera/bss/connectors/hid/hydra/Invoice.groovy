@@ -5,10 +5,10 @@ import org.camunda.latera.bss.utils.Oracle
 import java.time.LocalDateTime
 
 trait Invoice {
-  private static String INVOICES_TABLE      = 'SD_V_INVOICES_T'
-  private static String GOOD_MOVES_TABLE    = 'SD_V_GOOD_MOVES_T'
-  private static String INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'
-  private static String INVOICE_TYPE        = 'DOC_TYPE_Invoice'
+  private static String INVOICES_TABLE           = 'SD_V_INVOICES_T'
+  private static String GOOD_MOVES_TABLE         = 'SD_V_GOOD_MOVES_T'
+  private static String INVOICE_LINES_TABLE      = 'SD_V_INVOICES_C'
+  private static String INVOICE_TYPE             = 'DOC_TYPE_Invoice'
   private static String DEFAULT_INVOICE_WORKFLOW = 'WFLOW_Invoice'
 
   def getInvoicesTable() {
