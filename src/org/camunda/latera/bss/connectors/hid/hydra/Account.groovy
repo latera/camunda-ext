@@ -28,17 +28,139 @@ trait Account {
     return getRefIdByCode(getDefaultOverdraftReason())
   }
 
-  LinkedHashMap getAccount(
-    def accountId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
+  List getAccountsBy(LinkedHashMap input) {
+    def params = mergeParams([
+      accountId        : null,
+      subjectId        : null,
+      accountTypeId    : getDefaultAccountTypeId(),
+      bankId           : null,
+      currencyId       : null,
+      code             : null,
+      name             : null,
+      number           : null,
+      maxOverdraft     : null,
+      rem              : null,
+      firmId           : getFirmId()
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.accountId) {
+      where.n_account_id = params.accountId
+    }
+    if (params.subjectId) {
+      where.n_subject_id = params.subjectId
+    }
+    if (params.accountTypeId) {
+      where.n_account_type_id = params.accountTypeId
+    }
+    if (params.bankId) {
+      where.n_bank_id = params.bankId
+    }
+    if (params.currencyId) {
+      where.n_currency_id = params.currencyId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.number) {
+      where.vc_account = params.number
+    }
+    if (params.maxOverdraft) {
+      where.n_max_overdraft = params.maxOverdraft
+    }
+    if (params.rem) {
+      where.vc_rem = params.rem
+    }
+    if (params.firmId) {
+      where.n_firm_id = params.firmId
+    }
+    return hid.getTableData(getAccountsTable(), where: where)
+  }
+
+  LinkedHashMap getAccountBy(LinkedHashMap input) {
+    return getAccountsBy(input)?.getAt(0)
+  }
+
+  LinkedHashMap getAccount(def accountId) {
     LinkedHashMap where = [
       n_account_id: accountId
     ]
-    if (accountTypeId) {
-      where.n_account_type_id = accountTypeId
-    }
     return hid.getTableFirst(getAccountsTable(), where: where)
+  }
+
+  List getSubjectAccounts(
+    def subjectId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getAccountsBy(subjectId: subjectId, accountTypeId: accountTypeId)
+  }
+
+  List getCompanyAccounts(
+    def companyId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccounts(companyId, accountTypeId)
+  }
+
+  List getPersonAccounts(
+    def personId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccounts(personId, accountTypeId)
+  }
+
+  List getCustomerAccounts(
+    def customerId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccounts(customerId, accountTypeId)
+  }
+
+  LinkedHashMap getSubjectAccount(
+    def subjectId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getAccountBy(subjectId: subjectId, accountTypeId: accountTypeId)
+  }
+
+  LinkedHashMap getCompanyAccount(
+    def companyId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccount(companyId, accountTypeId)
+  }
+
+  LinkedHashMap getPersonAccount(
+    def personId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccount(personId, accountTypeId)
+  }
+
+  LinkedHashMap getCustomerAccount(
+    def customerId,
+    def accountTypeId = getDefaultAccountTypeId()
+  ) {
+    return getSubjectAccount(customerId, accountTypeId)
+  }
+
+  LinkedHashMap getSubjectAccountBy(def subjectId, LinkedHashMap input) {
+    return getAccountBy(input + [subjectId: subjectId])
+  }
+
+  LinkedHashMap getCompanyAccountBy(def companyId, LinkedHashMap input) {
+    return getSubjectAccountBy(companyId, input)
+  }
+
+  LinkedHashMap getPersonAccount(def personId, LinkedHashMap input) {
+    return getSubjectAccountBy(personId, input)
+  }
+
+  LinkedHashMap getCustomerAccount(def customerId, LinkedHashMap input) {
+    return getSubjectAccountBy(customerId, input)
   }
 
   LinkedHashMap getAccountBalance(
@@ -75,68 +197,6 @@ trait Account {
     def operationDate = DateTimeUtil.now()
   ) {
     return getAccountBalance(accountId, operationDate)?.n_sum_free
-  }
-
-  List getSubjectAccounts(
-    def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    LinkedHashMap where = [
-      n_subject_id: subjectId
-    ]
-    if (accountTypeId) {
-      where.n_account_type_id = accountTypeId
-    }
-    return hid.getTableData(getAccountsTable(), where: where)
-  }
-
-  List getCompanyAccounts(
-    def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccounts(companyId, accountTypeId)
-  }
-
-  List getPersonAccounts(
-    def personId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccounts(personId, accountTypeId)
-  }
-
-  List getCustomerAccounts(
-    def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccounts(customerId, accountTypeId)
-  }
-
-  LinkedHashMap getSubjectAccount(
-    def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccounts(subjectId, accountTypeId)?.getAt(0)
-  }
-
-  LinkedHashMap getCompanyAccount(
-    def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccount(companyId, accountTypeId)
-  }
-
-  LinkedHashMap getPersonAccount(
-    def personId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccount(personId, accountTypeId)
-  }
-
-  LinkedHashMap getCustomerAccount(
-    def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
-  ) {
-    return getSubjectAccount(customerId, accountTypeId)
   }
 
   def putCustomerAccount(LinkedHashMap input) {
