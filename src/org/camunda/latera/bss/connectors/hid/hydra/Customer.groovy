@@ -188,9 +188,7 @@ trait Customer {
     return hid.getTableData(getCustomersTable(), where: where)
   }
 
-  LinkedHashMap getCustomerBy(
-    LinkedHashMap input
-  ) {
+  LinkedHashMap getCustomerBy(LinkedHashMap input) {
     return getCustomersBy(input)?.getAt(0)
   }
 

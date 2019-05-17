@@ -81,8 +81,8 @@ trait Equipment {
     if (params.equipmentId) {
       where.n_object_id = params.equipmentId
     }
-    if (params.typeId) {
-      where.n_good_id = params.typeId
+    if (params.typeId || params.goodId) {
+      where.n_good_id = params.typeId ?: params.goodId
     }
     if (params.ownerId) {
       where.n_owner_id = params.ownerId
@@ -141,8 +141,8 @@ trait Equipment {
     if (params.equipmentId) {
       where.n_main_object_id = params.equipmentId
     }
-    if (params.typeId) {
-      where.n_good_id = params.typeId
+    if (params.typeId || params.goodId) {
+      where.n_good_id = params.typeId ?: params.goodId
     }
     if (params.componentTypeId) {
       where.n_good_spec_id = params.componentTypeId
@@ -223,7 +223,7 @@ trait Equipment {
       logger.info("Putting equipment with params ${params}")
       LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
         num_N_OBJECT_ID        : params.equipmentId,
-        num_N_GOOD_ID          : params.typeId,
+        num_N_GOOD_ID          : params.typeId ?: params.goodId,
         num_N_USER_ID          : params.ownerId,
         vch_VC_CODE            : params.code,
         vch_VC_NAME            : params.name,
@@ -271,7 +271,7 @@ trait Equipment {
       LinkedHashMap component = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
         num_N_SPEC_OBJECT_ID : null,
         num_N_OBJECT_ID      : params.equipmentId,
-        num_N_GOOD_SPEC_ID   : params.typeId,
+        num_N_GOOD_SPEC_ID   : params.typeId ?: params.goodId,
         num_N_OWNER_ID       : params.ownerId,
         num_N_OBJ_STATE_ID   : params.stateId,
         vch_VC_CODE          : params.code,
