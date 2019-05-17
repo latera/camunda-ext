@@ -39,6 +39,7 @@ trait Contract {
   }
 
   List getContractsBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
       input.docTypeId = getContractTypeId()
     }
@@ -46,6 +47,7 @@ trait Contract {
   }
 
   LinkedHashMap getContractBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
       input.docTypeId = getContractTypeId()
     }
@@ -73,6 +75,7 @@ trait Contract {
       number      : null
     ]
     LinkedHashMap params = mergeParams(defaultParams, input)
+    params.docId = params.docId ?: params.contractId
     try {
       def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
@@ -132,10 +135,11 @@ trait Contract {
 
   Boolean dissolveContract(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
-      docId          : null,
-      endDate        : null,
+      docId         : null,
+      endDate       : null,
       checkInvoices : false
     ], input)
+    params.docId = params.docId ?: params.contractId
     try {
       logger.info("Dissolving contract id ${params.docId} with date ${params.endDate}")
       LinkedHashMap contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_DISSOLVE', [
