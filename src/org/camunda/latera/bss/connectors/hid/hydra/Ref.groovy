@@ -136,7 +136,7 @@ trait Ref {
     def where = [
       vc_code: code
     ]
-    def id = Numeric.toIntSafe(hid.getTableData(getRefsTable(), 'n_ref_id', where))
+    def id = Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
     if (id) {
       REFS_CACHE[code] = id
     }
@@ -156,7 +156,7 @@ trait Ref {
     def where = [
       n_ref_id: id
     ]
-    def code = hid.getTableData(getRefsTable(), 'vc_code', where)
+    def code = hid.getTableFirst(getRefsTable(), 'vc_code', where)
     if (code) {
       REFS_CACHE[code] = id
     }

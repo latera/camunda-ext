@@ -102,10 +102,7 @@ trait Table {
     return queryDatabase(query, true)
   }
 
-  List getTableData(
-    LinkedHashMap options,
-    String tableName
-  ) {
+  List getTableData(LinkedHashMap options, String tableName) {
     LinkedHashMap params = [
       fields : DEFAULT_FIELDS,
       where  : DEFAULT_WHERE,
@@ -114,9 +111,7 @@ trait Table {
     return getTableData(tableName, params.fields, params.where, params.order)
   }
 
-  List getTableData(
-    LinkedHashMap input
-  ) {
+  List getTableData(LinkedHashMap input) {
     LinkedHashMap params = [
       tableName : '',
       fields    : DEFAULT_FIELDS,
@@ -126,7 +121,7 @@ trait Table {
     return getTableData(params.tableName, params.fields, params.where, params.order)
   }
 
-  Object getTableFirst(
+  def getTableFirst(
     String tableName,
     fields = DEFAULT_FIELDS,
     LinkedHashMap where = DEFAULT_WHERE,
@@ -138,10 +133,7 @@ trait Table {
     return getTableData(tableName, fields, where)?.getAt(0)
   }
 
-  Object getTableFirst(
-    LinkedHashMap options,
-    String tableName
-  ) {
+  def getTableFirst(LinkedHashMap options, String tableName) {
     LinkedHashMap params = [
       fields : DEFAULT_FIELDS,
       where  : DEFAULT_WHERE,
@@ -150,9 +142,7 @@ trait Table {
     return getTableFirst(tableName, params.fields, params.where, params.order)
   }
 
-  Object getTableFirst(
-    LinkedHashMap input
-  ) {
+  def getTableFirst(LinkedHashMap input) {
     LinkedHashMap params = [
       tableName : '',
       fields    : DEFAULT_FIELDS,
