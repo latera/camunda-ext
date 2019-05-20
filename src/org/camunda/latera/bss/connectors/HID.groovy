@@ -25,7 +25,7 @@ class HID implements Table {
     this.proxy.setBasicAuth(this.user, this.password)
   }
 
-  Object queryDatabase(String query, Boolean asMap = false, Boolean noLimit = false) {
+  List queryDatabase(String query, Boolean asMap = false, Boolean noLimit = false) {
     List result = []
     def pageNumber = noLimit ? 0 : 1
     LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query, pageNumber])
@@ -58,7 +58,7 @@ class HID implements Table {
     return result
   }
 
-  Object queryFirst(String query, Boolean asMap = false, Boolean noLimit = false) {
+  def queryFirst(String query, Boolean asMap = false, Boolean noLimit = false) {
     def result = this.queryDatabase(query, asMap)
 
     if (result) {
@@ -68,7 +68,7 @@ class HID implements Table {
     }
   }
 
-  Object execute(String execName, LinkedHashMap params) {
+  def execute(String execName, LinkedHashMap params) {
     LinkedHashMap encodedParams = [:]
     params.each{ key, value ->
       if (DateTimeUtil.isDate(value)) {

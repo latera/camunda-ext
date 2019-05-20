@@ -213,14 +213,14 @@ trait Document {
     def where = [
       n_doc_id: docId
     ]
-    return hid.getTableData(getDocumentsTable(), where: where)
+    return hid.getTableFirst(getDocumentsTable(), where: where)
   }
 
-  LinkedHashMap getDocumentTypeId(def docId) {
+  def getDocumentTypeId(def docId) {
     def where = [
       n_doc_id: docId
     ]
-    return hid.getTableData(getDocumentsTable(), 'n_doc_type_id', where)
+    return hid.getTableFirst(getDocumentsTable(), 'n_doc_type_id', where)
   }
 
   def getDocumentWorkflowId(def docId) {
@@ -277,10 +277,10 @@ trait Document {
     def where = [
       n_doc_value_type_id: paramId
     ]
-    return hid.getTableData(getDocumentAddParamTypesTable(), where: where)
+    return hid.getTableFirst(getDocumentAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getDocumentAddParamTypesBy(LinkedHashMap input) {
+  List getDocumentAddParamTypesBy(LinkedHashMap input) {
     def params = mergeParams([
       docValueTypeId  : null,
       docTypeId       : null,
@@ -325,7 +325,7 @@ trait Document {
     return getDocumentAddParamTypesBy(input)?.getAt(0)
   }
 
-  def getDocumentAddParamTypeByCode(String code, def docTypeId = null) {
+  LinkedHashMap getDocumentAddParamTypeByCode(String code, def docTypeId = null) {
     return getDocumentAddParamTypeBy(code: code, docTypeId: docTypeId)
   }
 
@@ -338,7 +338,7 @@ trait Document {
     if (input.containsKey('param')) {
       def docTypeId = input.docTypeId ?: getDocumentTypeId(input.docId)
       param = getDocumentAddParamTypeByCode(input.param.toString(), docTypeId)
-      input.paramId = param?.n_doc_value_type_id
+      input.paramId = param.n_doc_value_type_id
       input.remove('param')
     } else if (input.containsKey('paramId')) {
       param = getDocumentAddParamType(input.paramId)

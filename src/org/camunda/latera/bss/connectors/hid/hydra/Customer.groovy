@@ -387,7 +387,7 @@ trait Customer {
     if (params.hashTypeId) {
       where.n_hash_type_id = hashTypeId
     }
-    return hid.getTableData(getCustomerNetServicesTable(), where:where)
+    return hid.getTableData(getCustomerNetServicesTable(), where: where)
   }
 
   LinkedHashMap getCustomerNetServiceAccessBy(LinkedHashMap input) {
