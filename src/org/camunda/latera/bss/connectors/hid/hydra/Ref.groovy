@@ -143,8 +143,11 @@ trait Ref {
     return id
   }
 
-  def getRefIdByName(String name) {
-    return Numeric.toIntSafe(getRefBy(name: name)?.n_ref_id)
+  def getRefIdByName(def name) {
+    def where = [
+      vc_name: name
+    ]
+    return Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
   }
 
   String getRefCode(def id) {

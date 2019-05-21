@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid
 
 import org.camunda.latera.bss.utils.DateTimeUtil
+import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.Oracle
 
 trait Table {
@@ -70,7 +71,7 @@ trait Table {
             query += """
     AND ${field} ${condition}"""
           }
-        } else if (value instanceof String) {
+        } else if (StringUtil.isString(value)) {
           query += """
     AND ${field} = '${value}'"""
         } else if (DateTimeUtil.isDate(value)) {
