@@ -147,19 +147,35 @@ trait Account {
     return getSubjectAccount(customerId, accountTypeId)
   }
 
-  LinkedHashMap getSubjectAccountBy(def subjectId, LinkedHashMap input) {
+  LinkedHashMap getSubjectAccountBy(LinkedHashMap input, def subjectId) {
     return getAccountBy(input + [subjectId: subjectId])
+  }
+
+  LinkedHashMap getSubjectAccountBy(def subjectId, LinkedHashMap input) {
+    return getSubjectAccountBy(input, subjectId)
+  }
+
+  LinkedHashMap getCompanyAccountBy(LinkedHashMap input, def companyId) {
+    return getSubjectAccountBy(companyId, input)
   }
 
   LinkedHashMap getCompanyAccountBy(def companyId, LinkedHashMap input) {
     return getSubjectAccountBy(companyId, input)
   }
 
-  LinkedHashMap getPersonAccount(def personId, LinkedHashMap input) {
+  LinkedHashMap getPersonAccountBy(LinkedHashMap input, def personId) {
     return getSubjectAccountBy(personId, input)
   }
 
-  LinkedHashMap getCustomerAccount(def customerId, LinkedHashMap input) {
+  LinkedHashMap getPersonAccountBy(def personId, LinkedHashMap input) {
+    return getSubjectAccountBy(personId, input)
+  }
+
+  LinkedHashMap getCustomerAccountBy(LinkedHashMap input, def customerId) {
+    return getSubjectAccountBy(customerId, input)
+  }
+
+  LinkedHashMap getCustomerAccountBy(def customerId, LinkedHashMap input) {
     return getSubjectAccountBy(customerId, input)
   }
 
