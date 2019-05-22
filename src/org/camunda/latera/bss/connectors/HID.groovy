@@ -2,7 +2,6 @@ package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.*
 import java.time.LocalDateTime
-import org.codehaus.groovy.runtime.GStringImpl
 import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.Oracle
@@ -74,8 +73,8 @@ class HID implements Table {
       if (DateTimeUtil.isDate(value)) {
         value = Oracle.encodeDate(value)
       }
-      if (value instanceof GStringImpl) {
-        value = value.toString()
+      if (StringUtil.isString(value)) {
+        value = value.toString() // Convert GStringImpl to String
       }
       encodedParams[key] = Oracle.encodeNull(value)
     }
