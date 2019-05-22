@@ -6,10 +6,16 @@ import org.camunda.latera.bss.utils.Oracle
 import java.time.LocalDateTime
 
 trait Contract {
-  private static String  CONTRACTS_TABLE = 'SD_V_CONTRACTS'
-  private static String  CONTRACT_TYPE   = 'DOC_TYPE_SubscriberContract'
-  private static String  DEFAULT_CONTRACT_WORKFLOW    = 'WFLOW_SubscriberContract'
-  private static Integer DEFAULT_CONTRACT_WORKFLOW_ID = 10021
+  private static String  CONTRACTS_TABLE    = 'SD_V_CONTRACTS'
+  private static String  CONTRACT_TYPE      = 'DOC_TYPE_SubscriberContract'
+  private static String  CONTRACT_APP_TYPE  = 'DOC_TYPE_ContractAPP'
+  private static String  ADD_AGREEMENT_TYPE = 'DOC_TYPE_AddAgreement'
+  private static String  DEFAULT_CONTRACT_WORKFLOW         = 'WFLOW_SubscriberContract'
+  private static Integer DEFAULT_CONTRACT_WORKFLOW_ID      = 10021
+  private static String  DEFAULT_CONTRACT_APP_WORKFLOW     = 'WFLOW_ContractAPP'
+  private static Integer DEFAULT_CONTRACT_APP_WORKFLOW_ID  = 20021
+  private static String  DEFAULT_ADD_AGREEMENT_WORKFLOW    = 'WFLOW_AddAgreement'
+  private static Integer DEFAULT_ADD_AGREEMENT_WORKFLOW_ID = 130021
 
  def getContractsTable() {
     return CONTRACTS_TABLE
@@ -65,6 +71,7 @@ trait Contract {
   LinkedHashMap putContract(LinkedHashMap input) {
     def defaultParams = [
       docId       : null,
+      docTypeId   : getContractTypeId(),
       parentDocId : null,
       workflowId  : getDefaultContractWorkflowId(),
       providerId  : getFirmId(),
@@ -75,12 +82,24 @@ trait Contract {
       number      : null
     ]
     LinkedHashMap params = mergeParams(defaultParams, input)
-    params.docId = params.docId ?: params.contractId
+    params.docId         = params.docId ?: params.contractId
+    params.parentDocId   = params.parentDocId ?: params.baseContractId
+
+    def _docTypeName = ''
+    if (params.docTypeId == getContractTypeId()) {
+      _docTypeName = 'contract'
+    } else if (params.docTypeId == getContractAppTypeId()) {
+      _docTypeName = 'contract app'
+    } else if (params.docTypeId == getAddAgreementTypeId()) {
+      _docTypeName = 'add agreement'
+    }
+    def docTypeName = StringUtil.capitalize(_docTypeName)
+
     try {
-      def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
+      def paramsNames = (defaultParams.keySet() as List) - ['docTypeId', 'parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
       if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && StringUtil.isEmpty(params.number)) {
-        logger.info("Creating new contract with params ${params}")
+        logger.info("Creating new ${_docTypeName} with params ${params}")
         contract = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
           num_N_USER_ID          : params.receiverId,
           num_N_FIRM_ID          : params.providerId,
@@ -88,19 +107,19 @@ trait Contract {
           num_N_CONTRACT_ID      : null
         ])
         contract.num_N_DOC_ID = contract.num_N_CONTRACT_ID
-        logger.info("   Contract ${contract.num_N_DOC_ID} was put successfully!")
+        logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
       } else {
-        logger.info("Putting contract with params ${params}")
+        logger.info("Putting ${_docTypeName} with params ${params}")
         contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_PUT', [
           num_N_DOC_ID        : params.docId,
-          num_N_DOC_TYPE_ID   : getContractTypeId(),
+          num_N_DOC_TYPE_ID   : params.docTypeId,
           num_N_PARENT_DOC_ID : params.parentDocId,
           num_N_WORKFLOW_ID   : params.workflowId,
           dt_D_BEGIN          : params.beginDate,
           dt_D_END            : params.endDate,
           vch_VC_DOC_NO       : params.number
         ])
-        logger.info("   Contract ${contract.num_N_DOC_ID} was put successfully!")
+        logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
 
         putDocumentSubject([
           docId      : contract.num_N_DOC_ID,
@@ -118,7 +137,7 @@ trait Contract {
       }
       return contract
     } catch (Exception e){
-      logger.error("   Error while putting contract!")
+      logger.error("   Error while putting ${_docTypeName}!")
       logger.error_oracle(e)
       return null
     }
@@ -126,6 +145,7 @@ trait Contract {
 
   LinkedHashMap createContract(LinkedHashMap input) {
     input.remove('docId')
+    input.remove('contractId')
     return putContract(input)
   }
 
@@ -157,6 +177,159 @@ trait Contract {
   }
 
   Boolean dissolveContract(def docId, LocalDateTime endDate = DateTimeUtil.now(), Boolean checkInvoices = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  }
+
+  def getContractAppsTable() {
+    return getContractsTable()
+  }
+
+  def getContractAppType() {
+    return CONTRACT_APP_TYPE
+  }
+
+  def getContractAppTypeId() {
+    return getRefIdByCode(CONTRACT_APP_TYPE)
+  }
+
+  def getDefaultContractAppWorkflow() {
+    return DEFAULT_CONTRACT_APP_WORKFLOW
+  }
+
+  def getDefaultContractAppWorkflowId() {
+    return DEFAULT_CONTRACT_APP_WORKFLOW_ID
+  }
+
+  LinkedHashMap getContractApp(def docId) {
+    return getContract(docId)
+  }
+
+  List getContractAppsBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
+    if (!input.docTypeId) {
+      input.docTypeId = getContractAppTypeId()
+    }
+    return getDocumentsBy(input)
+  }
+
+  LinkedHashMap getContractAppBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
+    if (!input.docTypeId) {
+      input.docTypeId = getContractAppTypeId()
+    }
+    return getDocumentBy(input)
+  }
+
+  Boolean isContractApp(String entityType) {
+    return entityType == getContractAppType()
+  }
+
+  Boolean isContractApp(def entityIdOrEntityTypeId) {
+    return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
+  }
+
+  LinkedHashMap putContractApp(LinkedHashMap input) {
+    LinkedHashMap params = [
+      docTypeId : getContractAppTypeId()
+    ] + input
+    params.docId       = params.docId       ?: params.contractAppId
+    params.parentDocId = params.parentDocId ?: params.contractId
+    params.remove('contractId')
+    return putContract(input)
+  }
+
+  LinkedHashMap createContractApp(LinkedHashMap input) {
+    input.remove('docId')
+    input.remove('contractAppId')
+    return putContractApp(input)
+  }
+
+  LinkedHashMap updateContractApp(def docId, LinkedHashMap input) {
+    return putContractApp(input + [docId: docId])
+  }
+
+  Boolean dissolveContractApp(LinkedHashMap input) {
+    return dissolveContract(input)
+  }
+
+  Boolean dissolveContractApp(def docId, LocalDateTime endDate = DateTimeUtil.now(), Boolean checkInvoices = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  }
+
+  def getAddAgreementsTable() {
+    return getContractsTable()
+  }
+
+  def getAddAgreementType() {
+    return ADD_AGREEMENT_TYPE
+  }
+
+  def getAddAgreementTypeId() {
+    return getRefIdByCode(ADD_AGREEMENT_TYPE)
+  }
+
+  def getDefaultAddAgreementWorkflow() {
+    return DEFAULT_ADD_AGREEMENT_WORKFLOW
+  }
+
+  def getDefaultAddAgreementWorkflowId() {
+    return DEFAULT_ADD_AGREEMENT_WORKFLOW_ID
+  }
+
+  LinkedHashMap getAddAgreement(def docId) {
+    return getContract(docId)
+  }
+
+  List getAddAgreementsBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
+    if (!input.docTypeId) {
+      input.docTypeId = getAddAgreementTypeId()
+    }
+    return getDocumentsBy(input)
+  }
+
+  LinkedHashMap getAddAgreementBy(LinkedHashMap input) {
+    input.docId = input.docId ?: input.contractId
+    if (!input.docTypeId) {
+      input.docTypeId = getAddAgreementTypeId()
+    }
+    return getDocumentBy(input)
+  }
+
+  Boolean isAddAgreement(String entityType) {
+    return entityType == getAddAgreementType()
+  }
+
+  Boolean isAddAgreement(def entityIdOrEntityTypeId) {
+    return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
+  }
+
+  LinkedHashMap putAddAgreement(LinkedHashMap input) {
+    LinkedHashMap params = [
+      docTypeId : getAddAgreementTypeId()
+    ] + input
+    params.docId       = params.docId       ?: params.addAgreementId ?: params.agreementId
+    params.parentDocId = params.parentDocId ?: params.contractId
+    params.remove('contractId')
+    return putContract(input)
+  }
+
+  LinkedHashMap createAddAgreement(LinkedHashMap input) {
+    input.remove('docId')
+    input.remove('agreementId')
+    input.remove('addAgreementId')
+    return putAddAgreement(input)
+  }
+
+  LinkedHashMap updateAddAgreement(def docId, LinkedHashMap input) {
+    return putAddAgreement(input + [docId: docId])
+  }
+
+  Boolean dissolveAddAgreement(LinkedHashMap input) {
+    return dissolveContract(input)
+  }
+
+  Boolean dissolveAddAgreement(def docId, LocalDateTime endDate = DateTimeUtil.now(), Boolean checkInvoices = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
