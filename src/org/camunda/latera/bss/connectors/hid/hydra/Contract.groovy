@@ -230,12 +230,13 @@ trait Contract {
 
   LinkedHashMap putContractApp(LinkedHashMap input) {
     LinkedHashMap params = [
-      docTypeId : getContractAppTypeId()
+      docTypeId  : getContractAppTypeId(),
+      workflowId : getDefaultContractAppWorkflowId()
     ] + input
     params.docId       = params.docId       ?: params.contractAppId
     params.parentDocId = params.parentDocId ?: params.contractId
     params.remove('contractId')
-    return putContract(input)
+    return putContract(params)
   }
 
   LinkedHashMap createContractApp(LinkedHashMap input) {
@@ -306,12 +307,13 @@ trait Contract {
 
   LinkedHashMap putAddAgreement(LinkedHashMap input) {
     LinkedHashMap params = [
-      docTypeId : getAddAgreementTypeId()
+      docTypeId  : getAddAgreementTypeId(),
+      workflowId : getDefaultAddAgreementWorkflowId()
     ] + input
     params.docId       = params.docId       ?: params.addAgreementId ?: params.agreementId
     params.parentDocId = params.parentDocId ?: params.contractId
     params.remove('contractId')
-    return putContract(input)
+    return putContract(params)
   }
 
   LinkedHashMap createAddAgreement(LinkedHashMap input) {
