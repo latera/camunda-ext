@@ -59,6 +59,10 @@ trait Country {
     return updateEntity(getCountryEntityType(), id, params)
   }
 
+  LinkedHashMap updateCountry(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+    return updateCountry(id, input, additionalParams)
+  }
+
   Boolean deleteCountry(def id) {
     return deleteEntity(getCountryEntityType(), id)
   }
@@ -110,6 +114,10 @@ trait Country {
   LinkedHashMap updateCountryState(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     LinkedHashMap params = getCountryStateParams(input, additionalParams)
     return updateEntity(getCountryStateEntityType(), id, params)
+  }
+
+  LinkedHashMap updateCountryState(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+    return updateCountryState(id, input, additionalParams)
   }
 
   Boolean deleteCountryState(def id) {

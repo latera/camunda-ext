@@ -84,6 +84,10 @@ trait Lead {
     return updateEntity(getLeadEntityType(), id, params)
   }
 
+  LinkedHashMap updateLead(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+    return updateLead(id, input, additionalParams)
+  }
+
   Boolean deleteLead(def id) {
     return deleteEntity(getLeadEntityType(), id)
   }

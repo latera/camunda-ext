@@ -79,6 +79,10 @@ trait Customer {
     return updateEntity(getCustomerEntityType(), id, params)
   }
 
+  LinkedHashMap updateCustomer(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+    return updateCustomer(id, input, additionalParams)
+  }
+
   Boolean deleteCustomer(def id) {
     return deleteEntity(getCustomerEntityType(), id)
   }
