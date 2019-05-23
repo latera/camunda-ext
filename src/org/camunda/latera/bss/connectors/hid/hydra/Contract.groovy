@@ -96,7 +96,7 @@ trait Contract {
     def docTypeName = StringUtil.capitalize(_docTypeName)
 
     try {
-      def paramsNames = (defaultParams.keySet() as List) - ['docTypeId', 'parentDocId', 'providerId', 'receiverId', 'number']
+      def paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
       if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && StringUtil.isEmpty(params.number)) {
         logger.info("Creating new ${_docTypeName} with params ${params}")
@@ -121,18 +121,22 @@ trait Contract {
         ])
         logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
 
-        putDocumentSubject([
-          docId      : contract.num_N_DOC_ID,
-          subjectId  : params.providerId,
-          roleId     : getProviderRoleId(),
-          workflowId : params.workflowId
-        ])
-        putDocumentSubject([
-          docId      : contract.num_N_DOC_ID,
-          subjectId  : params.receiverId,
-          roleId     : getReceiverRoleId(),
-          workflowId : params.workflowId
-        ])
+        if (params.providerId) {
+          putDocumentSubject([
+            docId      : contract.num_N_DOC_ID,
+            subjectId  : params.providerId,
+            roleId     : getProviderRoleId(),
+            workflowId : params.workflowId
+          ])
+        }
+        if (params.receiverId) {
+          putDocumentSubject([
+            docId      : contract.num_N_DOC_ID,
+            subjectId  : params.receiverId,
+            roleId     : getReceiverRoleId(),
+            workflowId : params.workflowId
+          ])
+        }
         actualizeDocument(contract.num_N_DOC_ID)
       }
       return contract
@@ -235,6 +239,8 @@ trait Contract {
     ] + input
     params.docId       = params.docId       ?: params.contractAppId
     params.parentDocId = params.parentDocId ?: params.contractId
+    params.providerId  = null
+    params.receiverId  = null
     params.remove('contractId')
     return putContract(params)
   }
@@ -312,6 +318,8 @@ trait Contract {
     ] + input
     params.docId       = params.docId       ?: params.addAgreementId ?: params.agreementId
     params.parentDocId = params.parentDocId ?: params.contractId
+    params.providerId  = null
+    params.receiverId  = null
     params.remove('contractId')
     return putContract(params)
   }
