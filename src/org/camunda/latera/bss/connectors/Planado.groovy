@@ -46,7 +46,7 @@ class Planado {
       return sendRequest(
         'get',
         path: "clients/${extId}.json",
-      )
+      )?.client
     }
     catch (Exception e) {
       logger.error(e)
