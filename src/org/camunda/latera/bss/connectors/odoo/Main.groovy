@@ -24,7 +24,7 @@ trait Main {
       where.each{ field, value ->
         if (value instanceof LinkedHashMap) {
           value.each { condition, content ->
-            query += """('${field}','${condition}','${content}')"""
+            query += """('${field}','${condition}',${escapeSearchValue(content)})"""
           }
         } else {
           def condition = '='
@@ -36,10 +36,7 @@ trait Main {
             field = field.replaceFirst(/^(.*)!$/, '$1')
           }
 
-          if (DateTimeUtil.isDate(value)) {
-            content = DateTimeUtil.iso(value)
-          }
-          query += """('${field}','${condition}','${content}')"""
+          query += """('${field}','${condition}',${escapeSearchValue(content)})"""
         }
       }
     }
@@ -47,11 +44,11 @@ trait Main {
     if (order?.size() > 0) {
       if (order instanceof LinkedHashMap) {
         order.each { column, direction ->
-          orderBy += "${column} ${direction}"
+          orderBy += "'${column} ${direction}'"
         }
       } else if (order instanceof List) {
         order.each { column ->
-          orderBy += column
+          orderBy += "'${column}'"
         }
       }
     }
@@ -121,5 +118,32 @@ trait Main {
 
   LinkedHashMap convertKeys(LinkedHashMap input) {
     return StringUtil.snakeCaseKeys(input)
+  }
+
+  def escapeSearchValue(def value) {
+    if (value instanceof Boolean) {
+      return StringUtil.capitalize("${value}")
+    }
+    if (StringUtil.isString(value)) {
+      return "'${value}'"
+    }
+    return value
+  }
+
+  def convertValue(def value) {
+    if (value == null && value == 'null') {
+      return false //D`oh
+    }
+    if (DateTimeUtil.isDate(value)) {
+      return "'${DateTimeUtil.iso(value)}'"
+    }
+    return value
+  }
+
+  LinkedHashMap convertParams(LinkedHashMap input) {
+    LinkedHashMap result = [:]
+    input.each { key, value ->
+      result[key] = convertValue(value)
+    }
   }
 }

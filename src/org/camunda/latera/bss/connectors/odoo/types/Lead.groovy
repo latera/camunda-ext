@@ -20,6 +20,8 @@ trait Lead {
       sourceId       : null,
       teamId         : null,
       campaignId     : null,
+      stageId        : null,
+      type           : null,
       phoneNumber    : null,
       countryId      : null,
       stateId        : null,
@@ -27,7 +29,8 @@ trait Lead {
       street         : null,
       street2        : null,
       zip            : null,
-      comment        : null
+      comment        : null,
+      active         : true
     ]
   }
 
@@ -44,6 +47,8 @@ trait Lead {
       source_id    : params.sourceId,
       team_id      : params.teamId,
       campaign_id  : params.campaignId,
+      stage_id     : params.stageId,
+      type         : params.type,
       phone        : params.phoneNumber,
       country_id   : params.countryId,
       state_id     : params.stateId,
@@ -51,14 +56,15 @@ trait Lead {
       street       : params.street,
       street2      : params.street2,
       zip          : params.zip,
-      description  : params.comment
+      description  : params.comment,
+      active       : params.active
     ]
   }
 
   LinkedHashMap getLeadParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getLeadDefaultParams() + input
     def where  = getLeadParamsMap(params)
-    return nvlParams(where + convertKeys(additionalParams))
+    return convertParams(nvlParams(where) + convertKeys(additionalParams))
   }
 
   LinkedHashMap getLead(def id) {

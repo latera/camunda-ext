@@ -1,20 +1,6 @@
 package org.camunda.latera.bss.connectors.odoo
 
 trait Entity {
-  LinkedHashMap getEntityDefaultParams() {
-    return [:]
-  }
-
-  LinkedHashMap getEntityParamsMap(LinkedHashMap params) {
-    return [:]
-  }
-
-  LinkedHashMap getEntityParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getEntityDefaultParams() + input
-    def where  = getEntityParamsMap(params)
-    return prepareQuery(where + convertKeys(additionalParams))
-  }
-
   LinkedHashMap getEntity(def type, def id) {
     def result = null
     try {
