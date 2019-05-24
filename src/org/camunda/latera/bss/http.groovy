@@ -74,7 +74,11 @@ class HTTPRestProcessor {
       logger.info("Response data: -----")
       if (data) {
         if (!supress) {
-          logger.info(data.toString())
+          if (data instanceof byte[]) {
+            logger.info(new String(data))
+          } else {
+            logger.info(data.toString())
+          }
         } else {
           logger.info("*Supressing response data*")
         }
