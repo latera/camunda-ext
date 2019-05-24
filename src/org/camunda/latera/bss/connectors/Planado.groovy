@@ -103,19 +103,19 @@ class Planado {
     LinkedHashMap payload = [
       external_id   : extId,
       organization  : false,
-      first_name    : data.firstName,
-      middle_name   : data.middleName,
-      last_name     : data.lastName,
+      first_name    : data.firstName  ?: '',
+      middle_name   : data.middleName ?: '',
+      last_name     : data.lastName   ?: '',
       name          : [data.lastName, data.firstName].join(' ').trim(),
       site_address  : [
-        formatted   : data.addressStreet,
-        entrance_no : data.addressEntrance,
-        floor       : data.addressFloor,
-        apartment   : data.addressApartment,
+        formatted   : data.addressStreet      ?: '',
+        entrance_no : data.addressEntrance    ?: '',
+        floor       : data.addressFloor       ?: '',
+        apartment   : data.addressApartment   ?: '',
         description : data.addressDescription ?: ''
       ],
-      email         : data.email,
-      cell_phone    : data.phone
+      email         : data.email ?: '',
+      cell_phone    : data.phone ?: ''
     ]
 
     if (data.addressLat && data.addressLon) {
@@ -158,20 +158,20 @@ class Planado {
     LinkedHashMap payload = [
       external_id       : extId,
       organization      : true,
-      organization_name : data.companyName,
+      organization_name : data.companyName     ?: '',
       site_address      : [
-        formatted   : data.addressStreet,
-        entrance_no : data.addressEntrance,
-        floor       : data.addressFloor,
-        apartment   : data.addressApartment,
-        description : data.addressDescription ?: ''
+        formatted   : data.addressStreet       ?: '',
+        entrance_no : data.addressEntrance     ?: '',
+        floor       : data.addressFloor        ?: '',
+        apartment   : data.addressApartment    ?: '',
+        description : data.addressDescription  ?: ''
       ],
-      email    : data.email,
+      email    : data.email                    ?: '',
       contacts : [[
                   type  : "phone",
-                  name  : data.companyName,
-                  value : data.phone,
-                  value_normalized: data.phone
+                  name  : data.companyName     ?: '',
+                  value : data.phone           ?: '',
+                  value_normalized: data.phone ?: ''
                 ]]
     ]
 
@@ -217,7 +217,7 @@ class Planado {
       template_id  : data.templateId,
       client_id    : data.clientId,
       scheduled_at : data.startDate,
-      description  : data.description
+      description  : data.description ?: ''
     ]
 
     try {
