@@ -72,9 +72,6 @@ trait Good {
     if (params.isCustomer != null) {
       where.c_fl_customer_equipment = Oracle.encodeBool(params.isCustomer)
     }
-    if (params.tags) {
-      where.t_tags = params.tags
-    }
     return hid.getTableData(getGoodsTable(), where: where)
   }
 
