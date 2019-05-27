@@ -5,6 +5,7 @@ trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'
   private static String GOOD_ADD_PARAM_TYPES_TABLE = 'SR_V_GOOD_VALUES_TYPE'
+  private static String SERV_SCHEMES_TABLE         = 'SR_V_SERV_SCHEMES'
 
   def getGoodsTable() {
     return GOODS_TABLE
@@ -209,5 +210,139 @@ trait Good {
 
   LinkedHashMap getGoodAddParamBy(LinkedHashMap input) {
     return getGoodAddParamsBy(input)?.getAt(0)
+  }
+
+  def getServSchemesTable() {
+    return SERV_SCHEMES_TABLE
+  }
+
+  LinkedHashMap getServSchemes(def servSchemeId) {
+    LinkedHashMap where = [
+      n_serv_scheme_id: servSchemeId
+    ]
+    return hid.getTableData(getServSchemesTable(), where: where)
+  }
+
+  List getServSchemesBy(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      servSchemeId           : null,
+      code                   : null,
+      name                   : null,
+      ratingMethodId         : null,
+      servTypeId             : null,
+      durationTypeId         : null,
+      durationUnitId         : null,
+      duration               : null,
+      providingTypeId        : null,
+      reservedUnitId         : null,
+      reserved               : null,
+      subscrPermissionId     : null,
+      unsubscrPermissionId   : null,
+      aggrPeriodUnitId       : null,
+      aggrPeriod             : null,
+      isArchivingEnabled     : null,
+      expPeriodUnitId        : null,
+      expPeriod              : null,
+      isArchiveGroupedByAddr : null,
+      providingPointId       : null,
+      changelogCtrlId        : null,
+      pretermCloseReasonIds  : null,
+      servEndChargeTypeId    : null,
+      restrictConditionId    : null,
+      matchingPriorityId     : null,
+      isArchived             : false
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.servSchemeId) {
+      where.n_serv_scheme_id = params.servSchemeId
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.ratingMethodId) {
+      where.n_rating_method_id = params.ratingMethodId
+    }
+    if (params.servTypeId) {
+      where.n_serv_type_id = params.servTypeId
+    }
+    if (params.durationTypeId) {
+      where.n_duration_id = params.durationTypeId
+    }
+    if (params.durationUnitId) {
+      where.n_duration_unit_id = params.durationUnitId
+    }
+    if (params.duration) {
+      where.n_duration_value = params.duration
+    }
+    if (params.duration) {
+      where.n_duration_value = params.duration
+    }
+    if (params.duration) {
+      where.n_duration_value = params.duration
+    }
+    if (params.providingTypeId) {
+      where.n_providing_type_id = params.providingTypeId
+    }
+    if (params.reservedUnitId) {
+      where.n_reserved_unit_id = params.reservedUnitId
+    }
+    if (params.reserved) {
+      where.n_reserved_value = params.reserved
+    }
+    if (params.subscrPermissionId) {
+      where.n_subscr_permission_id = params.subscrPermissionId
+    }
+    if (params.unsubscrPermissionId) {
+      where.n_unsubscr_permission_id = params.unsubscrPermissionId
+    }
+    if (params.aggrPeriodUnitId) {
+      where.n_aggr_perion_unit_id = params.aggrPeriodUnitId
+    }
+    if (params.aggrPeriod) {
+      where.n_aggr_perion_value = params.aggrPeriod
+    }
+    if (params.isArchivingEnabled != null) {
+      where.c_fl_enable_archiving = Oracle.encodeBool(params.isArchivingEnabled)
+    }
+    if (params.expPeriodUnitId) {
+      where.n_exp_period_unit_id = params.expPeriodUnitId
+    }
+    if (params.expPeriod) {
+      where.n_exp_period_value = params.expPeriod
+    }
+    if (params.isArchiveGroupedByAddr != null) {
+      where.c_fl_arch_group_addr = Oracle.encodeBool(params.isArchiveGroupedByAddr)
+    }
+    if (params.providingPointId) {
+      where.n_providion_point_id = params.providingPointId
+    }
+    if (params.changelogCtrlId) {
+      where.n_changelog_ctrl_id = params.changelogCtrlId
+    }
+    if (params.pretermCloseReasonIds) {
+      where.t_preterm_close_reasons_id = params.pretermCloseReasonIds
+    }
+    if (params.servEndChargeTypeId) {
+      where.n_serv_end_charge_type_id = params.servEndChargeTypeId
+    }
+    if (params.restrictConditionId) {
+      where.n_restrict_condition_id = params.restrictConditionId
+    }
+    if (params.matchingPriorityId) {
+      where.n_matching_priority_id = params.matchingPriorityId
+    }
+    if (params.isArchived != null) {
+      where.c_fl_archived = Oracle.encodeBool(params.isArchived)
+    }
+
+    return hid.getTableData(getServSchemesTable(), where: where)
+  }
+
+  LinkedHashMap getServSchemeBy(LinkedHashMap input) {
+    return getServSchemesBy(input)?.getAt(0)
   }
 }
