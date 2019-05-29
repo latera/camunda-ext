@@ -467,7 +467,7 @@ trait Customer {
           return false
         }
       }
-      logger.info("Changing net service/app id ${params.netServiceId} subscription id ${params.subjServId} password from ${params.oldPassword}${params.oldPasswordHash} to ${params.newPassword}")
+      logger.info("Changing net service/app id ${params.netServiceId} subscription id ${params.subjServId} password from ${params.oldPassword ?: params.oldPasswordHash} to ${params.newPassword}")
       hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SERVICES_CHG_PASS', [
         num_N_SUBJ_SERV_ID   : params.subjServId,
         vch_VC_OLD_PASS      : params.oldPassword,

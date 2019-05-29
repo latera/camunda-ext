@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.utils
 import java.nio.charset.Charset
+import java.security.SecureRandom
 
 class StringUtil {
   static byte[] unicodeToVarchar(String input) {
@@ -98,6 +99,12 @@ class StringUtil {
 
   static Boolean isByteArray(def input) {
     return (input instanceof byte[])
+  }
+
+  static String generateRandomString(Integer length = 6) {
+    SecureRandom random = new SecureRandom()
+    String result = new BigInteger(130, random).toString(32)
+    return result.substring(0, length)
   }
 }
 
