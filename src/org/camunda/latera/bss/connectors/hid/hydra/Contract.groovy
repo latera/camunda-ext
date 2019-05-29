@@ -213,6 +213,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
+    input.receiverId = null
+    input.providerId = null
     return getDocumentsBy(input)
   }
 
@@ -221,6 +223,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
+    input.receiverId = null
+    input.providerId = null
     return getDocumentBy(input)
   }
 
@@ -292,6 +296,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getAddAgreementTypeId()
     }
+    input.receiverId = null
+    input.providerId = null
     return getDocumentsBy(input)
   }
 
@@ -300,6 +306,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getAddAgreementTypeId()
     }
+    input.receiverId = null
+    input.providerId = null
     return getDocumentBy(input)
   }
 
