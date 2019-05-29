@@ -349,6 +349,7 @@ trait Customer {
       subjServId     : null,
       customerId     : null,
       netServiceId   : null,
+      objectId       : null,
       subjServTypeId : getNetServiceTypeId(),
       authTypeId     : getAuthLoginPassTypeId(),
       login          : null,
@@ -368,6 +369,9 @@ trait Customer {
     }
     if (params.netServiceId) {
       where.n_service_id = params.netServiceId
+    }
+    if (params.objectId) {
+      where.n_object_id = params.objectId
     }
     if (params.subjServTypeId) {
       where.n_subj_serv_type_id = params.subjServTypeId
@@ -399,6 +403,7 @@ trait Customer {
       subjServId     : null,
       customerId     : null,
       netServiceId   : null,
+      objectId       : null,
       subjServTypeId : getNetServiceTypeId(),
       authTypeId     : getAuthLoginPassTypeId(),
       login          : null,
@@ -410,6 +415,7 @@ trait Customer {
         num_N_SUBJ_SERV_ID      : params.subjServId,
         num_N_SUBJECT_ID        : params.customerId,
         num_N_SERVICE_ID        : params.netServiceId,
+        num_N_OBJECT_ID         : params.objectId,
         num_N_SUBJ_SERV_TYPE_ID : params.subjServTypeId,
         num_N_AUTH_TYPE_ID      : params.authTypeId,
         vch_VC_LOGIN            : params.login
@@ -442,6 +448,7 @@ trait Customer {
       subjServId      : null,
       customerId      : null,
       netServiceId    : null,
+      objectId        : null,
       subjServTypeId  : getNetServiceTypeId(),
       authTypeId      : getAuthLoginPassTypeId(),
       login           : null,
