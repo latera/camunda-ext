@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.http
 
+import java.net.URL
 import groovyx.net.http.HttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
@@ -11,6 +12,7 @@ import org.camunda.latera.bss.utils.JSON
 class HTTPRestProcessor {
   HttpBuilder httpClient
   String baseUrl
+  String basePath
   SimpleLogger logger
   Boolean supressRequestBodyLog
   Boolean supressResponseBodyLog
@@ -19,7 +21,8 @@ class HTTPRestProcessor {
     this.logger = new SimpleLogger(params.execution)
     params.remove('execution')
 
-    this.baseUrl = params.baseUrl
+    this.baseUrl  = params.baseUrl
+    this.basePath = parsePath(this.baseUrl)
     this.supressRequestBodyLog  = false
     this.supressResponseBodyLog = false
 
@@ -111,7 +114,7 @@ class HTTPRestProcessor {
       supressResponseBody = true
     }
 
-    logger.info("/ Sending HTTP ${method.toUpperCase()} request (${baseUrl}${params.path})...")
+    logger.info("/ Sending HTTP ${method.toUpperCase()} request (${absoluteUrl(params.path)})...")
 
     if (params.body) {
       params.body = JSON.escape(params.body)
@@ -131,7 +134,7 @@ class HTTPRestProcessor {
       response.failure responseBlock(true,  supressResponseBody)
 
       if (params.path) {
-        request.uri.path = params.path.toString()
+        request.uri.path = absolutePath(params.path.toString())
         params.remove('path')
       }
       if (params.query) {
@@ -144,5 +147,39 @@ class HTTPRestProcessor {
     }
     logger.info("\\ HTTP request sent")
     result
+  }
+
+  private String parsePath(String rawUrl) {
+    // baseUrl http://homs:3000/api
+    // return /api
+    URL absolute = new URL(rawUrl)
+    return absolute.getPath()
+  }
+
+  // https://github.com/http-builder-ng/http-builder-ng/issues/210
+  private String absolutePath(String path) {
+    // baseUrl http://homs:3000/api
+    if (StringUtil.isEmpty(path)) {
+      return basePath
+    }
+    // path /task
+    if (path.getAt(0) == '/') {
+      return path // /task
+    }
+    // path task
+    return "${basePath}/${path}".toString() // /api/task
+  }
+
+  private String absoluteUrl(String path) {
+    // baseUrl http://homs:3000
+    if (StringUtil.isEmpty(path)) {
+      return baseUrl
+    }
+    // path /api
+    if (path.getAt(0) == '/') {
+      return "${baseUrl}${path}".toString() // http://homs:3000/api
+    }
+    // path api
+    return "${baseUrl}/${path}".toString() // http://homs:3000/api
   }
 }
