@@ -351,11 +351,12 @@ trait Contract {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
-  Boolean refreshContractsTree() {
+  Boolean refreshContractsTree(String method = 'C') {
     try {
       logger.info("Refreshing contracts tree")
       hid.execute('UTILS_PKG_S.REFRESH_MATERIALIZED_VIEW', [
-        vch_VC_VIEW_NAME : 'SD_MV_CONTRACTS_TREE'
+        vch_VC_VIEW_NAME : 'SD_MV_CONTRACTS_TREE',
+        vch_C_METHOD     : method
       ])
       logger.info("   Contracts tree was refreshed successfully!")
       return true
