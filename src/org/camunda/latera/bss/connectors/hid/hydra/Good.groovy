@@ -93,7 +93,7 @@ trait Good {
     return hid.getTableData(getGoodAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getGoodAddParamTypesBy(LinkedHashMap input) {
+  List getGoodAddParamTypesBy(LinkedHashMap input) {
     def params = mergeParams([
       goodValueTypeId : null,
       goodId          : null,
