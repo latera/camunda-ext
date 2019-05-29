@@ -29,9 +29,24 @@ class OTRS implements Main, Entity, Ticket {
     )
   }
 
+  private def auth() {
+    return [
+      UserLogin : user,
+      Password  : password
+    ]
+  }
+
   def sendRequest(LinkedHashMap input, String method = 'get') {
     if (input.path) {
-      input.path = "nph-genericinterface.pl/Webservice/HOMS/${input.path}?UserLogin=${user}&Password=${password}"
+      input.path = "nph-genericinterface.pl/Webservice/HOMS/${input.path}"
+    }
+    if (input.body) {
+      input.body += auth()
+    } else {
+      if (!input.query) {
+        input.query = [:]
+      }
+      input.query += auth()
     }
     return http.sendRequest(input, method)
   }

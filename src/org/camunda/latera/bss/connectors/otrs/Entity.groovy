@@ -7,7 +7,7 @@ trait Entity {
       result = sendRequest(
         'get',
         path : "${type}Get/${id}"
-      )?.data
+      )
     } catch (Exception e) {
       logger.error(e)
     }
@@ -20,9 +20,9 @@ trait Entity {
       logger.info("Creating ${type} with params ${params}")
       result = sendRequest(
         'post',
-        path : "${type}Create",
+        path : "${type}Create/",
         body : params
-      )?.data
+      )
     } catch (Exception e) {
       logger.error("   Error while creating ${type}")
       logger.error(e)
@@ -38,7 +38,7 @@ trait Entity {
         'put',
         path : "${type}Update/${id}",
         body : params
-      )?.data
+      )
     } catch (Exception e) {
       logger.error("   Error while updating ${type}")
       logger.error(e)
@@ -51,7 +51,7 @@ trait Entity {
       logger.info("Deleting ${type} id ${id}")
       sendRequest(
         'delete',
-        path : "${type}Delete/${id}"
+        path: "${type}Delete/${id}"
       )
       return true
     } catch (Exception e) {
