@@ -40,6 +40,8 @@ trait Ticket {
       SLA           : params.sla,
       StateID       : params.stateId,
       State         : params.state,
+      PriorityID    : params.priorityId,
+      Priority      : params.priority,
       OwnerID       : params.ownerId,
       Owner         : params.owner,
       ResponsibleID : params.responsibleId,
@@ -119,9 +121,10 @@ trait Ticket {
   }
 
   LinkedHashMap getTicketParams(LinkedHashMap input, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
-    def params  = getTicketDefaultParams() + input
-    def ticket  = convertParams(nvlParams(getTicketParamsMap(params)) + convertKeys(additionalParams))
-    def article = convertParams(nvlParams(getTicketArticleParamsMap(params)))
+    def ticketParams  = getTicketDefaultParams() + input
+    def articleParams = getTicketArticleDefaultParams() + input
+    def ticket  = convertParams(nvlParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))
+    def article = convertParams(nvlParams(getTicketArticleParamsMap(articleParams)))
 
     List attachmentList = []
     if (attachments) {
@@ -149,7 +152,7 @@ trait Ticket {
     if (article) {
       result.Article = article
     }
-    if (attachmentsList) {
+    if (attachmentList) {
       result.Attachment = attachmentList
     }
     if (dynamicFieldsList) {
