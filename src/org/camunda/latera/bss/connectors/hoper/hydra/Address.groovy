@@ -9,17 +9,16 @@ trait Address {
   private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
   private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
-  def getAddressEntityType(def parentType, def parentId) {
-    def parent = "${parentType.parent}/${parentType.plural}/${parentId}"
-    return ADDRESS_ENTITY_TYPE + [parent: parent]
+  def getAddressEntityType(def parentType, def id = null) {
+    return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getPersonAddressEntityType(def subjectId) {
-    return getAddressEntityType(getPersonEntityType(), subjectId)
+  def getPersonAddressEntityType(def personId, def id = null) {
+    return getAddressEntityType(getPersonEntityType(personId), id)
   }
 
-  def getCompanyAddressEntityType(def subjectId) {
-    return getAddressEntityType(getCompanyEntityType(), subjectId)
+  def getCompanyAddressEntityType(def companyId, def id = null) {
+    return getAddressEntityType(getCompanyEntityType(companyId), id)
   }
 
   def getDefaultAddressTypeId() {

@@ -2,7 +2,6 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 
 trait Equipment {
   private static LinkedHashMap EQUIPMENT_ENTITY_TYPE = [
-    parent : 'objects',
     one    : 'net_device',
     plural : 'net_devices'
   ]
@@ -18,20 +17,16 @@ trait Equipment {
   private static Integer EQUIPMENT_STATE_NOT_ACTIVE_ID   = 2040 // 'OBJ_STATE_NotActive'
   private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 //'OBJ_STATE_RegisterOff'
 
-  def getEquipmentEntityType() {
-    return EQUIPMENT_ENTITY_TYPE
+  def getEquipmentEntityType(def id = null) {
+    return EQUIPMENT_ENTITY_TYPE + withParent(getObjectEntityType()) + withId(id)
   }
 
-  def getEquipmentEntryEntityType(def equipmentId) {
-    def equipmentType = getEquipmentEntityType()
-    def parent        = "${equipmentType.parent}/${equipmentType.plural}/${equipmentId}"
-    return EQUIPMENT_ENTRY_ENTITY_TYPE + [parent: parent]
+  def getEquipmentEntryEntityType(def equipmentId, def id = null) {
+    return EQUIPMENT_ENTRY_ENTITY_TYPE + withParent(getEquipmentEntityType(equipmentId)) + withId(id)
   }
 
-  def getCustomerEquipmentEntityType(def customerId) {
-    def customerType = getCustomerEntityType()
-    def parent       = "${customerType.parent}/${customerType.plural}/${customerId}"
-    return CUSTOMER_EQUIPMENT_ENTITY_TYPE + [parent: parent]
+  def getCustomerEquipmentEntityType(def customerId, def id = null) {
+    return CUSTOMER_EQUIPMENT_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
   def getEquipmentStateActualId() {

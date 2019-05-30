@@ -2,13 +2,12 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 
 trait Customer {
   private static LinkedHashMap CUSTOMER_ENTITY_TYPE = [
-    parent : 'subjects',
     one    : 'customer',
     plural : 'customers'
   ]
 
-  def getCustomerEntityType() {
-    return CUSTOMER_ENTITY_TYPE
+  def getCustomerEntityType(def id = null) {
+    return CUSTOMER_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
   LinkedHashMap getCustomerDefaultParams() {

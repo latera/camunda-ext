@@ -2,13 +2,12 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 
 trait Person {
   private static LinkedHashMap PERSON_ENTITY_TYPE = [
-    parent : 'subjects',
     one    : 'person',
     plural : 'persons'
   ]
 
-  def getPersonEntityType() {
-    return PERSON_ENTITY_TYPE
+  def getPersonEntityType(def id = null) {
+    return PERSON_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
   LinkedHashMap getPersonDefaultParams() {

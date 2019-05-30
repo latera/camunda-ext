@@ -10,13 +10,12 @@ trait Contract {
   private static Integer ADD_AGREEMENT_TYPE = 13002 // 'DOC_TYPE_AddAgreement'
   private static Integer DEFAULT_CONTRACT_WORKFLOW_ID = 10021 // 'WFLOW_SubscriberContract'
 
-  def getContractEntityType(def parentType, def parentId) {
-    def parent = "${parentType.parent}/${parentType.plural}/${parentId}"
-    return CONTRACT_ENTITY_TYPE + [parent: parent]
+  def getContractEntityType(def parentType, def id = null) {
+    return CONTRACT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getCustomerContractEntityType(def customerId) {
-    return getContractEntityType(getCustomerEntityType(), customerId)
+  def getCustomerContractEntityType(def customerId, def id = null) {
+    return getContractEntityType(getCustomerEntityType(customerId), id)
   }
 
   def getContractTypeId() {

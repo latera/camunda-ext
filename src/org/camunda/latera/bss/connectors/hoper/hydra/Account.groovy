@@ -7,13 +7,12 @@ trait Account {
   ]
   private static Integer DEFAULT_CURRENCY_ID = 1044 // 'CURR_Ruble'
 
-  def getAccountEntityType(def parentType, def parentId) {
-    def parent = "${parentType.parent}/${parentType.plural}/${parentId}"
-    return ACCOUNT_ENTITY_TYPE + [parent: parent]
+  def getAccountEntityType(def parentType, def id = null) {
+    return ACCOUNT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getCustomerAccountEntityType(def customerId) {
-    return getAccountEntityType(getCustomerEntityType(), customerId)
+  def getCustomerAccountEntityType(def customerId, def id = null) {
+    return getAccountEntityType(getCustomerEntityType(customerId), id)
   }
 
   def getDefaultCurrencyId() {

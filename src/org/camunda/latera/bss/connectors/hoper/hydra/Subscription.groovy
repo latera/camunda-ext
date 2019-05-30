@@ -1,6 +1,11 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
 trait Subscription {
+  private static LinkedHashMap AVAILABLE_SERVICES_ENTITY_TYPE = [
+    one    : 'available_service',
+    plural : 'available_services'
+  ]
+
   private static LinkedHashMap SUBSCRIPTION_ENTITY_TYPE = [
     one    : 'subscription',
     plural : 'subscriptions'
@@ -11,27 +16,38 @@ trait Subscription {
     plural : 'additional_services'
   ]
 
-  private static LinkedHashMap AVAILABLE_SERVICES_ENTITY_TYPE = [
-    one    : 'available_service',
-    plural : 'available_services'
-  ]
-
-  def getSubscriptionEntityType(def customerId) {
-    def customerType = getCustomerEntityType()
-    def parent       = "${customerType.parent}/${customerType.plural}/${customerId}"
-    return SUBSCRIPTION_ENTITY_TYPE + [parent: parent]
+  def getAvailableServicesEntityType(def customerId, def id = null) {
+    return AVAILABLE_SERVICES_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  def getChildSubscriptionEntityType(def customerId, def subscriptionId) {
-    def subscriptionType = getSubscriptionEntityType(customerId)
-    def parent       = "${subscriptionType.parent}/${subscriptionType.plural}/${subscriptionId}"
-    return CHILD_SUBSCRIPTION_ENTITY_TYPE + [parent: parent]
+  def getSubscriptionEntityType(def customerId, def id = null) {
+    return SUBSCRIPTION_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  def getAvailableServicesEntityType(def customerId) {
-    def customerType = getCustomerEntityType()
-    def parent       = "${customerType.parent}/${customerType.plural}/${customerId}"
-    return AVAILABLE_SERVICES_ENTITY_TYPE + [parent: parent]
+  def getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
+    return CHILD_SUBSCRIPTION_ENTITY_TYPE + withParent(getSubscriptionEntityType(customerId, subscriptionId)) + withId(id)
+  }
+
+  LinkedHashMap getAvailableServicesDefaultParams() {
+    return getPaginationDefaultParams() + [
+      accountId          : null,
+      docId              : null,
+      equipmentId        : null,
+      parSubscriptionId  : null,
+      operationDate      : null
+    ]
+  }
+
+  LinkedHashMap getAvailableServicesParamsMap(LinkedHashMap params) {
+    return [
+      n_account_id          : params.accountId,
+      n_contract_id         : params.docId,
+      n_equipment_id        : params.equipmentId,
+      n_par_subscription_id : params.parSubscriptionId,
+      d_oper                : params.operationDate,
+      per_page              : params.endDate,
+      page                  : params.closeChargeLog
+    ]
   }
 
   LinkedHashMap getSubscriptionDefaultParams() {
@@ -59,12 +75,6 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getSubscriptionParams(LinkedHashMap input) {
-    def params = getSubscriptionDefaultParams() + input
-    def data   = getSubscriptionParamsMap(params)
-    return nvlParams(data)
-  }
-
   LinkedHashMap getChildSubscriptionDefaultParams() {
     return [
       accountId          : null,
@@ -88,56 +98,22 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getChildSubscriptionParams(LinkedHashMap input) {
-    def params = getChildSubscriptionDefaultParams() + input
-    def data   = getChildSubscriptionParamsMap(params)
-    return nvlParams(data)
-  }
-
-  LinkedHashMap getAvailableServicesDefaultParams() {
-    return getPaginationDefaultParams() + [
-      accountId          : null,
-      docId              : null,
-      equipmentId        : null,
-      parSubscriptionId  : null,
-      operationDate      : null
-    ]
-  }
-
-  LinkedHashMap getAvailableServicesParamsMap(LinkedHashMap params) {
-    return [
-      n_account_id          : params.accountId,
-      n_contract_id         : params.docId,
-      n_equipment_id        : params.equipmentId,
-      n_par_subscription_id : params.parSubscriptionId,
-      d_oper                : params.operationDate,
-      per_page              : params.endDate,
-      page                  : params.closeChargeLog
-    ]
-  }
-
   LinkedHashMap getAvailableServicesParams(LinkedHashMap input) {
     def params = getAvailableServicesDefaultParams() + input
     def data   = getAvailableServicesParamsMap(params)
     return nvlParams(data)
   }
 
-  List getSubscriptions(def customerId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
-    return getEntities(getSubscriptionEntityType(customerId), params)
+  LinkedHashMap getSubscriptionParams(LinkedHashMap input) {
+    def params = getSubscriptionDefaultParams() + input
+    def data   = getSubscriptionParamsMap(params)
+    return nvlParams(data)
   }
 
-  LinkedHashMap getSubscription(def customerId, def subscriptionId) {
-    return getEntity(getSubscriptionEntityType(customerId), subscriptionId)
-  }
-
-  List getChildSubscriptions(def customerId, def subscriptionId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
-    return getEntities(getChildSubscriptionEntityType(customerId, subscriptionId), params)
-  }
-
-  LinkedHashMap getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
-    return getEntity(getChildSubscriptionEntityType(customerId, subscriptionId), childSubscriptionId)
+  LinkedHashMap getChildSubscriptionParams(LinkedHashMap input) {
+    def params = getChildSubscriptionDefaultParams() + input
+    def data   = getChildSubscriptionParamsMap(params)
+    return nvlParams(data)
   }
 
   List getAvailableServices(def customerId, LinkedHashMap input) {
@@ -173,6 +149,15 @@ trait Subscription {
         return service
       }
     }
+  }
+
+  List getSubscriptions(def customerId, LinkedHashMap input = [:]) {
+    def params = getPaginationDefaultParams() + input
+    return getEntities(getSubscriptionEntityType(customerId), params)
+  }
+
+  LinkedHashMap getSubscription(def customerId, def subscriptionId) {
+    return getEntity(getSubscriptionEntityType(customerId), subscriptionId)
   }
 
   LinkedHashMap createSubscription(def customerId, LinkedHashMap input = [:]) {
@@ -214,6 +199,15 @@ trait Subscription {
 
   LinkedHashMap closeSubscription(def customerId, def subscriptionId, def endDate, def closeChargeLog = false) {
     return updateSubscription(customerId, subscriptionId, [endDate: endDate, closeChargeLog: closeChargeLog])
+  }
+
+  List getChildSubscriptions(def customerId, def subscriptionId, LinkedHashMap input = [:]) {
+    def params = getPaginationDefaultParams() + input
+    return getEntities(getChildSubscriptionEntityType(customerId, subscriptionId), params)
+  }
+
+  LinkedHashMap getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
+    return getEntity(getChildSubscriptionEntityType(customerId, subscriptionId), childSubscriptionId)
   }
 
   LinkedHashMap createChildSubscription(def customerId, def subscriptionId, LinkedHashMap input = [:]) {

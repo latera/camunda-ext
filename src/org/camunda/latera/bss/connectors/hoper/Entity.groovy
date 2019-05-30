@@ -29,7 +29,7 @@ trait Entity {
     try {
       result = hoper.sendRequest(
         'get',
-        path : "${type.parent}/${type.plural}/${id}",
+        path : preparePath(type, id),
         query : query
       )?."${type.one}"
     } catch (Exception e) {
@@ -43,7 +43,7 @@ trait Entity {
     try {
       result = hoper.sendRequest(
         'get',
-        path  : "${type.parent}/${type.plural}",
+        path  : preparePath(type),
         query : query
       )?."${type.plural}"
     } catch (Exception e) {
@@ -58,7 +58,7 @@ trait Entity {
       logger.info("Creating ${type.one} with params ${params}")
       result = hoper.sendRequest(
         'post',
-        path : "${type.parent}/${type.plural}",
+        path : preparePath(type),
         body : ["${type.one}": params]
       )?."${type.one}"
       logger.info("   ${StringUtil.capitalize(type.one)} was created successfully!")
@@ -75,7 +75,7 @@ trait Entity {
       logger.info("Updating ${type.one} id ${id} with params ${params}")
       result = hoper.sendRequest(
         'put',
-        path : "${type.parent}/${type.plural}/${id}",
+        path : preparePath(type, id),
         body : ["${type.one}": params]
       )?."${type.one}"
       logger.info("   ${StringUtil.capitalize(type.one)} was updated successfully!")
@@ -91,7 +91,7 @@ trait Entity {
       logger.info("Deleting ${type.one} id ${id}")
       hoper.sendRequest(
         'delete',
-        path : "${type.parent}/${type.plural}/${id}"
+        path : preparePath(type, id)
       )
       logger.info("   ${StringUtil.capitalize(type.one)} was deleted successfully!")
       return true
