@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.utils.DateTimeUtil
+import org.camunda.latera.bss.utils.Order
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class Imprint {
@@ -13,8 +14,10 @@ class Imprint {
   LinkedHashMap headers
   SimpleLogger logger
   String locale
+  DelegateExecution execution
 
   Imprint(DelegateExecution execution) {
+    this.execution  = execution
     this.logger  = new SimpleLogger(execution)
     def ENV      = System.getenv()
 
@@ -33,8 +36,11 @@ class Imprint {
     )
   }
 
-  def print(String template, LinkedHashMap data) {
+  def print(String template, LinkedHashMap data = [:]) {
     this.logger.info("Printing begin...")
+    if (!data) {
+      data = Order.getData(execution)
+    }
     def body = [
       template : template,
       data     : [
