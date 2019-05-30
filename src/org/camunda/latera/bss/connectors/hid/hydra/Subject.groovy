@@ -184,7 +184,7 @@ trait Subject {
     return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getSubjectAddParamTypesBy(LinkedHashMap input) {
+  List getSubjectAddParamTypesBy(LinkedHashMap input) {
     def params = mergeParams([
       subjValueTypeId : null,
       subjTypeId      : null,
@@ -233,7 +233,7 @@ trait Subject {
     return getSubjectAddParamTypesBy(input)?.getAt(0)
   }
 
-  def getSubjectAddParamTypeByCode(String code, def subjTypeId = null) {
+  LinkedHashMap getSubjectAddParamTypeByCode(String code, def subjTypeId = null) {
     return getSubjectAddParamTypeBy(code: code, subjTypeId: subjTypeId)
   }
 
