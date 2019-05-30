@@ -147,7 +147,8 @@ class HOMS {
     def newFiles =  this.http.sendRequest(
       'post',
       path: '/widget/file_upload',
-      body: body
+      body: body,
+      supressRequestBodyLog:  true
     )
     if (save) {
       def existingFiles = JSON.from(execution.getVariable('homsOrderDataFileList'))

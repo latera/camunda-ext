@@ -50,13 +50,12 @@ class Imprint {
                   todayFull : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.FULL_DATE_FORMAT, this.locale)
                 ] + data
     ]
-    def result = this.http.sendRequest(
+    def file = this.http.sendRequest(
       'post',
       path        : '/api/print',
       body        : body,
       contentType : 'application/json'
     )
-    def file = result
     return file
   }
 }
