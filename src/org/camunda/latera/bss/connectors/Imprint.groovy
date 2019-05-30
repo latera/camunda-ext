@@ -32,7 +32,8 @@ class Imprint {
     this.http = new HTTPRestProcessor(
       baseUrl   : url,
       headers   : headers,
-      execution : execution
+      execution : execution,
+      supressResponseBodyLog : true
     )
   }
 
