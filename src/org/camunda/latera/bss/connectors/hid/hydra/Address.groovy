@@ -268,11 +268,11 @@ trait Address {
     if (isSubj) {
       params.subjAddressId = params.entityAddressId
       params.subjectId     = params.entityId
-      return getSubjAddresses(params)
+      return getSubjAddressesBy(params)
     } else {
       params.objAddressId  = params.entityAddressId
       params.objectId      = params.entityId
-      return getObjAddresses(params)
+      return getObjAddressesBy(params)
     }
   }
 
