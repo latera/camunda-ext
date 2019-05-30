@@ -108,7 +108,7 @@ trait Ticket {
     return [
       name        : '',
       content     : [] as byte[],
-      contentType : null
+      contentType : 'application/octet-stream'
     ]
   }
 
