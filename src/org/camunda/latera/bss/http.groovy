@@ -4,7 +4,6 @@ import java.net.URL
 import groovyx.net.http.HttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
-import org.apache.commons.io.IOUtils
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.JSON
