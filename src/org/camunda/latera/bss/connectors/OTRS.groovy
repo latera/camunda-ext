@@ -48,6 +48,10 @@ class OTRS implements Main, Entity, Ticket {
       }
       input.query += auth()
     }
-    return http.sendRequest(input, method)
+    def result = http.sendRequest(input, method)
+    if (result?.Error) { // OTRS sends 200 code with error, crap
+      return null
+    }
+    return result
   }
 }
