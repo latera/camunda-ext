@@ -10,7 +10,7 @@ import org.camunda.latera.bss.utils.Base64Converter
 class HOMS {
   String url
   String user
-  private String password
+  private String token
   HTTPRestProcessor http
   DelegateExecution execution
   String homsOrderCode
@@ -22,15 +22,15 @@ class HOMS {
     this.logger     = new SimpleLogger(this.execution)
     def ENV         = System.getenv()
 
-    this.url        = ENV['HOMS_URL']      ?: execution.getVariable("homsUrl")
-    this.user       = ENV['HOMS_USER']     ?: execution.getVariable("homsUser")
-    this.password   = ENV['HOMS_PASSWORD'] ?: execution.getVariable("homsPassword")
+    this.url        = ENV['HOMS_URL']  ?: execution.getVariable("homsUrl")
+    this.user       = ENV['HOMS_USER'] ?: execution.getVariable("homsUser")
+    this.token      = ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD'] ?: execution.getVariable("hbwToken") ?: execution.getVariable("homsToken") ?: execution.getVariable("homsPassword")
     def supress     = execution.getVariable('homsOrderSupress') ?: false
 
     this.http       = new HTTPRestProcessor(
       baseUrl   : this.url,
       user      : this.user,
-      password  : this.password,
+      password  : this.token,
       supressRequestBodyLog:  supress,
       supressResponseBodyLog: supress,
       execution : this.execution
