@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
+import org.camunda.latera.bss.utils.DateTimeUtil
 
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
@@ -11,6 +12,7 @@ trait Subject {
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
   private static String SUBJECT_STATE_DISABLED        = 'SUBJ_STATE_Disabled'
+  private static String SUBJECT_COMMENT_TYPE          = 'COMMENT_TYPE_Comment'
 
   def getSubjectsTable() {
     return SUBJECTS_TABLE
@@ -58,6 +60,14 @@ trait Subject {
 
   def getSubjectStateDisabledId() {
     return getRefIdByCode(getSubjectStateDisabled())
+  }
+
+  def getSubjectCommentType() {
+    return SUBJECT_COMMENT_TYPE
+  }
+
+  def getSubjectCommentTypeId() {
+    return getRefIdByCode(getSubjectCommentType())
   }
 
   List getSubjectsBy(LinkedHashMap input) {
@@ -434,6 +444,10 @@ trait Subject {
     return putSubjectGroup(input + [subjectId: subjectId])
   }
 
+  Boolean addSubjectGroup(LinkedHashMap input, def subjectId) {
+    return putSubjectGroup(subjectId, input)
+  }
+
   Boolean deleteSubjectGroup(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
@@ -452,7 +466,7 @@ trait Subject {
       }
 
       logger.info("Deleting subject group id ${subjSubjectId}")
-      hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_SUBJECTS_DEL', [
+      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SUBJECTS_DEL', [
         num_N_SUBJ_SUBJECT_ID : subjSubjectId
       ])
       logger.info("   Subject group was deleted successfully!")
@@ -466,5 +480,66 @@ trait Subject {
 
   Boolean deleteSubjectGroup(def subjSubjectId) {
     return deleteSubjGroup(subjSubjectId: subjSubjectId)
+  }
+
+  LinkedHashMap putSubjectComment(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      lineId        : null,
+      subjectId     : null,
+      typeId        : getSubjectCommentTypeId(),
+      operationDate : DateTimeUtil.now(),
+      signalDate    : null,
+      content       : null,
+      authorId      : null
+    ], input)
+    try {
+      logger.info("Putting subject id ${params.subjectId} comment line ${params.lineId} with content ${params.content} and signal date ${params.signalDate}")
+
+      LinkedHashMap subjComment = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_PUT', [
+        num_N_LINE_ID         : params.lineId,
+        num_N_SUBJECT_ID      : params.subjectId,
+        num_N_COMMENT_TYPE_ID : params.typeId,
+        dt_D_OPER             : params.operationDate,
+        dt_D_SIGNAL           : params.signalDate,
+        clb_CL_COMMENT        : params.content
+      ] + (params.authorId != null ?
+      [
+        num_N_AUTHOR_ID       : params.authorId
+      ] : [:])
+      )
+      logger.info("   Subject comment was put successfully!")
+      return subjComment
+    } catch (Exception e){
+      logger.error("   Error while putting subject comment!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  Boolean addSubjectComment(LinkedHashMap input) {
+    return putSubjectComment(input)
+  }
+
+  Boolean addSubjectComment(def subjectId, LinkedHashMap input) {
+    return putSubjectComment(input + [subjectId: subjectId])
+  }
+
+  Boolean addSubjectComment(LinkedHashMap input, def subjectId) {
+    return putSubjectComment(subjectId, input)
+  }
+
+  Boolean deleteSubjectComment(def lineId) {
+    try {
+      logger.info("Deleting subject comment line id ${lineId}")
+      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_DEL', [
+        num_N_LINE_ID : lineId
+      ])
+      logger.info("   Subject comment was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting a subject comment!")
+      logger.error_oracle(e)
+      return false
+    }
   }
 }
