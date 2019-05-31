@@ -25,7 +25,7 @@ class HOMS {
     this.url        = ENV['HOMS_URL']  ?: execution.getVariable("homsUrl")
     this.user       = ENV['HOMS_USER'] ?: execution.getVariable("homsUser")
     this.token      = ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD'] ?: execution.getVariable("hbwToken") ?: execution.getVariable("homsToken") ?: execution.getVariable("homsPassword")
-    def supress     = execution.getVariable('homsOrderSupress') ?: false
+    Boolean supress = execution.getVariable('homsOrderSupress') ?: false
 
     this.http       = new HTTPRestProcessor(
       baseUrl   : this.url,
@@ -39,7 +39,7 @@ class HOMS {
     this.homsOrderId   = execution.getVariable('homsOrderId')
   }
 
-  def createOrder(String type, LinkedHashMap data) {
+  LinkedHashMap createOrder(String type, LinkedHashMap data) {
     LinkedHashMap body = [
       order: [
         order_type_code: type,
@@ -47,7 +47,7 @@ class HOMS {
       ]
     ]
     logger.info("/ Creating new order ...")
-    def result = http.sendRequest(
+    LinkedHashMap result = http.sendRequest(
       'post',
       path: '/api/orders',
       supressRequestBodyLog:  false,
@@ -61,6 +61,10 @@ class HOMS {
     execution.setVariable("homsOrderId",   homsOrderId)
     logger.info("\\ Order created")
     return order
+  }
+
+  LinkedHashMap createOrder(LinkedHashMap data, String type) {
+    return createOrder(type, data)
   }
 
   void startOrder() {
@@ -134,7 +138,7 @@ class HOMS {
     logger.info('\\ Order finished')
   }
 
-  def attachFiles(List files, Boolean save = true) {
+  List attachFiles(List files, Boolean save = true) {
     files.eachWithIndex { item, i ->
       def file = [name: item.name]
       file.content = Base64Converter.to(item.content)
@@ -144,7 +148,7 @@ class HOMS {
       files: JSON.to(files)
     ]
     logger.info("Attaching files to order ${homsOrderId}")
-    def newFiles =  this.http.sendRequest(
+    List newFiles =  this.http.sendRequest(
       'post',
       path: '/widget/file_upload',
       body: body,
@@ -158,7 +162,7 @@ class HOMS {
     return newFiles
   }
 
-  def attachFile(LinkedHashMap file, Boolean save = true) {
+  List attachFile(LinkedHashMap file, Boolean save = true) {
     return attachFiles([file], save)
   }
 }

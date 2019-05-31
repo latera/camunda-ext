@@ -52,9 +52,8 @@ class Imprint {
     ]
     def file = this.http.sendRequest(
       'post',
-      path        : '/api/print',
-      body        : body,
-      contentType : 'application/json'
+      path : '/api/print',
+      body : body
     )
     return file
   }
