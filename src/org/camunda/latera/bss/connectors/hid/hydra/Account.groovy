@@ -201,18 +201,41 @@ trait Account {
   """, true)
   }
 
-  LinkedHashMap getAccountBalanceTotal(
+  def getAccountBalanceTotal(
     def accountId,
     def operationDate = DateTimeUtil.now()
   ) {
     return getAccountBalance(accountId, operationDate)?.n_sum_total
   }
 
-  LinkedHashMap getAccountFree(
+  def getAccountFree(
     def accountId,
     def operationDate = DateTimeUtil.now()
   ) {
     return getAccountBalance(accountId, operationDate)?.n_sum_free
+  }
+
+  def getAccountActualInvoicesSum(def accountId) {
+    return hid.queryFirst("""
+    SELECT SI_ACCOUNTS_PKG_S.GET_ACTUAL_CHARGE_LOGS_AMOUNT(${accountId})
+    FROM   DUAL
+  """)?.getAt(0)
+  }
+
+  List getAccountPeriodicAmounts(
+    def accountId,
+    def operationDate = DateTimeUtil.now()
+  ) {
+    return hid.queryDatabase("""
+    SELECT
+        'n_amount',           N_AMOUNT,
+        'n_duration_value',   N_DURATION_VALUE,
+        'n_duration_unit_id', N_DURATION_UNIT_ID
+    FROM
+      TABLE(SI_ACCOUNTS_PKG_S.GET_ACCOUNT_PERIODIC_AMOUNTS(
+        num_N_ACCOUNT_ID => ${accountId},
+        dt_D_OPER        => ${Oracle.encodeDateStr(operationDate)}))
+  """, true)
   }
 
   def putCustomerAccount(LinkedHashMap input) {
