@@ -1,26 +1,15 @@
 package org.camunda.latera.bss.connectors.otrs
 
 import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.MapUtil
 
 trait Main {
-  LinkedHashMap nvlParams(LinkedHashMap input) {
-    def params = [:]
-    input.each { key, value ->
-      if (value != null) {
-        if (value == 'null' || value == 'NULL') {
-          params[key] = null
-        } else {
-          params[key] = value
-        }
-      }
-    }
-
-    return params
+  LinkedHashMap prepareParams(LinkedHashMap input) {
+    return MapUtil.nvl(input)
   }
 
   LinkedHashMap convertKeys(LinkedHashMap input) {
-    return StringUtil.camelizeKeys(input, true)
+    return MapUtil.camelizeKeys(input, true)
   }
 
   def convertValue(def value) {

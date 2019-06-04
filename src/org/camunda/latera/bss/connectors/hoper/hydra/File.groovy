@@ -33,7 +33,7 @@ trait File {
   LinkedHashMap getFileParams(LinkedHashMap input) {
     def params = getFileDefaultParams() + input
     def data   = getFileParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getSubjectFiles(def subjectId, LinkedHashMap input = [:]) {

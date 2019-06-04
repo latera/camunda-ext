@@ -78,7 +78,7 @@ trait Address {
   LinkedHashMap getAddressParams(LinkedHashMap input) {
     def params = getAddressDefaultParams() + input
     def data   = getAddressParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   Boolean getAddresses(def entityType = 'person', def entityId) {

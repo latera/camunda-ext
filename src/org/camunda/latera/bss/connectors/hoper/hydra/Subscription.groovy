@@ -101,19 +101,19 @@ trait Subscription {
   LinkedHashMap getAvailableServicesParams(LinkedHashMap input) {
     def params = getAvailableServicesDefaultParams() + input
     def data   = getAvailableServicesParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   LinkedHashMap getSubscriptionParams(LinkedHashMap input) {
     def params = getSubscriptionDefaultParams() + input
     def data   = getSubscriptionParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   LinkedHashMap getChildSubscriptionParams(LinkedHashMap input) {
     def params = getChildSubscriptionDefaultParams() + input
     def data   = getChildSubscriptionParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getAvailableServices(def customerId, LinkedHashMap input) {

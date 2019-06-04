@@ -53,7 +53,7 @@ trait Company {
   LinkedHashMap getCompanyParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getCompanyDefaultParams() + input
     def data   = getCompanyParamsMap(params + additionalParams)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getCompanies(LinkedHashMap input = [:]) {

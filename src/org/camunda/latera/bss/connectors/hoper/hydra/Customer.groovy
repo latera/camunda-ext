@@ -40,7 +40,7 @@ trait Customer {
   LinkedHashMap getCustomerParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getCustomerDefaultParams() + input
     def data   = getCustomerParamsMap(params + additionalParams)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getCustomers(LinkedHashMap input = [:]) {

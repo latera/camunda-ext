@@ -364,8 +364,8 @@ trait Customer {
     if (params.subjServId) {
       where.n_subj_serv_id = params.subjServId
     }
-    if (params.customerId) {
-      where.n_subject_id = params.customerId
+    if (params.customerId || params.subjectId) {
+      where.n_subject_id = params.customerId ?: params.subjectId
     }
     if (params.netServiceId) {
       where.n_service_id = params.netServiceId

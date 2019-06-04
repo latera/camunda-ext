@@ -103,13 +103,13 @@ trait Equipment {
   LinkedHashMap getEquipmentParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getEquipmentDefaultParams() + input
     def data   = getEquipmentParamsMap(params, additionalParams)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   LinkedHashMap getEquipmentEntryParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getEquipmentEntryDefaultParams() + input
     def data   = getEquipmentEntryParamsMap(params, additionalParams)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getCustomerObjects(def customerId, LinkedHashMap input = [:]) {

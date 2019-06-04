@@ -44,7 +44,7 @@ trait Account {
   LinkedHashMap getAccountParams(LinkedHashMap input) {
     def params = getAccountDefaultParams() + input
     def data   = getAccountParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getCustomerAccounts(def customerId, LinkedHashMap input = [:]) {

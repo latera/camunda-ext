@@ -64,7 +64,7 @@ trait Person {
   LinkedHashMap getPersonParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getPersonDefaultParams() + input
     def data   = getPersonParamsMap(params + additionalParams)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getPersons(LinkedHashMap input = [:]) {

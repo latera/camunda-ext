@@ -1,5 +1,7 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import org.camunda.latera.bss.utils.MapUtil
+
 trait Main {
   LinkedHashMap withId(def id = null) {
     if (id) {
@@ -15,18 +17,8 @@ trait Main {
     return [:]
   }
 
-  LinkedHashMap nvlParams(LinkedHashMap input) {
-    def params = [:]
-    input.each { key, value ->
-      if (value != null) {
-        if (value == 'null' || value == 'NULL') {
-          params[key] = null
-        } else {
-          params[key] = value
-        }
-      }
-    }
-    return params
+  LinkedHashMap prepareParams(LinkedHashMap input) {
+    return MapUtil.nvl(input)
   }
 
   List preparePathItems(LinkedHashMap type) {

@@ -123,8 +123,8 @@ trait Ticket {
   LinkedHashMap getTicketParams(LinkedHashMap input, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
     def ticketParams  = getTicketDefaultParams() + input
     def articleParams = getTicketArticleDefaultParams() + input
-    def ticket  = convertParams(nvlParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))
-    def article = convertParams(nvlParams(getTicketArticleParamsMap(articleParams)))
+    def ticket  = convertParams(prepareParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))
+    def article = convertParams(prepareParams(getTicketArticleParamsMap(articleParams)))
 
     List attachmentList = []
     if (attachments) {

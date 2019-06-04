@@ -2,6 +2,7 @@ package org.camunda.latera.bss.connectors.odoo
 
 import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.MapUtil
 
 trait Main {
   private static LinkedHashMap DEFAULT_WHERE  = [:]
@@ -101,23 +102,12 @@ trait Main {
     ]
   }
 
-  LinkedHashMap nvlParams(LinkedHashMap input) {
-    def params = [:]
-    input.each { key, value ->
-      if (value != null) {
-        if (value == 'null' || value == 'NULL') {
-          params[key] = null
-        } else {
-          params[key] = value
-        }
-      }
-    }
-
-    return params
+  LinkedHashMap prepareParams(LinkedHashMap input) {
+    return MapUtil.nvl(input)
   }
 
   LinkedHashMap convertKeys(LinkedHashMap input) {
-    return StringUtil.snakeCaseKeys(input)
+    return MapUtil.snakeCaseKeys(input)
   }
 
   def escapeSearchValue(def value) {

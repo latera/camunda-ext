@@ -65,7 +65,7 @@ trait Contract {
   LinkedHashMap getContractParams(LinkedHashMap input) {
     def params = getContractDefaultParams() + input
     def data   = getContractParamsMap(params)
-    return nvlParams(data)
+    return prepareParams(data)
   }
 
   List getCustomerContracts(def customerId, LinkedHashMap input = [:]) {

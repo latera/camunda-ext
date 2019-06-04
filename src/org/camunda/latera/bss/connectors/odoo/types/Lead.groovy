@@ -64,7 +64,7 @@ trait Lead {
   LinkedHashMap getLeadParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getLeadDefaultParams() + input
     def where  = getLeadParamsMap(params)
-    return convertParams(nvlParams(where) + convertKeys(additionalParams))
+    return convertParams(prepareParams(where) + convertKeys(additionalParams))
   }
 
   LinkedHashMap getLead(def id) {
