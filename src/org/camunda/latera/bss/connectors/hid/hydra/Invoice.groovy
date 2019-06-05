@@ -5,11 +5,15 @@ import org.camunda.latera.bss.utils.Oracle
 import java.time.LocalDateTime
 
 trait Invoice {
-  private static String INVOICES_TABLE           = 'SD_V_INVOICES_T'
-  private static String GOOD_MOVES_TABLE         = 'SD_V_GOOD_MOVES_T'
-  private static String INVOICE_LINES_TABLE      = 'SD_V_INVOICES_C'
-  private static String INVOICE_TYPE             = 'DOC_TYPE_Invoice'
-  private static String DEFAULT_INVOICE_WORKFLOW = 'WFLOW_Invoice'
+  private static String  INVOICES_TABLE              = 'SD_V_INVOICES_T'
+  private static String  GOOD_MOVES_TABLE            = 'SD_V_GOOD_MOVES_T'
+  private static String  INVOICE_LINES_TABLE         = 'SD_V_INVOICES_C'
+  private static String  INVOICE_TYPE                = 'DOC_TYPE_Invoice'
+  private static String  CHARGE_CHARGED_TYPE         = 'GM_TYPE_Charged'
+  private static String  CHARGE_RESERVED_TYPE        = 'GM_TYPE_Reserve'
+  private static String  CHARGE_CANCELED_TYPE        = 'GM_TYPE_Cancelled'
+  private static String  DEFAULT_INVOICE_WORKFLOW    = 'WFLOW_Invoice'
+  private static Integer DEFAULT_INVOICE_WORKFLOW_ID = 30021
 
   def getInvoicesTable() {
     return INVOICES_TABLE
@@ -28,7 +32,31 @@ trait Invoice {
   }
 
   def getInvoiceTypeId() {
-    return getRefIdByCode(INVOICE_TYPE)
+    return getRefIdByCode(getInvoiceType())
+  }
+
+  def getChargeChargedType() {
+    return CHARGE_CHARGED_TYPE
+  }
+
+  def getChargeChargedTypeId() {
+    return getRefIdByCode(getChargeChargedType())
+  }
+
+  def getChargeReservedType() {
+    return CHARGE_RESERVED_TYPE
+  }
+
+  def getChargeReservedTypeId() {
+    return getRefIdByCode(getChargeReservedType())
+  }
+
+  def getChargeCanceledType() {
+    return CHARGE_CANCELED_TYPE
+  }
+
+  def getChargeCanceledTypeId() {
+    return getRefIdByCode(getChargeCanceledType())
   }
 
   def getDefaultInvoiceWorkflow() {
@@ -36,7 +64,7 @@ trait Invoice {
   }
 
   def getDefaultInvoiceWorkflowId() {
-    return getRefIdByCode(DEFAULT_INVOICE_WORKFLOW_ID)
+    return DEFAULT_INVOICE_WORKFLOW_ID
   }
 
   LinkedHashMap getInvoice(def docId) {
@@ -98,7 +126,7 @@ trait Invoice {
   List getInvoicesBySubscription(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
-      stateId        : ['not in': "(${getDocumentStateCanceledId()})"],
+      stateId        : ['not in': [getDocumentStateCanceledId()]],
       operationDate  : null
     ], input)
     LinkedHashMap where = [
@@ -114,7 +142,7 @@ trait Invoice {
     return hid.getTableData(getGoodMovesTable(), where: where)
   }
 
-  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': "(${getDocumentStateCanceledId()})"], LocalDateTime operationDate = null) {
+  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], LocalDateTime operationDate = null) {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
@@ -173,5 +201,157 @@ trait Invoice {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  List getInvoiceLinesBy(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      docId             : null,
+      lineId            : null,
+      lineNumber        : null,
+      parLineId         : null,
+      subcriptionId     : null,
+      goodId            : null,
+      baseGoodId        : null,
+      objectId          : null,
+      moveTypeId        : ['not in': [getChargeCanceledTypeId()]],
+      unitId            : null,
+      unitBaseId        : null,
+      taxRateId         : null,
+      currencyId        : null,
+      quant             : null,
+      quantBase         : null,
+      price             : null,
+      priceWoTax        : null,
+      addressId         : null,
+      baseSum           : null,
+      baseSumWoTax      : null,
+      sum               : null,
+      sumTax            : null,
+      sumWoTax          : null,
+      discountLineId    : null,
+      discountDocId     : null,
+      priceLineId       : null,
+      priceOrderId      : null,
+      provisionRuleId   : null,
+      operationDate     : null,
+      beginDate         : null,
+      endDate           : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.docId) {
+      where.n_doc_id = params.docId
+    }
+    if (params.lineId) {
+      where.n_price_line_id = params.lineId
+    }
+    if (params.lineNumber) {
+      where.n_line_no = params.lineNumber
+    }
+    if (params.parLineId) {
+      where.n_par_line_id = params.parLineId
+    }
+    if (params.subscriptionId) {
+      where.n_subj_good_id = params.subscriptionId
+    }
+    if (params.goodId) {
+      where.n_good_id = params.goodId
+    }
+    if (params.baseGoodId) {
+      where.n_base_good_id = params.baseGoodId
+    }
+    if (params.objectId) {
+      where.n_object_id = params.objectId
+    }
+    if (params.moveTypeId) {
+      where.n_move_type_id = params.moveTypeId
+    }
+    if (params.unitId) {
+      where.n_unit_id = params.unitId
+    }
+    if (params.unitBaseId) {
+      where.n_unit_id = params.unitId
+    }
+    if (params.taxRateId) {
+      where.n_tax_rate_id = params.taxRateId
+    }
+    if (params.currencyId) {
+      where.n_tax_rate_id = params.currencyId
+    }
+    if (params.quant) {
+      where.n_quant = params.quant
+    }
+    if (params.quantBase) {
+      where.n_quant = params.quantBase
+    }
+    if (params.price) {
+      where.n_price = params.price
+    }
+    if (params.priceWoTax) {
+      where.n_price_wo_tax = params.priceWoTax
+    }
+    if (params.addressId) {
+      where.n_address_id = params.addressId
+    }
+    if (params.baseSum) {
+      where.n_base_sum = params.baseSum
+    }
+    if (params.baseSumWoTax) {
+      where.n_base_sum_wo_tax = params.baseSumWoTax
+    }
+    if (params.sum) {
+      where.n_sum = params.sum
+    }
+    if (params.sumTax) {
+      where.n_sum_tax = params.sumTax
+    }
+    if (params.sumWoTax) {
+      where.n_sum_wo_tax = params.sumWoTax
+    }
+    if (params.priceLineId) {
+      where.n_price_line_id = params.priceLineId
+    }
+    if (params.priceOrderId) {
+      where.n_price_order_doc_id = params.priceOrderId
+    }
+    if (params.discountLineId) {
+      where.n_discount_cert_line_id = params.discountLineId
+    }
+    if (params.discountDocId) {
+      where.n_discount_doc_id = params.discountDocId
+    }
+    if (params.provisionRuleId) {
+      where.n_provision_rule_id = params.provisionRuleId
+    }
+    if (params.beginDate) {
+      where.d_begin = params.beginDate
+    }
+    if (params.endDate) {
+      where.d_end = params.endDate
+    }
+    if (params.operationDate) {
+      where.d_oper = params.operationDate
+    }
+    def order = [n_line_no: 'asc']
+    return hid.getTableData(getInvoiceLinesTable(), where: where, order: order)
+  }
+
+  List getInvoiceLines(def docId) {
+    LinkedHashMap where = [
+      n_doc_id       : docId,
+      n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
+    ]
+    return hid.getTableData(getInvoiceLinesTable(), where: where)
+  }
+
+  LinkedHashMap getInvoiceLineBy(LinkedHashMap input) {
+    return getInvoiceLinesBy(input)?.getAt(0)
+  }
+
+  LinkedHashMap getInvoiceLine(def line) {
+    LinkedHashMap where = [
+      n_line_id: line
+    ]
+    return hid.getTableFirst(getInvoiceLinesTable(), where: where)
   }
 }

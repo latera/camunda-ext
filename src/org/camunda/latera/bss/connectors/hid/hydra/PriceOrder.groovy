@@ -250,9 +250,9 @@ trait PriceOrder {
     return getPriceLinesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getPriceLine(def priceLineId) {
+  LinkedHashMap getPriceLine(def lineId) {
     LinkedHashMap where = [
-      n_price_line_id: priceLineId
+      n_price_line_id: lineId
     ]
     return hid.getTableFirst(getPriceLinesTable(), where: where)
   }
