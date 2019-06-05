@@ -289,6 +289,93 @@ trait Document {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
   }
 
+  LinkedHashMap putDocument(LinkedHashMap input) {
+    def defaultParams = [
+      docId       : null,
+      docTypeId   : null,
+      workflowId  : null,
+      parentDocId : null,
+      reasonDocId : null,
+      prevDocId   : null,
+      stornoDocId : null,
+      docDate     : null,
+      docTime     : null,
+      number      : null,
+      name        : null,
+      code        : null,
+      rem         : null,
+      beginDate   : null,
+      endDate     : null,
+      firmId      : getFirmId()
+    ]
+    try {
+      if (input.docId) {
+        def doc = getDocument(input.docId)
+        defaultParams += [
+          docTypeId   : doc.n_doc_type_id,
+          workflowId  : doc.n_workflow_id,
+          parentDocId : doc.n_parent_doc_id,
+          reasonDocId : doc.n_reason_doc_id,
+          prevDocId   : doc.n_prev_doc_Id,
+          stornoDocId : doc.n_storno_doc_id,
+          docDate     : doc.d_doc,
+          docTime     : doc.d_time,
+          number      : doc.vc_doc_no,
+          name        : doc.vc_name,
+          code        : doc.vc_code,
+          rem         : doc.vc_rem,
+          beginDate   : doc.d_begin,
+          endDate     : doc.d_end,
+          firmId      : doc.n_firm_id
+        ]
+      }
+      def params = mergeParams(defaultParams, input)
+
+      logger.info("${params.docId ? 'Updating' : 'Creating'} document with params ${params}")
+      def result = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
+        num_N_DOC_ID        : params.docId,
+        num_N_DOC_TYPE_ID   : params.docTypeId,
+        num_N_FIRM_ID       : params.firmId,
+        num_N_PARENT_DOC_ID : params.parentDocId,
+        num_N_REASON_DOC_ID : params.reasonDocId,
+        num_N_PREV_DOC_ID   : params.prevDocId,
+        num_N_STORNO_DOC_ID : params.stornoDocId,
+        dt_D_DOC            : DateTimeUtil.dayBegin(params.docDate),
+        dt_D_TIME           : params.docTime,
+        vch_VC_DOC_NO       : params.number,
+        vch_VC_NAME         : params.name,
+        vch_VC_CODE         : params.code,
+        vch_VC_REM          : params.rem,
+        dt_D_BEGIN          : params.beginDate,
+        dt_D_END            : params.endDate,
+        num_N_WORKFLOW_ID   : params.workflowId
+      ])
+      logger.info("   Document was ${params.docId ? 'updated' : 'created'} successfully!")
+      return result
+    } catch (Exception e){
+      logger.error("   Error while updating or creating document value!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  LinkedHashMap createDocument(LinkedHashMap input) {
+    input.remove('docId')
+    return putDocument(input)
+  }
+
+  LinkedHashMap updateDocument(LinkedHashMap input) {
+    return putDocument(input)
+  }
+
+  LinkedHashMap updateDocument(def docId, LinkedHashMap input) {
+    return putDocument(input + [docId: docId])
+  }
+
+  LinkedHashMap updateDocument(LinkedHashMap input, def docId) {
+    return updateDocument(docId, input)
+  }
+
   LinkedHashMap getDocumentSubject(def docSubjectId) {
     def where = [
       n_doc_subject_id: docSubjectId
