@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.utils
 
 import java.util.Locale
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -8,12 +9,12 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 class DateTimeUtil {
-  static final DateTimeFormatter ISO_FORMAT = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  static final DateTimeFormatter ISO_FORMAT       = DateTimeFormatter.ISO_OFFSET_DATE_TIME
   static final DateTimeFormatter ISO_FORMAT_NO_TZ = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-  static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd')
+  static final DateTimeFormatter DATE_FORMAT      = DateTimeFormatter.ofPattern('yyyy-MM-dd')
   static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
   static final DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
-  static final DateTimeFormatter SIMPLE_DATE_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy')
+  static final DateTimeFormatter SIMPLE_DATE_FORMAT      = DateTimeFormatter.ofPattern('dd.MM.yyyy')
   static final DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
   static final String DATE_TIME_FORMAT_ORACLE = 'DD.MM.YYYY HH24:MI:SS'
 
@@ -77,6 +78,10 @@ class DateTimeUtil {
   }
 
   static String iso(Date input) {
+    return local(input).format(this.ISO_FORMAT_NO_TZ)
+  }
+
+  static String iso(LocalDate input) {
     return input.format(this.ISO_FORMAT_NO_TZ)
   }
 
@@ -92,6 +97,10 @@ class DateTimeUtil {
     return input.toInstant().atZone(zone)
   }
 
+  static ZonedDateTime atZone(LocalDate input , ZoneId zone) {
+    return input.atStartOfDay().atZone(zone)
+  }
+
   static ZonedDateTime atZone(LocalDateTime input = now(), ZoneId zone) {
     return input.atZone(zone)
   }
@@ -100,12 +109,16 @@ class DateTimeUtil {
     return atZone(input, ZoneId.systemDefault())
   }
 
+  static ZonedDateTime local(LocalDate input) {
+    return atZone(input, ZoneId.systemDefault())
+  }
+
   static ZonedDateTime local(LocalDateTime input = now()) {
     return atZone(input, ZoneId.systemDefault())
   }
 
   static ZonedDateTime local(ZonedDateTime input) {
-    return input
+    return input.withZoneSameInstant(ZoneId.systemDefault())
   }
 
   static LocalDateTime nextSecond(LocalDateTime input = now()) {
@@ -122,6 +135,14 @@ class DateTimeUtil {
 
   static ZonedDateTime prevSecond(ZonedDateTime input) {
     return input.minusSeconds(1)
+  }
+
+  static LocalDateTime dayBegin(Date input) {
+    return local(input).toLocalDateTime()
+  }
+
+  static LocalDateTime dayBegin(LocalDate input) {
+    return local(input).toLocalDateTime()
   }
 
   static LocalDateTime dayBegin(LocalDateTime input = now()) {
@@ -157,6 +178,10 @@ class DateTimeUtil {
   }
 
   static Boolean isDate(input) {
-    return (input instanceof Date) || (input instanceof LocalDateTime) || (input instanceof ZonedDateTime)
+    return (input instanceof Date) || (input instanceof LocalDate) || (input instanceof LocalDateTime) || (input instanceof ZonedDateTime)
+  }
+
+  static Boolean isDateTime(input) {
+    return (input instanceof LocalDateTime) || (input instanceof ZonedDateTime)
   }
 }
