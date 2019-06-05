@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.utils.Oracle
+import org.camunda.latera.bss.utils.DateTimeUtil
 
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
@@ -18,6 +19,8 @@ trait Document {
   private static String DOCUMENT_STATE_PREPARED        = 'DOC_STATE_Prepared'
   private static String PROVIDER_ROLE                  = 'SUBJ_ROLE_Provider'
   private static String RECEIVER_ROLE                  = 'SUBJ_ROLE_Receiver'
+  private static String MEMBER_ROLE                    = 'SUBJ_ROLE_Member'
+  private static String MANAGER_ROLE                   = 'SUBJ_ROLE_Manager'
 
   def getDocumentsTable() {
     return DOCUMENTS_TABLE
@@ -123,6 +126,29 @@ trait Document {
     return getRefIdByCode(getReceiverRole())
   }
 
+  def getMemberRole() {
+    return MEMBER_ROLE
+  }
+
+  def getMemberRoleId() {
+    return getRefIdByCode(getMemberRole())
+  }
+
+  def getManagerRole() {
+    return MANAGER_ROLE
+  }
+
+  def getManagerRoleId() {
+    return getRefIdByCode(getManagerRole())
+  }
+
+  LinkedHashMap getDocument(def docId) {
+    def where = [
+      n_doc_id: docId
+    ]
+    return hid.getTableFirst(getDocumentsTable(), where: where)
+  }
+
   List getDocumentsBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
@@ -132,7 +158,9 @@ trait Document {
       workflowId    : null,
       providerId    : getFirmId(),
       receiverId    : null,
-      stateId       : getDocumentStateActualId(),
+      memberId      : null,
+      managerId     : null,
+      stateId       : ['not in': [getDocumentStateCanceledId()]],
       operationDate : null,
       beginDate     : null,
       endDate       : null,
@@ -144,8 +172,8 @@ trait Document {
     if (params.docId) {
       where.n_doc_id = params.docId
     }
-    if (params.docTypeId) {
-      where.n_doc_type_id = params.docTypeId
+    if (params.docTypeId || params.typeId) {
+      where.n_doc_type_id = params.docTypeId ?: params.typeId
     }
     if (params.parentDocId) {
       where.n_parent_doc_id = params.parentDocId
@@ -156,24 +184,48 @@ trait Document {
     if (params.workflowId) {
       where.n_workflow_id = params.workflowId
     }
-    if (params.providerId) {
+    if (params.providerId || params.providerAccountId) {
       where['_EXISTS'] = [
         """
         (SELECT 1
          FROM  ${getDocumentSubjectsTable()} DS
          WHERE DS.N_DOC_ID      = T.N_DOC_ID
          AND   DS.N_DOC_ROLE_ID = ${getProviderRoleId()}
-         AND   DS.N_SUBJECT_ID  = ${params.providerId})"""
+         AND   ${params.providerId ? 'DS.N_SUBJECT_ID  = ' + params.providerId : '1 = 1'}
+         AND   ${params.providerAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.providerAccountId : '1 = 1'})"""
       ]
     }
-    if (params.receiverId) {
+    if (params.receiverId || params.receiverAccountId) {
       where['__EXISTS'] = [
         """
         (SELECT 1
          FROM  ${getDocumentSubjectsTable()} DS
          WHERE DS.N_DOC_ID      = T.N_DOC_ID
          AND   DS.N_DOC_ROLE_ID = ${getReceiverRoleId()}
-         AND   DS.N_SUBJECT_ID  = ${params.receiverId})"""
+         AND   ${params.receiverId ? 'DS.N_SUBJECT_ID  = ' + params.receiverId : '1 = 1'}
+         AND   ${params.receiverAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.receiverAccountId : '1 = 1'})"""
+      ]
+    }
+    if (params.memberId || params.memberAccountId) {
+      where['___EXISTS'] = [
+        """
+        (SELECT 1
+         FROM  ${getDocumentSubjectsTable()} DS
+         WHERE DS.N_DOC_ID      = T.N_DOC_ID
+         AND   DS.N_DOC_ROLE_ID = ${getMemberRoleId()}
+         AND   ${params.memberId ? 'DS.N_SUBJECT_ID  = ' + params.memberId : '1 = 1'}
+         AND   ${params.memberAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.memberAccountId : '1 = 1'})"""
+      ]
+    }
+    if (params.managerId || params.managerAccountId) {
+      where['____EXISTS'] = [
+        """
+        (SELECT 1
+         FROM  ${getDocumentSubjectsTable()} DS
+         WHERE DS.N_DOC_ID      = T.N_DOC_ID
+         AND   DS.N_DOC_ROLE_ID = ${getMemberRoleId()}
+         AND   ${params.managerId ? 'DS.N_SUBJECT_ID  = ' + params.managerId : '1 = 1'}
+         AND   ${params.managerAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.managerAccountId : '1 = 1'})"""
       ]
     }
     if (params.stateId) {
@@ -191,6 +243,12 @@ trait Document {
     if (params.beginDate) {
       where.d_begin = params.beginDate
     }
+    if (params.docDate) {
+      where.d_doc = DateTimeUtil.dayBegin(params.docDate)
+    }
+    if (params.docTime) {
+      where.d_time = params.docTime
+    }
     if (params.endDate) {
       where.d_end = params.endDate
     }
@@ -201,19 +259,12 @@ trait Document {
       String oracleDate = Oracle.encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    def order = [d_begin: 'asc', vc_doc_no: 'asc']
+    def order = [d_begin: 'desc', vc_doc_no: 'desc']
     return hid.getTableData(getDocumentsTable(), where: where, order: order)
   }
 
   LinkedHashMap getDocumentBy(LinkedHashMap input) {
     return getDocumentsBy(input)?.getAt(0)
-  }
-
-  LinkedHashMap getDocument(def docId) {
-    def where = [
-      n_doc_id: docId
-    ]
-    return hid.getTableFirst(getDocumentsTable(), where: where)
   }
 
   def getDocumentTypeId(def docId) {
@@ -236,6 +287,77 @@ trait Document {
 
   Boolean isDocument(def docIdOrDocTypeId) {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
+  }
+
+  LinkedHashMap getDocumentSubject(def docSubjectId) {
+    def where = [
+      n_doc_subject_id: docSubjectId
+    ]
+    return hid.getTableFirst(getDocumentSubjectsTable(), where: where)
+  }
+
+  List getDocumentSubjectsBy(LinkedHashMap input) {
+    LinkedHashMap params = mergeParams([
+      docSubjectId  : null,
+      docId         : null,
+      roleId        : null,
+      subjectId     : null,
+      accountId     : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.docSubjectId) {
+      where.n_doc_subject_id = params.docSubjectId
+    }
+    if (params.docId) {
+      where.n_doc_id = params.docId
+    }
+    if (params.roleId) {
+      where.n_doc_role_id = params.roleId
+    }
+    if (params.subjectId) {
+      where.n_subject_id = params.docsubjectIdId
+    }
+    if (params.accountId) {
+      where.n_account_id = params.accountId
+    }
+    return hid.getTableData(getDocumentSubjectsTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentSubjectBy(LinkedHashMap input) {
+    return getDocumentSubjectsBy(input)?.getAt(0)
+  }
+
+  LinkedHashMap getDocumentProviderBy(LinkedHashMap input) {
+    return getDocumentSubjectBy(input + [roleId: getProviderRoleId()])
+  }
+
+  LinkedHashMap getDocumentProvider(def docId) {
+    return getDocumentProviderBy(docId: docId)
+  }
+
+  LinkedHashMap getDocumentReceiverBy(LinkedHashMap input) {
+    return getDocumentSubjectBy(input + [roleId: getReceiverRoleId()])
+  }
+
+  LinkedHashMap getDocumentReceiver(def docId) {
+    return getDocumentReceiverBy(docId: docId)
+  }
+
+  LinkedHashMap getDocumentMemberBy(LinkedHashMap input) {
+    return getDocumentSubjectBy(input + [roleId: getMemberRoleId()])
+  }
+
+  LinkedHashMap getDocumentMember(def docId) {
+    return getDocumentMemberBy(docId: docId)
+  }
+
+  LinkedHashMap getDocumentManagerBy(LinkedHashMap input) {
+    return getDocumentSubjectBy(input + [roleId: getManagerRoleId()])
+  }
+
+  LinkedHashMap getDocumentManager(def docId) {
+    return getDocumentManagerBy(docId: docId)
   }
 
   Boolean putDocumentSubject(LinkedHashMap input) {
