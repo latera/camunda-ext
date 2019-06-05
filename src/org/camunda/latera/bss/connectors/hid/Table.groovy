@@ -2,6 +2,8 @@ package org.camunda.latera.bss.connectors.hid
 
 import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.StringUtil
+import org.camunda.latera.bss.utils.ListUtil
+import org.camunda.latera.bss.utils.MapUtil
 import org.camunda.latera.bss.utils.Oracle
 
 trait Table {
@@ -61,12 +63,12 @@ trait Table {
           //Allow to use same fields name several times
           field = field.replaceFirst(/^[_]+(.*)$/, '$1')
         }
-        if (value instanceof LinkedHashMap) {
+        if (MapUtil.isMap(value)) {
           value.each { condition, content ->
             query += """
-    AND ${field} ${condition} ${content}"""
+    AND ${field} ${condition} ${ListUtil.isList(content) ? '(' + content.join(',') + ')' : content}""" // ['not in': [1,2,3]]
           }
-        } else if (value instanceof List) {
+        } else if (ListUtil.isList(value)) {
           value.each { condition ->
             query += """
     AND ${field} ${condition}"""
