@@ -31,7 +31,7 @@ class DateTimeUtil {
 
   static String format(
     Date input,
-    def format = this.SIMPLE_DATE_TIME_FORMAT,
+    def format = this.SIMPLE_DATE_FORMAT,
     String locale = 'en'
   ) {
     return input.format(format.withLocale(new Locale(locale)))
@@ -55,7 +55,7 @@ class DateTimeUtil {
 
   static String format(LinkedHashMap parameters, Date input) {
     def params = [
-      format: this.SIMPLE_DATE_TIME_FORMAT,
+      format: this.SIMPLE_DATE_FORMAT,
       locale: 'en'
     ] + parameters
     return format(input, params.format, params.locale)
