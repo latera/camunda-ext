@@ -52,6 +52,8 @@ trait Main {
         order.each { column ->
           orderBy += "'${column}'"
         }
+      } else {
+        orderBy += "'${order}'"
       }
     }
 
