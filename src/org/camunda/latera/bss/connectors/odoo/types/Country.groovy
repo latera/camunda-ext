@@ -32,8 +32,7 @@ trait Country {
 
   LinkedHashMap getCountryParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getCountryDefaultParams() + input
-    def where  = getCountryParamsMap(params)
-    return convertParams(prepareParams(where) + convertKeys(additionalParams))
+    return prepareParams(this.&getCountryParamsMap, params, additionalParams)
   }
 
   LinkedHashMap getCountry(def id) {
@@ -89,8 +88,7 @@ trait Country {
 
   LinkedHashMap getCountryStateParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getCountryStateDefaultParams() + input
-    def where  = getCountryStateParamsMap(params)
-    return convertParams(prepareParams(where) + convertKeys(additionalParams))
+    return prepareParams(this.&getCountryStateParamsMap, params, additionalParams)
   }
 
   LinkedHashMap getCountryState(def id) {

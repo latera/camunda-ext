@@ -52,8 +52,7 @@ trait Customer {
 
   LinkedHashMap getCustomerParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
     def params = getCustomerDefaultParams() + input
-    def where  = getCustomerParamsMap(params)
-    return convertParams(prepareParams(where) + convertKeys(additionalParams))
+    return prepareParams(this.&getCustomerParamsMap, params, additionalParams)
   }
 
   LinkedHashMap getCustomer(def id) {

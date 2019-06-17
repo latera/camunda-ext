@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors.odoo
 import org.camunda.latera.bss.utils.DateTimeUtil
 import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.MapUtil
+import org.camunda.latera.bss.utils.ListUtil
 
 trait Main {
   private static LinkedHashMap DEFAULT_WHERE  = [:]
@@ -23,7 +24,7 @@ trait Main {
 
     if (where?.size() > 0) {
       where.each{ field, value ->
-        if (value instanceof LinkedHashMap) {
+        if (MapUtil.isMap(value)) {
           value.each { condition, content ->
             query += """('${field}','${condition}',${escapeSearchValue(content)})"""
           }
@@ -43,11 +44,11 @@ trait Main {
     }
 
     if (order?.size() > 0) {
-      if (order instanceof LinkedHashMap) {
-        order.each { column, direction ->
+      if (MapUtil.isMap(order)) {
+        convertKeys(order).each { column, direction ->
           orderBy += "'${column} ${direction}'"
         }
-      } else if (order instanceof List) {
+      } else if (ListUtil.isList(order)) {
         order.each { column ->
           orderBy += "'${column}'"
         }
@@ -102,8 +103,33 @@ trait Main {
     ]
   }
 
-  LinkedHashMap prepareParams(LinkedHashMap input) {
-    return MapUtil.nvl(input)
+  LinkedHashMap prepareParams(Closure paramsParser, LinkedHashMap input, LinkedHashMap additionalParams) {
+    return convertParams(MapUtil.nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
+  }
+
+  LinkedHashMap negativeParser(Closure paramsParser, LinkedHashMap negativeInput) {
+    LinkedHashMap originalInput = [:]
+    LinkedHashMap input         = [:]
+    LinkedHashMap negativeWhere = [:]
+
+    // 'stageId!': 3 -> 'stageId': 3
+    if (negativeInput?.size() > 0) {
+      negativeInput.each{ field, value ->
+        if (field ==~ /^(.*)!$/) {
+          def originalField = field.replaceFirst(/^(.*)!$/, '$1')
+          originalInput[originalField] = value
+        }
+      }
+    }
+
+    // 'stageId': 3 -> 'stage_id': 3
+    input = paramsParser(originalInput)
+
+    // 'stage_id': 3 -> 'stage_id!': 3
+    input.each{ field, value ->
+      negativeWhere["${field}!".toString()] = value
+    }
+    return negativeWhere
   }
 
   LinkedHashMap convertKeys(LinkedHashMap input) {
