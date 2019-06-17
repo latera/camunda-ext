@@ -145,6 +145,13 @@ trait Main {
     if (StringUtil.isString(value)) {
       return "'${value}'"
     }
+    if (ListUtil.isList(value)) {
+      List newList = []
+      value.each { it ->
+        newList += escapeSearchValue(it)
+      }
+      return "'[${newList.join(',')}]'"
+    }
     return value
   }
 
