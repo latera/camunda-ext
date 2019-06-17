@@ -41,16 +41,16 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
       return token.toString()
     }
 
-    def query = [
+    def body = [
       login    : user,
       password : password,
       db       : db
     ]
 
     return http.sendRequest(
-        'get',
+        'post',
         path  : '/api/auth/token',
-        query : query,
+        body : body,
         supressRequestBodyLog  : true,
         supressResponseBodyLog : true
     )?.access_token?.toString()
