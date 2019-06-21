@@ -150,7 +150,7 @@ trait Main {
       value.each { it ->
         newList += escapeSearchValue(it)
       }
-      return "'[${newList.join(',')}]'"
+      return "[${newList.join(',')}]"
     }
     return value
   }
