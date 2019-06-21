@@ -41,7 +41,7 @@ class Oracle {
   }
 
   static Boolean decodeFlag(value) {
-    return value == 1
+    return value.toString() == '1'
   }
 
   static Object nvl(nullable, replacement, args = []) {

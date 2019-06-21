@@ -12,27 +12,36 @@ trait Table {
   private static LinkedHashMap DEFAULT_ORDER       = [:]
   private static List          DEFAULT_FIELDS      = null
 
+  private void putTableColumnsCache(def tableName, def columnsList) {
+    if (!TABLE_COLUMNS_CACHE.containsKey(tableName)) {
+      TABLE_COLUMNS_CACHE[tableName] = columnsList
+    }
+  }
+
+  private def getTableColumnsCached(def tableName) {
+    if (!TABLE_COLUMNS_CACHE.containsKey(tableName)) {
+      return TABLE_COLUMNS_CACHE[tableName]
+    }
+    return null
+  }
+
   List getTableColumns(String tableName, String tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
-    if (TABLE_COLUMNS_CACHE.containsKey(tableFullName)) {
-      return TABLE_COLUMNS_CACHE[tableFullName]
-    } else {
-      List columnsList = null
-
-      List result = queryDatabase("""
-        SELECT COLUMN_NAME
-        FROM   ALL_TAB_COLUMNS
-        WHERE  TABLE_NAME = '${tableName}'
-        AND    OWNER      = '${tableOwner}'
-      """, false, true)
-
-      columnsList = result*.getAt(0) //get only first column values
-
-      if (columnsList) {
-        TABLE_COLUMNS_CACHE[tableFullName] = columnsList
-      }
+    List columnsList = getTableColumnsCached(tableFullName)
+    if (columnsList) {
       return columnsList
     }
+
+    List result = queryDatabase("""
+      SELECT COLUMN_NAME
+      FROM   ALL_TAB_COLUMNS
+      WHERE  TABLE_NAME = '${tableName}'
+      AND    OWNER      = '${tableOwner}'
+    """, false, true)
+
+    columnsList = result*.getAt(0) //get only first column values
+    putTableColumnsCache(tableFullName, columnsList)
+    return columnsList
   }
 
   List getTableData(

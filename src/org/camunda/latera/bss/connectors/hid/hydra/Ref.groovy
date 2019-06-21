@@ -1,4 +1,5 @@
 package org.camunda.latera.bss.connectors.hid.hydra
+
 import org.camunda.latera.bss.utils.Numeric
 
 trait Ref {
@@ -10,6 +11,26 @@ trait Ref {
 
   def getRefsTable() {
     return REFS_TABLE
+  }
+
+  private void putRefCache(def code, def refId) {
+    if (!REFS_CACHE.containsKey(code)) {
+      REFS_CACHE[code] = Numeric.toIntSafe(refId)
+    }
+  }
+
+  private def getRefIdCached(def code) {
+    if (REFS_CACHE.containsKey(code)) {
+      return REFS_CACHE[code]
+    }
+    return null
+  }
+
+  private def getRefCodeCached(def id) {
+    if (REFS_CACHE.containsValue(id)) {
+      return REFS_CACHE.find{it.value == id}?.key
+    }
+    return null
   }
 
   LinkedHashMap getRef(def refId) {
@@ -108,9 +129,7 @@ trait Ref {
     def result = hid.getTableData(getRefsTable(), where: where)
     if (result) {
       result.each { ref ->
-        if (!REFS_CACHE.containsKey(ref.vc_code)) {
-          REFS_CACHE[ref.vc_code] = Numeric.toIntSafe(ref.n_ref_id)
-        }
+        putRefCache(ref.vc_code, ref.n_ref_id)
       }
     }
     return result
@@ -129,17 +148,16 @@ trait Ref {
   }
 
   def getRefIdByCode(def code) {
-    if (REFS_CACHE.containsKey(code)) {
-      return REFS_CACHE[code]
+    def id = getRefIdCached(code)
+    if (id) {
+      return id
     }
 
     def where = [
       vc_code: code
     ]
-    def id = Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
-    if (id) {
-      REFS_CACHE[code] = id
-    }
+    id = Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
+    putRefCache(code, id)
     return id
   }
 
@@ -152,17 +170,16 @@ trait Ref {
 
   String getRefCode(def id) {
     id = Numeric.toIntSafe(id)
-    if (REFS_CACHE.containsValue(id)) {
-      return REFS_CACHE.find{it.value == id}?.key
+    def code = getRefCodeCached(id)
+    if (code) {
+      return code
     }
 
     def where = [
       n_ref_id: id
     ]
-    def code = hid.getTableFirst(getRefsTable(), 'vc_code', where)
-    if (code) {
-      REFS_CACHE[code] = id
-    }
+    code = hid.getTableFirst(getRefsTable(), 'vc_code', where)
+    putRefCache(code, id)
     return code
   }
 
