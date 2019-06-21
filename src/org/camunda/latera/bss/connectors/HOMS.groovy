@@ -39,7 +39,7 @@ class HOMS {
     this.homsOrderId   = execution.getVariable('homsOrderId')
   }
 
-  LinkedHashMap createOrder(String type, LinkedHashMap data) {
+  LinkedHashMap createOrder(String type, LinkedHashMap data = [:]) {
     LinkedHashMap body = [
       order: [
         order_type_code: type,
