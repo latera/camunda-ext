@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.Temporal
 import java.time.temporal.ChronoUnit
 
 class DateTimeUtil {
@@ -27,6 +28,20 @@ class DateTimeUtil {
     def format = this.SIMPLE_DATE_TIME_FORMAT
   ) {
     return LocalDateTime.parse(input, format)
+  }
+
+  static LocalDateTime parseIsoNoTZ(
+    String input,
+    def format = this.ISO_FORMAT_NO_TZ
+  ) {
+    return ZonedDateTime.parse(input, format)
+  }
+
+  static ZonedDateTime parseIso(
+    String input,
+    def format = this.ISO_FORMAT
+  ) {
+    return ZonedDateTime.parse(input, format)
   }
 
   static String format(
@@ -121,60 +136,80 @@ class DateTimeUtil {
     return input.withZoneSameInstant(ZoneId.systemDefault())
   }
 
-  static LocalDateTime nextSecond(LocalDateTime input = now()) {
+  static Temporal nextSecond(Temporal input) {
     return input.plusSeconds(1)
   }
 
-  static ZonedDateTime nextSecond(ZonedDateTime input) {
-    return input.plusSeconds(1)
+  static ZonedDateTime nextSecond() {
+    return nextSecond(local())
   }
 
-  static LocalDateTime prevSecond(LocalDateTime input = now()) {
+  static Temporal prevSecond(Temporal input) {
     return input.minusSeconds(1)
   }
 
-  static ZonedDateTime prevSecond(ZonedDateTime input) {
-    return input.minusSeconds(1)
+  static ZonedDateTime prevSecond() {
+    return prevSecond(local())
   }
 
   static LocalDateTime dayBegin(Date input) {
     return local(input).toLocalDateTime()
   }
 
-  static LocalDateTime dayBegin(LocalDate input) {
-    return local(input).toLocalDateTime()
-  }
-
-  static LocalDateTime dayBegin(LocalDateTime input = now()) {
+  static Temporal dayBegin(Temporal input) {
     return input.truncatedTo(ChronoUnit.DAYS)
   }
 
-  static ZonedDateTime dayBegin(ZonedDateTime input) {
-    return input.truncatedTo(ChronoUnit.DAYS)
+  static ZonedDateTime dayBegin() {
+    return dayBegin(local())
   }
 
-  static LocalDateTime monthBegin(LocalDateTime input = now()) {
+  static Temporal monthBegin(Temporal input) {
     return input.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1)
   }
 
-  static ZonedDateTime monthBegin(ZonedDateTime input) {
-    return input.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1)
+  static ZonedDateTime monthBegin() {
+    return monthBegin(local())
   }
 
-  static LocalDateTime dayEnd(LocalDateTime input = now()) {
+  static Temporal dayEnd(Temporal input) {
     return input.truncatedTo(ChronoUnit.DAYS).plusDays(1).minusSeconds(1)
   }
 
-  static ZonedDateTime dayEnd(ZonedDateTime input) {
-    return input.truncatedTo(ChronoUnit.DAYS).plusDays(1).minusSeconds(1)
+  static ZonedDateTime dayEnd() {
+    return dayEnd(local())
   }
 
-  static LocalDateTime monthEnd(LocalDateTime input = now()) {
+  static Temporal monthEnd(Temporal input) {
     return input.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).plusMonths(1).minusSeconds(1)
   }
 
-  static ZonedDateTime monthEnd(ZonedDateTime input) {
-    return input.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).plusMonths(1).minusSeconds(1)
+  static Integer secondsBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.SECONDS)
+  }
+
+  static Integer minutesBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.MINUTES)
+  }
+
+  static Integer hoursBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.HOURS)
+  }
+
+  static Integer daysBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.DAYS)
+  }
+
+  static Integer weeksBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.WEEKS)
+  }
+
+  static Integer monthsBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.MONTHS)
+  }
+
+  static Integer yearsBetween(Temporal firstDate, Temporal secondDate) {
+    return firstDate.until(secondDate, ChronoUnit.YEARS)
   }
 
   static Boolean isDate(input) {
