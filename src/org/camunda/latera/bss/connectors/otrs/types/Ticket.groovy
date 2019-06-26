@@ -179,8 +179,20 @@ trait Ticket {
     return updateTicket(id, input, attachments, dynamicFields, additionalParams)
   }
 
-  LinkedHashMap addTicketFiles(def id, List attachments = []) {
-    return updateTicket(id, [:], [:], attachments)
+  LinkedHashMap addTicketFile(def id, LinkedHashMap file) {
+    return addTicketFiles(id, [file])
+  }
+
+  LinkedHashMap addTicketFile(LinkedHashMap file, def id) {
+    return addTicketFile(id, file)
+  }
+
+  LinkedHashMap addTicketFile(def id, String name, byte[] content) {
+    return addTicketFile(id, name: name, content: content)
+  }
+
+  LinkedHashMap addTicketFiles(def id, List attachments) {
+    return updateTicket(id, [:], attachments)
   }
 
   LinkedHashMap updateTicketArticle(def id, LinkedHashMap input) {
@@ -193,7 +205,7 @@ trait Ticket {
 
   LinkedHashMap updateTicketDynamicField(def id, def name, def value = null) {
     def dynamicFields = [[name: value]]
-    return updateTicket(id, [:], dynamicFields)
+    return updateTicket(id, [:], [], dynamicFields)
   }
 
   LinkedHashMap updateTicketDynamicField(LinkedHashMap input, def id) {
