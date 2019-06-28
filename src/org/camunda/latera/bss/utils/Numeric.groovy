@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.utils
 
+import java.math.*
 import org.camunda.latera.bss.utils.StringUtil
 
 class Numeric {
@@ -42,5 +43,17 @@ class Numeric {
 
   static def isNumber(def value) {
     return isInteger(value) || isFloat(value)
+  }
+
+  static BigDecimal round(def number, Integer digits = 2) {
+    return toFloatSafe(number, 0).setScale(digits, BigDecimal.ROUND_HALF_UP)
+  }
+
+  static BigDecimal max(def first, def second) {
+    return toFloatSafe(first, 0).max(toFloatSafe(second, 0))
+  }
+
+  static BigDecimal min(def first, def second) {
+    return toFloatSafe(first, 0).min(toFloatSafe(second, 0))
   }
 }
