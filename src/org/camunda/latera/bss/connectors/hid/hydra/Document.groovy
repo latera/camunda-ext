@@ -8,6 +8,7 @@ trait Document {
   private static String DOCUMENT_SUBJECTS_TABLE        = 'SI_V_DOC_SUBJECTS'
   private static String DOCUMENT_ADD_PARAMS_TABLE      = 'SD_V_DOC_VALUES'
   private static String DOCUMENT_ADD_PARAM_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
+  private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
   private static String DEFAULT_DOCUMENT_TYPE          = 'DOC_TYPE_CustomerContract'
   private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
   private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
@@ -36,6 +37,10 @@ trait Document {
 
   def getDocumentAddParamTypesTable() {
     return DOCUMENT_ADD_PARAM_TYPES_TABLE
+  }
+
+  def getDocumentBindsTable() {
+    return DOCUMENT_BINDS_TABLE
   }
 
   def getDefaultDocumentType() {
@@ -671,6 +676,103 @@ trait Document {
   Boolean deleteDocumentAddParam(LinkedHashMap input) {
     def docValueId = getDocumentAddParamBy(input)?.n_doc_value_id
     return deleteDocumentAddParam(docValueId)
+  }
+
+  LinkedHashMap getDocumentBind(def docDocumentId) {
+    def where = [
+      n_doc_document_id: docDocumentId
+    ]
+    return hid.getTableFirst(getDocumentBindsTable(), where: where)
+  }
+
+  List getDocumentBindsBy(LinkedHashMap input) {
+    def params = mergeParams([
+      docDocumentId : null,
+      bindTypeId    : null,
+      docId         : null,
+      docBindId     : null,
+      lineNumber    : null
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.docDocumentId || params.docBindId || params.bindId) {
+      where.n_doc_document_id = params.docDocumentId ?: params.docBindId ?: params.bindId
+    }
+    if (params.bindTypeId || params.docBindTypeId) {
+      where.n_doc_id = params.docId ?: params.docBindTypeId
+    }
+    if (params.docId) {
+      where.n_doc_id = params.docId
+    }
+    if (params.docBindId) {
+      where.n_doc_bind_id = params.docBindId
+    }
+    if (params.lineNumber) {
+      where.n_line_no = params.lineNumber
+    }
+    return hid.getTableData(getDocumentBindsTable(), where: where)
+  }
+
+  LinkedHashMap getDocumentBindBy(LinkedHashMap input) {
+    return getDocumentBindsBy(input)?.getAt(0)
+  }
+
+  LinkedHashMap putDocumentBind(LinkedHashMap input) {
+    def params = mergeParams([
+      docDocumentId : null,
+      bindTypeId    : null,
+      docId         : null,
+      docBindId     : null,
+      lineNumber    : null
+    ], input)
+    try {
+      logger.info("Putting doc-doc bind with params ${params}")
+      LinkedHashMap bind = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_DOCUMENTS_PUT', [
+        num_N_DOC_DOCUMENT_ID    : params.docDocumentId ?: params.docBindId ?: params.bindId,
+        num_N_DOC_BIND_TYPE_ID   : params.bindTypeId    ?: params.docBindTypeId,
+        num_N_DOC_ID             : params.docId,
+        num_N_DOC_BIND_ID        : params.docBindId,
+        num_N_LINE_NO            : params.lineNumber
+      ])
+      logger.info("   Doc-doc bind id ${bind.num_N_DOC_DOCUMENT_ID} was put successfully!")
+      return bind
+    } catch (Exception e){
+      logger.error("   Error while putting new doc-doc bind!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  LinkedHashMap addDocumentBind(LinkedHashMap input) {
+    return putDocumentBind(input)
+  }
+
+  LinkedHashMap addDocumentBind(def docId, LinkedHashMap input) {
+    return putDocumentBind(input + [docId: docId])
+  }
+
+  LinkedHashMap addDocumentBind(LinkedHashMap input, def docId) {
+    return putDocumentBind(docId, input)
+  }
+
+  Boolean deleteDocumentBind(def docDocumentId) {
+    try {
+      logger.info("Deleting doc-doc bind id ${docDocumentId}")
+      hid.execute('SI_DOCUMENTS_PKG.SD_DOC_DOCUMENTS_DEL', [
+        num_N_DOC_DOCUMENT_ID : docDocumentId
+      ])
+      logger.info("   Doc-doc bind was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting doc-doc bind!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteDocumentBind(LinkedHashMap input) {
+    def docDocumentId = getDocumentBind(input)?.n_doc_document_id
+    return deleteDocumentBind(docDocumentId)
   }
 
   Boolean changeDocumentState(
