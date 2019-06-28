@@ -23,6 +23,72 @@ class DateTimeUtil {
     return LocalDateTime.now()
   }
 
+  static def parseDateTimeAny(def input) {
+    def result = null
+    try {
+      result = parseDateTimeIso(input)
+      return result
+    } catch (Exception e) {}
+    try {
+      result = parseDateTime(input)
+      return result
+    } catch (Exception e) {}
+    try {
+      result = parseDate(input)
+      return result
+    } catch (Exception e) {}
+
+    return null
+  }
+
+  static def parseDateTimeIso(CharSequence input) {
+    def result = null
+    try {
+      result = parseIso(input)
+      return result
+    } catch (Exception e) {
+      result = null
+    }
+
+    try {
+      result = parseIsoNoTZ(input)
+      return result
+    } catch (Exception e) {
+      result = null
+    }
+    return null
+  }
+
+  static def parseDateTime(CharSequence input) {
+    def result = null
+    [
+      DATE_TIME_FORMAT,
+      SIMPLE_DATE_TIME_FORMAT
+    ].each {format ->
+      try {
+        result = parse(input, format)
+        return result
+      } catch (Exception e) {
+        result = null
+      }
+    }
+    return null
+  }
+
+  static def parseDate(CharSequence input) {
+    [
+      DATE_FORMAT,
+      SIMPLE_DATE_FORMAT
+    ].each {format ->
+      try {
+        def result = parse(input, format)
+        return result
+      } catch (Exception e) {
+      }
+    }
+    return null
+  }
+
   static LocalDateTime parse(
     String input,
     def format = this.SIMPLE_DATE_TIME_FORMAT
@@ -30,18 +96,12 @@ class DateTimeUtil {
     return LocalDateTime.parse(input, format)
   }
 
-  static LocalDateTime parseIsoNoTZ(
-    String input,
-    def format = this.ISO_FORMAT_NO_TZ
-  ) {
-    return ZonedDateTime.parse(input, format)
+  static LocalDateTime parseIsoNoTZ(String input) {
+    return ZonedDateTime.parse(input, ISO_FORMAT_NO_TZ)
   }
 
-  static ZonedDateTime parseIso(
-    String input,
-    def format = this.ISO_FORMAT
-  ) {
-    return ZonedDateTime.parse(input, format)
+  static ZonedDateTime parseIso(String input) {
+    return ZonedDateTime.parse(input, ISO_FORMAT)
   }
 
   static String format(
@@ -152,6 +212,106 @@ class DateTimeUtil {
     return prevSecond(local())
   }
 
+  static Temporal nextMinute(Temporal input) {
+    return input.plusMinutes(1)
+  }
+
+  static ZonedDateTime nextMinute() {
+    return nextMinute(local())
+  }
+
+  static Temporal prevMinute(Temporal input) {
+    return input.minusMinutes(1)
+  }
+
+  static ZonedDateTime prevMinute() {
+    return prevMinute(local())
+  }
+
+  static Temporal nextHour(Temporal input) {
+    return input.plusHours(1)
+  }
+
+  static ZonedDateTime nextHour() {
+    return nextHour(local())
+  }
+
+  static Temporal prevHour(Temporal input) {
+    return input.minusHours(1)
+  }
+
+  static ZonedDateTime prevHour() {
+    return prevHour(local())
+  }
+
+  static Temporal nextDay(Temporal input) {
+    return input.plusDays(1)
+  }
+
+  static ZonedDateTime nextDay() {
+    return nextDay(local())
+  }
+
+  static ZonedDateTime tomorrow() {
+    return nextDay()
+  }
+
+  static Temporal prevDay(Temporal input) {
+    return input.minusDays(1)
+  }
+
+  static ZonedDateTime prevDay() {
+    return prevDay(local())
+  }
+
+  static Temporal nextWeek(Temporal input) {
+    return input.plusWeeks(1)
+  }
+
+  static ZonedDateTime nextWeek() {
+    return nextWeek(local())
+  }
+
+  static Temporal prevWeek(Temporal input) {
+    return input.minusWeeks(1)
+  }
+
+  static ZonedDateTime prevWeek() {
+    return prevWeek(local())
+  }
+
+  static Temporal nextMonth(Temporal input) {
+    return input.plusMonths(1)
+  }
+
+  static ZonedDateTime nextMonth() {
+    return nextMonth(local())
+  }
+
+  static Temporal prevMonth(Temporal input) {
+    return input.minusMonths(1)
+  }
+
+  static ZonedDateTime prevMonth() {
+    return prevMonth(local())
+  }
+
+  static Temporal nextYear(Temporal input) {
+    return input.plusYears(1)
+  }
+
+  static ZonedDateTime nextYear() {
+    return nextYear(local())
+  }
+
+  static Temporal prevYear(Temporal input) {
+    return input.minusYears(1)
+  }
+
+  static ZonedDateTime prevYear() {
+    return prevYear(local())
+  }
+
   static LocalDateTime dayBegin(Date input) {
     return local(input).toLocalDateTime()
   }
@@ -184,6 +344,9 @@ class DateTimeUtil {
     return input.truncatedTo(ChronoUnit.DAYS).withDayOfMonth(1).plusMonths(1).minusSeconds(1)
   }
 
+  static ZonedDateTime monthEnd() {
+    return monthEnd(local())
+  }
   static Integer secondsBetween(Temporal firstDate, Temporal secondDate) {
     return firstDate.until(secondDate, ChronoUnit.SECONDS)
   }
@@ -212,11 +375,23 @@ class DateTimeUtil {
     return firstDate.until(secondDate, ChronoUnit.YEARS)
   }
 
-  static Boolean isDate(input) {
-    return (input instanceof Date) || (input instanceof LocalDate) || (input instanceof LocalDateTime) || (input instanceof ZonedDateTime)
+  static def isDate(def input) {
+    return (input instanceof Date) || (input instanceof Temporal)
   }
 
-  static Boolean isDateTime(input) {
+  static def isDateStr(CharSequence input) {
+    return parseDate(input) != null
+  }
+
+  static Boolean isDateTime(def input) {
     return (input instanceof LocalDateTime) || (input instanceof ZonedDateTime)
+  }
+
+  static Boolean isDateTimeStr(CharSequence input) {
+    return parseDateTime(input) != null
+  }
+
+  static Boolean isDateTimeIso(CharSequence input) {
+    return parseDateTimeIso(input) != null
   }
 }
