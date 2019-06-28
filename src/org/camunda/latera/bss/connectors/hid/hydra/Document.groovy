@@ -622,7 +622,7 @@ trait Document {
       }
 
       logger.info("${params.docValueId ? 'Putting' : 'Creating'} document additional value with params ${params}")
-      def result = hid.execute('SI_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
+      def result = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
         num_N_DOC_VALUE_ID       : params.docValueId,
         num_N_DOC_ID             : params.docId,
         num_N_DOC_VALUE_TYPE_ID  : params.paramId,
