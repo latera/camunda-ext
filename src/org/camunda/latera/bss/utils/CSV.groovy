@@ -55,13 +55,17 @@ class CSV {
       if (ListUtil.isList(lines)) {
         lines.drop(skipLines).each { line ->
           List item = []
-          if (StringUtil.isString(line) && StringUtil.notEmpty(line)){
+          if (StringUtil.isString(line) && StringUtil.notEmpty(line)) {
             line = StringUtil.trim(line).tokenize(delimiter)
             if (notHeader(line)) {
               if (header) {
                 header.eachWithIndex { column, pos ->
                   if (line.size() > pos) {
-                    item += line[pos]
+                    def value = line[pos]
+                    if (value == 'null') {
+                      value = null
+                    }
+                    item += value
                   } else {
                     item += ''
                   }
