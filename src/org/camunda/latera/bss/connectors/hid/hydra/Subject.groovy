@@ -358,6 +358,10 @@ trait Subject {
     return putSubjectAddParam(input + [subjectId: subjectId])
   }
 
+  LinkedHashMap addSubjectAddParam(LinkedHashMap input, def subjectId) {
+    return putSubjectAddParam(subjectId, input)
+  }
+
   Boolean deleteSubjectAddParam(def subjValueId) {
     try {
       logger.info("Deleting subject additional value id ${subjValueId}")

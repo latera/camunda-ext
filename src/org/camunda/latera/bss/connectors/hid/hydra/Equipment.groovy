@@ -468,12 +468,20 @@ trait Equipment {
     return addEquipmentAddParam(input + [equipmentId: equipmentId])
   }
 
+  LinkedHashMap addEquipmentAddParam(LinkedHashMap input, def equipmentId) {
+    return addEquipmentAddParam(equipmentId, input)
+  }
+
   LinkedHashMap addEquipmentComponentAddParam(LinkedHashMap input) {
     return putEquipmentComponentAddParam(input)
   }
 
   LinkedHashMap addEquipmentComponentAddParam(def componentId, LinkedHashMap input) {
     return addEquipmentComponentAddParam(input + [componentId: componentId])
+  }
+
+  LinkedHashMap addEquipmentComponentAddParam(LinkedHashMap input, def componentId) {
+    return addEquipmentComponentAddParam(componentId, input)
   }
 
   LinkedHashMap addObjectAddParam(LinkedHashMap input) {

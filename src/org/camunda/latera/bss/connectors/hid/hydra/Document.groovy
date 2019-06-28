@@ -649,6 +649,10 @@ trait Document {
     return putDocumentAddParam(input + [docId: docId])
   }
 
+  LinkedHashMap addDocumentAddParam(LinkedHashMap input, def docId) {
+    return addDocumentAddParam(docId, input)
+  }
+
   Boolean deleteDocumentAddParam(def docValueId) {
     try {
       logger.info("Deleting document additional value id ${docValueId}")
