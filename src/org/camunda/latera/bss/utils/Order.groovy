@@ -2,7 +2,8 @@ package org.camunda.latera.bss.utils
 
 import groovy.lang.GroovyObject
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.connectors.Minio
 
@@ -11,6 +12,58 @@ class Order implements GroovyObject {
 
   Order(DelegateExecution execution) {
     this._execution  = execution
+  }
+
+  static def getValue(CharSequence name, DelegateExecution execution) {
+    def result = null
+    if (name == 'uploadedFile' || name == 'homsOrderDataUploadedFile') {
+      return null
+    }
+    if (name.startsWith('homsOrderData')) {
+      result = execution.getVariable(name)
+    } else {
+      result = execution.getVariable("homsOrderData${capitalize(name)}")
+    }
+
+    def date = parseDateTimeAny(result)
+    if (date) {
+      return date
+    }
+    return result
+  }
+
+  static def getValue(DelegateExecution execution, CharSequence name) {
+    return getValue(name, execution)
+  }
+
+  def getValue(CharSequence name) {
+    if (name == 'data') {
+      return this.getClass().getData(this._execution)
+    }
+    return this.getClass().getValue(name, this._execution)
+  }
+
+  def getProperty(CharSequence propertyName) {
+    return getValue(propertyName)
+  }
+
+  def getAt(CharSequence name) {
+    return getValue(name)
+  }
+
+  def getVariable(CharSequence name) {
+    return getValue(name)
+  }
+
+  static LinkedHashMap getData(DelegateExecution execution) {
+    LinkedHashMap data = [:]
+    execution.getVariables().each { key, value ->
+      if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
+        String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
+        data[_key] = getValue(key, execution)
+      }
+    }
+    return data
   }
 
   LinkedHashMap getData() {
@@ -24,65 +77,28 @@ class Order implements GroovyObject {
     }
   }
 
-  static LinkedHashMap getData(DelegateExecution execution) {
-    LinkedHashMap data = [:]
-    execution.getVariables().each { key, value ->
-      if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
-        String dataKey = key.replaceFirst(/^homsOrderData/, '')
-        data[StringUtil.decapitalize(dataKey)] = value
-      }
+  static void setValue(CharSequence name, def value, DelegateExecution execution) {
+    if (name == 'uploadedFile' || name == 'homsOrderDataUploadedFile') {
+      return
     }
-    return data
-  }
-
-  void saveData(Map data) {
-    saveData(data, this._execution)
-  }
-
-  static void saveData(Map data, DelegateExecution execution) {
-    data.each { key, value ->
-      if (key != 'uploadedFile') {
-        execution.setVariable("homsOrderData${StringUtil.capitalize(key)}", value)
-      }
+    if (isString(value)) {
+      value = value.toString()
     }
-  }
-
-  static void saveData(DelegateExecution execution, Map data) {
-    saveData(execution, data)
-  }
-
-  def getProperty(String propertyName) {
-    return getValue(propertyName)
-  }
-
-  def getAt(CharSequence name) {
-    return getValue(name)
-  }
-
-  def getVariable(CharSequence name) {
-    return getValue(name)
-  }
-
-  def getValue(CharSequence name) {
-    if (name == 'data') {
-      return this.getClass().getData(this._execution)
+    if (isDate(value)) {
+      value = iso(value)
     }
-    return this.getClass().getValue(name, this._execution)
-  }
-
-  static def getValue(CharSequence name, DelegateExecution execution) {
     if (name.startsWith('homsOrderData')) {
-      return execution.getVariable(name)
+      execution.setVariable(name, value)
     } else {
-      return execution.getVariable("homsOrderData${StringUtil.capitalize(name)}")
+      execution.setVariable("homsOrderData${capitalize(name)}", value)
     }
   }
 
-  static def getValue(DelegateExecution execution, String name) {
-    return getValue(name, execution)
+  static void setValue(DelegateExecution execution, CharSequence name, def value) {
+    setValue(name, value, execution)
   }
 
-  void setProperty(String propertyName, def newValue) {
+  void setProperty(CharSequence propertyName, def newValue) {
     setValue(propertyName, newValue)
   }
 
@@ -103,19 +119,30 @@ class Order implements GroovyObject {
     this.getClass().setValue(name, value, this._execution)
   }
 
-  static void setValue(CharSequence name, def value, DelegateExecution execution) {
-    if (StringUtil.isString(value)) {
-      value = value.toString()
-    }
-    if (name.startsWith('homsOrderData')) {
-      execution.setVariable(name, value)
-    } else {
-      execution.setVariable("homsOrderData${StringUtil.capitalize(name)}", value)
+  static void saveData(Map data, DelegateExecution execution) {
+    data.each { key, value ->
+      setValue(key, value, execution)
     }
   }
 
-  static void setValue(DelegateExecution execution, CharSequence name, def value) {
-    setValue(name, value, execution)
+  static void saveData(DelegateExecution execution, Map data) {
+    saveData(execution, data)
+  }
+
+  void saveData(Map data) {
+    saveData(data, this._execution)
+  }
+
+  static void removeValue(CharSequence name, DelegateExecution execution) {
+    if (name.startsWith('homsOrderData')) {
+      execution.removeValue(name)
+    } else {
+      execution.removeValue("homsOrderData${capitalize(name)}")
+    }
+  }
+
+  static void removeValue(DelegateExecution execution, CharSequence name) {
+    removeValue(name, execution)
   }
 
   def minus(CharSequence name) {
@@ -127,28 +154,12 @@ class Order implements GroovyObject {
     this.getClass().removeValue(name, this._execution)
   }
 
-  static void removeValue(CharSequence name, DelegateExecution execution) {
-    if (name.startsWith('homsOrderData')) {
-      execution.removeValue(name)
-    } else {
-      execution.removeValue("homsOrderData${StringUtil.capitalize(name)}")
-    }
-  }
-
-  static void removeValue(DelegateExecution execution, CharSequence name) {
-    removeValue(name, execution)
-  }
-
-  List getFiles() {
-    return this.class.getFiles(this._execution)
-  }
-
   static List getFiles(DelegateExecution execution) {
     return JSON.from(execution.getVariable('homsOrderDataFileList') ?: '[]')
   }
 
-  LinkedHashMap getFile(CharSequence name) {
-    return this.class.getFile(name, this._execution)
+  List getFiles() {
+    return this.class.getFiles(this._execution)
   }
 
   static LinkedHashMap getFile(CharSequence name, DelegateExecution execution) {
@@ -161,8 +172,8 @@ class Order implements GroovyObject {
     return null
   }
 
-  List getFilesContent() {
-    return getFilesContent(this._execution)
+  LinkedHashMap getFile(CharSequence name) {
+    return this.class.getFile(name, this._execution)
   }
 
   static List getFilesContent(DelegateExecution execution) {
@@ -180,8 +191,8 @@ class Order implements GroovyObject {
     return result
   }
 
-  LinkedHashMap getFileContent(CharSequence name) {
-    return getFileContent(name, this._execution)
+  List getFilesContent() {
+    return getFilesContent(this._execution)
   }
 
   static LinkedHashMap getFileContent(CharSequence name, DelegateExecution execution) {
@@ -195,5 +206,9 @@ class Order implements GroovyObject {
     } else {
       return null
     }
+  }
+
+  LinkedHashMap getFileContent(CharSequence name) {
+    return getFileContent(name, this._execution)
   }
 }
