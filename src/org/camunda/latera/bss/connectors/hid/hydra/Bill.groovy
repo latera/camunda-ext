@@ -115,7 +115,8 @@ trait Bill {
       discountDocId     : null,
       operationDate     : null,
       beginDate         : null,
-      endDate           : null
+      endDate           : null,
+      limit             : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -193,19 +194,19 @@ trait Bill {
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     LinkedHashMap order = [n_line_no: 'asc']
-    return hid.getTableData(getBillLinesTable(), where: where, order: order)
+    return hid.getTableData(getBillLinesTable(), where: where, order: order, limit: params.limit)
   }
 
-  List getBillLines(def docId) {
+  List getBillLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
     ]
-    return hid.getTableData(getBillLinesTable(), where: where)
+    return hid.getTableData(getBillLinesTable(), where: where, limit: limit)
   }
 
   Map getBillLineBy(Map input) {
-    return getBillLinesBy(input)?.getAt(0)
+    return getBillLinesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getBillLine(def lineId) {

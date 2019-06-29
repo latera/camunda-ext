@@ -42,7 +42,8 @@ trait Account {
       number           : null,
       maxOverdraft     : null,
       rem              : null,
-      firmId           : getFirmId()
+      firmId           : getFirmId(),
+      limit            : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -79,11 +80,11 @@ trait Account {
     if (params.firmId) {
       where.n_firm_id = params.firmId
     }
-    return hid.getTableData(getAccountsTable(), where: where)
+    return hid.getTableData(getAccountsTable(), where: where, limit: params.limit)
   }
 
   Map getAccountBy(Map input) {
-    return getAccountsBy(input)?.getAt(0)
+    return getAccountsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getAccount(def accountId) {

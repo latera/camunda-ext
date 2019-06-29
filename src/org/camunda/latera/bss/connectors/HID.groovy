@@ -24,10 +24,15 @@ class HID implements Table {
     this.proxy.setBasicAuth(this.user, this.password)
   }
 
-  List queryDatabase(CharSequence query, Boolean asMap = false, Boolean noLimit = false) {
+  List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
     List result = []
-    Integer pageNumber = noLimit ? 0 : 1
-    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), pageNumber])
+    if (limit != 0 && limit != null) {
+      query = """SELECT * FROM (
+${query}
+)
+WHERE ROWNUM <= 1"""
+    }
+    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), page])
     List rows = answer.SelectResult
     if (rows) {
       rows.each{ row ->
@@ -57,16 +62,16 @@ class HID implements Table {
     return result
   }
 
-  List queryDatabaseList(CharSequence query, Boolean noLimit = false) {
-    return queryDatabase(query, false, noLimit)
+  List queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
+    return queryDatabase(query, false, limit, page)
   }
 
-  List queryDatabaseMap(CharSequence query, Boolean noLimit = false) {
-    return queryDatabase(query, true, noLimit)
+  List queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
+    return queryDatabase(query, true, limit, page)
   }
 
-  def queryFirst(CharSequence query, Boolean asMap = false, Boolean noLimit = false) {
-    List result = this.queryDatabase(query, asMap)
+  def queryFirst(CharSequence query, Boolean asMap = false) {
+    List result = this.queryDatabase(query, asMap, 1)
 
     if (result) {
       return result.getAt(0)
@@ -75,11 +80,11 @@ class HID implements Table {
     }
   }
 
-  List queryFirstList(CharSequence query, Boolean noLimit = false) {
+  List queryFirstList(CharSequence query) {
     return queryFirst(query, false, noLimit)
   }
 
-  Map queryFirstMap(CharSequence query, Boolean noLimit = false) {
+  Map queryFirstMap(CharSequence query) {
     return queryFirst(query, true, noLimit)
   }
 

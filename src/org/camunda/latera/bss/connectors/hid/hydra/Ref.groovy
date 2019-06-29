@@ -41,7 +41,8 @@ trait Ref {
       number2    : null,
       number3    : null,
       isEditable : null,
-      isManual   : null
+      isManual   : null,
+      limit      : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -106,7 +107,7 @@ trait Ref {
       where.c_fl_manual = Oracle.encodeBool(params.isManual)
     }
 
-    List result = hid.getTableData(getRefsTable(), where: where)
+    List result = hid.getTableData(getRefsTable(), where: where, limit: params.limit)
     if (result) {
       result.each { ref ->
         RefCache.instance.put(ref.vc_code, ref.n_ref_id)
@@ -116,7 +117,7 @@ trait Ref {
   }
 
   Map getRefBy(Map input) {
-    return getRefsBy(input)?.getAt(0)
+    return getRefsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getRefByCode(CharSequence code) {

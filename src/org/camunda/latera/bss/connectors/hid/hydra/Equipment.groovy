@@ -75,7 +75,8 @@ trait Equipment {
       name        : null,
       extCode     : null,
       serialNo    : null,
-      invNo       : null
+      invNo       : null,
+      limit       : 0
     ], input)
     LinkedHashMap where = [:]
     if (params.equipmentId) {
@@ -108,11 +109,11 @@ trait Equipment {
     if (params.invNo) {
       where.vc_inv_no = params.invNo
     }
-    return hid.getTableData(getObjectsTable(), where: where)
+    return hid.getTableData(getObjectsTable(), where: where, limit: params.limit)
   }
 
   Map getObjectBy(Map input) {
-    return getObjectsBy(input)?.getAt(0)
+    return getObjectsBy(input + [limit: 1])?.getAt(0)
   }
 
   List getCustomerObjects(def customerId, Map input = [:]) {
@@ -283,7 +284,8 @@ trait Equipment {
       ownerId         : null,
       stateId         : getEquipmentStateActualId(),
       code            : null,
-      name            : null
+      name            : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
     if (params.componentId) {
@@ -310,11 +312,11 @@ trait Equipment {
     if (params.name) {
       where.vc_name = params.name
     }
-    return hid.getTableData(getEquipmentComponentsTable(), where: where)
+    return hid.getTableData(getEquipmentComponentsTable(), where: where, limit: params.limit)
   }
 
   Map getEquipmentComponentBy(Map input) {
-    return getEquipmentComponentsBy(input)?.getAt(0)
+    return getEquipmentComponentsBy(input + [limit: 1])?.getAt(0)
   }
 
   List getEquipmentEntries(def equipmentId, Map input = [:]) {
@@ -539,7 +541,8 @@ trait Equipment {
       string      : null,
       number      : null,
       bool        : null,
-      refId       : null
+      refId       : null,
+      limit       : 0
     ], prepareEquipmentAddParam(input))
     LinkedHashMap where = [:]
 
@@ -567,11 +570,11 @@ trait Equipment {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getEquipmentAddParamsTable(), where: where)
+    return hid.getTableData(getEquipmentAddParamsTable(), where: where, limit: params.limit)
   }
 
   Map getEquipmentAddParamBy(Map input) {
-    return getEquipmentAddParamsBy(input)?.getAt(0)
+    return getEquipmentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putEquipmentAddParam(Map input) {
@@ -706,7 +709,8 @@ trait Equipment {
       componentId     : null,
       bindRoleId      : null,
       bindMainId      : null,
-      bindComponentId : null
+      bindComponentId : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
     if (params.bindId) {
@@ -727,11 +731,11 @@ trait Equipment {
     if (params.bindComponentId) {
       where.n_bind_object_id = params.bindComponentId
     }
-    return hid.getTableData(getEquipmentBindsTable(), where: where)
+    return hid.getTableData(getEquipmentBindsTable(), where: where, limit: params.limit)
   }
 
   Map getEquipmentBindBy(Map input) {
-    return getEquipmentBindsBy(input)?.getAt(0)
+    return getEquipmentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putEquipmentBind(Map input) {

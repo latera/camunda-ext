@@ -11,6 +11,7 @@ trait Table {
   private static LinkedHashMap DEFAULT_WHERE  = [:]
   private static LinkedHashMap DEFAULT_ORDER  = [:]
   private static List          DEFAULT_FIELDS = null
+  private static Integer       DEFAULT_LIMIT  = 0
 
   List getTableColumns(CharSequence tableName, CharSequence tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
@@ -24,7 +25,7 @@ trait Table {
       FROM   ALL_TAB_COLUMNS
       WHERE  TABLE_NAME = '${tableName}'
       AND    OWNER      = '${tableOwner}'
-    """, false, true)
+    """, false, 0, 0)
 
     columnsList = result*.getAt(0) // get only first column values
     return TableColumnCache.instance.putAndGet(tableFullName, columnsList)
@@ -34,7 +35,8 @@ trait Table {
     CharSequence tableName,
     fields = DEFAULT_FIELDS,
     Map where = DEFAULT_WHERE,
-    order = DEFAULT_ORDER
+    order = DEFAULT_ORDER,
+    Integer limit = DEFAULT_LIMIT
   ) {
     String query = "SELECT"
 
@@ -97,16 +99,17 @@ trait Table {
         }
       }
     }
-    return queryDatabase(query, true)
+    return queryDatabase(query, true, limit)
   }
 
   List getTableData(Map options, CharSequence tableName) {
     LinkedHashMap params = [
       fields : DEFAULT_FIELDS,
       where  : DEFAULT_WHERE,
-      order  : DEFAULT_ORDER
+      order  : DEFAULT_ORDER,
+      limit  : DEFAULT_LIMIT
     ] + options
-    return getTableData(tableName, params.fields, params.where, params.order)
+    return getTableData(tableName, params.fields, params.where, params.order, params.limit)
   }
 
   List getTableData(Map input) {
@@ -114,9 +117,10 @@ trait Table {
       tableName : '',
       fields    : DEFAULT_FIELDS,
       where     : DEFAULT_WHERE,
-      order     : DEFAULT_ORDER
+      order     : DEFAULT_ORDER,
+      limit     : DEFAULT_LIMIT
     ] + input
-    return getTableData(params.tableName, params.fields, params.where, params.order)
+    return getTableData(params.tableName, params.fields, params.where, params.order, params.limit)
   }
 
   def getTableFirst(
@@ -126,9 +130,9 @@ trait Table {
     order = DEFAULT_ORDER
   ) {
     if (isString(fields) && fields != '*') {
-      return getTableData(tableName, [fields], where, order)?.getAt(0)?."${fields}"
+      return getTableData(tableName, [fields], where, order, 1)?.getAt(0)?."${fields}"
     }
-    return getTableData(tableName, fields, where, order)?.getAt(0)
+    return getTableData(tableName, fields, where, order, 1)?.getAt(0)
   }
 
   def getTableFirst(Map options, CharSequence tableName) {

@@ -85,7 +85,8 @@ trait Subject {
       firmId           : getFirmId(),
       resellerId       : getResellerId(),
       stateId          : getSubjectStateOnId(),
-      tags             : null
+      tags             : null,
+      limit            : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -128,11 +129,11 @@ trait Subject {
     if (params.tags) {
       where.t_tags = params.tags
     }
-    return hid.getTableData(getSubjectsTable(), where: where)
+    return hid.getTableData(getSubjectsTable(), where: where, limit: params.limit)
   }
 
   Map getSubjectBy(Map input) {
-    return getSubjectsBy(input)?.getAt(0)
+    return getSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getSubject(def subjectId) {
@@ -192,7 +193,7 @@ trait Subject {
     LinkedHashMap where = [
       n_subj_value_type_id: paramId
     ]
-    return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
+    return hid.getTableFirst(getSubjectAddParamTypesTable(), where: where)
   }
 
   List getSubjectAddParamTypesBy(Map input) {
@@ -206,7 +207,8 @@ trait Subject {
       canModify       : null,
       isMulti         : null,
       isReadOnly      : null,
-      rem             : null
+      rem             : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -237,11 +239,11 @@ trait Subject {
     if (params.isReadOnly != null) {
       where.c_fl_read_only = encodeBool(params.isReadOnly)
     }
-    return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
+    return hid.getTableData(getSubjectAddParamTypesTable(), where: where, limit: params.limit)
   }
 
   Map getSubjectAddParamTypeBy(Map input) {
-    return getSubjectAddParamTypesBy(input)?.getAt(0)
+    return getSubjectAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getSubjectAddParamTypeByCode(CharSequence code, def subjTypeId = null) {
@@ -276,7 +278,8 @@ trait Subject {
       string      : null,
       number      : null,
       bool        : null,
-      refId       : null
+      refId       : null,
+      limit       : 0
     ], prepareSubjectAddParam(input))
     LinkedHashMap where = [:]
 
@@ -304,11 +307,11 @@ trait Subject {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getSubjectAddParamsTable(), where: where)
+    return hid.getTableData(getSubjectAddParamsTable(), where: where, limit: params.limit)
   }
 
   Map getSubjectAddParamBy(Map input) {
-    return getSubjectAddParamsBy(input)?.getAt(0)
+    return getSubjectAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putSubjectAddParam(Map input) {
@@ -387,7 +390,8 @@ trait Subject {
     LinkedHashMap params = mergeParams([
       subjectId : null,
       groupId   : null,
-      isMain    : null
+      isMain    : null,
+      limit     : 0
     ], input)
     LinkedHashMap where = [:]
     LinkedHashMap order = [c_fl_main: 'DESC']
@@ -401,11 +405,11 @@ trait Subject {
     if (params.isMain != null) {
       where.c_fl_main = encodeBool(params.isMain)
     }
-    return hid.getTableData(getSubjectGroupsTable(), where: where, order: order)
+    return hid.getTableData(getSubjectGroupsTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getSubjectGroupBy(Map input) {
-    return getSubjectGroupsBy(input)?.getAt(0)
+    return getSubjectGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
   List getSubjectGroups(def subjectId) {

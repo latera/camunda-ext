@@ -87,7 +87,8 @@ trait Address {
       isMain          : null,
       operationDate   : null,
       beginDate       : null,
-      endDate         : null
+      endDate         : null,
+      limit           : 0
     ], input)
 
     LinkedHashMap where = [:]
@@ -150,18 +151,19 @@ trait Address {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    return hid.getTableData(getObjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
+    LinkedHashMap order = [c_fl_main: 'desc']
+    return hid.getTableData(getObjectAddressesTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getObjAddressBy(Map input) {
-    return getObjAddressesBy(input)?.getAt(0)
+    return getObjAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getObjAddress(def objAddressId) {
     LinkedHashMap where = [
       n_obj_address_id: objAddressId
     ]
-    return hid.getTableData(getObjectAddressesTable(), where: where)
+    return hid.getTableFirst(getObjectAddressesTable(), where: where)
   }
 
   List getSubjAddressesBy(Map input) {
@@ -180,7 +182,8 @@ trait Address {
       rem             : null,
       bindAddrTypeId  : getDefaultAddressBindTypeId(),
       stateId         : getDefaultAddressStateId(),
-      isMain          : null
+      isMain          : null,
+      limit           : 0
     ], input)
 
     LinkedHashMap where = [:]
@@ -229,18 +232,19 @@ trait Address {
     if (params.isMain != null) {
       where.c_fl_main = encodeBool(params.isMain)
     }
-    return hid.getTableData(getSubjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
+    LinkedHashMap order = [c_fl_main: 'desc']
+    return hid.getTableData(getSubjectAddressesTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getSubjAddressBy(Map input) {
-    return getSubjAddressesBy(input)?.getAt(0)
+    return getSubjAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getSubjAddress(def subjAddressId) {
     LinkedHashMap where = [
       n_subj_address_id: subjAddressId
     ]
-    return hid.getTableData(getSubjectAddressesTable(), where: where)
+    return hid.getTableFirst(getSubjectAddressesTable(), where: where)
   }
 
   List getEntityAddressesBy(Map input) {
@@ -279,7 +283,7 @@ trait Address {
   }
 
   Map getEntityAddressBy(Map input) {
-    return getEntityAddressesBy(input)?.getAt(0)
+    return getEntityAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
@@ -341,11 +345,12 @@ trait Address {
     if (params.rem) {
       where.vc_rem = params.rem
     }
-    return hid.getTableData(getMainAddressesTable(), where: where, order: ['N_ADDRESS_ID ASC'])
+    LinkedHashMap order = [n_address_id: 'desc']
+    return hid.getTableData(getMainAddressesTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getAddressBy(Map input) {
-    return getAddressesBy(input)?.getAt(0)
+    return getAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getAddress(def addressId) {
@@ -1046,10 +1051,10 @@ trait Address {
   Number getSubnetIdByIP(CharSequence ip) {
     def subnetId = null
     try {
-      subnetId = hid.queryFirst("""
+      subnetId = toIntSafe(hid.queryFirst("""
         SELECT SI_ADDRESSES_PKG_S.GET_SUBNET_BY_IP_ADDRESS('$ip')
         FROM   DUAL
-      """)?.getAt(0)
+      """)?.getAt(0))
     } catch (Exception e){
       logger.error_oracle(e)
     }

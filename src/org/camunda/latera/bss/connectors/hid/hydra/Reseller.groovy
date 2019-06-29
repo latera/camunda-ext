@@ -32,7 +32,8 @@ trait Reseller {
       name          : null,
       code          : null,
       firmId        : getFirmId(),
-      stateId       : getSubjectStateOnId()
+      stateId       : getSubjectStateOnId(),
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -60,11 +61,11 @@ trait Reseller {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getResellersTable(), where: where)
+    return hid.getTableData(getResellersTable(), where: where, limit: params.limit)
   }
 
   Map getResellerBy(Map input) {
-    return getResellersBy(input)?.getAt(0)
+    return getResellersBy(input + [limit: 1])?.getAt(0)
   }
 
   Boolean isReseller(CharSequence entityType) {

@@ -40,7 +40,8 @@ trait Good {
       name       : null,
       isProvider : null,
       isCustomer : null,
-      tags       : null
+      tags       : null,
+      limit      : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -74,11 +75,11 @@ trait Good {
     if (params.isCustomer != null) {
       where.c_fl_customer_equipment = encodeBool(params.isCustomer)
     }
-    return hid.getTableData(getGoodsTable(), where: where)
+    return hid.getTableData(getGoodsTable(), where: where, limit: params.limit)
   }
 
   Map getGoodBy(Map input) {
-    return getGoodsBy(input)?.getAt(0)
+    return getGoodsBy(input + [limit: 1])?.getAt(0)
   }
 
   Number getGoodUnitId(def goodId) {
@@ -92,7 +93,7 @@ trait Good {
     LinkedHashMap where = [
       n_good_value_type_id: paramId
     ]
-    return hid.getTableData(getGoodAddParamTypesTable(), where: where)
+    return hid.getTableFirst(getGoodAddParamTypesTable(), where: where)
   }
 
   List getGoodAddParamTypesBy(Map input) {
@@ -106,7 +107,8 @@ trait Good {
       canModify       : null,
       isMulti         : null,
       isObject        : null,
-      rem             : null
+      rem             : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -137,11 +139,11 @@ trait Good {
     if (params.isObject != null) {
       where.c_fl_object = encodeBool(params.isObject)
     }
-    return hid.getTableData(getGoodAddParamTypesTable(), where: where)
+    return hid.getTableData(getGoodAddParamTypesTable(), where: where, limit: params.limit)
   }
 
   Map getGoodAddParamTypeBy(Map input) {
-    return getGoodAddParamTypesBy(input)?.getAt(0)
+    return getGoodAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getGoodAddParamTypeByCode(CharSequence code) {
@@ -204,22 +206,22 @@ trait Good {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getGoodAddParamsTable(), where: where)
+    return hid.getTableData(getGoodAddParamsTable(), where: where, limit: params.limit)
   }
 
   Map getGoodAddParamBy(Map input) {
-    return getGoodAddParamsBy(input)?.getAt(0)
+    return getGoodAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
   String getServSchemesTable() {
     return SERV_SCHEMES_TABLE
   }
 
-  Map getServSchemes(def servSchemeId) {
+  Map getServScheme(def servSchemeId) {
     LinkedHashMap where = [
       n_serv_scheme_id: servSchemeId
     ]
-    return hid.getTableData(getServSchemesTable(), where: where)
+    return hid.getTableFirst(getServSchemesTable(), where: where)
   }
 
   List getServSchemesBy(Map input) {
@@ -249,7 +251,8 @@ trait Good {
       servEndChargeTypeId    : null,
       restrictConditionId    : null,
       matchingPriorityId     : null,
-      isArchived             : false
+      isArchived             : false,
+      limit                  : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -338,10 +341,10 @@ trait Good {
       where.c_fl_archived = encodeBool(params.isArchived)
     }
 
-    return hid.getTableData(getServSchemesTable(), where: where)
+    return hid.getTableData(getServSchemesTable(), where: where, limit: params.limit)
   }
 
   Map getServSchemeBy(Map input) {
-    return getServSchemesBy(input)?.getAt(0)
+    return getServSchemesBy(input + [limit: 1])?.getAt(0)
   }
 }

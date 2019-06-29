@@ -31,7 +31,8 @@ trait Subscription {
       isClosed           : null,
       operationDate      : null,
       beginDate          : null,
-      endDate            : null
+      endDate            : null,
+      limit              : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -76,11 +77,11 @@ trait Subscription {
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     LinkedHashMap order = [d_begin: 'asc']
-    return hid.getTableData(getSubscriptionsTable(), where: where, order: order)
+    return hid.getTableData(getSubscriptionsTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getSubscriptionBy(Map input) {
-    return getSubscriptionsBy(input)?.getAt(0)
+    return getSubscriptionsBy(input + [limit: 1])?.getAt(0)
   }
 
   List getChildSubscriptions(def customerId, def subscriptionId, Map input = [:]) {

@@ -31,7 +31,8 @@ trait Group {
       name          : null,
       code          : null,
       firmId        : getFirmId(),
-      stateId       : getSubjectStateOnId()
+      stateId       : getSubjectStateOnId(),
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -59,11 +60,11 @@ trait Group {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getGroupsTable(), where: where)
+    return hid.getTableData(getGroupsTable(), where: where, limit: params.limit)
   }
 
   Map getGroupBy(Map input) {
-    return getGroupsBy(input)?.getAt(0)
+    return getGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
   Boolean isGroup(CharSequence entityType) {

@@ -10,7 +10,6 @@ trait Document {
   private static String DOCUMENT_ADD_PARAMS_TABLE      = 'SD_V_DOC_VALUES'
   private static String DOCUMENT_ADD_PARAM_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
   private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
-  private static String DEFAULT_DOCUMENT_TYPE          = 'DOC_TYPE_CustomerContract'
   private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
   private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
   private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
@@ -42,14 +41,6 @@ trait Document {
 
   String getDocumentBindsTable() {
     return DOCUMENT_BINDS_TABLE
-  }
-
-  String getDefaultDocumentType() {
-    return DEFAULT_DOCUMENT_TYPE
-  }
-
-  Number getDefaultDocumentTypeId() {
-    return getRefIdByCode(getDefaultDocumentType())
   }
 
   String getDocumentStateActual() {
@@ -158,7 +149,7 @@ trait Document {
   List getDocumentsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
-      docTypeId     : getDefaultDocumentTypeId(),
+      docTypeId     : null,
       parentDocId   : null,
       reasonDocId   : null,
       workflowId    : null,
@@ -171,7 +162,8 @@ trait Document {
       beginDate     : null,
       endDate       : null,
       number        : null,
-      tags          : null
+      tags          : null,
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -266,11 +258,11 @@ trait Document {
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     LinkedHashMap order = [d_begin: 'desc', vc_doc_no: 'desc']
-    return hid.getTableData(getDocumentsTable(), where: where, order: order)
+    return hid.getTableData(getDocumentsTable(), where: where, order: order, limit: params.limit)
   }
 
   Map getDocumentBy(Map input) {
-    return getDocumentsBy(input)?.getAt(0)
+    return getDocumentsBy(input + [limit: 1])?.getAt(0)
   }
 
   Number getDocumentTypeId(def docId) {
@@ -395,7 +387,8 @@ trait Document {
       docId         : null,
       roleId        : null,
       subjectId     : null,
-      accountId     : null
+      accountId     : null,
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -414,11 +407,11 @@ trait Document {
     if (params.accountId) {
       where.n_account_id = params.accountId
     }
-    return hid.getTableData(getDocumentSubjectsTable(), where: where)
+    return hid.getTableData(getDocumentSubjectsTable(), where: where, limit: params.limit)
   }
 
   Map getDocumentSubjectBy(Map input) {
-    return getDocumentSubjectsBy(input)?.getAt(0)
+    return getDocumentSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getDocumentProviderBy(Map input) {
@@ -509,7 +502,8 @@ trait Document {
       refTypeId       : null,
       canModify       : null,
       isMulti         : null,
-      rem             : null
+      rem             : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -537,11 +531,11 @@ trait Document {
     if (params.isMulti != null) {
       where.c_fl_multi = encodeBool(params.isMulti)
     }
-    return hid.getTableData(getDocumentAddParamTypesTable(), where: where)
+    return hid.getTableData(getDocumentAddParamTypesTable(), where: where, limit: params.limit)
   }
 
   Map getDocumentAddParamTypeBy(Map input) {
-    return getDocumentAddParamTypesBy(input)?.getAt(0)
+    return getDocumentAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getDocumentAddParamTypeByCode(CharSequence code, def docTypeId = null) {
@@ -580,7 +574,8 @@ trait Document {
       string  : null,
       number  : null,
       bool    : null,
-      refId   : null
+      refId   : null,
+      limit   : 0
     ], prepareDocumentAddParam(input))
     LinkedHashMap where = [:]
 
@@ -605,11 +600,11 @@ trait Document {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getDocumentAddParamsTable(), where: where)
+    return hid.getTableData(getDocumentAddParamsTable(), where: where, limit: params.limit)
   }
 
   Map getDocumentAddParamBy(Map input) {
-    return getDocumentAddParamsBy(input)?.getAt(0)
+    return getDocumentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putDocumentAddParam(Map input) {
@@ -696,7 +691,8 @@ trait Document {
       bindTypeId    : null,
       docId         : null,
       docBindId     : null,
-      lineNumber    : null
+      lineNumber    : null,
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -715,11 +711,11 @@ trait Document {
     if (params.lineNumber) {
       where.n_line_no = params.lineNumber
     }
-    return hid.getTableData(getDocumentBindsTable(), where: where)
+    return hid.getTableData(getDocumentBindsTable(), where: where, limit: params.limit)
   }
 
   Map getDocumentBindBy(Map input) {
-    return getDocumentBindsBy(input)?.getAt(0)
+    return getDocumentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putDocumentBind(Map input) {

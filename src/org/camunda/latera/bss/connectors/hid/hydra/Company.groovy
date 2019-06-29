@@ -41,7 +41,8 @@ trait Company {
       opfId     : null,
       groupId   : null,
       firmId    : getFirmId(),
-      stateId   : getSubjectStateOnId()
+      stateId   : getSubjectStateOnId(),
+      limit     : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -96,11 +97,11 @@ trait Company {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getCompaniesTable(), where: where)
+    return hid.getTableData(getCompaniesTable(), where: where, limit: params.limit)
   }
 
   Map getCompanyBy(Map input) {
-    return getCompaniesBy(input)?.getAt(0)
+    return getCompaniesBy(input + [limit: 1])?.getAt(0)
   }
 
   Boolean isCompany(CharSequence entityType) {

@@ -128,7 +128,8 @@ trait Invoice {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       stateId        : ['not in': [getDocumentStateCanceledId()]],
-      operationDate  : null
+      operationDate  : null,
+      limit          : 0
     ], input)
     LinkedHashMap where = [
       n_subj_good_id: params.subscriptionId
@@ -140,7 +141,7 @@ trait Invoice {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    return hid.getTableData(getGoodMovesTable(), where: where)
+    return hid.getTableData(getGoodMovesTable(), where: where, limit: params.limit)
   }
 
   List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
@@ -236,7 +237,8 @@ trait Invoice {
       provisionRuleId   : null,
       operationDate     : null,
       beginDate         : null,
-      endDate           : null
+      endDate           : null,
+      limit             : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -334,19 +336,19 @@ trait Invoice {
       where.d_oper = params.operationDate
     }
     LinkedHashMap order = [n_line_no: 'asc']
-    return hid.getTableData(getInvoiceLinesTable(), where: where, order: order)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, order: order, limit: params.limit)
   }
 
-  List getInvoiceLines(def docId) {
+  List getInvoiceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
     ]
-    return hid.getTableData(getInvoiceLinesTable(), where: where)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, limit: limit)
   }
 
   Map getInvoiceLineBy(Map input) {
-    return getInvoiceLinesBy(input)?.getAt(0)
+    return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getInvoiceLine(def line) {

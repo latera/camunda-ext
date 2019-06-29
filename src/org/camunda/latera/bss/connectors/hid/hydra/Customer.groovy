@@ -152,7 +152,8 @@ trait Customer {
       firmId        : getFirmId(),
       resellerId    : getResellerId(),
       stateId       : getSubjectStateOnId(),
-      tags          : null
+      tags          : null,
+      limit         : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -186,11 +187,11 @@ trait Customer {
     if (params.tags) {
       where.t_tags = params.tags
     }
-    return hid.getTableData(getCustomersTable(), where: where)
+    return hid.getTableData(getCustomersTable(), where: where, limit: params.limit)
   }
 
   Map getCustomerBy(Map input) {
-    return getCustomersBy(input)?.getAt(0)
+    return getCustomersBy(input + [limit: 1])?.getAt(0)
   }
 
   Boolean isCustomer(CharSequence entityType) {
@@ -372,7 +373,8 @@ trait Customer {
       login          : null,
       password       : null,
       passwordHash   : null,
-      hashTypeId     : null
+      hashTypeId     : null,
+      limit          : 0
     ], input)
     LinkedHashMap where = [
       c_active: encodeBool(true)
@@ -408,11 +410,11 @@ trait Customer {
     if (params.hashTypeId) {
       where.n_hash_type_id = hashTypeId
     }
-    return hid.getTableData(getCustomerNetServicesTable(), where: where)
+    return hid.getTableData(getCustomerNetServicesTable(), where: where, limit: params.limit)
   }
 
   Map getCustomerNetServiceAccessBy(Map input) {
-    return getCustomerNetServicesAccessBy(input)?.getAt(0)
+    return getCustomerNetServicesAccessBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putCustomerNetServiceAccess(Map input) {
@@ -522,7 +524,7 @@ trait Customer {
   }
 
   Map getCustomerAppAccessBy(Map input) {
-    return getCustomerAppsAccessBy(input)?.getAt(0)
+    return getCustomerAppsAccessBy(input + [limit: 1])?.getAt(0)
   }
 
   Map putCustomerAppAccess(Map input) {

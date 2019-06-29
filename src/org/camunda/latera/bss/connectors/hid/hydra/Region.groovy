@@ -92,6 +92,7 @@ trait Region {
       home            : null,
       ownership       : null,
       zip             : null,
+      limit           : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -134,11 +135,11 @@ trait Region {
     if (params.zip) {
       where.vc_zip = params.zip
     }
-    return hid.getTableData(getRegionsTable(), where: where)
+    return hid.getTableData(getRegionsTable(), where: where, limit: params.limit)
   }
 
   Map getRegionBy(Map input) {
-    return getRegionsBy(input)?.getAt(0)
+    return getRegionsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getRegion(regionId) {

@@ -46,7 +46,8 @@ trait Person {
       sexId      : null,
       groupId    : null,
       firmId     : getFirmId(),
-      stateId    : getSubjectStateOnId()
+      stateId    : getSubjectStateOnId(),
+      limit      : 0
     ], input)
     LinkedHashMap where = [:]
 
@@ -95,11 +96,11 @@ trait Person {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getPersonsTable(), where: where)
+    return hid.getTableData(getPersonsTable(), where: where, limit: params.limit)
   }
 
   Map getPersonBy(Map input) {
-    return getPersonsBy(input)?.getAt(0)
+    return getPersonsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getPersonPrivate(def subjectId) {
