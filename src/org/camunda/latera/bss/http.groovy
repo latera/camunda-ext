@@ -5,7 +5,7 @@ import groovyx.net.http.HttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.*
 import org.camunda.latera.bss.utils.JSON
 
 class HTTPRestProcessor {
@@ -16,7 +16,7 @@ class HTTPRestProcessor {
   Boolean supressRequestBodyLog
   Boolean supressResponseBodyLog
 
-  HTTPRestProcessor(LinkedHashMap params) {
+  HTTPRestProcessor(Map params) {
     this.logger = new SimpleLogger(params.execution)
     params.remove('execution')
 
@@ -43,7 +43,7 @@ class HTTPRestProcessor {
 
       client.clientCustomizer { it.followRedirects = true }
 
-      if (StringUtil.notEmpty(params.user) && StringUtil.notEmpty(params.password)) {
+      if (notEmpty(params.user) && notEmpty(params.password)) {
         request.auth.basic(params.user, params.password)
         params.remove('user')
         params.remove('password')
@@ -97,7 +97,7 @@ class HTTPRestProcessor {
     }
   }
 
-  def sendRequest(Map params, String method = 'get') {
+  def sendRequest(Map params, CharSequence method = 'get') {
     Boolean supressRequestBody  = false
     Boolean supressResponseBody = false
     if (params.supressRequestBodyLog != null) {
@@ -148,31 +148,31 @@ class HTTPRestProcessor {
     result
   }
 
-  private String parsePath(String rawUrl) {
+  private String parsePath(CharSequence rawUrl) {
     // baseUrl http://homs:3000/api
     // return /api
-    URL absolute = new URL(rawUrl)
+    URL absolute = new URL(rawUrl.toString())
     return absolute.getPath()
   }
 
   // https://github.com/http-builder-ng/http-builder-ng/issues/210
-  private String absolutePath(String path) {
+  private String absolutePath(CharSequence path) {
     // baseUrl http://homs:3000/api
-    if (StringUtil.isEmpty(path)) {
-      return basePath
+    if (isEmpty(path)) {
+      return basePath.toString()
     }
     // path /task
     if (path.getAt(0) == '/') {
-      return path // /task
+      return path.toString() // /task
     }
     // path task
     return "${basePath}/${path}".toString() // /api/task
   }
 
-  private String absoluteUrl(String path) {
+  private String absoluteUrl(CharSequence path) {
     // baseUrl http://homs:3000
-    if (StringUtil.isEmpty(path)) {
-      return baseUrl
+    if (isEmpty(path)) {
+      return baseUrl.toString()
     }
     // path /api
     if (path.getAt(0) == '/') {

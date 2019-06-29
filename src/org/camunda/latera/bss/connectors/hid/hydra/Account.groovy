@@ -1,35 +1,37 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.Oracle
+import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.Oracle.*
+import java.time.temporal.Temporal
 
 trait Account {
   private static String ACCOUNTS_TABLE           = 'SI_V_SUBJ_ACCOUNTS'
   private static String DEFAULT_ACCOUNT_TYPE     = 'ACC_TYPE_Personal'
   private static String DEFAULT_OVERDRAFT_REASON = 'OVERDRAFT_Manual'
 
-  def getAccountsTable() {
+  String getAccountsTable() {
     return ACCOUNTS_TABLE
   }
 
-  def getDefaultAccountType() {
+  String getDefaultAccountType() {
     return DEFAULT_ACCOUNT_TYPE
   }
 
-  def getDefaultAccountTypeId() {
+  Number getDefaultAccountTypeId() {
     return getRefIdByCode(getDefaultAccountType())
   }
 
-  def getDefaultOverdraftReason() {
+  String getDefaultOverdraftReason() {
     return DEFAULT_OVERDRAFT_REASON
   }
 
-  def getDefaultOverdraftReasonId() {
+  Number getDefaultOverdraftReasonId() {
     return getRefIdByCode(getDefaultOverdraftReason())
   }
 
-  List getAccountsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getAccountsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       accountId        : null,
       subjectId        : null,
       accountTypeId    : getDefaultAccountTypeId(),
@@ -80,11 +82,11 @@ trait Account {
     return hid.getTableData(getAccountsTable(), where: where)
   }
 
-  LinkedHashMap getAccountBy(LinkedHashMap input) {
+  Map getAccountBy(Map input) {
     return getAccountsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getAccount(def accountId) {
+  Map getAccount(def accountId) {
     LinkedHashMap where = [
       n_account_id: accountId
     ]
@@ -119,69 +121,69 @@ trait Account {
     return getSubjectAccounts(customerId, accountTypeId)
   }
 
-  LinkedHashMap getSubjectAccount(
+  Map getSubjectAccount(
     def subjectId,
     def accountTypeId = getDefaultAccountTypeId()
   ) {
     return getAccountBy(subjectId: subjectId, accountTypeId: accountTypeId)
   }
 
-  LinkedHashMap getCompanyAccount(
+  Map getCompanyAccount(
     def companyId,
     def accountTypeId = getDefaultAccountTypeId()
   ) {
     return getSubjectAccount(companyId, accountTypeId)
   }
 
-  LinkedHashMap getPersonAccount(
+  Map getPersonAccount(
     def personId,
     def accountTypeId = getDefaultAccountTypeId()
   ) {
     return getSubjectAccount(personId, accountTypeId)
   }
 
-  LinkedHashMap getCustomerAccount(
+  Map getCustomerAccount(
     def customerId,
     def accountTypeId = getDefaultAccountTypeId()
   ) {
     return getSubjectAccount(customerId, accountTypeId)
   }
 
-  LinkedHashMap getSubjectAccountBy(LinkedHashMap input, def subjectId) {
+  Map getSubjectAccountBy(Map input, def subjectId) {
     return getAccountBy(input + [subjectId: subjectId])
   }
 
-  LinkedHashMap getSubjectAccountBy(def subjectId, LinkedHashMap input) {
+  Map getSubjectAccountBy(def subjectId, Map input) {
     return getSubjectAccountBy(input, subjectId)
   }
 
-  LinkedHashMap getCompanyAccountBy(LinkedHashMap input, def companyId) {
+  Map getCompanyAccountBy(Map input, def companyId) {
     return getSubjectAccountBy(companyId, input)
   }
 
-  LinkedHashMap getCompanyAccountBy(def companyId, LinkedHashMap input) {
+  Map getCompanyAccountBy(def companyId, Map input) {
     return getSubjectAccountBy(companyId, input)
   }
 
-  LinkedHashMap getPersonAccountBy(LinkedHashMap input, def personId) {
+  Map getPersonAccountBy(Map input, def personId) {
     return getSubjectAccountBy(personId, input)
   }
 
-  LinkedHashMap getPersonAccountBy(def personId, LinkedHashMap input) {
+  Map getPersonAccountBy(def personId, Map input) {
     return getSubjectAccountBy(personId, input)
   }
 
-  LinkedHashMap getCustomerAccountBy(LinkedHashMap input, def customerId) {
+  Map getCustomerAccountBy(Map input, def customerId) {
     return getSubjectAccountBy(customerId, input)
   }
 
-  LinkedHashMap getCustomerAccountBy(def customerId, LinkedHashMap input) {
+  Map getCustomerAccountBy(def customerId, Map input) {
     return getSubjectAccountBy(customerId, input)
   }
 
-  LinkedHashMap getAccountBalance(
+  Map getAccountBalance(
     def accountId,
-    def operationDate = DateTimeUtil.now()
+    Temporal operationDate = local()
   ) {
     return hid.queryFirst("""
     SELECT
@@ -197,34 +199,34 @@ trait Account {
     FROM
       TABLE(SI_ACCOUNTS_PKG.GET_ACCOUNT_BALANCE_P(
         num_N_ACCOUNT_ID    => ${accountId},
-        dt_D_OPER           => ${Oracle.encodeDateStr(operationDate)}))
+        dt_D_OPER           => ${encodeDateStr(operationDate)}))
   """, true)
   }
 
-  def getAccountBalanceTotal(
+  Double getAccountBalanceTotal(
     def accountId,
-    def operationDate = DateTimeUtil.now()
+    Temporal operationDate = local()
   ) {
-    return getAccountBalance(accountId, operationDate)?.n_sum_total
+    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_total).doubleValue()
   }
 
-  def getAccountFree(
+  Double getAccountFree(
     def accountId,
-    def operationDate = DateTimeUtil.now()
+    Temporal operationDate = local()
   ) {
-    return getAccountBalance(accountId, operationDate)?.n_sum_free
+    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_free).doubleValue()
   }
 
-  def getAccountActualInvoicesSum(def accountId) {
-    return hid.queryFirst("""
+  Double getAccountActualInvoicesSum(def accountId) {
+    return toFloatSafe(hid.queryFirst("""
     SELECT SI_ACCOUNTS_PKG_S.GET_ACTUAL_CHARGE_LOGS_AMOUNT(${accountId})
     FROM   DUAL
-  """)?.getAt(0)
+  """)?.getAt(0)).doubleValue()
   }
 
   List getAccountPeriodicAmounts(
     def accountId,
-    def operationDate = DateTimeUtil.now()
+    Temporal operationDate = local()
   ) {
     return hid.queryDatabase("""
     SELECT
@@ -234,12 +236,12 @@ trait Account {
     FROM
       TABLE(SI_ACCOUNTS_PKG_S.GET_ACCOUNT_PERIODIC_AMOUNTS(
         num_N_ACCOUNT_ID => ${accountId},
-        dt_D_OPER        => ${Oracle.encodeDateStr(operationDate)}))
+        dt_D_OPER        => ${encodeDateStr(operationDate)}))
   """, true)
   }
 
-  def putCustomerAccount(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putCustomerAccount(Map input) {
+    LinkedHashMap params = mergeParams([
       accountId            : null,
       customerId           : null,
       currencyId           : getDefaultCurrencyId(),
@@ -276,16 +278,44 @@ trait Account {
     }
   }
 
-  LinkedHashMap createCustomerAccount(LinkedHashMap input) {
+  Map putCustomerAccount(def customerId, Map input) {
+    return putCustomerAccount(input + [customerId: customerId])
+  }
+
+  Map putCustomerAccount(Map input, def customerId) {
+    return putCustomerAccount(customerId, input)
+  }
+
+  Map createCustomerAccount(Map input) {
     input.remove('accountId')
     return putCustomerAccount(input)
   }
 
-  LinkedHashMap updateCustomerAccount(def accountId, LinkedHashMap input) {
+  Map createCustomerAccount(Map input, def customerId) {
+    return createCustomerAccount(input + [customerId: customerId])
+  }
+
+  Map updateCustomerAccount(Map input) {
+    return putCustomerAccount(input)
+  }
+
+  Map updateCustomerAccount(def accountId, Map input) {
     return putCustomerAccount(input + [accountId: accountId])
   }
 
-  Boolean putAdjustment(LinkedHashMap input) {
+  Map updateCustomerAccount(Map input, def accountId) {
+    return updateCustomerAccount(accountId, input)
+  }
+
+  Map updateCustomerAccount(def customerId, def accountId, Map input) {
+    return putCustomerAccount(input + [accountId: accountId, customerId : customerId])
+  }
+
+  Map updateCustomerAccount(Map input, def customerId, def accountId) {
+    return updateCustomerAccount(customerId, accountId, input)
+  }
+
+  Boolean putAdjustment(Map input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
       docId         : null,
@@ -317,15 +347,19 @@ trait Account {
     }
   }
 
-  Boolean addAdjustment(LinkedHashMap input) {
+  Boolean addAdjustment(Map input) {
     return putAdjustment(input)
   }
 
-  Boolean addAdjustment(def accountId, LinkedHashMap input) {
+  Boolean addAdjustment(def accountId, Map input) {
     return putAdjustment(input + [accountId: accountId])
   }
 
-  Boolean putPermanentOverdraft(LinkedHashMap input) {
+  Boolean addAdjustment(Map input, def accountId) {
+    return addAdjustment(accountId, input)
+  }
+
+  Boolean putPermanentOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       reasonId  : getDefaultOverdraftReasonId(),
@@ -354,7 +388,7 @@ trait Account {
 
   Boolean putPermanentOverdraft(
     def accountId,
-    def sum = 0,
+    Double sum = 0,
     def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putPermanentOverdraft(
@@ -364,13 +398,13 @@ trait Account {
     )
   }
 
-  Boolean addPermanentOverdraft(LinkedHashMap input) {
+  Boolean addPermanentOverdraft(Map input) {
     return putPermanentOverdraft(input)
   }
 
   Boolean addPermanentOverdraft(
     def accountId,
-    def sum = 0,
+    Double sum = 0,
     def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putPermanentOverdraft(accountId, sum, reasonId)
@@ -391,11 +425,11 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(LinkedHashMap input) {
+  Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       sum       : 0,
-      endDate   : DateTimeUtil.dayEnd(),
+      endDate   : dayEnd(),
       reasonId  : getDefaultOverdraftReasonId()
     ], input)
     if (params.sum <= 0) {
@@ -421,8 +455,8 @@ trait Account {
 
   Boolean putTemporalOverdraft(
     def accountId,
-    def sum     = 0,
-    def endDate = DateTimeUtil.dayEnd(),
+    Double sum = 0,
+    Temporal endDate = dayEnd(),
     def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putTemporalOverdraft(
@@ -433,14 +467,14 @@ trait Account {
     )
   }
 
-  Boolean addTemporalOverdraft(LinkedHashMap input) {
+  Boolean addTemporalOverdraft(Map input) {
     return putTemporalOverdraft(input)
   }
 
   Boolean addTemporalOverdraft(
     def accountId,
-    def sum = 0,
-    def endDate = DateTimeUtil.dayEnd(),
+    Double sum = 0,
+    Temporal endDate = dayEnd(),
     def reasonId = getDefaultOverdraftReasonId()
   ) {
     return putTemporalOverdraft(accountId, sum, endDate, reasonId)
@@ -463,8 +497,8 @@ trait Account {
 
   Boolean processAccount(
     def accountId,
-    def beginDate = DateTimeUtil.now(),
-    def endDate   = null
+    Temporal beginDate = local(),
+    Temporal endDate   = null
   ) {
     try {
       logger.info("Processing account id ${accountId}")
@@ -482,10 +516,10 @@ trait Account {
     }
   }
 
-  Boolean processAccount(LinkedHashMap input) {
+  Boolean processAccount(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
-      beginDate : DateTimeUtil.now(),
+      beginDate : local(),
       endDate   : null
     ], input)
     return processAccount(params.accountId, params.beginDate, params.endDate)

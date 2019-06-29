@@ -41,7 +41,7 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
       return token.toString()
     }
 
-    def body = [
+    LinkedHashMap body = [
       login    : user,
       password : password,
       db       : db
@@ -56,11 +56,11 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
     )?.access_token?.toString()
   }
 
-  private LinkedHashMap authHeader() {
+  private Map authHeader() {
     return ["Access-Token": this.authToken()]
   }
 
-  def sendRequest(LinkedHashMap input, String method = 'get') {
+  def sendRequest(Map input, CharSequence method = 'get') {
     if (!input.headers) {
       input.headers = [:]
     }

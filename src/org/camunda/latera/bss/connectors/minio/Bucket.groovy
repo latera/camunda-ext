@@ -5,7 +5,7 @@ import io.minio.errors.MinioException
 
 trait Bucket {
   List getBuckets() {
-    def result = []
+    List result = []
     try {
       result = client.listBuckets()
     } catch (MinioException e) {
@@ -14,8 +14,8 @@ trait Bucket {
     return result
   }
 
-  Boolean isBucketExists(String name = defaultBucketName) {
-    def result = false
+  Boolean isBucketExists(CharSequence name = defaultBucketName) {
+    Boolean result = false
     try {
       logger.info("Checking bucket with name ${name} exists")
       result = client.bucketExists(name)
@@ -26,8 +26,8 @@ trait Bucket {
     return result
   }
 
-  LinkedHashMap getBucketPolicy(String name = defaultBucketName) {
-    def result = null
+  Map getBucketPolicy(CharSequence name = defaultBucketName) {
+    LinkedHashMap result = null
     try {
       result = JSON.from(client.getBucketPolicy(name))
     } catch (Exception e) {
@@ -36,7 +36,7 @@ trait Bucket {
     return result
   }
 
-  Boolean createBucket(String name = defaultBucketName) {
+  Boolean createBucket(CharSequence name = defaultBucketName) {
     try {
       logger.info("Creating bucket with name ${name}")
       client.makeBucket(name)
@@ -49,18 +49,18 @@ trait Bucket {
     }
   }
 
-  Boolean putBucket(String name = defaultBucketName) {
+  Boolean putBucket(CharSequence name = defaultBucketName) {
     if (!isBucketExists) {
       return createBucket(name)
     }
     return true
   }
 
-  Boolean ensureBucketExists(String name = defaultBucketName) {
+  Boolean ensureBucketExists(CharSequence name = defaultBucketName) {
     return putBucket(name)
   }
 
-  Boolean updateBucketPolicy(String name = defaultBucketName, LinkedHashMap policy) {
+  Boolean updateBucketPolicy(CharSequence name = defaultBucketName, Map policy) {
     try {
       logger.info("Updating bucket ${name} policy with data ${policy}")
       client.setBucketPolicy(JSON.to(policy))
@@ -73,7 +73,7 @@ trait Bucket {
     }
   }
 
-  Boolean deleteBucket(String name = defaultBucketName) {
+  Boolean deleteBucket(CharSequence name = defaultBucketName) {
     try {
       if (isBucketExists) {
         logger.info("Deleting bucket name ${name}")

@@ -21,7 +21,7 @@ class Planado {
     this.version = (ENV['PLANADO_VERSION'] ?: ENV['PLANADO_API_VERSION'] ?: execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: 1)?.toInteger()
     this.token   =  ENV['PLANADO_TOKEN']   ?: ENV['PLANADO_API_KEY']     ?: execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')
 
-    def headers = ['X-Planado-Api-Token': token]
+    LinkedHashMap headers = ['X-Planado-Api-Token': token]
     this.http = new HTTPRestProcessor(
       baseUrl   : url,
       headers   : headers,
@@ -29,7 +29,7 @@ class Planado {
     )
   }
 
-  private String makeExtId(String input) {
+  private String makeExtId(CharSequence input) {
     logger.info('Generating externalId for Planado entity')
     def messageDigest = MessageDigest.getInstance("MD5")
     messageDigest.update(input.getBytes())
@@ -37,11 +37,11 @@ class Planado {
   }
 
   private String makeExtId(List input) {
-    def str = input.findAll { it -> !it?.isEmpty() }.join(';').toString()
+    String str = input.findAll { it -> !it?.isEmpty() }.join(';').toString()
     return makeExtId(str)
   }
 
-  LinkedHashMap getUser(String extId) {
+  Map getUser(def extId) {
     try {
       return sendRequest(
         'get',
@@ -54,7 +54,7 @@ class Planado {
     }
   }
 
-  LinkedHashMap getUsers() {
+  Map getUsers() {
     try {
       return sendRequest(
         'get',
@@ -67,7 +67,7 @@ class Planado {
     }
   }
 
-  Boolean deleteUser(String extId) {
+  Boolean deleteUser(def extId) {
     try {
       sendRequest(
         "delete",
@@ -81,7 +81,7 @@ class Planado {
     }
   }
 
-  LinkedHashMap createUser(Map data) {
+  Map createUser(Map data) {
     String extId = data.extId ?: makeExtId([
       data.firstName,
       data.middleName,
@@ -94,7 +94,7 @@ class Planado {
     ])
 
     logger.info('Checking if user exists')
-    def existingUser = getUser(extId)
+    LinkedHashMap existingUser = getUser(extId)
     if (existingUser) {
       logger.info("User exists")
       return existingUser
@@ -138,7 +138,7 @@ class Planado {
     }
   }
 
-  LinkedHashMap createCompany(Map data) {
+  Map createCompany(Map data) {
     String extId = data.extId ?: makeExtId([
       data.companyName,
       data.addressStreet,
@@ -149,7 +149,7 @@ class Planado {
     ])
 
     logger.info('Checking if company exists')
-    def existingCompany = getUser(extId)
+    LinkedHashMap existingCompany = getUser(extId)
     if (existingCompany) {
       logger.info("Company exists")
       return existingCompany
@@ -195,7 +195,7 @@ class Planado {
     }
   }
 
-  Boolean deleteJob(String jobId) {
+  Boolean deleteJob(def jobId) {
     try {
       sendRequest(
         'delete',
@@ -209,12 +209,12 @@ class Planado {
     }
   }
 
-  LinkedHashMap createJob(Map data) {
+  Map createJob(Map data) {
     if (data.extId && !data.clientId) {
       data.clientId = getUser(data.extId)?.client_id
     }
     LinkedHashMap payload = [
-      template_id  : data.templateId,
+      template_id  : data.templateId.toString(),
       client_id    : data.clientId,
       scheduled_at : data.startDate,
       description  : data.description ?: ''
@@ -233,7 +233,7 @@ class Planado {
     }
   }
 
-  LinkedHashMap getJob(String jobId) {
+  Map getJob(def jobId) {
     try {
       return sendRequest(
         'get',
@@ -245,11 +245,11 @@ class Planado {
     }
   }
 
-  LinkedHashMap getJobTemplate(String templateID) {
+  Map getJobTemplate(def templateId) {
     try {
       return sendRequest(
         'get',
-        path: "templates/${templateID}.json"
+        path: "templates/${templateId}.json"
       )
     }
     catch (Exception e) {
@@ -257,7 +257,7 @@ class Planado {
     }
   }
 
-  def sendRequest(Map input, String method = 'get') {
+  def sendRequest(Map input, CharSequence method = 'get') {
     input.path = "/api/v${this.version}/${input.path}".toString()
     return http.sendRequest(input, method)
   }

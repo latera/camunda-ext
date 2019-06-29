@@ -3,11 +3,11 @@ package org.camunda.latera.bss.connectors.odoo.types
 trait Customer {
   private static String CUSTOMER_ENTITY_TYPE = 'res.partner'
 
-  def getCustomerEntityType() {
+  String getCustomerEntityType() {
     return CUSTOMER_ENTITY_TYPE
   }
 
-  LinkedHashMap getCustomerDefaultParams() {
+  Map getCustomerDefaultParams() {
     return [
       name            : null,
       email           : null,
@@ -28,7 +28,7 @@ trait Customer {
     ]
   }
 
-  LinkedHashMap getCustomerParamsMap(LinkedHashMap params) {
+  Map getCustomerParamsMap(Map params) {
     return [
       name          : params.name,
       email         : params.email,
@@ -50,35 +50,42 @@ trait Customer {
     ]
   }
 
-  LinkedHashMap getCustomerParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getCustomerDefaultParams() + input
+  Map getCustomerParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getCustomerDefaultParams() + input
     return prepareParams(this.&getCustomerParamsMap, params, additionalParams)
   }
 
-  LinkedHashMap getCustomer(def id) {
+  Map getCustomer(def id) {
     return getEntity(getCustomerEntityType(), id)
   }
 
-  List getCustomersBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  List getCustomersBy(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return getEntitiesBy(getCustomerEntityType(), params)
   }
 
-  LinkedHashMap getCustomerBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map getCustomerBy(Map input, Map additionalParams = [:]) {
     return getCustomersBy(input, additionalParams)?.getAt(0)
   }
 
-  LinkedHashMap createCustomer(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createCustomer(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return createEntity(getCustomerEntityType(), params)
   }
 
-  LinkedHashMap updateCustomer(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateCustomer(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return updateEntity(getCustomerEntityType(), id, params)
   }
 
-  LinkedHashMap updateCustomer(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+  Map updateCustomer(Map input, Map additionalParams = [:]) {
+    def id = input.id ?: input.customerId
+    input.remove('id')
+    input.remove('customerId')
+    return updateCustomer(id, input, additionalParams)
+  }
+
+  Map updateCustomer(Map input, def id, Map additionalParams = [:]) {
     return updateCustomer(id, input, additionalParams)
   }
 

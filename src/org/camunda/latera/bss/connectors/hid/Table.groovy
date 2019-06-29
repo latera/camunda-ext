@@ -1,10 +1,10 @@
 package org.camunda.latera.bss.connectors.hid
 
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.StringUtil
-import org.camunda.latera.bss.utils.ListUtil
-import org.camunda.latera.bss.utils.MapUtil
-import org.camunda.latera.bss.utils.Oracle
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.ListUtil.*
+import static org.camunda.latera.bss.utils.MapUtil.*
+import static org.camunda.latera.bss.utils.Oracle.*
 
 trait Table {
   private static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
@@ -12,20 +12,20 @@ trait Table {
   private static LinkedHashMap DEFAULT_ORDER       = [:]
   private static List          DEFAULT_FIELDS      = null
 
-  private void putTableColumnsCache(def tableName, def columnsList) {
-    if (!TABLE_COLUMNS_CACHE.containsKey(tableName)) {
-      TABLE_COLUMNS_CACHE[tableName] = columnsList
+  private void putTableColumnsCache(CharSequence tableName, List columnsList) {
+    if (!TABLE_COLUMNS_CACHE.containsKey(tableName.toString())) {
+      TABLE_COLUMNS_CACHE[tableName.toString()] = columnsList
     }
   }
 
-  private def getTableColumnsCached(def tableName) {
-    if (!TABLE_COLUMNS_CACHE.containsKey(tableName)) {
-      return TABLE_COLUMNS_CACHE[tableName]
+  private List getTableColumnsCached(CharSequence tableName) {
+    if (!TABLE_COLUMNS_CACHE.containsKey(tableName.toString())) {
+      return TABLE_COLUMNS_CACHE[tableName.toString()]
     }
     return null
   }
 
-  List getTableColumns(String tableName, String tableOwner = 'AIS_NET') {
+  List getTableColumns(CharSequence tableName, CharSequence tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
     List columnsList = getTableColumnsCached(tableFullName)
     if (columnsList) {
@@ -45,9 +45,9 @@ trait Table {
   }
 
   List getTableData(
-    String tableName,
+    CharSequence tableName,
     fields = DEFAULT_FIELDS,
-    LinkedHashMap where = DEFAULT_WHERE,
+    Map where = DEFAULT_WHERE,
     order = DEFAULT_ORDER
   ) {
     String query = "SELECT"
@@ -72,22 +72,22 @@ trait Table {
           //Allow to use same fields name several times
           field = field.replaceFirst(/^[_]+(.*)$/, '$1')
         }
-        if (MapUtil.isMap(value)) {
+        if (isMap(value)) {
           value.each { condition, content ->
             query += """
-    AND ${field} ${condition} ${ListUtil.isList(content) ? '(' + content.join(',') + ')' : content}""" // ['not in': [1,2,3]]
+    AND ${field} ${condition} ${isList(content) ? '(' + content.join(',') + ')' : content}""" // ['not in': [1,2,3]]
           }
-        } else if (ListUtil.isList(value)) {
+        } else if (isList(value)) {
           value.each { condition ->
             query += """
     AND ${field} ${condition}"""
           }
-        } else if (StringUtil.isString(value)) {
+        } else if (isString(value)) {
           query += """
     AND ${field} = '${value}'"""
-        } else if (DateTimeUtil.isDate(value)) {
+        } else if (isDate(value)) {
           query += """
-    AND ${field} = ${Oracle.encodeDateStr(value)}"""
+    AND ${field} = ${encodeDateStr(value)}"""
         } else {
           query += """
     AND ${field} = ${value}"""
@@ -99,12 +99,12 @@ trait Table {
       query += """
     ORDER BY"""
 
-      if (order instanceof LinkedHashMap) {
+      if (isMap(order)) {
         order.each { column, direction ->
         query += """
           ${column} ${direction}""" + (column == order.keySet().last() ? '' : ',')
         }
-      } else if (order instanceof List) {
+      } else if (isList(order)) {
         order.each { column ->
         query += """
           ${column}""" + (column == order.last() ? '' : ',')
@@ -114,7 +114,7 @@ trait Table {
     return queryDatabase(query, true)
   }
 
-  List getTableData(LinkedHashMap options, String tableName) {
+  List getTableData(Map options, CharSequence tableName) {
     LinkedHashMap params = [
       fields : DEFAULT_FIELDS,
       where  : DEFAULT_WHERE,
@@ -123,7 +123,7 @@ trait Table {
     return getTableData(tableName, params.fields, params.where, params.order)
   }
 
-  List getTableData(LinkedHashMap input) {
+  List getTableData(Map input) {
     LinkedHashMap params = [
       tableName : '',
       fields    : DEFAULT_FIELDS,
@@ -136,16 +136,16 @@ trait Table {
   def getTableFirst(
     String tableName,
     fields = DEFAULT_FIELDS,
-    LinkedHashMap where = DEFAULT_WHERE,
+    Map where = DEFAULT_WHERE,
     order = DEFAULT_ORDER
   ) {
-    if (fields instanceof String && fields != '*') {
+    if (isString(fields) && fields != '*') {
       return getTableData(tableName, [fields], where)?.getAt(0)?."${fields}"
     }
     return getTableData(tableName, fields, where)?.getAt(0)
   }
 
-  def getTableFirst(LinkedHashMap options, String tableName) {
+  def getTableFirst(Map options, CharSequence tableName) {
     LinkedHashMap params = [
       fields : DEFAULT_FIELDS,
       where  : DEFAULT_WHERE,
@@ -154,7 +154,7 @@ trait Table {
     return getTableFirst(tableName, params.fields, params.where, params.order)
   }
 
-  def getTableFirst(LinkedHashMap input) {
+  def getTableFirst(Map input) {
     LinkedHashMap params = [
       tableName : '',
       fields    : DEFAULT_FIELDS,

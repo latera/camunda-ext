@@ -1,18 +1,20 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.Oracle.*
+
 trait PriceOrder {
   private static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'
   private static String PRICE_LINES_TABLE  = 'SD_V_PRICE_ORDERS_C'
 
-  def getPriceOrdersTable() {
+  String getPriceOrdersTable() {
     return PRICE_ORDERS_TABLE
   }
 
-  def getPriceLinesTable() {
+  String getPriceLinesTable() {
     return PRICE_LINES_TABLE
   }
 
-  List getPriceOrdersBy(LinkedHashMap input) {
+  List getPriceOrdersBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId               : null,
       parentDocId         : null,
@@ -81,7 +83,7 @@ trait PriceOrder {
       where.t_tags = params.tags
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     if (params.taxRateId) {
@@ -111,18 +113,18 @@ trait PriceOrder {
     if (params.unschedDeferPayDays) {
       where.n_unsched_defer_pay_days = params.unschedDeferPayDays
     }
-    def order = [d_begin: 'asc']
+    LinkedHashMap order = [d_begin: 'asc']
     return hid.getTableData(getPriceOrdersTable(), where: where, order: order)
   }
 
-  LinkedHashMap getPriceOrder(def docId) {
+  Map getPriceOrder(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
     return hid.getTableData(getPriceOrdersTable(), where: where)
   }
 
-  List getPriceLinesBy(LinkedHashMap input) {
+  List getPriceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -235,7 +237,7 @@ trait PriceOrder {
     if (params.userRem) {
       where.vc_user_rem = params.userRem
     }
-    def order = [n_line_no: 'asc']
+    LinkedHashMap order = [n_line_no: 'asc']
     return hid.getTableData(getPriceLinesTable(), where: where, order: order)
   }
 
@@ -246,11 +248,11 @@ trait PriceOrder {
     return hid.getTableData(getPriceLinesTable(), where: where)
   }
 
-  LinkedHashMap getPriceLineBy(LinkedHashMap input) {
+  Map getPriceLineBy(Map input) {
     return getPriceLinesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getPriceLine(def lineId) {
+  Map getPriceLine(def lineId) {
     LinkedHashMap where = [
       n_price_line_id: lineId
     ]

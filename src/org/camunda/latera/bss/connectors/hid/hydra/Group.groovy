@@ -4,26 +4,26 @@ trait Group {
   private static String GROUPS_TABLE = 'SI_V_SUBJ_GROUPS'
   private static String GROUP_TYPE   = 'SUBJ_TYPE_Group'
 
-  def getGroupsTable() {
+  String getGroupsTable() {
     return GROUPS_TABLE
   }
 
-  def getGroupType() {
+  String getGroupType() {
     return GROUP_TYPE
   }
 
-  def getGroupTypeId() {
+  Number getGroupTypeId() {
     return getRefIdByCode(getGroupType())
   }
 
-  LinkedHashMap getGroup(def groupId) {
+  Map getGroup(def groupId) {
     LinkedHashMap where = [
       n_subject_id: groupId
     ]
     return hid.getTableFirst(getGroupsTable(), where: where)
   }
 
-  List getGroupsBy(LinkedHashMap input) {
+  List getGroupsBy(Map input) {
     LinkedHashMap params = mergeParams([
       groupId       : null,
       subjectTypeId : null,
@@ -62,13 +62,11 @@ trait Group {
     return hid.getTableData(getGroupsTable(), where: where)
   }
 
-  LinkedHashMap getGroupBy(
-    LinkedHashMap input
-  ) {
+  Map getGroupBy(Map input) {
     return getGroupsBy(input)?.getAt(0)
   }
 
-  Boolean isGroup(String entityType) {
+  Boolean isGroup(CharSequence entityType) {
     return entityType == getGroupType()
   }
 

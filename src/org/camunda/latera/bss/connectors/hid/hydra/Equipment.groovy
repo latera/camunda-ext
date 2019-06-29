@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
+import static org.camunda.latera.bss.utils.Oracle.*
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
@@ -10,62 +10,62 @@ trait Equipment {
   private static String EQUIPMENT_STATE_NOT_ACTIVE   = 'OBJ_STATE_NotActive'
   private static String EQUIPMENT_STATE_REGISTER_OFF = 'OBJ_STATE_RegisterOff'
 
-  def getObjectsTable() {
+  String getObjectsTable() {
     return OBJECTS_TABLE
   }
 
-  def getEquipmentTable() {
+  String getEquipmentTable() {
     return getObjectsTable()
   }
 
-  def getEquipmentComponentsTable() {
+  String getEquipmentComponentsTable() {
     return EQUIPMENT_COMPONENTS_TABLE
   }
 
-  def getEquipmentBindsTable() {
+  String getEquipmentBindsTable() {
     return EQUIPMENT_BINDS_TABLE
   }
 
-  def getEquipmentAddParamsTable() {
+  String getEquipmentAddParamsTable() {
     return EQUIPMENT_ADD_PARAMS_TABLE
   }
 
-  def getEquipmentStateActual() {
+  String getEquipmentStateActual() {
     return EQUIPMENT_STATE_ACTUAL
   }
 
-  def getEquipmentStateActualId() {
+  Number getEquipmentStateActualId() {
     return getRefIdByCode(getEquipmentStateActual())
   }
 
-  def getEquipmentStateNotActive() {
+  String getEquipmentStateNotActive() {
     return EQUIPMENT_STATE_NOT_ACTIVE
   }
 
-  def getEquipmentStateNotActiveId() {
+  Number getEquipmentStateNotActiveId() {
     return getRefIdByCode(getEquipmentStateNotActive())
   }
 
-  def getEquipmentStateRegisterOff() {
+  String getEquipmentStateRegisterOff() {
     return EQUIPMENT_STATE_REGISTER_OFF
   }
 
-  def getEquipmentStateRegisterOffId() {
+  Number getEquipmentStateRegisterOffId() {
     return getRefIdByCode(getEquipmentStateRegisterOff())
   }
 
-  LinkedHashMap getObject(def objectId) {
+  Map getObject(def objectId) {
     LinkedHashMap where = [
       n_object_id: objectId
     ]
     return hid.getTableFirst(getObjectsTable(), where: where)
   }
 
-  LinkedHashMap getEquipment(def equipmentId) {
+  Map getEquipment(def equipmentId) {
     return getObject(equipmentId)
   }
 
-  List getObjectsBy(LinkedHashMap input) {
+  List getObjectsBy(Map input) {
     LinkedHashMap params = mergeParams([
       equipmentId : null,
       typeId      : null,
@@ -111,19 +111,170 @@ trait Equipment {
     return hid.getTableData(getObjectsTable(), where: where)
   }
 
-  LinkedHashMap getObjectBy(LinkedHashMap input) {
-    return getObjectsBy(input)?.getAt(0) 
+  Map getObjectBy(Map input) {
+    return getObjectsBy(input)?.getAt(0)
   }
 
-  List getEquipmentsBy(LinkedHashMap input) { //Ew...
+  List getCustomerObjects(def customerId, Map input = [:]) {
+    return getObjectBy(input + [ownerId: customerId])
+  }
+
+  Map getCustomerObjects(Map input, def customerId) {
+    return getCustomerObjects(customerId, input)
+  }
+
+  List getEquipmentsBy(Map input) { //Ew...
     return getObjectsBy(input)
   }
 
-  LinkedHashMap getEquipmentBy(LinkedHashMap input) {
+  Map getCustomerEquipments(def customerId, Map input = [:]) {
+    return getCustomerObjects(customerId, input)
+  }
+
+  Map getCustomerEquipments(Map input, def customerId) {
+    return getCustomerEquipments(customerId, input)
+  }
+
+  Map getEquipmentBy(Map input) {
     return getObjectBy(input)
   }
 
-  List getEquipmentComponentsBy(LinkedHashMap input) {
+  Map getCustomerEquipment(def customerId, def equipmentId) {
+    return getEquipmentBy(ownerId: customerId, equipmentId: equipmentId)
+  }
+
+  Map putEquipment(Map input) {
+    LinkedHashMap defaultParams = [
+      equipmentId : null,
+      typeId      : null,
+      ownerId     : null,
+      code        : null,
+      name        : null,
+      extCode     : null,
+      serialNo    : null,
+      invNo       : null,
+      addressId   : null,
+      ip          : null,
+      createIp    : false,
+      mac         : null,
+      bindMainId  : null,
+      bindRoleId  : null
+    ]
+    try {
+      if (input.equipmentId) {
+        LinkedHashMap equipment = getEquipment(input.equipmentId)
+        defaultParams += [
+          equipmentId : equipment.n_object_id,
+          typeId      : equipment.n_good_id,
+          ownerId     : equipment.n_owner_id,
+          stateId     : equipment.n_obj_state_id,
+          code        : equipment.vc_code,
+          name        : equipment.vc_name,
+          extCode     : equipment.vc_code_add,
+          serialNo    : equipment.vc_serial,
+          invNo       : equipment.vc_inv_no,
+          rem         : equipment.vc_rem,
+          bindMainId  : equipment.n_main_object_id
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, input)
+
+      if (input.equipmentId) {
+        logger.info("Updating equipment with params ${params}")
+        LinkedHashMap result = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
+          num_N_OBJECT_ID        : equipment.equipmentId,
+          num_N_GOOD_ID          : equipment.typeId ?: params.goodId,
+          vch_VC_NAME            : equipment.name,
+          vch_VC_CODE            : equipment.code,
+          num_N_FIRM_ID          : equipment.firmId,
+          vch_VC_CODE_ADD        : equipment.extCode,
+          vch_VC_REM             : equipment.rem,
+          vch_VC_SERIAL          : equipment.serialNo,
+          vch_VC_INV_NO          : equipment.invNo,
+          num_N_OWNER_ID         : equipment.ownerId,
+          num_N_MAIN_OBJECT_ID   : equipment.bindMainId
+        ])
+        logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was updated successfully!")
+        return result
+      } else {
+        logger.info("Creating equipment with params ${params}")
+        LinkedHashMap result = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
+          num_N_OBJECT_ID        : params.equipmentId,
+          num_N_GOOD_ID          : params.typeId ?: params.goodId,
+          num_N_USER_ID          : params.ownerId,
+          vch_VC_CODE            : params.code,
+          vch_VC_NAME            : params.name,
+          num_N_ADDRESS_ID       : params.addressId,
+          vch_VC_IP              : params.ip,
+          b_CREATE_IP            : encodeFlag(params.createIp),
+          vch_VC_MAC             : params.mac,
+          num_N_BIND_MAIN_OBJ_ID : params.bindMainId,
+          num_N_OBJ_ROLE_ID      : params.bindRoleId
+        ])
+        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was created successfully!")
+
+        if (params.extCode || params.serialNo || params.invNo) {
+          params.equipmentId = result.num_N_OBJECT_ID
+          return updateEquipment(params)
+        }
+        return result
+      }
+    } catch (Exception e){
+      logger.error("   Error while putting new equipment!")
+      logger.error_oracle(e)
+      return null
+    }
+  }
+
+  Map createEquipment(Map input) {
+    input.remove('equipmentId')
+    return putEquipment(input)
+  }
+
+  Map createCustomerEquipment(def customerId, Map input) {
+    return createEquipment(input + [ownerId: customerId])
+  }
+
+  Map createCustomerEquipment(Map input, def customerId) {
+    return createCustomerEquipment(customerId, input)
+  }
+
+  Map updateEquipment(Map input) {
+    return putEquipment(input)
+  }
+
+  Map updateEquipment(def equipmentId, Map input) {
+    return updateEquipment(input + [equipmentId: equipmentId])
+  }
+
+  Map updateEquipment(Map input, def equipmentId) {
+    return updateEquipment(equipmentId, input)
+  }
+
+  Map putCustomerEquipment(Map input) {
+    def customerId = input.customerId ?: input.ownerId
+    input.remove('customerId')
+    input.remove('ownerId')
+    return putEquipment(input + [ownerId: customerId])
+  }
+
+  Map putCustomerEquipment(def customerId, Map input) {
+    return putCustomerEquipment(input + [customerId: customerId])
+  }
+
+  Map putCustomerEquipment(Map input, def customerId) {
+    return putCustomerEquipment(customerId, input)
+  }
+
+  Map updateCustomerEquipment(def customerId, def equipmentId, Map input) {
+    return putCustomerEquipment(customerId, input + [equipmentId: equipmentId])
+  }
+
+  Map updateCustomerEquipment(Map input, def customerId, def equipmentId) {
+    return updateCustomerEquipment(customerId, equipmentId, input)
+  }
+
+  List getEquipmentComponentsBy(Map input) {
     LinkedHashMap params = mergeParams([
       componentId     : null,
       equipmentId     : null,
@@ -162,113 +313,57 @@ trait Equipment {
     return hid.getTableData(getEquipmentComponentsTable(), where: where)
   }
 
-  LinkedHashMap getEquipmentComponentBy(LinkedHashMap input) {
+  Map getEquipmentComponentBy(Map input) {
     return getEquipmentComponentsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getEquipmentComponent(def componentId) {
+  List getEquipmentEntries(def equipmentId, Map input = [:]) {
+    return getEquipmentComponentsBy(input + [equipmentId: equipmentId])
+  }
+
+  List getEquipmentEntries(Map input, def equipmentId) {
+    return getEquipmentEntries(equipmentId, input)
+  }
+
+  Map getEquipmentComponent(def componentId) {
     return getEquipmentComponentBy(componentId: componentId)
   }
 
-  List getEquipmentBindsBy(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
-      bindId          : null,
-      mainId          : null,
-      componentId     : null,
-      bindRoleId      : null,
-      bindMainId      : null,
-      bindComponentId : null
-    ], input)
-    LinkedHashMap where = [:]
-    if (params.bindId) {
-      where.n_obj_object_id = params.bindId
-    }
-    if (params.mainId) {
-      where.n_main_object_id = params.mainId
-    }
-    if (params.componentId) {
-      where.n_object_id = params.componentId
-    }
-    if (params.bindRoleId) {
-      where.n_obj_role_id = params.bindRoleId
-    }
-    if (params.bindMainId) {
-      where.n_bind_main_obj_id = params.bindMainId
-    }
-    if (params.bindComponentId) {
-      where.n_bind_object_id = params.bindComponentId
-    }
-    return hid.getTableData(getEquipmentBindsTable(), where: where)
+  Map getEquipmentEntry(def equipmentId, def entryId) {
+    return getEquipmentComponentBy(equipmentId: equipmentId, componentId: entryId)
   }
 
-  LinkedHashMap getEquipmentBindBy(LinkedHashMap input) {
-    return getEquipmentBindsBy(input)?.getAt(0)
-  }
-
-  LinkedHashMap putEquipment(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
+  Map putEquipmentComponent(Map input) {
+    LinkedHashMap defaultParams = [
       equipmentId : null,
-      typeId      : null,
-      ownerId     : null,
-      code        : null,
-      name        : null,
-      addressId   : null,
-      ip          : null,
-      createIp    : false,
-      mac         : null,
-      bindMainId  : null,
-      bindRoleId  : null
-    ], input)
-    try {
-      logger.info("Putting equipment with params ${params}")
-      LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
-        num_N_OBJECT_ID        : params.equipmentId,
-        num_N_GOOD_ID          : params.typeId ?: params.goodId,
-        num_N_USER_ID          : params.ownerId,
-        vch_VC_CODE            : params.code,
-        vch_VC_NAME            : params.name,
-        num_N_ADDRESS_ID       : params.addressId,
-        vch_VC_IP              : params.ip,
-        b_CREATE_IP            : Oracle.encodeFlag(params.createIp),
-        vch_VC_MAC             : params.mac,
-        num_N_BIND_MAIN_OBJ_ID : params.bindMainId,
-        num_N_OBJ_ROLE_ID      : params.bindRoleId
-      ])
-      logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was put successfully!")
-      return equipment
-    } catch (Exception e){
-      logger.error("   Error while putting new equipment!")
-      logger.error_oracle(e)
-      return null
-    }
-  }
-
-  LinkedHashMap createEquipment(LinkedHashMap input) {
-    input.remove('equipmentId')
-    return putEquipment(input)
-  }
-
-  LinkedHashMap updateEquipment(def equipmentId, LinkedHashMap input) {
-    return putEquipment(input + [equipmentId: equipmentId])
-  }
-
-  LinkedHashMap putEquipmentComponent(LinkedHashMap input) {
-    LinkedHashMap params = mergeParams([
-      equipmentId : null,
+      componentId : null,
       typeId      : null,
       ownerId     : null,
       stateId     : getEquipmentStateActualId(),
       code        : null,
-      name        : null
-    ], input)
+      name        : null,
+      extCode     : null,
+      serialNo    : null,
+      invNo       : null
+    ]
     try {
+      LinkedHashMap params = mergeParams(defaultParams, input)
       if (params.typeId == null) {
-        def equipment = getEquipment(params.equipmentId)
-        def componentGood = getGoodBy(baseGoodId: equipment?.n_good_id)
+        LinkedHashMap equipment = getEquipment(params.equipmentId)
+        LinkedHashMap componentGood = getGoodBy(baseGoodId: equipment?.n_good_id)
         params.typeId = componentGood?.n_good_id
       }
-      logger.info("Putting equipment component with params ${params}")
-      LinkedHashMap component = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
+
+      if (params.entryId || params.componentId || params.equipmentComponentId) {
+        params.bindMainId  = params.equipmentId
+        params.equipmentId = params.entryId ?: params.componentId ?: params.equipmentComponentId
+        input.remove('entryId')
+        input.remove('equipmentComponentId')
+        return updateEquipment(params)
+      }
+
+      logger.info("Creating equipment component with params ${params}")
+      LinkedHashMap result = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
         num_N_SPEC_OBJECT_ID : null,
         num_N_OBJECT_ID      : params.equipmentId,
         num_N_GOOD_SPEC_ID   : params.typeId ?: params.goodId,
@@ -277,23 +372,80 @@ trait Equipment {
         vch_VC_CODE          : params.code,
         vch_VC_NAME          : params.name
       ])
-      logger.info("   Component id ${component.num_N_SPEC_OBJECT_ID} was put successfully!")
-      return component
+      logger.info("   Component id ${result.num_N_SPEC_OBJECT_ID} was created successfully!")
+
+      if (params.extCode || params.serialNo || params.invNo) {
+        params.componentId = result.num_N_SPEC_OBJECT_ID
+        return updateEquipmentComponent(params)
+      }
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting new component!")
+      logger.error("   Error while creating new component!")
       logger.error_oracle(e)
       return null
     }
   }
 
-  LinkedHashMap createEquipmentComponent(LinkedHashMap input) {
+  Map createEquipmentComponent(Map input) {
+    input.remove('entryId')
+    input.remove('componentId')
     input.remove('equipmentComponentId')
     return putEquipmentComponent(input)
   }
 
-  LinkedHashMap createEquipmentComponent(def equipmentId, LinkedHashMap input) {
+  Map createEquipmentComponent(def equipmentId, Map input) {
+    return createEquipmentComponent(input + [equipmentId: equipmentId])
+  }
+
+  Map createEquipmentComponent(Map input, def equipmentId) {
+    return createEquipmentComponent(equipmentId, input)
+  }
+
+  Map updateEquipmentComponent(Map input) {
+    return putEquipmentComponent(input)
+  }
+
+  Map updateEquipmentComponent(def equipmentId, def componentId, Map input) {
+    return updateEquipmentComponent(input + [equipmentId: equipmentId, componentId: componentId])
+  }
+
+  Map updateEquipmentComponent(Map input, def equipmentId, def componentId) {
+    return updateEquipmentComponent(equipmentId, componentId, input)
+  }
+
+  Map putEquipmentEntry(Map input) {
+    return putEquipmentComponent(input)
+  }
+
+  Map putEquipmentEntry(def equipmentId, Map input) {
+    return putEquipmentEntry(input + [equipmentId: equipmentId])
+  }
+
+  Map createEquipmentEntry(Map input) {
+    input.remove('entryId')
+    input.remove('componentId')
     input.remove('equipmentComponentId')
-    return putEquipment(input + [equipmentId: equipmentId])
+    return putEquipmentEntry(input)
+  }
+
+  Map createEquipmentEntry(def equipmentId, Map input) {
+    return createEquipmentEntry(input + [equipmentId: equipmentId])
+  }
+
+  Map createEquipmentEntry(Map input, def equipmentId) {
+    return createEquipmentComponent(input, equipmentId)
+  }
+
+  Map updateEquipmentEntry(Map input) {
+    return putEquipmentEntry(input)
+  }
+
+  Map updateEquipmentEntry(def equipmentId, def entryId, Map input) {
+    return updateEquipmentEntry(input + [equipmentId: equipmentId, componentId: componentId])
+  }
+
+  Map updateEquipmentEntry(Map input, def equipmentId, def entryId) {
+    return updateEquipmentEntry(input, equipmentId, entryId)
   }
 
   Boolean deleteEquipment(def equipmentId) {
@@ -311,44 +463,56 @@ trait Equipment {
     }
   }
 
+  Boolean deleteCustomerEquipment(def customerId, def equipmentId) {
+    return deleteEquipment(equipmentId)
+  }
+
   Boolean deleteComponent(def componentId) {
     return deleteEquipment(componentId)
   }
 
-  def getEquipmentAddParamType(def paramId) {
+  Boolean deleteEquipmentComponent(def componentId) {
+    return deleteComponent(componentId)
+  }
+
+  Boolean deleteEquipmentEntry(def equipmentId, def entryId) {
+    return deleteComponent(entryId)
+  }
+
+  Map getEquipmentAddParamType(def paramId) {
     return getGoodAddParamType(paramId)
   }
 
-  def getEquipmentAddParamTypesBy(LinkedHashMap input) {
+  List getEquipmentAddParamTypesBy(Map input) {
     return getGoodAddParamTypesBy(input)
   }
 
-  def getEquipmentAddParamTypeBy(LinkedHashMap input) {
+  Map getEquipmentAddParamTypeBy(Map input) {
     return getGoodAddParamTypeBy(input)
   }
 
-  def getEquipmentAddParamTypeByCode(String code) {
+  Map getEquipmentAddParamTypeByCode(CharSequence code) {
     return getEquipmentAddParamTypeBy(code: code)
   }
 
-  def getObjectAddParamType(def paramId) {
+  Map getObjectAddParamType(def paramId) {
     return getEquipmentAddParamType(paramId)
   }
 
-  def getObjectAddParamTypesBy(LinkedHashMap input) {
+  List getObjectAddParamTypesBy(Map input) {
     return getEquipmentAddParamTypesBy(input)
   }
 
-  def getObjectAddParamTypeBy(LinkedHashMap input) {
+  Map getObjectAddParamTypeBy(Map input) {
     return getEquipmentAddParamTypeBy(input)
   }
 
-  def getObjectAddParamTypeByCode(String code) {
+  Map getObjectAddParamTypeByCode(CharSequence code) {
     return getEquipmentAddParamTypeByCode(code)
   }
 
-  LinkedHashMap prepareEquipmentAddParam(LinkedHashMap input) {
-    def param = null
+  Map prepareEquipmentAddParam(Map input) {
+    LinkedHashMap param = null
     if (input.containsKey('param')) {
       param = getEquipmentAddParamTypeBy(input.param.toString())
       input.paramId = param?.n_good_value_type_id
@@ -356,18 +520,18 @@ trait Equipment {
     } else if (input.containsKey('paramId')) {
       param = getEquipmentAddParamType(input.paramId)
     }
-    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+    input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      def valueType = getAddParamDataType(param)
+      String valueType = getAddParamDataType(param)
       input."${valueType}" = input.value
       input.remove('value')
     }
     return input
   }
 
-  List getEquipmentAddParamsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getEquipmentAddParamsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       objValueId  : null,
       equipmentId : null,
       paramId     : null,
@@ -398,7 +562,7 @@ trait Equipment {
       where.n_value = params.number
     }
     if (params.bool != null) {
-      where.c_fl_value = Oracle.encodeBool(params.bool)
+      where.c_fl_value = encodeBool(params.bool)
     }
     if (params.refId) {
       where.n_ref_id = params.refId
@@ -406,12 +570,12 @@ trait Equipment {
     return hid.getTableData(getEquipmentAddParamsTable(), where: where)
   }
 
-  LinkedHashMap getEquipmentAddParamBy(LinkedHashMap input) {
+  Map getEquipmentAddParamBy(Map input) {
     return getEquipmentAddParamsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putEquipmentAddParam(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putEquipmentAddParam(Map input) {
+    LinkedHashMap params = mergeParams([
       objValueId  : null,
       equipmentId : null,
       paramId     : null,
@@ -438,7 +602,7 @@ trait Equipment {
         dt_D_VALUE               : params.date,
         vch_VC_VALUE             : params.string,
         num_N_VALUE              : params.number,
-        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+        ch_C_FL_VALUE            : encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
       logger.info("   Object additional value was ${params.objValueId ? 'put' : 'created'} successfully!")
@@ -450,48 +614,52 @@ trait Equipment {
     }
   }
 
-  LinkedHashMap putEquipmentComponentAddParam(LinkedHashMap input) {
+  Map putEquipmentComponentAddParam(Map input) {
     def componentId = input.componentId ?: input.equipmentId
     input.remove('componentId')
     return putEquipmentAddParam(input + [equipmentId: componentId])
   }
 
-  LinkedHashMap putObjectAddParam(LinkedHashMap input) {
+  Map putObjectAddParam(Map input) {
     return putEquipmentAddParam(input)
   }
 
-  LinkedHashMap addEquipmentAddParam(LinkedHashMap input) {
+  Map addEquipmentAddParam(Map input) {
     return putEquipmentAddParam(input)
   }
 
-  LinkedHashMap addEquipmentAddParam(def equipmentId, LinkedHashMap input) {
+  Map addEquipmentAddParam(def equipmentId, Map input) {
     return addEquipmentAddParam(input + [equipmentId: equipmentId])
   }
 
-  LinkedHashMap addEquipmentAddParam(LinkedHashMap input, def equipmentId) {
+  Map addEquipmentAddParam(Map input, def equipmentId) {
     return addEquipmentAddParam(equipmentId, input)
   }
 
-  LinkedHashMap addEquipmentComponentAddParam(LinkedHashMap input) {
+  Map addEquipmentComponentAddParam(Map input) {
     return putEquipmentComponentAddParam(input)
   }
 
-  LinkedHashMap addEquipmentComponentAddParam(def componentId, LinkedHashMap input) {
+  Map addEquipmentComponentAddParam(def componentId, Map input) {
     return addEquipmentComponentAddParam(input + [componentId: componentId])
   }
 
-  LinkedHashMap addEquipmentComponentAddParam(LinkedHashMap input, def componentId) {
+  Map addEquipmentComponentAddParam(Map input, def componentId) {
     return addEquipmentComponentAddParam(componentId, input)
   }
 
-  LinkedHashMap addObjectAddParam(LinkedHashMap input) {
+  Map addObjectAddParam(Map input) {
     def objectId = input.objectId ?: input.equipmentId
     input.remove('objectId')
     return putEquipmentAddParam(input + [equipmentId: objectId])
   }
 
-  LinkedHashMap addObjectAddParam(def objectId, LinkedHashMap input) {
+  Map addObjectAddParam(def objectId, Map input) {
     return addObjectAddParam(input + [objectId: objectId])
+  }
+
+  Map addObjectAddParam(Map input, def objectId) {
+    return addObjectAddParam(objectId, input)
   }
 
   Boolean deleteEquipmentAddParam(def objValueId) {
@@ -509,7 +677,7 @@ trait Equipment {
     }
   }
 
-  Boolean deleteEquipmentAddParam(LinkedHashMap input) {
+  Boolean deleteEquipmentAddParam(Map input) {
     def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentAddParam(objValueId)
   }
@@ -518,7 +686,7 @@ trait Equipment {
     return deleteEquipmentAddParam(objValueId)
   }
 
-  Boolean deleteEquipmentComponentAddParam(LinkedHashMap input) {
+  Boolean deleteEquipmentComponentAddParam(Map input) {
     def objValueId = getEquipmentComponentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentComponentAddParam(objValueId)
   }
@@ -527,11 +695,46 @@ trait Equipment {
     return deleteEquipmentAddParam(objValueId)
   }
 
-  Boolean deleteObjectAddParam(LinkedHashMap input) {
+  Boolean deleteObjectAddParam(Map input) {
     return deleteEquipmentAddParam(objValueId)
   }
 
-  LinkedHashMap putEquipmentBind(LinkedHashMap input) {
+  List getEquipmentBindsBy(Map input) {
+    LinkedHashMap params = mergeParams([
+      bindId          : null,
+      mainId          : null,
+      componentId     : null,
+      bindRoleId      : null,
+      bindMainId      : null,
+      bindComponentId : null
+    ], input)
+    LinkedHashMap where = [:]
+    if (params.bindId) {
+      where.n_obj_object_id = params.bindId
+    }
+    if (params.mainId) {
+      where.n_main_object_id = params.mainId
+    }
+    if (params.componentId) {
+      where.n_object_id = params.componentId
+    }
+    if (params.bindRoleId) {
+      where.n_obj_role_id = params.bindRoleId
+    }
+    if (params.bindMainId) {
+      where.n_bind_main_obj_id = params.bindMainId
+    }
+    if (params.bindComponentId) {
+      where.n_bind_object_id = params.bindComponentId
+    }
+    return hid.getTableData(getEquipmentBindsTable(), where: where)
+  }
+
+  Map getEquipmentBindBy(Map input) {
+    return getEquipmentBindsBy(input)?.getAt(0)
+  }
+
+  Map putEquipmentBind(Map input) {
     LinkedHashMap params = mergeParams([
       bindId          : null,
       mainId          : null,
@@ -559,7 +762,7 @@ trait Equipment {
     }
   }
 
-  LinkedHashMap addEquipmentBind(LinkedHashMap input) {
+  Map addEquipmentBind(Map input) {
     return putEquipmentBind(input)
   }
 

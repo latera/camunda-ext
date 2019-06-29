@@ -10,31 +10,31 @@ trait Contract {
   private static Integer ADD_AGREEMENT_TYPE = 13002 // 'DOC_TYPE_AddAgreement'
   private static Integer DEFAULT_CONTRACT_WORKFLOW_ID = 10021 // 'WFLOW_SubscriberContract'
 
-  def getContractEntityType(def parentType, def id = null) {
+  Map getContractEntityType(Map parentType, def id = null) {
     return CONTRACT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getCustomerContractEntityType(def customerId, def id = null) {
+  Map getCustomerContractEntityType(def customerId, def id = null) {
     return getContractEntityType(getCustomerEntityType(customerId), id)
   }
 
-  def getContractTypeId() {
+  Number getContractTypeId() {
     return CONTRACT_TYPE
   }
 
-  def getContractAppTypeId() {
+  Number getContractAppTypeId() {
     return CONTRACT_APP_TYPE
   }
 
-  def getAddAgreementTypeId() {
+  Number getAddAgreementTypeId() {
     return ADD_AGREEMENT_TYPE
   }
 
-  def getDefaultContractWorkflowId() {
+  Number getDefaultContractWorkflowId() {
     return DEFAULT_CONTRACT_WORKFLOW_ID
   }
 
-  LinkedHashMap getContractDefaultParams() {
+  Map getContractDefaultParams() {
     return [
       number      : null,
       providerId  : getFirmId(),
@@ -48,7 +48,7 @@ trait Contract {
     ]
   }
 
-  LinkedHashMap getContractParamsMap(LinkedHashMap params) {
+  Map getContractParamsMap(Map params) {
     return [
       vc_doc_no       : params.number,
       n_provider_id   : params.providerId,
@@ -62,38 +62,60 @@ trait Contract {
     ]
   }
 
-  LinkedHashMap getContractParams(LinkedHashMap input) {
-    def params = getContractDefaultParams() + input
-    def data   = getContractParamsMap(params)
+  Map getContractParams(Map input) {
+    LinkedHashMap params = getContractDefaultParams() + input
+    LinkedHashMap data   = getContractParamsMap(params)
     return prepareParams(data)
   }
 
-  List getCustomerContracts(def customerId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getCustomerContracts(def customerId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCustomerContractEntityType(customerId), params)
   }
 
-  LinkedHashMap getCustomerContract(def customerId, def contractId) {
+  Map getCustomerContract(def customerId, def contractId) {
     return getEntity(getCustomerContractEntityType(customerId), contractId)
   }
 
-  LinkedHashMap createCustomerContract(def customerId, LinkedHashMap input = [:]) {
+  Map createCustomerContract(def customerId, Map input = [:]) {
     LinkedHashMap params = getContractParams(input)
     params.remove('n_doc_state_id')
 
-    def result = createEntity(getCustomerContractEntityType(customerId), params)
+    LinkedHashMap result = createEntity(getCustomerContractEntityType(customerId), params)
     if (input.stateId && result.n_doc_id) {
       result = updateCustomerContract(customerId, result.n_doc_id, input)
     }
     return result
   }
 
-  LinkedHashMap updateCustomerContract(def customerId, def contractId, LinkedHashMap input) {
+  Map createCustomerContract(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return createCustomerContract(customerId, input)
+  }
+
+  Map createCustomerContract(Map input, def customerId) {
+    return createCustomerContract(customerId, input)
+  }
+
+  Map updateCustomerContract(def customerId, def contractId, Map input) {
     LinkedHashMap params = getContractParams(input)
     return updateEntity(getCustomerContractEntityType(customerId), contractId, params)
   }
 
-  LinkedHashMap putCustomerContract(def customerId, LinkedHashMap input) {
+  Map updateCustomerContract(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def contractId = input.contractId
+    input.remove('contractId')
+    return updateCustomerContract(customerId, contractId, input)
+  }
+
+  Map updateCustomerContract(Map input, def customerId, def contractId) {
+    return updateCustomerContract(customerId, contractId, input)
+  }
+
+  Map putCustomerContract(def customerId, Map input) {
     def contractId = input.contractId
     input.remove('contractId')
 
@@ -102,6 +124,12 @@ trait Contract {
     } else {
       return createCustomerContract(customerId, input)
     }
+  }
+
+  Map putCustomerContract(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return putCustomerContract(customerId, input)
   }
 
   Boolean deleteCustomerContract(def customerId, def contractId) {

@@ -2,7 +2,7 @@ package org.camunda.latera.bss.connectors
 
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import org.camunda.latera.bss.utils.Order
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
@@ -11,7 +11,6 @@ class Imprint {
   String version
   private String token
   HTTPRestProcessor http
-  LinkedHashMap headers
   SimpleLogger logger
   String locale
   DelegateExecution execution
@@ -25,7 +24,7 @@ class Imprint {
     this.url     =  ENV['IMPRINT_URL']     ?: execution.getVariable("imprintUrl")
     this.version = (ENV['IMPRINT_VERSION'] ?: execution.getVariable("imprintVersion"))?.toInteger()
     this.token   =  ENV['IMPRINT_TOKEN']   ?: execution.getVariable("imprintToken")
-    def headers = [
+    LinkedHashMap headers = [
       'X_IMPRINT_API_VERSION' : this.version,
       'X_IMPRINT_API_TOKEN'   : this.token
     ]
@@ -37,24 +36,27 @@ class Imprint {
     )
   }
 
-  def print(String template, LinkedHashMap data = [:]) {
-    this.logger.info("Printing begin...")
+  def print(CharSequence template, Map data = [:]) {
+    this.logger.info('Printing begin...')
     if (!data) {
       data = Order.getData(execution)
     }
-    def body = [
+    LinkedHashMap body = [
       template : template,
       data     : [
-                  now       : DateTimeUtil.format(DateTimeUtil.local()),
-                  today     : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.SIMPLE_DATE_FORMAT),
-                  todayFull : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.FULL_DATE_FORMAT, this.locale)
+                  now       : format(local()),
+                  today     : format(local(), SIMPLE_DATE_FORMAT),
+                  todayFull : format(local(), FULL_DATE_FORMAT, this.locale)
                 ] + data
     ]
-    def file = this.http.sendRequest(
+    return this.http.sendRequest(
       'post',
       path : '/api/print',
       body : body
     )
-    return file
+  }
+
+  def print(Map data, CharSequence template) {
+    return this.print(template, data)
   }
 }

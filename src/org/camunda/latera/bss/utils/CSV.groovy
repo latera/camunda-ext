@@ -1,9 +1,9 @@
 package org.camunda.latera.bss.utils
 
-import org.camunda.latera.bss.utils.Numeric
-import org.camunda.latera.bss.utils.StringUtil
-import org.camunda.latera.bss.utils.ListUtil
-import org.camunda.latera.bss.utils.MapUtil
+import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.ListUtil.*
+import static org.camunda.latera.bss.utils.MapUtil.*
 
 class CSV {
   static private String  DEFAULT_DELIMITER = ';'
@@ -49,14 +49,14 @@ class CSV {
   List parseLines(def lines, Integer _skipLines = skipLines) {
     List result = []
     if (lines) {
-      if (StringUtil.isString(lines)) {
+      if (isString(lines)) {
         lines = lines.replace(header.join(delimiter), '').stripIndent().trim().tokenize(linesDelimiter)
       }
-      if (ListUtil.isList(lines)) {
+      if (isList(lines)) {
         lines.drop(skipLines).each { line ->
           List item = []
-          if (StringUtil.isString(line) && StringUtil.notEmpty(line)) {
-            line = StringUtil.trim(line).tokenize(delimiter)
+          if (isString(line) && notEmpty(line)) {
+            line = trim(line).tokenize(delimiter)
             if (notHeader(line)) {
               if (header) {
                 header.eachWithIndex { column, pos ->
@@ -75,12 +75,12 @@ class CSV {
                 result << line
               }
             }
-          } else if (MapUtil.isMap(line)) {
+          } else if (isMap(line)) {
             header.eachWithIndex { column, pos ->
               item << line[column]
             }
             result << item
-          } else if (ListUtil.isList(line)) {
+          } else if (isList(line)) {
             if (notHeader(line)) {
               result << line
             }
@@ -100,9 +100,9 @@ class CSV {
   }
 
   Boolean isHeader(def line) {
-    if (StringUtil.isString(line)) {
+    if (isString(line)) {
       return line.toString() == header.join(delimiter).toString()
-    } else if (ListUtil.isList(line)) {
+    } else if (isList(line)) {
       return line == header
     }
     return false
@@ -145,12 +145,12 @@ class CSV {
     this.data = []
   }
 
-  def previous() {
+  CSV previous() {
     clear()
     return this
   }
 
-  def negative() {
+  CSV negative() {
     clear()
     return this
   }
@@ -172,8 +172,8 @@ class CSV {
     return addLines([line])
   }
 
-  def plus(def item) {
-    if (MapUtil.isMap(item)) {
+  CSV plus(def item) {
+    if (isMap(item)) {
       addLine(item)
     } else {
       addLines(item)
@@ -198,7 +198,7 @@ class CSV {
     data.eachWithIndex { line, i ->
       Boolean exists = false
       if (input.indexes) {
-        if (ListUtil.isList(input.indexes) && i in input.indexes) {
+        if (isList(input.indexes) && i in input.indexes) {
           exists = true
         }
       } else if (input.where) {
@@ -220,7 +220,7 @@ class CSV {
   }
 
   Boolean isCase(def item) {
-    if (MapUtil.isMap(item)) {
+    if (isMap(item)) {
       return isExistsWhere(item)
     }
     return isExists([item])
@@ -247,22 +247,22 @@ class CSV {
     data.eachWithIndex { line, i ->
       Boolean skip = false
       if (input.indexes) {
-        if (ListUtil.isList(input.indexes) && input.indexes.contains(i)) {
+        if (isList(input.indexes) && input.indexes.contains(i)) {
           skip = true
         }
       } else if (input.where) {
         Integer _skip = 0
-        if (MapUtil.isMap(input.where)) {
+        if (isMap(input.where)) {
           input.where.each { key, value ->
             Integer pos = header.findIndexOf { it == key }
             if (pos >= 0 && line[pos].toString() == value.toString()) {
               _skip += 1
             }
           }
-          if (_skip == MapUtil.keysCount(input.where)) {
+          if (_skip == keysCount(input.where)) {
             skip = true
           }
-        } else if (ListUtil.isList(input.where)) {
+        } else if (isList(input.where)) {
           input.where.eachWithIndex { value, column ->
             if (line[column] == value) {
               _skip += 1
@@ -281,12 +281,12 @@ class CSV {
     return data
   }
 
-  def minus(def item) {
-    if (Numeric.isInteger(item)) {
+  CSV minus(def item) {
+    if (isInteger(item)) {
       deleteLinesByIndex(item)
-    } else if (ListUtil.isList(item)) {
+    } else if (isList(item)) {
       deleteLinesByIndex(item)
-    } else if (MapUtil.isMap(item)) {
+    } else if (isMap(item)) {
       deleteLinesWhere(item)
     }
     deleteLinesByIndex([item])

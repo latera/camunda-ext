@@ -1,8 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.Oracle
-import java.time.LocalDateTime
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.*
+import java.time.temporal.Temporal
 
 trait Invoice {
   private static String  INVOICES_TABLE              = 'SD_V_INVOICES_T'
@@ -15,100 +16,100 @@ trait Invoice {
   private static String  DEFAULT_INVOICE_WORKFLOW    = 'WFLOW_Invoice'
   private static Integer DEFAULT_INVOICE_WORKFLOW_ID = 30021
 
-  def getInvoicesTable() {
+  String getInvoicesTable() {
     return INVOICES_TABLE
   }
 
-  def getGoodMovesTable() {
+  String getGoodMovesTable() {
     return GOOD_MOVES_TABLE
   }
 
-  def getInvoiceLinesTable() {
+  String getInvoiceLinesTable() {
     return INVOICE_LINES_TABLE
   }
 
-  def getInvoiceType() {
+  String getInvoiceType() {
     return INVOICE_TYPE
   }
 
-  def getInvoiceTypeId() {
+  Number getInvoiceTypeId() {
     return getRefIdByCode(getInvoiceType())
   }
 
-  def getChargeChargedType() {
+  String getChargeChargedType() {
     return CHARGE_CHARGED_TYPE
   }
 
-  def getChargeChargedTypeId() {
+  Number getChargeChargedTypeId() {
     return getRefIdByCode(getChargeChargedType())
   }
 
-  def getChargeReservedType() {
+  String getChargeReservedType() {
     return CHARGE_RESERVED_TYPE
   }
 
-  def getChargeReservedTypeId() {
+  Number getChargeReservedTypeId() {
     return getRefIdByCode(getChargeReservedType())
   }
 
-  def getChargeCanceledType() {
+  String getChargeCanceledType() {
     return CHARGE_CANCELED_TYPE
   }
 
-  def getChargeCanceledTypeId() {
+  Number getChargeCanceledTypeId() {
     return getRefIdByCode(getChargeCanceledType())
   }
 
-  def getDefaultInvoiceWorkflow() {
+  String getDefaultInvoiceWorkflow() {
     return DEFAULT_INVOICE_WORKFLOW
   }
 
-  def getDefaultInvoiceWorkflowId() {
+  Number getDefaultInvoiceWorkflowId() {
     return DEFAULT_INVOICE_WORKFLOW_ID
   }
 
-  LinkedHashMap getInvoice(def docId) {
+  Map getInvoice(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
     return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
-  List getInvoicesBy(LinkedHashMap input) {
+  List getInvoicesBy(Map input) {
     input.docTypeId = getInvoiceTypeId()
     return getDocumentsBy(input)
   }
 
-  LinkedHashMap getInvoiceBy(LinkedHashMap input) {
+  Map getInvoiceBy(Map input) {
     input.docTypeId = getInvoiceTypeId()
     return getDocumentBy(input)
   }
 
-  def getInvoiceIdBySubscription(LinkedHashMap input) {
+  Number getInvoiceIdBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
-      operationDate  : DateTimeUtil.now()
+      operationDate  : local()
     ], input)
     try {
       def docId = hid.queryFirst("""
       SELECT
         SD_INVOICES_PKG_S.GET_INVOICE_ID_BY_SUBJ_GOOD(
           num_N_SUBJ_GOOD_ID => ${params.subscriptionId},
-          dt_D_OPER => ${Oracle.encodeDateStr(params.operationDate)}
+          dt_D_OPER => ${encodeDateStr(params.operationDate)}
         )
       FROM DUAL""")[0]
-      return docId
+      return toIntSafe(docId)
     } catch (Exception e){
       logger.error_oracle(e)
       return null
     }
   }
 
-  def getInvoiceIdBySubscription(def subscriptionId, LocalDateTime operationDate = DateTimeUtil.now()) {
+  Number getInvoiceIdBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
-  LinkedHashMap getInvoiceBySubscription(LinkedHashMap input) {
+  Map getInvoiceBySubscription(Map input) {
     def docId = getInvoiceIdBySubscription(input)
     if (docId == null) {
       return null
@@ -119,11 +120,11 @@ trait Invoice {
     return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
-  LinkedHashMap getInvoiceBySubscription(def subscriptionId, LocalDateTime operationDate = DateTimeUtil.now()) {
+  Map getInvoiceBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getInvoiceBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
-  List getInvoicesBySubscription(LinkedHashMap input) {
+  List getInvoicesBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       stateId        : ['not in': [getDocumentStateCanceledId()]],
@@ -136,17 +137,17 @@ trait Invoice {
       where.n_doc_state_id = params.stateId
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     return hid.getTableData(getGoodMovesTable(), where: where)
   }
 
-  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], LocalDateTime operationDate = null) {
+  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
-  Boolean isInvoice(String entityType) {
+  Boolean isInvoice(CharSequence entityType) {
     return entityType == getInvoiceType()
   }
 
@@ -154,7 +155,7 @@ trait Invoice {
     return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
   }
 
-  Boolean changeInvoiceEnd(LinkedHashMap input) {
+  Boolean changeInvoiceEnd(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
       endDate       : null,
@@ -176,15 +177,15 @@ trait Invoice {
     }
   }
 
-  Boolean changeInvoiceEnd(def docId, LocalDateTime endDate = DateTimeUtil.now(), def closeReasonId = null) {
+  Boolean changeInvoiceEnd(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
-  Boolean closeInvoice(LinkedHashMap input) {
+  Boolean closeInvoice(Map input) {
     return changeInvoiceEnd(input)
   }
 
-  Boolean closeInvoice(def docId, LocalDateTime endDate = DateTimeUtil.now(), def closeReasonId = null) {
+  Boolean closeInvoice(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
@@ -203,7 +204,7 @@ trait Invoice {
     }
   }
 
-  List getInvoiceLinesBy(LinkedHashMap input) {
+  List getInvoiceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -332,7 +333,7 @@ trait Invoice {
     if (params.operationDate) {
       where.d_oper = params.operationDate
     }
-    def order = [n_line_no: 'asc']
+    LinkedHashMap order = [n_line_no: 'asc']
     return hid.getTableData(getInvoiceLinesTable(), where: where, order: order)
   }
 
@@ -344,11 +345,11 @@ trait Invoice {
     return hid.getTableData(getInvoiceLinesTable(), where: where)
   }
 
-  LinkedHashMap getInvoiceLineBy(LinkedHashMap input) {
+  Map getInvoiceLineBy(Map input) {
     return getInvoiceLinesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getInvoiceLine(def line) {
+  Map getInvoiceLine(def line) {
     LinkedHashMap where = [
       n_line_id: line
     ]

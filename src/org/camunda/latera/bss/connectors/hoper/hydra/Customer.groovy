@@ -6,11 +6,11 @@ trait Customer {
     plural : 'customers'
   ]
 
-  def getCustomerEntityType(def id = null) {
+  Map getCustomerEntityType(def id = null) {
     return CUSTOMER_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
-  LinkedHashMap getCustomerDefaultParams() {
+  Map getCustomerDefaultParams() {
     return [
       code          : null,
       baseSubjectId : null,
@@ -21,8 +21,8 @@ trait Customer {
     ]
   }
 
-  LinkedHashMap getCustomerParamsMap(LinkedHashMap params, LinkedHashMap additionalParams = [:]) {
-    def result = [
+  Map getCustomerParamsMap(Map params, Map additionalParams = [:]) {
+    LinkedHashMap result = [
       vc_code           : params.code,
       n_base_subject_id : params.baseSubjectId,
       n_subj_group_id   : params.groupId,
@@ -37,32 +37,32 @@ trait Customer {
     return result
   }
 
-  LinkedHashMap getCustomerParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getCustomerDefaultParams() + input
-    def data   = getCustomerParamsMap(params + additionalParams)
+  Map getCustomerParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getCustomerDefaultParams() + input
+    LinkedHashMap data   = getCustomerParamsMap(params + additionalParams)
     return prepareParams(data)
   }
 
-  List getCustomers(LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getCustomers(Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntity(getCustomerEntityType(), params)
   }
 
-  LinkedHashMap getCustomer(def id) {
+  Map getCustomer(def id) {
     return getEntity(getCustomerEntityType(), id)
   }
 
-  LinkedHashMap createCustomer(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createCustomer(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return createEntity(getCustomerEntityType(), params)
   }
 
-  LinkedHashMap updateCustomer(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateCustomer(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerParams(input, additionalParams)
     return updateEntity(getCustomerEntityType(), id, params)
   }
 
-  LinkedHashMap putCustomer(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map putCustomer(Map input, Map additionalParams = [:]) {
     def customerId = input.customerId
     input.remove('customerId')
 

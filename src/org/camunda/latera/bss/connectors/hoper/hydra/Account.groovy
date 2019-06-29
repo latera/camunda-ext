@@ -7,19 +7,19 @@ trait Account {
   ]
   private static Integer DEFAULT_CURRENCY_ID = 1044 // 'CURR_Ruble'
 
-  def getAccountEntityType(def parentType, def id = null) {
+  Map getAccountEntityType(Map parentType, def id = null) {
     return ACCOUNT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getCustomerAccountEntityType(def customerId, def id = null) {
+  Map getCustomerAccountEntityType(def customerId, def id = null) {
     return getAccountEntityType(getCustomerEntityType(customerId), id)
   }
 
-  def getDefaultCurrencyId() {
+  Number getDefaultCurrencyId() {
     return DEFAULT_CURRENCY_ID
   }
 
-  LinkedHashMap getAccountDefaultParams() {
+  Map getAccountDefaultParams() {
     return [
       code         : null,
       name         : null,
@@ -30,7 +30,7 @@ trait Account {
     ]
   }
 
-  LinkedHashMap getAccountParamsMap(LinkedHashMap params) {
+  Map getAccountParamsMap(Map params) {
     return [
       vc_code            : params.code,
       vc_name            : params.name,
@@ -41,32 +41,54 @@ trait Account {
     ]
   }
 
-  LinkedHashMap getAccountParams(LinkedHashMap input) {
-    def params = getAccountDefaultParams() + input
-    def data   = getAccountParamsMap(params)
+  Map getAccountParams(Map input) {
+    LinkedHashMap params = getAccountDefaultParams() + input
+    LinkedHashMap data   = getAccountParamsMap(params)
     return prepareParams(data)
   }
 
-  List getCustomerAccounts(def customerId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getCustomerAccounts(def customerId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCustomerAccountEntityType(customerId), params)
   }
 
-  LinkedHashMap getCustomerAccount(def customerId, def accountId) {
+  Map getCustomerAccount(def customerId, def accountId) {
     return getEntity(getCustomerAccountEntityType(customerId), accountId)
   }
 
-  LinkedHashMap createCustomerAccount(def customerId, LinkedHashMap input = [:]) {
+  Map createCustomerAccount(def customerId, Map input = [:]) {
     LinkedHashMap params = getAccountParams(input)
     return createEntity(getCustomerAccountEntityType(customerId), params)
   }
 
-  LinkedHashMap updateCustomerAccount(def customerId, def accountId, LinkedHashMap input) {
+  Map createCustomerAccount(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return createCustomerAccount(customerId, input)
+  }
+
+  Map createCustomerAccount(Map input, def customerId) {
+    return createCustomerAccount(customerId, input)
+  }
+
+  Map updateCustomerAccount(def customerId, def accountId, Map input) {
     LinkedHashMap params = getAccountParams(input)
     return updateEntity(getCustomerAccountEntityType(customerId), accountId, params)
   }
 
-  LinkedHashMap putCustomerAccount(def customerId, LinkedHashMap input) {
+  Map updateCustomerAccount(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def accountId  = input.accountId
+    input.remove('accountId')
+    return updateCustomerAccount(customerId, accountId, input)
+  }
+
+  Map updateCustomerAccount(Map input, def customerId, def accountId) {
+    return updateCustomerAccount(customerId, accountId, input)
+  }
+
+  Map putCustomerAccount(def customerId, Map input) {
     def accountId = input.accountId
     input.remove('accountId')
 
@@ -75,6 +97,16 @@ trait Account {
     } else {
       return createCustomerAccount(customerId, input)
     }
+  }
+
+  Map putCustomerAccount(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return putCustomerAccount(customerId, input)
+  }
+
+  Map putCustomerAccount(Map input, def customerId) {
+    return putCustomerAccount(customerId, input)
   }
 
   Boolean deleteCustomerAccount(def customerId, def accountId) {

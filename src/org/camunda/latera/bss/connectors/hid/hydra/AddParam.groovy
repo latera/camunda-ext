@@ -1,9 +1,10 @@
 package org.camunda.latera.bss.connectors.hid.hydra
-import org.camunda.latera.bss.utils.Numeric
+
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 trait AddParam {
-  def getAddParamDataType(LinkedHashMap param) {
-    def typeId = Numeric.toIntSafe(param.n_data_type_id)
+  String getAddParamDataType(Map param) {
+    Number typeId = toIntSafe(param.n_data_type_id)
     if (typeId == getStringTypeId()) {
       return 'string'
     } else if (typeId == getBooleanTypeId()) {

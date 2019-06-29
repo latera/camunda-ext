@@ -3,15 +3,15 @@ package org.camunda.latera.bss.connectors.minio
 import java.io.InputStream
 import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.utils.IO
-import org.camunda.latera.bss.utils.StringUtil
 import org.camunda.latera.bss.utils.Base64Converter
+import static org.camunda.latera.bss.utils.StringUtil.*
 import io.minio.errors.MinioException
 
 trait File {
-  List getFiles(String bucketName = defaultBucketName, String prefix = '') {
-    def result = []
+  List getFiles(CharSequence bucketName = defaultBucketName, CharSequence prefix = '') {
+    List result = []
     try {
-      def files = client.listObjects(bucketName ?: defaultBucketName, prefix)
+      List files = client.listObjects(bucketName ?: defaultBucketName, prefix)
       for (def file : files) {
         def item = file.get()
         result += [
@@ -30,7 +30,7 @@ trait File {
     return result
   }
 
-  def getFilesRaw(String bucketName = defaultBucketName, String prefix = '') {
+  def getFilesRaw(CharSequence bucketName = defaultBucketName, CharSequence prefix = '') {
     try {
       return client.listObjects(bucketName ?: defaultBucketName, prefix)
     } catch (MinioException e) {
@@ -39,7 +39,7 @@ trait File {
     }
   }
 
-  InputStream getFile(String bucketName, String fileName) {
+  InputStream getFile(CharSequence bucketName, CharSequence fileName) {
     try {
       return client.getObject(bucketName ?: defaultBucketName, fileName)
     } catch (MinioException e) {
@@ -48,11 +48,11 @@ trait File {
     }
   }
 
-  InputStream getFile(String fileName) {
+  InputStream getFile(CharSequence fileName) {
     return getFile(defaultBucketName, fileName)
   }
 
-  byte[] getFileContent(String bucketName, String fileName) {
+  byte[] getFileContent(CharSequence bucketName, CharSequence fileName) {
     try {
       def stream = getFile(bucketName, fileName)
       if (stream) {
@@ -66,15 +66,15 @@ trait File {
     }
   }
 
-  byte[] getFileContent(String fileName) {
+  byte[] getFileContent(CharSequence fileName) {
     return getFileContent(defaultBucketName, fileName)
   }
 
-  String getFileBase64Content(String bucketName, String fileName) {
+  String getFileBase64Content(CharSequence bucketName, CharSequence fileName) {
     try {
       def content = getFileContent(bucketName, fileName)
       if (content) {
-        return Base64Converter.to(getFileContent(bucketName, fileName))
+        return Base64Converter.to(content)
       } else {
         return null
       }
@@ -84,12 +84,12 @@ trait File {
     }
   }
 
-  String getFileBase64Content(String fileName) {
+  String getFileBase64Content(CharSequence fileName) {
     return getFileBase64Content(defaultBucketName, fileName)
   }
 
-  Boolean isFileExists(String bucketName, String fileName) {
-    def result = false
+  Boolean isFileExists(CharSequence bucketName, CharSequence fileName) {
+    Boolean result = false
     try {
       logger.info("Checking file with name ${fileName} exists in bucket ${bucketName}")
       if (client.statObject(name).length() > 0) {
@@ -104,11 +104,11 @@ trait File {
     return result
   }
 
-  Boolean isFileExists(String fileName) {
+  Boolean isFileExists(CharSequence fileName) {
     return isFileExists(defaultBucketName, fileName)
   }
 
-  LinkedHashMap getFileMetadata(String bucketName, String fileName) {
+  Map getFileMetadata(CharSequence bucketName, CharSequence fileName) {
     try {
       return getFiles(bucketName ?: defaultBucketName, filename)?.getAt(0)
     } catch (MinioException e) {
@@ -117,15 +117,15 @@ trait File {
     }
   }
 
-  LinkedHashMap getFileMetadata(String fileName) {
+  Map getFileMetadata(CharSequence fileName) {
     return getFileMetadata(defaultBucketName, fileName)
   }
 
-  Boolean createFile(String bucketName, String fileName, def data) {
+  Boolean createFile(CharSequence bucketName, CharSequence fileName, def data) {
     // data can be byte[], String (with base464) or InputStream
     try {
       logger.info("Creating file with name ${fileName} in bucket ${bucketName}")
-      if (StringUtil.isString(data)) {
+      if (isString(data)) {
         data = Base64Converter.from(data)
       }
       if (data instanceof byte[]) {
@@ -141,19 +141,19 @@ trait File {
     }
   }
 
-  Boolean createFile(String fileName, def data) {
+  Boolean createFile(CharSequence fileName, def data) {
     return createFile(defaultBucketName, fileName, data)
   }
 
-  Boolean putFile(String bucketName, String fileName, def data) {
+  Boolean putFile(CharSequence bucketName, CharSequence fileName, def data) {
     return createFile(bucketName, fileName, data)
   }
 
-  Boolean putFile(String fileName, def data) {
+  Boolean putFile(CharSequence fileName, def data) {
     return putFile(defaultBucketName, fileName, data)
   }
 
-  Boolean copyFile(String srcBucketName, String srcFileName, String destBucketName, String destFileName) {
+  Boolean copyFile(CharSequence srcBucketName, CharSequence srcFileName, CharSequence destBucketName, CharSequence destFileName) {
     try {
       if (srcBucketName == destBucketName && srcFileName == destFileName) {
         logger.error("Cannot copy file ${srcFileName} from bucket ${srcBucketName} to itself!")
@@ -172,8 +172,8 @@ trait File {
     return copyObject(srcBucketName, srcFileName, destBucketName, destFileName)
   }
 
-  Boolean copyFile(LinkedHashMap input) {
-    def params = [
+  Boolean copyFile(Map input) {
+    LinkedHashMap params = [
       srcBucketName  : defaultBucketName,
       srcFileName    : null,
       destBucketName : null,
@@ -187,20 +187,20 @@ trait File {
     return copyFile(params.srcBucketName, params.srcFileName, params.destBucketName, params.destFileName)
   }
 
-  Boolean moveFile(String srcBucketName, String srcFileName, String destBucketName, String destFileName) {
+  Boolean moveFile(CharSequence srcBucketName, CharSequence srcFileName, CharSequence destBucketName, CharSequence destFileName) {
     if (srcBucketName == destBucketName && srcFileName == destFileName) {
       logger.error("Trying to move file ${srcFileName} from bucket ${srcBucketName} to itself, nothing to do")
       return true
     }
-    def result = copyFile(srcBucketName, srcFileName, destBucketName, destFileName)
+    Boolean result = copyFile(srcBucketName, srcFileName, destBucketName, destFileName)
     if (result) {
       result = deleteFile(srcBucketName, srcFileName)
     }
     return result
   }
 
-  Boolean moveFile(LinkedHashMap input) {
-    def params = [
+  Boolean moveFile(Map input) {
+    LinkedHashMap params = [
       srcBucketName  : defaultBucketName,
       srcFileName    : null,
       destBucketName : null,
@@ -214,7 +214,7 @@ trait File {
     return moveFile(params.srcBucketName, params.srcFileName, params.destBucketName, params.destFileName)
   }
 
-  Boolean deleteFile(String bucketName, String fileName) {
+  Boolean deleteFile(CharSequence bucketName, CharSequence fileName) {
     try {
       logger.info("Deleting file with name ${fileName} from bucket ${bucketName}")
       client.removeFile(bucketName, fileName)
@@ -227,11 +227,11 @@ trait File {
     }
   }
 
-  Boolean deleteFile(String fileName) {
+  Boolean deleteFile(CharSequence fileName) {
     return deleteFile(defaultBucketName, fileName)
   }
 
-  Boolean deleteFiles(String bucketName, List fileNames) {
+  Boolean deleteFiles(CharSequence bucketName, List fileNames) {
     try {
       logger.info("Deleting files ${fileNames} from bucket ${bucketName}")
       client.removeFiles(bucketName, fileNames)

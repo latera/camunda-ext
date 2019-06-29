@@ -6,7 +6,6 @@ import org.camunda.latera.bss.connectors.HOMS
 
 class FinishOrder implements ExecutionListener {
   void notify(DelegateExecution execution) {
-    def homs = new HOMS(execution)
-    homs.finishOrder()
+    new HOMS(execution).finishOrder()
   }
 }

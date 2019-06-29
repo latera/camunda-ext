@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Numeric
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 trait Ref {
   private static LinkedHashMap REFS_CACHE = [null: null]
@@ -9,38 +9,38 @@ trait Ref {
   private static String UNKNOWN_UNIT      = 'UNIT_Unknown'
   private static String PIECE_UNIT        = 'UNIT_Piece'
 
-  def getRefsTable() {
+  String getRefsTable() {
     return REFS_TABLE
   }
 
-  private void putRefCache(def code, def refId) {
-    if (!REFS_CACHE.containsKey(code)) {
-      REFS_CACHE[code] = Numeric.toIntSafe(refId)
+  private void putRefCache(CharSequence code, def refId) {
+    if (!REFS_CACHE.containsKey(code.toString())) {
+      REFS_CACHE[code.toString()] = toIntSafe(refId)
     }
   }
 
-  private def getRefIdCached(def code) {
-    if (REFS_CACHE.containsKey(code)) {
-      return REFS_CACHE[code]
+  private Number getRefIdCached(CharSequence code) {
+    if (REFS_CACHE.containsKey(code.toString())) {
+      return REFS_CACHE[code.toString()]
     }
     return null
   }
 
-  private def getRefCodeCached(def id) {
+  private String getRefCodeCached(def id) {
     if (REFS_CACHE.containsValue(id)) {
       return REFS_CACHE.find{it.value == id}?.key
     }
     return null
   }
 
-  LinkedHashMap getRef(def refId) {
+  Map getRef(def refId) {
     LinkedHashMap where = [
       n_ref_id: refId
     ]
     return hid.getTableFirst(getRefsTable(), where: where)
   }
 
-  List getRefsBy(LinkedHashMap input) {
+  List getRefsBy(Map input) {
     LinkedHashMap params = mergeParams([
       refId      : null,
       refTypeId  : null,
@@ -126,7 +126,7 @@ trait Ref {
       where.c_fl_manual = Oracle.encodeBool(params.isManual)
     }
 
-    def result = hid.getTableData(getRefsTable(), where: where)
+    List result = hid.getTableData(getRefsTable(), where: where)
     if (result) {
       result.each { ref ->
         putRefCache(ref.vc_code, ref.n_ref_id)
@@ -135,47 +135,47 @@ trait Ref {
     return result
   }
 
-  LinkedHashMap getRefBy(LinkedHashMap input) {
+  Map getRefBy(Map input) {
     return getRefsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getRefByCode(def code) {
+  Map getRefByCode(CharSequence code) {
     return getRefBy(code: code)
   }
 
-  LinkedHashMap getRefByName(def code) {
+  Map getRefByName(CharSequence name) {
     return getRefBy(name: name)
   }
 
-  def getRefIdByCode(def code) {
+  Number getRefIdByCode(CharSequence code) {
     def id = getRefIdCached(code)
     if (id) {
       return id
     }
 
-    def where = [
+    LinkedHashMap where = [
       vc_code: code
     ]
-    id = Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
+    id = toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
     putRefCache(code, id)
     return id
   }
 
-  def getRefIdByName(def name) {
-    def where = [
+  Number getRefIdByName(CharSequence name) {
+    LinkedHashMap where = [
       vc_name: name
     ]
-    return Numeric.toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
+    return toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
   }
 
   String getRefCode(def id) {
-    id = Numeric.toIntSafe(id)
-    def code = getRefCodeCached(id)
+    id = toIntSafe(id)
+    String code = getRefCodeCached(id)
     if (code) {
       return code
     }
 
-    def where = [
+    LinkedHashMap where = [
       n_ref_id: id
     ]
     code = hid.getTableFirst(getRefsTable(), 'vc_code', where)
@@ -195,27 +195,27 @@ trait Ref {
     return getRefName(id)
   }
 
-  def getDefaultCurrency() {
+  String getDefaultCurrency() {
     return DEFAULT_CURRENCY
   }
 
-  def getDefaultCurrencyId() {
+  Number getDefaultCurrencyId() {
     return getRefIdByCode(getDefaultCurrency())
   }
 
-  def getUnknownUnit() {
+  String getUnknownUnit() {
     return UNKNOWN_UNIT
   }
 
-  def getUnknownUnitId() {
+  Number getUnknownUnitId() {
     return getRefIdByCode(getUnknownUnit())
   }
 
-  def getPieceUnit() {
+  String getPieceUnit() {
     return PIECE_UNIT
   }
 
-  def getPieceUnitId() {
+  Number getPieceUnitId() {
     return getRefIdByCode(getPieceUnit())
   }
 }

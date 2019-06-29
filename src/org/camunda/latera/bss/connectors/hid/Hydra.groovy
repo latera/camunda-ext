@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid
 
 import groovy.net.xmlrpc.*
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.HID
@@ -41,8 +42,8 @@ class Hydra implements Ref, DataType, AddParam, Good, Document, Contract, PriceO
 
     this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: 'hydra'
     this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
-    this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())
-    this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
+    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
+    this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',
@@ -57,10 +58,7 @@ class Hydra implements Ref, DataType, AddParam, Good, Document, Contract, PriceO
     ])
   }
 
-  LinkedHashMap mergeParams(
-    LinkedHashMap initial,
-    LinkedHashMap input
-  ) {
+  Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
 
     //If it is set opf instead of opfId, get proper reference ids from Hydra
@@ -86,15 +84,15 @@ class Hydra implements Ref, DataType, AddParam, Good, Document, Contract, PriceO
     return result
   }
 
-  def getDefaultFirmId() {
+  Number getDefaultFirmId() {
     return DEFAULT_FIRM
   }
 
-  def getFirmId() {
+  Number getFirmId() {
     return firmId
   }
 
-  def getResellerId() {
+  Number getResellerId() {
     return resellerId
   }
 

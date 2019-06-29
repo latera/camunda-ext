@@ -1,8 +1,5 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
-
 trait DataType {
   private static String STRING_TYPE  = 'DATA_TYPE_Varchar'
   private static String BOOLEAN_TYPE = 'DATA_TYPE_Char'
@@ -14,118 +11,118 @@ trait DataType {
   private static String CLOB_TYPE    = 'DATA_TYPE_Clob'
   private static String HTML_TYPE    = 'DATA_TYPE_HTML'
 
-  def getStringType() {
+  String getStringType() {
     return STRING_TYPE
   }
 
-  def getStringTypeId() {
+  Number getStringTypeId() {
     return getRefIdByCode(getStringType())
   }
 
-  def getBooleanType() {
+  String getBooleanType() {
     return BOOLEAN_TYPE
   }
 
-  def getBooleanTypeId() {
+  Number getBooleanTypeId() {
     return getRefIdByCode(getBooleanType())
   }
 
-  def getBoolType() {
+  String getBoolType() {
     return getBooleanType()
   }
 
-  def getBoolTypeId() {
+  Number getBoolTypeId() {
     return getBooleanTypeId()
   }
 
-  def getFloatType() {
+  String getFloatType() {
     return FLOAT_TYPE
   }
 
-  def getFloatTypeId() {
+  Number getFloatTypeId() {
     return getRefIdByCode(getFloatType())
   }
 
-  def getIntegerType() {
+  String getIntegerType() {
     return INTEGER_TYPE
   }
 
-  def getIntegerTypeId() {
+  Number getIntegerTypeId() {
     return getRefIdByCode(getIntegerType())
   }
 
-  def getDateType() {
+  String getDateType() {
     return DATE_TYPE
   }
 
-  def getDateTypeId() {
+  Number getDateTypeId() {
     return getRefIdByCode(getDateType())
   }
 
-  def getDateTimeType() {
+  String getDateTimeType() {
     return getDateType()
   }
 
-  def getDateTimeTypeId() {
+  Number getDateTimeTypeId() {
     return getDateTypeId()
   }
 
-  def getRefType() {
+  String getRefType() {
     return REF_TYPE
   }
 
-  def getRefTypeId() {
+  Number getRefTypeId() {
     return getRefIdByCode(getRefType())
   }
 
-  def getFlagType() {
+  String getFlagType() {
     return FLAG_TYPE
   }
 
-  def getFlagTypeId() {
+  Number getFlagTypeId() {
     return getRefIdByCode(getFlagType())
   }
 
-  def getCLOBType() {
+  String getCLOBType() {
     return CLOB_TYPE
   }
 
-  def getCLOBTypeId() {
+  Number getCLOBTypeId() {
     return getRefIdByCode(getClobType())
   }
 
-  def getClobType() {
+  String getClobType() {
     return getCLOBType()
   }
 
-  def getClobTypeId() {
+  Number getClobTypeId() {
     return getCLOBTypeId()
   }
 
-  def getHTMLType() {
+  String getHTMLType() {
     return HTML_TYPE
   }
 
-  def getHTMLTypeId() {
+  Number getHTMLTypeId() {
     return getRefIdByCode(getHTMLType())
   }
 
-  def getHtmlType() {
+  String getHtmlType() {
     return getHTMLType()
   }
 
-  def getHtmlTypeId() {
+  Number getHtmlTypeId() {
     return getHTMLTypeId()
   }
 
-  def detectDataType(def value) {
+  String detectDataType(def value) {
     if (value instanceof Boolean) {
       return 'bool'
-    } else if (value instanceof BigInteger) {
+    } else if (isInteger(value)) {
       return 'refId'
-    } else if (value instanceof String) {
+    } else if (isString(value)) {
       return 'string'
-    } else if (DateTimeUtil.isDate(value)) {
+    } else if (isDate(value)) {
       return 'date'
     } else {
       return 'number'

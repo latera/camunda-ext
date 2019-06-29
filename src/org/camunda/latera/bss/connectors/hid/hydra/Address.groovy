@@ -1,7 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import java.time.temporal.Temporal
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
@@ -22,51 +24,51 @@ trait Address {
   ]
   private static List ADDRESS_ITEMS_NAMES = ADDRESS_ITEMS.keySet() as List
 
-  def getMainAddressesTable() {
+  String getMainAddressesTable() {
     return MAIN_ADDRESSES_TABLE
   }
 
-  def getSubjectAddressesTable() {
+  String getSubjectAddressesTable() {
     return SUBJECT_ADDRESSES_TABLE
   }
 
-  def getObjectAddressesTable() {
+  String getObjectAddressesTable() {
     return OBJECT_ADDRESSES_TABLE
   }
 
-  def getDefaultAddressType() {
-    return DEFAULT_ADDRESS_TYPE
-  }
-
-  def getAddressItems() {
+  Map getAddressItems() {
     return ADDRESS_ITEMS
   }
 
-  def getAddressItemsNames() {
+  List getAddressItemsNames() {
     return ADDRESS_ITEMS_NAMES
   }
 
-  def getDefaultAddressTypeId() {
+  String getDefaultAddressType() {
+    return DEFAULT_ADDRESS_TYPE
+  }
+
+  Number getDefaultAddressTypeId() {
     return getRefIdByCode(getDefaultAddressType())
   }
 
-  def getDefaultAddressBindType() {
+  String getDefaultAddressBindType() {
     return DEFAULT_ADDRESS_BIND_TYPE
   }
 
-  def getDefaultAddressBindTypeId() {
+  Number getDefaultAddressBindTypeId() {
     return getRefIdByCode(getDefaultAddressBindType())
   }
 
-  def getDefaultAddressState() {
+  String getDefaultAddressState() {
     return DEFAULT_ADDRESS_STATE
   }
 
-  def getDefaultAddressStateId() {
+  Number getDefaultAddressStateId() {
     return getRefIdByCode(getDefaultAddressState())
   }
 
-  List getObjAddressesBy(LinkedHashMap input) {
+  List getObjAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       objAddressId    : null,
       objectId        : null,
@@ -132,7 +134,7 @@ trait Address {
       where.n_addr_state_id = params.stateId
     }
     if (params.isMain != null) {
-      where.c_fl_main = Oracle.encodeBool(params.isMain)
+      where.c_fl_main = encodeBool(params.isMain)
     }
     // Only for objects addresses
     if (params.beginDate) {
@@ -142,27 +144,27 @@ trait Address {
       where.d_end = params.endDate
     }
     if (!params.operationDate && !params.endDate && !params.beginDate) {
-      params.operationDate = DateTimeUtil.now()
+      params.operationDate = local()
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
     return hid.getTableData(getObjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
   }
 
-  LinkedHashMap getObjAddressBy(LinkedHashMap input) {
+  Map getObjAddressBy(Map input) {
     return getObjAddressesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getObjAddress(def objAddressId) {
-    def where = [
+  Map getObjAddress(def objAddressId) {
+    LinkedHashMap where = [
       n_obj_address_id: objAddressId
     ]
     return hid.getTableData(getObjectAddressesTable(), where: where)
   }
 
-  List getSubjAddressesBy(LinkedHashMap input) {
+  List getSubjAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjAddressId   : null,
       subjectId       : null,
@@ -225,23 +227,23 @@ trait Address {
       where.n_addr_state_id = params.stateId
     }
     if (params.isMain != null) {
-      where.c_fl_main = Oracle.encodeBool(params.isMain)
+      where.c_fl_main = encodeBool(params.isMain)
     }
     return hid.getTableData(getSubjectAddressesTable(), where: where, order: ['C_FL_MAIN DESC'])
   }
 
-  LinkedHashMap getSubjAddressBy(LinkedHashMap input) {
+  Map getSubjAddressBy(Map input) {
     return getSubjAddressesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getSubjAddress(def subjAddressId) {
-    def where = [
+  Map getSubjAddress(def subjAddressId) {
+    LinkedHashMap where = [
       n_subj_address_id: subjAddressId
     ]
     return hid.getTableData(getSubjectAddressesTable(), where: where)
   }
 
-  List getEntityAddressesBy(LinkedHashMap input) {
+  List getEntityAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
       entityTypeId    : null,
@@ -276,11 +278,11 @@ trait Address {
     }
   }
 
-  LinkedHashMap getEntityAddressBy(LinkedHashMap input) {
+  Map getEntityAddressBy(Map input) {
     return getEntityAddressesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
+  Map getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
     Boolean isSubj = isSubject(entityOrEntityTypeId)
 
     if (isSubj) {
@@ -290,7 +292,7 @@ trait Address {
     }
   }
 
-  List getAddressesBy(LinkedHashMap input) {
+  List getAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       addressId    : null,
       addrTypeId   : getDefaultAddressTypeId(),
@@ -342,18 +344,18 @@ trait Address {
     return hid.getTableData(getMainAddressesTable(), where: where, order: ['N_ADDRESS_ID ASC'])
   }
 
-  LinkedHashMap getAddressBy(LinkedHashMap input) {
+  Map getAddressBy(Map input) {
     return getAddressesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getAddress(def addressId) {
-    def where = [
+  Map getAddress(def addressId) {
+    LinkedHashMap where = [
       n_address_id: addressId
     ]
-    return hid.getTableData(getMainAddressesTable(), where: where)
+    return hid.getTableFirst(getMainAddressesTable(), where: where)
   }
 
-  LinkedHashMap putSubjAddress(LinkedHashMap input) {
+  Map putSubjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       subjAddressId  : null,
       addressId      : null,
@@ -384,7 +386,7 @@ trait Address {
           vch_VC_FLAT             : params.flat,
           num_N_ENTRANCE_NO       : params.entrance,
           num_N_FLOOR_NO          : params.floor,
-          ch_C_FL_MAIN            : Oracle.encodeBool(params.isMain),
+          ch_C_FL_MAIN            : encodeBool(params.isMain),
           num_N_ADDR_STATE_ID     : params.stateId,
           vch_VC_REM              : params.rem
       ])
@@ -397,7 +399,7 @@ trait Address {
     }
   }
 
-  LinkedHashMap putObjAddress(LinkedHashMap input) {
+  Map putObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       objAddressId   : null,
       addressId      : null,
@@ -413,7 +415,7 @@ trait Address {
       rem            : null,
       stateId        : getDefaultAddressStateId(),
       isMain         : null,
-      beginDate      : DateTimeUtil.now(),
+      beginDate      : local(),
       endDate        : null
     ], input)
     try {
@@ -430,8 +432,8 @@ trait Address {
           vch_VC_FLAT            : params.flat,
           num_N_ENTRANCE_NO      : params.entrance,
           num_N_FLOOR_NO         : params.floor,
-          ch_C_FL_MAIN           : Oracle.encodeBool(params.isMain),
-          dt_D_BEGIN             : params.beginDate ?: DateTimeUtil.now(),
+          ch_C_FL_MAIN           : encodeBool(params.isMain),
+          dt_D_BEGIN             : params.beginDate ?: local(),
           dt_D_END               : params.endDate,
           num_N_ADDR_STATE_ID    : params.stateId,
           vch_VC_REM             : params.rem
@@ -445,7 +447,7 @@ trait Address {
     }
   }
 
-  LinkedHashMap putEntityAddress(LinkedHashMap input) {
+  Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
       entityId        : null,
@@ -462,7 +464,7 @@ trait Address {
       rem             : null,
       stateId         : getDefaultAddressStateId(),
       isMain          : null,
-      beginDate       : DateTimeUtil.now(),
+      beginDate       : local(),
       endDate         : null
     ], input)
 
@@ -471,7 +473,7 @@ trait Address {
     if (isSubj) {
       params.subjAddressId = params.entityAddressId
       params.subjectId     = params.entityId
-      def address = putSubjAddress(params)
+      LinkedHashMap address = putSubjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_SUBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_SUBJECT_ID
@@ -480,7 +482,7 @@ trait Address {
     } else {
       params.objAddressId  = params.entityAddressId
       params.objectId      = params.entityId
-      def address = putObjAddress(params)
+      LinkedHashMap address = putObjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_OBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_OBJECT_ID
@@ -489,46 +491,130 @@ trait Address {
     }
   }
 
-  LinkedHashMap createSubjAddress(LinkedHashMap input) {
+  Map putPersonAddress(def personId, Map input) {
+    return putSubjAddress(input + [subjectId: personId])
+  }
+
+  Map putPersonAddress(Map input, def personId) {
+    return putPersonAddress(personId, input)
+  }
+
+  Map putCompanyAddress(def companyId, Map input) {
+    return putSubjAddress(input + [subjectId: companyId])
+  }
+
+  Map putCompanyAddress(Map input, def companyId) {
+    return putCompanyAddress(companyId, input)
+  }
+
+  Map createSubjAddress(Map input) {
     input.remove('subjAddressId')
     return putSubjAddress(input)
   }
 
-  LinkedHashMap createObjAddress(LinkedHashMap input) {
+  Map createObjAddress(Map input) {
     input.remove('objAddressId')
     return putObjAddress(input)
   }
 
-  LinkedHashMap createEntityAddress(LinkedHashMap input) {
+  Map createEntityAddress(Map input) {
     input.remove('entityAddressId')
     return putEntityAddress(input)
   }
 
-  LinkedHashMap createSubjAddress(def subjectId, LinkedHashMap input) {
+  Map createSubjAddress(def subjectId, Map input) {
     return putSubjAddress(input + [subjectId: subjectId])
   }
 
-  LinkedHashMap createObjAddress(def objectId, LinkedHashMap input) {
+  Map createSubjAddress(Map input, def subjectId) {
+    return createSubjAddress(subjectId, input)
+  }
+
+  Map createPersonAddress(def personId, Map input) {
+    return createSubjAddress(personId, input)
+  }
+
+  Map createPersonAddress(Map input, def personId) {
+    return createPersonAddress(personId, input)
+  }
+
+  Map createCompanyAddress(def companyId, Map input) {
+    return createSubjAddress(companyId, input)
+  }
+
+  Map createCompanyAddress(Map input, def companyId) {
+    return createCompanyAddress(companyId, input)
+  }
+
+  Map createObjAddress(def objectId, Map input) {
     return putObjAddress(input + [objectId: objectId])
   }
 
-  LinkedHashMap createEntityAddress(def entityId, LinkedHashMap input) {
+  Map createObjAddress(Map input, def objectId) {
+    return createObjAddress(objectId, input)
+  }
+
+  Map createEntityAddress(def entityId, Map input) {
     return putEntityAddress(input + [entityId: entityId])
   }
 
-  LinkedHashMap updateSubjAddress(def subjAddressId, LinkedHashMap input) {
+  Map createEntityAddress(Map input, def entityId) {
+    return createEntityAddress(entityId, input)
+  }
+
+  Map updateSubjAddress(Map input) {
+    return putSubjAddress(input)
+  }
+
+  Map updateObjAddress(Map input) {
+    return putObjAddress(input)
+  }
+
+  Map updateEntityAddress(Map input) {
+    return putEntityAddress(input)
+  }
+
+  Map updateSubjAddress(def subjAddressId, Map input) {
     return putSubjAddress(input + [subjAddressId: subjAddressId])
   }
 
-  LinkedHashMap updateObjAddress(def objAddressId, LinkedHashMap input) {
+  Map updateSubjAddress(Map input, def subjAddressId) {
+    return updateSubjAddress(subjAddressId, input)
+  }
+
+  Map updatePersonAddress(def personId, def subjAddressId, Map input) {
+    return updateSubjAddress(subjAddressId, input)
+  }
+
+  Map updatePersonAddress(Map input, def personId, def subjAddressId) {
+    return updatePersonAddress(personId, subjAddressId, input)
+  }
+
+  Map updateCompanyAddress(def companyId, def subjAddressId, Map input) {
+    return updateSubjAddress(subjAddressId, input)
+  }
+
+  Map updateCompanyAddress(Map input, def companyId, def subjAddressId) {
+    return updateCompanyAddress(companyId, subjAddressId, input)
+  }
+
+  Map updateObjAddress(def objAddressId, Map input) {
     return putObjAddress(input + [objAddressId: objAddressId])
   }
 
-  LinkedHashMap updateEntityAddress(def entityAddressId, LinkedHashMap input) {
+  Map updateObjAddress(Map input, def objAddressId) {
+    return updateObjAddress(objAddressId, input)
+  }
+
+  Map updateEntityAddress(def entityAddressId, Map input) {
     return putEntityAddress(input + [entityAddressId: entityAddressId])
   }
 
-  List getAddressItemsValues(LinkedHashMap input) {
+  Map updateEntityAddress(Map input, def entityAddressId) {
+    return updateEntityAddress(entityAddressId, input)
+  }
+
+  List getAddressItemsValues(Map input) {
     List addressItemsValues = []
     getAddressItems().each{ type, value ->
       addressItemsValues.add([value, 'N', input[type] ?: ""])
@@ -536,16 +622,16 @@ trait Address {
     return addressItemsValues
   }
 
-  String calcAddress(LinkedHashMap input) {
+  String calcAddress(Map input) {
     String address = ''
 
     List regionItemsValues = getRegionItemsValues(input)
 
     if(regionItemsValues){
-      def result = regionItemsValues + getAddressItemsValues(input)
+      List result = regionItemsValues + getAddressItemsValues(input)
       result.eachWithIndex{ it, i ->
         String  part  = it[0]
-        Boolean after = Oracle.decodeBool(it[1])
+        Boolean after = decodeBool(it[1])
         String  name  = it[2]
         if (name != null && name != '' && name != ' ' && name != 'null'){
           String item = (!after ? (part ?  part + ' ' : '') : '') + name + (after ? (part ?  ' ' + part : '') : '')
@@ -586,7 +672,7 @@ trait Address {
     }
   }
 
-  Boolean deleteEntityAddress(LinkedHashMap input) {
+  Boolean deleteEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
       entityTypeId    : null,
@@ -604,7 +690,7 @@ trait Address {
       if (params.entityTypeId || params.entityId) {
         isSubj = isSubject(params.entityTypeId ?: params.entityId)
       } else {
-        def objAddress = getEntityAddresses(
+        LinkedHashMap objAddress = getEntityAddress(
           entityAddressId : params.entityAddressId,
           entityId        : params.entityId,
           addressId       : params.addressId,
@@ -613,7 +699,7 @@ trait Address {
           stateId         : params.stateId,
           isMain          : params.isMain
         )
-        def subjAddress = getEntityAddresses(
+        LinkedHashMap subjAddress = getEntityAddress(
           entityType      : 'SUBJ_TYPE_Company',
           entityAddressId : params.entityAddressId,
           entityId        : params.entityId,
@@ -662,9 +748,17 @@ trait Address {
     }
   }
 
+  Boolean deletePersonAddress(def personId, def subjAddressId) {
+    return deleteSubjAddress(subjAddressId)
+  }
+
+  Boolean deleteCompanyAddress(def companyId, def subjAddressId) {
+    return deleteSubjAddress(subjAddressId)
+  }
+
   Boolean closeObjAddress(
     def objAddressId,
-    def endDate = DateTimeUtil.now()
+    Temporal endDate = local()
   ) {
     try {
       logger.info("Closing object address id ${objAddressId} with end date ${endDate}")
@@ -681,7 +775,7 @@ trait Address {
     }
   }
 
-  Boolean closeObjAddress(LinkedHashMap input) {
+  Boolean closeObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
       addressId       : null,
@@ -690,7 +784,7 @@ trait Address {
       addrTypeId      : null,
       stateId         : getDefaultAddressStateId(),
       isMain          : null,
-      endDate         : DateTimeUtil.now()
+      endDate         : local()
     ], input)
 
     if (!params.entityAddressId) {
@@ -713,20 +807,20 @@ trait Address {
     return closeObjAddress(params.entityAddressId, params.endDate)
   }
 
-  Boolean closeEntityAddress(LinkedHashMap input) {
+  Boolean closeEntityAddress(Map input) {
     return closeObjAddress(input)
   }
 
-  List getFreeIPAddresses(LinkedHashMap input) {
+  List getFreeIPAddresses(Map input) {
     LinkedHashMap params = mergeParams([
       groupId         : null,
       subnetAddressId : null,
-      operationDate   : DateTimeUtil.now(),
+      operationDate   : local(),
       firmId          : getFirmId()
     ], input)
 
-    def addresses = []
-    def date = Oracle.encodeDateStr(params.operationDate)
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
 
     try {
       if (groupId) {
@@ -767,8 +861,8 @@ trait Address {
     return addresses
   }
 
-  LinkedHashMap getFreeIPAddress(LinkedHashMap input) {
-    def result = getFreeIPAddresses(input)
+  Map getFreeIPAddress(Map input) {
+    List result = getFreeIPAddresses(input)
     if (result) {
       return result.getAt(0)
     } else {
@@ -776,20 +870,20 @@ trait Address {
     }
   }
 
-  String getFreeIP(LinkedHashMap input) {
+  String getFreeIP(Map input) {
     return getFreeIPAddress(input)?.vc_ip
   }
 
-  List getFreeTelephoneNumbers(LinkedHashMap input) {
+  List getFreeTelephoneNumbers(Map input) {
     LinkedHashMap params = mergeParams([
       groupId       : null,
       telCodeId     : null,
-      operationDate : DateTimeUtil.now(),
+      operationDate : local(),
       firmId        : getFirmId()
     ], input)
 
-    def addresses = []
-    def date = Oracle.encodeDateStr(params.operationDate)
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
 
     try {
       if (params.groupId) {
@@ -830,8 +924,8 @@ trait Address {
     return addresses
   }
 
-  LinkedHashMap getFreeTelephoneNumber(LinkedHashMap input) {
-    def result = getFreeTelephoneNumbers(input)
+  Map getFreeTelephoneNumber(Map input) {
+    List result = getFreeTelephoneNumbers(input)
     if (result) {
       return result.getAt(0)
     } else {
@@ -839,23 +933,23 @@ trait Address {
     }
   }
 
-  String getFreePhoneNumber(LinkedHashMap input) {
+  String getFreePhoneNumber(Map input) {
     return getFreeTelephoneNumber(input)?.vc_phone_number
   }
 
-  List getFreeSubnetAddresses(LinkedHashMap input) {
+  List getFreeSubnetAddresses(Map input) {
     LinkedHashMap params = mergeParams([
       groupId       : null,
       rootId        : null,
       mask          : null,
-      operationDate : DateTimeUtil.now(),
+      operationDate : local(),
       firmId        : getFirmId()
     ], input)
 
-    def addresses = []
-    def date = Oracle.encodeDateStr(params.operationDate)
-    def filter = params.mask ? "SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}'" : '1=1'
-    def notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
+    String filter = params.mask ? "SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}'" : '1=1'
+    String notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
       SELECT 1
       FROM
           SI_V_OBJ_ADDRESSES OA
@@ -864,7 +958,7 @@ trait Address {
       AND OA.N_ADDRESS_ID        = FA.N_ADDRESS_ID
       AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
     )"""
-    def notAssignedChild = params.mask != '30' ? """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+    String notAssignedChild = params.mask != '30' ? """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
       SELECT 1
       FROM
           SI_V_OBJ_ADDRESSES OA,
@@ -936,8 +1030,8 @@ trait Address {
     return addresses
   }
 
-  LinkedHashMap getFreeSubnetAddress(LinkedHashMap input) {
-    def result = getFreeSubnetAddresses(input)
+  Map getFreeSubnetAddress(Map input) {
+    List result = getFreeSubnetAddresses(input)
     if (result) {
       return result.getAt(0)
     } else {
@@ -945,11 +1039,11 @@ trait Address {
     }
   }
 
-  String getFreeSubnet(LinkedHashMap input) {
+  String getFreeSubnet(Map input) {
     return getFreeSubnetAddress(input)?.vc_subnet
   }
 
-  def getSubnetIdByIP(String ip) {
+  Number getSubnetIdByIP(CharSequence ip) {
     def subnetId = null
     try {
       subnetId = hid.queryFirst("""
@@ -959,12 +1053,12 @@ trait Address {
     } catch (Exception e){
       logger.error_oracle(e)
     }
-    return subnetId
+    return toIntSafe(subnetId)
   }
 
-  String getSubnetByIP(String ip) {
+  String getSubnetByIP(CharSequence ip) {
     def subnetId = getSubnetIdByIP(ip)
-    def subnet = null
+    LinkedHashMap subnet = null
     if (subnetId) {
       subnet = getAddress(addressId: subnetId, addrType: 'ADDR_TYPE_SUBNET')?.vc_code
     }
@@ -972,7 +1066,7 @@ trait Address {
   }
 
   String getSubnetMaskById(def subnetId) {
-    def mask = ''
+    String mask = ''
     try {
       mask = hid.queryFirst("""
         SELECT SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(SI_ADDRESSES_PKG_S.GET_N_MASK_BY_SUBNET(${subnetId}))
@@ -984,8 +1078,8 @@ trait Address {
     return mask
   }
 
-  String getSubnetMask(String subnet) {
-    def mask = ''
+  String getSubnetMask(CharSequence subnet) {
+    String mask = ''
     def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
     if (subnetId) {
       mask = getSubnetMaskById(subnetId)
@@ -993,18 +1087,18 @@ trait Address {
     return mask
   }
 
-  List getParentSubnetAddresses(LinkedHashMap input) {
+  List getParentSubnetAddresses(Map input) {
     LinkedHashMap params = mergeParams([
       addressId     : null,
       code          : null,
       mask          : null,
-      operationDate : DateTimeUtil.now(),
+      operationDate : local(),
       firmId        : getFirmId()
     ], input)
 
-    def addresses = []
-    def date = Oracle.encodeDateStr(params.operationDate)
-    def startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
+    String startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
 
     try {
       addresses = hid.queryDatabase("""
@@ -1034,17 +1128,17 @@ trait Address {
     return addresses
   }
 
-  LinkedHashMap getVLANAddressBySubnet(LinkedHashMap input) {
+  Map getVLANAddressBySubnet(Map input) {
     LinkedHashMap params = mergeParams([
       addressId     : null,
       code          : null,
-      operationDate : DateTimeUtil.now(),
+      operationDate : local(),
       firmId        : getFirmId()
     ], input)
 
-    def address = null
-    def date = Oracle.encodeDateStr(params.operationDate)
-    def startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
+    LinkedHashMap address = null
+    String date = encodeDateStr(params.operationDate)
+    String startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
 
     try {
       address = hid.queryFirst("""
@@ -1092,7 +1186,7 @@ trait Address {
     return address
   }
 
-  String getVLANBySubnet(LinkedHashMap input) {
+  String getVLANBySubnet(Map input) {
     return getVLANAddressBySubnet(input)?.vc_vlan
   }
 }

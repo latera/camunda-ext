@@ -27,8 +27,8 @@ class Hoper {
     )
   }
 
-  private def authToken() {
-    def auth = [
+  private String authToken() {
+    LinkedHashMap auth = [
       session: [
         login    : this.user,
         password : this.password
@@ -43,12 +43,12 @@ class Hoper {
     )?.session?.token
   }
 
-  private def authBasic() {
-    def auth = "${this.user}:${this.password}"
+  private String authBasic() {
+    String auth = "${this.user}:${this.password}"
     return Base64Converter.to(auth)
   }
 
-  private def authHeader() {
+  private Map authHeader() {
     if (this.version == 1) {
       return ['Authorization': "Basic ${this.authBasic()}"]
     }
@@ -58,7 +58,7 @@ class Hoper {
     return []
   }
 
-  def sendRequest(LinkedHashMap input, String method = 'get') {
+  def sendRequest(Map input, CharSequence method = 'get') {
     if (!input.headers) {
       input.headers = [:]
     }

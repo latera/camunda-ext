@@ -1,32 +1,34 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.*
+
 trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'
   private static String GOOD_ADD_PARAM_TYPES_TABLE = 'SR_V_GOOD_VALUES_TYPE'
   private static String SERV_SCHEMES_TABLE         = 'SR_V_SERV_SCHEMES'
 
-  def getGoodsTable() {
+  String getGoodsTable() {
     return GOODS_TABLE
   }
 
-  def getGoodAddParamsTable() {
+  String getGoodAddParamsTable() {
     return GOOD_ADD_PARAMS_TABLE
   }
 
-  def getGoodAddParamTypesTable() {
+  String getGoodAddParamTypesTable() {
     return GOOD_ADD_PARAM_TYPES_TABLE
   }
 
-  LinkedHashMap getGood(def goodId) {
+  Map getGood(def goodId) {
     LinkedHashMap where = [
       n_good_id: goodId
     ]
-    return hid.getTableData(getGoodsTable(), where: where)
+    return hid.getTableFirst(getGoodsTable(), where: where)
   }
 
-  List getGoodsBy(LinkedHashMap input) {
+  List getGoodsBy(Map input) {
     LinkedHashMap params = mergeParams([
       goodId     : null,
       kindId     : null,
@@ -67,34 +69,34 @@ trait Good {
       where.vc_name = params.name
     }
     if (params.isProvider != null) {
-      where.c_fl_provider_equipment = Oracle.encodeBool(params.isProvider)
+      where.c_fl_provider_equipment = encodeBool(params.isProvider)
     }
     if (params.isCustomer != null) {
-      where.c_fl_customer_equipment = Oracle.encodeBool(params.isCustomer)
+      where.c_fl_customer_equipment = encodeBool(params.isCustomer)
     }
     return hid.getTableData(getGoodsTable(), where: where)
   }
 
-  LinkedHashMap getGoodBy(LinkedHashMap input) {
+  Map getGoodBy(Map input) {
     return getGoodsBy(input)?.getAt(0)
   }
 
-  def getGoodUnitId(def goodId) {
+  Number getGoodUnitId(def goodId) {
     LinkedHashMap where = [
       n_good_id: goodId
     ]
-    return getGood(goodId).n_unit_id
+    return toIntSafe(getGood(goodId).n_unit_id)
   }
 
-  LinkedHashMap getGoodAddParamType(def paramId) {
-    def where = [
+  Map getGoodAddParamType(def paramId) {
+    LinkedHashMap where = [
       n_good_value_type_id: paramId
     ]
     return hid.getTableData(getGoodAddParamTypesTable(), where: where)
   }
 
-  List getGoodAddParamTypesBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getGoodAddParamTypesBy(Map input) {
+    LinkedHashMap params = mergeParams([
       goodValueTypeId : null,
       goodId          : null,
       dataTypeId      : null,
@@ -127,31 +129,31 @@ trait Good {
       where.n_ref_type_id = params.refTypeId ?: params.refId
     }
     if (params.canModify != null) {
-      where.c_can_modify = Oracle.encodeBool(params.canModify)
+      where.c_can_modify = encodeBool(params.canModify)
     }
     if (params.isMulti != null) {
-      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+      where.c_fl_multi = encodeBool(params.isMulti)
     }
     if (params.isObject != null) {
-      where.c_fl_object = Oracle.encodeBool(params.isObject)
+      where.c_fl_object = encodeBool(params.isObject)
     }
     return hid.getTableData(getGoodAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getGoodAddParamTypeBy(LinkedHashMap input) {
+  Map getGoodAddParamTypeBy(Map input) {
     return getGoodAddParamTypesBy(input)?.getAt(0)
   }
 
-  def getGoodAddParamTypeByCode(String code) {
+  Map getGoodAddParamTypeByCode(CharSequence code) {
     return getGoodAddParamTypeBy(code: code)
   }
 
-  def getGoodAddParamTypeIdByCode(String code) {
-    return getGoodAddParamTypeByCode(code)?.n_good_value_type_id
+  Number getGoodAddParamTypeIdByCode(CharSequence code) {
+    return toIntSafe(getGoodAddParamTypeByCode(code)?.n_good_value_type_id)
   }
 
-  LinkedHashMap prepareGoodAddParam(LinkedHashMap input) {
-    def param = null
+  Map prepareGoodAddParam(Map input) {
+    LinkedHashMap param = null
     if (input.containsKey('param')) {
       param = getGoodAddParamTypeByCode(input.param.toString())
       input.paramId = param?.n_good_value_type_id
@@ -159,18 +161,18 @@ trait Good {
     } else if (input.containsKey('paramId')) {
       param = getGoodAddParamType(input.paramId)
     }
-    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+    input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      def valueType = getAddParamDataType(param)
+      String valueType = getAddParamDataType(param)
       input."${valueType}" = input.value
       input.remove('value')
     }
     return input
   }
 
-  List getGoodAddParamsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getGoodAddParamsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       goodId  : null,
       paramId : null,
       date    : null,
@@ -197,7 +199,7 @@ trait Good {
       where.n_value = params.number
     }
     if (params.bool != null) {
-      where.c_fl_value = Oracle.encodeBool(params.bool)
+      where.c_fl_value = encodeBool(params.bool)
     }
     if (params.refId) {
       where.n_ref_id = params.refId
@@ -205,22 +207,22 @@ trait Good {
     return hid.getTableData(getGoodAddParamsTable(), where: where)
   }
 
-  LinkedHashMap getGoodAddParamBy(LinkedHashMap input) {
+  Map getGoodAddParamBy(Map input) {
     return getGoodAddParamsBy(input)?.getAt(0)
   }
 
-  def getServSchemesTable() {
+  String getServSchemesTable() {
     return SERV_SCHEMES_TABLE
   }
 
-  LinkedHashMap getServSchemes(def servSchemeId) {
+  Map getServSchemes(def servSchemeId) {
     LinkedHashMap where = [
       n_serv_scheme_id: servSchemeId
     ]
     return hid.getTableData(getServSchemesTable(), where: where)
   }
 
-  List getServSchemesBy(LinkedHashMap input) {
+  List getServSchemesBy(Map input) {
     LinkedHashMap params = mergeParams([
       servSchemeId           : null,
       code                   : null,
@@ -303,7 +305,7 @@ trait Good {
       where.n_aggr_perion_value = params.aggrPeriod
     }
     if (params.isArchivingEnabled != null) {
-      where.c_fl_enable_archiving = Oracle.encodeBool(params.isArchivingEnabled)
+      where.c_fl_enable_archiving = encodeBool(params.isArchivingEnabled)
     }
     if (params.expPeriodUnitId) {
       where.n_exp_period_unit_id = params.expPeriodUnitId
@@ -312,7 +314,7 @@ trait Good {
       where.n_exp_period_value = params.expPeriod
     }
     if (params.isArchiveGroupedByAddr != null) {
-      where.c_fl_arch_group_addr = Oracle.encodeBool(params.isArchiveGroupedByAddr)
+      where.c_fl_arch_group_addr = encodeBool(params.isArchiveGroupedByAddr)
     }
     if (params.providingPointId) {
       where.n_providion_point_id = params.providingPointId
@@ -333,13 +335,13 @@ trait Good {
       where.n_matching_priority_id = params.matchingPriorityId
     }
     if (params.isArchived != null) {
-      where.c_fl_archived = Oracle.encodeBool(params.isArchived)
+      where.c_fl_archived = encodeBool(params.isArchived)
     }
 
     return hid.getTableData(getServSchemesTable(), where: where)
   }
 
-  LinkedHashMap getServSchemeBy(LinkedHashMap input) {
+  Map getServSchemeBy(Map input) {
     return getServSchemesBy(input)?.getAt(0)
   }
 }

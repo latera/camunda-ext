@@ -1,34 +1,36 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.Numeric.*
+
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
   private static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
 
-  def getPersonType() {
+  String getPersonType() {
     return PERSON_TYPE
   }
 
-  def getPersonTypeId() {
+  Number getPersonTypeId() {
     return getRefIdByCode(getPersonType())
   }
 
-  def getPersonsTable() {
+  String getPersonsTable() {
     return PERSONS_TABLE
   }
 
-  def getPersonsPrivateTable() {
+  String getPersonsPrivateTable() {
     return PERSONS_PRIVATE_TABLE
   }
 
-  LinkedHashMap getPerson(def personId) {
+  Map getPerson(def personId) {
     LinkedHashMap where = [
       n_subject_id: personId
     ]
     return hid.getTableFirst(getPersonsTable(), where: where)
   }
 
-  List getPersonsBy(LinkedHashMap input) {
+  List getPersonsBy(Map input) {
     LinkedHashMap params = mergeParams([
       personId   : null,
       regionId   : null,
@@ -96,18 +98,18 @@ trait Person {
     return hid.getTableData(getPersonsTable(), where: where)
   }
 
-  LinkedHashMap getPersonBy(LinkedHashMap input) {
+  Map getPersonBy(Map input) {
     return getPersonsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getPersonPrivate(def subjectId) {
+  Map getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
     ]
     return hid.getTableFirst(getPersonsPrivateTable(), where: where)
   }
 
-  Boolean isPerson(String entityType) {
+  Boolean isPerson(CharSequence entityType) {
     return entityType == getPersonType()
   }
 
@@ -115,16 +117,24 @@ trait Person {
     return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
   }
 
-  LinkedHashMap createPerson(LinkedHashMap input) {
+  Map createPerson(Map input) {
     input.remove('personId')
     return putPerson(input)
   }
 
-  LinkedHashMap updatePerson(def personId, LinkedHashMap input) {
+  Map updatePerson(Map input) {
+    return putPerson(input)
+  }
+
+  Map updatePerson(def personId, Map input) {
     return putPerson(input + [personId: personId])
   }
 
-  LinkedHashMap putPerson(LinkedHashMap input) {
+  Map updatePerson(Map input, def personId) {
+    return updatePerson(personId, input)
+  }
+
+  Map putPerson(Map input) {
     LinkedHashMap params = mergeParams([
       personId      : null,
       firstName     : null,
@@ -178,11 +188,11 @@ trait Person {
     }
   }
 
-  def getPersonAddParamTypeIdByCode(String code) {
-    return getSubjectAddParamTypeIdByCode(code, getCompanyTypeId())
+  Number getPersonAddParamTypeIdByCode(CharSequence code) {
+    return toIntSafe(getSubjectAddParamTypeIdByCode(code, getCompanyTypeId()))
   }
 
-  List getPersonAddParamsBy(LinkedHashMap input) {
+  List getPersonAddParamsBy(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
       input.remove('personId')
@@ -190,7 +200,7 @@ trait Person {
     return getSubjectAddParamsBy(input)
   }
 
-  LinkedHashMap getPersonAddParamBy(LinkedHashMap input) {
+  Map getPersonAddParamBy(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
       input.remove('personId')
@@ -198,7 +208,7 @@ trait Person {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putPersonAddParam(LinkedHashMap input) {
+  Boolean putPersonAddParam(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
       input.remove('personId')
@@ -206,11 +216,15 @@ trait Person {
     return putSubjectAddParam(input)
   }
 
-  Boolean addPersonAddParam(LinkedHashMap input) {
+  Boolean addPersonAddParam(Map input) {
     return putPersonAddParam(input)
   }
 
-  Boolean addPersonAddParam(def personId, LinkedHashMap input) {
+  Boolean addPersonAddParam(def personId, Map input) {
     return putPersonAddParam(input + [personId: personId])
+  }
+
+  Boolean addPersonAddParam(Map input, def personId) {
+    return putPersonAddParam(personId, input)
   }
 }

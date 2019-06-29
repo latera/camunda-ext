@@ -4,11 +4,11 @@ trait Country {
   private static String COUNTRY_ENTITY_TYPE       = 'res.country'
   private static String COUNTRY_STATE_ENTITY_TYPE = 'res.country_state'
 
-  def getCountryEntityType() {
+  String getCountryEntityType() {
     return COUNTRY_ENTITY_TYPE
   }
 
-  LinkedHashMap getCountryDefaultParams() {
+  Map getCountryDefaultParams() {
     return [
       code          : null,
       name          : null,
@@ -19,7 +19,7 @@ trait Country {
     ]
   }
 
-  LinkedHashMap getCountryParamsMap(LinkedHashMap params) {
+  Map getCountryParamsMap(Map params) {
     return [
       code           : params.code,
       name           : params.name,
@@ -30,35 +30,42 @@ trait Country {
     ]
   }
 
-  LinkedHashMap getCountryParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getCountryDefaultParams() + input
+  Map getCountryParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getCountryDefaultParams() + input
     return prepareParams(this.&getCountryParamsMap, params, additionalParams)
   }
 
-  LinkedHashMap getCountry(def id) {
+  Map getCountry(def id) {
     return getEntity(getCountryEntityType(), id)
   }
 
-  List getCountriesBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  List getCountriesBy(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryParams(input, additionalParams)
     return getEntitiesBy(getCountryEntityType(), params)
   }
 
-  LinkedHashMap getCountryBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map getCountryBy(Map input, Map additionalParams = [:]) {
     return getCountriesBy(input, additionalParams)?.getAt(0)
   }
 
-  LinkedHashMap createCountry(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createCountry(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryParams(input, additionalParams)
     return createEntity(getCountryEntityType(), params)
   }
 
-  LinkedHashMap updateCountry(def id, LinkedHashMap data, LinkedHashMap additionalParams = [:]) {
+  Map updateCountry(def id, Map data, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryParams(input, additionalParams)
     return updateEntity(getCountryEntityType(), id, params)
   }
 
-  LinkedHashMap updateCountry(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+  Map updateCountry(Map input, Map additionalParams = [:]) {
+    def id = input.id ?: input.countryId
+    input.remove('id')
+    input.remove('countryId')
+    return updateCountry(id, input, additionalParams)
+  }
+
+  Map updateCountry(Map input, def id, Map additionalParams = [:]) {
     return updateCountry(id, input, additionalParams)
   }
 
@@ -66,11 +73,11 @@ trait Country {
     return deleteEntity(getCountryEntityType(), id)
   }
 
-  def getCountryStateEntityType() {
+  String getCountryStateEntityType() {
     return COUNTRY_STATE_ENTITY_TYPE
   }
 
-  LinkedHashMap getCountryStateDefaultParams() {
+  Map getCountryStateDefaultParams() {
     return [
       code      : null,
       name      : null,
@@ -78,7 +85,7 @@ trait Country {
     ]
   }
 
-  LinkedHashMap getCountryStateParamsMap(LinkedHashMap params) {
+  Map getCountryStateParamsMap(Map params) {
     return [
       code       : input.code,
       name       : input.name,
@@ -86,35 +93,35 @@ trait Country {
     ]
   }
 
-  LinkedHashMap getCountryStateParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getCountryStateDefaultParams() + input
+  Map getCountryStateParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getCountryStateDefaultParams() + input
     return prepareParams(this.&getCountryStateParamsMap, params, additionalParams)
   }
 
-  LinkedHashMap getCountryState(def id) {
+  Map getCountryState(def id) {
     return getEntity(getCountryStateEntityType(), id)
   }
 
-  List getCountryStatesBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  List getCountryStatesBy(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryStateParams(input, additionalParams)
     return getEntitiesBy(getCountryStateEntityType(), params)
   }
 
-  LinkedHashMap getCountryStateBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map getCountryStateBy(Map input, Map additionalParams = [:]) {
     return getCountryStatesBy(input, additionalParams)?.getAt(0)
   }
 
-  LinkedHashMap createCountryState(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createCountryState(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryStateParams(input, additionalParams)
     return createEntity(getCountryStateEntityType(), params)
   }
 
-  LinkedHashMap updateCountryState(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateCountryState(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryStateParams(input, additionalParams)
     return updateEntity(getCountryStateEntityType(), id, params)
   }
 
-  LinkedHashMap updateCountryState(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+  Map updateCountryState(Map input, def id, Map additionalParams = [:]) {
     return updateCountryState(id, input, additionalParams)
   }
 

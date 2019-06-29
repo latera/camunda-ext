@@ -25,61 +25,61 @@ class StringUtil {
     return false
   }
 
-  static byte[] unicodeToVarchar(String input) {
+  static byte[] unicodeToVarchar(CharSequence input) {
     if (input) {
       return input.getBytes(Charset.forName("ISO-8859-1"))
     }
     return null
   }
 
-  static String varcharToUnicode(String input) {
+  static String varcharToUnicode(CharSequence input) {
     if (input) {
       return new String(input.getBytes(Charset.forName("ISO-8859-1")), "UTF-8")
     }
     return null
   }
 
-  static byte[] unicodeToCP1251(String input) {
+  static byte[] unicodeToCP1251(CharSequence input) {
     if (input) {
       return input.getBytes(Charset.forName("CP1251"))
     }
     return null
   }
 
-  static String cp1251ToUnicode(String input) {
+  static String cp1251ToUnicode(CharSequence input) {
     if (input) {
       return new String(input.getBytes(Charset.forName("CP1251")), "UTF-8")
     }
     return null
   }
 
-  static String camelize(String input, Boolean firstUpper = false) {
-    def words = input.split(/_/);
+  static String camelize(CharSequence input, Boolean firstUpper = false) {
+    List words = input.split(/_/);
     String first = firstUpper ? capitalize(words[0]) : words[0].toLowerCase();
     StringBuilder builder = new StringBuilder(first);
-    for (int i = 1; i < words.length; i++) {
+    for (int i = 1; i < words.size(); i++) {
       builder.append(capitalize(words[i]))
     }
     return builder.toString()
   }
 
-  static String camelize(LinkedHashMap options, String input) {
+  static String camelize(Map options, CharSequence input) {
     return camelize(input, options.firstUpper)
   }
 
-  static String snakeCase(String input) {
-    return input.replaceAll(/([A-Z])/,/_$1/).toLowerCase().replaceAll(/^_/,'')
+  static String snakeCase(CharSequence input) {
+    return input.replaceAll(/([A-Z])/,/_$1/).toLowerCase().replaceAll(/^_/,'').toString()
   }
 
-  static String capitalize(String input){
-    return input?.capitalize()
+  static String capitalize(CharSequence input){
+    return input?.capitalize().toString()
   }
 
-  static String decapitalize(String input){
-    if (input.length() == 0) {
+  static String decapitalize(CharSequence input){
+    if (input.size() == 0) {
       return ''
-    } else if (input.length() == 1) {
-      return input.toLowerCase()
+    } else if (input.size() == 1) {
+      return input.toLowerCase().toString()
     } else {
       return (input?.getAt(0).toLowerCase() + input?.substring(1)).toString()
     }

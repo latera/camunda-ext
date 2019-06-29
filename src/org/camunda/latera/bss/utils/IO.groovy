@@ -10,7 +10,7 @@ class IO {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream()
     int nRead;
     byte[] data = new byte[1024]
-    while ((nRead = stream.read(data, 0, data.length)) != -1) {
+    while ((nRead = stream.read(data, 0, data.size())) != -1) {
       buffer.write(data, 0, nRead)
     }
  

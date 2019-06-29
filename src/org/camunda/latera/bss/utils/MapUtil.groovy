@@ -1,13 +1,13 @@
 package org.camunda.latera.bss.utils
 
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.*
 
 class MapUtil {
   static Boolean isMap(def input) {
     return (input instanceof Map)
   }
 
-  static LinkedHashMap parse(def input) {
+  static Map parse(def input) {
     LinkedHashMap result = [:]
     if (input == null) {
       return result
@@ -15,8 +15,8 @@ class MapUtil {
 
     if (isMap(input)) {
       result = input
-    } else if (StringUtil.isString(input)) {
-      input = StringUtil.trim(input)
+    } else if (isString(input)) {
+      input = trim(input)
       if (input.startsWith('{') && input.endsWith('}')) {
         result = JSON.from(input)
       }
@@ -24,32 +24,32 @@ class MapUtil {
     return result
   }
 
-  static List keysList(LinkedHashMap input) {
+  static List keysList(Map input) {
     return (input.keySet() as String[])
   }
 
-  static Integer keysCount(LinkedHashMap input) {
+  static Integer keysCount(Map input) {
     return keysList(input)?.size() ?: 0
   }
 
-  static LinkedHashMap camelizeKeys(LinkedHashMap input, Boolean firstUpper = false) {
-    def result = [:]
+  static Map camelizeKeys(Map input, Boolean firstUpper = false) {
+    LinkedHashMap result = [:]
     input.each { key, value ->
-      result[StringUtil.camelize(key, firstUpper)] = value
+      result[camelize(key, firstUpper)] = value
     }
     return result
   }
 
-  static LinkedHashMap snakeCaseKeys(LinkedHashMap input) {
-    def result = [:]
+  static Map snakeCaseKeys(Map input) {
+    LinkedHashMap result = [:]
     input.each { key, value ->
-      result[StringUtil.snakeCase(key)] = value
+      result[snakeCase(key)] = value
     }
     return result
   }
 
-  static LinkedHashMap nvl(LinkedHashMap input) {
-    def result = [:]
+  static Map nvl(Map input) {
+    LinkedHashMap result = [:]
     input.each { key, value ->
       if (value != null) {
         if (value == 'null' || value == 'NULL') {
@@ -62,8 +62,8 @@ class MapUtil {
     return result
   }
 
-  static LinkedHashMap forceNvl(LinkedHashMap input) {
-    def result = [:]
+  static Map forceNvl(Map input) {
+    LinkedHashMap result = [:]
     input.each { key, value ->
       if (value != null && value != 'null' && value != 'NULL') {
         result[key] = value

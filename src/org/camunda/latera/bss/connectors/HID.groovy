@@ -2,9 +2,9 @@ package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.*
 import java.time.LocalDateTime
-import org.camunda.latera.bss.utils.StringUtil
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.Oracle
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.Oracle.*
 import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
@@ -24,10 +24,10 @@ class HID implements Table {
     this.proxy.setBasicAuth(this.user, this.password)
   }
 
-  List queryDatabase(String query, Boolean asMap = false, Boolean noLimit = false) {
+  List queryDatabase(CharSequence query, Boolean asMap = false, Boolean noLimit = false) {
     List result = []
-    def pageNumber = noLimit ? 0 : 1
-    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query, pageNumber])
+    Integer pageNumber = noLimit ? 0 : 1
+    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), pageNumber])
     List rows = answer.SelectResult
     if (rows) {
       rows.each{ row ->
@@ -37,8 +37,8 @@ class HID implements Table {
         // Convert codepage from
         List convertedRow = []
         row.each{ value ->
-          if (StringUtil.isString(value)) {
-            convertedRow.add(StringUtil.varcharToUnicode(value))
+          if (isString(value)) {
+            convertedRow.add(varcharToUnicode(value))
           } else {
             convertedRow.add(value)
           }
@@ -57,8 +57,16 @@ class HID implements Table {
     return result
   }
 
-  def queryFirst(String query, Boolean asMap = false, Boolean noLimit = false) {
-    def result = this.queryDatabase(query, asMap)
+  List queryDatabaseList(CharSequence query, Boolean noLimit = false) {
+    return queryDatabase(query, false, noLimit)
+  }
+
+  List queryDatabaseMap(CharSequence query, Boolean noLimit = false) {
+    return queryDatabase(query, true, noLimit)
+  }
+
+  def queryFirst(CharSequence query, Boolean asMap = false, Boolean noLimit = false) {
+    List result = this.queryDatabase(query, asMap)
 
     if (result) {
       return result.getAt(0)
@@ -67,16 +75,24 @@ class HID implements Table {
     }
   }
 
-  def execute(String execName, LinkedHashMap params) {
+  List queryFirstList(CharSequence query, Boolean noLimit = false) {
+    return queryFirst(query, false, noLimit)
+  }
+
+  Map queryFirstMap(CharSequence query, Boolean noLimit = false) {
+    return queryFirst(query, true, noLimit)
+  }
+
+  def execute(CharSequence execName, Map params) {
     LinkedHashMap encodedParams = [:]
     params.each{ key, value ->
-      if (DateTimeUtil.isDate(value)) {
-        value = Oracle.encodeDate(value)
+      if (isDate(value)) {
+        value = encodeDate(value)
       }
-      if (StringUtil.isString(value)) {
+      if (isString(value)) {
         value = value.toString() // Convert GStringImpl to String
       }
-      encodedParams[key] = Oracle.encodeNull(value)
+      encodedParams[key] = encodeNull(value)
     }
     return this.proxy.invokeMethod(execName, [encodedParams])
   }

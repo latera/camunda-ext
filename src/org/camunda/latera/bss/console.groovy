@@ -1,14 +1,13 @@
 package org.camunda.latera.bss.console
 
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.codehaus.groovy.runtime.GStringImpl
 
 class Console {
   SimpleLogger logger
   Boolean supressStdout
   Boolean supressStderr
 
-  Console(LinkedHashMap params) {
+  Console(Map params) {
     this.logger = new SimpleLogger(params.execution)
     params.remove('execution')
 
@@ -25,10 +24,10 @@ class Console {
     }
   }
 
-  def runCommand(String command, List args = []) {
-    def cmd = [command] + args
+  Map runCommand(CharSequence command, List args = []) {
+    List cmd = [command] + args
     logger.info("Running command: ${cmd.join(' ')}")
-    def stdout = new StringBuilder(), stderr = new StringBuilder()
+    StringBuilder stdout = new StringBuilder(), stderr = new StringBuilder()
     def proc = cmd.execute()
     proc.consumeProcessOutput(stdout, stderr)
     proc.waitFor()
@@ -52,23 +51,15 @@ class Console {
     return [proc: proc, stdout: stdout, stderr: stderr]
   }
 
-  def runCommand(GStringImpl command, List args = []) {
-    return runCommand(command.toString(), args)
-  }
-
-  def runCommand(LinkedHashMap args, String command) {
-    def arguments = []
+  Map runCommand(Map args, CharSequence command) {
+    List arguments = []
     args.each { k, v ->
-      if (k.length() == 1) {
+      if (k.size() == 1) {
         arguments += ["-${k} ${v}"]
       } else {
         arguments += ["--${k} ${v}"]
       }
     }
     return runCommand(command, arguments)
-  }
-
-  def runCommand(LinkedHashMap args, GStringImpl command) {
-    return runCommand(args, command.toString())
   }
 }

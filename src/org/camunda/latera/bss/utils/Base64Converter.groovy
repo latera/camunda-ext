@@ -1,4 +1,5 @@
 package org.camunda.latera.bss.utils
+
 import java.util.Base64
 
 class Base64Converter {
@@ -6,11 +7,11 @@ class Base64Converter {
     return Base64.getEncoder().encodeToString(bytes)
   }
 
-  static String to(String str) {
+  static String to(CharSequence str) {
     return Base64.getEncoder().encodeToString(str.getBytes())
   }
 
-  static byte[] from(String str) {
+  static byte[] from(CharSequence str) {
     return Base64.getDecoder().decode(str)
   }
 }

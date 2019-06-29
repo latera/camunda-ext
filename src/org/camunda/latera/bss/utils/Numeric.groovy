@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.utils
 
 import java.math.*
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.*
 
 class Numeric {
   static def toIntSafe(def value, def defaultValue = null) {
@@ -19,7 +19,7 @@ class Numeric {
     if (!value.respondsTo("toBigDecimal")) {
       return defaultValue
     } else try {
-      if (StringUtil.isString(value)) {
+      if (isString(value)) {
         value = value.replace(',', '.')
       }
       return value.toBigDecimal()
@@ -29,19 +29,19 @@ class Numeric {
     }
   }
 
-  static def isInteger(def value) {
+  static Boolean isInteger(def value) {
     return toIntSafe(value, null) != null
   }
 
-  static def isInt(def value) {
+  static Boolean isInt(def value) {
     return isInteger(value)
   }
 
-  static def isFloat(def value) {
+  static Boolean isFloat(def value) {
     return toFloatSafe(value, null) != null
   }
 
-  static def isNumber(def value) {
+  static Boolean isNumber(def value) {
     return isInteger(value) || isFloat(value)
   }
 

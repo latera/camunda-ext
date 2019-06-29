@@ -26,7 +26,7 @@ class MailSender {
     this.password = ENV['SMTP_PASSWORD'] ?: execution.getVariable('smtpPassword')
 
     this.props = System.getProperties()
-    this.props.put("mail.smtp.auth",           "true")
+    this.props.put("mail.smtp.auth",           'true')
     this.props.put("mail.smtp.starttls.enable", true)
     this.props.put("mail.smtp.ssl.trust",       true)
     this.props.put("mail.smtp.host",            host)
@@ -39,32 +39,37 @@ class MailSender {
     this.multipart = new MimeMultipart()
   }
 
-  def setFrom(String from) {
-    message.setFrom(new InternetAddress(from))
+  MailSender setFrom(CharSequence from) {
+    message.setFrom(new InternetAddress(from.toString()))
+    return this
   }
 
-  def addRecipient(String recipient, Message.RecipientType type = Message.RecipientType.TO) {
-    message.addRecipient(type, new InternetAddress(recipient))
+  MailSender addRecipient(CharSequence recipient, Message.RecipientType type = Message.RecipientType.TO) {
+    message.addRecipient(type, new InternetAddress(recipient.toString()))
+    return this
   }
 
-  def setSubject(String subject) {
-    message.setSubject(subject)
+  MailSender setSubject(CharSequence subject) {
+    message.setSubject(subject.toString())
+    return this
   }
 
-  def addTextPart(String body) {
+  MailSender addTextPart(CharSequence body) {
     MimeBodyPart part = new MimeBodyPart()
-    part.setText(body)
+    part.setText(body.toString())
     multipart.addBodyPart(part)
+    return this
   }
 
-  def addFile(String filename, Object datasource){
+  MailSender addFile(CharSequence filename, Object datasource){
     MimeBodyPart part = new MimeBodyPart()
     part.setDataHandler(new DataHandler(datasource, 'application/octet-stream'))
-    part.setFileName(filename)
+    part.setFileName(filename.toString())
     multipart.addBodyPart(part)
+    return this
   }
 
-  def send(){
+  void send(){
     Transport transport = session.getTransport("smtp")
     transport.connect(host, port, user, password)
     try {

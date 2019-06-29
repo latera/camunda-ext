@@ -1,5 +1,8 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import java.time.temporal.Temporal
+
 trait Subscription {
   private static LinkedHashMap AVAILABLE_SERVICES_ENTITY_TYPE = [
     one    : 'available_service',
@@ -16,19 +19,19 @@ trait Subscription {
     plural : 'additional_services'
   ]
 
-  def getAvailableServicesEntityType(def customerId, def id = null) {
+  Map getAvailableServicesEntityType(def customerId, def id = null) {
     return AVAILABLE_SERVICES_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  def getSubscriptionEntityType(def customerId, def id = null) {
+  Map getSubscriptionEntityType(def customerId, def id = null) {
     return SUBSCRIPTION_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  def getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
+  Map getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
     return CHILD_SUBSCRIPTION_ENTITY_TYPE + withParent(getSubscriptionEntityType(customerId, subscriptionId)) + withId(id)
   }
 
-  LinkedHashMap getAvailableServicesDefaultParams() {
+  Map getAvailableServicesDefaultParams() {
     return getPaginationDefaultParams() + [
       accountId          : null,
       docId              : null,
@@ -38,7 +41,7 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getAvailableServicesParamsMap(LinkedHashMap params) {
+  Map getAvailableServicesParamsMap(Map params) {
     return [
       n_account_id          : params.accountId,
       n_contract_id         : params.docId,
@@ -50,7 +53,7 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getSubscriptionDefaultParams() {
+  Map getSubscriptionDefaultParams() {
     return [
       accountId          : null,
       docId              : null,
@@ -62,7 +65,7 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getSubscriptionParamsMap(LinkedHashMap params) {
+  Map getSubscriptionParamsMap(Map params) {
     return [
       n_account_id     : params.accountId,
       n_contract_id    : params.docId,
@@ -75,7 +78,7 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getChildSubscriptionDefaultParams() {
+  Map getChildSubscriptionDefaultParams() {
     return [
       accountId          : null,
       goodId             : null,
@@ -86,7 +89,7 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getChildSubscriptionParamsMap(LinkedHashMap params) {
+  Map getChildSubscriptionParamsMap(Map params) {
     return [
       n_account_id          : params.accountId,
       n_service_id          : params.goodId,
@@ -98,32 +101,32 @@ trait Subscription {
     ]
   }
 
-  LinkedHashMap getAvailableServicesParams(LinkedHashMap input) {
-    def params = getAvailableServicesDefaultParams() + input
-    def data   = getAvailableServicesParamsMap(params)
+  Map getAvailableServicesParams(Map input) {
+    LinkedHashMap params = getAvailableServicesDefaultParams() + input
+    LinkedHashMap data   = getAvailableServicesParamsMap(params)
     return prepareParams(data)
   }
 
-  LinkedHashMap getSubscriptionParams(LinkedHashMap input) {
-    def params = getSubscriptionDefaultParams() + input
-    def data   = getSubscriptionParamsMap(params)
+  Map getSubscriptionParams(Map input) {
+    LinkedHashMap params = getSubscriptionDefaultParams() + input
+    LinkedHashMap data   = getSubscriptionParamsMap(params)
     return prepareParams(data)
   }
 
-  LinkedHashMap getChildSubscriptionParams(LinkedHashMap input) {
-    def params = getChildSubscriptionDefaultParams() + input
-    def data   = getChildSubscriptionParamsMap(params)
+  Map getChildSubscriptionParams(Map input) {
+    LinkedHashMap params = getChildSubscriptionDefaultParams() + input
+    LinkedHashMap data   = getChildSubscriptionParamsMap(params)
     return prepareParams(data)
   }
 
-  List getAvailableServices(def customerId, LinkedHashMap input) {
+  List getAvailableServices(def customerId, Map input) {
     LinkedHashMap params = getAvailableServicesParams(input)
     return getEntities(getAvailableServicesEntityType(customerId), params)
   }
 
-  LinkedHashMap getAvailableService(def customerId, LinkedHashMap input) {
+  Map getAvailableService(def customerId, Map input) {
     def serviceId = input.serviceId ?: input.goodId
-    def availableServices = getAvailableServices(customerId, input)
+    List availableServices = getAvailableServices(customerId, input)
     for (service in availableServices) {
       if (service.n_good_id.toString() == serviceId.toString()) {
           return service
@@ -131,9 +134,9 @@ trait Subscription {
     }
   }
 
-  LinkedHashMap getAvailableServiceByName(def customerId, LinkedHashMap input) {
+  Map getAvailableServiceByName(def customerId, Map input) {
     def serviceName = input.serviceName ?: input.goodName
-    def availableServices = getAvailableServices(customerId, input)
+    List availableServices = getAvailableServices(customerId, input)
     for (service in availableServices) {
       if (service.vc_name == serviceName) {
         return service
@@ -141,9 +144,9 @@ trait Subscription {
     }
   }
 
-  LinkedHashMap getAvailableServiceByCode(def customerId, LinkedHashMap input) {
+  Map getAvailableServiceByCode(def customerId, Map input) {
     def serviceCode = input.serviceCode ?: input.goodCode
-    def availableServices = getAvailableServices(customer, input)
+    List availableServices = getAvailableServices(customer, input)
     for (service in availableServices) {
       if (service.vc_code == serviceName) {
         return service
@@ -151,32 +154,54 @@ trait Subscription {
     }
   }
 
-  List getSubscriptions(def customerId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getSubscriptions(def customerId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getSubscriptionEntityType(customerId), params)
   }
 
-  LinkedHashMap getSubscription(def customerId, def subscriptionId) {
+  Map getSubscription(def customerId, def subscriptionId) {
     return getEntity(getSubscriptionEntityType(customerId), subscriptionId)
   }
 
-  LinkedHashMap createSubscription(def customerId, LinkedHashMap input = [:]) {
+  Map createSubscription(def customerId, Map input = [:]) {
     LinkedHashMap params = getSubscriptionParams(input)
     return createEntity(getSubscriptionEntityType(customerId), params)
   }
 
-  LinkedHashMap updateSubscription(def customerId, def subscriptionId, LinkedHashMap input) {
+  Map createSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    return createSubscription(customerId, input)
+  }
+
+  Map createSubscription(Map input, def customerId) {
+    return createSubscription(customerId, input)
+  }
+
+  Map updateSubscription(def customerId, def subscriptionId, Map input) {
     LinkedHashMap params = getSubscriptionParams(input)
     return updateEntity(getSubscriptionEntityType(customerId), subscriptionId, params)
   }
 
-  LinkedHashMap putSubscription(LinkedHashMap input) {
+  Map updateSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def subscriptionId = input.subscriptionId
+    input.remove('subscriptionId')
+    return updateSubscription(customerId, subscriptionId, input)
+  }
+
+  Map updateSubscription(Map input, def customerId, def subscriptionId) {
+    return updateSubscription(customerId, subscriptionId, input)
+  }
+
+  Map putSubscription(Map input) {
     def customerId = input.customerId
     input.remove('customerId')
     return putSubscription(customerId, input)
   }
 
-  LinkedHashMap putSubscription(def customerId, LinkedHashMap input) {
+  Map putSubscription(def customerId, Map input) {
     def parSubscriptionId = input.parSubscriptionId
     input.remove('parSubscriptionId')
     def subscriptionId = input.subscriptionId
@@ -197,42 +222,86 @@ trait Subscription {
     }
   }
 
-  LinkedHashMap closeSubscription(def customerId, def subscriptionId, def endDate, def closeChargeLog = false) {
+  Map putSubscription(Map input, def customerId) {
+    return putSubscription(customerId, input)
+  }
+
+  Map closeSubscription(def customerId, def subscriptionId, Temporal endDate, Boolean closeChargeLog = false) {
     return updateSubscription(customerId, subscriptionId, [endDate: endDate, closeChargeLog: closeChargeLog])
   }
 
-  List getChildSubscriptions(def customerId, def subscriptionId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  Map closeSubscription(Map input) {
+    LinkedHashMap params = [
+      customerId     : null,
+      subscriptionId : null,
+      endDate        : local(),
+      immediate      : true
+    ] + input
+    return closeSubscription(params.customerId, params.subscriptionId, params.endDate, params.immediate)
+  }
+
+  List getChildSubscriptions(def customerId, def subscriptionId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getChildSubscriptionEntityType(customerId, subscriptionId), params)
   }
 
-  LinkedHashMap getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
+  Map getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
     return getEntity(getChildSubscriptionEntityType(customerId, subscriptionId), childSubscriptionId)
   }
 
-  LinkedHashMap createChildSubscription(def customerId, def subscriptionId, LinkedHashMap input = [:]) {
+  Map createChildSubscription(def customerId, def subscriptionId, Map input = [:]) {
     LinkedHashMap params = getChildSubscriptionParams(input + [parSubscriptionId: subscriptionId])
     return createEntity(getChildSubscriptionEntityType(customerId, subscriptionId), params)
   }
 
-  LinkedHashMap updateChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, LinkedHashMap input = [:]) {
+  Map createChildSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def subscriptionId = input.subscriptionId
+    input.remove('subscriptionId')
+    return createChildSubscription(customerId, subscriptionId, input)
+  }
+
+  Map createChildSubscription(Map input, def customerId, def subscriptionId) {
+    return createChildSubscription(customerId, subscriptionId, input)
+  }
+
+  Map updateChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Map input = [:]) {
     LinkedHashMap params = getChildSubscriptionParams(input)
     return updateEntity(getChildSubscriptionEntityType(customerId, subscriptionId), childSubscriptionId, params)
   }
 
-  LinkedHashMap putChildSubscription(LinkedHashMap input) {
+  Map updateChildSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def subscriptionId = input.subscriptionId
+    input.remove('subscriptionId')
+    def childSubscriptionId = input.childSubscriptionId
+    input.remove('childSubscriptionId')
+    return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, input)
+  }
+
+  Map updateChildSubscription(Map input, def customerId, def subscriptionId, def childSubscriptionId) {
+    return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, input)
+  }
+
+  Map putChildSubscription(Map input) {
     def customerId = input.customerId
     input.remove('customerId')
     return putChildSubscription(customerId, input)
   }
 
-  LinkedHashMap putChildSubscription(def customerId, LinkedHashMap input) {
+  Map putChildSubscription(def customerId, Map input) {
     def parSubscriptionId = input.parSubscriptionId
     input.remove('parSubscriptionId')
     return putChildSubscription(customerId, parSubscriptionId, input)
   }
 
-  LinkedHashMap putChildSubscription(def customerId, def parSubscriptionId, LinkedHashMap input) {
+  Map putChildSubscription(Map input, def customerId) {
+    return putChildSubscription(customerId, input)
+  }
+
+  Map putChildSubscription(def customerId, def parSubscriptionId, Map input) {
     def subscriptionId = input.subscriptionId
     input.remove('subscriptionId')
 
@@ -243,7 +312,22 @@ trait Subscription {
     }
   }
 
-  LinkedHashMap closeChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, def endDate, def immediate = false) {
+  Map putChildSubscription(Map input, def customerId, def parSubscriptionId) {
+    return putChildSubscription(customerId, parSubscriptionId, input)
+  }
+
+  Map closeChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Temporal endDate = local(), Boolean immediate = false) {
     return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, [endDate: endDate, immediate: immediate])
+  }
+
+  Map closeChildSubscription(Map input) {
+    LinkedHashMap params = [
+      customerId          : null,
+      subscriptionId      : null,
+      childSubscriptionId : null,
+      endDate             : local(),
+      immediate           : true
+    ] + input
+    return closeChildSubscription(params.customerId, params.subscriptionId, params.childSubscriptionId, params.endDate, params.immediate)
   }
 }

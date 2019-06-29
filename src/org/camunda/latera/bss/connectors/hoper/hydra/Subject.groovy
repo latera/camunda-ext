@@ -6,7 +6,7 @@ trait Subject {
     plural : 'subjects'
   ]
 
-  def getSubjectEntityType(def id = null) {
+  Map getSubjectEntityType(def id = null) {
     return SUBJECT_ENTITY_TYPE + withId(id)
   }
 }

@@ -90,24 +90,24 @@ class DateTimeUtil {
   }
 
   static LocalDateTime parse(
-    String input,
+    CharSequence input,
     def format = this.SIMPLE_DATE_TIME_FORMAT
   ) {
     return LocalDateTime.parse(input, format)
   }
 
-  static LocalDateTime parseIsoNoTZ(String input) {
+  static LocalDateTime parseIsoNoTZ(CharSequence input) {
     return ZonedDateTime.parse(input, ISO_FORMAT_NO_TZ)
   }
 
-  static ZonedDateTime parseIso(String input) {
+  static ZonedDateTime parseIso(CharSequence input) {
     return ZonedDateTime.parse(input, ISO_FORMAT)
   }
 
   static String format(
     Date input,
     def format = this.SIMPLE_DATE_FORMAT,
-    String locale = 'en'
+    CharSequence locale = 'en'
   ) {
     return input.format(format.withLocale(new Locale(locale)))
   }
@@ -115,7 +115,7 @@ class DateTimeUtil {
   static String format(
     LocalDateTime input,
     def format = this.SIMPLE_DATE_TIME_FORMAT,
-    String locale = 'en'
+    CharSequence locale = 'en'
   ) {
     return input.format(format.withLocale(new Locale(locale)))
   }
@@ -123,13 +123,13 @@ class DateTimeUtil {
   static String format(
     ZonedDateTime input,
     def format = this.SIMPLE_DATE_TIME_FORMAT,
-    String locale = 'en'
+    CharSequence locale = 'en'
   ) {
     return input.format(format.withLocale(new Locale(locale)))
   }
 
   static String format(LinkedHashMap parameters, Date input) {
-    def params = [
+    LinkedHashMap params = [
       format: this.SIMPLE_DATE_FORMAT,
       locale: 'en'
     ] + parameters
@@ -137,7 +137,7 @@ class DateTimeUtil {
   }
 
   static String format(LinkedHashMap parameters, LocalDateTime input) {
-    def params = [
+    LinkedHashMap params = [
       format: this.SIMPLE_DATE_TIME_FORMAT,
       locale: 'en'
     ] + parameters
@@ -145,7 +145,7 @@ class DateTimeUtil {
   }
 
   static String format(LinkedHashMap parameters, ZonedDateTime input) {
-    def params = [
+    LinkedHashMap params = [
       format: this.SIMPLE_DATE_TIME_FORMAT,
       locale: 'en'
     ] + parameters
@@ -375,11 +375,11 @@ class DateTimeUtil {
     return firstDate.until(secondDate, ChronoUnit.YEARS)
   }
 
-  static def isDate(def input) {
+  static Boolean isDate(def input) {
     return (input instanceof Date) || (input instanceof Temporal)
   }
 
-  static def isDateStr(CharSequence input) {
+  static Boolean isDateStr(CharSequence input) {
     return parseDate(input) != null
   }
 

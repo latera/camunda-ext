@@ -6,11 +6,11 @@ trait Person {
     plural : 'persons'
   ]
 
-  def getPersonEntityType(def id = null) {
+  Map getPersonEntityType(def id = null) {
     return PERSON_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
-  LinkedHashMap getPersonDefaultParams() {
+  Map getPersonDefaultParams() {
     return [
       firstName     : null,
       secondName    : null,
@@ -33,8 +33,8 @@ trait Person {
     ]
   }
 
-  LinkedHashMap getPersonParamsMap(LinkedHashMap params, LinkedHashMap additionalParams = [:]) {
-    def result = [
+  Map getPersonParamsMap(Map params, Map additionalParams = [:]) {
+    LinkedHashMap result = [
       vc_first_name     : params.firstName,
       vc_second_name    : params.secondName,
       vc_surname        : params.lastName,
@@ -61,33 +61,44 @@ trait Person {
     return result
   }
 
-  LinkedHashMap getPersonParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getPersonDefaultParams() + input
-    def data   = getPersonParamsMap(params + additionalParams)
+  Map getPersonParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getPersonDefaultParams() + input
+    LinkedHashMap data   = getPersonParamsMap(params + additionalParams)
     return prepareParams(data)
   }
 
-  List getPersons(LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getPersons(Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getPersonEntityType(), params)
   }
 
-  LinkedHashMap getPerson(def id) {
+  Map getPerson(def id) {
     return getEntity(getPersonEntityType(), id)
   }
 
-  LinkedHashMap createPerson(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createPerson(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getPersonParams(input, additionalParams)
     return createEntity(getPersonEntityType(), params)
   }
 
-  LinkedHashMap updatePerson(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updatePerson(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getPersonParams(input, additionalParams)
     return updateEntity(getPersonEntityType(), id, params)
   }
 
-  LinkedHashMap putPerson(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def personId = input.personId
+  Map updatePerson(Map input, Map additionalParams = [:]) {
+    def id = input.id ?: input.personId
+    input.remove('id')
+    input.remove('personId')
+    return updatePerson(id, input, additionalParams)
+  }
+
+  Map updatePerson(Map input, def id, Map additionalParams = [:]) {
+    return updatePerson(id, input, additionalParams)
+  }
+
+  Map putPerson(Map input, Map additionalParams = [:]) {
+    LinkedHashMap personId = input.personId
     input.remove('personId')
 
     if (personId) {

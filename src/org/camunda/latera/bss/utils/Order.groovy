@@ -43,7 +43,7 @@ class Order implements GroovyObject {
     return this.getClass().getValue(name, this._execution)
   }
 
-  def getProperty(CharSequence propertyName) {
+  def getProperty(String propertyName) { // do not change type to CharSequence, dynamic access will not work
     return getValue(propertyName)
   }
 
@@ -55,7 +55,7 @@ class Order implements GroovyObject {
     return getValue(name)
   }
 
-  static LinkedHashMap getData(DelegateExecution execution) {
+  static Map getData(DelegateExecution execution) {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
       if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
@@ -66,7 +66,7 @@ class Order implements GroovyObject {
     return data
   }
 
-  LinkedHashMap getData() {
+  Map getData() {
     return getData(this._execution)
   }
 
@@ -82,7 +82,7 @@ class Order implements GroovyObject {
       return
     }
     if (isString(value)) {
-      value = value.toString()
+      value = value.toString() // Convert GStringImpl to String
     }
     if (isDate(value)) {
       value = iso(value)
@@ -98,7 +98,7 @@ class Order implements GroovyObject {
     setValue(name, value, execution)
   }
 
-  void setProperty(CharSequence propertyName, def newValue) {
+  void setProperty(String propertyName, def newValue) { // do not change type to CharSequence, dynamic access will not work
     setValue(propertyName, newValue)
   }
 
@@ -106,7 +106,7 @@ class Order implements GroovyObject {
     setValue(name, value)
   }
 
-  def plus(Map data) {
+  Order plus(Map data) {
     setValue(data.name, data.value)
     return this
   }
@@ -145,7 +145,7 @@ class Order implements GroovyObject {
     removeValue(name, execution)
   }
 
-  def minus(CharSequence name) {
+  Order minus(CharSequence name) {
     removeValue(name)
     return this
   }
@@ -162,8 +162,8 @@ class Order implements GroovyObject {
     return this.class.getFiles(this._execution)
   }
 
-  static LinkedHashMap getFile(CharSequence name, DelegateExecution execution) {
-    def files = getFiles(execution)
+  static Map getFile(CharSequence name, DelegateExecution execution) {
+    List files = getFiles(execution)
     files.each { file ->
       if (file.origin_name == name || file.real_name == name) {
         return file
@@ -172,15 +172,15 @@ class Order implements GroovyObject {
     return null
   }
 
-  LinkedHashMap getFile(CharSequence name) {
+  Map getFile(CharSequence name) {
     return this.class.getFile(name, this._execution)
   }
 
   static List getFilesContent(DelegateExecution execution) {
-    def result = []
-    def files  = getFiles(execution)
+    List result = []
+    List files  = getFiles(execution)
     if (files) {
-      def minio  = new Minio(execution)
+      Minio minio  = new Minio(execution)
       files.each { file ->
         result += file + [
           name    : file.origin_name,
@@ -195,10 +195,10 @@ class Order implements GroovyObject {
     return getFilesContent(this._execution)
   }
 
-  static LinkedHashMap getFileContent(CharSequence name, DelegateExecution execution) {
-    def file = getFile(name, execution)
+  static Map getFileContent(CharSequence name, DelegateExecution execution) {
+    LinkedHashMap file = getFile(name, execution)
     if (file) {
-      def minio  = new Minio(execution)
+      Minio minio  = new Minio(execution)
       return file + [
         name    : file.origin_name,
         content : minio.getFileContent(file.bucket, file.real_name)
@@ -208,7 +208,7 @@ class Order implements GroovyObject {
     }
   }
 
-  LinkedHashMap getFileContent(CharSequence name) {
+  Map getFileContent(CharSequence name) {
     return getFileContent(name, this._execution)
   }
 }

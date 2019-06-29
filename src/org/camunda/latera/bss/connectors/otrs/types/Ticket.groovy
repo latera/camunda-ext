@@ -5,11 +5,11 @@ import org.camunda.latera.bss.utils.Base64Converter
 trait Ticket {
   private static String TICKET_ENTITY_TYPE = 'Ticket'
 
-  def getTicketEntityType() {
+  String getTicketEntityType() {
     return TICKET_ENTITY_TYPE
   }
 
-  LinkedHashMap getTicketDefaultParams() {
+  Map getTicketDefaultParams() {
     return [
       title         : null,
       queueId       : null,
@@ -25,7 +25,7 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketParamsMap(LinkedHashMap params) {
+  Map getTicketParamsMap(Map params) {
     return [
       Title         : params.title,
       QueueID       : params.queueId,
@@ -50,7 +50,7 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketArticleDefaultParams() {
+  Map getTicketArticleDefaultParams() {
     return [
       communicationChannelId           : null,
       isVisibleForCustomer             : null,
@@ -69,7 +69,7 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketArticleParamsMap(LinkedHashMap params) {
+  Map getTicketArticleParamsMap(Map params) {
     return [
       CommunicationChannelID          : params.communicationChannelId,
       CommunicationChannel            : params.communicationChannel,
@@ -90,21 +90,21 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketDynamicFieldDefaultParams() {
+  Map getTicketDynamicFieldDefaultParams() {
     return [
       name  : null,
       value : null
     ]
   }
 
-  LinkedHashMap getTicketDynamicFieldParamsMap(LinkedHashMap params) {
+  Map getTicketDynamicFieldParamsMap(Map params) {
     return [
       Name  : params.name,
       Value : params.value
     ]
   }
 
-  LinkedHashMap getTicketAttachmentDefaultParams() {
+  Map getTicketAttachmentDefaultParams() {
     return [
       name        : '',
       content     : [] as byte[],
@@ -112,7 +112,7 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketAttachmentParamsMap(LinkedHashMap params) {
+  Map getTicketAttachmentParamsMap(Map params) {
     return [
       Content     : params.content ? Base64Converter.to(params.content) : '',
       ContentType : params.contentType,
@@ -120,16 +120,16 @@ trait Ticket {
     ]
   }
 
-  LinkedHashMap getTicketParams(LinkedHashMap input, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
-    def ticketParams  = getTicketDefaultParams() + input
-    def articleParams = getTicketArticleDefaultParams() + input
-    def ticket  = convertParams(prepareParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))
-    def article = convertParams(prepareParams(getTicketArticleParamsMap(articleParams)))
+  Map getTicketParams(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
+    LinkedHashMap ticketParams  = getTicketDefaultParams() + input
+    LinkedHashMap articleParams = getTicketArticleDefaultParams() + input
+    LinkedHashMap ticket  = convertParams(prepareParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))
+    LinkedHashMap article = convertParams(prepareParams(getTicketArticleParamsMap(articleParams)))
 
     List attachmentList = []
     if (attachments) {
       attachments.each { it ->
-        def attachment = getTicketAttachmentDefaultParams() + it
+        LinkedHashMap attachment = getTicketAttachmentDefaultParams() + it
         attachmentList += getTicketAttachmentParamsMap(attachment)
       }
     }
@@ -137,7 +137,7 @@ trait Ticket {
     List dynamicFieldsList = []
     if (dynamicFields) {
       dynamicFields.each { key, value ->
-        def field = getTicketDynamicFieldDefaultParams() + [
+        LinkedHashMap field = getTicketDynamicFieldDefaultParams() + [
           name  : key,
           value : value
         ]
@@ -161,61 +161,96 @@ trait Ticket {
     return result
   }
 
-  LinkedHashMap getTicket(def id) {
+  Map getTicket(def id) {
     return getEntity(getTicketEntityType(), id)
   }
 
-  LinkedHashMap createTicket(LinkedHashMap input, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
+  Map createTicket(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     LinkedHashMap params = getTicketParams(input, attachments, dynamicFields, additionalParams)
     return createEntity(getTicketEntityType(), params)
   }
 
-  LinkedHashMap updateTicket(def id, LinkedHashMap input, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
+  Map updateTicket(def id, Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     LinkedHashMap params = getTicketParams(input, attachments, dynamicFields, additionalParams)
     return updateEntity(getTicketEntityType(), id, params)
   }
 
-  LinkedHashMap updateTicket(LinkedHashMap input, def id, List attachments = [], LinkedHashMap dynamicFields = [:], LinkedHashMap additionalParams = [:]) {
+  Map updateTicket(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
+    def id = input.id ?: input.ticketId
+    input.remove('id')
+    input.remove('ticketId')
     return updateTicket(id, input, attachments, dynamicFields, additionalParams)
   }
 
-  LinkedHashMap addTicketFile(def id, LinkedHashMap file) {
+  Map updateTicket(Map input, def id, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
+    return updateTicket(id, input, attachments, dynamicFields, additionalParams)
+  }
+
+  Map addTicketFile(def id, Map file) {
     return addTicketFiles(id, [file])
   }
 
-  LinkedHashMap addTicketFile(LinkedHashMap file, def id) {
+  Map addTicketFile(Map file, def id) {
     return addTicketFile(id, file)
   }
 
-  LinkedHashMap addTicketFile(def id, String name, byte[] content) {
+  Map addTicketFile(Map input) {
+    def id = input.id ?: input.ticketId
+    input.remove('id')
+    input.remove('ticketId')
+    return addTicketFile(id, input)
+  }
+
+  Map addTicketFile(def id, CharSequence name, byte[] content) {
     return addTicketFile(id, name: name, content: content)
   }
 
-  LinkedHashMap addTicketFiles(def id, List attachments) {
+  Map addTicketFiles(def id, List attachments) {
     return updateTicket(id, [:], attachments)
   }
 
-  LinkedHashMap updateTicketArticle(def id, LinkedHashMap input) {
+  Map updateTicketArticle(def id, Map input) {
     return updateTicket(id, input)
   }
 
-  LinkedHashMap updateTicketArticle(LinkedHashMap input, def id) {
+  Map updateTicketArticle(Map input) {
+    def id = input.id ?: input.ticketId
+    input.remove('id')
+    input.remove('ticketId')
     return updateTicketArticle(id, input)
   }
 
-  LinkedHashMap updateTicketDynamicField(def id, def name, def value = null) {
-    def dynamicFields = [[name: value]]
+  Map updateTicketArticle(Map input, def id) {
+    return updateTicketArticle(id, input)
+  }
+
+  Map updateTicketDynamicField(def id, CharSequence name, def value = null) {
+    List dynamicFields = [[name: value]]
     return updateTicket(id, [:], [], dynamicFields)
   }
 
-  LinkedHashMap updateTicketDynamicField(LinkedHashMap input, def id) {
+  Map updateTicketDynamicField(Map input) {
+    def id = input.id ?: input.ticketId
+    input.remove('id')
+    input.remove('ticketId')
+    return updateTicketDynamicField(id, input)
+  }
+
+  Map updateTicketDynamicField(Map input, def id) {
     updateTicketDynamicField(id, input.name, input.value)
   }
 
-  LinkedHashMap updateTicketDynamicFields(LinkedHashMap input, def id) {
+  Map updateTicketDynamicFields(Map input, def id) {
     input.each { key, value ->
       updateTicketDynamicField(id, key, value)
     }
+  }
+
+  Map updateTicketDynamicFields(Map input) {
+    def id = input.id ?: input.ticketId
+    input.remove('id')
+    input.remove('ticketId')
+    return updateTicketDynamicFields(id, input)
   }
 
   Boolean deleteTicket(def id) {

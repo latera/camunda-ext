@@ -1,7 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
@@ -23,138 +24,138 @@ trait Document {
   private static String MEMBER_ROLE                    = 'SUBJ_ROLE_Member'
   private static String MANAGER_ROLE                   = 'SUBJ_ROLE_Manager'
 
-  def getDocumentsTable() {
+  String getDocumentsTable() {
     return DOCUMENTS_TABLE
   }
 
-  def getDocumentSubjectsTable() {
+  String getDocumentSubjectsTable() {
     return DOCUMENT_SUBJECTS_TABLE
   }
 
-  def getDocumentAddParamsTable() {
+  String getDocumentAddParamsTable() {
     return DOCUMENT_ADD_PARAMS_TABLE
   }
 
-  def getDocumentAddParamTypesTable() {
+  String getDocumentAddParamTypesTable() {
     return DOCUMENT_ADD_PARAM_TYPES_TABLE
   }
 
-  def getDocumentBindsTable() {
+  String getDocumentBindsTable() {
     return DOCUMENT_BINDS_TABLE
   }
 
-  def getDefaultDocumentType() {
+  String getDefaultDocumentType() {
     return DEFAULT_DOCUMENT_TYPE
   }
 
-  def getDefaultDocumentTypeId() {
+  Number getDefaultDocumentTypeId() {
     return getRefIdByCode(getDefaultDocumentType())
   }
 
-  def getDocumentStateActual() {
+  String getDocumentStateActual() {
     return DOCUMENT_STATE_ACTUAL
   }
 
-  def getDocumentStateActualId() {
+  Number getDocumentStateActualId() {
     return getRefIdByCode(getDocumentStateActual())
   }
 
-  def getDocumentStateExecuted() {
+  String getDocumentStateExecuted() {
     return DOCUMENT_STATE_EXECUTED
   }
 
-  def getDocumentStateExecutedId() {
+  Number getDocumentStateExecutedId() {
     return getRefIdByCode(getDocumentStateExecuted())
   }
 
-  def getDocumentStateDraft() {
+  String getDocumentStateDraft() {
     return DOCUMENT_STATE_DRAFT
   }
 
-  def getDocumentStateDraftId() {
+  Number getDocumentStateDraftId() {
     return getRefIdByCode(getDocumentStateDraft())
   }
 
-  def getDocumentStateCanceled() {
+  String getDocumentStateCanceled() {
     return DOCUMENT_STATE_CANCELED
   }
 
-  def getDocumentStateCanceledId() {
+  Number getDocumentStateCanceledId() {
     return getRefIdByCode(getDocumentStateCanceled())
   }
 
-  def getDocumentStateClosed() {
+  String getDocumentStateClosed() {
     return DOCUMENT_STATE_CLOSED
   }
 
-  def getDocumentStateClosedId() {
+  Number getDocumentStateClosedId() {
     return getRefIdByCode(getDocumentStateClosed())
   }
 
-  def getDocumentStateDissolved() {
+  String getDocumentStateDissolved() {
     return DOCUMENT_STATE_DISSOLVED
   }
 
-  def getDocumentStateDissolvedId() {
+  Number getDocumentStateDissolvedId() {
     return getRefIdByCode(getDocumentStateDissolved())
   }
 
-  def getDocumentStateProcessing() {
+  String getDocumentStateProcessing() {
     return DOCUMENT_STATE_PROCESSING
   }
 
-  def getDocumentStateProcessingId() {
+  Number getDocumentStateProcessingId() {
     return getRefIdByCode(getDocumentStateProcessing())
   }
 
-  def getDocumentStatePrepared() {
+  String getDocumentStatePrepared() {
     return DOCUMENT_STATE_PREPARED
   }
 
-  def getDocumentStatePreparedId() {
+  Number getDocumentStatePreparedId() {
     return getRefIdByCode(getDocumentStatePrepared())
   }
 
-  def getProviderRole() {
+  String getProviderRole() {
     return PROVIDER_ROLE
   }
 
-  def getProviderRoleId() {
+  Number getProviderRoleId() {
     return getRefIdByCode(getProviderRole())
   }
 
-  def getReceiverRole() {
+  String getReceiverRole() {
     return RECEIVER_ROLE
   }
 
-  def getReceiverRoleId() {
+  Number getReceiverRoleId() {
     return getRefIdByCode(getReceiverRole())
   }
 
-  def getMemberRole() {
+  String getMemberRole() {
     return MEMBER_ROLE
   }
 
-  def getMemberRoleId() {
+  Number getMemberRoleId() {
     return getRefIdByCode(getMemberRole())
   }
 
-  def getManagerRole() {
+  String getManagerRole() {
     return MANAGER_ROLE
   }
 
-  def getManagerRoleId() {
+  Number getManagerRoleId() {
     return getRefIdByCode(getManagerRole())
   }
 
-  LinkedHashMap getDocument(def docId) {
-    def where = [
+  Map getDocument(def docId) {
+    LinkedHashMap where = [
       n_doc_id: docId
     ]
     return hid.getTableFirst(getDocumentsTable(), where: where)
   }
 
-  List getDocumentsBy(LinkedHashMap input) {
+  List getDocumentsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
       docTypeId     : getDefaultDocumentTypeId(),
@@ -249,7 +250,7 @@ trait Document {
       where.d_begin = params.beginDate
     }
     if (params.docDate) {
-      where.d_doc = DateTimeUtil.dayBegin(params.docDate)
+      where.d_doc = dayBegin(params.docDate)
     }
     if (params.docTime) {
       where.d_time = params.docTime
@@ -261,32 +262,32 @@ trait Document {
       where.t_tags = params.tags
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    def order = [d_begin: 'desc', vc_doc_no: 'desc']
+    LinkedHashMap order = [d_begin: 'desc', vc_doc_no: 'desc']
     return hid.getTableData(getDocumentsTable(), where: where, order: order)
   }
 
-  LinkedHashMap getDocumentBy(LinkedHashMap input) {
+  Map getDocumentBy(Map input) {
     return getDocumentsBy(input)?.getAt(0)
   }
 
-  def getDocumentTypeId(def docId) {
-    def where = [
-      n_doc_id: docId
-    ]
-    return hid.getTableFirst(getDocumentsTable(), 'n_doc_type_id', where)
-  }
-
-  def getDocumentWorkflowId(def docId) {
+  Number getDocumentTypeId(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    return hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where)
+    return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_doc_type_id', where))
   }
 
-  Boolean isDocument(String docType) {
+  Number getDocumentWorkflowId(def docId) {
+    LinkedHashMap where = [
+      n_doc_id: docId
+    ]
+    return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where))
+  }
+
+  Boolean isDocument(CharSequence docType) {
     return entityType.contains('DOC')
   }
 
@@ -294,8 +295,8 @@ trait Document {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
   }
 
-  LinkedHashMap putDocument(LinkedHashMap input) {
-    def defaultParams = [
+  Map putDocument(Map input) {
+    LinkedHashMap defaultParams = [
       docId       : null,
       docTypeId   : null,
       workflowId  : null,
@@ -315,7 +316,7 @@ trait Document {
     ]
     try {
       if (input.docId) {
-        def doc = getDocument(input.docId)
+        LinkedHashMap doc = getDocument(input.docId)
         defaultParams += [
           docTypeId   : doc.n_doc_type_id,
           workflowId  : doc.n_workflow_id,
@@ -334,10 +335,10 @@ trait Document {
           firmId      : doc.n_firm_id
         ]
       }
-      def params = mergeParams(defaultParams, input)
+      LinkedHashMap params = mergeParams(defaultParams, input)
 
       logger.info("${params.docId ? 'Updating' : 'Creating'} document with params ${params}")
-      def result = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
+      LinkedHashMap result = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
         num_N_DOC_ID        : params.docId,
         num_N_DOC_TYPE_ID   : params.docTypeId,
         num_N_FIRM_ID       : params.firmId,
@@ -345,7 +346,7 @@ trait Document {
         num_N_REASON_DOC_ID : params.reasonDocId,
         num_N_PREV_DOC_ID   : params.prevDocId,
         num_N_STORNO_DOC_ID : params.stornoDocId,
-        dt_D_DOC            : DateTimeUtil.dayBegin(params.docDate),
+        dt_D_DOC            : dayBegin(params.docDate),
         dt_D_TIME           : params.docTime,
         vch_VC_DOC_NO       : params.number,
         vch_VC_NAME         : params.name,
@@ -364,31 +365,31 @@ trait Document {
     }
   }
 
-  LinkedHashMap createDocument(LinkedHashMap input) {
+  Map createDocument(Map input) {
     input.remove('docId')
     return putDocument(input)
   }
 
-  LinkedHashMap updateDocument(LinkedHashMap input) {
+  Map updateDocument(Map input) {
     return putDocument(input)
   }
 
-  LinkedHashMap updateDocument(def docId, LinkedHashMap input) {
+  Map updateDocument(def docId, Map input) {
     return putDocument(input + [docId: docId])
   }
 
-  LinkedHashMap updateDocument(LinkedHashMap input, def docId) {
+  Map updateDocument(Map input, def docId) {
     return updateDocument(docId, input)
   }
 
-  LinkedHashMap getDocumentSubject(def docSubjectId) {
-    def where = [
+  Map getDocumentSubject(def docSubjectId) {
+    LinkedHashMap where = [
       n_doc_subject_id: docSubjectId
     ]
     return hid.getTableFirst(getDocumentSubjectsTable(), where: where)
   }
 
-  List getDocumentSubjectsBy(LinkedHashMap input) {
+  List getDocumentSubjectsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docSubjectId  : null,
       docId         : null,
@@ -416,43 +417,43 @@ trait Document {
     return hid.getTableData(getDocumentSubjectsTable(), where: where)
   }
 
-  LinkedHashMap getDocumentSubjectBy(LinkedHashMap input) {
+  Map getDocumentSubjectBy(Map input) {
     return getDocumentSubjectsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getDocumentProviderBy(LinkedHashMap input) {
+  Map getDocumentProviderBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getProviderRoleId()])
   }
 
-  LinkedHashMap getDocumentProvider(def docId) {
+  Map getDocumentProvider(def docId) {
     return getDocumentProviderBy(docId: docId)
   }
 
-  LinkedHashMap getDocumentReceiverBy(LinkedHashMap input) {
+  Map getDocumentReceiverBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getReceiverRoleId()])
   }
 
-  LinkedHashMap getDocumentReceiver(def docId) {
+  Map getDocumentReceiver(def docId) {
     return getDocumentReceiverBy(docId: docId)
   }
 
-  LinkedHashMap getDocumentMemberBy(LinkedHashMap input) {
+  Map getDocumentMemberBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getMemberRoleId()])
   }
 
-  LinkedHashMap getDocumentMember(def docId) {
+  Map getDocumentMember(def docId) {
     return getDocumentMemberBy(docId: docId)
   }
 
-  LinkedHashMap getDocumentManagerBy(LinkedHashMap input) {
+  Map getDocumentManagerBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getManagerRoleId()])
   }
 
-  LinkedHashMap getDocumentManager(def docId) {
+  Map getDocumentManager(def docId) {
     return getDocumentManagerBy(docId: docId)
   }
 
-  Boolean putDocumentSubject(LinkedHashMap input) {
+  Boolean putDocumentSubject(Map input) {
     LinkedHashMap params = mergeParams([
       docId      : null,
       subjectId  : null,
@@ -479,23 +480,27 @@ trait Document {
     }
   }
 
-  LinkedHashMap addDocumentSubject(LinkedHashMap input) {
+  Map addDocumentSubject(Map input) {
     return putDocumentSubject(input)
   }
 
-  LinkedHashMap addDocumentSubject(def docId, LinkedHashMap input) {
+  Map addDocumentSubject(def docId, Map input) {
     return putDocumentSubject(input + [docId: docId])
   }
 
-  LinkedHashMap getDocumentAddParamType(def paramId) {
-    def where = [
+  Map addDocumentSubject(Map input, def docId) {
+    return addDocumentSubject(docId, input)
+  }
+
+  Map getDocumentAddParamType(def paramId) {
+    LinkedHashMap where = [
       n_doc_value_type_id: paramId
     ]
     return hid.getTableFirst(getDocumentAddParamTypesTable(), where: where)
   }
 
-  List getDocumentAddParamTypesBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getDocumentAddParamTypesBy(Map input) {
+    LinkedHashMap params = mergeParams([
       docValueTypeId  : null,
       docTypeId       : null,
       dataTypeId      : null,
@@ -527,28 +532,28 @@ trait Document {
       where.n_ref_type_id = params.refTypeId ?: params.refId
     }
     if (params.canModify != null) {
-      where.c_can_modify = Oracle.encodeBool(params.canModify)
+      where.c_can_modify = encodeBool(params.canModify)
     }
     if (params.isMulti != null) {
-      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+      where.c_fl_multi = encodeBool(params.isMulti)
     }
     return hid.getTableData(getDocumentAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getDocumentAddParamTypeBy(LinkedHashMap input) {
+  Map getDocumentAddParamTypeBy(Map input) {
     return getDocumentAddParamTypesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getDocumentAddParamTypeByCode(String code, def docTypeId = null) {
+  Map getDocumentAddParamTypeByCode(CharSequence code, def docTypeId = null) {
     return getDocumentAddParamTypeBy(code: code, docTypeId: docTypeId)
   }
 
-  def getDocumentAddParamTypeIdByCode(String code) {
-    return getDocumentAddParamTypeByCode(code)?.n_doc_value_type_id
+  Number getDocumentAddParamTypeIdByCode(CharSequence code) {
+    return toIntSafe(getDocumentAddParamTypeByCode(code)?.n_doc_value_type_id)
   }
 
-  LinkedHashMap prepareDocumentAddParam(LinkedHashMap input) {
-    def param = null
+  Map prepareDocumentAddParam(Map input) {
+    LinkedHashMap param = null
     if (input.containsKey('param')) {
       def docTypeId = input.docTypeId ?: getDocumentTypeId(input.docId)
       param = getDocumentAddParamTypeByCode(input.param.toString(), docTypeId)
@@ -557,18 +562,18 @@ trait Document {
     } else if (input.containsKey('paramId')) {
       param = getDocumentAddParamType(input.paramId)
     }
-    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+    input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      def valueType = getAddParamDataType(param)
+      String valueType = getAddParamDataType(param)
       input."${valueType}" = input.value
       input.remove('value')
     }
     return input
   }
 
-  List getDocumentAddParamsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getDocumentAddParamsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       docId   : null,
       paramId : null,
       date    : null,
@@ -595,7 +600,7 @@ trait Document {
       where.n_value = params.number
     }
     if (params.bool != null) {
-      where.c_fl_value = Oracle.encodeBool(params.bool)
+      where.c_fl_value = encodeBool(params.bool)
     }
     if (params.refId) {
       where.n_ref_id = params.refId
@@ -603,12 +608,12 @@ trait Document {
     return hid.getTableData(getDocumentAddParamsTable(), where: where)
   }
 
-  LinkedHashMap getDocumentAddParamBy(LinkedHashMap input) {
+  Map getDocumentAddParamBy(Map input) {
     return getDocumentAddParamsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putDocumentAddParam(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putDocumentAddParam(Map input) {
+    LinkedHashMap params = mergeParams([
       docValueId : null,
       docId      : null,
       paramId    : null,
@@ -627,14 +632,14 @@ trait Document {
       }
 
       logger.info("${params.docValueId ? 'Putting' : 'Creating'} document additional value with params ${params}")
-      def result = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
+      LinkedHashMap result = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
         num_N_DOC_VALUE_ID       : params.docValueId,
         num_N_DOC_ID             : params.docId,
         num_N_DOC_VALUE_TYPE_ID  : params.paramId,
         dt_D_VALUE               : params.date,
         vch_VC_VALUE             : params.string,
         num_N_VALUE              : params.number,
-        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+        ch_C_FL_VALUE            : encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
       logger.info("   Document additional value was ${params.docValueId ? 'put' : 'created'} successfully!")
@@ -646,15 +651,15 @@ trait Document {
     }
   }
 
-  LinkedHashMap addDocumentAddParam(LinkedHashMap input) {
+  Map addDocumentAddParam(Map input) {
     return putDocumentAddParam(input)
   }
 
-  LinkedHashMap addDocumentAddParam(def docId, LinkedHashMap input) {
+  Map addDocumentAddParam(def docId, Map input) {
     return putDocumentAddParam(input + [docId: docId])
   }
 
-  LinkedHashMap addDocumentAddParam(LinkedHashMap input, def docId) {
+  Map addDocumentAddParam(Map input, def docId) {
     return addDocumentAddParam(docId, input)
   }
 
@@ -673,20 +678,20 @@ trait Document {
     }
   }
 
-  Boolean deleteDocumentAddParam(LinkedHashMap input) {
+  Boolean deleteDocumentAddParam(Map input) {
     def docValueId = getDocumentAddParamBy(input)?.n_doc_value_id
     return deleteDocumentAddParam(docValueId)
   }
 
-  LinkedHashMap getDocumentBind(def docDocumentId) {
-    def where = [
+  Map getDocumentBind(def docDocumentId) {
+    LinkedHashMap where = [
       n_doc_document_id: docDocumentId
     ]
     return hid.getTableFirst(getDocumentBindsTable(), where: where)
   }
 
-  List getDocumentBindsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getDocumentBindsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       docDocumentId : null,
       bindTypeId    : null,
       docId         : null,
@@ -713,12 +718,12 @@ trait Document {
     return hid.getTableData(getDocumentBindsTable(), where: where)
   }
 
-  LinkedHashMap getDocumentBindBy(LinkedHashMap input) {
+  Map getDocumentBindBy(Map input) {
     return getDocumentBindsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putDocumentBind(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putDocumentBind(Map input) {
+    LinkedHashMap params = mergeParams([
       docDocumentId : null,
       bindTypeId    : null,
       docId         : null,
@@ -743,15 +748,15 @@ trait Document {
     }
   }
 
-  LinkedHashMap addDocumentBind(LinkedHashMap input) {
+  Map addDocumentBind(Map input) {
     return putDocumentBind(input)
   }
 
-  LinkedHashMap addDocumentBind(def docId, LinkedHashMap input) {
+  Map addDocumentBind(def docId, Map input) {
     return putDocumentBind(input + [docId: docId])
   }
 
-  LinkedHashMap addDocumentBind(LinkedHashMap input, def docId) {
+  Map addDocumentBind(Map input, def docId) {
     return putDocumentBind(docId, input)
   }
 
@@ -770,7 +775,7 @@ trait Document {
     }
   }
 
-  Boolean deleteDocumentBind(LinkedHashMap input) {
+  Boolean deleteDocumentBind(Map input) {
     def docDocumentId = getDocumentBind(input)?.n_doc_document_id
     return deleteDocumentBind(docDocumentId)
   }

@@ -8,39 +8,39 @@ trait File {
     plural : 'files'
   ]
 
-  LinkedHashMap getFileEntityType(def parentType, def id = null) {
+  Map getFileEntityType(def parentType, def id = null) {
     return FILE_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  LinkedHashMap getSubjectFileEntityType(def subjectId, def id = null) {
+  Map getSubjectFileEntityType(def subjectId, def id = null) {
     return getFileEntityType(getSubjectEntityType(subjectId), id)
   }
 
-  LinkedHashMap getFileDefaultParams() {
+  Map getFileDefaultParams() {
     return [
       name    : '',
       content : [] as byte[]
     ]
   }
 
-  LinkedHashMap getFileParamsMap(LinkedHashMap params) {
+  Map getFileParamsMap(Map params) {
     return [
       file_name      : params.name,
       base64_content : params.content ? Base64Converter.to(params.content) : ''
     ]
   }
 
-  LinkedHashMap getFileParams(LinkedHashMap input) {
-    def params = getFileDefaultParams() + input
-    def data   = getFileParamsMap(params)
+  Map getFileParams(Map input) {
+    LinkedHashMap params = getFileDefaultParams() + input
+    LinkedHashMap data   = getFileParamsMap(params)
     return prepareParams(data)
   }
 
-  List getSubjectFiles(def subjectId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getSubjectFiles(def subjectId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
 
-    def result = []
-    def files  = getEntities(getSubjectFileEntityType(subjectId), params)
+    List result = []
+    List files  = getEntities(getSubjectFileEntityType(subjectId), params)
     if (files) {
       files.each { it ->
         result.add([
@@ -53,10 +53,10 @@ trait File {
     return result
   }
 
-  LinkedHashMap getSubjectFile(def subjectId, def fileId) {
-    def file = getEntity(getSubjectFileEntityType(subjectId), fileId)
+  Map getSubjectFile(def subjectId, def fileId) {
+    LinkedHashMap file = getEntity(getSubjectFileEntityType(subjectId), fileId)
     if (file) {
-      def result = [
+      LinkedHashMap result = [
         n_subj_file_id : file.n_subj_file_id,
         file_name      : file.file_name,
         content        : Base64Converter.from(file.base64_content)
@@ -66,21 +66,43 @@ trait File {
     return file
   }
 
-  LinkedHashMap getSubjectFile(LinkedHashMap input) {
+  Map getSubjectFile(Map input) {
     return getSubjectFile(input.subjectId, input.fileId)
   }
 
-  LinkedHashMap createSubjectFile(def subjectId, LinkedHashMap input = [:]) {
+  Map createSubjectFile(def subjectId, Map input = [:]) {
     LinkedHashMap params = getFileParams(input)
     return createEntity(getSubjectFileEntityType(subjectId), params)
   }
 
-  LinkedHashMap updateSubjectFile(def subjectId, def fileId, LinkedHashMap input) {
+  Map createSubjectFile(Map input) {
+    def subjectId = input.subjectId
+    input.remove('subjectId')
+    return createSubjectFile(subjectId, input)
+  }
+
+  Map createSubjectFile(Map input, def subjectId) {
+    return createSubjectFile(subjectId, input)
+  }
+
+  Map updateSubjectFile(def subjectId, def fileId, Map input) {
     LinkedHashMap params = getFileParams(input)
     return updateEntity(getSubjectFileEntityType(subjectId), fileId, params)
   }
 
-  LinkedHashMap putSubjectFile(def subjectId, LinkedHashMap input) {
+  Map updateSubjectFile(Map input) {
+    def subjectId = input.subjectId
+    input.remove('subjectId')
+    def fileId = input.fileId
+    input.remove('fileId')
+    return updateSubjectFile(subjectId, fileId, input)
+  }
+
+  Map updateSubjectFile(Map input, def subjectId, def fileId) {
+    return updateSubjectFile(subjectId, fileId, input)
+  }
+
+  Map putSubjectFile(def subjectId, Map input) {
     def fileId = input.fileId
     input.remove('fileId')
 
@@ -91,14 +113,18 @@ trait File {
     }
   }
 
-  LinkedHashMap putSubjectFile(LinkedHashMap input) {
+  Map putSubjectFile(Map input) {
     def subjectId = input.subjectId
     input.remove('subjectId')
     return putSubjectFile(subjectId, input)
   }
 
+  Map putSubjectFile(Map input, def subjectId) {
+    return putSubjectFile(subjectId, input)
+  }
+
   List putSubjectFiles(def subjectId, List input) {
-    def result = []
+    List result = []
     input.each { item ->
       result += putSubjectFile(subjectId, item)
     }
@@ -109,7 +135,7 @@ trait File {
     return deleteEntity(getSubjectFileEntityType(subjectId), fileId)
   }
 
-  Boolean deleteSubjectFile(LinkedHashMap input) {
+  Boolean deleteSubjectFile(Map input) {
     return deleteSubjectFile(input.subjectId, input.fileId)
   }
 }

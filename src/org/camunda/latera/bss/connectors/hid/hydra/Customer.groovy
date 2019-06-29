@@ -1,8 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.StringUtil
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import java.time.temporal.Temporal
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
@@ -21,126 +22,126 @@ trait Customer {
   private static String ISP_APPLICATION             = 'NETSERV_ARM_ISP'
   private static String HID_APPLICATION             = 'NETSERV_HID'
 
-  def getCustomersTable() {
+  String getCustomersTable() {
     return CUSTOMERS_TABLE
   }
 
-  def getCustomerType() {
-    return CUSTOMER_TYPE
-  }
-
-  def getCustomerNetServicesTable() {
+  String getCustomerNetServicesTable() {
     return CUSTOMER_NET_SERVICES_TABLE
   }
 
-  def getCustomerTypeId() {
+  String getCustomerType() {
+    return CUSTOMER_TYPE
+  }
+
+  Number getCustomerTypeId() {
     return getRefIdByCode(getCustomerType())
   }
 
-  def getNetServiceType() {
+  String getNetServiceType() {
     return NET_SERVICE_TYPE
   }
 
-  def getNetServiceTypeId() {
+  Number getNetServiceTypeId() {
     return getRefIdByCode(getNetServiceType())
   }
 
-  def getApplicationType() {
+  String getApplicationType() {
     return APPLICATION_TYPE
   }
 
-  def getApplicationTypeId() {
+  Number getApplicationTypeId() {
     return getRefIdByCode(getApplicationType())
   }
 
-  def getAuthLoginPassType() {
+  String getAuthLoginPassType() {
     return AUTH_LOGIN_PASS_TYPE
   }
 
-  def getAuthLoginPassTypeId() {
+  Number getAuthLoginPassTypeId() {
     return getRefIdByCode(getAuthLoginPassType())
   }
 
-  def getPassHashMD5Type() {
+  String getPassHashMD5Type() {
     return PASS_HASH_MD5_TYPE
   }
 
-  def getPassHashMD5TypeId() {
+  Number getPassHashMD5TypeId() {
     return getRefIdByCode(getPassHashMD5Type())
   }
 
-  def getPassHashSHA1Type() {
+  String getPassHashSHA1Type() {
     return PASS_HASH_SHA1_TYPE
   }
 
-  def getPassHashSHA1TypeId() {
+  Number getPassHashSHA1TypeId() {
     return getRefIdByCode(getPassHashSHA1Type())
   }
 
-  def getPassHashSSHA1Type() {
+  String getPassHashSSHA1Type() {
     return PASS_HASH_SSHA1_TYPE
   }
 
-  def getPassHashSSHA1TypeId() {
+  Number getPassHashSSHA1TypeId() {
     return getRefIdByCode(getPassHashSSHA1Type())
   }
 
-  def getPassHashCryptType() {
+  String getPassHashCryptType() {
     return PASS_HASH_CRYPT_TYPE
   }
 
-  def getPassHashCryptTypeId() {
+  Number getPassHashCryptTypeId() {
     return getRefIdByCode(getPassHashCryptType())
   }
 
-  def getPassHashMD5SaltyType() {
+  String getPassHashMD5SaltyType() {
     return PASS_HASH_MD5_SALTY_TYPE
   }
 
-  def getPassHashMD5SaltyTypeId() {
+  Number getPassHashMD5SaltyTypeId() {
     return getRefIdByCode(getPassHashMD5SaltyType())
   }
 
-  def getPassHashSHA1SaltyType() {
+  String getPassHashSHA1SaltyType() {
     return PASS_HASH_SHA1_SALTY_TYPE
   }
 
-  def getPassHashSHA1SaltyTypeId() {
+  Number getPassHashSHA1SaltyTypeId() {
     return getRefIdByCode(getPassHashSHA1SaltyType())
   }
 
-  def getSelfCareApplication() {
+  String getSelfCareApplication() {
     return SELF_CARE_APPLICATION
   }
 
-  def getSelfCareApplicationId() {
+  Number getSelfCareApplicationId() {
     return getRefIdByCode(getSelfCareApplication())
   }
 
-  def getISPApplication() {
+  String getISPApplication() {
     return ISP_APPLICATION
   }
 
-  def getISPApplicationId() {
+  Number getISPApplicationId() {
     return getRefIdByCode(getISPApplication())
   }
 
-  def getHIDApplication() {
+  String getHIDApplication() {
     return HID_APPLICATION
   }
 
-  def getHIDApplicationId() {
+  Number getHIDApplicationId() {
     return getRefIdByCode(getHIDApplication())
   }
 
-  LinkedHashMap getCustomer(def customerId) {
+  Map getCustomer(def customerId) {
     LinkedHashMap where = [
       n_subject_id: customerId
     ]
     return hid.getTableFirst(getCustomersTable(), where: where)
   }
 
-  List getCustomersBy(LinkedHashMap input) {
+  List getCustomersBy(Map input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
       baseSubjectId : null,
@@ -188,11 +189,11 @@ trait Customer {
     return hid.getTableData(getCustomersTable(), where: where)
   }
 
-  LinkedHashMap getCustomerBy(LinkedHashMap input) {
+  Map getCustomerBy(Map input) {
     return getCustomersBy(input)?.getAt(0)
   }
 
-  Boolean isCustomer(String entityType) {
+  Boolean isCustomer(CharSequence entityType) {
     return entityType == getCustomerType()
   }
 
@@ -200,7 +201,7 @@ trait Customer {
     return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
   }
 
-  LinkedHashMap putCustomer(LinkedHashMap input) {
+  Map putCustomer(Map input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
       baseSubjectId : null,
@@ -235,20 +236,28 @@ trait Customer {
     }
   }
 
-  LinkedHashMap createCustomer(LinkedHashMap input) {
+  Map createCustomer(Map input) {
     input.remove('customerId')
     return putCustomer(input)
   }
 
-  LinkedHashMap updateCustomer(def customerId, LinkedHashMap input) {
+  Map updateCustomer(Map input) {
+    return putCustomer(input)
+  }
+
+  Map updateCustomer(def customerId, Map input) {
     return putCustomer(input + [customerId: customerId])
   }
 
-  def getCustomerAddParamTypeIdByCode(String code) {
+  Map updateCustomer(Map input, def customerId) {
+    return updateCustomer(customerId, input)
+  }
+
+  Number getCustomerAddParamTypeIdByCode(CharSequence code) {
     return getSubjectAddParamTypeIdByCode(code, getCustomerTypeId())
   }
 
-  List getCustomerAddParamsBy(LinkedHashMap input) {
+  List getCustomerAddParamsBy(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -256,7 +265,7 @@ trait Customer {
     return getSubjectAddParamsBy(input)
   }
 
-  LinkedHashMap getCustomerAddParamBy(LinkedHashMap input) {
+  Map getCustomerAddParamBy(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -264,7 +273,7 @@ trait Customer {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putCustomerAddParam(LinkedHashMap input) {
+  Boolean putCustomerAddParam(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -272,12 +281,16 @@ trait Customer {
     return putSubjectAddParam(input)
   }
 
-  Boolean addCustomerAddParam(LinkedHashMap input) {
+  Boolean addCustomerAddParam(Map input) {
     return putCustomerAddParam(input)
   }
 
-  Boolean addCustomerAddParam(def customerId, LinkedHashMap input) {
+  Boolean addCustomerAddParam(def customerId, Map input) {
     return putCustomerAddParam(input + [customerId: customerId])
+  }
+
+  Boolean addCustomerAddParam(Map input, def customerId) {
+    return addCustomerAddParam(customerId, input)
   }
 
   Boolean enableCustomer(def customerId) {
@@ -292,7 +305,7 @@ trait Customer {
     disableSubject(customerId)
   }
 
-  List getCustomerGroupsBy(LinkedHashMap input) {
+  List getCustomerGroupsBy(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -300,7 +313,7 @@ trait Customer {
     return getSubjectGroupsBy(input)
   }
 
-  LinkedHashMap getCustomerGroupBy(LinkedHashMap input) {
+  Map getCustomerGroupBy(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -316,7 +329,7 @@ trait Customer {
     return getSubjectGroup(customerId)
   }
 
-  LinkedHashMap putCustomerGroup(LinkedHashMap input) {
+  Map putCustomerGroup(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -324,15 +337,19 @@ trait Customer {
     return putSubjectGroup(input)
   }
 
-  LinkedHashMap addCustomerGroup(LinkedHashMap input) {
+  Map addCustomerGroup(Map input) {
     return putCustomerGroup(input)
   }
 
-  LinkedHashMap addCustomerGroup(def customerId, LinkedHashMap input) {
+  Map addCustomerGroup(def customerId, Map input) {
     return putCustomerGroup(input + [customerId: customerId])
   }
 
-  Boolean deleteCustomerGroup(LinkedHashMap input) {
+  Map addCustomerGroup(Map input, def customerId) {
+    return addCustomerGroup(customerId, input)
+  }
+
+  Boolean deleteCustomerGroup(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -344,7 +361,7 @@ trait Customer {
     return deleteSubjectGroup(customerId)
   }
 
-  List getCustomerNetServicesAccessBy(LinkedHashMap input) {
+  List getCustomerNetServicesAccessBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -358,7 +375,7 @@ trait Customer {
       hashTypeId     : null
     ], input)
     LinkedHashMap where = [
-      c_active: Oracle.encodeBool(true)
+      c_active: encodeBool(true)
     ]
 
     if (params.subjServId) {
@@ -394,11 +411,11 @@ trait Customer {
     return hid.getTableData(getCustomerNetServicesTable(), where: where)
   }
 
-  LinkedHashMap getCustomerNetServiceAccessBy(LinkedHashMap input) {
+  Map getCustomerNetServiceAccessBy(Map input) {
     return getCustomerNetServicesAccessBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putCustomerNetServiceAccess(LinkedHashMap input) {
+  Map putCustomerNetServiceAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -435,15 +452,19 @@ trait Customer {
     }
   }
 
-  LinkedHashMap addCustomerNetServiceAccess(LinkedHashMap input) {
+  Map addCustomerNetServiceAccess(Map input) {
     return putCustomerNetServiceAccess(input)
   }
 
-  LinkedHashMap addCustomerNetServiceAccess(def customerId, LinkedHashMap input) {
+  Map addCustomerNetServiceAccess(def customerId, Map input) {
     return putCustomerNetServiceAccess(input + [customerId: customerId])
   }
 
-  Boolean changeNetServicePassword(LinkedHashMap input) {
+  Map addCustomerNetServiceAccess(Map input, def customerId) {
+    return addCustomerNetServiceAccess(customerId, input)
+  }
+
+  Boolean changeNetServicePassword(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId      : null,
       customerId      : null,
@@ -459,7 +480,7 @@ trait Customer {
     ], input)
     try {
       if (params.subjServId == null) {
-        def serv = getCustomerNetServicesAccessBy(input)
+        LinkedHashMap serv = getCustomerNetServicesAccessBy(input)
         if (serv?.n_subj_serv_id) {
           params.subjServId = serv.n_subj_serv_id
         } else {
@@ -474,7 +495,7 @@ trait Customer {
         vch_VC_OLD_PASS_HASH : params.oldPasswordHash,
         vch_VC_NEW_PASS      : params.newPassword,
         num_N_HASH_TYPE_ID   : params.hashTypeId,
-        b_NoPassCheck        : (StringUtil.isEmpty(params.oldPassword) || StringUtil.isEmpty(params.oldPasswordHash))
+        b_NoPassCheck        : (isEmpty(params.oldPassword) || isEmpty(params.oldPasswordHash))
       ])
       logger.info("   Password for net service/app was changed successfully!")
       return true
@@ -485,7 +506,7 @@ trait Customer {
     }
   }
 
-  List getCustomerAppsAccessBy(LinkedHashMap input) {
+  List getCustomerAppsAccessBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -500,11 +521,11 @@ trait Customer {
     return getCustomerNetServicesAccessBy(params + [netServiceId: params.appId])
   }
 
-  LinkedHashMap getCustomerAppAccessBy(LinkedHashMap input) {
+  Map getCustomerAppAccessBy(Map input) {
     return getCustomerAppsAccessBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putCustomerAppAccess(LinkedHashMap input) {
+  Map putCustomerAppAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -539,24 +560,28 @@ trait Customer {
     }
   }
 
-  LinkedHashMap addCustomerAppAccess(LinkedHashMap input) {
+  Map addCustomerAppAccess(Map input) {
     return putCustomerAppAccess(input)
   }
 
-  LinkedHashMap addCustomerAppAccess(def customerId, LinkedHashMap input) {
+  Map addCustomerAppAccess(def customerId, Map input) {
     return putCustomerAppAccess(input + [customerId: customerId])
   }
 
-  Boolean changeAppPassword(LinkedHashMap input) {
+  Map addCustomerAppAccess(Map input, def customerId) {
+    return addCustomerAppAccess(customerId, input)
+  }
+
+  Boolean changeAppPassword(Map input) {
     return changeNetServicePassword(input)
   }
 
-  LinkedHashMap getCustomerSelfCareAccessBy(LinkedHashMap input) {
+  Map getCustomerSelfCareAccessBy(Map input) {
     input.appId = getSelfCareAppId()
     return getCustomerAppAccessBy(input)
   }
 
-  LinkedHashMap putCustomerSelfCareAccess(LinkedHashMap input) {
+  Map putCustomerSelfCareAccess(Map input) {
     LinkedHashMap params = mergeParams([
       customerId : null,
       login      : null,
@@ -569,7 +594,7 @@ trait Customer {
       LinkedHashMap access = hid.execute('SI_USERS_PKG.SET_PRIVATE_OFFICE_ACCESS', [
         num_N_USER_ID     : params.customerId,
         num_N_FIRM_ID     : params.firmId,
-        b_ForceChangePass : Oracle.encodeFlag(params.force),
+        b_ForceChangePass : encodeFlag(params.force),
         vch_VC_LOGIN      : params.login,
         vch_VC_PASS       : params.password
       ])
@@ -582,22 +607,26 @@ trait Customer {
     }
   }
 
-  LinkedHashMap addCustomerSelfCareAccess(LinkedHashMap input) {
+  Map addCustomerSelfCareAccess(Map input) {
     return putCustomerSelfCareAccess(input)
   }
 
-  LinkedHashMap addCustomerSelfCareAccess(def customerId, LinkedHashMap input) {
+  Map addCustomerSelfCareAccess(def customerId, Map input) {
     return putCustomerSelfCareAccess(input + [customerId: customerId])
   }
 
-  Boolean changeSelfCarePassword(LinkedHashMap input) {
+  Map addCustomerSelfCareAccess(Map input, def customerId) {
+    return addCustomerSelfCareAccess(customerId, input)
+  }
+
+  Boolean changeSelfCarePassword(Map input) {
     return changeNetServicePassword(input)
   }
 
   Boolean processCustomer(
     def customerId,
-    def beginDate = DateTimeUtil.now(),
-    def endDate   = null
+    Temporal beginDate = local(),
+    Temporal endDate   = null
   ) {
     try {
       logger.info("Processing customer id ${customerId}")
@@ -615,10 +644,10 @@ trait Customer {
     }
   }
 
-  Boolean processCustomer(LinkedHashMap input) {
+  Boolean processCustomer(Map input) {
     LinkedHashMap params = mergeParams([
       customerId : null,
-      beginDate  : DateTimeUtil.now(),
+      beginDate  : local(),
       endDate    : null
     ], input)
     return processCustomer(params.customerId, params.beginDate, params.endDate)

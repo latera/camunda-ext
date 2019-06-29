@@ -1,23 +1,24 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import java.time.temporal.Temporal
 
 trait Subscription {
   private static String SUBSCRIPTIONS_TABLE = 'SI_V_SUBSCRIPTIONS'
 
-  def getSubscriptionsTable() {
+  String getSubscriptionsTable() {
     return SUBSCRIPTIONS_TABLE
   }
 
-  LinkedHashMap getSubscription(def subscriptionId) {
+  Map getSubscription(def subscriptionId) {
     LinkedHashMap where = [
       n_subscription_id: subscriptionId
     ]
     return hid.getTableFirst(getSubscriptionsTable(), where: where)
   }
 
-  List getSubscriptionsBy(LinkedHashMap input) {
+  List getSubscriptionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId     : null,
       customerId         : null,
@@ -59,7 +60,7 @@ trait Subscription {
       where.n_prev_subscription_id = params.prevSubscriptionId
     }
     if (params.isClosed != null) {
-      where.c_fl_closed = Oracle.encodeBool(params.isClosed)
+      where.c_fl_closed = encodeBool(params.isClosed)
     }
     if (params.beginDate) {
       where.d_begin = params.beginDate
@@ -68,23 +69,34 @@ trait Subscription {
       where.d_end = params.endDate
     }
     if (!params.operationDate && !params.endDate && !params.beginDate) {
-      params.operationDate = DateTimeUtil.now()
+      params.operationDate = local()
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    def order = [d_begin: 'asc']
+    LinkedHashMap order = [d_begin: 'asc']
     return hid.getTableData(getSubscriptionsTable(), where: where, order: order)
   }
 
-  LinkedHashMap getSubscriptionBy(
-    LinkedHashMap input
-  ) {
+  Map getSubscriptionBy(Map input) {
     return getSubscriptionsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putSubscription(LinkedHashMap input) {
+  List getChildSubscriptions(def customerId, def subscriptionId, Map input = [:]) {
+    return getSubscriptionsBy(
+      input + [
+        customerId        : customerId,
+        parSubscriptionId : subscriptionId
+      ]
+    )
+  }
+
+  Map getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
+    return getSubscription(childSubscriptionId)
+  }
+
+  Map putSubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId      : null,
       customerId          : null,
@@ -124,7 +136,7 @@ trait Subscription {
         dt_D_END                   : params.endDate,
         dt_D_INVOICE_END           : params.invoiceEndDate,
         num_N_PREV_SUBSCRIPTION_ID : params.prevSubscriptionId,
-        b_EvaluateDiscounts        : Oracle.encodeFlag(params.evaluateDiscounts)
+        b_EvaluateDiscounts        : encodeFlag(params.evaluateDiscounts)
       ])
       logger.info("   Subscription ${subscription.num_N_SUBJ_GOOD_ID} was put successfully!")
       return subscription
@@ -135,7 +147,96 @@ trait Subscription {
     }
   }
 
-  LinkedHashMap putOneOffSubscription(LinkedHashMap input) {
+  Map putSubscription(def customerId, Map input) {
+    return putSubscription(input + [customerId: customerId])
+  }
+
+  Map putSubscription(Map input, def customerId) {
+    return putSubscription(customerId, input)
+  }
+
+  Map createSubscription(Map input) {
+    input.remove('subscriptionId')
+    return putSubscription(input)
+  }
+
+  Map createSubscription(def customerId, Map input) {
+    return createSubscription(input + [customerId: customerId])
+  }
+
+  Map createSubscription(Map input, def customerId) {
+    return createSubscription(customerId, input)
+  }
+
+  Map updateSubscription(Map input) {
+    return putSubscription(input)
+  }
+
+  Map updateSubscription(def customerId, def subscriptionId, Map input) {
+    return updateSubscription(input + [subscriptionId: subscriptionId, customerId: customerId])
+  }
+
+  Map updateSubscription(Map input, def customerId, def subscriptionId) {
+    return updateSubscription(customerId, subscriptionId, input)
+  }
+
+  Map putChildSubscription(Map input) {
+    return putSubscription(input)
+  }
+
+  Map putChildSubscription(def customerId, Map input) {
+    putChildSubscription(input + [customerId: customerId])
+  }
+
+  Map putChildSubscription(Map input, def customerId) {
+    return putChildSubscription(customerId, input)
+  }
+
+  Map putChildSubscription(def customerId, def parSubscriptionId, Map input) {
+    putChildSubscription(input + [parSubscriptionId: parSubscriptionId, customerId: customerId])
+  }
+
+  Map putChildSubscription(Map input, def customerId, def parSubscriptionId) {
+    return putChildSubscription(customerId, parSubscriptionId, input)
+  }
+
+  Map createChildSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def parSubscriptionId = input.subscriptionId ?: input.parSubscriptionId
+    input.remove('subscriptionId')
+    input.remove('parSubscriptionId')
+    return putChildSubscription(customerId, parSubscriptionId, input)
+  }
+
+  Map createChildSubscription(def customerId, def subscriptionId, Map input = [:]) {
+    return createChildSubscription(input + [parSubscriptionId: subscriptionId, customerId: customerId])
+  }
+
+  Map createChildSubscription(Map input, def customerId, def subscriptionId) {
+    return createChildSubscription(customerId, subscriptionId, input)
+  }
+
+  Map updateChildSubscription(Map input) {
+    def customerId = input.customerId
+    input.remove('customerId')
+    def parSubscriptionId = input.parSubscriptionId
+    input.remove('parSubscriptionId')
+    def subscriptionId = input.subscriptionId ?: input.childSubscriptionId
+    input.remove('subscriptionId')
+    input.remove('childSubscriptionId')
+    return putChildSubscription(customerId, parSubscriptionId, input + [subscriptionId: subscriptionId])
+  }
+
+  Map updateChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Map input = [:]) {
+    return updateChildSubscription(input + [customerId: customerId, parSubscriptionId: subscriptionId, subscriptionId: childSubscriptionId])
+  }
+
+  Map updateChildSubscription(Map input, def customerId, def subscriptionId, def childSubscriptionId) {
+    return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, input)
+  }
+
+  Map putOneOffSubscription(Map input) {
     LinkedHashMap params = mergeParams([
       accountId           : null,
       docId               : null,
@@ -163,7 +264,7 @@ trait Subscription {
         num_N_PAR_SUBSCRIPTION_ID  : params.parSubscriptionId,
         num_N_QUANT                : params.quant,
         dt_D_BEGIN                 : params.beginDate,
-        b_Charge                   : Oracle.encodeFlag(params.charge)
+        b_Charge                   : encodeFlag(params.charge)
       ])
       logger.info("   One-off Subscription ${subscription.num_N_SUBSCRIPTION_ID} was put successfully!")
       return subscription
@@ -175,16 +276,16 @@ trait Subscription {
   }
 
   Boolean closeSubscription(
-    def     subscriptionId,
-    def     endDate = DateTimeUtil.now(),
-    Boolean setInvoiceDate = false
+    def      subscriptionId,
+    Temporal endDate = local(),
+    Boolean  closeChargeLog = false
   ) {
     try {
       logger.info("Closing subscription ${subscriptionId} with date ${endDate}")
       hid.execute('SI_USERS_PKG.SI_USER_GOODS_CLOSE', [
         num_N_SUBJ_GOOD_ID : subscriptionId,
         dt_D_END           : endDate,
-        b_InvoiceEnd       : Oracle.encodeFlag(setInvoiceDate),
+        b_InvoiceEnd       : encodeFlag(setInvoiceDate),
       ])
       logger.info("   Subscription closed successfully!")
       return true
@@ -195,34 +296,53 @@ trait Subscription {
     }
   }
 
-  Boolean closeSubscription(LinkedHashMap input) {
+  Boolean closeSubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
-      endDate        : DateTimeUtil.now(),
-      setInvoiceDate : false
+      endDate        : local(),
+      closeChargeLog : false
     ], input)
-    return closeSubscription(params.subscriptionId, params.endDate, params.setInvoiceDate)
+    return closeSubscription(params.subscriptionId, params.endDate, params.closeChargeLog ?: params.setInvoiceDate)
+  }
+
+  Map closeSubscription(def customerId, def subscriptionId, Temporal endDate, Boolean closeChargeLog = false) {
+    return closeSubscription(subscriptionId, endDate, closeChargeLog)
   }
 
   Boolean closeSubscriptionForce(
     def subscriptionId,
-    def endDate = DateTimeUtil.now()
+    Temporal endDate = local()
   ) {
-    def result = closeSubscription(subscriptionId, endDate, true)
+    Boolean result = closeSubscription(subscriptionId, endDate, true)
 
     def invoiceId = getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: endDate)
     if (invoiceId) {
-       result = closeInvoice(docId: invoiceId, endDate: endDate)
+      result = closeInvoice(docId: invoiceId, endDate: endDate)
     }
     return result
   }
 
-  Boolean closeSubscriptionForce(LinkedHashMap input) {
+  Boolean closeSubscriptionForce(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
-      endDate        : DateTimeUtil.now()
+      endDate        : local()
     ], input)
     return closeSubscriptionForce(params.subscriptionId, params.endDate)
+  }
+
+  Map closeChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Temporal endDate = local(), Boolean immediate = false) {
+    return closeSubscriptionForce(childSubscriptionId, endDate, immediate)
+  }
+
+  Map closeChildSubscription(Map input) {
+    LinkedHashMap params = [
+      customerId          : null,
+      subscriptionId      : null,
+      childSubscriptionId : null,
+      endDate             : local(),
+      immediate           : true
+    ] + input
+    return closeChildSubscription(params.customerId, params.subscriptionId, params.childSubscriptionId, params.endDate, params.immediate)
   }
 
   Boolean deleteSubscription(def subscriptionId) {
@@ -241,13 +361,13 @@ trait Subscription {
   }
 
   Boolean deleteSubscriptionForce(def subscriptionId) {
-    def result = true
-    def invoices = getInvoicesBySubscription(subscriptionId)
+    Boolean result = true
+    List invoices = getInvoicesBySubscription(subscriptionId)
     invoices.each { it ->
-      def cancelResult = cancelInvoice(it.n_doc_id)
+      Boolean cancelResult = cancelInvoice(it.n_doc_id)
       result = result && cancelResult
     }
-    def deleteResult = deleteSubscription(subscriptionId)
+    Boolean deleteResult = deleteSubscription(subscriptionId)
     result = result && deleteResult
     return result
   }

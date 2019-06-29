@@ -1,7 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.Oracle
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
@@ -14,64 +15,64 @@ trait Subject {
   private static String SUBJECT_STATE_DISABLED        = 'SUBJ_STATE_Disabled'
   private static String SUBJECT_COMMENT_TYPE          = 'COMMENT_TYPE_Comment'
 
-  def getSubjectsTable() {
+  String getSubjectsTable() {
     return SUBJECTS_TABLE
   }
 
-  def getSubjectAddParamsTable() {
+  String getSubjectAddParamsTable() {
     return SUBJECT_ADD_PARAMS_TABLE
   }
 
-  def getSubjectAddParamTypesTable() {
+  String getSubjectAddParamTypesTable() {
     return SUBJECT_ADD_PARAM_TYPES_TABLE
   }
 
-  def getSubjectGroupsTable() {
+  String getSubjectGroupsTable() {
     return SUBJECT_GROUPS_TABLE
   }
 
-  def getSubjectStateOn() {
+  String getSubjectStateOn() {
     return SUBJECT_STATE_ON
   }
 
-  def getSubjectStateOnId() {
+  Number getSubjectStateOnId() {
     return getRefIdByCode(getSubjectStateOn())
   }
 
-  def getSubjectStateLocked() {
+  String getSubjectStateLocked() {
     return SUBJECT_STATE_LOCKED
   }
 
-  def getSubjectStateLockedId() {
+  Number getSubjectStateLockedId() {
     return getRefIdByCode(getSubjectStateLocked())
   }
 
-  def getSubjectStateSuspended() {
+  String getSubjectStateSuspended() {
     return SUBJECT_STATE_SUSPENDED
   }
 
-  def getSubjectStateSuspendedId() {
+  Number getSubjectStateSuspendedId() {
     return getRefIdByCode(getSubjectStateSuspended())
   }
 
-  def getSubjectStateDisabled() {
+  String getSubjectStateDisabled() {
     return SUBJECT_STATE_DISABLED
   }
 
-  def getSubjectStateDisabledId() {
+  Number getSubjectStateDisabledId() {
     return getRefIdByCode(getSubjectStateDisabled())
   }
 
-  def getSubjectCommentType() {
+  String getSubjectCommentType() {
     return SUBJECT_COMMENT_TYPE
   }
 
-  def getSubjectCommentTypeId() {
+  Number getSubjectCommentTypeId() {
     return getRefIdByCode(getSubjectCommentType())
   }
 
-  List getSubjectsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getSubjectsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       subjectId        : null,
       baseSubjectId    : null,
       parentSubjectId  : null,
@@ -130,25 +131,25 @@ trait Subject {
     return hid.getTableData(getSubjectsTable(), where: where)
   }
 
-  LinkedHashMap getSubjectBy(LinkedHashMap input) {
+  Map getSubjectBy(Map input) {
     return getSubjectsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getSubject(def subjectId) {
-    def where = [
+  Map getSubject(def subjectId) {
+    LinkedHashMap where = [
       n_subject_id: subjectId
     ]
     return hid.getTableFirst(getSubjectsTable(), where: where)
   }
 
-  def getSubjectTypeId(def subjectId) {
-    def where = [
+  Number getSubjectTypeId(def subjectId) {
+    LinkedHashMap where = [
       n_subject_id: subjectId
     ]
-    return hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where)
+    return toIntSafe(hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where))
   }
 
-  Boolean isSubject(String entityType) {
+  Boolean isSubject(CharSequence entityType) {
     return entityType.contains('SUBJ_TYPE_')
   }
 
@@ -187,14 +188,14 @@ trait Subject {
     return changeSubjectState(subjectId, getSubjectStateDisabledId())
   }
 
-  LinkedHashMap getSubjectAddParamType(def paramId) {
-    def where = [
+  Map getSubjectAddParamType(def paramId) {
+    LinkedHashMap where = [
       n_subj_value_type_id: paramId
     ]
     return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
   }
 
-  List getSubjectAddParamTypesBy(LinkedHashMap input) {
+  List getSubjectAddParamTypesBy(Map input) {
     def params = mergeParams([
       subjValueTypeId : null,
       subjTypeId      : null,
@@ -228,27 +229,27 @@ trait Subject {
       where.n_ref_type_id = params.refTypeId ?: params.refId
     }
     if (params.canModify != null) {
-      where.c_can_modify = Oracle.encodeBool(params.canModify)
+      where.c_can_modify = encodeBool(params.canModify)
     }
     if (params.isMulti != null) {
-      where.c_fl_multi = Oracle.encodeBool(params.isMulti)
+      where.c_fl_multi = encodeBool(params.isMulti)
     }
     if (params.isReadOnly != null) {
-      where.c_fl_read_only = Oracle.encodeBool(params.isReadOnly)
+      where.c_fl_read_only = encodeBool(params.isReadOnly)
     }
     return hid.getTableData(getSubjectAddParamTypesTable(), where: where)
   }
 
-  LinkedHashMap getSubjectAddParamTypeBy(LinkedHashMap input) {
+  Map getSubjectAddParamTypeBy(Map input) {
     return getSubjectAddParamTypesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getSubjectAddParamTypeByCode(String code, def subjTypeId = null) {
+  Map getSubjectAddParamTypeByCode(CharSequence code, def subjTypeId = null) {
     return getSubjectAddParamTypeBy(code: code, subjTypeId: subjTypeId)
   }
 
-  LinkedHashMap prepareSubjectAddParam(LinkedHashMap input) {
-    def param = null
+  Map prepareSubjectAddParam(Map input) {
+    LinkedHashMap param = null
     if (input.containsKey('param')) {
       param = getSubjectAddParamTypeByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
       input.paramId = param?.n_subj_value_type_id
@@ -256,18 +257,18 @@ trait Subject {
     } else if (input.containsKey('paramId')) {
       param = getSubjectAddParamType(input.paramId)
     }
-    input.isMultiple = Oracle.decodeBool(param.c_fl_multi)
+    input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      def valueType = getAddParamDataType(param)
+      String valueType = getAddParamDataType(param)
       input."${valueType}" = input.value
       input.remove('value')
     }
     return input
   }
 
-  List getSubjectAddParamsBy(LinkedHashMap input) {
-    def params = mergeParams([
+  List getSubjectAddParamsBy(Map input) {
+    LinkedHashMap params = mergeParams([
       subjValueId : null,
       subjectId   : null,
       paramId     : null,
@@ -277,7 +278,7 @@ trait Subject {
       bool        : null,
       refId       : null
     ], prepareSubjectAddParam(input))
-    def where = [:]
+    LinkedHashMap where = [:]
 
     if (params.subjValueId) {
       where.n_subj_value_id = params.subjValueId
@@ -298,7 +299,7 @@ trait Subject {
       where.n_value = params.number
     }
     if (params.bool != null) {
-      where.c_fl_value = Oracle.encodeBool(params.bool)
+      where.c_fl_value = encodeBool(params.bool)
     }
     if (params.refId) {
       where.n_ref_id = params.refId
@@ -306,12 +307,12 @@ trait Subject {
     return hid.getTableData(getSubjectAddParamsTable(), where: where)
   }
 
-  LinkedHashMap getSubjectAddParamBy(LinkedHashMap input) {
+  Map getSubjectAddParamBy(Map input) {
     return getSubjectAddParamsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap putSubjectAddParam(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putSubjectAddParam(Map input) {
+    LinkedHashMap params = mergeParams([
       subjValueId : null,
       subjectId   : null,
       paramId     : null,
@@ -331,14 +332,14 @@ trait Subject {
       }
 
       logger.info("${params.subjValueId ? 'Putting' : 'Creating'} subject additional value with params ${params}")
-      def result = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_PUT', [
+      LinkedHashMap result = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_VALUES_PUT', [
         num_N_SUBJ_VALUE_ID      : params.subjValueId,
         num_N_SUBJECT_ID         : params.subjectId,
         num_N_SUBJ_VALUE_TYPE_ID : params.paramId,
         dt_D_VALUE               : params.date,
         vch_VC_VALUE             : params.string,
         num_N_VALUE              : params.number,
-        ch_C_FL_VALUE            : Oracle.encodeBool(params.bool),
+        ch_C_FL_VALUE            : encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
       logger.info("   Subject additional value was ${params.subjValueId ? 'put' : 'created'} successfully!")
@@ -350,15 +351,15 @@ trait Subject {
     }
   }
 
-  LinkedHashMap addSubjectAddParam(LinkedHashMap input) {
+  Map addSubjectAddParam(Map input) {
     return putSubjectAddParam(input)
   }
 
-  LinkedHashMap addSubjectAddParam(def subjectId, LinkedHashMap input) {
+  Map addSubjectAddParam(def subjectId, Map input) {
     return putSubjectAddParam(input + [subjectId: subjectId])
   }
 
-  LinkedHashMap addSubjectAddParam(LinkedHashMap input, def subjectId) {
+  Map addSubjectAddParam(Map input, def subjectId) {
     return putSubjectAddParam(subjectId, input)
   }
 
@@ -377,19 +378,19 @@ trait Subject {
     }
   }
 
-  Boolean deleteSubjectAddParam(LinkedHashMap input) {
+  Boolean deleteSubjectAddParam(Map input) {
     def subjValueId = getSubjectAddParamBy(input)?.n_subj_value_id
     return deleteSubjectAddParam(subjValueId)
   }
 
-  List getSubjectGroupsBy(LinkedHashMap input) {
+  List getSubjectGroupsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjectId : null,
       groupId   : null,
       isMain    : null
     ], input)
-    def where = [:]
-    def order = [c_fl_main: 'DESC']
+    LinkedHashMap where = [:]
+    LinkedHashMap order = [c_fl_main: 'DESC']
 
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
@@ -398,12 +399,12 @@ trait Subject {
       where.n_subj_group_id = params.groupId
     }
     if (params.isMain != null) {
-      where.c_fl_main = Oracle.encodeBool(params.isMain)
+      where.c_fl_main = encodeBool(params.isMain)
     }
     return hid.getTableData(getSubjectGroupsTable(), where: where, order: order)
   }
 
-  LinkedHashMap getSubjectGroupBy(LinkedHashMap input) {
+  Map getSubjectGroupBy(Map input) {
     return getSubjectGroupsBy(input)?.getAt(0)
   }
 
@@ -411,12 +412,12 @@ trait Subject {
     return getSubjectGroupsBy(subjectId: subjectId)
   }
 
-  LinkedHashMap getSubjectGroup(def subjectId) {
+  Map getSubjectGroup(def subjectId) {
     return getSubjectGroupBy(subjectId: subjectId, isMain: true)
   }
 
-  LinkedHashMap putSubjectGroup(LinkedHashMap input) {
-    def params = mergeParams([
+  Map putSubjectGroup(Map input) {
+    LinkedHashMap params = mergeParams([
       subjSubjectId : null,
       subjectId     : null,
       groupId       : null,
@@ -429,7 +430,7 @@ trait Subject {
         num_N_SUBJ_SUBJECT_ID : params.subjSubjectId,
         num_N_SUBJECT_ID      : params.subjectId,
         num_N_SUBJECT_BIND_ID : params.groupId,
-        ch_C_FL_MAIN          : Oracle.encodeBool(params.isMain)
+        ch_C_FL_MAIN          : encodeBool(params.isMain)
       ])
       logger.info("   Subject group was put successfully!")
       return subjSubject
@@ -440,19 +441,19 @@ trait Subject {
     }
   }
 
-  Boolean addSubjectGroup(LinkedHashMap input) {
+  Boolean addSubjectGroup(Map input) {
     return putSubjectGroup(input)
   }
 
-  Boolean addSubjectGroup(def subjectId, LinkedHashMap input) {
+  Boolean addSubjectGroup(def subjectId, Map input) {
     return putSubjectGroup(input + [subjectId: subjectId])
   }
 
-  Boolean addSubjectGroup(LinkedHashMap input, def subjectId) {
+  Boolean addSubjectGroup(Map input, def subjectId) {
     return putSubjectGroup(subjectId, input)
   }
 
-  Boolean deleteSubjectGroup(LinkedHashMap input) {
+  Boolean deleteSubjectGroup(Map input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
       subjectId     : null,
@@ -486,12 +487,12 @@ trait Subject {
     return deleteSubjGroup(subjSubjectId: subjSubjectId)
   }
 
-  LinkedHashMap putSubjectComment(LinkedHashMap input) {
+  Map putSubjectComment(Map input) {
     LinkedHashMap params = mergeParams([
       lineId        : null,
       subjectId     : null,
       typeId        : getSubjectCommentTypeId(),
-      operationDate : DateTimeUtil.now(),
+      operationDate : local(),
       signalDate    : null,
       content       : null,
       authorId      : null
@@ -520,15 +521,15 @@ trait Subject {
     }
   }
 
-  Boolean addSubjectComment(LinkedHashMap input) {
+  Boolean addSubjectComment(Map input) {
     return putSubjectComment(input)
   }
 
-  Boolean addSubjectComment(def subjectId, LinkedHashMap input) {
+  Boolean addSubjectComment(def subjectId, Map input) {
     return putSubjectComment(input + [subjectId: subjectId])
   }
 
-  Boolean addSubjectComment(LinkedHashMap input, def subjectId) {
+  Boolean addSubjectComment(Map input, def subjectId) {
     return putSubjectComment(subjectId, input)
   }
 

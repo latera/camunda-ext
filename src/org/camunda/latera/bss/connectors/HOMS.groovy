@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.utils.Order
 import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.utils.Base64Converter
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 
 class HOMS {
   String url
@@ -31,27 +32,27 @@ class HOMS {
       baseUrl   : this.url,
       user      : this.user,
       password  : this.token,
-      supressRequestBodyLog:  supress,
-      supressResponseBodyLog: supress,
+      supressRequestBodyLog  : supress,
+      supressResponseBodyLog : supress,
       execution : this.execution
     )
     this.homsOrderCode = execution.getVariable('homsOrderCode')
     this.homsOrderId   = execution.getVariable('homsOrderId')
   }
 
-  LinkedHashMap createOrder(String type, LinkedHashMap data = [:]) {
+  Map createOrder(CharSequence type, Map data = [:]) {
     LinkedHashMap body = [
       order: [
-        order_type_code: type,
-        data: data
+        order_type_code : type,
+        data            : data
       ]
     ]
     logger.info("/ Creating new order ...")
     LinkedHashMap result = http.sendRequest(
       'post',
       path: '/api/orders',
-      supressRequestBodyLog:  false,
-      supressResponseBodyLog: false,
+      supressRequestBodyLog  : false,
+      supressResponseBodyLog : false,
       body: body
     )
     LinkedHashMap order = result.order
@@ -63,7 +64,7 @@ class HOMS {
     return order
   }
 
-  LinkedHashMap createOrder(LinkedHashMap data, String type) {
+  Map createOrder(Map data, CharSequence type) {
     return createOrder(type, data)
   }
 
@@ -79,7 +80,7 @@ class HOMS {
       ]
     ]
     logger.info("/ Starting order ...")
-    def result = this.http.sendRequest(
+    this.http.sendRequest(
       'put',
       path: "/api/orders/${homsOrderCode}",
       body: body
@@ -88,10 +89,9 @@ class HOMS {
   }
 
   void saveOrderData() {
-    def orderData = Order.getData(execution)
     LinkedHashMap body = [
       order: [
-        data: orderData
+        data: Order.getData(execution)
       ]
     ]
     logger.info('/ Saving order data...')
@@ -126,11 +126,11 @@ class HOMS {
       order: [
         state:    "done",
         bp_state: "done",
-        done_at:  String.format("%tFT%<tRZ", Calendar.getInstance(TimeZone.getTimeZone("Z")))
+        done_at:  local()
       ]
     ]
     logger.info("/ Finishing order ...")
-    def result = this.http.sendRequest(
+    this.http.sendRequest(
       'put',
       path: "/api/orders/${homsOrderCode}",
       body: body
@@ -140,7 +140,7 @@ class HOMS {
 
   List attachFiles(List files, Boolean save = true) {
     files.eachWithIndex { item, i ->
-      def file = [name: item.name]
+      LinkedHashMap file = [name: item.name]
       file.content = Base64Converter.to(item.content)
       files[i] = file
     }
@@ -155,14 +155,14 @@ class HOMS {
       supressRequestBodyLog:  true
     )
     if (save) {
-      def existingFiles = JSON.from(execution.getVariable('homsOrderDataFileList'))
-      def newList = existingFiles + newFiles
+      List existingFiles = JSON.from(execution.getVariable('homsOrderDataFileList'))
+      List newList = existingFiles + newFiles
       execution.setVariable('homsOrderDataFileList', JSON.to(newList))
     }
     return newFiles
   }
 
-  List attachFile(LinkedHashMap file, Boolean save = true) {
+  List attachFile(Map file, Boolean save = true) {
     return attachFiles([file], save)
   }
 }

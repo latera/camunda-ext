@@ -1,9 +1,9 @@
 package org.camunda.latera.bss.connectors.odoo
 
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.StringUtil
-import org.camunda.latera.bss.utils.MapUtil
-import org.camunda.latera.bss.utils.ListUtil
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.MapUtil.*
+import static org.camunda.latera.bss.utils.ListUtil.*
 
 trait Main {
   private static LinkedHashMap DEFAULT_WHERE  = [:]
@@ -12,25 +12,25 @@ trait Main {
   private static Integer       DEFAULT_LIMIT  = 0
   private static Integer       DEFAULT_OFFSET = 0
 
-  LinkedHashMap searchQuery(
+  Map searchQuery(
     List fields = DEFAULT_FIELDS,
-    LinkedHashMap where = DEFAULT_WHERE,
+    Map where = DEFAULT_WHERE,
     def order = DEFAULT_ORDER,
     Integer limit = DEFAULT_LIMIT,
     Integer offset = DEFAULT_OFFSET
   ) {
-    def query   = []
-    def orderBy = []
+    List query   = []
+    List orderBy = []
 
     if (where?.size() > 0) {
       where.each{ field, value ->
-        if (MapUtil.isMap(value)) {
+        if (isMap(value)) {
           value.each { condition, content ->
             query += """('${field}','${condition}',${escapeSearchValue(content)})"""
           }
         } else {
-          def condition = '='
-          def content  = value
+          String condition = '='
+          def content = value
 
           if (field ==~ /^(.*)!$/) {
             // Not equal
@@ -44,11 +44,11 @@ trait Main {
     }
 
     if (order?.size() > 0) {
-      if (MapUtil.isMap(order)) {
+      if (isMap(order)) {
         convertKeys(order).each { column, direction ->
           orderBy += "'${column} ${direction}'"
         }
-      } else if (ListUtil.isList(order)) {
+      } else if (isList(order)) {
         order.each { column ->
           orderBy += "'${column}'"
         }
@@ -66,12 +66,12 @@ trait Main {
     ]
   }
 
-  LinkedHashMap searchQuery(LinkedHashMap input) {
-    def params = prepareQuery(input)
+  Map searchQuery(Map input) {
+    LinkedHashMap params = prepareQuery(input)
     return searchQuery(params.fields, params.where, params.order, params.limit, params.offset)
   }
 
-  LinkedHashMap prepareQuery(LinkedHashMap input) {
+  Map prepareQuery(Map input) {
     def fields = DEFAULT_FIELDS
     def where  = DEFAULT_WHERE
     def order  = DEFAULT_ORDER
@@ -105,11 +105,11 @@ trait Main {
     ]
   }
 
-  LinkedHashMap prepareParams(Closure paramsParser, LinkedHashMap input, LinkedHashMap additionalParams) {
-    return convertParams(MapUtil.nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
+  Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
+    return convertParams(nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
   }
 
-  LinkedHashMap negativeParser(Closure paramsParser, LinkedHashMap negativeInput) {
+  Map negativeParser(Closure paramsParser, Map negativeInput) {
     LinkedHashMap originalInput = [:]
     LinkedHashMap input         = [:]
     LinkedHashMap negativeWhere = [:]
@@ -118,7 +118,7 @@ trait Main {
     if (negativeInput?.size() > 0) {
       negativeInput.each{ field, value ->
         if (field ==~ /^(.*)!$/) {
-          def originalField = field.replaceFirst(/^(.*)!$/, '$1')
+          String originalField = field.replaceFirst(/^(.*)!$/, '$1')
           originalInput[originalField] = value
         }
       }
@@ -134,18 +134,18 @@ trait Main {
     return negativeWhere
   }
 
-  LinkedHashMap convertKeys(LinkedHashMap input) {
-    return MapUtil.snakeCaseKeys(input)
+  Map convertKeys(Map input) {
+    return snakeCaseKeys(input)
   }
 
   def escapeSearchValue(def value) {
     if (value instanceof Boolean) {
-      return StringUtil.capitalize("${value}")
+      return capitalize("${value}")
     }
-    if (StringUtil.isString(value)) {
+    if (isString(value)) {
       return "'${value}'"
     }
-    if (ListUtil.isList(value)) {
+    if (isList(value)) {
       List newList = []
       value.each { it ->
         newList += escapeSearchValue(it)
@@ -159,13 +159,13 @@ trait Main {
     if (value == null && value == 'null') {
       return false //D`oh
     }
-    if (DateTimeUtil.isDate(value)) {
-      return "'${DateTimeUtil.iso(value)}'"
+    if (isDate(value)) {
+      return "'${iso(value)}'"
     }
     return value
   }
 
-  LinkedHashMap convertParams(LinkedHashMap input) {
+  Map convertParams(Map input) {
     LinkedHashMap result = [:]
     input.each { key, value ->
       result[key] = convertValue(value)

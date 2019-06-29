@@ -4,26 +4,26 @@ trait Company {
   private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
   private static String COMPANY_TYPE    = 'SUBJ_TYPE_Company'
 
-  def getCompanyType() {
-    return COMPANY_TYPE
-  }
-
-  def getCompanyTypeId() {
-    return getRefIdByCode(getCompanyType())
-  }
-
-  def getCompaniesTable() {
+  String getCompaniesTable() {
     return COMPANIES_TABLE
   }
 
-  LinkedHashMap getCompany(def companyId) {
+  String getCompanyType() {
+    return COMPANY_TYPE
+  }
+
+  Number getCompanyTypeId() {
+    return getRefIdByCode(getCompanyType())
+  }
+
+  Map getCompany(def companyId) {
     LinkedHashMap where = [
       n_subject_id: companyId
     ]
     return hid.getTableFirst(getCompaniesTable(), where: where)
   }
 
-  List getCompaniesBy(LinkedHashMap input) {
+  List getCompaniesBy(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       regionId  : null,
@@ -99,11 +99,11 @@ trait Company {
     return hid.getTableData(getCompaniesTable(), where: where)
   }
 
-  LinkedHashMap getCompanyBy(LinkedHashMap input) {
+  Map getCompanyBy(Map input) {
     return getCompaniesBy(input)?.getAt(0)
   }
 
-  Boolean isCompany(String entityType) {
+  Boolean isCompany(CharSequence entityType) {
     return entityType == getCompanyType()
   }
 
@@ -111,7 +111,7 @@ trait Company {
     return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
   }
 
-  LinkedHashMap putCompany(LinkedHashMap input) {
+  Map putCompany(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       name      : null,
@@ -161,20 +161,28 @@ trait Company {
     }
   }
 
-  LinkedHashMap createCompany(LinkedHashMap input) {
+  Map createCompany(Map input) {
     input.remove('companyId')
     return putCompany(input)
   }
 
-  LinkedHashMap updateCompany(def companyId, LinkedHashMap input) {
+  Map updateCompany(Map input) {
+    return putCompany(input)
+  }
+
+  Map updateCompany(def companyId, Map input) {
     return putCompany(input + [companyId: companyId])
   }
 
-  def getCompanyAddParamTypeIdByCode(String code) {
+  Map updateCompany(Map input, def companyId) {
+    return updateCompany(companyId, input)
+  }
+
+  Number getCompanyAddParamTypeIdByCode(CharSequence code) {
     return getSubjectAddParamTypeIdByCode(code, getCompanyTypeId())
   }
 
-  List getCompanyAddParamsBy(LinkedHashMap input) {
+  List getCompanyAddParamsBy(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
       input.remove('companyId')
@@ -182,7 +190,7 @@ trait Company {
     return getSubjectAddParamsBy(input)
   }
 
-  LinkedHashMap getCompanyAddParamBy(LinkedHashMap input) {
+  Map getCompanyAddParamBy(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
       input.remove('companyId')
@@ -190,7 +198,7 @@ trait Company {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putCompanyAddParam(LinkedHashMap input) {
+  Boolean putCompanyAddParam(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
       input.remove('companyId')
@@ -198,11 +206,15 @@ trait Company {
     return putSubjectAddParam(input)
   }
 
-  Boolean addCompanyAddParam(LinkedHashMap input) {
+  Boolean addCompanyAddParam(Map input) {
     return putCompanyAddParam(input)
   }
 
-  Boolean addCompanyAddParam(def companyId, LinkedHashMap input) {
+  Boolean addCompanyAddParam(def companyId, Map input) {
     return putCompanyAddParam(input + [companyId: companyId])
+  }
+
+  Boolean addCompanyAddParam(Map input, def companyId) {
+    return putCompanyAddParam(companyId, input)
   }
 }

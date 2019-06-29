@@ -29,14 +29,14 @@ class OTRS implements Main, Entity, Ticket {
     )
   }
 
-  private def auth() {
+  private Map auth() {
     return [
       UserLogin : user,
       Password  : password
     ]
   }
 
-  def sendRequest(LinkedHashMap input, String method = 'get') {
+  def sendRequest(Map input, CharSequence method = 'get') {
     if (input.path) {
       input.path = "nph-genericinterface.pl/Webservice/HOMS/${input.path}"
     }

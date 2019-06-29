@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
@@ -24,59 +25,59 @@ trait Region {
   private static List REGION_TYPES = REGION_NAMES*.concat("Type")
   private static List REGION_TYPES_WITH_BUILDING = REGION_NAMES_WITH_BUILDING*.concat("Type")
 
-  def getRegionsTable() {
+  String getRegionsTable() {
     return REGIONS_TABLE
   }
 
-  def getRegionHierarchy(){
+  Map getRegionHierarchy(){
     return REGION_HIERARCHY
   }
 
-  def getRegionHierarchyWithBuilding(){
+  Map getRegionHierarchyWithBuilding(){
     return REGION_HIERARCHY_WITH_BUILDING
   }
 
-  def getRegionHierarchyFlatten(){
+  List getRegionHierarchyFlatten(){
     return REGION_HIERARCHY_FLATTEN
   }
 
-  def getRegionHierarchyFlattenWithBuilding(){
+  List getRegionHierarchyFlattenWithBuilding(){
     return REGION_HIERARCHY_FLATTEN_WITH_BUILDING
   }
 
-  def getRegionNames(){
+  List getRegionNames(){
     return REGION_NAMES
   }
 
-  def getRegionNamesWithBuilding(){
+  List getRegionNamesWithBuilding(){
     return REGION_NAMES_WITH_BUILDING
   }
 
-  def getRegionTypes(){
+  List getRegionTypes(){
     return REGION_TYPES
   }
 
-  def getRegionTypesWithBuilding(){
+  List getRegionTypesWithBuilding(){
     return REGION_TYPES_WITH_BUILDING
   }
 
-  def getBuildingType(){
+  String getBuildingType(){
     return BUILDING_TYPE
   }
 
-  def getBuildingTypeId(){
+  Number getBuildingTypeId(){
     return getRefIdByCode(BUILDING_TYPE)
   }
 
-  def getDefaultRealtyGood(){
+  Map getDefaultRealtyGood(){
     return getGoodBy(code: DEFAULT_REALTY_GOOD_CODE)
   }
 
-  def getDefaultRealtyGoodId(){
-    return getDefaultRealtyGood().n_good_id
+  Number getDefaultRealtyGoodId(){
+    return toIntSafe(getDefaultRealtyGood().n_good_id)
   }
 
-  LinkedHashMap getRegionsBy(LinkedHashMap input) {
+  Map getRegionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       hierarchyTypeId : getRefIdByCode('HIER_REG_TYPE_Federal'),
       parRegionId     : null,
@@ -136,19 +137,19 @@ trait Region {
     return hid.getTableData(getRegionsTable(), where: where)
   }
 
-  LinkedHashMap getRegionBy(LinkedHashMap input) {
+  Map getRegionBy(Map input) {
     return getRegionsBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getRegion(regionId) {
+  Map getRegion(regionId) {
     return getRegionBy(regionId: regionId)
   }
 
-  Integer getRegionLevelNum(String code) {
+  Integer getRegionLevelNum(CharSequence code) {
     return REGION_NAMES_WITH_BUILDING.findIndexOf{it == code}
   }
 
-  String getRegionLevelByTypeCode(String code) {
+  String getRegionLevelByTypeCode(CharSequence code) {
     String result = null
     REGION_HIERARCHY_WITH_BUILDING.each{ name, values ->
       if (values.contains(code)) {
@@ -158,7 +159,7 @@ trait Region {
     return result
   }
 
-  Integer getRegionLevelNumByTypeCode(String code) {
+  Integer getRegionLevelNumByTypeCode(CharSequence code) {
     String name = getRegionLevelByTypeCode(code)
     return getRegionLevelNum(name)
   }
@@ -173,7 +174,7 @@ trait Region {
     return getRegionLevelNumByTypeCode(regionType)
   }
 
-  LinkedHashMap getRegionTree(regionId) {
+  Map getRegionTree(regionId) {
     //Get region data from database
     String query = """
     SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(N_REGION_TYPE_ID),"""
@@ -201,8 +202,8 @@ trait Region {
     LinkedHashMap result = [:]
     REGION_HIERARCHY_FLATTEN.each{ code ->
       if (data[code]) {
-        def name = getRegionLevelByTypeCode(code)
-        def index = getRegionLevelNum(name)
+        String name = getRegionLevelByTypeCode(code)
+        Integer index = getRegionLevelNum(name)
 
         result[name] = data[code] //oblast = 'Some value'
         result[REGION_TYPES[index]] = code //oblastType = 'REGION_TYPE_Oblast'
@@ -225,9 +226,7 @@ trait Region {
     return result
   }
 
-  List getRegionItemsValues(
-    LinkedHashMap input
-  ) {
+  List getRegionItemsValues(Map input) {
     String regionQuery = ""
     REGION_TYPES.eachWithIndex{ type, i ->
       regionQuery += """
@@ -240,8 +239,8 @@ trait Region {
     return hid.queryDatabase(regionQuery)
   }
 
-  def putRegion(LinkedHashMap input) {
-    def defaultParams = [
+  Map putRegion(Map input) {
+    LinkedHashMap defaultParams = [
       regionId     : null,
       regionTypeId : null,
       realtyGoodId : null,
@@ -256,7 +255,7 @@ trait Region {
     try {
       logger.info("Putting region with params ${params}")
 
-      def region = hid.execute('SR_REGIONS_PKG.SR_REGIONS_PUT', [
+      LinkedHashMap region = hid.execute('SR_REGIONS_PKG.SR_REGIONS_PUT', [
         num_N_REGION_ID      : params.regionId,
         num_N_REGION_TYPE_ID : params.regionTypeId,
         num_N_PAR_REGION_ID  : params.parRegionId,
@@ -275,9 +274,7 @@ trait Region {
     }
   }
 
-  def createRegionTree(
-    LinkedHashMap input
-  ) {
+  Number createRegionTree(Map input) {
     logger.info("Trying to create region ${input}")
     def regionId      = 0
     Integer typeIndex = 0
@@ -285,7 +282,7 @@ trait Region {
     LinkedHashMap region = null
 
     //Create all regions need step by step
-    for(Integer i = typeIndex; i < REGION_NAMES.toArray().length; ++i) {
+    for(Integer i = typeIndex; i < REGION_NAMES.toArray().size(); ++i) {
       String name = REGION_NAMES[i]
       String type = REGION_TYPES[i]
       if (input[name]) {
@@ -310,7 +307,7 @@ trait Region {
       }
     }
 
-    if (StringUtil.notEmpty(input.building) || StringUtil.notEmpty(input.home) || StringUtil.notEmpty(input.corpus) || StringUtil.notEmpty(input.construct)) {
+    if (notEmpty(input.building) || notEmpty(input.home) || notEmpty(input.corpus) || notEmpty(input.construct)) {
       region = putRegion(
         parRegionId  : regionId,
         regionTypeId : getBuildingTypeId(),
@@ -324,6 +321,6 @@ trait Region {
         regionId = region.num_N_REGION_ID
       }
     }
-    return regionId
+    return toIntSafe(regionId)
   }
 }

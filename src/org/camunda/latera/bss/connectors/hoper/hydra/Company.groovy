@@ -11,7 +11,7 @@ trait Company {
     plural : 'organizations'
   ]
 
-  def getCompanyEntityType(def id = null) {
+  Map getCompanyEntityType(def id = null) {
     if (hoper.version == 1) {
       return COMPANY_ENTITY_TYPE_V1 + withParent(getSubjectEntityType()) + withId(id)
     } else if (hoper.version == 2) {
@@ -19,7 +19,7 @@ trait Company {
     }
   }
 
-  LinkedHashMap getCompanyDefaultParams() {
+  Map getCompanyDefaultParams() {
     return [
       name      : null,
       code      : null,
@@ -32,8 +32,8 @@ trait Company {
     ]
   }
 
-  LinkedHashMap getCompanyParamsMap(LinkedHashMap params, LinkedHashMap additionalParams = [:]) {
-    def result = [
+  Map getCompanyParamsMap(Map params, Map additionalParams = [:]) {
+    LinkedHashMap result = [
       vc_name         : params.name,
       vc_code         : params.code,
       n_opf_id        : params.opfId,
@@ -50,31 +50,39 @@ trait Company {
     return result
   }
 
-  LinkedHashMap getCompanyParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getCompanyDefaultParams() + input
-    def data   = getCompanyParamsMap(params + additionalParams)
+  Map getCompanyParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getCompanyDefaultParams() + input
+    LinkedHashMap data   = getCompanyParamsMap(params + additionalParams)
     return prepareParams(data)
   }
 
-  List getCompanies(LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getCompanies(Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCompanyEntityType(), params)
   }
 
-  LinkedHashMap getCompany(def id) {
+  Map getCompany(def id) {
     return getEntity(getCompanyEntityType(), id)
   }
-  LinkedHashMap createCompany(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+
+  Map createCompany(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCompanyParams(input, additionalParams)
     return createEntity(getCompanyEntityType(), params)
   }
 
-  LinkedHashMap updateCompany(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateCompany(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCompanyParams(input, additionalParams)
     return updateEntity(getCompanyEntityType(), id, params)
   }
 
-  LinkedHashMap putCompany(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateCompany(Map input, Map additionalParams = [:]) {
+    def id = input.id ?: input.companyId
+    input.remove('id')
+    input.remove('companyId')
+    return updateCompany(id, input, additionalParams)
+  }
+
+  Map putCompany(Map input, Map additionalParams = [:]) {
     def companyId = input.companyId
     input.remove('companyId')
 

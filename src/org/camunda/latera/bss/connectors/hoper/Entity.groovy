@@ -3,29 +3,29 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 import org.camunda.latera.bss.utils.StringUtil
 
 trait Entity {
-  LinkedHashMap getEntityDefaultParams() {
+  Map getEntityDefaultParams() {
     return [:]
   }
 
-  LinkedHashMap getEntityParamsMap(LinkedHashMap params) {
+  Map getEntityParamsMap(Map params) {
     return [:]
   }
 
-  LinkedHashMap getPaginationDefaultParams() {
+  Map getPaginationDefaultParams() {
     return [
       per_page : 10,
       page     : 1
     ]
   }
 
-  LinkedHashMap getEntityParams(LinkedHashMap input) {
-    def params = getEntityDefaultParams() + input
-    def where  = getEntityParamsMap(params)
+  Map getEntityParams(Map input) {
+    LinkedHashMap params = getEntityDefaultParams() + input
+    LinkedHashMap where  = getEntityParamsMap(params)
     return getEntityParamsMap(params)
   }
 
-  LinkedHashMap getEntity(def type, def id, LinkedHashMap query = [:]) {
-    def result = null
+  Map getEntity(Map type, def id, Map query = [:]) {
+    LinkedHashMap result = null
     try {
       result = hoper.sendRequest(
         'get',
@@ -38,8 +38,8 @@ trait Entity {
     return result
   }
 
-  List getEntities(def type, LinkedHashMap query = [:]) {
-    def result = null
+  List getEntities(Map type, Map query = [:]) {
+    LinkedHashMap result = null
     try {
       result = hoper.sendRequest(
         'get',
@@ -52,8 +52,8 @@ trait Entity {
     return result
   }
 
-  LinkedHashMap createEntity(def type, LinkedHashMap params) {
-    def result = null
+  Map createEntity(Map type, Map params) {
+    LinkedHashMap result = null
     try {
       logger.info("Creating ${type.one} with params ${params}")
       result = hoper.sendRequest(
@@ -69,8 +69,8 @@ trait Entity {
     return result
   }
 
-  LinkedHashMap updateEntity(def type, def id, LinkedHashMap params) {
-    def result = null
+  Map updateEntity(Map type, def id, Map params) {
+    LinkedHashMap result = null
     try {
       logger.info("Updating ${type.one} id ${id} with params ${params}")
       result = hoper.sendRequest(
@@ -86,7 +86,7 @@ trait Entity {
     return result
   }
 
-  Boolean deleteEntity(def type, def id) {
+  Boolean deleteEntity(Map type, def id) {
     try {
       logger.info("Deleting ${type.one} id ${id}")
       hoper.sendRequest(

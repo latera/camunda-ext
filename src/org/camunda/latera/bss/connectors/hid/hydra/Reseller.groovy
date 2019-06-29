@@ -4,26 +4,26 @@ trait Reseller {
   private static String RESELLERS_TABLE = 'SI_V_RESELLERS'
   private static String RESELLER_TYPE   = 'SUBJ_TYPE_Reseller'
 
-  def getResellerType() {
+  String getResellerType() {
     return RESELLER_TYPE
   }
 
-  def getResellerTypeId() {
+  Number getResellerTypeId() {
     return getRefIdByCode(getResellerType())
   }
 
-  def getResellersTable() {
+  String getResellersTable() {
     return RESELLERS_TABLE
   }
 
-  LinkedHashMap getReseller(def resellerId = getResellerId()) {
+  Map getReseller(def resellerId = getResellerId()) {
     LinkedHashMap where = [
       n_subject_id: resellerId
     ]
     return hid.getTableFirst(getResellersTable(), where: where)
   }
 
-  List getResellersBy(LinkedHashMap input) {
+  List getResellersBy(Map input) {
     LinkedHashMap params = mergeParams([
       resellerId    : null,
       baseSubjectId : null,
@@ -63,13 +63,11 @@ trait Reseller {
     return hid.getTableData(getResellersTable(), where: where)
   }
 
-  LinkedHashMap getResellerBy(
-    LinkedHashMap input
-  ) {
+  Map getResellerBy(Map input) {
     return getResellersBy(input)?.getAt(0)
   }
 
-  Boolean isReseller(String entityType) {
+  Boolean isReseller(CharSequence entityType) {
     return entityType == getResellerType()
   }
 

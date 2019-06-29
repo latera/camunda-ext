@@ -9,31 +9,31 @@ trait Address {
   private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
   private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
-  def getAddressEntityType(def parentType, def id = null) {
+  Map getAddressEntityType(Map parentType, def id = null) {
     return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  def getPersonAddressEntityType(def personId, def id = null) {
+  Map getPersonAddressEntityType(def personId, def id = null) {
     return getAddressEntityType(getPersonEntityType(personId), id)
   }
 
-  def getCompanyAddressEntityType(def companyId, def id = null) {
+  Map getCompanyAddressEntityType(def companyId, def id = null) {
     return getAddressEntityType(getCompanyEntityType(companyId), id)
   }
 
-  def getDefaultAddressTypeId() {
+  Number getDefaultAddressTypeId() {
     return DEFAULT_ADDRESS_TYPE_ID
   }
 
-  def getDefaultAddressBindTypeId() {
+  Number getDefaultAddressBindTypeId() {
     return DEFAULT_ADDRESS_BIND_TYPE_ID
   }
 
-  def getDefaultAddressStateId() {
+  Number getDefaultAddressStateId() {
     return DEFAULT_ADDRESS_STATE_ID
   }
 
-  LinkedHashMap getAddressDefaultParams() {
+  Map getAddressDefaultParams() {
     return [
       addrTypeId      : getDefaultAddressTypeId(),
       parAddressId    : null,
@@ -54,7 +54,7 @@ trait Address {
     ]
   }
 
-  LinkedHashMap getAddressParamsMap(LinkedHashMap params) {
+  Map getAddressParamsMap(Map params) {
     return [
       n_addr_type_id      : params.addrTypeId,
       n_par_addr_id       : params.parAddressId,
@@ -75,9 +75,9 @@ trait Address {
     ]
   }
 
-  LinkedHashMap getAddressParams(LinkedHashMap input) {
-    def params = getAddressDefaultParams() + input
-    def data   = getAddressParamsMap(params)
+  Map getAddressParams(Map input) {
+    LinkedHashMap params = getAddressDefaultParams() + input
+    LinkedHashMap data   = getAddressParamsMap(params)
     return prepareParams(data)
   }
 
@@ -89,17 +89,17 @@ trait Address {
     }
   }
 
-  List getPersonAddresses(def personId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getPersonAddresses(def personId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getPersonAddressEntityType(personId), params)
   }
 
-  List getCompanyAddresses(def companyId, LinkedHashMap input = [:]) {
-    def params = getPaginationDefaultParams() + input
+  List getCompanyAddresses(def companyId, Map input = [:]) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCompanyAddressEntityType(companyId), params)
   }
 
-  Boolean getAddress(def entityType = 'person', def entityId, def entityAddressId) {
+  Boolean getAddress(String entityType = 'person', def entityId, def entityAddressId) {
     if (entityType == getPersonEntityType().one) {
       return getPersonAddress(entityId, entityAddressId)
     } else if (entityType == getCompanyEntityType().one) {
@@ -107,15 +107,15 @@ trait Address {
     }
   }
 
-  LinkedHashMap getPersonAddress(def personId, def subjAddressId) {
+  Map getPersonAddress(def personId, def subjAddressId) {
     return getEntity(getPersonAddressEntityType(personId), subjAddressId)
   }
 
-  LinkedHashMap getCompanyAddress(def companyId, def subjAddressId) {
+  Map getCompanyAddress(def companyId, def subjAddressId) {
     return getEntity(getCompanyAddressEntityType(companyId), subjAddressId)
   }
 
-  Boolean createAddress(def entityType = 'person', def entityId, LinkedHashMap input) {
+  Boolean createAddress(String entityType = 'person', def entityId, Map input) {
     if (entityType == getPersonEntityType().one) {
       return createPersonAddress(entityId, input)
     } else if (entityType == getCompanyEntityType().one) {
@@ -123,17 +123,25 @@ trait Address {
     }
   }
 
-  LinkedHashMap createPersonAddress(def personId, LinkedHashMap input) {
+  Map createPersonAddress(def personId, Map input) {
     LinkedHashMap params = getAddressParams(input)
     return createEntity(getPersonAddressEntityType(personId), params)
   }
 
-  LinkedHashMap createCompanyAddress(def companyId, LinkedHashMap input) {
+  Map createPersonAddress(Map input, def personId) {
+    return createPersonAddress(personId, input)
+  }
+
+  Map createCompanyAddress(def companyId, Map input) {
     LinkedHashMap params = getAddressParams(input)
     return createEntity(getCompanyAddressEntityType(companyId), params)
   }
 
-  Boolean updateAddress(def entityType = 'person', def entityId, def entityAddressId, LinkedHashMap input) {
+  Map createCompanyAddress(Map input, def companyId) {
+    return createCompanyAddress(companyId, input)
+  }
+
+  Boolean updateAddress(String entityType = 'person', def entityId, def entityAddressId, Map input) {
     if (entityType == getPersonEntityType().one) {
       return updatePersonAddress(entityId, entityAddressId, input)
     } else if (entityType == getCompanyEntityType().one) {
@@ -141,17 +149,29 @@ trait Address {
     }
   }
 
-  LinkedHashMap updatePersonAddress(def personId, def subjAddressId, LinkedHashMap input) {
+  Boolean updateAddress(Map input, String entityType = 'person', def entityId, def entityAddressId) {
+    return updateAddress(entityType, entityId, entityAddressId, input)
+  }
+
+  Map updatePersonAddress(def personId, def subjAddressId, Map input) {
     LinkedHashMap params = getAddressParams(input)
     return updateEntity(getPersonAddressEntityType(personId), subjAddressId, params)
   }
 
-  LinkedHashMap updateCompanyAddress(def companyId, def subjAddressId, LinkedHashMap input) {
+  Map updatePersonAddress(Map input, def personId, def subjAddressId) {
+    return updatePersonAddress(personId, subjAddressId, input)
+  }
+
+  Map updateCompanyAddress(def companyId, def subjAddressId, Map input) {
     LinkedHashMap params = getAddressParams(input)
     return updateEntity(getCompanyAddressEntityType(companyId), subjAddressId, params)
   }
 
-  LinkedHashMap putAddress(LinkedHashMap input) {
+  Map updateCompanyAddress(Map input, def companyId, def subjAddressId) {
+    return updateCompanyAddress(companyId, subjAddressId, input)
+  }
+
+  Map putAddress(Map input) {
     def personId = input.personId
     input.remove('personId')
     def companyId = input.companyId
@@ -164,7 +184,7 @@ trait Address {
     }
   }
 
-  Boolean putAddress(def entityType = 'person', def entityId, LinkedHashMap input) {
+  Boolean putAddress(String entityType = 'person', def entityId, Map input) {
     if (entityType == getPersonEntityType().one) {
       return putPersonAddress(entityId, input)
     } else if (entityType == getCompanyEntityType().one) {
@@ -172,7 +192,11 @@ trait Address {
     }
   }
 
-  LinkedHashMap putPersonAddress(def personId, LinkedHashMap input) {
+  Boolean putAddress(Map input, String entityType = 'person', def entityId) {
+    return putAddress(entityType, entityId, input)
+  }
+
+  Map putPersonAddress(def personId, Map input) {
     def subjAddressId = input.subjAddressId
     input.remove('subjAddressId')
 
@@ -183,7 +207,11 @@ trait Address {
     }
   }
 
-  LinkedHashMap putCompanyAddress(def companyId, LinkedHashMap input) {
+  Map putPersonAddress(Map input, def personId) {
+    return putPersonAddress(personId, input)
+  }
+
+  Map putCompanyAddress(def companyId, Map input) {
     def subjAddressId = input.subjAddressId
     input.remove('subjAddressId')
 
@@ -192,6 +220,10 @@ trait Address {
     } else {
       return createCompanyAddress(companyId, input)
     }
+  }
+
+  Map putCompanyAddress(Map input, def companyId) {
+    return putCompanyAddress(companyId, input)
   }
 
   Boolean deleteAddress(def entityType = 'person', def entityId, def entityAddressId) {

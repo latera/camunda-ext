@@ -1,24 +1,25 @@
 package org.camunda.latera.bss.utils
+
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 
 class JSON {
   static def escape(obj) {
     if (obj instanceof Map) {
-      def newMap = [:]
+      LinkedHashMap newMap = [:]
       obj.each { k, v ->
         newMap[k] = escape(v)
       }
       return newMap
     } else if (obj instanceof List) {
-      def newList = []
+      List newList = []
       obj.each { item ->
         newList += escape(item)
       }
       return newList
-    } else if (DateTimeUtil.isDate(obj)) {
-      return DateTimeUtil.iso(obj)
+    } else if (isDate(obj)) {
+      return iso(obj)
     } else {
       return obj
     }
@@ -28,7 +29,7 @@ class JSON {
     return JsonOutput.toJson(escape(obj))
   }
 
-  static String pretty(String json) {
+  static String pretty(CharSequence json) {
     return JsonOutput.prettyPrint(json)
   }
 
@@ -36,8 +37,7 @@ class JSON {
     return pretty(to(obj))
   }
 
-
-  static Object from(String json) {
+  static Object from(CharSequence json) {
     return new JsonSlurper().parseText(json)
   }
 }

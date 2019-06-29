@@ -1,8 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.Oracle
-import java.time.LocalDateTime
+import static org.camunda.latera.bss.utils.Oracle.*
 
 trait Bill {
   private static String  BILLS_TABLE                         = 'SD_V_BILLS_T'
@@ -15,64 +13,64 @@ trait Bill {
   private static String  DEFAULT_PREPAYMENT_BILL_WORKFLOW    = 'WFLOW_PrepaymentBill'
   private static Integer DEFAULT_PREPAYMENT_BILL_WORKFLOW_ID = 60023
 
-  def getBillsTable() {
+  String getBillsTable() {
     return BILLS_TABLE
   }
 
-  def getBillLinesTable() {
+  String getBillLinesTable() {
     return BILL_LINES_TABLE
   }
 
-  def getBillType() {
+  String getBillType() {
     return BILL_TYPE
   }
 
-  def getBillTypeId() {
+  Number getBillTypeId() {
     return getRefIdByCode(BILL_TYPE)
   }
 
-  def getDefaultBillWorkflow() {
+  String getDefaultBillWorkflow() {
     return DEFAULT_BILL_WORKFLOW
   }
 
-  def getDefaultBillWorkflowId() {
+  Number getDefaultBillWorkflowId() {
     return DEFAULT_BILL_WORKFLOW_ID
   }
 
-  def getDefaultAdvanceBillWorkflow() {
+  String getDefaultAdvanceBillWorkflow() {
     return DEFAULT_ADVANCE_BILL_WORKFLOW
   }
 
-  def getDefaultAdvanceBillWorkflowId() {
+  Number getDefaultAdvanceBillWorkflowId() {
     return DEFAULT_ADVANCE_BILL_WORKFLOW_ID
   }
 
-  def getDefaultPrepaidBillWorkflow() {
+  String getDefaultPrepaidBillWorkflow() {
     return DEFAULT_PREPAID_BILL_WORKFLOW
   }
 
-  def getDefaultPrepaidBillWorkflowId() {
+  Number getDefaultPrepaidBillWorkflowId() {
     return DEFAULT_PREPAYMENT_BILL_WORKFLOW_ID
   }
 
-  LinkedHashMap getBill(def docId) {
+  Map getBill(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
     return hid.getTableFirst(getBillsTable(), where: where)
   }
 
-  List getBillsBy(LinkedHashMap input) {
+  List getBillsBy(Map input) {
     input.docTypeId  = getBillTypeId()
     return getDocumentsBy([providerId: null] + input)
   }
 
-  LinkedHashMap getBillBy(LinkedHashMap input) {
+  Map getBillBy(Map input) {
     input.docTypeId = getBillTypeId()
     return getDocumentBy([providerId: null] + input)
   }
 
-  Boolean isBill(String entityType) {
+  Boolean isBill(CharSequence entityType) {
     return entityType == getBillType()
   }
 
@@ -92,7 +90,7 @@ trait Bill {
     return cancelDocument(docId)
   }
 
-  List getBillLinesBy(LinkedHashMap input) {
+  List getBillLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -191,10 +189,10 @@ trait Bill {
       where.d_end = params.endDate
     }
     if (params.operationDate) {
-      String oracleDate = Oracle.encodeDateStr(params.operationDate)
+      String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
     }
-    def order = [n_line_no: 'asc']
+    LinkedHashMap order = [n_line_no: 'asc']
     return hid.getTableData(getBillLinesTable(), where: where, order: order)
   }
 
@@ -206,11 +204,11 @@ trait Bill {
     return hid.getTableData(getBillLinesTable(), where: where)
   }
 
-  LinkedHashMap getBillLineBy(LinkedHashMap input) {
+  Map getBillLineBy(Map input) {
     return getBillLinesBy(input)?.getAt(0)
   }
 
-  LinkedHashMap getBillLine(def lineId) {
+  Map getBillLine(def lineId) {
     LinkedHashMap where = [
       n_line_id: lineId
     ]

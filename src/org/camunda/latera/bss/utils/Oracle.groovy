@@ -1,9 +1,9 @@
 package org.camunda.latera.bss.utils
 
-import org.camunda.latera.bss.utils.DateTimeUtil
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 
 class Oracle {
-  static Object encodeNull(value) {
+  static Object encodeNull(def value) {
     if (value != 'NULL' && value != null && value != '') {
       return value
     } else {
@@ -11,14 +11,14 @@ class Oracle {
     }
   }
 
-  static Object decodeNull(value) {
+  static Object decodeNull(def value) {
     if (encodeNull(value) == 'NULL') {
       return null
     }
     return value
   }
 
-  static Object encodeBool(value) {
+  static Object encodeBool(def value) {
     Object result = encodeNull(value)
     if (result != 'NULL') {
       return value ? 'Y' : 'N'
@@ -27,11 +27,11 @@ class Oracle {
     }
   }
 
-  static Boolean decodeBool(value) {
+  static Boolean decodeBool(def value) {
     return value == 'Y'
   }
 
-  static Object encodeFlag(value) {
+  static Object encodeFlag(def value) {
     Object result = encodeNull(value)
     if (result != 'NULL') {
       return value ? 1 : 0
@@ -44,7 +44,7 @@ class Oracle {
     return value.toString() == '1'
   }
 
-  static Object nvl(nullable, replacement, args = []) {
+  static Object nvl(def nullable, def replacement, List args = []) {
     Boolean result = decodeNull(nullable)
     if (result != null) {
       return result
@@ -57,11 +57,11 @@ class Oracle {
     }
   }
 
-  static Date encodeDate(input) {
-    return Date.from(DateTimeUtil.local(input).toInstant())
+  static Date encodeDate(def input) {
+    return Date.from(local(input).toInstant())
   }
 
-  static String encodeDateStr(input) {
-    return "TO_DATE('${DateTimeUtil.local(input).format(DateTimeUtil.SIMPLE_DATE_TIME_FORMAT)}', '${DateTimeUtil.DATE_TIME_FORMAT_ORACLE}')"
+  static String encodeDateStr(def input) {
+    return "TO_DATE('${format(local(input), SIMPLE_DATE_TIME_FORMAT)}', '${DATE_TIME_FORMAT_ORACLE}')"
   }
 }

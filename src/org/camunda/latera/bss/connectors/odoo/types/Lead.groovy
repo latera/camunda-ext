@@ -3,11 +3,11 @@ package org.camunda.latera.bss.connectors.odoo.types
 trait Lead {
   private static String LEAD_ENTITY_TYPE = 'crm.lead'
 
-  def getLeadEntityType() {
+  String getLeadEntityType() {
     return LEAD_ENTITY_TYPE
   }
 
-  LinkedHashMap getLeadDefaultParams() {
+  Map getLeadDefaultParams() {
     return [
       name           : null,
       email          : null,
@@ -34,7 +34,7 @@ trait Lead {
     ]
   }
 
-  LinkedHashMap getLeadParamsMap(LinkedHashMap params) {
+  Map getLeadParamsMap(Map params) {
     return [
       contact_name : params.name,
       email_from   : params.email,
@@ -61,35 +61,42 @@ trait Lead {
     ]
   }
 
-  LinkedHashMap getLeadParams(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
-    def params = getLeadDefaultParams() + input
+  Map getLeadParams(Map input, Map additionalParams = [:]) {
+    LinkedHashMap params = getLeadDefaultParams() + input
     return prepareParams(this.&getLeadParamsMap, params, additionalParams)
   }
 
-  LinkedHashMap getLead(def id) {
+  Map getLead(def id) {
     return getEntity(getLeadEntityType(), id)
   }
 
-  List getLeadsBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  List getLeadsBy(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getLeadParams(input, additionalParams)
     return getEntitiesBy(getLeadEntityType(), params)
   }
 
-  LinkedHashMap getLeadBy(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map getLeadBy(Map input, Map additionalParams = [:]) {
     return getLeadsBy(input, additionalParams)?.getAt(0)
   }
 
-  LinkedHashMap createLead(LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map createLead(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getLeadParams(input, additionalParams)
     return createEntity(getLeadEntityType(), params)
   }
 
-  LinkedHashMap updateLead(def id, LinkedHashMap input, LinkedHashMap additionalParams = [:]) {
+  Map updateLead(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getLeadParams(input, additionalParams)
     return updateEntity(getLeadEntityType(), id, params)
   }
 
-  LinkedHashMap updateLead(LinkedHashMap input, def id, LinkedHashMap additionalParams = [:]) {
+  Map updateLead(Map input, Map additionalParams = [:]) {
+    def id = input.id ?: input.leadId
+    input.remove('id')
+    input.remove('leadId')
+    return updateLead(id, input, additionalParams)
+  }
+
+  Map updateLead(Map input, def id, Map additionalParams = [:]) {
     return updateLead(id, input, additionalParams)
   }
 

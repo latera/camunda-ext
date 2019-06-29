@@ -1,18 +1,18 @@
 package org.camunda.latera.bss.logging
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import org.camunda.latera.bss.utils.DateTimeUtil
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.*
 import java.time.format.DateTimeFormatter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class Logging {
 
-  static Logger getLogger(entity) {
+  static Logger getLogger(def entity) {
     Logger logger = null
     try {
-      String processId = "${entity.getProcessDefinitionId()} (${entity.getProcessInstanceId()})"
+      String processId = "${entity.getProcessDefinitionId()} (${entity.getProcessInstanceId()})".toString()
       logger = LoggerFactory.getLogger(processId)
     }
     finally {
@@ -20,7 +20,7 @@ class Logging {
     }
   }
 
-  static void log(def msg, String level = "info", Logger logger = null) {
+  static void log(def msg, CharSequence level = "info", Logger logger = null) {
     if (logger) {
       logger."${level}"(msg)
     } else {
@@ -30,21 +30,19 @@ class Logging {
 }
 
 class SimpleLogger {
-  String processInstanceID
+  String processInstanceId
   String homsOrderCode
   DateTimeFormatter dateFormat
 
   SimpleLogger(DelegateExecution execution) {
-    this.processInstanceID = execution.getProcessInstanceId()
-    this.homsOrderCode = execution.getVariable('homsOrderCode') ?: 'ORD-NONE'
-    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DateTimeUtil.DATE_TIME_FORMAT
+    this.processInstanceId = execution.getProcessInstanceId()
+    this.homsOrderCode = execution.getVariable('homsOrderCode')  ?: 'ORD-NONE'
+    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DATE_TIME_FORMAT
   }
 
-  void log(Object message, String level = "info") {
-    String timestamp = DateTimeUtil.now().format(this.dateFormat)
-    String logPrefix
-
-    logPrefix = "${timestamp} ${processInstanceID} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
+  void log(Object message, CharSequence level = "info") {
+    String timestamp = format(local(), this.dateFormat)
+    String logPrefix = "${timestamp} ${processInstanceId} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
 
     message.toString().split('\n').each { it ->
       println(logPrefix + it)
@@ -67,8 +65,8 @@ class SimpleLogger {
     log(message, 'error')
   }
 
-  void log_oracle(Object message, String level = "info") {
-    message = StringUtil.varcharToUnicode(message.toString())
+  void log_oracle(Object message, CharSequence level = "info") {
+    message = varcharToUnicode(message.toString())
     log(message, level)
   }
 

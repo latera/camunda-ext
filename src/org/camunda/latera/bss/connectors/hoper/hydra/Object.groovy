@@ -6,7 +6,7 @@ trait Object {
     plural : 'objects'
   ]
 
-  def getObjectEntityType(def id = null) {
+  Map getObjectEntityType(def id = null) {
     return OBJECT_ENTITY_TYPE + withId(id)
   }
 }
