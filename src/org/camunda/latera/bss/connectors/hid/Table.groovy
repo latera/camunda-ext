@@ -5,29 +5,16 @@ import static org.camunda.latera.bss.utils.StringUtil.*
 import static org.camunda.latera.bss.utils.ListUtil.*
 import static org.camunda.latera.bss.utils.MapUtil.*
 import static org.camunda.latera.bss.utils.Oracle.*
+import org.camunda.latera.bss.internal.TableColumnCache
 
 trait Table {
-  private static LinkedHashMap TABLE_COLUMNS_CACHE = [:]
-  private static LinkedHashMap DEFAULT_WHERE       = [:]
-  private static LinkedHashMap DEFAULT_ORDER       = [:]
-  private static List          DEFAULT_FIELDS      = null
-
-  private void putTableColumnsCache(CharSequence tableName, List columnsList) {
-    if (!TABLE_COLUMNS_CACHE.containsKey(tableName.toString())) {
-      TABLE_COLUMNS_CACHE[tableName.toString()] = columnsList
-    }
-  }
-
-  private List getTableColumnsCached(CharSequence tableName) {
-    if (!TABLE_COLUMNS_CACHE.containsKey(tableName.toString())) {
-      return TABLE_COLUMNS_CACHE[tableName.toString()]
-    }
-    return null
-  }
+  private static LinkedHashMap DEFAULT_WHERE  = [:]
+  private static LinkedHashMap DEFAULT_ORDER  = [:]
+  private static List          DEFAULT_FIELDS = null
 
   List getTableColumns(CharSequence tableName, CharSequence tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
-    List columnsList = getTableColumnsCached(tableFullName)
+    List columnsList = TableColumnCache.instance.get(tableFullName)
     if (columnsList) {
       return columnsList
     }
@@ -39,9 +26,8 @@ trait Table {
       AND    OWNER      = '${tableOwner}'
     """, false, true)
 
-    columnsList = result*.getAt(0) //get only first column values
-    putTableColumnsCache(tableFullName, columnsList)
-    return columnsList
+    columnsList = result*.getAt(0) // get only first column values
+    return TableColumnCache.instance.putAndGet(tableFullName, columnsList)
   }
 
   List getTableData(
@@ -140,9 +126,9 @@ trait Table {
     order = DEFAULT_ORDER
   ) {
     if (isString(fields) && fields != '*') {
-      return getTableData(tableName, [fields], where)?.getAt(0)?."${fields}"
+      return getTableData(tableName, [fields], where, order)?.getAt(0)?."${fields}"
     }
-    return getTableData(tableName, fields, where)?.getAt(0)
+    return getTableData(tableName, fields, where, order)?.getAt(0)
   }
 
   def getTableFirst(Map options, CharSequence tableName) {

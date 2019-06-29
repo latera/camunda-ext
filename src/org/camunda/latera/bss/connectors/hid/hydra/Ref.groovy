@@ -1,36 +1,16 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import org.camunda.latera.bss.internal.RefCache
 
 trait Ref {
-  private static LinkedHashMap REFS_CACHE = [null: null]
-  private static String REFS_TABLE        = 'SI_V_REF'
-  private static String DEFAULT_CURRENCY  = 'CURR_Ruble'
-  private static String UNKNOWN_UNIT      = 'UNIT_Unknown'
-  private static String PIECE_UNIT        = 'UNIT_Piece'
+  private static String REFS_TABLE       = 'SI_V_REF'
+  private static String DEFAULT_CURRENCY = 'CURR_Ruble'
+  private static String UNKNOWN_UNIT     = 'UNIT_Unknown'
+  private static String PIECE_UNIT       = 'UNIT_Piece'
 
   String getRefsTable() {
     return REFS_TABLE
-  }
-
-  private void putRefCache(CharSequence code, def refId) {
-    if (!REFS_CACHE.containsKey(code.toString())) {
-      REFS_CACHE[code.toString()] = toIntSafe(refId)
-    }
-  }
-
-  private Number getRefIdCached(CharSequence code) {
-    if (REFS_CACHE.containsKey(code.toString())) {
-      return REFS_CACHE[code.toString()]
-    }
-    return null
-  }
-
-  private String getRefCodeCached(def id) {
-    if (REFS_CACHE.containsValue(id)) {
-      return REFS_CACHE.find{it.value == id}?.key
-    }
-    return null
   }
 
   Map getRef(def refId) {
@@ -129,7 +109,7 @@ trait Ref {
     List result = hid.getTableData(getRefsTable(), where: where)
     if (result) {
       result.each { ref ->
-        putRefCache(ref.vc_code, ref.n_ref_id)
+        RefCache.instance.put(ref.vc_code, ref.n_ref_id)
       }
     }
     return result
@@ -148,7 +128,7 @@ trait Ref {
   }
 
   Number getRefIdByCode(CharSequence code) {
-    def id = getRefIdCached(code)
+    def id = RefCache.instance.get(code)
     if (id) {
       return id
     }
@@ -156,9 +136,8 @@ trait Ref {
     LinkedHashMap where = [
       vc_code: code
     ]
-    id = toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
-    putRefCache(code, id)
-    return id
+    id = hid.getTableFirst(getRefsTable(), 'n_ref_id', where)
+    return RefCache.instance.putAndGet(code, id)
   }
 
   Number getRefIdByName(CharSequence name) {
@@ -169,8 +148,7 @@ trait Ref {
   }
 
   String getRefCode(def id) {
-    id = toIntSafe(id)
-    String code = getRefCodeCached(id)
+    String code = RefCache.instance.getKey(id)
     if (code) {
       return code
     }
@@ -178,9 +156,8 @@ trait Ref {
     LinkedHashMap where = [
       n_ref_id: id
     ]
-    code = hid.getTableFirst(getRefsTable(), 'vc_code', where)
-    putRefCache(code, id)
-    return code
+    code = hid.getTableFirst(getRefsTable(), 'vc_code', where).toString()
+    return RefCache.instance.putAndGetKey(code, id)
   }
 
   String getRefCodeById(def id) {
