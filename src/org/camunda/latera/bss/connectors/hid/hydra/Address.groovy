@@ -920,7 +920,7 @@ trait Address {
           FROM
               SI_V_ADDRESSES A
           WHERE
-              A.N_ADDRESS_ID = ${params.subnetAddressId}
+              A.N_ADDRESS_ID = ${params.telCodeId}
         """, true)
       }
     } catch (Exception e){
