@@ -85,6 +85,14 @@ class StringUtil {
     }
   }
 
+  static String join(List input, CharSequence delimiter = ''){
+    return input.join(delimiter)
+  }
+
+  static String joinNonEmpty(List input, CharSequence delimiter = ''){
+    return join(input.findAll{ it != null && trim(it.toString()) != '' }, delimiter)
+  }
+
   static String random(Integer length = 6) {
     SecureRandom random = new SecureRandom()
     String result = new BigInteger(130, random).toString(32)
