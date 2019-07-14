@@ -21,9 +21,9 @@ class Imprint {
     def ENV      = System.getenv()
 
     this.locale  = execution.getVariable("locale") ?: 'en'
-    this.url     =  ENV['IMPRINT_URL']     ?: execution.getVariable("imprintUrl")
-    this.version = (ENV['IMPRINT_VERSION'] ?: execution.getVariable("imprintVersion"))?.toInteger()
-    this.token   =  ENV['IMPRINT_TOKEN']   ?: execution.getVariable("imprintToken")
+    this.url     =  ENV['IMPRINT_URL']     ?: execution.getVariable('imprintUrl') ?: 'http://imprint:2300/api'
+    this.version = (ENV['IMPRINT_VERSION'] ?: execution.getVariable('imprintVersion') ?: 1)?.toInteger()
+    this.token   =  ENV['IMPRINT_TOKEN']   ?: execution.getVariable('imprintToken')
     LinkedHashMap headers = [
       'X_IMPRINT_API_VERSION' : this.version,
       'X_IMPRINT_API_TOKEN'   : this.token
@@ -51,7 +51,7 @@ class Imprint {
     ]
     return this.http.sendRequest(
       'post',
-      path : '/api/print',
+      path : 'print',
       body : body
     )
   }

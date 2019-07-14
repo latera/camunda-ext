@@ -24,7 +24,7 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
     this.logger   = new SimpleLogger(execution)
     def ENV       = System.getenv()
 
-    this.url      = ENV['ODOO_URL']      ?: execution.getVariable('odooUrl')
+    this.url      = ENV['ODOO_URL']      ?: execution.getVariable('odooUrl') ?: 'http://odoo:8069/api'
     this.user     = ENV['ODOO_USER']     ?: execution.getVariable('odooUser')
     this.password = ENV['ODOO_PASSWORD'] ?: execution.getVariable('odooPassword')
     this.token    = ENV['ODOO_TOKEN']    ?: execution.getVariable('odooToken')
@@ -49,7 +49,7 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
 
     return http.sendRequest(
         'post',
-        path  : '/api/auth/token',
+        path  : 'auth/token',
         body : body,
         supressRequestBodyLog  : true,
         supressResponseBodyLog : true
@@ -57,7 +57,7 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
   }
 
   private Map authHeader() {
-    return ["Access-Token": this.authToken()]
+    return ['Access-Token': this.authToken()]
   }
 
   def sendRequest(Map input, CharSequence method = 'get') {
@@ -65,9 +65,6 @@ class Odoo implements Main, Entity, Lead, Customer, Country {
       input.headers = [:]
     }
     input.headers += this.authHeader()
-    if (input.path) {
-      input.path = "/api/${input.path}"
-    }
     return http.sendRequest(input, method)
   }
 }

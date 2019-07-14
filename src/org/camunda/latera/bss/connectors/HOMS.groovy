@@ -23,9 +23,9 @@ class HOMS {
     this.logger     = new SimpleLogger(this.execution)
     def ENV         = System.getenv()
 
-    this.url        = ENV['HOMS_URL']  ?: execution.getVariable("homsUrl")
-    this.user       = ENV['HOMS_USER'] ?: execution.getVariable("homsUser")
-    this.token      = ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD'] ?: execution.getVariable("hbwToken") ?: execution.getVariable("homsToken") ?: execution.getVariable("homsPassword")
+    this.url        = ENV['HOMS_URL']  ?: execution.getVariable('homsUrl') ?: 'http://homs:3000/api'
+    this.user       = ENV['HOMS_USER'] ?: execution.getVariable('homsUser')
+    this.token      = ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD'] ?: execution.getVariable('hbwToken') ?: execution.getVariable('homsToken') ?: execution.getVariable('homsPassword')
     Boolean supress = execution.getVariable('homsOrderSupress') ?: false
 
     this.http       = new HTTPRestProcessor(
@@ -47,10 +47,10 @@ class HOMS {
         data            : data
       ]
     ]
-    logger.info("/ Creating new order ...")
+    logger.info('/ Creating new order ...')
     LinkedHashMap result = http.sendRequest(
       'post',
-      path: '/api/orders',
+      path: 'orders',
       supressRequestBodyLog  : false,
       supressResponseBodyLog : false,
       body: body
@@ -58,8 +58,8 @@ class HOMS {
     LinkedHashMap order = result.order
     homsOrderCode = order.code
     homsOrderId   = order.id
-    execution.setVariable("homsOrderCode", homsOrderCode)
-    execution.setVariable("homsOrderId",   homsOrderId)
+    execution.setVariable('homsOrderCode', homsOrderCode)
+    execution.setVariable('homsOrderId',   homsOrderId)
     logger.info("\\ Order created")
     return order
   }
@@ -69,7 +69,7 @@ class HOMS {
   }
 
   void startOrder() {
-    def initiatorEmail = execution.getVariable("initiatorEmail")
+    def initiatorEmail = execution.getVariable('initiatorEmail')
     LinkedHashMap body = [
       order: [
         state      : "in_progress",
@@ -79,10 +79,10 @@ class HOMS {
         user_email : initiatorEmail,
       ]
     ]
-    logger.info("/ Starting order ...")
+    logger.info('/ Starting order ...')
     this.http.sendRequest(
       'put',
-      path: "/api/orders/${homsOrderCode}",
+      path: "orders/${homsOrderCode}",
       body: body
     )
     logger.info('\\ Order started')
@@ -97,7 +97,7 @@ class HOMS {
     logger.info('/ Saving order data...')
     def result = this.http.sendRequest(
       'put',
-      path: "/api/orders/${homsOrderCode}",
+      path: "orders/${homsOrderCode}",
       body: body
     )
     logger.info('\\ Order data saved')
@@ -107,7 +107,7 @@ class HOMS {
     logger.info('/ Receiving order data...')
     def result = this.http.sendRequest(
       'get',
-      path: "/api/orders/${homsOrderCode}"
+      path: "orders/${homsOrderCode}"
     )
     homsOrderId = result.order.id
     execution.setVariable('homsOrderId', homsOrderId)
@@ -132,7 +132,7 @@ class HOMS {
     logger.info("/ Finishing order ...")
     this.http.sendRequest(
       'put',
-      path: "/api/orders/${homsOrderCode}",
+      path: "orders/${homsOrderCode}",
       body: body
     )
     logger.info('\\ Order finished')

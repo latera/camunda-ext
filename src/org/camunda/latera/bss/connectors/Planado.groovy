@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 import java.security.MessageDigest
 
@@ -214,7 +215,7 @@ class Planado {
       data.clientId = getUser(data.extId)?.client_id
     }
     LinkedHashMap payload = [
-      template_id  : data.templateId.toString(),
+      template_id  : toIntSafe(data.templateId),
       client_id    : data.clientId,
       scheduled_at : data.startDate,
       description  : data.description ?: ''

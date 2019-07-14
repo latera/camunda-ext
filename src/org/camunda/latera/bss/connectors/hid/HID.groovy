@@ -16,7 +16,7 @@ class HID implements Table {
 
   HID(DelegateExecution execution) {
     def ENV       = System.getenv()
-    this.url      = ENV['HID_URL']      ?: execution.getVariable('hidUrl')  ?: 'http://hid:10080'
+    this.url      = ENV['HID_URL']      ?: execution.getVariable('hidUrl')  ?: 'http://hid:10080/xml-rpc/db'
     this.user     = ENV['HID_USER']     ?: execution.getVariable('hidUser') ?: 'hydra'
     this.password = ENV['HID_PASSWORD'] ?: execution.getVariable('hidPassword')
 
@@ -30,7 +30,7 @@ class HID implements Table {
       query = """SELECT * FROM (
 ${query}
 )
-WHERE ROWNUM <= 1"""
+WHERE ROWNUM <= ${limit}"""
     }
     LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), page])
     List rows = answer.SelectResult
