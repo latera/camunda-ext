@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.utils
 
 import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.ListUtil.isList
 
 class MapUtil {
   static Boolean isMap(def input) {
@@ -40,10 +41,82 @@ class MapUtil {
     return result
   }
 
+  static List camelizeKeys(List input, Boolean firstUpper = false) {
+    List result = []
+    input.each { it ->
+      if (isMap(it)) {
+        result << camelizeKeys(it, firstUpper)
+      } else {
+        result << it
+      }
+    }
+    return result
+  }
+
+  static Map deepCamelizeKeys(Map input, Boolean firstUpper = false) {
+    LinkedHashMap result = [:]
+    input.each { key, value ->
+      if (isMap(value) || isList(value)) {
+        result[camelize(key, firstUpper)] = deepCamelizeKeys(value)
+      } else {
+        result[camelize(key, firstUpper)] = value
+      }
+    }
+    return result
+  }
+
+  static List deepCamelizeKeys(List input, Boolean firstUpper = false) {
+    List result = []
+    input.each { it ->
+      if (isMap(it) || isList(it)) {
+        result << deepCamelizeKeys(it, firstUpper)
+      } else {
+        result << it
+      }
+    }
+    return result
+  }
+
   static Map snakeCaseKeys(Map input) {
     LinkedHashMap result = [:]
     input.each { key, value ->
       result[snakeCase(key)] = value
+    }
+    return result
+  }
+
+  static List snakeCaseKeys(List input) {
+    List result = []
+    input.each { it ->
+      if (isMap(it)) {
+        result << snakeCaseKeys(it)
+      } else {
+        result << it
+      }
+    }
+    return result
+  }
+
+  static Map deepSnakeCaseKeys(Map input) {
+    LinkedHashMap result = [:]
+    input.each { key, value ->
+      if (isMap(value) || isList(value)) {
+        result[snakeCase(key)] = deepSnakeCaseKeys(value)
+      } else {
+        result[snakeCase(key)] = value
+      }
+    }
+    return result
+  }
+
+  static List deepSnakeCaseKeys(List input) {
+    List result = []
+    input.each { it ->
+      if (isMap(it) || isList(it)) {
+        result << deepSnakeCaseKeys(it)
+      } else {
+        result << it
+      }
     }
     return result
   }
