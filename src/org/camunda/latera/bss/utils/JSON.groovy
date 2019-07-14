@@ -3,19 +3,21 @@ package org.camunda.latera.bss.utils
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.ListUtil.isList
+import static org.camunda.latera.bss.utils.MapUtil.isMap
 
 class JSON {
   static def escape(obj) {
-    if (obj instanceof Map) {
+    if (isMap(obj)) {
       LinkedHashMap newMap = [:]
       obj.each { k, v ->
         newMap[k] = escape(v)
       }
       return newMap
-    } else if (obj instanceof List) {
+    } else if (isList(obj)) {
       List newList = []
       obj.each { item ->
-        newList += escape(item)
+        newList << escape(item)
       }
       return newList
     } else if (isDate(obj)) {
