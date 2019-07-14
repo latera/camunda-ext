@@ -39,7 +39,7 @@ trait Entity {
   }
 
   List getEntities(Map type, Map query = [:]) {
-    LinkedHashMap result = null
+    List result = null
     try {
       result = hoper.sendRequest(
         'get',

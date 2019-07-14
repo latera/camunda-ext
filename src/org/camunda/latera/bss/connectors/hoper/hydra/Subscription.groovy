@@ -142,6 +142,7 @@ trait Subscription {
         return service
       }
     }
+    return null
   }
 
   Map getAvailableServiceByCode(def customerId, Map input) {
@@ -152,6 +153,7 @@ trait Subscription {
         return service
       }
     }
+    return null
   }
 
   List getSubscriptions(def customerId, Map input = [:]) {
