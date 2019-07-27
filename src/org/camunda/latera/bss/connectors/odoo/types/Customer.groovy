@@ -24,7 +24,8 @@ trait Customer {
       street2         : null,
       zip             : null,
       hydraCustomerId : null,
-      comment         : null
+      comment         : null,
+      customer        : true
     ]
   }
 
@@ -46,7 +47,7 @@ trait Customer {
       zip           : params.zip,
       hydra_account : params.hydraCustomerId,
       comment       : params.comment,
-      customer      : true
+      customer      : params.customer
     ]
   }
 
