@@ -17,7 +17,8 @@ trait Customer {
       groupId       : null,
       groupIds      : null,
       rem           : null,
-      firmId        : getFirmId()
+      firmId        : getFirmId(),
+      resellerId    : getResellerId()
     ]
   }
 
@@ -31,6 +32,9 @@ trait Customer {
       n_firm_id         : params.firmId,
       t_tags            : params.tags
     ]
+    if (hoper.version == 2) {
+      result.n_reseller_id = params.resellerId
+    }
     if (additionalParams) {
       result.additional_values = params.additionalParams
     }
