@@ -9,6 +9,8 @@ trait Subject {
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'
   private static String SUBJECT_ADD_PARAM_TYPES_TABLE = 'SI_V_SUBJ_VALUES_TYPE'
   private static String SUBJECT_GROUPS_TABLE          = 'SI_V_SUBJECT_BIND_GROUPS'
+  private static String SUBJECTS_MV                   = 'SI_MV_SUBJECTS'
+  private static String SUBJECT_ADD_PARAMS_MV         = 'SI_MV_SUBJ_VALUES'
   private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
@@ -29,6 +31,14 @@ trait Subject {
 
   String getSubjectGroupsTable() {
     return SUBJECT_GROUPS_TABLE
+  }
+
+  String getSubjectsMV() {
+    return SUBJECTS_MV
+  }
+
+  String getSubjectAddParamsMV() {
+    return SUBJECT_ADD_PARAMS_MV
   }
 
   String getSubjectStateOn() {
@@ -550,5 +560,13 @@ trait Subject {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  Boolean refreshSubjects(CharSequence method = 'C') {
+    return refreshMaterialView(getSubjectsMV(), method)
+  }
+
+  Boolean refreshSubjectAddParams(CharSequence method = 'C') {
+    return refreshMaterialView(getSubjectAddParamsMV(), method)
   }
 }

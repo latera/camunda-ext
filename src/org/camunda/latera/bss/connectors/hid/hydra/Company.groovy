@@ -218,4 +218,8 @@ trait Company {
   Boolean addCompanyAddParam(Map input, def companyId) {
     return putCompanyAddParam(companyId, input)
   }
+
+  Boolean refreshCompanies(CharSequence method = 'C') {
+    return refreshSubjects(method)
+  }
 }

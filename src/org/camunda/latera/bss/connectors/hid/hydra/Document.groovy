@@ -10,6 +10,8 @@ trait Document {
   private static String DOCUMENT_ADD_PARAMS_TABLE      = 'SD_V_DOC_VALUES'
   private static String DOCUMENT_ADD_PARAM_TYPES_TABLE = 'SS_V_WFLOW_DOC_VALUES_TYPE'
   private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
+  private static String DOCUMENTS_MV                   = 'SD_MV_DOCUMENTS'
+  private static String DOCUMENT_ADD_PARAMS_MV         = 'SD_MV_DOC_VALUES'
   private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
   private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
   private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
@@ -41,6 +43,14 @@ trait Document {
 
   String getDocumentBindsTable() {
     return DOCUMENT_BINDS_TABLE
+  }
+
+  String getDocumentsMV() {
+    return DOCUMENTS_MV
+  }
+
+  String getDocumentAddParamsMV() {
+    return DOCUMENT_ADD_PARAMS_MV
   }
 
   String getDocumentStateActual() {
@@ -813,5 +823,13 @@ trait Document {
 
   Boolean dissolveDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateDissolvedId())
+  }
+
+  Boolean refreshDocuments(CharSequence method = 'C') {
+    return refreshMaterialView(getDocumentsMV(), method)
+  }
+
+  Boolean refreshDocumentAddParams(CharSequence method = 'C') {
+    return refreshMaterialView(getDocumentAddParamsMV(), method)
   }
 }

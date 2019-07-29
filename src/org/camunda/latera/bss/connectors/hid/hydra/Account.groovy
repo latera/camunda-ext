@@ -7,11 +7,16 @@ import java.time.temporal.Temporal
 
 trait Account {
   private static String ACCOUNTS_TABLE           = 'SI_V_SUBJ_ACCOUNTS'
+  private static String ACCOUNTS_MV              = 'SI_MV_SUBJ_ACCOUNTS'
   private static String DEFAULT_ACCOUNT_TYPE     = 'ACC_TYPE_Personal'
   private static String DEFAULT_OVERDRAFT_REASON = 'OVERDRAFT_Manual'
 
   String getAccountsTable() {
     return ACCOUNTS_TABLE
+  }
+
+  String getAccountsMV() {
+    return ACCOUNTS_MV
   }
 
   String getDefaultAccountType() {
@@ -524,5 +529,13 @@ trait Account {
       endDate   : null
     ], input)
     return processAccount(params.accountId, params.beginDate, params.endDate)
+  }
+
+  Boolean refreshAccounts(CharSequence method = 'C') {
+    return refreshMaterialView(getAccountsMV(), method)
+  }
+
+  Boolean refreshCustomerAccounts(CharSequence method = 'C') {
+    return refreshAccounts(method)
   }
 }

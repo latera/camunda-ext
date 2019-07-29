@@ -6,6 +6,8 @@ trait Equipment {
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
   private static String EQUIPMENT_BINDS_TABLE        = 'SI_V_OBJ_OBJECTS_BINDS'
   private static String EQUIPMENT_ADD_PARAMS_TABLE   = 'SI_V_OBJ_VALUES'
+  private static String OBJECTS_MV                   = 'SI_V_OBJECTS'
+  private static String EQUIPMENT_ADD_PARAMS_MV      = 'SI_V_OBJ_VALUES'
   private static String EQUIPMENT_STATE_ACTUAL       = 'OBJ_STATE_Active'
   private static String EQUIPMENT_STATE_NOT_ACTIVE   = 'OBJ_STATE_NotActive'
   private static String EQUIPMENT_STATE_REGISTER_OFF = 'OBJ_STATE_RegisterOff'
@@ -28,6 +30,18 @@ trait Equipment {
 
   String getEquipmentAddParamsTable() {
     return EQUIPMENT_ADD_PARAMS_TABLE
+  }
+
+  String getObjectsMV() {
+    return OBJECTS_MV
+  }
+
+  String getEquipmentMV() {
+    return getObjectsMV()
+  }
+
+  String getEquipmentAddParamsMV() {
+    return EQUIPMENT_ADD_PARAMS_MV
   }
 
   String getEquipmentStateActual() {
@@ -811,5 +825,17 @@ trait Equipment {
 
   Boolean unregisterEquipment(def equipmentId) {
     return changeEquipmentState(equipmentId, getEquipmentStateRegisterOffId())
+  }
+
+  Boolean refreshObjects(CharSequence method = 'C') {
+    return refreshMaterialView(getObjectsMV(), method)
+  }
+
+  Boolean refreshEquipment(CharSequence method = 'C') {
+    return refreshObjects(method)
+  }
+
+  Boolean refreshEquipmentAddParams(CharSequence method = 'C') {
+    return refreshMaterialView(getEquipmentAddParamsMV(), method)
   }
 }

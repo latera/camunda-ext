@@ -9,7 +9,8 @@ trait Address {
   private static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
   private static String SUBJECT_ADDRESSES_TABLE = 'SI_V_SUBJ_ADDRESSES'
   private static String OBJECT_ADDRESSES_TABLE  = 'SI_V_OBJ_ADDRESSES'
-
+  private static String OBJECT_ADDRESSES_MV     = 'SI_MV_OBJ_ADDRESSES'
+  private static String SUBJECT_ADDRESSES_MV    = 'SI_MV_SUBJ_ADDRESSES'
   private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
   private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
   private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
@@ -34,6 +35,14 @@ trait Address {
 
   String getObjectAddressesTable() {
     return OBJECT_ADDRESSES_TABLE
+  }
+
+  String getSubjectAddressesMV() {
+    return SUBJECT_ADDRESSES_MV
+  }
+
+  String getObjectAddressesMV() {
+    return OBJECT_ADDRESSES_MV
   }
 
   Map getAddressItems() {
@@ -1193,5 +1202,17 @@ trait Address {
 
   String getVLANBySubnet(Map input) {
     return getVLANAddressBySubnet(input)?.vc_vlan
+  }
+
+  Boolean refreshObjAddresses(CharSequence method = 'C') {
+    return refreshMaterialView(getSubjectAddressesMV(), method)
+  }
+
+  Boolean refreshSubjAddresses(CharSequence method = 'C') {
+    return refreshMaterialView(getObjectAddressesMV(), method)
+  }
+
+  Boolean refreshEntityAddresses(CharSequence method = 'C') {
+    return refreshObjAddresses(method) && refreshSubjAddresses(method)
   }
 }

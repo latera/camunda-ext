@@ -7,6 +7,8 @@ import java.time.temporal.Temporal
 
 trait Contract {
   private static String  CONTRACTS_TABLE    = 'SD_V_CONTRACTS'
+  private static String  CONTRACTS_TREE_MV  = 'SD_MV_CONTRACTS_TREE'
+  private static String  BASE_CONTRACTS_MV  = 'SD_MV_BASE_CONTRACTS'
   private static String  CONTRACT_TYPE      = 'DOC_TYPE_SubscriberContract'
   private static String  CONTRACT_APP_TYPE  = 'DOC_TYPE_ContractAPP'
   private static String  ADD_AGREEMENT_TYPE = 'DOC_TYPE_AddAgreement'
@@ -19,6 +21,14 @@ trait Contract {
 
   String getContractsTable() {
     return CONTRACTS_TABLE
+  }
+
+  String getContractsTreeMV() {
+    return CONTRACTS_TREE_MV
+  }
+
+  String getBaseContractsMV() {
+    return BASE_CONTRACTS_MV
   }
 
   String getContractType() {
@@ -415,19 +425,15 @@ trait Contract {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
+  Boolean refreshBaseContracts(CharSequence method = 'C') {
+    return refreshMaterialView(getBaseContractsMV(), method)
+  }
+
+  Boolean refreshContracts(CharSequence method = 'C') {
+    return refreshContractsTree(method)
+  }
+
   Boolean refreshContractsTree(CharSequence method = 'C') {
-    try {
-      logger.info("Refreshing contracts tree")
-      hid.execute('UTILS_PKG_S.REFRESH_MATERIALIZED_VIEW', [
-        vch_VC_VIEW_NAME : 'SD_MV_CONTRACTS_TREE',
-        vch_C_METHOD     : method
-      ])
-      logger.info("   Contracts tree was refreshed successfully!")
-      return true
-    } catch (Exception e){
-      logger.error("   Error while refreshing contracts tree!")
-      logger.error_oracle(e)
-      return false
-    }
+    return refreshMaterialView(getContractsTreeMV(), method)
   }
 }

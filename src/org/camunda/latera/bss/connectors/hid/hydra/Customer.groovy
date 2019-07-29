@@ -654,4 +654,8 @@ trait Customer {
     ], input)
     return processCustomer(params.customerId, params.beginDate, params.endDate)
   }
+
+  Boolean refreshCustomers(CharSequence method = 'C') {
+    return refreshSubjects(method)
+  }
 }

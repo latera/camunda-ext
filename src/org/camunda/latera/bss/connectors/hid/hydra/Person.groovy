@@ -228,4 +228,8 @@ trait Person {
   Boolean addPersonAddParam(Map input, def personId) {
     return putPersonAddParam(personId, input)
   }
+
+  Boolean refreshPersons(CharSequence method = 'C') {
+    return refreshSubjects(method)
+  }
 }
