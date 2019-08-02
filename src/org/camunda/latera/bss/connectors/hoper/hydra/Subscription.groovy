@@ -48,8 +48,8 @@ trait Subscription {
       n_equipment_id        : params.equipmentId,
       n_par_subscription_id : params.parSubscriptionId,
       d_oper                : params.operationDate,
-      per_page              : params.endDate,
-      page                  : params.closeChargeLog
+      per_page              : params.perPage,
+      page                  : params.page
     ]
   }
 
