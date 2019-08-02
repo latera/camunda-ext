@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
-
+import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 import java.security.MessageDigest
 
 class Planado {
@@ -38,8 +38,7 @@ class Planado {
   }
 
   private String makeExtId(List input) {
-    String str = input.findAll { it -> !it?.isEmpty() }.join(';').toString()
-    return makeExtId(str)
+    return makeExtId(joinNonEmpty(input, ';'))
   }
 
   Map getUser(def extId) {
@@ -71,7 +70,7 @@ class Planado {
   Boolean deleteUser(def extId) {
     try {
       sendRequest(
-        "delete",
+        'delete',
         path: "clients/${extId}.json"
       )
       return true
@@ -83,10 +82,19 @@ class Planado {
   }
 
   Map createUser(Map data) {
+    if (!data.contactName) {
+      data.contactName = joinNonEmpty([
+        data.firstName,
+        data.middleName,
+        data.lastName
+      ], ' ')
+    }
+
     String extId = data.extId ?: makeExtId([
       data.firstName,
       data.middleName,
       data.lastName,
+      data.contactName,
       data.addressStreet,
       data.addressEntrance,
       data.addressFloor,
@@ -107,16 +115,21 @@ class Planado {
       first_name    : data.firstName  ?: '',
       middle_name   : data.middleName ?: '',
       last_name     : data.lastName   ?: '',
-      name          : [data.lastName, data.firstName].join(' ').trim(),
+      name          : data.contactName,
       site_address  : [
-        formatted   : data.addressStreet      ?: '',
-        entrance_no : data.addressEntrance    ?: '',
-        floor       : data.addressFloor       ?: '',
-        apartment   : data.addressApartment   ?: '',
-        description : data.addressDescription ?: ''
+        formatted   : data.addressStreet       ?: '',
+        entrance_no : data.addressEntrance     ?: '',
+        floor       : data.addressFloor        ?: '',
+        apartment   : data.addressApartment    ?: '',
+        description : data.addressDescription  ?: ''
       ],
-      email         : data.email ?: '',
-      cell_phone    : data.phone ?: ''
+      email    : data.email                    ?: '',
+      contacts : [[
+        type  : 'phone',
+        name  : data.contactName               ?: '',
+        value : data.phone                     ?: '',
+        value_normalized: data.phone           ?: ''
+      ]]
     ]
 
     if (data.addressLat && data.addressLon) {
@@ -140,8 +153,17 @@ class Planado {
   }
 
   Map createCompany(Map data) {
+    if (!data.contactName) {
+      data.contactName = joinNonEmpty([
+        data.firstName,
+        data.middleName,
+        data.lastName
+      ], ' ')
+    }
+
     String extId = data.extId ?: makeExtId([
       data.companyName,
+      data.contactName,
       data.addressStreet,
       data.addressEntrance,
       data.addressFloor,
@@ -169,11 +191,11 @@ class Planado {
       ],
       email    : data.email                    ?: '',
       contacts : [[
-                  type  : "phone",
-                  name  : data.companyName     ?: '',
-                  value : data.phone           ?: '',
-                  value_normalized: data.phone ?: ''
-                ]]
+        type  : 'phone',
+        name  : data.contactName               ?: '',
+        value : data.phone                     ?: '',
+        value_normalized: data.phone           ?: ''
+      ]]
     ]
 
     if (data.addressLat && data.addressLon) {
@@ -224,10 +246,10 @@ class Planado {
     try {
       logger.info('Creating new job')
       return sendRequest(
-      'post',
-      path: 'jobs.json',
-      body: payload
-    )
+        'post',
+        path: 'jobs.json',
+        body: payload
+      )
     } catch (Exception e) {
       logger.error(e)
       return null
