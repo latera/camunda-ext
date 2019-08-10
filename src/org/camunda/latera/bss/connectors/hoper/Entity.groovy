@@ -13,8 +13,8 @@ trait Entity {
 
   Map getPaginationDefaultParams() {
     return [
-      per_page : 10,
-      page     : 1
+      perPage : 10,
+      page    : 1
     ]
   }
 

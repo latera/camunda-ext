@@ -32,7 +32,7 @@ trait Subscription {
   }
 
   Map getAvailableServicesDefaultParams() {
-    return getPaginationDefaultParams() + [
+    return [
       accountId          : null,
       docId              : null,
       equipmentId        : null,
@@ -120,7 +120,7 @@ trait Subscription {
   }
 
   List getAvailableServices(def customerId, Map input) {
-    LinkedHashMap params = getAvailableServicesParams(input)
+    LinkedHashMap params = getPaginationDefaultParams() + getAvailableServicesParams(input)
     return getEntities(getAvailableServicesEntityType(customerId), params)
   }
 
