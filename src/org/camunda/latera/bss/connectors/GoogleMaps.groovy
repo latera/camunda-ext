@@ -37,9 +37,9 @@ class GoogleMaps {
   Map geocodeAddress(CharSequence address){
     try {
       return sendRequest(
-        'post',
+        'get',
         path: 'geocode',
-        body: [
+        query: [
           address: address
         ]
       ).results[0]
