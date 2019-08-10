@@ -30,7 +30,7 @@ class MailSender {
     this.props.put('mail.smtp.user',            user)
     this.props.put('mail.smtp.password',        password)
     this.props.put('mail.smtp.auth',            true)
-    this.props.put('mail.smtp.starttls.enable', true)
+    this.props.put('mail.smtp.starttls.enable', 'true')
     this.props.put('mail.smtp.ssl.trust',       true)
 
     this.session   = Session.getDefaultInstance(props, null)
