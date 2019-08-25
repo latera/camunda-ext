@@ -31,23 +31,23 @@ trait Customer {
 
   Map getCustomerParamsMap(Map params) {
     return [
-      name          : params.name,
-      email         : params.email,
-      is_company    : params.isCompany,
-      company_name  : params.companyName,
-      company_id    : params.organizationId,
-      user_id       : params.userId,
-      team_id       : params.teamId,
-      phone         : params.phoneNumber,
-      country_id    : params.countryId,
-      state_id      : params.stateId,
-      city          : params.city,
-      street        : params.street,
-      street2       : params.street2,
-      zip           : params.zip,
-      hydra_account : params.hydraCustomerId,
-      comment       : params.comment,
-      customer      : params.customer
+      name              : params.name,
+      email             : params.email,
+      is_company        : params.isCompany,
+      company_name      : params.companyName,
+      company_id        : params.organizationId,
+      user_id           : params.userId,
+      team_id           : params.teamId,
+      phone             : params.phoneNumber,
+      country_id        : params.countryId,
+      state_id          : params.stateId,
+      city              : params.city,
+      street            : params.street,
+      street2           : params.street2,
+      zip               : params.zip,
+      hydra_customer_id : params.hydraCustomerId,
+      comment           : params.comment,
+      customer          : params.customer
     ]
   }
 

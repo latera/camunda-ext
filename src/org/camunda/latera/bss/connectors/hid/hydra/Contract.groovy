@@ -6,12 +6,12 @@ import static org.camunda.latera.bss.utils.Oracle.*
 import java.time.temporal.Temporal
 
 trait Contract {
-  private static String  CONTRACTS_TABLE    = 'SD_V_CONTRACTS'
-  private static String  CONTRACTS_TREE_MV  = 'SD_MV_CONTRACTS_TREE'
-  private static String  BASE_CONTRACTS_MV  = 'SD_MV_BASE_CONTRACTS'
-  private static String  CONTRACT_TYPE      = 'DOC_TYPE_SubscriberContract'
-  private static String  CONTRACT_APP_TYPE  = 'DOC_TYPE_ContractAPP'
-  private static String  ADD_AGREEMENT_TYPE = 'DOC_TYPE_AddAgreement'
+  private static String  CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
+  private static String  CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
+  private static String  BASE_CONTRACTS_TREE_MV = 'SD_MV_BASE_CONTRACTS_TREE'
+  private static String  CONTRACT_TYPE          = 'DOC_TYPE_SubscriberContract'
+  private static String  CONTRACT_APP_TYPE      = 'DOC_TYPE_ContractAPP'
+  private static String  ADD_AGREEMENT_TYPE     = 'DOC_TYPE_AddAgreement'
   private static String  DEFAULT_CONTRACT_WORKFLOW         = 'WFLOW_SubscriberContract'
   private static Integer DEFAULT_CONTRACT_WORKFLOW_ID      = 10021
   private static String  DEFAULT_CONTRACT_APP_WORKFLOW     = 'WFLOW_ContractAPP'
@@ -27,8 +27,8 @@ trait Contract {
     return CONTRACTS_TREE_MV
   }
 
-  String getBaseContractsMV() {
-    return BASE_CONTRACTS_MV
+  String getBaseContractsTreeMV() {
+    return BASE_CONTRACTS_TREE_MV
   }
 
   String getContractType() {
@@ -426,7 +426,7 @@ trait Contract {
   }
 
   Boolean refreshBaseContracts(CharSequence method = 'C') {
-    return refreshMaterialView(getBaseContractsMV(), method)
+    return refreshMaterialView(getBaseContractsTreeMV(), method)
   }
 
   Boolean refreshContracts(CharSequence method = 'C') {
