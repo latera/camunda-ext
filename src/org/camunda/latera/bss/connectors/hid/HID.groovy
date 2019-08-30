@@ -81,11 +81,11 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   List queryFirstList(CharSequence query) {
-    return queryFirst(query, false, noLimit)
+    return queryFirst(query, false)
   }
 
   Map queryFirstMap(CharSequence query) {
-    return queryFirst(query, true, noLimit)
+    return queryFirst(query, true)
   }
 
   def execute(CharSequence execName, Map params) {

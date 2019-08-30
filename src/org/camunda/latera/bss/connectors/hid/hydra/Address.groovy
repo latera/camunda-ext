@@ -6,15 +6,15 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import java.time.temporal.Temporal
 
 trait Address {
-  private static String MAIN_ADDRESSES_TABLE    = 'SI_V_ADDRESSES'
-  private static String SUBJECT_ADDRESSES_TABLE = 'SI_V_SUBJ_ADDRESSES'
-  private static String OBJECT_ADDRESSES_TABLE  = 'SI_V_OBJ_ADDRESSES'
-  private static String OBJECT_ADDRESSES_MV     = 'SI_MV_OBJ_ADDRESSES'
-  private static String SUBJECT_ADDRESSES_MV    = 'SI_MV_SUBJ_ADDRESSES'
+  private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
+  private static String SUBJECT_ADDRESSES_TABLE   = 'SI_V_SUBJ_ADDRESSES'
+  private static String OBJECT_ADDRESSES_TABLE    = 'SI_V_OBJ_ADDRESSES'
+  private static String OBJECT_ADDRESSES_MV       = 'SI_MV_OBJ_ADDRESSES'
+  private static String SUBJECT_ADDRESSES_MV      = 'SI_MV_SUBJ_ADDRESSES'
   private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
   private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
   private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
-  private static LinkedHashMap ADDRESS_ITEMS = [
+  private static LinkedHashMap ADDRESS_ITEMS      = [
     building  : 'зд.',
     home      : 'д.',
     corpus    : 'корп.',
