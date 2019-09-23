@@ -15,6 +15,30 @@ class ListUtil {
     return (input instanceof byte[])
   }
 
+  static List upperCase(List input) {
+    List result = []
+    input.each { item ->
+      if (isString(item)) {
+        result << item.toUpperCase()
+      } else {
+        result << item
+      }
+    }
+    return result
+  }
+
+  static List lowerCase(List input) {
+    List result = []
+    input.each { item ->
+      if (isString(item)) {
+        result << item.toLowerCase()
+      } else {
+        result << item
+      }
+    }
+    return result
+  }
+
   static List parse(def input) {
     List result = []
     if (input == null) {
