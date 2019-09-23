@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.*
 import static org.camunda.latera.bss.utils.Numeric.*
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.MapUtil.nvl
 
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
@@ -156,6 +157,16 @@ trait Document {
     return hid.getTableFirst(getDocumentsTable(), where: where)
   }
 
+  private String subSelectForRole(Map inp = [:], def roleId) {
+    LinkedHashMap pars = [
+      where  : [:],
+      column : 'n_subject_id'
+    ] + inp
+    pars.where.n_doc_id      = 'T.N_DOC_ID'
+    pars.where.n_doc_role_id = roleId
+    return prepareTableQuery(getDocumentSubjectsTable(), fields: pars.column, where: pars.where, tableAlias: 'DS', asMap: false)
+  }
+
   List getDocumentsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
@@ -175,7 +186,8 @@ trait Document {
       tags          : null,
       limit         : 0
     ], input)
-    LinkedHashMap where = [:]
+    LinkedHashMap where  = [:]
+    LinkedHashMap fields = ['*': null]
 
     if (params.docId) {
       where.n_doc_id = params.docId
@@ -193,48 +205,24 @@ trait Document {
       where.n_workflow_id = params.workflowId
     }
     if (params.providerId || params.providerAccountId) {
-      where['_EXISTS'] = [
-        """
-        (SELECT 1
-         FROM  ${getDocumentSubjectsTable()} DS
-         WHERE DS.N_DOC_ID      = T.N_DOC_ID
-         AND   DS.N_DOC_ROLE_ID = ${getProviderRoleId()}
-         AND   ${params.providerId ? 'DS.N_SUBJECT_ID  = ' + params.providerId : '1 = 1'}
-         AND   ${params.providerAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.providerAccountId : '1 = 1'})"""
-      ]
+      fields.n_provider_id         = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]])
+      fields.n_provider_account_id = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
+      where['_EXISTS']             = subSelectForRole(getProviderRoleId(), where: nvl([n_subject_id: params.providerId, n_account_id: params.providerAccountId]))
     }
     if (params.receiverId || params.receiverAccountId) {
-      where['__EXISTS'] = [
-        """
-        (SELECT 1
-         FROM  ${getDocumentSubjectsTable()} DS
-         WHERE DS.N_DOC_ID      = T.N_DOC_ID
-         AND   DS.N_DOC_ROLE_ID = ${getReceiverRoleId()}
-         AND   ${params.receiverId ? 'DS.N_SUBJECT_ID  = ' + params.receiverId : '1 = 1'}
-         AND   ${params.receiverAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.receiverAccountId : '1 = 1'})"""
-      ]
+      fields.n_receiver_id         = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]])
+      fields.n_receiver_account_id = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
+      where['__EXISTS']            = subSelectForRole(getReceiverRoleId(), where: nvl([n_subject_id: params.receiverId, n_account_id: params.receiverAccountId]))
     }
     if (params.memberId || params.memberAccountId) {
-      where['___EXISTS'] = [
-        """
-        (SELECT 1
-         FROM  ${getDocumentSubjectsTable()} DS
-         WHERE DS.N_DOC_ID      = T.N_DOC_ID
-         AND   DS.N_DOC_ROLE_ID = ${getMemberRoleId()}
-         AND   ${params.memberId ? 'DS.N_SUBJECT_ID  = ' + params.memberId : '1 = 1'}
-         AND   ${params.memberAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.memberAccountId : '1 = 1'})"""
-      ]
+      fields.n_member_id           = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]])
+      fields.n_member_account_id   = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]], column: 'n_account_id')
+      where['___EXISTS']           = subSelectForRole(getMemberRoleId(),   where: nvl([n_subject_id: params.memberId, n_account_id: params.memberAccountId]))
     }
     if (params.managerId || params.managerAccountId) {
-      where['____EXISTS'] = [
-        """
-        (SELECT 1
-         FROM  ${getDocumentSubjectsTable()} DS
-         WHERE DS.N_DOC_ID      = T.N_DOC_ID
-         AND   DS.N_DOC_ROLE_ID = ${getMemberRoleId()}
-         AND   ${params.managerId ? 'DS.N_SUBJECT_ID  = ' + params.managerId : '1 = 1'}
-         AND   ${params.managerAccountId ? 'DS.N_ACCOUNT_ID  = ' + params.managerAccountId : '1 = 1'})"""
-      ]
+      fields.n_manager_id          = subSelectForRole(getManagerRoleId(),  where: [rownum: ['<=': 1]])
+      fields.n_manager_account_id  = subSelectForRole(getManagerRoleId(),  where: [rownum: ['<=': 1]], column: 'n_account_id')
+      where['____EXISTS']          = subSelectForRole(getManagerRoleId(),  where: nvl([n_subject_id: params.managerId, n_account_id: params.managerAccountId]))
     }
     if (params.stateId) {
       where.n_doc_state_id = params.stateId
