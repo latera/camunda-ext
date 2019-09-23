@@ -47,7 +47,7 @@ class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Add
       def group = (name =~ /^(.*)Id$/)
       if (group.size() > 0) {
         String noIdName = group[0][1]
-        if (params.containsKey(noIdName)) {
+        if (params.containsKey(noIdName) && params[noIdName] != null) {
           result[name] = getRefIdByCode(params[noIdName])
           keysToExclude.add(name)
           keysToExclude.add(noIdName)
