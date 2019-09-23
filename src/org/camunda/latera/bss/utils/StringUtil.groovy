@@ -11,14 +11,36 @@ class StringUtil {
     return !notEmpty(input)
   }
 
-  static String trim(CharSequence input) {
-    return input.stripIndent().trim().toString()
+  static Boolean forceIsEmpty(def input) {
+    return !forceNotEmpty(input)
+  }
+
+  static String trim(def input) {
+    return input?.toString()?.stripIndent()?.trim()
+  }
+
+  static String nvl(def input) {
+    String result = trim(input)
+    if (result == 'null' || result == 'NULL') {
+      return null
+    }
+    return result
   }
 
   static Boolean notEmpty(def input) {
     if (input) {
       if (isString(input)) {
         return (trim(input) as Boolean)
+      }
+      return (input as Boolean)
+    }
+    return false
+  }
+
+  static Boolean forceNotEmpty(def input) {
+    if (input) {
+      if (isString(input)) {
+        return (nvl(input) as Boolean)
       }
       return (input as Boolean)
     }
@@ -90,7 +112,7 @@ class StringUtil {
   }
 
   static String joinNonEmpty(List input, CharSequence delimiter = ''){
-    return join(input.findAll{ it != null && trim(it.toString()) != '' }, delimiter)
+    return join(input.findAll{ forceNotEmpty(it) }, delimiter)
   }
 
   static String random(Integer length = 6) {

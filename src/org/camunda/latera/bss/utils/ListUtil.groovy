@@ -1,6 +1,9 @@
 package org.camunda.latera.bss.utils
 
-import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.StringUtil.forceIsEmpty
+import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 import org.camunda.latera.bss.utils.JSON
 
 class ListUtil {
@@ -37,7 +40,7 @@ class ListUtil {
     List result = []
     input.each { item ->
       if (item != null) {
-        if (item == 'null' || item == 'NULL') {
+        if (forceIsEmpty(item)) {
           result += null
         } else {
           result += value
@@ -50,7 +53,7 @@ class ListUtil {
   static List forceNvl(List input) {
     List result = []
     input.each { item ->
-      if (item != null && item != 'null' && item != 'NULL') {
+      if (forceNotEmpty(item)) {
         result += value
       }
     }

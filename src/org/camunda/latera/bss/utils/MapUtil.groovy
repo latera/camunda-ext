@@ -1,6 +1,11 @@
 package org.camunda.latera.bss.utils
 
-import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.StringUtil.forceIsEmpty
+import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
+import static org.camunda.latera.bss.utils.StringUtil.camelize
+import static org.camunda.latera.bss.utils.StringUtil.snakeCase
 import static org.camunda.latera.bss.utils.ListUtil.isList
 
 class MapUtil {
@@ -125,7 +130,7 @@ class MapUtil {
     LinkedHashMap result = [:]
     input.each { key, value ->
       if (value != null) {
-        if (value == 'null' || value == 'NULL') {
+        if (forceIsEmpty(value)) {
           result[key] = null
         } else {
           result[key] = value
@@ -138,7 +143,7 @@ class MapUtil {
   static Map forceNvl(Map input) {
     LinkedHashMap result = [:]
     input.each { key, value ->
-      if (value != null && value != 'null' && value != 'NULL') {
+      if (forceNotEmpty(value)) {
         result[key] = value
       }
     }
