@@ -825,20 +825,20 @@ trait Address {
 
   Boolean closeObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
-      entityAddressId : null,
-      addressId       : null,
-      entityId        : null,
-      bindAddrTypeId  : null,
-      addrTypeId      : null,
-      stateId         : getDefaultAddressStateId(),
-      isMain          : null,
-      endDate         : local()
+      objAddressId   : null,
+      addressId      : null,
+      objectId       : null,
+      bindAddrTypeId : null,
+      addrTypeId     : null,
+      stateId        : getDefaultAddressStateId(),
+      isMain         : null,
+      endDate        : local()
     ], input)
 
-    if (!params.entityAddressId) {
-      LinkedHashMap address = getEntityAddress(
+    if (!params.objAddressId) {
+      LinkedHashMap address = getObjAddress(
         addressId      : params.addressId,
-        entityId       : params.entityId,
+        objectId       : params.objectId,
         addrTypeId     : params.addrTypeId,
         bindAddrTypeId : params.bindAddrTypeId,
         operationDate  : params.endDate,
@@ -846,17 +846,21 @@ trait Address {
         isMain         : params.isMain
       )
       if (!address) {
-        logger.error("No address found!")
+        logger.error('No address found!')
         return false
       }
-      params.entityAddressId = address.n_obj_address_id
+      params.objAddressId = address.n_obj_address_id
     }
 
-    return closeObjAddress(params.entityAddressId, params.endDate)
+    return closeObjAddress(params.objAddressId, params.endDate)
   }
 
   Boolean closeEntityAddress(Map input) {
-    return closeObjAddress(input)
+    def objectId     = input.entityId
+    def objAddressId = input.entityAddressId
+    input.remove('entityId')
+    input.remove('entityAddressId')
+    return closeObjAddress(input + [objectId: objectId, objAddressId: objAddressId])
   }
 
   List getFreeIPAddresses(Map input) {
