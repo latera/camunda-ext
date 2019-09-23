@@ -119,9 +119,13 @@ trait Subscription {
     return prepareParams(data)
   }
 
-  List getAvailableServices(def customerId, Map input) {
+  List getAvailableServices(def customerId, Map input = [:]) {
     LinkedHashMap params = getPaginationDefaultParams() + getAvailableServicesParams(input)
     return getEntities(getAvailableServicesEntityType(customerId), params)
+  }
+
+  List getAvailableServices(Map input, def customerId) {
+    return getAvailableServices(customerId, input)
   }
 
   Map getAvailableService(def customerId, Map input) {
@@ -132,6 +136,10 @@ trait Subscription {
           return service
       }
     }
+  }
+
+  Map getAvailableService(Map input, def customerId) {
+    return getAvailableService(customerId, input)
   }
 
   Map getAvailableServiceByName(def customerId, Map input) {
@@ -145,6 +153,10 @@ trait Subscription {
     return null
   }
 
+  Map getAvailableServiceByName(Map input, def customerId) {
+    return getAvailableServiceByName(customerId, input)
+  }
+
   Map getAvailableServiceByCode(def customerId, Map input) {
     def serviceCode = input.serviceCode ?: input.goodCode
     List availableServices = getAvailableServices(customer, input)
@@ -156,9 +168,17 @@ trait Subscription {
     return null
   }
 
+  Map getAvailableServiceByCode(Map input, def customerId) {
+    return getAvailableServiceByCode(customerId, input)
+  }
+
   List getSubscriptions(def customerId, Map input = [:]) {
     LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getSubscriptionEntityType(customerId), params)
+  }
+
+  Map getSubscriptions(Map input, def customerId) {
+    return getSubscriptions(customerId, input)
   }
 
   Map getSubscription(def customerId, def subscriptionId) {
@@ -245,6 +265,10 @@ trait Subscription {
   List getChildSubscriptions(def customerId, def subscriptionId, Map input = [:]) {
     LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getChildSubscriptionEntityType(customerId, subscriptionId), params)
+  }
+
+  List getChildSubscriptions(Map input, def customerId, def subscriptionId) {
+    return getChildSubscriptions(customerId, subscriptionId, input)
   }
 
   Map getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
