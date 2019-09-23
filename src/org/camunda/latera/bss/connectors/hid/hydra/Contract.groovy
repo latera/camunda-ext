@@ -132,20 +132,20 @@ trait Contract {
         logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
 
         if (params.providerId) {
-          putDocumentSubject([
+          putDocumentSubject(
             docId      : contract.num_N_DOC_ID,
             subjectId  : params.providerId,
             roleId     : getProviderRoleId(),
             workflowId : params.workflowId
-          ])
+          )
         }
         if (params.receiverId) {
-          putDocumentSubject([
+          putDocumentSubject(
             docId      : contract.num_N_DOC_ID,
             subjectId  : params.receiverId,
             roleId     : getReceiverRoleId(),
             workflowId : params.workflowId
-          ])
+          )
         }
         actualizeDocument(contract.num_N_DOC_ID)
       }

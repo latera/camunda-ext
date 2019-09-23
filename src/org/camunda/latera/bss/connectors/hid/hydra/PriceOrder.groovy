@@ -85,7 +85,7 @@ trait PriceOrder {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     if (params.taxRateId) {
       where.n_tax_rate_id = params.taxRateId

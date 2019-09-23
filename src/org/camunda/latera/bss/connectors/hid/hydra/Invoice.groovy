@@ -139,7 +139,7 @@ trait Invoice {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     return hid.getTableData(getGoodMovesTable(), where: where, limit: params.limit)
   }

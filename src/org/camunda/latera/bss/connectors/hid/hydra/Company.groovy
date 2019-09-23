@@ -199,7 +199,7 @@ trait Company {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putCompanyAddParam(Map input) {
+  Map putCompanyAddParam(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
       input.remove('companyId')
@@ -207,15 +207,15 @@ trait Company {
     return putSubjectAddParam(input)
   }
 
-  Boolean addCompanyAddParam(Map input) {
+  Map addCompanyAddParam(Map input) {
     return putCompanyAddParam(input)
   }
 
-  Boolean addCompanyAddParam(def companyId, Map input) {
+  Map addCompanyAddParam(def companyId, Map input) {
     return putCompanyAddParam(input + [companyId: companyId])
   }
 
-  Boolean addCompanyAddParam(Map input, def companyId) {
+  Map addCompanyAddParam(Map input, def companyId) {
     return putCompanyAddParam(companyId, input)
   }
 

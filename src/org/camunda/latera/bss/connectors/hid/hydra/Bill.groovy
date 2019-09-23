@@ -191,7 +191,7 @@ trait Bill {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     LinkedHashMap order = [n_line_no: 'asc']
     return hid.getTableData(getBillLinesTable(), where: where, order: order, limit: params.limit)

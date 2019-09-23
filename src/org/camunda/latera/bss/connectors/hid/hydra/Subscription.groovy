@@ -74,7 +74,7 @@ trait Subscription {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     LinkedHashMap order = [d_begin: 'asc']
     return hid.getTableData(getSubscriptionsTable(), where: where, order: order, limit: params.limit)

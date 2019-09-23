@@ -274,7 +274,7 @@ trait Customer {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putCustomerAddParam(Map input) {
+  Map putCustomerAddParam(Map input) {
     if (input.containsKey('customerId')) {
       input.subjectId = input.customerId
       input.remove('customerId')
@@ -282,15 +282,15 @@ trait Customer {
     return putSubjectAddParam(input)
   }
 
-  Boolean addCustomerAddParam(Map input) {
+  Map addCustomerAddParam(Map input) {
     return putCustomerAddParam(input)
   }
 
-  Boolean addCustomerAddParam(def customerId, Map input) {
+  Map addCustomerAddParam(def customerId, Map input) {
     return putCustomerAddParam(input + [customerId: customerId])
   }
 
-  Boolean addCustomerAddParam(Map input, def customerId) {
+  Map addCustomerAddParam(Map input, def customerId) {
     return addCustomerAddParam(customerId, input)
   }
 

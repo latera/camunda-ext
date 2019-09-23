@@ -265,7 +265,7 @@ trait Document {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     LinkedHashMap order = [d_begin: 'desc', vc_doc_no: 'desc']
     return hid.getTableData(getDocumentsTable(), where: where, order: order, limit: params.limit)

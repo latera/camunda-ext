@@ -209,7 +209,7 @@ trait Person {
     return getSubjectAddParamBy(input)
   }
 
-  Boolean putPersonAddParam(Map input) {
+  Map putPersonAddParam(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
       input.remove('personId')
@@ -217,15 +217,15 @@ trait Person {
     return putSubjectAddParam(input)
   }
 
-  Boolean addPersonAddParam(Map input) {
+  Map addPersonAddParam(Map input) {
     return putPersonAddParam(input)
   }
 
-  Boolean addPersonAddParam(def personId, Map input) {
+  Map addPersonAddParam(def personId, Map input) {
     return putPersonAddParam(input + [personId: personId])
   }
 
-  Boolean addPersonAddParam(Map input, def personId) {
+  Map addPersonAddParam(Map input, def personId) {
     return putPersonAddParam(personId, input)
   }
 
