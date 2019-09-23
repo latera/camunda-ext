@@ -50,6 +50,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
     this.firmId     = toIntSafe(execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
     this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
+    this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',

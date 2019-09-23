@@ -2,82 +2,215 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
-  private static String BUILDING_TYPE = 'REGION_TYPE_Building'
   private static String DEFAULT_REALTY_GOOD_CODE = 'REALTY_House'
+
+  /*
+  Structure
+    hierarchy:
+      level: [items]
+  Level can be accessed by name or index. Building is always last level.
+
+  Region tree is a map with fields:
+    [
+      regionId   : 0, # region id fetched from db just to populate lower levels
+      regionType : REGION_TYPE_Building', # same but for region type code
+      state      : 'Russia',
+      stateType  : 'REGION_TYPE_State',
+      oblast     : 'Moskowskaya',
+      oblastType : 'REGION_TYPE_Oblast',
+      ...
+    ]
+  So there are level name and also name + 'Type' which called typeName
+  */
   private static LinkedHashMap REGION_HIERARCHY = [
     state    : ['REGION_TYPE_State'],
     oblast   : ['REGION_TYPE_Oblast'],
     okrug    : ['REGION_TYPE_Okrug'],
     district : ['REGION_TYPE_District'],
     city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement', 'REGION_TYPE_Village'],
-    street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard', 'REGION_TYPE_Square']
+    street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard', 'REGION_TYPE_Square'],
+    building : ['REGION_TYPE_Building']
   ]
-  private static LinkedHashMap REGION_HIERARCHY_WITH_BUILDING = REGION_HIERARCHY + [
-    building: [BUILDING_TYPE]
+
+  /*
+  Structure
+    field: messageCode
+  messageCode is being translated to current locale ('locale' execution variable)
+  */
+  private static LinkedHashMap BUILDING_FIELDS = [
+    home      : 'Region_Home_Short',
+    corpus    : 'Region_Building_Short',
+    construct : 'Region_Construct_Short',
+    ownership : 'Region_Ownership_Short',
   ]
-  private static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values().flatten()
-  private static List REGION_HIERARCHY_FLATTEN_WITH_BUILDING = REGION_HIERARCHY_WITH_BUILDING.values().flatten()
-  private static List REGION_NAMES = REGION_HIERARCHY.keySet() as List
-  private static List REGION_NAMES_WITH_BUILDING = REGION_HIERARCHY_WITH_BUILDING.keySet() as List
-  private static List REGION_TYPES = REGION_NAMES*.concat("Type")
-  private static List REGION_TYPES_WITH_BUILDING = REGION_NAMES_WITH_BUILDING*.concat("Type")
 
   String getRegionsTable() {
     return REGIONS_TABLE
   }
 
-  Map getRegionHierarchy(){
-    return REGION_HIERARCHY
+  // Get full region hierarchy
+  Map getRegionHierarchy() {
+    return regionHierarchyOverride ?: REGION_HIERARCHY
   }
 
-  Map getRegionHierarchyWithBuilding(){
-    return REGION_HIERARCHY_WITH_BUILDING
+  // Get ['REGION_TYPE_State'] by 'state' key
+  List getRegionLevel(CharSequence code) {
+    return getRegionHierarchy()[code]
   }
 
-  List getRegionHierarchyFlatten(){
-    return REGION_HIERARCHY_FLATTEN
+  // Get ['REGION_TYPE_State'] by 0 index
+  List getRegionLevel(Integer index) {
+    return getRegionLevel(getRegionLevelName(index))
   }
 
-  List getRegionHierarchyFlattenWithBuilding(){
-    return REGION_HIERARCHY_FLATTEN_WITH_BUILDING
+  // Get last hierarchy key = 'building'
+  String getBuildingLevelName() {
+    return getRegionLevelName(-1)
   }
 
-  List getRegionNames(){
-    return REGION_NAMES
+  // Get last hierarchy key = 'building'
+  List getBuildingLevel() {
+    return getRegionLevel(-1)
   }
 
-  List getRegionNamesWithBuilding(){
-    return REGION_NAMES_WITH_BUILDING
+  // Get first value from last hierarchy key
+  String getDefaultBuildingType() {
+    return getRegionLevelFirstItem(getBuildingLevelName())
   }
 
-  List getRegionTypes(){
-    return REGION_TYPES
+  // Get region hierarchy excluding last element
+  Map getRegionHierarchyWoBuilding() {
+    Map hierarchy   = getRegionHierarchy()
+    String building = getBuildingLevelName()
+    hierarchy.remove(building)
+    return hierarchy
   }
 
-  List getRegionTypesWithBuilding(){
-    return REGION_TYPES_WITH_BUILDING
+  // Get region hierarchy excluding last element
+  List getRegionHierarchyWoBuildingFlatten() {
+    return getRegionHierarchyWoBuilding().values().flatten()
   }
 
-  String getBuildingType(){
-    return BUILDING_TYPE
+  // Get ['state', 'oblast', ...] = region hierarchy keys
+  List getRegionLevelNames() {
+    return getRegionHierarchy().keySet() as List
   }
 
-  Number getBuildingTypeId(){
-    return getRefIdByCode(BUILDING_TYPE)
+  // Get region hierarchy keys excluding last one
+  List getRegionLevelNamesWoBuilding() {
+    return getRegionLevelNames()[0..-1]
   }
 
-  Map getDefaultRealtyGood(){
+  // Get 'state' key by index 0
+  String getRegionLevelName(Integer index) {
+    return getRegionLevelNames()[index]
+  }
+
+  // Get ['stateType', 'oblastType', ...] = region hierarchy key types
+  List getRegionLevelTypeNames() {
+    return getRegionLevelNames()*.concat('Type')
+  }
+
+  // Get 'stateType' key type by key 'state'
+  String getRegionLevelTypeName(CharSequence code) {
+    return getRegionLevelTypeName(getRegionLevelNum(code))
+  }
+
+  // Get 'stateType' key type by index 0
+  String getRegionLevelTypeName(Integer index) {
+    return getRegionLevelTypeNames()[index]
+  }
+
+  // Get 0 index by key 'state'
+  Integer getRegionLevelNum(CharSequence code) {
+    return getRegionLevelNames().findIndexOf{it == code}
+  }
+
+  // Get 'REGION_TYPE_State' by 'state' key and 0 item position  (default)
+  String getRegionLevelItem(CharSequence code, Integer index = 0) {
+    return getRegionLevel(code)[index]
+  }
+
+  // Get 'REGION_TYPE_State' by 0 index and 0 item position (default)
+  String getRegionLevelItem(Integer item, Integer index = 0) {
+    return getRegionLevel(item)[index]
+  }
+
+  // Get 'REGION_TYPE_State' by 'state' key
+  String getRegionLevelFirstItem(CharSequence code) {
+    return getRegionLevelItem(code, 0)
+  }
+
+  // Get 'REGION_TYPE_State' by 0 index
+  String getRegionLevelFirstItem(Integer index) {
+    return getRegionLevelItem(index, 0)
+  }
+
+  // Search hierarchy key by 'REGION_TYPE_State' presence in each item
+  String getRegionLevelNameByItem(CharSequence code) {
+    String result = null
+    getRegionHierarchy().each{ name, values ->
+      if (code in values) {
+        result = name
+      }
+    }
+    return result
+  }
+
+  // Get [building: 'зд.', home: 'д.',]
+  Map getBuildingFields(CharSequence buildingType = null) {
+    Map result = [
+      building: getRefName(getBuildingTypeId(buildingType))
+    ]
+    BUILDING_FIELDS.each{ key, value ->
+      result[key] = getMessageNameByCode(value)
+    }
+    return result
+  }
+
+  // Get 'зд.' by 'building' key
+  String getBuildingField(CharSequence code, CharSequence buildingType = null) {
+    return getBuildingFields(buildingType)[code]
+  }
+
+  // Get 'зд.' by 0 index
+  String getBuildingField(Integer index, CharSequence buildingType = null) {
+    return getBuildingFields(buildingType)[index]
+  }
+
+  // Get ['building', 'home', ...] keys
+  List getBuildingFieldNames() {
+    return getBuildingFields().keySet() as List
+  }
+
+  // Get id of default building type
+  Number getDefaultBuildingTypeId() {
+    return getRefIdByCode(getDefaultBuildingType())
+  }
+
+  // Get id of default or custom building type
+  Number getBuildingTypeId(CharSequence code = null) {
+    if (!code) {
+      return getDefaultBuildingTypeId()
+    }
+    return getRefIdByCode(code)
+  }
+
+  // Get default reality good
+  Map getDefaultRealtyGood() {
     return getGoodBy(code: DEFAULT_REALTY_GOOD_CODE)
   }
 
-  Number getDefaultRealtyGoodId(){
+  // Get default reality good id
+  Number getDefaultRealtyGoodId() {
     return toIntSafe(getDefaultRealtyGood().n_good_id)
   }
 
-  Map getRegionsBy(Map input) {
+  List getRegionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       hierarchyTypeId : getRefIdByCode('HIER_REG_TYPE_Federal'),
       parRegionId     : null,
@@ -142,40 +275,11 @@ trait Region {
     return getRegionsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getRegion(regionId) {
+  Map getRegion(def regionId) {
     return getRegionBy(regionId: regionId)
   }
 
-  Integer getRegionLevelNum(CharSequence code) {
-    return REGION_NAMES_WITH_BUILDING.findIndexOf{it == code}
-  }
-
-  String getRegionLevelByTypeCode(CharSequence code) {
-    String result = null
-    REGION_HIERARCHY_WITH_BUILDING.each{ name, values ->
-      if (values.contains(code)) {
-        result = name
-      }
-    }
-    return result
-  }
-
-  Integer getRegionLevelNumByTypeCode(CharSequence code) {
-    String name = getRegionLevelByTypeCode(code)
-    return getRegionLevelNum(name)
-  }
-
-  String getRegionLevelById(regionId) {
-    String regionType = getRefCodeById(getRegion(regionId).n_region_type_id)
-    return getRegionLevelByTypeCode(regionType)
-  }
-
-  Integer getRegionLevelNumById(regionId) {
-    String regionType = getRefCodeById(getRegion(regionId).n_region_type_id)
-    return getRegionLevelNumByTypeCode(regionType)
-  }
-
-  Map getRegionTree(regionId) {
+  Map getRegionTree(def regionId) {
     //Get region data from database
     String query = """
     SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(N_REGION_TYPE_ID),"""
@@ -185,12 +289,14 @@ trait Region {
       '${field.toLowerCase()}', ${field},"""
     }
 
-    REGION_HIERARCHY_FLATTEN.each{ typeName ->
+    List hierarchyFlatten = getRegionHierarchyWoBuildingFlatten()
+    hierarchyFlatten.each{ typeName ->
       query += """
-      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}'))""" + (typeName == REGION_HIERARCHY_FLATTEN.last() ? '' : ',')
+      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}')),"""
     }.join(',')
 
-    query += """
+
+    query = query.replaceAll(/,*$/, '') + """
     FROM ${getRegionsTable()}
     WHERE N_REGION_ID = ${regionId}"""
 
@@ -201,18 +307,17 @@ trait Region {
     }
 
     LinkedHashMap result = [:]
-    REGION_HIERARCHY_FLATTEN.each{ code ->
+    hierarchyFlatten.each{ code ->
       if (data[code]) {
-        String name = getRegionLevelByTypeCode(code)
-        Integer index = getRegionLevelNum(name)
+        String name = getRegionLevelNameByItem(code)
 
         result[name] = data[code] //oblast = 'Some value'
-        result[REGION_TYPES[index]] = code //oblastType = 'REGION_TYPE_Oblast'
+        result[getRegionLevelTypeName(name)] = code //oblastType = 'REGION_TYPE_Oblast'
       }
     }
 
     result.regionType = data.vc_region_type
-    if (result.regionType == getBuildingType()) {
+    if (result.regionType in getBuildingLevel()) {
       result.building  = data.vc_code
       result.home      = data.vc_home
       result.corpus    = data.vc_building
@@ -227,16 +332,18 @@ trait Region {
     return result
   }
 
-  List getRegionItemsValues(Map input) {
-    String regionQuery = ""
-    REGION_TYPES.eachWithIndex{ type, i ->
-      regionQuery += """
-      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
+  List getRegionItems(Map input) {
+    List queryParts = []
+    List typeNames = getRegionLevelTypeNames()
+    typeNames.eachWithIndex{ type, i ->
+      queryParts << """
+      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[getRegionLevelName(i)] ?: ''}'
       FROM   ${getRefsTable()}
-      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
-      UNION ALL""")
+      WHERE  VC_CODE = '${input[type] ?: ""}'"""
     }
 
+    String regionQuery = joinNonEmpty(queryParts, """
+    UNION ALL""")
     return hid.queryDatabase(regionQuery)
   }
 
@@ -275,17 +382,34 @@ trait Region {
     }
   }
 
+  Boolean isRegionEmpty(Map input) {
+    Boolean result = true
+    List levelNames = getRegionLevelNames()
+
+    (['regionId'] + levelNames).each { name ->
+      if (notEmpty(input[name])) {
+        result = false
+      }
+    }
+    return result
+  }
+
+  Boolean notRegionEmpty(Map input) {
+    return !isRegionEmpty(input)
+  }
+
   Number createRegionTree(Map input) {
     logger.info("Trying to create region ${input}")
-    def regionId      = 0
-    Integer typeIndex = 0
-    LinkedHashMap existingRegion = null
-    LinkedHashMap region = null
+    def regionId       = 0
+    Integer typeIndex  = 0
+    Map existingRegion = [:]
+    Map region         = [:]
+
+    List levelNames = getRegionLevelNamesWoBuilding()
 
     //Create all regions need step by step
-    for(Integer i = typeIndex; i < REGION_NAMES.toArray().size(); ++i) {
-      String name = REGION_NAMES[i]
-      String type = REGION_TYPES[i]
+    levelNames.each { name ->
+      String type = getRegionLevelTypeName(name)
       if (input[name]) {
         existingRegion = getRegionBy(
           parRegionId : regionId,
@@ -308,16 +432,26 @@ trait Region {
       }
     }
 
-    if (notEmpty(input.building) || notEmpty(input.home) || notEmpty(input.corpus) || notEmpty(input.construct)) {
-      region = putRegion(
+    Map buildingFields = [:]
+    getBuildingFieldNames().each { field ->
+      def value = input[field]
+      if (notEmpty(value)) {
+        if (field == 'building') {
+          buildingFields['code'] = value
+        } else if (field == 'corpus') {
+          buildingFields['building'] = value
+        } else {
+          buildingFields[field] = value
+        }
+      }
+    }
+
+    if (buildingFields) {
+      region = putRegion([
         parRegionId  : regionId,
-        regionTypeId : getBuildingTypeId(),
-        realtyGoodId : getDefaultRealtyGoodId(),
-        code         : input.building,
-        home         : input.home,
-        building     : input.corpus,
-        construct    : input.construct
-      )
+        regionTypeId : getBuildingTypeId(buildingFields['buildingType']),
+        realtyGoodId : buildingFields['buildingGoodId'] ?: (buildingFields['buildingGood'] ? getGoodBy(code: buildingFields['buildingGood'])?.n_good_id : getDefaultRealtyGoodId()),
+      ] + buildingFields)
       if (region) {
         regionId = region.num_N_REGION_ID
       }

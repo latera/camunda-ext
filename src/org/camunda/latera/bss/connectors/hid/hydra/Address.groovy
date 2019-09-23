@@ -1,8 +1,12 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Oracle.*
-import static org.camunda.latera.bss.utils.Numeric.*
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
+import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
+import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
+import static org.camunda.latera.bss.utils.Oracle.decodeBool
+import static org.camunda.latera.bss.utils.Oracle.encodeBool
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import java.time.temporal.Temporal
 
 trait Address {
@@ -14,16 +18,17 @@ trait Address {
   private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
   private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
   private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
-  private static LinkedHashMap ADDRESS_ITEMS      = [
-    building  : 'зд.',
-    home      : 'д.',
-    corpus    : 'корп.',
-    construct : 'стр.',
-    entrance  : 'подъезд',
-    floor     : 'этаж',
-    flat      : 'кв.'
+
+  /*
+  Structure
+    field: messageCode
+  messageCode is being translated to current locale ('locale' execution variable)
+  */
+  private static LinkedHashMap ADDRESS_FIELDS = [
+    entrance  : 'Addr_EntranceString',
+    floor     : 'Addr_FloorString',
+    flat      : 'Addr_FlatString'
   ]
-  private static List ADDRESS_ITEMS_NAMES = ADDRESS_ITEMS.keySet() as List
 
   String getMainAddressesTable() {
     return MAIN_ADDRESSES_TABLE
@@ -45,12 +50,17 @@ trait Address {
     return OBJECT_ADDRESSES_MV
   }
 
-  Map getAddressItems() {
-    return ADDRESS_ITEMS
+  // Get [building: 'зд.', home: ..., entrance: '', ...]
+  Map getAddressFields(CharSequence buildingType = null) {
+    Map result = getBuildingFields(buildingType)
+    ADDRESS_FIELDS.each{ key, value ->
+      result[key] = getMessageNameByCode(value)
+    }
+    return result
   }
 
-  List getAddressItemsNames() {
-    return ADDRESS_ITEMS_NAMES
+  List getAddressFieldNames(CharSequence buildingType = null) {
+    return getAddressFields(buildingType).keySet() as List
   }
 
   String getDefaultAddressType() {
@@ -158,7 +168,7 @@ trait Address {
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
-      where[oracleDate] = [BETWEEN: "D_BEGIN AND NVL(D_END, ${oracleDate})"]
+      where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
     LinkedHashMap order = [c_fl_main: 'desc']
     return hid.getTableData(getObjectAddressesTable(), where: where, order: order, limit: params.limit)
@@ -369,6 +379,30 @@ trait Address {
     return hid.getTableFirst(getMainAddressesTable(), where: where)
   }
 
+  Boolean isAddressEmpty(Map input) {
+    Boolean result = true
+    List addressFields = getAddressFieldNames()
+
+    (['regionId', 'code', 'rawAddress'] + addressFields).each { name ->
+      if (forceNotEmpty(input[name])) {
+        result = false
+      }
+    }
+    return result
+  }
+
+  Boolean notAddressEmpty(Map input) {
+    return !isAddressEmpty(input)
+  }
+
+  Boolean isRegionAddressEmpty(Map input) {
+    return isAddressEmpty(input) && isRegionEmpty(input)
+  }
+
+  Boolean notRegionAddressEmpty(Map input) {
+    return !isRegionAddressEmpty(input)
+  }
+
   Map putSubjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       subjAddressId  : null,
@@ -485,8 +519,8 @@ trait Address {
     Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
 
     if (isSubj) {
-      params.subjAddressId = params.entityAddressId
-      params.subjectId     = params.entityId
+      params.subjAddressId  = params.entityAddressId
+      params.subjectId      = params.entityId
       LinkedHashMap address = putSubjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_SUBJ_ADDRESS_ID
@@ -628,32 +662,32 @@ trait Address {
     return updateEntityAddress(entityAddressId, input)
   }
 
-  List getAddressItemsValues(Map input) {
-    List addressItemsValues = []
-    getAddressItems().each{ type, value ->
-      addressItemsValues.add([value, 'N', input[type] ?: ""])
+  List getAddressItems(Map input) {
+    List addressItems = []
+    getAddressFields().each{ type, value ->
+      addressItems.add([value, 'N', input[type] ?: ""])
     }
-    return addressItemsValues
+    return addressItems
   }
 
   String calcAddress(Map input) {
-    String address = ''
+    List address = []
 
-    List regionItemsValues = getRegionItemsValues(input)
-
-    if(regionItemsValues){
-      List result = regionItemsValues + getAddressItemsValues(input)
+    List regionItems = getRegionItems(input)
+    if (regionItems){
+      List result = regionItems + getAddressItems(input)
       result.eachWithIndex{ it, i ->
         String  part  = it[0]
         Boolean after = decodeBool(it[1])
         String  name  = it[2]
-        if (name != null && name != '' && name != ' ' && name != 'null'){
+        if (forceNotEmpty(name)) {
           String item = (!after ? (part ?  part + ' ' : '') : '') + name + (after ? (part ?  ' ' + part : '') : '')
-          address += (i > 0 ? ', ' : '') + item
+          address << item
         }
       }
     }
-    return address
+
+    return joinNonEmpty(address, ', ')
   }
 
   Boolean deleteSubjAddress(def subjAddressId) {
@@ -1045,12 +1079,7 @@ trait Address {
   }
 
   Map getFreeSubnetAddress(Map input) {
-    List result = getFreeSubnetAddresses(input)
-    if (result) {
-      return result.getAt(0)
-    } else {
-      return null
-    }
+    return getFreeSubnetAddresses(input)?.getAt(0)
   }
 
   String getFreeSubnet(Map input) {
