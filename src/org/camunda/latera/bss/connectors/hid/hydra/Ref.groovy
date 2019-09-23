@@ -145,8 +145,8 @@ trait Ref {
       }
       return id
     } else {
-    return RefCache.instance.putAndGet(code, id)
-  }
+      return RefCache.instance.putAndGet(code, id)
+    }
   }
 
   Number getRefIdByName(CharSequence name) {
@@ -203,5 +203,13 @@ trait Ref {
 
   Number getPieceUnitId() {
     return getRefIdByCode(getPieceUnit())
+  }
+
+  String getOpfCode(def id) {
+    String opfCode = getRefCodeById(id)
+    if (opfCode == 'REF_Unknown') {
+      opfCode = ''
+    }
+    return opfCode
   }
 }
