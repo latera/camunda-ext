@@ -138,7 +138,15 @@ trait Ref {
       vc_code: code
     ]
     id = hid.getTableFirst(getRefsTable(), 'n_ref_id', where)
+    if (id == null) {
+      id = toIntSafe(hid.queryFirst("SELECT SYS_CONTEXT('CONST', '${code}') FROM DUAL")?.getAt(0))
+      if (id != null) {
+        code = getRefCodeById(id)
+      }
+      return id
+    } else {
     return RefCache.instance.putAndGet(code, id)
+  }
   }
 
   Number getRefIdByName(CharSequence name) {
