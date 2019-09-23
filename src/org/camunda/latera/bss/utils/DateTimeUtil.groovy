@@ -15,6 +15,10 @@ class DateTimeUtil {
   static final DateTimeFormatter DATE_FORMAT      = DateTimeFormatter.ofPattern('yyyy-MM-dd')
   static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
   static final DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
+  static final DateTimeFormatter DAY_FORMAT              = DateTimeFormatter.ofPattern('dd')
+  static final DateTimeFormatter MONTH_FORMAT            = DateTimeFormatter.ofPattern('MM')
+  static final DateTimeFormatter MONTH_FULL_FORMAT       = DateTimeFormatter.ofPattern('MMMM')
+  static final DateTimeFormatter YEAR_FORMAT             = DateTimeFormatter.ofPattern('yyyy')
   static final DateTimeFormatter SIMPLE_DATE_FORMAT      = DateTimeFormatter.ofPattern('dd.MM.yyyy')
   static final DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
   static final String DATE_TIME_FORMAT_ORACLE = 'DD.MM.YYYY HH24:MI:SS'
