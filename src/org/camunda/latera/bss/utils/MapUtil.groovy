@@ -34,6 +34,18 @@ class MapUtil {
     return (input.keySet() as String[])
   }
 
+  static Map mergeNotNull(Map first, Map second) {
+    LinkedHashMap result = [:]
+    first.each { key, value ->
+      if (value == null && second[key] != null) {
+        result[key] = second[key]
+      } else {
+        result[key] = value
+      }
+    }
+    return result
+  }
+
   static Integer keysCount(Map input) {
     return keysList(input)?.size() ?: 0
   }
