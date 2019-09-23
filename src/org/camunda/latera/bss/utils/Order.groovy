@@ -154,16 +154,16 @@ class Order implements GroovyObject {
     this.getClass().removeValue(name, this._execution)
   }
 
-  static List getFiles(DelegateExecution execution) {
-    return JSON.from(execution.getVariable('homsOrderDataFileList') ?: '[]')
+  static List getFiles(CharSequence prefix = '', DelegateExecution execution) {
+    return JSON.from(execution.getVariable("homsOrderData${prefix}FileList") ?: '[]')
   }
 
-  List getFiles() {
-    return this.class.getFiles(this._execution)
+  List getFiles(CharSequence prefix = '') {
+    return this.class.getFiles(prefix, this._execution)
   }
 
-  static Map getFile(CharSequence name, DelegateExecution execution) {
-    List files = getFiles(execution)
+  static Map getFile(CharSequence name, CharSequence prefix = '', DelegateExecution execution) {
+    List files = getFiles(prefix, execution)
     files.each { file ->
       if (file.origin_name == name || file.real_name == name) {
         return file
@@ -172,13 +172,13 @@ class Order implements GroovyObject {
     return null
   }
 
-  Map getFile(CharSequence name) {
-    return this.class.getFile(name, this._execution)
+  Map getFile(CharSequence name, CharSequence prefix = '') {
+    return this.class.getFile(name, prefix, this._execution)
   }
 
-  static List getFilesContent(DelegateExecution execution) {
+  static List getFilesContent(CharSequence prefix = '', DelegateExecution execution) {
     List result = []
-    List files  = getFiles(execution)
+    List files  = getFiles(prefix, execution)
     if (files) {
       Minio minio  = new Minio(execution)
       files.each { file ->
@@ -191,12 +191,12 @@ class Order implements GroovyObject {
     return result
   }
 
-  List getFilesContent() {
-    return getFilesContent(this._execution)
+  List getFilesContent(CharSequence prefix = '') {
+    return getFilesContent(prefix, this._execution)
   }
 
-  static Map getFileContent(CharSequence name, DelegateExecution execution) {
-    LinkedHashMap file = getFile(name, execution)
+  static Map getFileContent(CharSequence name, CharSequence prefix = '', DelegateExecution execution) {
+    LinkedHashMap file = getFile(name, prefix, execution)
     if (file) {
       Minio minio  = new Minio(execution)
       return file + [
@@ -208,7 +208,7 @@ class Order implements GroovyObject {
     }
   }
 
-  Map getFileContent(CharSequence name) {
-    return getFileContent(name, this._execution)
+  Map getFileContent(CharSequence name, CharSequence prefix = '') {
+    return getFileContent(name, prefix, this._execution)
   }
 }
