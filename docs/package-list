@@ -1,0 +1,15 @@
+DefaultPackage
+connectors
+connectors.dadata
+connectors.hid
+connectors.hid.hydra
+connectors.hoper
+connectors.hoper.hydra
+connectors.minio
+connectors.odoo
+connectors.odoo.types
+connectors.otrs
+connectors.otrs.types
+executionListeners
+internal
+utils

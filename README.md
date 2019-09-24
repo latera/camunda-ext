@@ -4,6 +4,9 @@
 Repo with helper classes for BPMN development.
 Included into [Latera Camunda docker image](https://github.com/latera/camunda-docker).
 
+# Documentation
+See https://latera.github.io/camunda-ext/
+
 # How to build
 ## Install [SDKman](https://sdkman.io/install)
 ```bash
