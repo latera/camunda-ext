@@ -104,6 +104,9 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   }
 
   String getLocale() {
+    if (locale == 'en') {
+      return 'english'
+    }
     return locale ?: 'ru'
   }
 
