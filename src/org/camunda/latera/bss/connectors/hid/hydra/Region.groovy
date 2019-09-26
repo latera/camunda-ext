@@ -84,9 +84,10 @@ trait Region {
 
   // Get region hierarchy excluding last element
   Map getRegionHierarchyWoBuilding() {
-    Map hierarchy   = getRegionHierarchy()
-    String building = getBuildingLevelName()
-    hierarchy.remove(building)
+    Map hierarchy = [:]
+    getRegionLevelNamesWoBuilding().each { name ->
+      hierarchy[name] = getRegionLevel(name)
+    }
     return hierarchy
   }
 
