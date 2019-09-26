@@ -291,9 +291,9 @@ trait Region {
     }
 
     List hierarchyFlatten = getRegionHierarchyWoBuildingFlatten()
-    hierarchyFlatten.each{ typeName ->
+    hierarchyFlatten.each{ code ->
       query += """
-      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}')),"""
+      '${code}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${code}')),"""
     }.join(',')
 
 
@@ -302,7 +302,6 @@ trait Region {
     WHERE N_REGION_ID = ${regionId}"""
 
     LinkedHashMap data = hid.queryFirst(query, true)
-
     if (!data) {
       return [:]
     }
@@ -319,15 +318,17 @@ trait Region {
 
     result.regionType = data.vc_region_type
     if (result.regionType in getBuildingLevel()) {
-      result.building  = data.vc_code
-      result.home      = data.vc_home
-      result.corpus    = data.vc_building
-      result.construct = data.vc_construct
+      result.building     = data.vc_code
+      result.buildingType = data.vc_region_type
+      result.home         = data.vc_home
+      result.corpus       = data.vc_building
+      result.construct    = data.vc_construct
     } else {
-      result.building   = null
-      result.home       = null
-      result.corpus     = null
-      result.construct  = null
+      result.building     = null
+      result.buildingType = null
+      result.home         = null
+      result.corpus       = null
+      result.construct    = null
     }
 
     return result
@@ -450,7 +451,7 @@ trait Region {
     if (buildingFields) {
       region = putRegion([
         parRegionId  : regionId,
-        regionTypeId : getBuildingTypeId(buildingFields['buildingType']),
+        regionTypeId : getBuildingTypeId(buildingFields['buildingType'] ?: buildingFields['regionType']),
         realtyGoodId : buildingFields['buildingGoodId'] ?: (buildingFields['buildingGood'] ? getGoodBy(code: buildingFields['buildingGood'])?.n_good_id : getDefaultRealtyGoodId()),
       ] + buildingFields)
       if (region) {
