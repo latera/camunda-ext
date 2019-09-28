@@ -7,6 +7,7 @@ import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
 
 trait Address {
@@ -60,7 +61,7 @@ trait Address {
   }
 
   List getAddressFieldNames(CharSequence buildingType = null) {
-    return getAddressFields(buildingType).keySet() as List
+    return keysList(getAddressFields(buildingType))
   }
 
   String getDefaultAddressType() {

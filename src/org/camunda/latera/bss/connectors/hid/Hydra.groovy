@@ -65,7 +65,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     ])
   }
 
-  Map mergeParams(Map initial, Map input) {
+  private Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
 
     //If it is set opf instead of opfId, get proper reference ids from Hydra

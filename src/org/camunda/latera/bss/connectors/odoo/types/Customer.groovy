@@ -3,11 +3,11 @@ package org.camunda.latera.bss.connectors.odoo.types
 trait Customer {
   private static String CUSTOMER_ENTITY_TYPE = 'res.partner'
 
-  String getCustomerEntityType() {
+  private String getCustomerEntityType() {
     return CUSTOMER_ENTITY_TYPE
   }
 
-  Map getCustomerDefaultParams() {
+  private Map getCustomerDefaultParams() {
     return [
       name            : null,
       email           : null,
@@ -29,7 +29,7 @@ trait Customer {
     ]
   }
 
-  Map getCustomerParamsMap(Map params) {
+  private Map getCustomerParamsMap(Map params) {
     return [
       name              : params.name,
       email             : params.email,
@@ -51,7 +51,7 @@ trait Customer {
     ]
   }
 
-  Map getCustomerParams(Map input, Map additionalParams = [:]) {
+  private Map getCustomerParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerDefaultParams() + input
     return prepareParams(this.&getCustomerParamsMap, params, additionalParams)
   }

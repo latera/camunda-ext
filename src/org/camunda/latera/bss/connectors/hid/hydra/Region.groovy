@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
+import static org.camunda.latera.bss.utils.MapUtil.keysList
 
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
@@ -98,7 +99,7 @@ trait Region {
 
   // Get ['state', 'oblast', ...] = region hierarchy keys
   List getRegionLevelNames() {
-    return getRegionHierarchy().keySet() as List
+    return keysList(getRegionHierarchy())
   }
 
   // Get region hierarchy keys excluding last one
@@ -185,7 +186,7 @@ trait Region {
 
   // Get ['building', 'home', ...] keys
   List getBuildingFieldNames() {
-    return getBuildingFields().keySet() as List
+    return keysList(getBuildingFields())
   }
 
   // Get id of default building type

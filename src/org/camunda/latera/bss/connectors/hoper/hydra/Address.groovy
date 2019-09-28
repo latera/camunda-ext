@@ -9,15 +9,15 @@ trait Address {
   private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
   private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
-  Map getAddressEntityType(Map parentType, def id = null) {
+  private Map getAddressEntityType(Map parentType, def id = null) {
     return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  Map getPersonAddressEntityType(def personId, def id = null) {
+  private Map getPersonAddressEntityType(def personId, def id = null) {
     return getAddressEntityType(getPersonEntityType(personId), id)
   }
 
-  Map getCompanyAddressEntityType(def companyId, def id = null) {
+  private Map getCompanyAddressEntityType(def companyId, def id = null) {
     return getAddressEntityType(getCompanyEntityType(companyId), id)
   }
 
@@ -33,7 +33,7 @@ trait Address {
     return DEFAULT_ADDRESS_STATE_ID
   }
 
-  Map getAddressDefaultParams() {
+  private Map getAddressDefaultParams() {
     return [
       addrTypeId      : getDefaultAddressTypeId(),
       parAddressId    : null,
@@ -54,7 +54,7 @@ trait Address {
     ]
   }
 
-  Map getAddressParamsMap(Map params) {
+  private Map getAddressParamsMap(Map params) {
     return [
       n_addr_type_id      : params.addrTypeId,
       n_par_addr_id       : params.parAddressId,
@@ -75,7 +75,7 @@ trait Address {
     ]
   }
 
-  Map getAddressParams(Map input) {
+  private Map getAddressParams(Map input) {
     LinkedHashMap params = getAddressDefaultParams() + input
     LinkedHashMap data   = getAddressParamsMap(params)
     return prepareParams(data)

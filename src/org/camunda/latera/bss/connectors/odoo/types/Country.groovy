@@ -4,11 +4,11 @@ trait Country {
   private static String COUNTRY_ENTITY_TYPE       = 'res.country'
   private static String COUNTRY_STATE_ENTITY_TYPE = 'res.country_state'
 
-  String getCountryEntityType() {
+  private String getCountryEntityType() {
     return COUNTRY_ENTITY_TYPE
   }
 
-  Map getCountryDefaultParams() {
+  private Map getCountryDefaultParams() {
     return [
       code          : null,
       name          : null,
@@ -19,7 +19,7 @@ trait Country {
     ]
   }
 
-  Map getCountryParamsMap(Map params) {
+  private Map getCountryParamsMap(Map params) {
     return [
       code           : params.code,
       name           : params.name,
@@ -30,7 +30,7 @@ trait Country {
     ]
   }
 
-  Map getCountryParams(Map input, Map additionalParams = [:]) {
+  private Map getCountryParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryDefaultParams() + input
     return prepareParams(this.&getCountryParamsMap, params, additionalParams)
   }
@@ -73,11 +73,11 @@ trait Country {
     return deleteEntity(getCountryEntityType(), id)
   }
 
-  String getCountryStateEntityType() {
+  private String getCountryStateEntityType() {
     return COUNTRY_STATE_ENTITY_TYPE
   }
 
-  Map getCountryStateDefaultParams() {
+  private Map getCountryStateDefaultParams() {
     return [
       code      : null,
       name      : null,
@@ -85,7 +85,7 @@ trait Country {
     ]
   }
 
-  Map getCountryStateParamsMap(Map params) {
+  private Map getCountryStateParamsMap(Map params) {
     return [
       code       : input.code,
       name       : input.name,
@@ -93,7 +93,7 @@ trait Country {
     ]
   }
 
-  Map getCountryStateParams(Map input, Map additionalParams = [:]) {
+  private Map getCountryStateParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryStateDefaultParams() + input
     return prepareParams(this.&getCountryStateParamsMap, params, additionalParams)
   }

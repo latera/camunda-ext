@@ -11,7 +11,7 @@ trait Company {
     plural : 'organizations'
   ]
 
-  Map getCompanyEntityType(def id = null) {
+  private Map getCompanyEntityType(def id = null) {
     if (hoper.version == 1) {
       return COMPANY_ENTITY_TYPE_V1 + withParent(getSubjectEntityType()) + withId(id)
     } else if (hoper.version == 2) {
@@ -19,7 +19,7 @@ trait Company {
     }
   }
 
-  Map getCompanyDefaultParams() {
+  private Map getCompanyDefaultParams() {
     return [
       name      : null,
       code      : null,
@@ -32,7 +32,7 @@ trait Company {
     ]
   }
 
-  Map getCompanyParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getCompanyParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result = [
       vc_name         : params.name,
       vc_code         : params.code,
@@ -50,7 +50,7 @@ trait Company {
     return result
   }
 
-  Map getCompanyParams(Map input, Map additionalParams = [:]) {
+  private Map getCompanyParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCompanyDefaultParams() + input
     LinkedHashMap data   = getCompanyParamsMap(params + additionalParams)
     return prepareParams(data)

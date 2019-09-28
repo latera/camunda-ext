@@ -15,17 +15,17 @@ trait Equipment {
   ]
   private static Integer EQUIPMENT_STATE_ACTUAL_ID       = 1040 // 'OBJ_STATE_Active'
   private static Integer EQUIPMENT_STATE_NOT_ACTIVE_ID   = 2040 // 'OBJ_STATE_NotActive'
-  private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 //'OBJ_STATE_RegisterOff'
+  private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 // 'OBJ_STATE_RegisterOff'
 
-  Map getEquipmentEntityType(def id = null) {
+  private Map getEquipmentEntityType(def id = null) {
     return EQUIPMENT_ENTITY_TYPE + withParent(getObjectEntityType()) + withId(id)
   }
 
-  Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
+  private Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
     return EQUIPMENT_ENTRY_ENTITY_TYPE + withParent(getEquipmentEntityType(equipmentId)) + withId(id)
   }
 
-  Map getCustomerEquipmentEntityType(def customerId, def id = null) {
+  private Map getCustomerEquipmentEntityType(def customerId, def id = null) {
     return CUSTOMER_EQUIPMENT_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
@@ -41,7 +41,7 @@ trait Equipment {
     return EQUIPMENT_STATE_REGISTER_OFF_ID
   }
 
-  Map getEquipmentDefaultParams() {
+  private Map getEquipmentDefaultParams() {
     return [
       code            : null,
       name            : null,
@@ -55,7 +55,7 @@ trait Equipment {
     ]
   }
 
-  Map getEquipmentEntryDefaultParams() {
+  private Map getEquipmentEntryDefaultParams() {
     return getEquipmentDefaultParams() + [
       mainObjectId    : null,
       firmId          : getFirmId(),
@@ -63,7 +63,7 @@ trait Equipment {
     ]
   }
 
-  Map getEquipmentParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getEquipmentParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result =  [
       vc_code             : params.code,
       vc_name             : params.name,
@@ -81,7 +81,7 @@ trait Equipment {
     return result
   }
 
-  Map getEquipmentEntryParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getEquipmentEntryParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result =  [
       vc_code             : params.code,
       vc_name             : params.name,
@@ -100,13 +100,13 @@ trait Equipment {
     return result
   }
 
-  Map getEquipmentParams(Map input, Map additionalParams = [:]) {
+  private Map getEquipmentParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentDefaultParams() + input
     LinkedHashMap data   = getEquipmentParamsMap(params, additionalParams)
     return prepareParams(data)
   }
 
-  Map getEquipmentEntryParams(Map input, Map additionalParams = [:]) {
+  private Map getEquipmentEntryParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentEntryDefaultParams() + input
     LinkedHashMap data   = getEquipmentEntryParamsMap(params, additionalParams)
     return prepareParams(data)

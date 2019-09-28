@@ -5,11 +5,11 @@ import org.camunda.latera.bss.utils.Base64Converter
 trait Ticket {
   private static String TICKET_ENTITY_TYPE = 'Ticket'
 
-  String getTicketEntityType() {
+  private String getTicketEntityType() {
     return TICKET_ENTITY_TYPE
   }
 
-  Map getTicketDefaultParams() {
+  private Map getTicketDefaultParams() {
     return [
       title         : null,
       queueId       : null,
@@ -25,7 +25,7 @@ trait Ticket {
     ]
   }
 
-  Map getTicketParamsMap(Map params) {
+  private Map getTicketParamsMap(Map params) {
     return [
       Title         : params.title,
       QueueID       : params.queueId,
@@ -50,7 +50,7 @@ trait Ticket {
     ]
   }
 
-  Map getTicketArticleDefaultParams() {
+  private Map getTicketArticleDefaultParams() {
     return [
       communicationChannelId           : null,
       isVisibleForCustomer             : null,
@@ -69,7 +69,7 @@ trait Ticket {
     ]
   }
 
-  Map getTicketArticleParamsMap(Map params) {
+  private Map getTicketArticleParamsMap(Map params) {
     return [
       CommunicationChannelID          : params.communicationChannelId,
       CommunicationChannel            : params.communicationChannel,
@@ -90,21 +90,21 @@ trait Ticket {
     ]
   }
 
-  Map getTicketDynamicFieldDefaultParams() {
+  private Map getTicketDynamicFieldDefaultParams() {
     return [
       name  : null,
       value : null
     ]
   }
 
-  Map getTicketDynamicFieldParamsMap(Map params) {
+  private Map getTicketDynamicFieldParamsMap(Map params) {
     return [
       Name  : params.name,
       Value : params.value
     ]
   }
 
-  Map getTicketAttachmentDefaultParams() {
+  private Map getTicketAttachmentDefaultParams() {
     return [
       name        : '',
       content     : [] as byte[],
@@ -112,7 +112,7 @@ trait Ticket {
     ]
   }
 
-  Map getTicketAttachmentParamsMap(Map params) {
+  private Map getTicketAttachmentParamsMap(Map params) {
     return [
       Content     : params.content ? Base64Converter.to(params.content) : '',
       ContentType : params.contentType,
@@ -120,7 +120,7 @@ trait Ticket {
     ]
   }
 
-  Map getTicketParams(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
+  private Map getTicketParams(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     LinkedHashMap ticketParams  = getTicketDefaultParams() + input
     LinkedHashMap articleParams = getTicketArticleDefaultParams() + input
     LinkedHashMap ticket  = convertParams(prepareParams(getTicketParamsMap(ticketParams)) + convertKeys(additionalParams))

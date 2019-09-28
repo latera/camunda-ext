@@ -1,30 +1,30 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
-import org.camunda.latera.bss.utils.StringUtil
+import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
-trait Entity {
-  Map getEntityDefaultParams() {
+private trait Entity {
+  private Map getEntityDefaultParams() {
     return [:]
   }
 
-  Map getEntityParamsMap(Map params) {
+  private Map getEntityParamsMap(Map params) {
     return [:]
   }
 
-  Map getPaginationDefaultParams() {
+  private Map getPaginationDefaultParams() {
     return [
       perPage : 10,
       page    : 1
     ]
   }
 
-  Map getEntityParams(Map input) {
+  private Map getEntityParams(Map input) {
     LinkedHashMap params = getEntityDefaultParams() + input
     LinkedHashMap where  = getEntityParamsMap(params)
     return getEntityParamsMap(params)
   }
 
-  Map getEntity(Map type, def id, Map query = [:]) {
+  private Map getEntity(Map type, def id, Map query = [:]) {
     LinkedHashMap result = null
     try {
       result = hoper.sendRequest(
@@ -38,7 +38,7 @@ trait Entity {
     return result
   }
 
-  List getEntities(Map type, Map query = [:]) {
+  private List getEntities(Map type, Map query = [:]) {
     List result = null
     try {
       result = hoper.sendRequest(
@@ -52,7 +52,7 @@ trait Entity {
     return result
   }
 
-  Map createEntity(Map type, Map params) {
+  private Map createEntity(Map type, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Creating ${type.one} with params ${params}")
@@ -61,7 +61,7 @@ trait Entity {
         path : preparePath(type),
         body : ["${type.one}": params]
       )?."${type.one}"
-      logger.info("   ${StringUtil.capitalize(type.one)} was created successfully!")
+      logger.info("   ${capitalize(type.one)} was created successfully!")
     } catch (Exception e) {
       logger.error("   Error while creating ${type.one}")
       logger.error(e)
@@ -69,7 +69,7 @@ trait Entity {
     return result
   }
 
-  Map updateEntity(Map type, def id, Map params) {
+  private Map updateEntity(Map type, def id, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Updating ${type.one} id ${id} with params ${params}")
@@ -78,7 +78,7 @@ trait Entity {
         path : preparePath(type, id),
         body : ["${type.one}": params]
       )?."${type.one}"
-      logger.info("   ${StringUtil.capitalize(type.one)} was updated successfully!")
+      logger.info("   ${capitalize(type.one)} was updated successfully!")
     } catch (Exception e) {
       logger.error("   Error while updating ${type.one}")
       logger.error(e)
@@ -86,14 +86,14 @@ trait Entity {
     return result
   }
 
-  Boolean deleteEntity(Map type, def id) {
+  private Boolean deleteEntity(Map type, def id) {
     try {
       logger.info("Deleting ${type.one} id ${id}")
       hoper.sendRequest(
         'delete',
         path : preparePath(type, id)
       )
-      logger.info("   ${StringUtil.capitalize(type.one)} was deleted successfully!")
+      logger.info("   ${capitalize(type.one)} was deleted successfully!")
       return true
     } catch (Exception e) {
       logger.error("   Error while deleting ${type.one}")

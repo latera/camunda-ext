@@ -34,7 +34,7 @@ class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Add
     this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
   }
 
-  Map mergeParams(
+  private Map mergeParams(
     Map initial,
     Map input
   ) {

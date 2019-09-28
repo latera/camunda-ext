@@ -3,11 +3,11 @@ package org.camunda.latera.bss.connectors.odoo.types
 trait Lead {
   private static String LEAD_ENTITY_TYPE = 'crm.lead'
 
-  String getLeadEntityType() {
+  private String getLeadEntityType() {
     return LEAD_ENTITY_TYPE
   }
 
-  Map getLeadDefaultParams() {
+  private Map getLeadDefaultParams() {
     return [
       name           : null,
       email          : null,
@@ -34,7 +34,7 @@ trait Lead {
     ]
   }
 
-  Map getLeadParamsMap(Map params) {
+  private Map getLeadParamsMap(Map params) {
     return [
       contact_name : params.name,
       email_from   : params.email,
@@ -61,7 +61,7 @@ trait Lead {
     ]
   }
 
-  Map getLeadParams(Map input, Map additionalParams = [:]) {
+  private Map getLeadParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getLeadDefaultParams() + input
     return prepareParams(this.&getLeadParamsMap, params, additionalParams)
   }

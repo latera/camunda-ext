@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.odoo
 
-trait Entity {
-  Map getEntity(CharSequence type, def id) {
+private trait Entity {
+  private Map getEntity(CharSequence type, def id) {
     LinkedHashMap result = null
     try {
       result = sendRequest(
@@ -14,7 +14,7 @@ trait Entity {
     return result
   }
 
-  List getEntitiesBy(CharSequence type, Map params) {
+  private List getEntitiesBy(CharSequence type, Map params) {
     List result = []
     LinkedHashMap query = searchQuery(params)
     try {
@@ -29,11 +29,11 @@ trait Entity {
     return result
   }
 
-  Map getEntityBy(CharSequence type, Map params) {
+  private Map getEntityBy(CharSequence type, Map params) {
     return getEntitiesBy(type, params)?.getAt(0)
   }
 
-  Map createEntity(CharSequence type, Map params) {
+  private Map createEntity(CharSequence type, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Creating ${type} with params ${params}")
@@ -49,7 +49,7 @@ trait Entity {
     return result
   }
 
-  Map updateEntity(CharSequence type, def id, Map params) {
+  private Map updateEntity(CharSequence type, def id, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Updating ${type} id ${id} with params ${params}")
@@ -65,7 +65,7 @@ trait Entity {
     return result
   }
 
-  Boolean deleteEntity(CharSequence type, def id) {
+  private Boolean deleteEntity(CharSequence type, def id) {
     try {
       logger.info("Deleting ${type} id ${id}")
       sendRequest(

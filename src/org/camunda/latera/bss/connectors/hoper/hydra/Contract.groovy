@@ -10,11 +10,11 @@ trait Contract {
   private static Integer ADD_AGREEMENT_TYPE = 13002 // 'DOC_TYPE_AddAgreement'
   private static Integer DEFAULT_CONTRACT_WORKFLOW_ID = 10021 // 'WFLOW_SubscriberContract'
 
-  Map getContractEntityType(Map parentType, def id = null) {
+  private Map getContractEntityType(Map parentType, def id = null) {
     return CONTRACT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  Map getCustomerContractEntityType(def customerId, def id = null) {
+  private Map getCustomerContractEntityType(def customerId, def id = null) {
     return getContractEntityType(getCustomerEntityType(customerId), id)
   }
 
@@ -34,7 +34,7 @@ trait Contract {
     return DEFAULT_CONTRACT_WORKFLOW_ID
   }
 
-  Map getContractDefaultParams() {
+  private Map getContractDefaultParams() {
     return [
       number      : null,
       providerId  : getFirmId(),
@@ -48,7 +48,7 @@ trait Contract {
     ]
   }
 
-  Map getContractParamsMap(Map params) {
+  private Map getContractParamsMap(Map params) {
     return [
       vc_doc_no       : params.number,
       n_provider_id   : params.providerId,
@@ -62,7 +62,7 @@ trait Contract {
     ]
   }
 
-  Map getContractParams(Map input) {
+  private Map getContractParams(Map input) {
     LinkedHashMap params = getContractDefaultParams() + input
     LinkedHashMap data   = getContractParamsMap(params)
     return prepareParams(data)

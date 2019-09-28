@@ -7,11 +7,11 @@ trait Account {
   ]
   private static Integer DEFAULT_CURRENCY_ID = 1044 // 'CURR_Ruble'
 
-  Map getAccountEntityType(Map parentType, def id = null) {
+  private Map getAccountEntityType(Map parentType, def id = null) {
     return ACCOUNT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  Map getCustomerAccountEntityType(def customerId, def id = null) {
+  private Map getCustomerAccountEntityType(def customerId, def id = null) {
     return getAccountEntityType(getCustomerEntityType(customerId), id)
   }
 
@@ -19,7 +19,7 @@ trait Account {
     return DEFAULT_CURRENCY_ID
   }
 
-  Map getAccountDefaultParams() {
+  private Map getAccountDefaultParams() {
     return [
       code         : null,
       name         : null,
@@ -30,7 +30,7 @@ trait Account {
     ]
   }
 
-  Map getAccountParamsMap(Map params) {
+  private Map getAccountParamsMap(Map params) {
     return [
       vc_code            : params.code,
       vc_name            : params.name,
@@ -41,7 +41,7 @@ trait Account {
     ]
   }
 
-  Map getAccountParams(Map input) {
+  private Map getAccountParams(Map input) {
     LinkedHashMap params = getAccountDefaultParams() + input
     LinkedHashMap data   = getAccountParamsMap(params)
     return prepareParams(data)

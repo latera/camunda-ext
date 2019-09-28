@@ -1,10 +1,11 @@
 package org.camunda.latera.bss.utils
 
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 
 class Oracle {
   static Object encodeNull(def value) {
-    if (value != 'NULL' && value != null && value != '') {
+    if (forceNotEmpty(value)) {
       return value
     } else {
       return 'NULL'

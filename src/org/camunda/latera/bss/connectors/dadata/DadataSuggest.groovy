@@ -34,7 +34,7 @@ class DadataSuggest {
     )
   }
 
-  List suggestList(Map data, CharSequence type, CharSequence input){
+  private List suggestList(Map data, CharSequence type, CharSequence input){
     try {
       def body = [
         query: input
@@ -66,20 +66,20 @@ class DadataSuggest {
     }
   }
 
-  List suggestList(CharSequence type, CharSequence input, Map data = [:]){
+  private List suggestList(CharSequence type, CharSequence input, Map data = [:]){
     return suggestList(type, input, data)
   }
 
-  Map suggestData(Map data, CharSequence type, CharSequence input){
+  private Map suggestData(Map data, CharSequence type, CharSequence input){
     data.limit = 1
     return suggestList(data, type, input)?.getAt(0)?.data
   }
 
-  Map suggestData(CharSequence type, CharSequence input, Map data = [:]){
+  private Map suggestData(CharSequence type, CharSequence input, Map data = [:]){
     return suggestData(data, type, input)
   }
 
-  Map getData(CharSequence type, def id){
+  private Map getData(CharSequence type, def id){
     try {
       return http.sendRequest(
         'get',

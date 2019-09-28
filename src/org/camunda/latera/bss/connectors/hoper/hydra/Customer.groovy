@@ -6,11 +6,11 @@ trait Customer {
     plural : 'customers'
   ]
 
-  Map getCustomerEntityType(def id = null) {
+  private Map getCustomerEntityType(def id = null) {
     return CUSTOMER_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
-  Map getCustomerDefaultParams() {
+  private Map getCustomerDefaultParams() {
     return [
       code          : null,
       baseSubjectId : null,
@@ -22,7 +22,7 @@ trait Customer {
     ]
   }
 
-  Map getCustomerParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getCustomerParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result = [
       vc_code           : params.code,
       n_base_subject_id : params.baseSubjectId,
@@ -41,7 +41,7 @@ trait Customer {
     return result
   }
 
-  Map getCustomerParams(Map input, Map additionalParams = [:]) {
+  private Map getCustomerParams(Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCustomerDefaultParams() + input
     LinkedHashMap data   = getCustomerParamsMap(params + additionalParams)
     return prepareParams(data)
