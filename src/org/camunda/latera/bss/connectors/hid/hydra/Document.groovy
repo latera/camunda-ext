@@ -162,9 +162,9 @@ trait Document {
       where  : [:],
       column : 'n_subject_id'
     ] + inp
-    pars.where.n_doc_id      = 'T.N_DOC_ID'
+    pars.where.n_doc_id      = ['=': 'T.N_DOC_ID']
     pars.where.n_doc_role_id = roleId
-    return prepareTableQuery(getDocumentSubjectsTable(), fields: pars.column, where: pars.where, tableAlias: 'DS', asMap: false)
+    return hid.prepareTableQuery(getDocumentSubjectsTable(), fields: pars.column, where: pars.where, tableAlias: 'DS', asMap: false)
   }
 
   List getDocumentsBy(Map input) {
@@ -207,22 +207,22 @@ trait Document {
     if (params.providerId || params.providerAccountId) {
       fields.n_provider_id         = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]])
       fields.n_provider_account_id = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['_EXISTS']             = subSelectForRole(getProviderRoleId(), where: nvl([n_subject_id: params.providerId, n_account_id: params.providerAccountId]))
+      where['_EXISTS']             = subSelectForRole(getProviderRoleId(), where: nvl(n_subject_id: params.providerId, n_account_id: params.providerAccountId))
     }
     if (params.receiverId || params.receiverAccountId) {
       fields.n_receiver_id         = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]])
       fields.n_receiver_account_id = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['__EXISTS']            = subSelectForRole(getReceiverRoleId(), where: nvl([n_subject_id: params.receiverId, n_account_id: params.receiverAccountId]))
+      where['__EXISTS']            = subSelectForRole(getReceiverRoleId(), where: nvl(n_subject_id: params.receiverId, n_account_id: params.receiverAccountId))
     }
     if (params.memberId || params.memberAccountId) {
       fields.n_member_id           = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]])
       fields.n_member_account_id   = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['___EXISTS']           = subSelectForRole(getMemberRoleId(),   where: nvl([n_subject_id: params.memberId, n_account_id: params.memberAccountId]))
+      where['___EXISTS']           = subSelectForRole(getMemberRoleId(),   where: nvl(n_subject_id: params.memberId, n_account_id: params.memberAccountId))
     }
     if (params.managerId || params.managerAccountId) {
       fields.n_manager_id          = subSelectForRole(getManagerRoleId(),  where: [rownum: ['<=': 1]])
       fields.n_manager_account_id  = subSelectForRole(getManagerRoleId(),  where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['____EXISTS']          = subSelectForRole(getManagerRoleId(),  where: nvl([n_subject_id: params.managerId, n_account_id: params.managerAccountId]))
+      where['____EXISTS']          = subSelectForRole(getManagerRoleId(),  where: nvl(n_subject_id: params.managerId, n_account_id: params.managerAccountId))
     }
     if (params.stateId) {
       where.n_doc_state_id = params.stateId

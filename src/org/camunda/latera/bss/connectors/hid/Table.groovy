@@ -5,6 +5,7 @@ import static org.camunda.latera.bss.utils.StringUtil.*
 import static org.camunda.latera.bss.utils.ListUtil.*
 import static org.camunda.latera.bss.utils.MapUtil.*
 import static org.camunda.latera.bss.utils.Oracle.*
+import java.util.regex.Pattern
 import org.camunda.latera.bss.internal.TableColumnCache
 
 trait Table {
@@ -14,6 +15,7 @@ trait Table {
   private static Integer       DEFAULT_LIMIT       = 0
   private static String        DEFAULT_TABLE_ALIAS = 'T'
   private static Boolean       DEFAULT_AS_MAP      = true
+  private static Pattern       SELECT_PATTERN      = Pattern.compile("^SELECT.*\$", Pattern.CASE_INSENSITIVE + Pattern.DOTALL)
 
   List getTableColumns(CharSequence tableName, CharSequence tableOwner = 'AIS_NET') {
     String tableFullName = "${tableOwner}.${tableName}"
@@ -46,7 +48,7 @@ trait Table {
 
     if (isList(fields)) { // Allow to pass fields: ['*', [n_recipient_id: '...']]
       List newFields = []
-      fields.each { field ->
+      fields.each { def field ->
         if (field == '*') {
           newFields << columns
         } else {
@@ -56,7 +58,7 @@ trait Table {
       fields = newFields
     } else if (isMap(fields)) { // Allow to pass fields: ['*': null, n_recipient_id: '...']
       List newFields = []
-      fields.each { name, value ->
+      fields.each { String name, def value ->
         if (name == '*' || value == '*') {
           newFields << columns
         } else {
@@ -70,14 +72,14 @@ trait Table {
       fields = [fields]
     }
 
-    fields.each{ field ->
+    fields.each{ def field ->
       if (isMap(field)) {
-        field.each { name, content ->
+        field.each { String name, def content ->
           String prefix = asMap ? "'${name}'," : ''
           if (isList(content)) {
             query += """
             ${prefix} (${content.join(' ')}) ${name},""" // fields: [n_recipient_id: ['select 1 from dual']]
-          } else if (isString(content) && content =~ /(?i)select/) {
+          } else if (isString(content) && content ==~ SELECT_PATTERN) {
             query += """
             ${prefix} (${content}) ${name},""" // fields: [n_recipient_id: 'select 1 from dual']
           } else {
@@ -98,7 +100,7 @@ trait Table {
       query += """
     WHERE 1 = 1"""
 
-      where.each{ field, value ->
+      where.each{ String field, def value ->
         if (field ==~ /^[_]+(.*)$/) {
           field = field.replaceFirst(/^[_]+(.*)$/, '$1') //beginDate: ['>': now()], _beginDate: ['<': dayEnd()], __beginDate: [...]
         }
@@ -106,23 +108,28 @@ trait Table {
           field = "${tableAlias}.${field}"
         }
         if (isMap(value)) {
-          value.each { condition, content ->
+          value.each { String condition, def content ->
             query += """
-      AND ${field} ${condition} ${isList(content) ? '(' + content.join(',') + ')' : content}""" // n_subject_id: [is: null], n_main_object_id: [is: 'not null'], n_good_id: [in: [1,2,3]], n_doc_id: ['not in': [1,2,3]], vc_code: [like: '%subst%'], vc_name: ['not like': '%subst%']
+    AND ${field} ${condition} ${isList(content) ? '(' + content.join(',') + ')' : content}""" // n_subject_id: [is: null], n_main_object_id: [is: 'not null'], n_good_id: [in: [1,2,3]], n_doc_id: ['not in': [1,2,3]], vc_code: [like: '%subst%'], vc_name: ['not like': '%subst%']
           }
         } else if (isList(value)) {
-          value.each { condition ->
-            if (isString(condition) && condition =~ /(?i)select/) {
+          value.each { def condition ->
+            if (isString(condition) && condition ==~ SELECT_PATTERN) {
               query += """
-      AND ${field} (${condition})""" // exists: ['select 1 from dual']
+    AND ${field} (${condition})""" // exists: ['select 1 from dual']
             } else {
               query += """
-      AND ${field} ${condition}""" // sysdate: ['between d_begin and nvl(d_end, sysdate)']
+    AND ${field} ${condition}""" // sysdate: ['between d_begin and nvl(d_end, sysdate)']
             }
           }
         } else if (isString(value)) {
-          query += """
+          if (value ==~ SELECT_PATTERN) {
+            query += """
+    AND ${field} (${value})""" // exists: 'select 1 from dual'
+          } else {
+            query += """
     AND ${field} = '${value}'""" // vc_code: 'code'
+          }
         } else if (isDate(value)) {
           query += """
     AND ${field} = ${encodeDateStr(value)}""" // d_begin: LocalDateTime('2001-01-01T00:00:00+00')
@@ -138,7 +145,7 @@ trait Table {
     ORDER BY"""
 
       if (isMap(order)) {
-        order.each { field, direction ->
+        order.each { String field, String direction ->
         if (field.toString().toLowerCase() in columns) {
           field = "${tableAlias}.${field}"
         }
@@ -146,7 +153,7 @@ trait Table {
           ${field} ${direction},""" // [c_fl_main: 'asc', d_begin: 'desc']
         }
       } else if (isList(order)) {
-        order.each { field ->
+        order.each { String field ->
         query += """
           ${field},""" // ['c_fl_main asc', 'd_begin desc']
         }
