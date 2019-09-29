@@ -200,16 +200,18 @@ class CSV {
     return this
   }
 
-  void leftShift(def line) {
+  CSV leftShift(def line) {
     addLine(line)
+    return this
   }
 
   List getAt(Integer i) {
     return data[i]
   }
 
-  void putAt(Integer i, def value) {
+  CSV putAt(Integer i, def value) {
     data[i] = parseLine(value)
+    return this
   }
 
   Boolean isExists(Map input) {
