@@ -205,8 +205,8 @@ class CSV {
     return this
   }
 
-  List getAt(Integer i) {
-    return data[i]
+  Map getAt(Integer i) {
+    return getDataMap()[i]
   }
 
   CSV putAt(Integer i, def value) {
