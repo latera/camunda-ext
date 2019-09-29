@@ -1,9 +1,17 @@
 package org.camunda.latera.bss.utils
 
-import static org.camunda.latera.bss.utils.Numeric.*
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.ListUtil.*
-import static org.camunda.latera.bss.utils.MapUtil.*
+import static org.camunda.latera.bss.utils.Numeric.isInteger
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.StringUtil.forceIsEmpty
+import static org.camunda.latera.bss.utils.StringUtil.join
+import static org.camunda.latera.bss.utils.ListUtil.isList
+import static org.camunda.latera.bss.utils.MapUtil.isMap
+import static org.camunda.latera.bss.utils.MapUtil.keysList
+import static org.camunda.latera.bss.utils.MapUtil.keysCount
+import static org.camunda.latera.bss.utils.MapUtil.merge
 
 class CSV {
   static private String  DEFAULT_DELIMITER = ';'
@@ -17,7 +25,7 @@ class CSV {
   private List header
   private List data
 
-  CSV(LinkedHashMap input) {
+  CSV(Map input) {
     if (input.execution) {
       this.delimiter      = input.execution.getVariable('csvDelimiter')
       this.linesDelimiter = input.execution.getVariable('csvLinesDelimiter')
@@ -29,6 +37,11 @@ class CSV {
       this.skipLines      = input.skipLines
       this.withHeader     = input.withHeader
     }
+    input.remove('execution')
+    input.remove('delimiter')
+    input.remove('linesDelimiter')
+    input.remove('skipLines')
+    input.remove('withHeader')
 
     this.delimiter      = this.delimiter      ?: DEFAULT_DELIMITER
     this.linesDelimiter = this.linesDelimiter ?: DEFAULT_LINES_DELIMITER
@@ -39,11 +52,22 @@ class CSV {
 
     if (input.header) {
       this.setHeader(input.header)
+      input.remove('header')
     }
 
     if (input.data) {
       this.setData(input.data)
+    } else {
+      this.setData([input])
     }
+  }
+
+  CSV(CharSequence input) {
+    this(data: input)
+  }
+
+  CSV(List input) {
+    this(data: input)
   }
 
   List parseLines(def lines, Integer _skipLines = skipLines) {
