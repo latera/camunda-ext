@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.connectors.hid
 
-import groovy.net.xmlrpc.*
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import org.camunda.bpm.engine.delegate.DelegateExecution
@@ -104,14 +103,17 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   }
 
   String getLocale() {
-    if (locale == 'en') {
-      return 'english'
-    }
     return locale ?: 'ru'
   }
 
   Number getLangId() {
-    return getRefIdByCode("LANG_${capitalize(getLocale())}")
+    String langCode = getLocale()
+    if (langCode == 'en') {
+      langCode = 'english'
+    } else if (langCode == 'ru') {
+      langCode = 'russian'
+    }
+    return getRefIdByCode("LANG_${capitalize(langCode)}")
   }
   //Other methods are imported from traits
 }
