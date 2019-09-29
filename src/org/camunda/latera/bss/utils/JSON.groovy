@@ -2,6 +2,7 @@ package org.camunda.latera.bss.utils
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
+import org.camunda.latera.bss.utils.CSV
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.ListUtil.isList
 import static org.camunda.latera.bss.utils.MapUtil.isMap
@@ -22,6 +23,8 @@ class JSON {
       return newList
     } else if (isDate(obj)) {
       return iso(obj)
+    } else if (obj instanceof CSV) {
+      return obj.dataMap
     } else {
       return obj
     }
