@@ -3,6 +3,14 @@ v1.3 [unreleased]
 ### Breaking changes
 -   [#05e0108](https://github.com/latera/camunda-ext/commit/05e0108) Change hydra_account field to hydra_customer_id in Odoo class
 -   [#d4a4a88](https://github.com/latera/camunda-ext/commit/d4a4a88) Improve Region and Address class of hid.Hydra
+-   [#860706d](https://github.com/latera/camunda-ext/commit/860706d) Add private modifier to internal only methods
+-   [#6a8e117](https://github.com/latera/camunda-ext/commit/6a8e117) Fix CSV generation and parsing issue
+-   [#44fa4cb](https://github.com/latera/camunda-ext/commit/44fa4cb) Improve CSV parsing
+-   [#189c94b](https://github.com/latera/camunda-ext/commit/189c94b) Improve CSV boolean coerce
+-   [#d54d12e](https://github.com/latera/camunda-ext/commit/d54d12e) Change return value of leftShift and putAt methods of CSV class
+-   [#3eb6018](https://github.com/latera/camunda-ext/commit/3eb6018) Change return value of getAt method of CSV class
+-   [#ac181f6](https://github.com/latera/camunda-ext/commit/ac181f6) Allow to update values with plus method of CSV class
+-   [#834ef9d](https://github.com/latera/camunda-ext/commit/834ef9d) Improve get/setProperty type coerse of CSV class
 
 ### Features
 -   [#ddcbe81](https://github.com/latera/camunda-ext/commit/ddcbe81) Explicitly set Java 8 target
@@ -16,13 +24,19 @@ v1.3 [unreleased]
 -   [#9bff882](https://github.com/latera/camunda-ext/commit/9bff882) Get provider, recipient, etc data for document
 -   [#07bffbd](https://github.com/latera/camunda-ext/commit/07bffbd) Add getOpfCode method to Ref class
 -   [#71e1951](https://github.com/latera/camunda-ext/commit/71e1951) Add named args support to getAvailableServices method
--   [#62be95a](https://github.com/latera/camunda-ext/commit/62be95a) Add README file
+-   [#0bb7285](https://github.com/latera/camunda-ext/commit/0bb7285) Add buildingType to getRegionTree method
+-   [#9e9319f](https://github.com/latera/camunda-ext/commit/9e9319f) Add merge method to MapUtil
+-   [#767a637](https://github.com/latera/camunda-ext/commit/767a637) Add homsOrderCode to data pass to Imprint
+-   [#237cdb5](https://github.com/latera/camunda-ext/commit/237cdb5) Add constructor of CSV class for CharSequence and List input
+-   [#838883d](https://github.com/latera/camunda-ext/commit/838883d) Convert CSV class to List[Map] in JSON.to method
 
 ### Bugfixes
 -   [#14a989a](https://github.com/latera/camunda-ext/commit/14a989a) Fix queryFirstMap and queryFirstList in hid class
 -   [#7792d88](https://github.com/latera/camunda-ext/commit/7792d88) Fix add*AddParam return value
 -   [#6acfcfc](https://github.com/latera/camunda-ext/commit/6acfcfc) Fix closeObjAddress method arg names
 -   [#14d8afd](https://github.com/latera/camunda-ext/commit/14d8afd) Fix mergeParams method
+-   [#7c99353](https://github.com/latera/camunda-ext/commit/7c99353) Fix 'en' locale id too often fetching from DB LANG_En ref does not exist so it can't be cached Use LANG_English fallback instead
+-   [#803638b](https://github.com/latera/camunda-ext/commit/803638b) Fix subquery usage detect in HID class
 
 v1.2 [2019-08-25]
 ---------------------
