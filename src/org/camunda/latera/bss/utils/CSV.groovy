@@ -57,6 +57,10 @@ class CSV {
           List item = []
           if (isString(line) && notEmpty(line)) {
             line = trim(line).split(delimiter)
+            if (!data && !header) { // read first line as header if header is not set
+              setHeader(line)
+              return
+            }
             if (notHeader(line)) {
               if (header) {
                 header.eachWithIndex { CharSequence column, Integer pos ->
@@ -78,11 +82,18 @@ class CSV {
               }
             }
           } else if (isMap(line)) {
+            List mapKeys = keysList(line)
+            if (!header) {
+              setHeader(mapKeys)
+            }
             header.each { CharSequence column ->
               item << line[column]
             }
             result << item
           } else if (isList(line)) {
+            if (!header) {
+              setHeader(line)
+            }
             if (notHeader(line)) {
               result << line
             }
