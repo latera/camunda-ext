@@ -34,6 +34,20 @@ class MapUtil {
     return (input.keySet() as String[])
   }
 
+  static Map merge(Map first, Map second) {
+    LinkedHashMap result = [:]
+    [first, second].each { Map item ->
+      item.each { def key, def value ->
+        if (isString(key)) {
+          result[key.toString()] = value
+        } else {
+          result[key] = value
+        }
+      }
+    }
+    return result
+  }
+
   static Map mergeNotNull(Map first, Map second) {
     LinkedHashMap result = [:]
     first.each { key, value ->
