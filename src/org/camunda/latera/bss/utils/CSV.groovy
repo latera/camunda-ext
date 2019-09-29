@@ -193,7 +193,26 @@ class CSV {
 
   CSV plus(def item) {
     if (isMap(item)) {
-      addLine(item)
+      Boolean allIntegerKeys = true
+      item.each { def key, def value ->
+        if (!isInteger(key)) {
+          allIntegerKeys = false
+        }
+      }
+      if (allIntegerKeys && header) {
+        item.each {def i, def value ->
+          i = toIntSafe(i)
+          if (data.size() > i) {
+            if (isMap(value)) {
+              data[i] = parseLine(merge(getAt(i), value)) // csv + [0: [column: 'val']] - update line with index 0
+            } else {
+              data[i] = parseLine(value) // csv + [0: ['first', 'second']]  or csv + [0: 'first;second'] - replace line with index 0
+            }
+          } //else do nothing
+        }
+      } else {
+        addLine(item) // csv + [column: 'val'] - insert new line
+      }
     } else {
       addLines(item)
     }
