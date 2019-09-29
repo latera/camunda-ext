@@ -1,10 +1,11 @@
 package org.camunda.latera.bss.connectors
 
-import groovy.net.xmlrpc.*
-import java.time.LocalDateTime
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.Oracle.*
+import groovy.net.xmlrpc.XMLRPCServerProxy
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+import static org.camunda.latera.bss.utils.Oracle.encodeDate
+import static org.camunda.latera.bss.utils.Oracle.encodeNull
 import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 

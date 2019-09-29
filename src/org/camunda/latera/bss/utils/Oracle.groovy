@@ -1,10 +1,13 @@
 package org.camunda.latera.bss.utils
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.DATE_TIME_FORMAT_ORACLE
+import static org.camunda.latera.bss.utils.DateTimeUtil.SIMPLE_DATE_TIME_FORMAT
+import static org.camunda.latera.bss.utils.DateTimeUtil.format
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 
 class Oracle {
-  static Object encodeNull(def value) {
+  static def encodeNull(def value) {
     if (forceNotEmpty(value)) {
       return value
     } else {
@@ -12,15 +15,15 @@ class Oracle {
     }
   }
 
-  static Object decodeNull(def value) {
+  static def decodeNull(def value) {
     if (encodeNull(value) == 'NULL') {
       return null
     }
     return value
   }
 
-  static Object encodeBool(def value) {
-    Object result = encodeNull(value)
+  static def encodeBool(def value) {
+    def result = encodeNull(value)
     if (result != 'NULL') {
       return value ? 'Y' : 'N'
     } else {
@@ -32,8 +35,8 @@ class Oracle {
     return value == 'Y'
   }
 
-  static Object encodeFlag(def value) {
-    Object result = encodeNull(value)
+  static def encodeFlag(def value) {
+    def result = encodeNull(value)
     if (result != 'NULL') {
       return value ? 1 : 0
     } else {
@@ -45,7 +48,7 @@ class Oracle {
     return value.toString() == '1'
   }
 
-  static Object nvl(def nullable, def replacement, List args = []) {
+  static def nvl(def nullable, def replacement, List args = []) {
     Boolean result = decodeNull(nullable)
     if (result != null) {
       return result

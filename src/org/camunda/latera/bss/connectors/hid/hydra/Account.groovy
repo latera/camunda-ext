@@ -1,8 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Numeric.*
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import java.time.temporal.Temporal
 
 trait Account {

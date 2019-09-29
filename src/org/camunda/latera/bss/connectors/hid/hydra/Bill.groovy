@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 
 trait Bill {
   private static String  BILLS_TABLE                         = 'SD_V_BILLS_T'

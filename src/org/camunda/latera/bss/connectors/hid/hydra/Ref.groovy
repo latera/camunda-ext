@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import org.camunda.latera.bss.internal.RefCache
 
 trait Ref {
@@ -74,13 +75,13 @@ trait Ref {
       where.vc_value3 = params.string3
     }
     if (params.bool != null) {
-      where.c_value = Oracle.encodeBool(params.bool)
+      where.c_value = encodeBool(params.bool)
     }
     if (params.bool2 != null) {
-      where.c_value2 = Oracle.encodeBool(params.bool2)
+      where.c_value2 = encodeBool(params.bool2)
     }
     if (params.bool3 != null) {
-      where.c_value3 = Oracle.encodeBool(params.bool3)
+      where.c_value3 = encodeBool(params.bool3)
     }
     if (params.date) {
       where.d_value = date
@@ -101,10 +102,10 @@ trait Ref {
       where.n_value = number3
     }
     if (params.isEditable != null) {
-      where.c_fl_editable = Oracle.encodeBool(params.isEditable)
+      where.c_fl_editable = encodeBool(params.isEditable)
     }
     if (params.isManual != null) {
-      where.c_fl_manual = Oracle.encodeBool(params.isManual)
+      where.c_fl_manual = encodeBool(params.isManual)
     }
 
     List result = hid.getTableData(getRefsTable(), where: where, limit: params.limit)

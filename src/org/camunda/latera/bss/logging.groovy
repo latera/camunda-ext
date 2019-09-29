@@ -1,8 +1,10 @@
 package org.camunda.latera.bss.logging
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.DATE_TIME_FORMAT
+import static org.camunda.latera.bss.utils.DateTimeUtil.format
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
 import java.time.format.DateTimeFormatter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -44,7 +46,7 @@ class SimpleLogger {
     String timestamp = format(local(), this.dateFormat)
     String logPrefix = "${timestamp} ${processInstanceId} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
 
-    message.toString().split('\n').each { it ->
+    message.toString().split('\n').each { def it ->
       println(logPrefix + it)
     }
   }
@@ -65,7 +67,7 @@ class SimpleLogger {
     log(message, 'error')
   }
 
-  void log_oracle(Object message, CharSequence level = "info") {
+  void log_oracle(Object message, CharSequence level = 'info') {
     message = varcharToUnicode(message.toString())
     log(message, level)
   }

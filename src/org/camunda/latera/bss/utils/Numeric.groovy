@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.utils
 
 import java.math.*
-import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.isString
 
 class Numeric {
   static def toIntSafe(def value, def defaultValue = null) {

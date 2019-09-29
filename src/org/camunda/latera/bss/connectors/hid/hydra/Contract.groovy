@@ -1,8 +1,10 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.MapUtil.keysList
+import static org.camunda.latera.bss.utils.StringUtil.capitalize
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import java.time.temporal.Temporal
 
 trait Contract {
@@ -106,7 +108,7 @@ trait Contract {
     String docTypeName = capitalize(_docTypeName)
 
     try {
-      List paramsNames = (defaultParams.keySet() as List) - ['parentDocId', 'providerId', 'receiverId', 'number']
+      List paramsNames = keysList(defaultParams) - ['parentDocId', 'providerId', 'receiverId', 'number']
       LinkedHashMap contract = [:]
       if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && isEmpty(params.number)) {
         logger.info("Creating new ${_docTypeName} with params ${params}")

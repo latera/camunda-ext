@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import java.time.temporal.Temporal
 
 trait Subscription {

@@ -1,10 +1,10 @@
 package org.camunda.latera.bss.connectors.minio
 
 import java.io.InputStream
-import org.camunda.latera.bss.utils.JSON
-import org.camunda.latera.bss.utils.IO
-import org.camunda.latera.bss.utils.Base64Converter
-import static org.camunda.latera.bss.utils.StringUtil.*
+import static org.camunda.latera.bss.utils.IO.getStream
+import static org.camunda.latera.bss.utils.Base64Converter.to as toBase64
+import static org.camunda.latera.bss.utils.Base64Converter.from as fromBase64
+import static org.camunda.latera.bss.utils.StringUtil.isString
 import io.minio.errors.MinioException
 
 trait File {
@@ -74,7 +74,7 @@ trait File {
     try {
       def content = getFileContent(bucketName, fileName)
       if (content) {
-        return Base64Converter.to(content)
+        return toBase64(content)
       } else {
         return null
       }
@@ -126,10 +126,10 @@ trait File {
     try {
       logger.info("Creating file with name ${fileName} in bucket ${bucketName}")
       if (isString(data)) {
-        data = Base64Converter.from(data)
+        data = fromBase64(data)
       }
       if (data instanceof byte[]) {
-        data = IO.getStream(data)
+        data = getStream(data)
       }
       client.putObject(bucketName, fileName, data)
       logger.info("  File was created successfully!")

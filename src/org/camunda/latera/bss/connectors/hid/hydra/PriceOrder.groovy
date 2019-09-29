@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 
 trait PriceOrder {
   private static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'

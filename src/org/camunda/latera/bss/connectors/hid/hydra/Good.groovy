@@ -1,7 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Oracle.*
-import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.Oracle.encodeBool
+import static org.camunda.latera.bss.utils.Oracle.decodeBool
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'

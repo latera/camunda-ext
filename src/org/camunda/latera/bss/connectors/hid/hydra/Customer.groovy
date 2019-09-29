@@ -1,8 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Oracle.*
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.Oracle.encodeBool
+import static org.camunda.latera.bss.utils.Oracle.encodeFlag
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import java.time.temporal.Temporal
 
 trait Customer {

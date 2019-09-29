@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
-import static org.camunda.latera.bss.utils.Numeric.*
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'

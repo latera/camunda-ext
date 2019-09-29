@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.connectors.hoper
 
-import groovy.net.xmlrpc.*
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.Hoper

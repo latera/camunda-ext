@@ -62,7 +62,7 @@ class ListUtil {
 
   static List nvl(List input) {
     List result = []
-    input.each { item ->
+    input.each { def item ->
       if (item != null) {
         if (forceIsEmpty(item)) {
           result += null
@@ -76,7 +76,7 @@ class ListUtil {
 
   static List forceNvl(List input) {
     List result = []
-    input.each { item ->
+    input.each { def item ->
       if (forceNotEmpty(item)) {
         result += value
       }

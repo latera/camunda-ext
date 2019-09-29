@@ -1,10 +1,12 @@
 package org.camunda.latera.bss.connectors.hid
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.ListUtil.*
-import static org.camunda.latera.bss.utils.MapUtil.*
-import static org.camunda.latera.bss.utils.Oracle.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+import static org.camunda.latera.bss.utils.DateTimeUtil.iso
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.ListUtil.lowerCase
+import static org.camunda.latera.bss.utils.ListUtil.isList
+import static org.camunda.latera.bss.utils.MapUtil.isMap
+import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import java.util.regex.Pattern
 import org.camunda.latera.bss.internal.TableColumnCache
 
