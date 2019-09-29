@@ -52,7 +52,8 @@ class Imprint {
                   month         : format(now, MONTH_FORMAT),
                   year          : format(now, YEAR_FORMAT),
                   monthFull     : format(now, MONTH_FULL_FORMAT, this.locale),
-                  todayFull     : format(now, FULL_DATE_FORMAT,  this.locale)
+                  todayFull     : format(now, FULL_DATE_FORMAT,  this.locale),
+                  homsOrderCode : execution.getVariable('homsOrderCode')
                 ] + data
     ]
     return this.http.sendRequest(
