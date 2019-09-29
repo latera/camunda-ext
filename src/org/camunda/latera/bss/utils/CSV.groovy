@@ -70,6 +70,12 @@ class CSV {
                       if (forceIsEmpty(value)) {
                         value = null
                       }
+                      if (value == 'Y') {
+                        value = true
+                      }
+                      if (value == 'N') {
+                        value = false
+                      }
                     }
                     item += value
                   } else {
@@ -332,6 +338,10 @@ class CSV {
         result << join(line.collect { def item ->
           if (isString(item) && forceIsEmpty(item)) {
             return null
+          } else if (item == true) {
+            return 'Y'
+          } else if (item == false) {
+            return 'N'
           } else {
             return item
           }
