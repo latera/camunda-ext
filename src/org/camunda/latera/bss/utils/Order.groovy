@@ -2,8 +2,15 @@ package org.camunda.latera.bss.utils
 
 import groovy.lang.GroovyObject
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.capitalize
+import static org.camunda.latera.bss.utils.StringUtil.decapitalize
+import static org.camunda.latera.bss.utils.DateTimeUtil.parseDateTimeAny
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+import static org.camunda.latera.bss.utils.DateTimeUtil.iso
+import static org.camunda.latera.bss.utils.ListUtil.parse as parseList
+import static org.camunda.latera.bss.utils.MapUtil.parse  as parseMap
+import org.camunda.latera.bss.utils.CSV
 import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.connectors.Minio
 
@@ -14,15 +21,31 @@ class Order implements GroovyObject {
     this._execution  = execution
   }
 
-  static def getValue(CharSequence name, DelegateExecution execution) {
-    def result = null
-    if (name == 'uploadedFile' || name == 'homsOrderDataUploadedFile') {
+  static def getValue(CharSequence name, Boolean raw = false, DelegateExecution execution) {
+    if (!name.startsWith('homsOrderData')) {
+      name = "homsOrderData${capitalize(name)}"
+    }
+
+    if (name == 'homsOrderDataUploadedFile') {
       return null
     }
-    if (name.startsWith('homsOrderData')) {
-      result = execution.getVariable(name)
-    } else {
-      result = execution.getVariable("homsOrderData${capitalize(name)}")
+    def result = execution.getVariable(name)
+    if (raw) {
+      return result
+    }
+
+    if (name.endsWith('CSV')) {
+      try {
+        return new CSV(data: result, execution: execution)
+      } catch (Exception e) {}
+    }
+
+    if (name.endsWith('JSON') || name.endsWith('Map')) {
+      return parseMap(result)
+    }
+
+    if (name.endsWith('List')) {
+      return parseList(result)
     }
 
     def date = parseDateTimeAny(result)
@@ -32,18 +55,30 @@ class Order implements GroovyObject {
     return result
   }
 
-  static def getValue(DelegateExecution execution, CharSequence name) {
-    return getValue(name, execution)
+  static def getValueRaw(CharSequence name, DelegateExecution execution) {
+    return getValue(name, execution, true)
   }
 
-  def getValue(CharSequence name) {
+  static def getValue(DelegateExecution execution, CharSequence name, Boolean raw = false) {
+    return getValue(name, raw, execution)
+  }
+
+  static def getValueRaw(DelegateExecution execution, CharSequence name) {
+    return getValue(execution, name)
+  }
+
+  def getValue(CharSequence name, Boolean raw = false) {
     if (name == 'data') {
       return this.getClass().getData(this._execution)
     }
-    return this.getClass().getValue(name, this._execution)
+    return this.getClass().getValue(name, raw, this._execution)
   }
 
-  def getProperty(String propertyName) { // do not change type to CharSequence, dynamic access will not work
+  def getValueRaw(CharSequence name) {
+    return getValue(name. true)
+  }
+
+  def getProperty(String propertyName) { // ALERT: do not change type to CharSequence, dynamic access will not work
     return getValue(propertyName)
   }
 
@@ -55,19 +90,31 @@ class Order implements GroovyObject {
     return getValue(name)
   }
 
-  static Map getData(DelegateExecution execution) {
+  def getVariableRaw(CharSequence name) {
+    return getValueRaw(name)
+  }
+
+  static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
       if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
-        data[_key] = getValue(key, execution)
+        data[_key] = getValue(key, raw, execution)
       }
     }
     return data
   }
 
-  Map getData() {
-    return getData(this._execution)
+  static Map getDataRaw(DelegateExecution execution) {
+    return getData(execution, true)
+  }
+
+  Map getData(Boolean raw = false) {
+    return getData(this._execution, raw)
+  }
+
+  Map getDataRaw() {
+    return getData(true)
   }
 
   def asType(Class target) {
@@ -77,25 +124,52 @@ class Order implements GroovyObject {
     }
   }
 
-  static void setValue(CharSequence name, def value, DelegateExecution execution) {
-    if (name == 'uploadedFile' || name == 'homsOrderDataUploadedFile') {
+  static void setValue(CharSequence name, def value, Boolean raw = false, DelegateExecution execution) {
+    if (!name.startsWith('homsOrderData')) {
+      name = "homsOrderData${capitalize(name)}"
+    }
+    if (name == 'homsOrderDataUploadedFile') {
       return
     }
-    if (isString(value)) {
-      value = value.toString() // Convert GStringImpl to String
+    if (!raw) {
+      if (name.endsWith('CSV')) {
+        try {
+          value = value as String
+        } catch (Exception e) {}
+      }
+      if (name.endsWith('List') || name.endsWith('JSON') || name.endsWith('Map')) {
+        try {
+          value = JSON.to(value)
+        } catch (Exception e) {}
+      }
+      if (isString(value)) {
+        value = value.toString() // Convert GStringImpl to String
+      }
+      if (isDate(value)) {
+        value = iso(value)
+      }
     }
-    if (isDate(value)) {
-      value = iso(value)
-    }
-    if (name.startsWith('homsOrderData')) {
-      execution.setVariable(name, value)
-    } else {
-      execution.setVariable("homsOrderData${capitalize(name)}", value)
-    }
+    execution.setVariable(name, value)
   }
 
-  static void setValue(DelegateExecution execution, CharSequence name, def value) {
-    setValue(name, value, execution)
+  static void setValueRaw(CharSequence name, def value, DelegateExecution execution) {
+    setValue(name, value, true, execution)
+  }
+
+  static void setValue(DelegateExecution execution, CharSequence name, def value, Boolean raw = false) {
+    setValue(name, value, raw, execution)
+  }
+
+  static void setValueRaw(DelegateExecution execution, CharSequence name, def value) {
+    setValue(execution, name, value, true)
+  }
+
+  void setValue(CharSequence name, def value, Boolean raw = false) {
+    this.getClass().setValue(name, value, raw, this._execution)
+  }
+
+  void setValueRaw(CharSequence name, def value) {
+    setValue(name, value, true)
   }
 
   void setProperty(String propertyName, def newValue) { // do not change type to CharSequence, dynamic access will not work
@@ -111,34 +185,45 @@ class Order implements GroovyObject {
     return this
   }
 
-  void setVariable(CharSequence name, def value) {
-    setValue(name, value)
+  void setVariable(CharSequence name, def value, Boolean raw = false) {
+    setValue(name, value, raw)
   }
 
-  void setValue(CharSequence name, def value) {
-    this.getClass().setValue(name, value, this._execution)
+  void setVariableRaw(CharSequence name, def value) {
+    setVariable(name, value, true)
   }
 
-  static void saveData(Map data, DelegateExecution execution) {
+  static void saveData(Map data, Boolean raw = false, DelegateExecution execution) {
     data.each { key, value ->
-      setValue(key, value, execution)
+      setValue(key, value, raw, execution)
     }
   }
 
-  static void saveData(DelegateExecution execution, Map data) {
-    saveData(execution, data)
+  static void saveDataRaw(Map data, DelegateExecution execution) {
+    saveData(data, execution, true)
   }
 
-  void saveData(Map data) {
-    saveData(data, this._execution)
+  static void saveData(DelegateExecution execution, Map data, Boolean raw = false) {
+    saveData(data, raw, execution)
+  }
+
+  static void saveDataRaw(DelegateExecution execution, Map data) {
+    saveData(execution, data, true)
+  }
+
+  void saveData(Map data, Boolean raw = false) {
+    saveData(data, raw, this._execution)
+  }
+
+  void saveDataRaw(Map data) {
+    saveData(data, true, this._execution)
   }
 
   static void removeValue(CharSequence name, DelegateExecution execution) {
-    if (name.startsWith('homsOrderData')) {
-      execution.removeValue(name)
-    } else {
-      execution.removeValue("homsOrderData${capitalize(name)}")
+    if (!name.startsWith('homsOrderData')) {
+      name = "homsOrderData${capitalize(name)}"
     }
+    execution.removeValue(name)
   }
 
   static void removeValue(DelegateExecution execution, CharSequence name) {
@@ -155,7 +240,7 @@ class Order implements GroovyObject {
   }
 
   static List getFiles(CharSequence prefix = '', DelegateExecution execution) {
-    return JSON.from(execution.getVariable("homsOrderData${prefix}FileList") ?: '[]')
+    return getValue("${prefix}FileList", execution)
   }
 
   List getFiles(CharSequence prefix = '') {
@@ -164,7 +249,7 @@ class Order implements GroovyObject {
 
   static Map getFile(CharSequence name, CharSequence prefix = '', DelegateExecution execution) {
     List files = getFiles(prefix, execution)
-    files.each { file ->
+    files.each { Map file ->
       if (file.origin_name == name || file.real_name == name) {
         return file
       }
@@ -181,7 +266,7 @@ class Order implements GroovyObject {
     List files  = getFiles(prefix, execution)
     if (files) {
       Minio minio  = new Minio(execution)
-      files.each { file ->
+      files.each { Map file ->
         result += file + [
           name    : file.origin_name,
           content : minio.getFileContent(file.bucket, file.real_name)

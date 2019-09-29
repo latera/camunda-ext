@@ -11,7 +11,7 @@ class AutoSaveOrderData implements ExecutionListener {
     SimpleLogger logger = new SimpleLogger(execution)
 
     if (isSavePossible(execution)) {
-      def orderData = Order.getData(execution)
+      def orderData = Order.getDataRaw(execution)
 
       if (orderData != execution.getVariable('homsOrdDataBuffer')) {
         def homs = new HOMS(execution)
