@@ -6,8 +6,7 @@ v1.3 [unreleased]
 -   [#860706d](https://github.com/latera/camunda-ext/commit/860706d) Add private modifier to internal only methods
 -   [#6a8e117](https://github.com/latera/camunda-ext/commit/6a8e117) Fix CSV generation and parsing issue
 -   [#44fa4cb](https://github.com/latera/camunda-ext/commit/44fa4cb) Improve CSV parsing
--   [#189c94b](https://github.com/latera/camunda-ext/commit/189c94b) Improve CSV boolean coerce
--   [#d54d12e](https://github.com/latera/camunda-ext/commit/d54d12e) Change return value of leftShift and putAt methods of CSV class
+-   [#189c94b](https://github.com/latera/camunda-ext/commit/189c94b) Improve CSV boolean coercion
 -   [#3eb6018](https://github.com/latera/camunda-ext/commit/3eb6018) Change return value of getAt method of CSV class
 -   [#ac181f6](https://github.com/latera/camunda-ext/commit/ac181f6) Allow to update values with plus method of CSV class
 -   [#834ef9d](https://github.com/latera/camunda-ext/commit/834ef9d) Improve get/setProperty type coerse of CSV class
@@ -35,7 +34,8 @@ v1.3 [unreleased]
 -   [#7792d88](https://github.com/latera/camunda-ext/commit/7792d88) Fix add*AddParam return value
 -   [#6acfcfc](https://github.com/latera/camunda-ext/commit/6acfcfc) Fix closeObjAddress method arg names
 -   [#14d8afd](https://github.com/latera/camunda-ext/commit/14d8afd) Fix mergeParams method
--   [#7c99353](https://github.com/latera/camunda-ext/commit/7c99353) Fix 'en' locale id too often fetching from DB LANG_En ref does not exist so it can't be cached Use LANG_English fallback instead
+-   [#7c99353](https://github.com/latera/camunda-ext/commit/7c99353) Fix 'en' locale id too often fetching from DB
+-   [#c22478e](https://github.com/latera/camunda-ext/commit/c22478e) Fix 'ru' locale id too often fetching from DB
 -   [#803638b](https://github.com/latera/camunda-ext/commit/803638b) Fix subquery usage detect in HID class
 
 v1.2 [2019-08-25]
