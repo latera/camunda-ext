@@ -27,6 +27,14 @@ class StringUtil {
     return result
   }
 
+  static String forceNvl(def input) {
+    String result = nvl(input)
+    if (result == '') {
+      return null
+    }
+    return result
+  }
+
   static Boolean notEmpty(def input) {
     if (input) {
       if (isString(input)) {

@@ -127,22 +127,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#delimiter">delimiter</a></code><br></td>
+                            <td class="colLast"><code><a href="#delimiter">delimiter</a></code><br>String delimiter for items in line. </td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#linesDelimiter">linesDelimiter</a></code><br></td>
+                            <td class="colLast"><code><a href="#linesDelimiter">linesDelimiter</a></code><br>String delimiter for lines. </td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#skipLines">skipLines</a></code><br></td>
+                            <td class="colLast"><code><a href="#skipLines">skipLines</a></code><br>Number of lines to skip from beginning of data. </td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#withHeader">withHeader</a></code><br></td>
+                            <td class="colLast"><code><a href="#withHeader">withHeader</a></code><br>Boolean, if true return CSV with header line. </td>
                         </tr>
                         
                     </table>
@@ -169,19 +169,19 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst">
                                 <code><a href="#CSV(java.util.Map)">CSV</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Constructor with named optional params or Map data input.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst">
                                 <code><a href="#CSV(java.lang.CharSequence)">CSV</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</code><br></td>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</code><br>Constructor overload for List input.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst">
                                 <code><a href="#CSV(java.util.List)">CSV</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Constructor overload for String input.</td>
                         </tr>
                         
                     </table>
@@ -208,223 +208,235 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addLine(def)">addLine</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addLine(def)">addLine</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br>Add line to CSV.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addLines(def)">addLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addLines(def)">addLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</code><br>Add lines to CSV.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
-                            <td class="colLast"><code><strong><a href="#asType(java.lang.Class)">asType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Class.html' title='Class'>Class</a> target)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#asType(java.lang.Class)">asType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Class.html' title='Class'>Class</a> target)</code><br>Get internal data passed format.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#clear()">clear</a></strong>()</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#checkLine(java.lang.Integer, java.util.Map)">checkLine</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Checks if line satisfies some condition.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#clear()">clear</a></strong>()</code><br>Clear internal data.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deleteLines(java.util.Map)">deleteLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Delete line or lines correspords to condition.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteLines(java.util.Map)">deleteLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteLinesByIndex(java.util.List)">deleteLinesByIndex</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</code><br>Delete lines correspords to condition.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteLinesByIndex(java.util.List)">deleteLinesByIndex</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteLinesByIndex(java.lang.Integer)">deleteLinesByIndex</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</code><br>Delete line correspords to condition.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteLinesByIndex(java.lang.Integer)">deleteLinesByIndex</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteLinesWhere(java.util.List)">deleteLinesWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</code><br>Delete line or lines correspords to condition.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteLinesWhere(java.util.List)">deleteLinesWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteLinesWhere(java.util.Map)">deleteLinesWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where)</code><br>Delete line or lines correspords to condition.</td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteLinesWhere(java.util.LinkedHashMap)">deleteLinesWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='LinkedHashMap'>LinkedHashMap</a> where)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAt(java.lang.Integer)">getAt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCsv()">getCsv</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getData()">getData</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getDataMap()">getDataMap</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getHeader(def)">getHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isCase(def)">isCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isExists(java.util.Map)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isExists(java.util.List)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isExists(java.lang.Integer)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isExistsWhere(java.util.List)">isExistsWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isExistsWhere(java.util.LinkedHashMap)">isExistsWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='LinkedHashMap'>LinkedHashMap</a> where)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isHeader(def)">isHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#leftShift(def)">leftShift</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#minus(def)">minus</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#negative()">negative</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#notHeader(def)">notHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#parseHeader(def)">parseHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> rawHeader)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#parseLine(def)">parseLine</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#parseLines(def, java.lang.Integer)">parseLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> _skipLines = skipLines)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#plus(def)">plus</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#previous()">previous</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putAt(java.lang.Integer, def)">putAt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#setData(def)">setData</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#setHeader(def)">setHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAt(java.lang.Integer)">getAt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i)</code><br>[] operator overload.
+    </td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#to()">to</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCsv()">getCsv</a></strong>()</code><br>Get String CSV interpretation.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#toList()">toList</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getData()">getData</a></strong>()</code><br>Get internal data in List format.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#toMap()">toMap</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getDataMap()">getDataMap</a></strong>()</code><br>Get internal data in Map format.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getHeader()">getHeader</a></strong>()</code><br>Get header in internal format.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isCase(def)">isCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br>in operator overload. </td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isExists(java.util.Map)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Checks if some line or lines exist in CSV.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isExists(java.util.List)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</code><br>Checks if lines with indexes from list exist in CSV.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isExists(java.lang.Integer)">isExists</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</code><br>Checks if line with index exist in CSV. </td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isExistsWhere(java.util.List)">isExistsWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</code><br>Checks if some line or lines exist in CSV.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isExistsWhere(java.util.Map)">isExistsWhere</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where)</code><br>Checks if some line or lines exist in CSV.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isHeader(def)">isHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br>Check if input is a header.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#leftShift(def)">leftShift</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br><< operator overload.
+    </td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#minus(def)">minus</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br>- operator oevrload, Delete line or lines correspords to condition.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#negative()">negative</a></strong>()</code><br>- operator overload.
+    </td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#notHeader(def)">notHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br>Check if input is not a header.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#parseHeader(def)">parseHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> rawHeader)</code><br>Parser of CSV header into internal format.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#parseLine(def)">parseLine</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br>Parse CSV data line into internal format.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#parseLines(def, java.lang.Integer)">parseLines</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> _skipLines = skipLines)</code><br>Parser of CSV data into internal format.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#plus(def)">plus</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</code><br>Plus operator overload.
+    </td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#previous()">previous</a></strong>()</code><br>-- operator overload.
+    </td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#putAt(java.lang.Integer, def)">putAt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>[]= operator overload.
+    </td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#setData(def)">setData</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</code><br>Replaces internal data with input.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../utils/CSV.html'>CSV</a></code></td>
+                            <td class="colLast"><code><strong><a href="#setHeader(def)">setHeader</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</code><br>Replaces header with input.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#to()">to</a></strong>()</code><br>Alias of toString().</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#toList()">toList</a></strong>()</code><br>Alias for getData()</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#toMap()">toMap</a></strong>()</code><br>Alias for getDataMap()</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
+                            <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br>Alias of getCsv().</td>
                         </tr>
                         
                     </table>
@@ -474,7 +486,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>delimiter</strong></h4>
-                                <p></p>
+                                <p>
+    String delimiter for items in line. Default: ';'.
+  </p>
                             </li>
                         </ul>
                     
@@ -482,7 +496,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>linesDelimiter</strong></h4>
-                                <p></p>
+                                <p>
+    String delimiter for lines. Default: '\n'.
+  </p>
                             </li>
                         </ul>
                     
@@ -490,7 +506,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> <strong>skipLines</strong></h4>
-                                <p></p>
+                                <p>
+    Number of lines to skip from beginning of data. Default 0.
+  </p>
                             </li>
                         </ul>
                     
@@ -498,7 +516,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>withHeader</strong></h4>
-                                <p></p>
+                                <p>
+    Boolean, if true return CSV with header line. Default true.
+  </p>
                             </li>
                         </ul>
                     
@@ -520,7 +540,48 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>CSV</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor with named optional params or Map data input.
+    <p>
+    Example:
+    <pre>
+    <CODE>String str =
+    """
+    a;b;c
+    1;2;3
+    """
+    List listOfStrings = [
+      "a;b;c",
+      "1;2;3"
+    ]
+    List listOfMaps = [
+      [a:1,  b:2,  c:3],
+      [a:10, b:20, c:30]
+    ]
+    List listOfLists = [
+      ['a', 'b', 'c'],
+      [1,    2,    3]
+    ]
+    def csv = new CSV(
+      delimiter : ';',
+      linesDelimiter : '\n',
+      data : str // or listOfString, of listOfMaps, or listOfLists
+    )
+
+    // or use execution variables for fetching options
+    def csv = new CSV(
+      execution: execution,
+      data : str // or listOfString, of listOfMaps, or listOfLists
+    )
+
+    Map map = [
+      a: 1,
+      b: 2,
+      c: 3
+    ]
+    def csv = new CSV(map) // or use default params
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map with CSV data. Or named arguments from list below:</DD><DD><code>data</code> -  String, List[String], List[Map], or List[List] with CSV data.</DD><DD><code>delimiter</code> -  [optional]</DD><DD><code>linesDelimiter</code> -  [optional]</DD><DD><code>skipLines</code> -  [optional]</DD><DD><code>withHeader</code> -  [optional]</DD><DD><code>execution</code> -  DelegateExecution with variables used instead of other [optional] arguments. Variable names the same but with 'csv' prefix, like 'csvLinesDelimiter'.</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#delimiter'>delimiter</a></DD><DD><a href='#linesDelimiter'>linesDelimiter</a></DD><DD><a href='#skipLines'>skipLines</a></DD><DD><a href='#withHeader'>withHeader</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -528,7 +589,19 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>CSV</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor overload for List input.
+    <p>
+    Example:
+    <pre>
+    <CODE>String str =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(str)
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  String or GStringImpl with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -536,7 +609,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>CSV</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor overload for String input.
+    <p>
+    Example:
+    <pre>
+    <CODE>List listOfStrings = [
+      "a;b;c",
+      "1;2;3"
+    ]
+    List listOfMaps = [
+      [a:1,  b:2,  c:3],
+      [a:10, b:20, c:30]
+    ]
+    List listOfLists = [
+      ['a', 'b', 'c'],
+      [1,    2,    3]
+    ]
+    def csv = new CSV(listOfStrings) // or listOfMaps, or listOfLists
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -557,7 +649,36 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>addLine</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <p>
+    Add line to CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.addLine([
+      a: 10,
+      b: 20,
+      c: 30
+    ])
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ]
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] ot internal data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>line</code> -  String, Map, or List with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -565,7 +686,38 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>addLines</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</h4>
-                                <p></p>
+                                <p>
+    Add lines to CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.addLines([
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ]
+    ])
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ]
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] ot internal data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>lines</code> -  List[String], List[Map], or List[List] with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -573,15 +725,83 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>asType</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Class.html' title='Class'>Class</a> target)</h4>
-                                <p></p>
+                                <p>
+    Get internal data passed format.
+    <p>
+    Example:
+    <pre>
+    <CODE>List header = ['a', 'b', 'c']
+    List data = [
+      [1, 2, 3]
+    ]
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(
+      header    : header,
+      data      : data,
+      delimiter : ';'
+    )
+    assert csv as String ==
+    """
+    a;b;c
+    1;2;3
+    """
+    assert csv as List == [
+      [1,2,3]
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>String or List[List] of CSV. If withHeader is set, header prepends to String value as first line, but List is always without header.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>target</code> -  Class convert value to. Possible values - String or List</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#getCsv'>getCsv</a></DD><DD><a href='#getData'>getData</a></DD><DD><a href='#withHeader'>withHeader</a></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="checkLine(java.lang.Integer, java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>checkLine</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p>
+    Checks if line satisfies some condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExist(where: [a: 1]) // by column name and value
+    assert !csv.isExist(where: [b: null])
+    assert csv.isExist(where: [1]) // by line or its part
+    assert !csv.isExist(where: [0])
+    assert csv.isExist(indexes: [0]) // by index
+    assert csv.isExist(indexes: [0, 1]) // any of index from list should exist
+    assert !csv.isExist(indexes: [1])
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="clear()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>clear</strong>()</h4>
-                                <p></p>
+                                <h4><a href='../utils/CSV.html'>CSV</a> <strong>clear</strong>()</h4>
+                                <p>
+    Clear internal data.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.clear()
+    assert csv.dataMap == []
+    </CODE></pre>
+  </p>
                             </li>
                         </ul>
                     
@@ -589,7 +809,29 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLines</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p>
+    Delete line or lines correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.deleteLines(where: [a: 1]) // by column name and value
+    assert csv.dataMap == []
+
+    def csv = new CSV(data)
+    csv.deleteLines(where: [1]) // by line or its part
+    assert csv.dataMap == []
+
+    def csv = new CSV(data)
+    csv.deleteLines(indexes: [0]) // by index
+    assert csv.dataMap == []
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -597,7 +839,21 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLinesByIndex</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</h4>
-                                <p></p>
+                                <p>
+    Delete lines correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.deleteLinesByIndex([0])
+    assert csv.dataMap == []
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[Integer] of indexes to delete.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -605,7 +861,21 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLinesByIndex</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</h4>
-                                <p></p>
+                                <p>
+    Delete line correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.deleteLinesByIndex(0)
+    assert csv.dataMap == []
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Integer of index to delete.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -613,15 +883,43 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLinesWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</h4>
-                                <p></p>
+                                <p>
+    Delete line or lines correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.deleteLinesWhere([1]) // by line or its part
+    assert csv.dataMap == []
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[Object] to search whole line or line by part and delete.</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="deleteLinesWhere(java.util.LinkedHashMap)"><!-- --></a>
+                        <a name="deleteLinesWhere(java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLinesWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='LinkedHashMap'>LinkedHashMap</a> where)</h4>
-                                <p></p>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>deleteLinesWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where)</h4>
+                                <p>
+    Delete line or lines correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.deleteLinesWhere(a: 1)
+    assert csv.dataMap == []
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of data.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map[String,Object] to search and delete.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -629,7 +927,25 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getAt</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i)</h4>
-                                <p></p>
+                                <p>
+    [] operator overload.
+    Get CSV line (as Map) by index.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv[0] == [
+      a: 1,
+      b: 2,
+      c: 3
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>Map with selected line</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>i</code> -  Line number to get.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -637,7 +953,31 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>getCsv</strong>()</h4>
-                                <p></p>
+                                <p>
+    Get String CSV interpretation.
+    <p>
+    Example:
+    <pre>
+    <CODE>List header = ['a', 'b', 'c']
+    List data = [
+      [1, 2, 3]
+    ]
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(
+      header    : header,
+      data      : data,
+      delimiter : ';'
+    )
+    assert csv.getCsv() ==
+    """
+    a;b;c
+    1;2;3
+    """
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>String of CSV data.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
@@ -645,7 +985,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getData</strong>()</h4>
-                                <p></p>
+                                <p>
+    Get internal data in List format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.data == [
+      [1, 2, 3]
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of CSV data without header.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
@@ -653,15 +1008,47 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getDataMap</strong>()</h4>
-                                <p></p>
+                                <p>
+    Get internal data in Map format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ]
+    ]
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[Map] of CSV data.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
-                        <a name="getHeader(def)"><!-- --></a>
+                        <a name="getHeader()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getHeader</strong>()</h4>
+                                <p>
+    Get header in internal format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.header == ['a', 'b', 'c']
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] of CSV header.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
@@ -669,7 +1056,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isCase</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</h4>
-                                <p></p>
+                                <p>
+    in operator overload. Checks if some line or lines exist in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert 0 in csv // by index
+    assert [a: 1] in csv // by query
+    assert !([b: null] in csv)
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line with this value of column, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>inputMap[String,Object]</code> -  or List[Object] query format Integer line intex to search.</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isExists(java.util.Map)'>isExists(Map)</a></DD><DD><a href='#isExistsWhere(java.util.Map)'>isExistsWhere(Map)</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -677,7 +1079,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExists</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p>
+    Checks if some line or lines exist in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExist(where: [a: 1]) // by column name and value
+    assert !csv.isExist(where: [b: null])
+    assert csv.isExist(where: [1]) // by line or its part
+    assert !csv.isExist(where: [0])
+    assert csv.isExist(indexes: [0]) // by index
+    assert csv.isExist(indexes: [0, 1]) // any of index from list should exist
+    assert !csv.isExist(indexes: [1])
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -685,7 +1106,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExists</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> indexes)</h4>
-                                <p></p>
+                                <p>
+    Checks if lines with indexes from list exist in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExist([0]) // by index
+    assert csv.isExist([0, 1]) // any of index from list should exist
+    assert !csv.isExist([1])
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[Integer] of lines indexes to search</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isExists(java.util.Map)'>isExists(Map)</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -693,7 +1129,21 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExists</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> index)</h4>
-                                <p></p>
+                                <p>
+    Checks if line with index exist in CSV. Alias
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExist(0) // by index
+    assert !csv.isExist(1)
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Integer of line index to search</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isExists(java.util.Map)'>isExists(Map)</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -701,15 +1151,45 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExistsWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> where)</h4>
-                                <p></p>
+                                <p>
+    Checks if some line or lines exist in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExistWhere([1,2]) // by line or its part
+    assert !csv.isExistWhere([2])
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Line or its part in List[Object] format to search</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="isExistsWhere(java.util.LinkedHashMap)"><!-- --></a>
+                        <a name="isExistsWhere(java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExistsWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='LinkedHashMap'>LinkedHashMap</a> where)</h4>
-                                <p></p>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isExistsWhere</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where)</h4>
+                                <p>
+    Checks if some line or lines exist in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    assert csv.isExist(where: [a: 1]) // by query
+    assert !csv.isExist(where: [b: null])
+    assert csv.isExist(indexes: [0]) // by index
+    assert !csv.isExist(indexes: [1])
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if there is any line in data which corresponds to condition, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map[String,Object] query format</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -717,7 +1197,21 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <p>
+    Check if input is a header.
+    <p>
+    Example:
+    <pre>
+    <CODE>Map data = [
+      a: 1,
+      b: 2
+    ]
+    def csv = new CSV(data)
+    assert csv.isHeader("a;b") == true
+    assert csv.isHeader(['a','b']) == true
+    assert csv.isHeader(['a']) == false
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>True if input is header, false otherwise.</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>line</code> -  String or List with CSV header.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -725,7 +1219,80 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>leftShift</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <p>
+    << operator overload.
+    Insert data to CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv &lt;&lt; [
+      a: 10,
+      b: 20,
+      c: 30
+    ] // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ]
+    ]
+
+    csv &lt;&lt; [100, 200, 300] // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ]
+    ]
+
+    csv &lt;&lt; "5;10;15" // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ],
+      [
+        a: 5,
+        b: 10,
+        c: 15
+      ]
+    ]
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>line</code> -  String, Map, or List with CSV line.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -733,7 +1300,29 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>minus</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</h4>
-                                <p></p>
+                                <p>
+    - operator oevrload, Delete line or lines correspords to condition.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv - [a: 1] // by column name and value
+    assert csv.dataMap == []
+
+    def csv = new CSV(data)
+    csv - 0 // by index
+    assert csv.dataMap == []
+
+    def csv = new CSV(data)
+    csv - [0,1] // multiple lines by their indexes
+    assert csv.dataMap == []
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Integer, List[Integer] or Map to search.</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#deleteLines'>deleteLines</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -741,7 +1330,23 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>negative</strong>()</h4>
-                                <p></p>
+                                <p>
+    - operator overload.
+    Alias to clear()
+    Alias to clear()
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    -csv
+    assert csv.dataMap == []
+    </CODE></pre>
+  <DL><DT><B>See Also:</B></DT><DD><a href='#clear'>clear</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -749,7 +1354,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>notHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <p>
+    Check if input is not a header.
+  <DL><DT><B>See Also:</B></DT><DD><a href='#isHeader'>isHeader</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -757,7 +1364,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>parseHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> rawHeader)</h4>
-                                <p></p>
+                                <p>
+    Parser of CSV header into internal format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String str =
+    """
+    a;b;c
+    """
+    Map map = [
+      a: 1,
+      b: 2,
+      c: 3
+    ]
+    List list = [
+      ['a', 'b', 'c']
+    ]
+    csv.parseLine(str) // or map, or list
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List with CSV data</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>line</code> -  String or List with CSV header, or Map with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -765,7 +1391,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>parseLine</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <p>
+    Parse CSV data line into internal format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String str =
+    """
+    1;2;3
+    """
+    Map map = [
+      a: 1,
+      b: 2,
+      c: 3
+    ]
+    List list = [
+      [1, 2, 3]
+    ]
+    csv.parseLine(str) // or map, or list
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List with CSV data</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>line</code> -  String, Map, or List with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -773,7 +1418,31 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>parseLines</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> _skipLines = skipLines)</h4>
-                                <p></p>
+                                <p>
+    Parser of CSV data into internal format.
+    <p>
+    Example:
+    <pre>
+    <CODE>String str =
+    """
+    a;b;c
+    1;2;3
+    """
+    List listOfStrings = [
+      "a;b;c",
+      "1;2;3"
+    ]
+    List listOfMaps = [
+      [a:1,  b:2,  c:3],
+      [a:10, b:20, c:30]
+    ]
+    List listOfLists = [
+      ['a', 'b', 'c'],
+      [1,    2,    3]
+    ]
+    csv.parseLines(str) // or listOfStrings, or listOfMaps, or listOfLists
+    </CODE></pre><DL><DT><B>returns:</B></DT><DD>List[List] with CSV data</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>lines</code> -  String, List[String], List[Map], or List[List] with CSV data.</DD><DD><code>skipLines</code> -  [optional]</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#skipLines'>skipLines</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -781,7 +1450,132 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>plus</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> item)</h4>
-                                <p></p>
+                                <p>
+    Plus operator overload.
+    Insert, update or replace data in CSV.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv += [
+      a: 10,
+      b: 20,
+      c: 30
+    ] // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ]
+    ]
+
+    csv += [100, 200, 300] // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ]
+    ]
+
+    csv += "5;10;15" // insert line
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ],
+      [
+        a: 5,
+        b: 10,
+        c: 15
+      ]
+    ]
+
+    csv += [
+      0: [a: 5]
+    ] // update line columns
+    assert csv.dataMap == [
+      [
+        a: 5,
+        b: 2,
+        c: 3
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ],
+      [
+        a: 5,
+        b: 10,
+        c: 15
+      ]
+    ]
+
+    csv += [
+      0: '3;4;5'
+    ] // replace line
+    assert csv.dataMap == [
+      [
+        a: 3,
+        b: 4,
+        c: 5
+      ],
+      [
+        a: 10,
+        b: 20,
+        c: 30
+      ],
+      [
+        a: 100,
+        b: 200,
+        c: 300
+      ],
+      [
+        a: 5,
+        b: 10,
+        c: 15
+      ]
+    ]
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>item</code> -  For insert - String, Map, or List with CSV data. For update - Map with Integer keys and [column: newData] Map values. For replace - Map with Integer keys and List or String values.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -789,7 +1583,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>previous</strong>()</h4>
-                                <p></p>
+                                <p>
+    -- operator overload.
+    Alias to clear()
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv--
+    assert csv.dataMap == []
+    </CODE></pre>
+  <DL><DT><B>See Also:</B></DT><DD><a href='#clear'>clear</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -797,23 +1606,91 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../utils/CSV.html'>CSV</a> <strong>putAt</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> i, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
-                                <p></p>
+                                <p>
+    []= operator overload.
+    Replace line (as Map) by index.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv[0] == [
+      a: 3,
+      b: 4,
+      c: 5
+    ]
+    assert csv.dataMap == [
+      [
+        a: 3,
+        b: 4,
+        c: 5
+      ]
+    ]
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>i</code> -  Line number to replace.</DD><DD><code>value</code> -  String, Map, or List with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="setData(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>setData</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</h4>
-                                <p></p>
+                                <h4><a href='../utils/CSV.html'>CSV</a> <strong>setData</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> lines)</h4>
+                                <p>
+    Replaces internal data with input.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.data = [
+      [
+        a: 1,
+        b: null,
+        c: 5
+      ]
+    ]
+    assert csv.data == [
+      [1, null, 5]
+    ]
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>lines</code> -  String, List[String], List[Map], or List[List] with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="setHeader(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>setHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
-                                <p></p>
+                                <h4><a href='../utils/CSV.html'>CSV</a> <strong>setHeader</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> line)</h4>
+                                <p>
+    Replaces header with input.
+    <p>
+    Example:
+    <pre>
+    <CODE>String data =
+    """
+    a;b;c
+    1;2;3
+    """
+    def csv = new CSV(data)
+    csv.header = ['a', 'b', 'c', 'd']
+    assert csv.dataMap == [
+      [
+        a: 1,
+        b: 2,
+        c: 3,
+        d: null
+      ]
+    ]
+    </CODE></pre>
+  <DL><DT><B>Parameters:</B></DT><DD><code>lines</code> -  String, List[String], List[Map], or List[List] with CSV data.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -821,7 +1698,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>to</strong>()</h4>
-                                <p></p>
+                                <p>
+    Alias of toString().<DL><DT><B>deprecated:</B></DT><DD>Use toString() or 'as' operator instead</DD></DL>
+  <DL><DT><B>See Also:</B></DT><DD><a href='#toString'>toString</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -829,7 +1708,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>toList</strong>()</h4>
-                                <p></p>
+                                <p>
+    Alias for getData()
+  <DL><DT><B>See Also:</B></DT><DD><a href='#getData'>getData</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -837,7 +1718,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>toMap</strong>()</h4>
-                                <p></p>
+                                <p>
+    Alias for getDataMap()
+  <DL><DT><B>See Also:</B></DT><DD><a href='#getDataMap'>getDataMap</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -845,7 +1728,9 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>toString</strong>()</h4>
-                                <p></p>
+                                <p>
+    Alias of getCsv().
+  <DL><DT><B>See Also:</B></DT><DD><a href='#getCsv'>getCsv</a></DD></DL></p>
                             </li>
                         </ul>
                     
