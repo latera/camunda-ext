@@ -50,24 +50,26 @@ class CSV {
     List result = []
     if (lines) {
       if (isString(lines)) {
-        lines = lines.replace(header.join(delimiter), '').stripIndent().trim().tokenize(linesDelimiter)
+        lines = trim(lines.replace(join(header, delimiter), '')).tokenize(linesDelimiter)
       }
       if (isList(lines)) {
-        lines.drop(skipLines).each { line ->
+        lines.drop(_skipLines).each { def line ->
           List item = []
           if (isString(line) && notEmpty(line)) {
-            line = trim(line).tokenize(delimiter)
+            line = trim(line).split(delimiter)
             if (notHeader(line)) {
               if (header) {
-                header.eachWithIndex { column, pos ->
+                header.eachWithIndex { CharSequence column, Integer pos ->
                   if (line.size() > pos) {
                     def value = line[pos]
-                    if (value == 'null') {
-                      value = null
+                    if (isString(value)) {
+                      if (forceIsEmpty(value)) {
+                        value = null
+                      }
                     }
                     item += value
                   } else {
-                    item += ''
+                    item += null
                   }
                 }
                 result << item
@@ -76,7 +78,7 @@ class CSV {
               }
             }
           } else if (isMap(line)) {
-            header.eachWithIndex { column, pos ->
+            header.each { CharSequence column ->
               item << line[column]
             }
             result << item
@@ -101,7 +103,7 @@ class CSV {
 
   Boolean isHeader(def line) {
     if (isString(line)) {
-      return line.toString() == header.join(delimiter).toString()
+      return nvl(line) == join(header, delimiter)
     } else if (isList(line)) {
       return line == header
     }
@@ -124,7 +126,7 @@ class CSV {
     List result = []
     data.each { line ->
       LinkedHashMap item = [:]
-      header.eachWithIndex { column, pos ->
+      header.eachWithIndex { CharSequence column, Integer pos ->
         item[column] = line[pos]
       }
       result << item
@@ -195,7 +197,7 @@ class CSV {
 
   Boolean isExists(Map input) {
     List result = []
-    data.eachWithIndex { line, i ->
+    data.eachWithIndex { def line, Integer i ->
       Boolean exists = false
       if (input.indexes) {
         if (isList(input.indexes) && i in input.indexes) {
@@ -203,7 +205,7 @@ class CSV {
         }
       } else if (input.where) {
         Integer _skip = 0
-        input.where.eachWithIndex { value, column ->
+        input.where.eachWithIndex { def value, Integer column ->
           if (line[column] == value) {
             _skip += 1
           }
@@ -244,7 +246,7 @@ class CSV {
 
   List deleteLines(Map input) {
     List result = []
-    data.eachWithIndex { line, i ->
+    data.eachWithIndex { def line, Integer i ->
       Boolean skip = false
       if (input.indexes) {
         if (isList(input.indexes) && input.indexes.contains(i)) {
@@ -253,9 +255,9 @@ class CSV {
       } else if (input.where) {
         Integer _skip = 0
         if (isMap(input.where)) {
-          input.where.each { key, value ->
+          input.where.each { CharSequence key, def value ->
             Integer pos = header.findIndexOf { it == key }
-            if (pos >= 0 && line[pos].toString() == value.toString()) {
+            if (pos >= 0 && nvl(line[pos]) == nvl(value)) {
               _skip += 1
             }
           }
@@ -263,7 +265,7 @@ class CSV {
             skip = true
           }
         } else if (isList(input.where)) {
-          input.where.eachWithIndex { value, column ->
+          input.where.eachWithIndex { def value, Integer column ->
             if (line[column] == value) {
               _skip += 1
             }
@@ -310,16 +312,22 @@ class CSV {
   }
 
   String getCsv() {
-    def result = []
+    List result = []
     if (withHeader) {
-      result << header.join(delimiter)
+      result << join(header, delimiter)
     }
     if (data) {
-      data.each { line ->
-        result << line.join(delimiter)
+      data.each { List line ->
+        result << join(line.collect { def item ->
+          if (isString(item) && forceIsEmpty(item)) {
+            return null
+          } else {
+            return item
+          }
+        }, delimiter)
       }
     }
-    return result.join(linesDelimiter)
+    return join(result, linesDelimiter)
   }
 
   String toString() {
