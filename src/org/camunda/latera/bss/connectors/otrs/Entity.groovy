@@ -1,7 +1,7 @@
 package org.camunda.latera.bss.connectors.otrs
 
 private trait Entity {
-  private Map getEntity(CharSequence type, def id) {
+  Map getEntity(CharSequence type, def id) {
     LinkedHashMap result = null
     try {
       result = sendRequest(
@@ -14,7 +14,7 @@ private trait Entity {
     return result
   }
 
-  private Map createEntity(CharSequence type, Map params) {
+  Map createEntity(CharSequence type, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Creating ${type} with params ${params}")
@@ -30,7 +30,7 @@ private trait Entity {
     return result
   }
 
-  private Map updateEntity(CharSequence type, def id, Map params) {
+  Map updateEntity(CharSequence type, def id, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Updating ${type} id ${id} with params ${params}")
@@ -46,7 +46,7 @@ private trait Entity {
     return result
   }
 
-  private Boolean deleteEntity(CharSequence type, def id) {
+  Boolean deleteEntity(CharSequence type, def id) {
     try {
       logger.info("Deleting ${type} id ${id}")
       sendRequest(

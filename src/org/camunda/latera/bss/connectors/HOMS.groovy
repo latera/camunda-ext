@@ -91,7 +91,7 @@ class HOMS {
   void saveOrderData() {
     LinkedHashMap body = [
       order: [
-        data: Order.getData(execution)
+        data: Order.getDataRaw(execution)
       ]
     ]
     logger.info('/ Saving order data...')
@@ -114,7 +114,9 @@ class HOMS {
 
     LinkedHashMap orderData = [:]
     result.order.data.each { k,v -> //Magic, do not touch
-      orderData[k] = v
+      if (k != 'homsOrderDataUploadedFile') {
+        orderData[k] = v
+      }
     }
     Order.saveData(orderData, execution)
     execution.setVariable('homsOrdDataBuffer', orderData)
@@ -138,7 +140,7 @@ class HOMS {
     logger.info('\\ Order finished')
   }
 
-  List attachFiles(List files, Boolean save = true) {
+  List attachFiles(List files, String prefix = '', Boolean save = true) {
     files.eachWithIndex { item, i ->
       LinkedHashMap file = [name: item.name]
       file.content = Base64Converter.to(item.content)
@@ -155,14 +157,14 @@ class HOMS {
       supressRequestBodyLog:  true
     )
     if (save) {
-      List existingFiles = JSON.from(execution.getVariable('homsOrderDataFileList'))
+      List existingFiles = Order.getFiles(prefix, execution)
       List newList = existingFiles + newFiles
       execution.setVariable('homsOrderDataFileList', JSON.to(newList))
     }
     return newFiles
   }
 
-  List attachFile(Map file, Boolean save = true) {
-    return attachFiles([file], save)
+  List attachFile(Map file, String prefix = '', Boolean save = true) {
+    return attachFiles([file], prefix, save)
   }
 }

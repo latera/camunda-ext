@@ -1,9 +1,12 @@
 package org.camunda.latera.bss.connectors.odoo
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.*
-import static org.camunda.latera.bss.utils.StringUtil.*
-import static org.camunda.latera.bss.utils.MapUtil.*
-import static org.camunda.latera.bss.utils.ListUtil.*
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+import static org.camunda.latera.bss.utils.DateTimeUtil.iso
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.join
+import static org.camunda.latera.bss.utils.MapUtil.isMap
+import static org.camunda.latera.bss.utils.MapUtil.nvl
+import static org.camunda.latera.bss.utils.ListUtil.isList
 
 trait Main {
   private static LinkedHashMap DEFAULT_WHERE  = [:]
@@ -12,7 +15,7 @@ trait Main {
   private static Integer       DEFAULT_LIMIT  = 0
   private static Integer       DEFAULT_OFFSET = 0
 
-  Map searchQuery(
+  static Map searchQuery(
     List fields = DEFAULT_FIELDS,
     Map where = DEFAULT_WHERE,
     def order = DEFAULT_ORDER,
@@ -23,14 +26,13 @@ trait Main {
     List orderBy = []
 
     if (where?.size() > 0) {
-      where.each{ field, value ->
+      where.each{ CharSequence field, def value ->
         if (isMap(value)) {
-          value.each { condition, content ->
+          value.each { CharSequence condition, def content ->
             query += """('${field}','${condition}',${escapeSearchValue(content)})"""
           }
         } else {
           String condition = '='
-          def content = value
 
           if (field ==~ /^(.*)!$/) {
             // Not equal
@@ -38,18 +40,18 @@ trait Main {
             field = field.replaceFirst(/^(.*)!$/, '$1')
           }
 
-          query += """('${field}','${condition}',${escapeSearchValue(content)})"""
+          query += """('${field}','${condition}',${escapeSearchValue(value)})"""
         }
       }
     }
 
     if (order?.size() > 0) {
       if (isMap(order)) {
-        convertKeys(order).each { column, direction ->
+        convertKeys(order).each { CharSequence column, def direction ->
           orderBy += "'${column} ${direction}'"
         }
       } else if (isList(order)) {
-        order.each { column ->
+        order.each { CharSequence column ->
           orderBy += "'${column}'"
         }
       } else {
@@ -66,12 +68,12 @@ trait Main {
     ]
   }
 
-  Map searchQuery(Map input) {
+  static Map searchQuery(Map input) {
     LinkedHashMap params = prepareQuery(input)
     return searchQuery(params.fields, params.where, params.order, params.limit, params.offset)
   }
 
-  private Map prepareQuery(Map input) {
+  private static Map prepareQuery(Map input) {
     def fields = DEFAULT_FIELDS
     def where  = DEFAULT_WHERE
     def order  = DEFAULT_ORDER
@@ -105,18 +107,18 @@ trait Main {
     ]
   }
 
-  private Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
+  private static Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
     return convertParams(nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
   }
 
-  private Map negativeParser(Closure paramsParser, Map negativeInput) {
+  private static Map negativeParser(Closure paramsParser, Map negativeInput) {
     LinkedHashMap originalInput = [:]
     LinkedHashMap input         = [:]
     LinkedHashMap negativeWhere = [:]
 
     // 'stageId!': 3 -> 'stageId': 3
     if (negativeInput?.size() > 0) {
-      negativeInput.each{ field, value ->
+      negativeInput.each{ CharSequence field, def value ->
         if (field ==~ /^(.*)!$/) {
           String originalField = field.replaceFirst(/^(.*)!$/, '$1')
           originalInput[originalField] = value
@@ -128,17 +130,17 @@ trait Main {
     input = paramsParser(originalInput)
 
     // 'stage_id': 3 -> 'stage_id!': 3
-    input.each{ field, value ->
+    input.each{ CharSequence field, def value ->
       negativeWhere["${field}!".toString()] = value
     }
     return negativeWhere
   }
 
-  private Map convertKeys(Map input) {
+  private static Map convertKeys(Map input) {
     return snakeCaseKeys(input)
   }
 
-  private def escapeSearchValue(def value) {
+  private static def escapeSearchValue(def value) {
     if (value instanceof Boolean) {
       return capitalize("${value}")
     }
@@ -147,15 +149,15 @@ trait Main {
     }
     if (isList(value)) {
       List newList = []
-      value.each { it ->
+      value.each { def it ->
         newList += escapeSearchValue(it)
       }
-      return "[${newList.join(',')}]"
+      return "[${join(newList, ',')}]"
     }
     return value
   }
 
-  private def convertValue(def value) {
+  private static def convertValue(def value) {
     if (value == null && value == 'null') {
       return false //D`oh
     }
@@ -165,10 +167,11 @@ trait Main {
     return value
   }
 
-  private Map convertParams(Map input) {
+  private static Map convertParams(Map input) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { CharSequence key, def value ->
       result[key] = convertValue(value)
     }
+    return result
   }
 }

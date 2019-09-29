@@ -19,19 +19,19 @@ trait Subscription {
     plural : 'additional_services'
   ]
 
-  private Map getAvailableServicesEntityType(def customerId, def id = null) {
+  private static Map getAvailableServicesEntityType(def customerId, def id = null) {
     return AVAILABLE_SERVICES_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  private Map getSubscriptionEntityType(def customerId, def id = null) {
+  private static Map getSubscriptionEntityType(def customerId, def id = null) {
     return SUBSCRIPTION_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  private Map getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
+  private static Map getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
     return CHILD_SUBSCRIPTION_ENTITY_TYPE + withParent(getSubscriptionEntityType(customerId, subscriptionId)) + withId(id)
   }
 
-  private Map getAvailableServicesDefaultParams() {
+  private static Map getAvailableServicesDefaultParams() {
     return [
       accountId          : null,
       docId              : null,
@@ -41,7 +41,7 @@ trait Subscription {
     ]
   }
 
-  private Map getAvailableServicesParamsMap(Map params) {
+  private static Map getAvailableServicesParamsMap(Map params) {
     return [
       n_account_id          : params.accountId,
       n_contract_id         : params.docId,
@@ -53,7 +53,7 @@ trait Subscription {
     ]
   }
 
-  private Map getSubscriptionDefaultParams() {
+  private static Map getSubscriptionDefaultParams() {
     return [
       accountId          : null,
       docId              : null,
@@ -65,7 +65,7 @@ trait Subscription {
     ]
   }
 
-  private Map getSubscriptionParamsMap(Map params) {
+  private static Map getSubscriptionParamsMap(Map params) {
     return [
       n_account_id     : params.accountId,
       n_contract_id    : params.docId,
@@ -78,7 +78,7 @@ trait Subscription {
     ]
   }
 
-  private Map getChildSubscriptionDefaultParams() {
+  private static Map getChildSubscriptionDefaultParams() {
     return [
       accountId          : null,
       goodId             : null,
@@ -89,7 +89,7 @@ trait Subscription {
     ]
   }
 
-  private Map getChildSubscriptionParamsMap(Map params) {
+  private static Map getChildSubscriptionParamsMap(Map params) {
     return [
       n_account_id          : params.accountId,
       n_service_id          : params.goodId,
@@ -101,19 +101,19 @@ trait Subscription {
     ]
   }
 
-  private Map getAvailableServicesParams(Map input) {
+  private static Map getAvailableServicesParams(Map input) {
     LinkedHashMap params = getAvailableServicesDefaultParams() + input
     LinkedHashMap data   = getAvailableServicesParamsMap(params)
     return prepareParams(data)
   }
 
-  private Map getSubscriptionParams(Map input) {
+  private static Map getSubscriptionParams(Map input) {
     LinkedHashMap params = getSubscriptionDefaultParams() + input
     LinkedHashMap data   = getSubscriptionParamsMap(params)
     return prepareParams(data)
   }
 
-  private Map getChildSubscriptionParams(Map input) {
+  private static Map getChildSubscriptionParams(Map input) {
     LinkedHashMap params = getChildSubscriptionDefaultParams() + input
     LinkedHashMap data   = getChildSubscriptionParamsMap(params)
     return prepareParams(data)

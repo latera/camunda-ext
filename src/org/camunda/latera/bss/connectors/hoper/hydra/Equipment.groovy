@@ -17,27 +17,27 @@ trait Equipment {
   private static Integer EQUIPMENT_STATE_NOT_ACTIVE_ID   = 2040 // 'OBJ_STATE_NotActive'
   private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 // 'OBJ_STATE_RegisterOff'
 
-  private Map getEquipmentEntityType(def id = null) {
+  private static Map getEquipmentEntityType(def id = null) {
     return EQUIPMENT_ENTITY_TYPE + withParent(getObjectEntityType()) + withId(id)
   }
 
-  private Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
+  private static Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
     return EQUIPMENT_ENTRY_ENTITY_TYPE + withParent(getEquipmentEntityType(equipmentId)) + withId(id)
   }
 
-  private Map getCustomerEquipmentEntityType(def customerId, def id = null) {
+  private static Map getCustomerEquipmentEntityType(def customerId, def id = null) {
     return CUSTOMER_EQUIPMENT_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  Number getEquipmentStateActualId() {
+  static Number getEquipmentStateActualId() {
     return EQUIPMENT_STATE_ACTUAL_ID
   }
 
-  Number getEquipmentStateNotActiveId() {
+  static Number getEquipmentStateNotActiveId() {
     return EQUIPMENT_STATE_NOT_ACTIVE_ID
   }
 
-  Number getEquipmentStateRegisterOffId() {
+  static Number getEquipmentStateRegisterOffId() {
     return EQUIPMENT_STATE_REGISTER_OFF_ID
   }
 
@@ -63,7 +63,7 @@ trait Equipment {
     ]
   }
 
-  private Map getEquipmentParamsMap(Map params, Map additionalParams = [:]) {
+  private static Map getEquipmentParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result =  [
       vc_code             : params.code,
       vc_name             : params.name,
@@ -81,7 +81,7 @@ trait Equipment {
     return result
   }
 
-  private Map getEquipmentEntryParamsMap(Map params, Map additionalParams = [:]) {
+  private static Map getEquipmentEntryParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result =  [
       vc_code             : params.code,
       vc_name             : params.name,

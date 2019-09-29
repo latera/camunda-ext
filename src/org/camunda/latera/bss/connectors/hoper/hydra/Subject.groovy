@@ -6,7 +6,7 @@ private trait Subject {
     plural : 'subjects'
   ]
 
-  private Map getSubjectEntityType(def id = null) {
+  static Map getSubjectEntityType(def id = null) {
     return SUBJECT_ENTITY_TYPE + withId(id)
   }
 }

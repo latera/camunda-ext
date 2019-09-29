@@ -45,14 +45,14 @@ class Imprint {
     LinkedHashMap body = [
       template : template,
       data     : [
-                  nowISO    : now,
-                  now       : format(now),
-                  today     : format(now, SIMPLE_DATE_FORMAT),
-                  day       : format(now, DAY_FORMAT),
-                  month     : format(now, MONTH_FORMAT),
-                  year      : format(now, YEAR_FORMAT),
-                  monthFull : format(now, MONTH_FULL_FORMAT, this.locale),
-                  todayFull : format(now, FULL_DATE_FORMAT,  this.locale)
+                  nowISO        : now,
+                  now           : format(now),
+                  today         : format(now, SIMPLE_DATE_FORMAT),
+                  day           : format(now, DAY_FORMAT),
+                  month         : format(now, MONTH_FORMAT),
+                  year          : format(now, YEAR_FORMAT),
+                  monthFull     : format(now, MONTH_FULL_FORMAT, this.locale),
+                  todayFull     : format(now, FULL_DATE_FORMAT,  this.locale)
                 ] + data
     ]
     return this.http.sendRequest(

@@ -6,7 +6,7 @@ private trait Object {
     plural : 'objects'
   ]
 
-  private Map getObjectEntityType(def id = null) {
+  static Map getObjectEntityType(def id = null) {
     return OBJECT_ENTITY_TYPE + withId(id)
   }
 }

@@ -281,6 +281,7 @@ trait Account {
     } catch (Exception e){
       logger.error("   Error while putting account!")
       logger.error_oracle(e)
+      return null
     }
   }
 

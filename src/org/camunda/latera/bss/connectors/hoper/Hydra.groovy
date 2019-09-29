@@ -4,6 +4,7 @@ import groovy.net.xmlrpc.*
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.Hoper
+import static org.camunda.latera.bss.utils.MapUtil.merge
 import org.camunda.latera.bss.connectors.hoper.hydra.Main
 import org.camunda.latera.bss.connectors.hoper.hydra.Entity
 import org.camunda.latera.bss.connectors.hoper.hydra.Subject
@@ -27,8 +28,8 @@ class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Add
   SimpleLogger logger
 
   Hydra(DelegateExecution execution) {
-    this.logger    = new SimpleLogger(execution)
-    this.hoper     = new Hoper(execution)
+    this.logger = new SimpleLogger(execution)
+    this.hoper  = new Hoper(execution)
 
     this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())
     this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
@@ -38,7 +39,7 @@ class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Add
     Map initial,
     Map input
   ) {
-    LinkedHashMap params = initial + input
+    LinkedHashMap params = merge(initial, input)
 
     //If it is set opf instead of opfId, get proper reference ids from Hydra
     LinkedHashMap result = [:]
@@ -55,7 +56,7 @@ class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Add
       }
     }
     //And then remove non-id key if id was set above
-    params.each{ name, value ->
+    params.each{ CharSequence name, def value ->
       if (!keysToExclude.contains(name)) {
         result[name] = value
       }

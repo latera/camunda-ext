@@ -9,27 +9,27 @@ trait Address {
   private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
   private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
-  private Map getAddressEntityType(Map parentType, def id = null) {
+  private static Map getAddressEntityType(Map parentType, def id = null) {
     return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  private Map getPersonAddressEntityType(def personId, def id = null) {
+  private static Map getPersonAddressEntityType(def personId, def id = null) {
     return getAddressEntityType(getPersonEntityType(personId), id)
   }
 
-  private Map getCompanyAddressEntityType(def companyId, def id = null) {
+  private static Map getCompanyAddressEntityType(def companyId, def id = null) {
     return getAddressEntityType(getCompanyEntityType(companyId), id)
   }
 
-  Number getDefaultAddressTypeId() {
+  static Number getDefaultAddressTypeId() {
     return DEFAULT_ADDRESS_TYPE_ID
   }
 
-  Number getDefaultAddressBindTypeId() {
+  static Number getDefaultAddressBindTypeId() {
     return DEFAULT_ADDRESS_BIND_TYPE_ID
   }
 
-  Number getDefaultAddressStateId() {
+  static Number getDefaultAddressStateId() {
     return DEFAULT_ADDRESS_STATE_ID
   }
 
@@ -54,7 +54,7 @@ trait Address {
     ]
   }
 
-  private Map getAddressParamsMap(Map params) {
+  private static Map getAddressParamsMap(Map params) {
     return [
       n_addr_type_id      : params.addrTypeId,
       n_par_addr_id       : params.parAddressId,

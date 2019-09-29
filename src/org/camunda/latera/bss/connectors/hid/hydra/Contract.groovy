@@ -289,8 +289,12 @@ trait Contract {
     return putContractApp(input)
   }
 
-  Map createContractApp(def customerId, Map input) {
-    return createContractApp(input + [receiverId: customerId])
+  Map createContractApp(def contractId, Map input) {
+    return createContractApp(input + [contractId: contractId])
+  }
+
+  Map createContractApp(Map input, def contractId) {
+    return createContractApp(contractId, input)
   }
 
   Map updateContractApp(Map input) {
@@ -393,8 +397,12 @@ trait Contract {
     return putAddAgreement(input)
   }
 
-  Map createAddAgreement(def customerId, Map input) {
-    return createAddAgreement(input + [receiverId: customerId])
+  Map createAddAgreement(def contractId, Map input) {
+    return createAddAgreement(input + [contractId: contractId])
+  }
+
+  Map createAddAgreement(Map input, def contractId) {
+    return createAddAgreement(contractId, input)
   }
 
   Map updateAddAgreement(Map input) {

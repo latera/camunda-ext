@@ -6,7 +6,7 @@ trait Customer {
     plural : 'customers'
   ]
 
-  private Map getCustomerEntityType(def id = null) {
+  private static Map getCustomerEntityType(def id = null) {
     return CUSTOMER_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 

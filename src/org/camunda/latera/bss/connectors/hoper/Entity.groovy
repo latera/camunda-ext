@@ -3,28 +3,28 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 private trait Entity {
-  private Map getEntityDefaultParams() {
+  private static Map getEntityDefaultParams() {
     return [:]
   }
 
-  private Map getEntityParamsMap(Map params) {
+  private static Map getEntityParamsMap(Map params) {
     return [:]
   }
 
-  private Map getPaginationDefaultParams() {
+  private static Map getPaginationDefaultParams() {
     return [
       perPage : 10,
       page    : 1
     ]
   }
 
-  private Map getEntityParams(Map input) {
+  private static Map getEntityParams(Map input) {
     LinkedHashMap params = getEntityDefaultParams() + input
     LinkedHashMap where  = getEntityParamsMap(params)
     return getEntityParamsMap(params)
   }
 
-  private Map getEntity(Map type, def id, Map query = [:]) {
+  Map getEntity(Map type, def id, Map query = [:]) {
     LinkedHashMap result = null
     try {
       result = hoper.sendRequest(
@@ -38,7 +38,7 @@ private trait Entity {
     return result
   }
 
-  private List getEntities(Map type, Map query = [:]) {
+  List getEntities(Map type, Map query = [:]) {
     List result = null
     try {
       result = hoper.sendRequest(
@@ -52,7 +52,7 @@ private trait Entity {
     return result
   }
 
-  private Map createEntity(Map type, Map params) {
+  Map createEntity(Map type, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Creating ${type.one} with params ${params}")
@@ -69,7 +69,7 @@ private trait Entity {
     return result
   }
 
-  private Map updateEntity(Map type, def id, Map params) {
+  Map updateEntity(Map type, def id, Map params) {
     LinkedHashMap result = null
     try {
       logger.info("Updating ${type.one} id ${id} with params ${params}")
@@ -86,7 +86,7 @@ private trait Entity {
     return result
   }
 
-  private Boolean deleteEntity(Map type, def id) {
+  Boolean deleteEntity(Map type, def id) {
     try {
       logger.info("Deleting ${type.one} id ${id}")
       hoper.sendRequest(
