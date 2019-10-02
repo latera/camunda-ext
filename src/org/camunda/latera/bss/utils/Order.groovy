@@ -8,6 +8,7 @@ import static org.camunda.latera.bss.utils.StringUtil.decapitalize
 import static org.camunda.latera.bss.utils.DateTimeUtil.parseDateTimeAny
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.DateTimeUtil.iso
+import static org.camunda.latera.bss.utils.ListUtil.forceNvl
 import static org.camunda.latera.bss.utils.ListUtil.parse as parseList
 import static org.camunda.latera.bss.utils.MapUtil.parse  as parseMap
 import org.camunda.latera.bss.utils.CSV
@@ -45,7 +46,7 @@ class Order implements GroovyObject {
     }
 
     if (name.endsWith('List')) {
-      return parseList(result)
+      return forceNvl(parseList(result)) // TODO: remove forceNvl after CONSULT-3350 be solved
     }
 
     def date = parseDateTimeAny(result)

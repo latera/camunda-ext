@@ -67,7 +67,7 @@ class ListUtil {
         if (forceIsEmpty(item)) {
           result += null
         } else {
-          result += value
+          result += item
         }
       }
     }
@@ -78,7 +78,7 @@ class ListUtil {
     List result = []
     input.each { def item ->
       if (forceNotEmpty(item)) {
-        result += value
+        result += item
       }
     }
     return result

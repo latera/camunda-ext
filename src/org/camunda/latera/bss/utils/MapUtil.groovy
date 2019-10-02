@@ -50,7 +50,7 @@ class MapUtil {
 
   static Map mergeNotNull(Map first, Map second) {
     LinkedHashMap result = [:]
-    first.each { key, value ->
+    first.each { def key, def value ->
       if (value == null && second[key] != null) {
         result[key] = second[key]
       } else {
@@ -66,7 +66,7 @@ class MapUtil {
 
   static Map camelizeKeys(Map input, Boolean firstUpper = false) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       result[camelize(key, firstUpper)] = value
     }
     return result
@@ -74,7 +74,7 @@ class MapUtil {
 
   static List camelizeKeys(List input, Boolean firstUpper = false) {
     List result = []
-    input.each { it ->
+    input.each { def it ->
       if (isMap(it)) {
         result << camelizeKeys(it, firstUpper)
       } else {
@@ -86,7 +86,7 @@ class MapUtil {
 
   static Map deepCamelizeKeys(Map input, Boolean firstUpper = false) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       if (isMap(value) || isList(value)) {
         result[camelize(key, firstUpper)] = deepCamelizeKeys(value)
       } else {
@@ -98,7 +98,7 @@ class MapUtil {
 
   static List deepCamelizeKeys(List input, Boolean firstUpper = false) {
     List result = []
-    input.each { it ->
+    input.each { def it ->
       if (isMap(it) || isList(it)) {
         result << deepCamelizeKeys(it, firstUpper)
       } else {
@@ -110,7 +110,7 @@ class MapUtil {
 
   static Map snakeCaseKeys(Map input) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       result[snakeCase(key)] = value
     }
     return result
@@ -118,7 +118,7 @@ class MapUtil {
 
   static List snakeCaseKeys(List input) {
     List result = []
-    input.each { it ->
+    input.each { def it ->
       if (isMap(it)) {
         result << snakeCaseKeys(it)
       } else {
@@ -130,7 +130,7 @@ class MapUtil {
 
   static Map deepSnakeCaseKeys(Map input) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       if (isMap(value) || isList(value)) {
         result[snakeCase(key)] = deepSnakeCaseKeys(value)
       } else {
@@ -142,7 +142,7 @@ class MapUtil {
 
   static List deepSnakeCaseKeys(List input) {
     List result = []
-    input.each { it ->
+    input.each { def it ->
       if (isMap(it) || isList(it)) {
         result << deepSnakeCaseKeys(it)
       } else {
@@ -154,7 +154,7 @@ class MapUtil {
 
   static Map nvl(Map input) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       if (value != null) {
         if (forceIsEmpty(value)) {
           result[key] = null
@@ -168,7 +168,7 @@ class MapUtil {
 
   static Map forceNvl(Map input) {
     LinkedHashMap result = [:]
-    input.each { key, value ->
+    input.each { def key, def value ->
       if (forceNotEmpty(value)) {
         result[key] = value
       }
