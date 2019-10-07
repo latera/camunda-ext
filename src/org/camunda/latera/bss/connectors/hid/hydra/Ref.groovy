@@ -30,7 +30,7 @@ trait Ref {
       name       : null,
       code       : null,
       string     : null,
-      stirng2    : null,
+      string2    : null,
       string3    : null,
       bool       : null,
       bool2      : null,
