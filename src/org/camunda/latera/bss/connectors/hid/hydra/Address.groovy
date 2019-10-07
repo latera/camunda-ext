@@ -20,7 +20,6 @@ trait Address {
     floor     : 'этаж',
     flat      : 'кв.'
   ]
-  private static List ADDRESS_ITEMS_NAMES = ADDRESS_ITEMS.keySet() as List
 
   def getMainAddressesTable() {
     return MAIN_ADDRESSES_TABLE
@@ -43,7 +42,7 @@ trait Address {
   }
 
   def getAddressItemsNames() {
-    return ADDRESS_ITEMS_NAMES
+    return getAddressItems().keySet() as List
   }
 
   def getDefaultAddressTypeId() {

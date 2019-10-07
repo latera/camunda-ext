@@ -29,6 +29,7 @@ class Hydra implements Ref, Good, Document, Contract, PriceOrder, Invoice, Subje
   def resellerId
   DelegateExecution execution
   SimpleLogger logger
+  Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
     this.execution = execution
@@ -39,6 +40,7 @@ class Hydra implements Ref, Good, Document, Contract, PriceOrder, Invoice, Subje
     def password    = execution.getVariable('hydraPassword')
     this.firmId     = execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId())
     this.resellerId = execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId')
+    this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
     this.hid.execute('MAIN.INIT', [
       vch_VC_IP       : '127.0.0.1',

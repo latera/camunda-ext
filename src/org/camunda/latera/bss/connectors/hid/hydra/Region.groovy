@@ -14,50 +14,43 @@ trait Region {
     city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement', 'REGION_TYPE_Village'],
     street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard', 'REGION_TYPE_Square']
   ]
-  private static LinkedHashMap REGION_HIERARCHY_WITH_BUILDING = REGION_HIERARCHY + [
-    building: [BUILDING_TYPE]
-  ]
-  private static List REGION_HIERARCHY_FLATTEN = REGION_HIERARCHY.values().flatten()
-  private static List REGION_HIERARCHY_FLATTEN_WITH_BUILDING = REGION_HIERARCHY_WITH_BUILDING.values().flatten()
-  private static List REGION_NAMES = REGION_HIERARCHY.keySet() as List
-  private static List REGION_NAMES_WITH_BUILDING = REGION_HIERARCHY_WITH_BUILDING.keySet() as List
-  private static List REGION_TYPES = REGION_NAMES*.concat("Type")
-  private static List REGION_TYPES_WITH_BUILDING = REGION_NAMES_WITH_BUILDING*.concat("Type")
 
   def getRegionsTable() {
     return REGIONS_TABLE
   }
 
   def getRegionHierarchy(){
-    return REGION_HIERARCHY
+    return regionHierarchyOverride ?: REGION_HIERARCHY
   }
 
   def getRegionHierarchyWithBuilding(){
-    return REGION_HIERARCHY_WITH_BUILDING
+    return getRegionHierarchy() + [
+      building: [getBuildingType()]
+    ]
   }
 
   def getRegionHierarchyFlatten(){
-    return REGION_HIERARCHY_FLATTEN
+    return getRegionHierarchy().values().flatten()
   }
 
   def getRegionHierarchyFlattenWithBuilding(){
-    return REGION_HIERARCHY_FLATTEN_WITH_BUILDING
+    return getRegionHierarchyWithBuilding().values().flatten()
   }
 
   def getRegionNames(){
-    return REGION_NAMES
+    return getRegionHierarchy().keySet() as List
   }
 
   def getRegionNamesWithBuilding(){
-    return REGION_NAMES_WITH_BUILDING
+    return getRegionHierarchyWithBuilding().keySet() as List
   }
 
   def getRegionTypes(){
-    return REGION_TYPES
+    return getRegionNames()*.concat('Type')
   }
 
   def getRegionTypesWithBuilding(){
-    return REGION_TYPES_WITH_BUILDING
+    return getRegionNamesWithBuilding()*.concat('Type')
   }
 
   def getBuildingType(){
@@ -65,7 +58,7 @@ trait Region {
   }
 
   def getBuildingTypeId(){
-    return getRefIdByCode(BUILDING_TYPE)
+    return getRefIdByCode(getBuildingType())
   }
 
   def getDefaultRealtyGood(){
@@ -145,12 +138,13 @@ trait Region {
   }
 
   Integer getRegionLevelNum(String code) {
-    return REGION_NAMES_WITH_BUILDING.findIndexOf{it == code}
+    return getRegionNamesWithBuilding().findIndexOf{it == code}
   }
 
   String getRegionLevelByTypeCode(String code) {
     String result = null
-    REGION_HIERARCHY_WITH_BUILDING.each{ name, values ->
+    Map regionHierarchy = getRegionHierarchyWithBuilding()
+    regionHierarchy.each { String name, List values ->
       if (values.contains(code)) {
         result = name
       }
@@ -183,9 +177,11 @@ trait Region {
       '${field.toLowerCase()}', ${field},"""
     }
 
-    REGION_HIERARCHY_FLATTEN.each{ typeName ->
+    List regionHierarchyFlatten = getRegionHierarchyFlatten()
+    List regionTypes = getRegionTypes()
+    regionHierarchyFlatten.each{ typeName ->
       query += """
-      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}'))""" + (typeName == REGION_HIERARCHY_FLATTEN.last() ? '' : ',')
+      '${typeName}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${typeName}'))""" + (typeName == regionHierarchyFlatten.last() ? '' : ',')
     }.join(',')
 
     query += """
@@ -199,13 +195,13 @@ trait Region {
     }
 
     LinkedHashMap result = [:]
-    REGION_HIERARCHY_FLATTEN.each{ code ->
+    regionHierarchyFlatten.each { String code ->
       if (data[code]) {
-        def name = getRegionLevelByTypeCode(code)
-        def index = getRegionLevelNum(name)
+        String name = getRegionLevelByTypeCode(code)
+        Integer index = getRegionLevelNum(name)
 
         result[name] = data[code] //oblast = 'Some value'
-        result[REGION_TYPES[index]] = code //oblastType = 'REGION_TYPE_Oblast'
+        result[regionTypes[index]] = code //oblastType = 'REGION_TYPE_Oblast'
       }
     }
 
@@ -229,11 +225,13 @@ trait Region {
     LinkedHashMap input
   ) {
     String regionQuery = ""
-    REGION_TYPES.eachWithIndex{ type, i ->
+    List regionNames = getRegionNames()
+    List regionTypes = getRegionTypes()
+    regionTypes.eachWithIndex{ type, i ->
       regionQuery += """
-      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[REGION_NAMES[i]] ?: ''}'
+      SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[regionNames[i]] ?: ''}'
       FROM   ${getRefsTable()}
-      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == REGION_TYPES.last() ? '' : """
+      WHERE  VC_CODE = '${input[type] ?: ""}'""" + (type == regionTypes.last() ? '' : """
       UNION ALL""")
     }
 
@@ -284,10 +282,12 @@ trait Region {
     LinkedHashMap existingRegion = null
     LinkedHashMap region = null
 
+    List regionNames = getRegionNames()
+    List regionTypes = getRegionTypes()
     //Create all regions need step by step
-    for(Integer i = typeIndex; i < REGION_NAMES.toArray().length; ++i) {
-      String name = REGION_NAMES[i]
-      String type = REGION_TYPES[i]
+    for(Integer i = typeIndex; i < regionNames.toArray().length; ++i) {
+      String name = regionNames[i]
+      String type = regionTypes[i]
       if (input[name]) {
         existingRegion = getRegionBy(
           parRegionId : regionId,
