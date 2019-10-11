@@ -12,43 +12,43 @@ trait Document {
   private static Integer PROVIDER_ROLE_ID = 2004 // 'SUBJ_ROLE_Provider'
   private static Integer RECEIVER_ROLE_ID = 1004 // 'SUBJ_ROLE_Receiver'
 
-  Number getDocumentStateActualId() {
+  Integer getDocumentStateActualId() {
     return DOCUMENT_STATE_ACTUAL_ID
   }
 
-  Number getDocumentStateExecutedId() {
+  Integer getDocumentStateExecutedId() {
     return DOCUMENT_STATE_EXECUTED_ID
   }
 
-  Number getDocumentStateDraftId() {
+  Integer getDocumentStateDraftId() {
     return DOCUMENT_STATE_DRAFT_ID
   }
 
-  Number getDocumentStateCanceledId() {
+  Integer getDocumentStateCanceledId() {
     return DOCUMENT_STATE_CANCELED_ID
   }
 
-  Number getDocumentStateClosedId() {
+  Integer getDocumentStateClosedId() {
     return DOCUMENT_STATE_CLOSED_ID
   }
 
-  Number getDocumentStateDissolvedId() {
+  Integer getDocumentStateDissolvedId() {
     return DOCUMENT_STATE_DISSOLVED_ID
   }
 
-  Number getDocumentStateProcessingId() {
+  Integer getDocumentStateProcessingId() {
     return DOCUMENT_STATE_PROCESSING_ID
   }
 
-  Number getDocumentStatePreparedId() {
+  Integer getDocumentStatePreparedId() {
     return DOCUMENT_STATE_PREPARED_ID
   }
 
-  Number getProviderRoleId() {
+  Integer getProviderRoleId() {
     return PROVIDER_ROLE_ID
   }
 
-  Number getReceiverRoleId() {
+  Integer getReceiverRoleId() {
     return RECEIVER_ROLE_ID
   }
 }

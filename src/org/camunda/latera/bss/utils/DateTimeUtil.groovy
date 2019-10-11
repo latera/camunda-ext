@@ -10,18 +10,18 @@ import java.time.temporal.Temporal
 import java.time.temporal.ChronoUnit
 
 class DateTimeUtil {
-  static final DateTimeFormatter ISO_FORMAT       = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-  static final DateTimeFormatter ISO_FORMAT_NO_TZ = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-  static final DateTimeFormatter DATE_FORMAT      = DateTimeFormatter.ofPattern('yyyy-MM-dd')
-  static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
-  static final DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
-  static final DateTimeFormatter DAY_FORMAT              = DateTimeFormatter.ofPattern('dd')
-  static final DateTimeFormatter MONTH_FORMAT            = DateTimeFormatter.ofPattern('MM')
-  static final DateTimeFormatter MONTH_FULL_FORMAT       = DateTimeFormatter.ofPattern('MMMM')
-  static final DateTimeFormatter YEAR_FORMAT             = DateTimeFormatter.ofPattern('yyyy')
-  static final DateTimeFormatter SIMPLE_DATE_FORMAT      = DateTimeFormatter.ofPattern('dd.MM.yyyy')
-  static final DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
-  static final String DATE_TIME_FORMAT_ORACLE = 'DD.MM.YYYY HH24:MI:SS'
+  static DateTimeFormatter ISO_FORMAT       = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  static DateTimeFormatter ISO_FORMAT_NO_TZ = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+  static DateTimeFormatter DATE_FORMAT      = DateTimeFormatter.ofPattern('yyyy-MM-dd')
+  static DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
+  static DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
+  static DateTimeFormatter DAY_FORMAT              = DateTimeFormatter.ofPattern('dd')
+  static DateTimeFormatter MONTH_FORMAT            = DateTimeFormatter.ofPattern('MM')
+  static DateTimeFormatter MONTH_FULL_FORMAT       = DateTimeFormatter.ofPattern('MMMM')
+  static DateTimeFormatter YEAR_FORMAT             = DateTimeFormatter.ofPattern('yyyy')
+  static DateTimeFormatter SIMPLE_DATE_FORMAT      = DateTimeFormatter.ofPattern('dd.MM.yyyy')
+  static DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
+  static String DATE_TIME_FORMAT_ORACLE = 'DD.MM.YYYY HH24:MI:SS'
 
   static LocalDateTime now() {
     return LocalDateTime.now()

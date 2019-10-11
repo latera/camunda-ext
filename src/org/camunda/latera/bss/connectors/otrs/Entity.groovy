@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.connectors.otrs
 
-private trait Entity {
+trait Entity {
   Map getEntity(CharSequence type, def id) {
     LinkedHashMap result = null
     try {

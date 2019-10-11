@@ -61,7 +61,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <div class="subNav">
     <div>
         <ul class="navList">
-            <li><a href="../../index.html?connectors/odoo/Main" target="_top">Frames</a></li>
+            <li><a href="../../index.html?connectors/otrs/Main" target="_top">Frames</a></li>
             <li><a href="Main.html" target="_top">No Frames</a></li>
         </ul>
     </div>
@@ -83,13 +83,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 
-    <div class="subTitle">Package: <strong>connectors.odoo</strong></div>
+    <div class="subTitle">Package: <strong>connectors.otrs</strong></div>
 
     <h2 title="[Groovy] Trait Main" class="title">[Groovy] Trait Main</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><ul class="inheritance"></ul></li><li>connectors.odoo.Main
+<li><ul class="inheritance"></ul></li><li>connectors.otrs.Main
 </ul>
 <div class="description">
     <ul class="blockList">
@@ -138,14 +138,25 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#searchQuery(java.util.List, java.util.Map, def, java.lang.Integer, java.lang.Integer)">searchQuery</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> fields = DEFAULT_FIELDS, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where = DEFAULT_WHERE, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> order = DEFAULT_ORDER, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> limit = DEFAULT_LIMIT, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> offset = DEFAULT_OFFSET
-)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#convertKeys(java.util.Map)">convertKeys</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#searchQuery(java.util.Map)">searchQuery</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#convertParams(java.util.Map)">convertParams</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
+                            <td class="colLast"><code><strong><a href="#convertValue(def)">convertValue</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#prepareParams(java.util.Map)">prepareParams</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
                     </table>
@@ -180,19 +191,34 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="searchQuery(java.util.List, java.util.Map, def, java.lang.Integer, java.lang.Integer)"><!-- --></a>
+                        <a name="convertKeys(java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>searchQuery</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> fields = DEFAULT_FIELDS, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where = DEFAULT_WHERE, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> order = DEFAULT_ORDER, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> limit = DEFAULT_LIMIT, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> offset = DEFAULT_OFFSET
-)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>convertKeys</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="searchQuery(java.util.Map)"><!-- --></a>
+                        <a name="convertParams(java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>searchQuery</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>convertParams</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="convertValue(def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>convertValue</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="prepareParams(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>prepareParams</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -224,7 +250,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <div class="subNav">
     <div>
         <ul class="navList">
-            <li><a href="../../index.html?connectors/odoo/Main" target="_top">Frames</a></li>
+            <li><a href="../../index.html?connectors/otrs/Main" target="_top">Frames</a></li>
             <li><a href="Main.html" target="_top">No Frames</a></li>
         </ul>
     </div>

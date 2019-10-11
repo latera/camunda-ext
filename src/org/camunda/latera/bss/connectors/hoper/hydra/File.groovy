@@ -8,29 +8,29 @@ trait File {
     plural : 'files'
   ]
 
-  private static Map getFileEntityType(def parentType, def id = null) {
+  private Map getFileEntityType(def parentType, def id = null) {
     return FILE_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  private static Map getSubjectFileEntityType(def subjectId, def id = null) {
+  private Map getSubjectFileEntityType(def subjectId, def id = null) {
     return getFileEntityType(getSubjectEntityType(subjectId), id)
   }
 
-  private static Map getFileDefaultParams() {
+  private Map getFileDefaultParams() {
     return [
       name    : '',
       content : [] as byte[]
     ]
   }
 
-  private static Map getFileParamsMap(Map params) {
+  private Map getFileParamsMap(Map params) {
     return [
       file_name      : params.name,
       base64_content : params.content ? Base64Converter.to(params.content) : ''
     ]
   }
 
-  private static Map getFileParams(Map input) {
+  private Map getFileParams(Map input) {
     LinkedHashMap params = getFileDefaultParams() + input
     LinkedHashMap data   = getFileParamsMap(params)
     return prepareParams(data)

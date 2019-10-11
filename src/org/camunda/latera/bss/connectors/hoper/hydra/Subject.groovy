@@ -1,12 +1,12 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
-private trait Subject {
+trait Subject {
   private static LinkedHashMap SUBJECT_ENTITY_TYPE = [
     one    : 'subject',
     plural : 'subjects'
   ]
 
-  static Map getSubjectEntityType(def id = null) {
+  Map getSubjectEntityType(def id = null) {
     return SUBJECT_ENTITY_TYPE + withId(id)
   }
 }

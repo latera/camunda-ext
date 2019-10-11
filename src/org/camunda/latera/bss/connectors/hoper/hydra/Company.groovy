@@ -32,7 +32,7 @@ trait Company {
     ]
   }
 
-  private static Map getCompanyParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getCompanyParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result = [
       vc_name         : params.name,
       vc_code         : params.code,

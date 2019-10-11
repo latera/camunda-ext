@@ -3,7 +3,7 @@ package org.camunda.latera.bss.connectors.otrs.types
 import org.camunda.latera.bss.utils.Base64Converter
 
 trait Ticket {
-  private static String TICKET_ENTITY_TYPE = 'Ticket'
+  private String TICKET_ENTITY_TYPE = 'Ticket'
 
   private String getTicketEntityType() {
     return TICKET_ENTITY_TYPE

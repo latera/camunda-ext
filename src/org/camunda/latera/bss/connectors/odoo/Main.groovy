@@ -15,7 +15,7 @@ trait Main {
   private static Integer       DEFAULT_LIMIT  = 0
   private static Integer       DEFAULT_OFFSET = 0
 
-  static Map searchQuery(
+  Map searchQuery(
     List fields = DEFAULT_FIELDS,
     Map where = DEFAULT_WHERE,
     def order = DEFAULT_ORDER,
@@ -68,12 +68,12 @@ trait Main {
     ]
   }
 
-  static Map searchQuery(Map input) {
+  Map searchQuery(Map input) {
     LinkedHashMap params = prepareQuery(input)
     return searchQuery(params.fields, params.where, params.order, params.limit, params.offset)
   }
 
-  private static Map prepareQuery(Map input) {
+  private Map prepareQuery(Map input) {
     def fields = DEFAULT_FIELDS
     def where  = DEFAULT_WHERE
     def order  = DEFAULT_ORDER
@@ -107,11 +107,11 @@ trait Main {
     ]
   }
 
-  private static Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
+  private Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
     return convertParams(nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
   }
 
-  private static Map negativeParser(Closure paramsParser, Map negativeInput) {
+  private Map negativeParser(Closure paramsParser, Map negativeInput) {
     LinkedHashMap originalInput = [:]
     LinkedHashMap input         = [:]
     LinkedHashMap negativeWhere = [:]
@@ -136,11 +136,11 @@ trait Main {
     return negativeWhere
   }
 
-  private static Map convertKeys(Map input) {
+  private Map convertKeys(Map input) {
     return snakeCaseKeys(input)
   }
 
-  private static def escapeSearchValue(def value) {
+  private def escapeSearchValue(def value) {
     if (value instanceof Boolean) {
       return capitalize("${value}")
     }
@@ -157,7 +157,7 @@ trait Main {
     return value
   }
 
-  private static def convertValue(def value) {
+  private def convertValue(def value) {
     if (value == null && value == 'null') {
       return false //D`oh
     }
@@ -167,7 +167,7 @@ trait Main {
     return value
   }
 
-  private static Map convertParams(Map input) {
+  private Map convertParams(Map input) {
     LinkedHashMap result = [:]
     input.each { CharSequence key, def value ->
       result[key] = convertValue(value)

@@ -2,14 +2,7 @@ package org.camunda.latera.bss.connectors
 
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
-import static org.camunda.latera.bss.utils.DateTimeUtil.SIMPLE_DATE_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.DAY_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.MONTH_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.YEAR_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.MONTH_FULL_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.FULL_DATE_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.format
-import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import org.camunda.latera.bss.utils.Order
 import org.camunda.bpm.engine.delegate.DelegateExecution
 

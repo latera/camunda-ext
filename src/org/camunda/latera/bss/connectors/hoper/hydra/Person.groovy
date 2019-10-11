@@ -6,7 +6,7 @@ trait Person {
     plural : 'persons'
   ]
 
-  private static Map getPersonEntityType(def id = null) {
+  private Map getPersonEntityType(def id = null) {
     return PERSON_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
@@ -33,7 +33,7 @@ trait Person {
     ]
   }
 
-  private static Map getPersonParamsMap(Map params, Map additionalParams = [:]) {
+  private Map getPersonParamsMap(Map params, Map additionalParams = [:]) {
     LinkedHashMap result = [
       vc_first_name     : params.firstName,
       vc_second_name    : params.secondName,

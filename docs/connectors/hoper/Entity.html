@@ -26,7 +26,7 @@
 
 <html>
 <head>
-    <title>Main (org.camunda.latera:bss:1.3)</title>
+    <title>Entity (org.camunda.latera:bss:1.3)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../groovy.ico" type="image/x-icon" rel="shortcut icon">
     <link href="../../groovy.ico" type="image/x-icon" rel="icon">
@@ -35,7 +35,7 @@
 <body class="center">
 <script type="text/javascript"><!--
 if (location.href.indexOf('is-external=true') == -1) {
-    parent.document.title="Main (org.camunda.latera:bss:1.3)";
+    parent.document.title="Entity (org.camunda.latera:bss:1.3)";
 }
 //-->
 </script>
@@ -61,8 +61,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 <div class="subNav">
     <div>
         <ul class="navList">
-            <li><a href="../../index.html?connectors/odoo/Main" target="_top">Frames</a></li>
-            <li><a href="Main.html" target="_top">No Frames</a></li>
+            <li><a href="../../index.html?connectors/hoper/Entity" target="_top">Frames</a></li>
+            <li><a href="Entity.html" target="_top">No Frames</a></li>
         </ul>
     </div>
     <div>
@@ -83,13 +83,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 
-    <div class="subTitle">Package: <strong>connectors.odoo</strong></div>
+    <div class="subTitle">Package: <strong>connectors.hoper</strong></div>
 
-    <h2 title="[Groovy] Trait Main" class="title">[Groovy] Trait Main</h2>
+    <h2 title="[Groovy] Trait Entity" class="title">[Groovy] Trait Entity</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><ul class="inheritance"></ul></li><li>connectors.odoo.Main
+<li><ul class="inheritance"></ul></li><li>connectors.hoper.Entity
 </ul>
 <div class="description">
     <ul class="blockList">
@@ -138,14 +138,31 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#searchQuery(java.util.List, java.util.Map, def, java.lang.Integer, java.lang.Integer)">searchQuery</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> fields = DEFAULT_FIELDS, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where = DEFAULT_WHERE, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> order = DEFAULT_ORDER, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> limit = DEFAULT_LIMIT, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> offset = DEFAULT_OFFSET
-)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#createEntity(java.util.Map, java.util.Map)">createEntity</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> params)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deleteEntity(java.util.Map, def)">deleteEntity</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getEntities(java.util.Map, java.util.Map)">getEntities</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> query = [:])</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#searchQuery(java.util.Map)">searchQuery</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getEntity(java.util.Map, def, java.util.Map)">getEntity</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> query = [:])</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#updateEntity(java.util.Map, def, java.util.Map)">updateEntity</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> params)</code><br></td>
                         </tr>
                         
                     </table>
@@ -180,19 +197,42 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="searchQuery(java.util.List, java.util.Map, def, java.lang.Integer, java.lang.Integer)"><!-- --></a>
+                        <a name="createEntity(java.util.Map, java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>searchQuery</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> fields = DEFAULT_FIELDS, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> where = DEFAULT_WHERE, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> order = DEFAULT_ORDER, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> limit = DEFAULT_LIMIT, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> offset = DEFAULT_OFFSET
-)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createEntity</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> params)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="searchQuery(java.util.Map)"><!-- --></a>
+                        <a name="deleteEntity(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>searchQuery</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteEntity</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getEntities(java.util.Map, java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getEntities</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> query = [:])</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getEntity(java.util.Map, def, java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getEntity</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> query = [:])</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="updateEntity(java.util.Map, def, java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateEntity</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> type, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> params)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -224,8 +264,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 <div class="subNav">
     <div>
         <ul class="navList">
-            <li><a href="../../index.html?connectors/odoo/Main" target="_top">Frames</a></li>
-            <li><a href="Main.html" target="_top">No Frames</a></li>
+            <li><a href="../../index.html?connectors/hoper/Entity" target="_top">Frames</a></li>
+            <li><a href="Entity.html" target="_top">No Frames</a></li>
         </ul>
     </div>
     <div>

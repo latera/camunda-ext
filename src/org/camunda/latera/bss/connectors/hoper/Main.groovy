@@ -2,26 +2,26 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 
 import static org.camunda.latera.bss.utils.MapUtil.nvl
 
-private trait Main {
-  private static Map withId(def id = null) {
+trait Main {
+  private Map withId(def id = null) {
     if (id) {
       return [id: id]
     }
     return [:]
   }
 
-  private static Map withParent(Map parent = null) {
+  private Map withParent(Map parent = null) {
     if (parent) {
       return [parent: parent]
     }
     return [:]
   }
 
-  private static Map prepareParams(Map input) {
+  private Map prepareParams(Map input) {
     return nvl(input)
   }
 
-  private static List preparePathItems(Map type) {
+  private List preparePathItems(Map type) {
     List result = []
     if (type.id) {
       result = [type.id] + result
@@ -35,7 +35,7 @@ private trait Main {
     return result
   }
 
-  private static String preparePath(Map type, def id = null) {
+  private String preparePath(Map type, def id = null) {
     List result = preparePathItems(type + withId(id))
     return result.join('/')
   }

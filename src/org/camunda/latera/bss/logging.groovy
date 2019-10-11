@@ -1,9 +1,7 @@
 package org.camunda.latera.bss.logging
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import static org.camunda.latera.bss.utils.DateTimeUtil.DATE_TIME_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.format
-import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
 import java.time.format.DateTimeFormatter
 import org.slf4j.Logger

@@ -1,9 +1,6 @@
 package org.camunda.latera.bss.utils
 
-import static org.camunda.latera.bss.utils.DateTimeUtil.DATE_TIME_FORMAT_ORACLE
-import static org.camunda.latera.bss.utils.DateTimeUtil.SIMPLE_DATE_TIME_FORMAT
-import static org.camunda.latera.bss.utils.DateTimeUtil.format
-import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 
 class Oracle {
