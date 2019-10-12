@@ -462,7 +462,16 @@ class CSV {
   */
   CSV setData(def lines) {
     clear()
-    addLines(lines)
+    if (!header && isList(lines)) {
+      List linesToParse = lines.drop(skipLines)
+      if (linesToParse.size() > 0) {
+        def firstLine = linesToParse[0]
+        if (isList(firstLine)) {
+          setHeader(firstLine)
+        }
+      }
+    }
+    addLines(lines, skipLines)
     return this
   }
 
