@@ -1059,27 +1059,31 @@ class CSV {
   }
 
   /**
-    Checks if line with index exist in CSV. Alias
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExist(0) // by index
-    assert !csv.isExist(1)
-    }</pre>
+    Checks if lines with indexes from list exist in CSV.
+    Alias for #isExists(List)
+    @see #isExists(List)
+  */
+  Boolean isExistsWithIndex(List indexes) {
+    return isExists(indexes)
+  }
 
+  /**
+    Checks if line with index exist in CSV.
     @param input Integer of line index to search
     @returns True if there is any line in data which corresponds to condition, false otherwise.
     @see #isExists(Map)
   */
   Boolean isExists(Integer index) {
     return isExists([index])
+  }
+
+  /**
+    Checks if line with index exist in CSV.
+    Alias for #isExists(Integer)
+    @see #isExists(Integer)
+  */
+  Boolean isExistsWithIndex(Integer index) {
+    return isExists(index)
   }
 
   /**
@@ -1131,29 +1135,30 @@ class CSV {
   }
 
   /**
+    Checks if some line or lines exist in CSV.
+    @param input String line or its part
+    @returns True if there is any line in data which corresponds to condition, false otherwise.
+  */
+  Boolean isExistsWhere(CharSequence where) {
+    return isExistsWhere(parseLine(where))
+  }
+
+  /**
+    in operator overload. Checks if some line or lines exist in CSV.
+    @param input Map[String,Object] or List[Object] query format Integer line intex to search.
+    @returns True if there is any line with this value of column, false otherwise.
+    @see #isExists(Map)
+    @see #isExistsWhere(Map)
+  */
+  Boolean isCase(def item) {
+    if (isMap(item) || isString(item)) {
+      return isExistsWhere(item)
+    }
+    return isExistsWithIndex(item)
+  }
+
+  /**
     Delete line or lines correspords to condition.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.deleteLines(where: [a: 1]) // by column name and value
-    assert csv.dataMap == []
-
-    def csv = new CSV(data)
-    csv.deleteLines(where: [1]) // by line or its part
-    assert csv.dataMap == []
-
-    def csv = new CSV(data)
-    csv.deleteLines(indexes: [0]) // by index
-    assert csv.dataMap == []
-    }</pre>
-
     @param input Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.
     @returns List[List] of data.
   */
@@ -1297,6 +1302,33 @@ class CSV {
   */
   List deleteLinesWhere(Map where) {
     return deleteLines(where: where)
+  }
+
+  /**
+    Delete line by full content or lines by some part.
+
+    @param input Map[String,Object] to search and delete.
+    @returns List[List] of data.
+  */
+  List deleteLinesWhere(CharSequence where) {
+    return deleteLinesWhere(parseLine(where))
+  }
+
+  /**
+    - operator overload, Delete line or lines correspords to condition.
+    @param input Integer, List[Integer] or Map to search.
+    @see #deleteLines
+  */
+  CSV minus(def item) {
+    if (isInteger(item)) {
+      deleteLinesByIndex(item)
+    } else if (isList(item)) {
+      deleteLinesByIndex(item)
+    } else if (isMap(item) || isString(item)) {
+      deleteLinesWhere(item)
+    }
+    deleteLinesByIndex([item])
+    return this
   }
 
   /**
