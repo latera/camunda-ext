@@ -226,25 +226,13 @@ class CSV {
               if (header) {
                 header.eachWithIndex { CharSequence column, Integer pos ->
                   if (line.size() > pos) {
-                    def value = line[pos]
-                    if (isString(value)) {
-                      value = forceNvl(value)
-                      if (value == 'Y') {
-                        value = true
-                      }
-                      if (value == 'N') {
-                        value = false
-                      }
-                    }
-                    item += value
+                    item += line[pos]
                   } else {
                     item += null
                   }
                 }
-                result << item
-              } else {
-                result << line
               }
+              result << parseLine(line)
             }
           } else if (isMap(line)) {
             List mapKeys = keysList(line)
@@ -254,10 +242,24 @@ class CSV {
             header.each { CharSequence column ->
               item << line[column]
             }
-            result << item
+            result << parseLine(item)
           } else if (isList(line)) {
             if (notHeader(line)) {
-              result << line
+              line.each { def value ->
+                if (isString(value)) {
+                  value = forceNvl(value)
+                  if (value == 'Y') {
+                    value = true
+                  }
+                  if (value == 'N') {
+                    value = false
+                  }
+                } else {
+                  value = value.toString()
+                }
+                item << value
+              }
+              result << item
             }
           }
         }
