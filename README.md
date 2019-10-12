@@ -7,6 +7,9 @@ Included into [Latera Camunda docker image](https://github.com/latera/camunda-do
 # Documentation
 See https://latera.github.io/camunda-ext/
 
+# Test Cases
+See https://latera.github.io/camunda-ext/test-reports
+
 # How to build
 ## Install [SDKman](https://sdkman.io/install)
 ```bash

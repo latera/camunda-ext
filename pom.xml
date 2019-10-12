@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gmavenplus.version>1.6.2</gmavenplus.version>
+    <gmavenplus.version>1.8.0</gmavenplus.version>
     <groovy.version>2.4.16</groovy.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
@@ -117,12 +117,43 @@
       <artifactId>activation</artifactId>
       <version>${javax_activation.version}</version>
       <scope>provided</scope>
-    </dependency><dependency>
+    </dependency>
+    <dependency>
       <groupId>io.minio</groupId>
       <artifactId>minio</artifactId>
       <version>${minio.version}</version>
       <scope>provided</scope>
-  </dependency>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.spockframework</groupId>
+      <artifactId>spock-core</artifactId>
+      <version>1.3-groovy-2.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.athaydes</groupId>
+      <artifactId>spock-reports</artifactId>
+      <version>1.6.2</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.13</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -133,21 +164,33 @@
         <configuration>
           <sources>
             <source>
-              <directory>${project.basedir}/src/org/camunda/latera/bss</directory>
+              <directory>${project.basedir}/src</directory>
               <includes>
                 <include>**/*.groovy</include>
               </includes>
             </source>
           </sources>
+          <testSources>
+            <source>
+              <directory>${project.basedir}/test</directory>
+              <includes>
+                <include>**/*.groovy</include>
+              </includes>
+            </source>
+          </testSources>
           <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>addSources</goal>
+              <goal>addTestSources</goal>
               <goal>generateStubs</goal>
+              <goal>generateTestStubs</goal>
               <goal>compile</goal>
+              <goal>compileTests</goal>
               <goal>removeStubs</goal>
+              <goal>removeTestStubs</goal>
             </goals>
           </execution>
         </executions>
@@ -171,6 +214,35 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*Test.groovy</include>
+            <include>**/*Spec.java</include>
+            <include>**/*Spec.groovy</include>
+          </includes>
+          <systemPropertyVariables>
+            <com.athaydes.spockframework.report.IReportCreator>com.athaydes.spockframework.report.internal.CustomHtmlReportCreator</com.athaydes.spockframework.report.IReportCreator>
+            <com.athaydes.spockframework.report.projectName>${project.groupId}.${project.artifactId}</com.athaydes.spockframework.report.projectName>
+            <com.athaydes.spockframework.report.projectVersion>${project.version}</com.athaydes.spockframework.report.projectVersion>
+            <com.athaydes.spockframework.report.outputDir>docs/test-reports</com.athaydes.spockframework.report.outputDir>
+            <com.athaydes.spockframework.report.aggregatedJsonReportDir>target/spock-reports</com.athaydes.spockframework.report.aggregatedJsonReportDir>
+            <com.athaydes.spockframework.report.showCodeBlocks>true</com.athaydes.spockframework.report.showCodeBlocks>
+            <com.athaydes.spockframework.report.testSourceRoots>${project.basedir}/test</com.athaydes.spockframework.report.testSourceRoots>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.featureReportCss>spock-feature-report.css</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.featureReportCss>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.summaryReportCss>spock-summary-report.css</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.summaryReportCss>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.printThrowableStackTrace>false</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.printThrowableStackTrace>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.inlineCss>true</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.inlineCss>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.enabled>true</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.enabled>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.specSummaryNameOption>class_name_and_title</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.specSummaryNameOption>
+            <com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.excludeToc>false</com.athaydes.spockframework.report.internal.CustomHtmlReportCreator.excludeToc>
+          </systemPropertyVariables>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>com.bluetrainsoftware.maven</groupId>

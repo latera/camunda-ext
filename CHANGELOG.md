@@ -10,6 +10,7 @@ v1.3 [unreleased]
 -   [#3eb6018](https://github.com/latera/camunda-ext/commit/3eb6018) Change return value of getAt method of CSV class
 -   [#ac181f6](https://github.com/latera/camunda-ext/commit/ac181f6) Allow to update values with plus method of CSV class
 -   [#834ef9d](https://github.com/latera/camunda-ext/commit/834ef9d) Improve get/setProperty type coerse of CSV class
+-   [#20e2150](https://github.com/latera/camunda-ext/commit/20e2150) Force NVL homsOrderData*List variable values Until CONSULT-3350 will be fixed
 
 ### Features
 -   [#ddcbe81](https://github.com/latera/camunda-ext/commit/ddcbe81) Explicitly set Java 8 target
@@ -28,6 +29,10 @@ v1.3 [unreleased]
 -   [#767a637](https://github.com/latera/camunda-ext/commit/767a637) Add homsOrderCode to data pass to Imprint
 -   [#237cdb5](https://github.com/latera/camunda-ext/commit/237cdb5) Add constructor of CSV class for CharSequence and List input
 -   [#838883d](https://github.com/latera/camunda-ext/commit/838883d) Convert CSV class to List[Map] in JSON.to method
+-   [#be8e7bd](https://github.com/latera/camunda-ext/commit/be8e7bd) Improve CSV class documentation
+-   [#b4bd707](https://github.com/latera/camunda-ext/commit/b4bd707) Parse first of List[List] as header in CSV constructor
+-   [#c3c49bc](https://github.com/latera/camunda-ext/commit/c3c49bc) Allow to pass String to isExistsWhere and deleteWhere methods
+-   [#92b3f46](https://github.com/latera/camunda-ext/commit/92b3f46) Fix CSV#parseHeader method for Map input
 
 ### Bugfixes
 -   [#14a989a](https://github.com/latera/camunda-ext/commit/14a989a) Fix queryFirstMap and queryFirstList in hid class
@@ -37,6 +42,13 @@ v1.3 [unreleased]
 -   [#7c99353](https://github.com/latera/camunda-ext/commit/7c99353) Fix 'en' locale id too often fetching from DB
 -   [#c22478e](https://github.com/latera/camunda-ext/commit/c22478e) Fix 'ru' locale id too often fetching from DB
 -   [#803638b](https://github.com/latera/camunda-ext/commit/803638b) Fix subquery usage detect in HID class
+-   [#c9b7133](https://github.com/latera/camunda-ext/commit/c9b7133) Fix getRefsBy search by string2 field
+-   [#74ff93a](https://github.com/latera/camunda-ext/commit/74ff93a) Fix trait private static classes compile error
+-   [#9f09816](https://github.com/latera/camunda-ext/commit/9f09816) Fix parseLines items coerse
+-   [#6c8c229](https://github.com/latera/camunda-ext/commit/6c8c229) Fix skipLines behaviour Skip lines only in constructor
+-   [#e9048d5](https://github.com/latera/camunda-ext/commit/e9048d5) Fix CSV + operator overload with List input
+-   [#a143508](https://github.com/latera/camunda-ext/commit/a143508) Fix withHeader value pass into CSV constructor
+-   [#f58d33e](https://github.com/latera/camunda-ext/commit/f58d33e) Fix isExists method of CSV class
 
 v1.2 [2019-08-25]
 ---------------------

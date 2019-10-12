@@ -45,46 +45,8 @@ class CSV {
   /**
     Constructor with named optional params or Map data input.
     <p>
-    Example:
-    <pre>
-    {@code
-    String str =
-    """
-    a;b;c
-    1;2;3
-    """
-    List listOfStrings = [
-      "a;b;c",
-      "1;2;3"
-    ]
-    List listOfMaps = [
-      [a:1,  b:2,  c:3],
-      [a:10, b:20, c:30]
-    ]
-    List listOfLists = [
-      ['a', 'b', 'c'],
-      [1,    2,    3]
-    ]
-    def csv = new CSV(
-      delimiter : ';',
-      linesDelimiter : '\n',
-      data : str // or listOfString, of listOfMaps, or listOfLists
-    )
-
-    // or use execution variables for fetching options
-    def csv = new CSV(
-      execution: execution,
-      data : str // or listOfString, of listOfMaps, or listOfLists
-    )
-
-    Map map = [
-      a: 1,
-      b: 2,
-      c: 3
-    ]
-    def csv = new CSV(map) // or use default params
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#Constructor+for+Map+input"></iframe>
     @param input Map with CSV data. Or named arguments from list below:
     @param data String, List[String], List[Map], or List[List] with CSV data.
     @param delimiter [optional] @see #delimiter
@@ -131,19 +93,10 @@ class CSV {
   }
 
   /**
-    Constructor overload for List input.
+    Constructor overload for String input.
     <p>
-    Example:
-    <pre>
-    {@code
-    String str =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(str)
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#Constructor+for+String+input"></iframe>
     @param input String or GStringImpl with CSV data.
   */
   CSV(CharSequence input) {
@@ -151,26 +104,10 @@ class CSV {
   }
 
   /**
-    Constructor overload for String input.
+    Constructor overload for List input.
     <p>
-    Example:
-    <pre>
-    {@code
-    List listOfStrings = [
-      "a;b;c",
-      "1;2;3"
-    ]
-    List listOfMaps = [
-      [a:1,  b:2,  c:3],
-      [a:10, b:20, c:30]
-    ]
-    List listOfLists = [
-      ['a', 'b', 'c'],
-      [1,    2,    3]
-    ]
-    def csv = new CSV(listOfStrings) // or listOfMaps, or listOfLists
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#Constructor+for+List%5BString%5D+input"></iframe>
     @param input List with CSV data.
   */
   CSV(List input) {
@@ -179,6 +116,9 @@ class CSV {
 
   /**
     Parser of CSV data into internal format.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23parseLines+for+List%5BString%5D+input"></iframe>
     @param lines String, List[String], List[Map], or List[List] with CSV data.
     @param skipLines [optional] @see #skipLines
     @returns List[List] with CSV data
@@ -246,24 +186,8 @@ class CSV {
   /**
     Parse CSV data line into internal format.
     <p>
-    Example:
-    <pre>
-    {@code
-    String str =
-    """
-    1;2;3
-    """
-    Map map = [
-      a: 1,
-      b: 2,
-      c: 3
-    ]
-    List list = [
-      [1, 2, 3]
-    ]
-    csv.parseLine(str) // or map, or list
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23parseLine+for+String+input"></iframe>
     @param line String, Map, or List with CSV data.
     @returns List with CSV data
   */
@@ -274,24 +198,8 @@ class CSV {
   /**
     Parser of CSV header into internal format.
     <p>
-    Example:
-    <pre>
-    {@code
-    String str =
-    """
-    a;b;c
-    """
-    Map map = [
-      a: 1,
-      b: 2,
-      c: 3
-    ]
-    List list = [
-      ['a', 'b', 'c']
-    ]
-    csv.parseLine(str) // or map, or list
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23parseHeader+for+String+input"></iframe>
     @param line String or List with CSV header, or Map with CSV data.
     @returns List with CSV data
   */
@@ -305,19 +213,8 @@ class CSV {
   /**
     Check if input is a header.
     <p>
-    Example:
-    <pre>
-    {@code
-    Map data = [
-      a: 1,
-      b: 2
-    ]
-    def csv = new CSV(data)
-    assert csv.isHeader("a;b") == true
-    assert csv.isHeader(['a','b']) == true
-    assert csv.isHeader(['a']) == false
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isHeader+for+String+input"></iframe>
     @param line String or List with CSV header.
     @returns True if input is header, false otherwise.
   */
@@ -332,7 +229,10 @@ class CSV {
 
   /**
     Check if input is not a header.
-    @see #isHeader
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23notHeader+for+String+input"></iframe>
+    @see #isHeader(def)
   */
   Boolean notHeader(def line) {
     return !isHeader(line)
@@ -341,20 +241,8 @@ class CSV {
   /**
     Get internal data in List format.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.data == [
-      [1, 2, 3]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23getData"></iframe>
     @returns List[List] of CSV data without header.
   */
   List getData() {
@@ -363,7 +251,10 @@ class CSV {
 
   /**
     Alias for getData()
-    @see #getData
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23toList+is+alias+for+%23getData"></iframe>
+    @see #getData()
   */
   List toList() {
     return getData()
@@ -372,24 +263,8 @@ class CSV {
   /**
     Get internal data in Map format.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23getDataMap"></iframe>
     @returns List[Map] of CSV data.
   */
   List getDataMap() {
@@ -406,7 +281,10 @@ class CSV {
 
   /**
     Alias for getDataMap()
-    @see #getDataMap
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23toMap+is+alias+for+%23getDataMap"></iframe>
+    @see #getDataMap()
   */
   List toMap() {
     return getDataMap()
@@ -415,27 +293,8 @@ class CSV {
   /**
     Replaces internal data with input.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.data = [
-      [
-        a: 1,
-        b: null,
-        c: 5
-      ]
-    ]
-    assert csv.data == [
-      [1, null, 5]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23setData+for+List%5BString%5D+input"></iframe>
     @param lines String, List[String], List[Map], or List[List] with CSV data.
   */
   CSV setData(def lines, Integer _skipLines = 0) {
@@ -457,18 +316,8 @@ class CSV {
   /**
     Clear internal data.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.clear()
-    assert csv.dataMap == []
-    }</pre>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23clear"></iframe>
   */
   CSV clear() {
     this.data = []
@@ -479,19 +328,9 @@ class CSV {
     -- operator overload.
     Alias to clear()
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv--
-    assert csv.dataMap == []
-    }</pre>
-    @see #clear
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#--+operator"></iframe>
+    @see #clear()
   */
   CSV previous() {
     clear()
@@ -499,23 +338,12 @@ class CSV {
   }
 
   /**
-    - operator overload.
-    Alias to clear()
-    Alias to clear()
+    ~ operator overload.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    -csv
-    assert csv.dataMap == []
-    }</pre>
-    @see #clear
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%7E+operator"></iframe>
+    Alias to clear()
+    @see #clear()
   */
   CSV negative() {
     clear()
@@ -525,18 +353,8 @@ class CSV {
   /**
     Get header in internal format.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.header == ['a', 'b', 'c']
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23getHader"></iframe>
     @returns List[List] of CSV header.
   */
   List getHeader() {
@@ -546,26 +364,8 @@ class CSV {
   /**
     Replaces header with input.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.header = ['a', 'b', 'c', 'd']
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3,
-        d: null
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23setHeader+for+String+input"></iframe>
     @param lines String, List[String], List[Map], or List[List] with CSV data.
   */
   CSV setHeader(def line) {
@@ -577,36 +377,8 @@ class CSV {
   /**
     Add lines to CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.addLines([
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ]
-    ])
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23addLines+for+List%5BString%5D+input"></iframe>
     @param lines List[String], List[Map], or List[List] with CSV data.
     @returns List[List] ot internal data.
   */
@@ -618,34 +390,8 @@ class CSV {
   /**
     Add line to CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.addLine([
-      a: 10,
-      b: 20,
-      c: 30
-    ])
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23addLine+for+String+input"></iframe>
     @param line String, Map, or List with CSV data.
     @returns List[List] ot internal data.
   */
@@ -655,131 +401,10 @@ class CSV {
 
   /**
     Plus operator overload.
-    Insert, update or replace data in CSV.
+    Insert, <a href="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%2B+operator+for+Map+input+-+update">update</a> or <a href="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%2B+operator+for+Map+input+-+replace">replace</a> data in CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv += [
-      a: 10,
-      b: 20,
-      c: 30
-    ] // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ]
-    ]
-
-    csv += [100, 200, 300] // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ]
-    ]
-
-    csv += "5;10;15" // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ],
-      [
-        a: 5,
-        b: 10,
-        c: 15
-      ]
-    ]
-
-    csv += [
-      0: [a: 5]
-    ] // update line columns
-    assert csv.dataMap == [
-      [
-        a: 5,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ],
-      [
-        a: 5,
-        b: 10,
-        c: 15
-      ]
-    ]
-
-    csv += [
-      0: '3;4;5'
-    ] // replace line
-    assert csv.dataMap == [
-      [
-        a: 3,
-        b: 4,
-        c: 5
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ],
-      [
-        a: 5,
-        b: 10,
-        c: 15
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%2B+operator+for+String+input"></iframe>
     @param item For insert - String, Map, or List with CSV data. For update - Map with Integer keys and [column: newData] Map values. For replace - Map with Integer keys and List or String values.
   */
   CSV plus(def item) {
@@ -822,79 +447,12 @@ class CSV {
   /**
     << operator overload.
     Insert data to CSV.
+    Alias for addLine()
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv << [
-      a: 10,
-      b: 20,
-      c: 30
-    ] // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ]
-    ]
-
-    csv << [100, 200, 300] // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ]
-    ]
-
-    csv << "5;10;15" // insert line
-    assert csv.dataMap == [
-      [
-        a: 1,
-        b: 2,
-        c: 3
-      ],
-      [
-        a: 10,
-        b: 20,
-        c: 30
-      ],
-      [
-        a: 100,
-        b: 200,
-        c: 300
-      ],
-      [
-        a: 5,
-        b: 10,
-        c: 15
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%3C%3C+operator+for+String+input"></iframe>
     @param line String, Map, or List with CSV line.
+    @see #addLine
   */
   CSV leftShift(def line) {
     addLine(line)
@@ -903,24 +461,9 @@ class CSV {
 
   /**
     [] operator overload.
-    Get CSV line (as Map) by index.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv[0] == [
-      a: 1,
-      b: 2,
-      c: 3
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%5B%5D+operator"></iframe>
     @param i Line number to get.
     @returns Map with selected line
   */
@@ -930,31 +473,10 @@ class CSV {
 
   /**
     []= operator overload.
-    Replace line (as Map) by index.
+    Replace line by index.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv[0] == [
-      a: 3,
-      b: 4,
-      c: 5
-    ]
-    assert csv.dataMap == [
-      [
-        a: 3,
-        b: 4,
-        c: 5
-      ]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%5B%5D%3D+operator+for+String+input"></iframe>
     @param i Line number to replace.
     @param value String, Map, or List with CSV data.
   */
@@ -1003,24 +525,8 @@ class CSV {
   /**
     Checks if some line or lines exist in CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExist(where: [a: 1]) // by column name and value
-    assert !csv.isExist(where: [b: null])
-    assert csv.isExist(where: [1]) // by line or its part
-    assert !csv.isExist(where: [0])
-    assert csv.isExist(indexes: [0]) // by index
-    assert csv.isExist(indexes: [0, 1]) // any of index from list should exist
-    assert !csv.isExist(indexes: [1])
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExists+for+Map+input+-+by+index"></iframe>
     @param input Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
@@ -1030,31 +536,15 @@ class CSV {
     data.eachWithIndex { def line, Integer i ->
       if (checkLine(i, input)) {
         ok = true
-  }
+      }
     }
     return ok
   }
 
   /**
     Checks if lines with indexes from list exist in CSV.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExist([0]) // by index
-    assert csv.isExist([0, 1]) // any of index from list should exist
-    assert !csv.isExist([1])
-    }</pre>
-
-    @param input List[Integer] of lines indexes to search
-    @returns True if there is any line in data which corresponds to condition, false otherwise.
-    @see #isExists(Map)
+    @deprecated Use isExistsWithIndex() or 'in' operator instead
+    @see #isExistsWithIndex(List)
   */
   Boolean isExists(List indexes) {
     return isExists(indexes: indexes)
@@ -1062,8 +552,12 @@ class CSV {
 
   /**
     Checks if lines with indexes from list exist in CSV.
-    Alias for #isExists(List)
-    @see #isExists(List)
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExistsWithIndex+for+List+input+-+by+index"></iframe>
+    @param input List[Integer] of lines indexes to search
+    @returns True if there is any line in data which corresponds to condition, false otherwise.
+    @see #isExists(Map)
   */
   Boolean isExistsWithIndex(List indexes) {
     return isExists(indexes)
@@ -1071,9 +565,8 @@ class CSV {
 
   /**
     Checks if line with index exist in CSV.
-    @param input Integer of line index to search
-    @returns True if there is any line in data which corresponds to condition, false otherwise.
-    @see #isExists(Map)
+    @deprecated Use isExistsWithIndex() or 'in' operator instead
+    @see #isExistsWithIndex(Integer)
   */
   Boolean isExists(Integer index) {
     return isExists([index])
@@ -1081,8 +574,12 @@ class CSV {
 
   /**
     Checks if line with index exist in CSV.
-    Alias for #isExists(Integer)
-    @see #isExists(Integer)
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExistsWithIndex+for+Integer+input+-+by+index"></iframe>
+    @param input Integer of line index to search
+    @returns True if there is any line in data which corresponds to condition, false otherwise.
+    @see #isExists(Map)
   */
   Boolean isExistsWithIndex(Integer index) {
     return isExists(index)
@@ -1091,19 +588,8 @@ class CSV {
   /**
     Checks if some line or lines exist in CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExistWhere([1,2]) // by line or its part
-    assert !csv.isExistWhere([2])
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExistsWhere+for+List+input+-+by+line"></iframe>
     @param input Line or its part in List[Object] format to search
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
@@ -1114,21 +600,8 @@ class CSV {
   /**
     Checks if some line or lines exist in CSV.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExist(where: [a: 1]) // by query
-    assert !csv.isExist(where: [b: null])
-    assert csv.isExist(indexes: [0]) // by index
-    assert !csv.isExist(indexes: [1])
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExistsWhere+for+Map+input+-+by+query"></iframe>
     @param input Map[String,Object] query format
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
@@ -1138,6 +611,9 @@ class CSV {
 
   /**
     Checks if some line or lines exist in CSV.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23isExistsWhere+for+String+input+-+by+line"></iframe>
     @param input String line or its part
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
@@ -1147,6 +623,9 @@ class CSV {
 
   /**
     in operator overload. Checks if some line or lines exist in CSV.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#in+operator+for+Integer+input+-+by+index"></iframe>
     @param input Map[String,Object] or List[Object] query format Integer line intex to search.
     @returns True if there is any line with this value of column, false otherwise.
     @see #isExists(Map)
@@ -1161,6 +640,9 @@ class CSV {
 
   /**
     Delete line or lines correspords to condition.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLines+for+Map+input+-+by+index"></iframe>
     @param input Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.
     @returns List[List] of data.
   */
@@ -1176,60 +658,10 @@ class CSV {
   }
 
   /**
-    - operator oevrload, Delete line or lines correspords to condition.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv - [a: 1] // by column name and value
-    assert csv.dataMap == []
-
-    def csv = new CSV(data)
-    csv - 0 // by index
-    assert csv.dataMap == []
-
-    def csv = new CSV(data)
-    csv - [0,1] // multiple lines by their indexes
-    assert csv.dataMap == []
-    }</pre>
-
-    @param input Integer, List[Integer] or Map to search.
-    @see #deleteLines
-  */
-  CSV minus(def item) {
-    if (isInteger(item)) {
-      deleteLinesByIndex(item)
-    } else if (isList(item)) {
-      deleteLinesByIndex(item)
-    } else if (isMap(item)) {
-      deleteLinesWhere(item)
-    }
-    deleteLinesByIndex([item])
-    return this
-  }
-
-  /**
     Delete lines correspords to condition.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.deleteLinesByIndex([0])
-    assert csv.dataMap == []
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLinesByIndex+for+List+input+-+by+index"></iframe>
     @param input List[Integer] of indexes to delete.
     @returns List[List] of data.
   */
@@ -1240,19 +672,8 @@ class CSV {
   /**
     Delete line correspords to condition.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.deleteLinesByIndex(0)
-    assert csv.dataMap == []
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLinesByIndex+for+Integer+input+-+by+index"></iframe>
     @param input Integer of index to delete.
     @returns List[List] of data.
   */
@@ -1263,19 +684,8 @@ class CSV {
   /**
     Delete line or lines correspords to condition.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.deleteLinesWhere([1]) // by line or its part
-    assert csv.dataMap == []
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLinesWhere+for+List+input+-+by+line"></iframe>
     @param input List[Object] to search whole line or line by part and delete.
     @returns List[List] of data.
   */
@@ -1286,19 +696,8 @@ class CSV {
   /**
     Delete line or lines correspords to condition.
     <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    csv.deleteLinesWhere(a: 1)
-    assert csv.dataMap == []
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLinesWhere+for+Map+input+-+by+query"></iframe>
     @param input Map[String,Object] to search and delete.
     @returns List[List] of data.
   */
@@ -1308,7 +707,9 @@ class CSV {
 
   /**
     Delete line by full content or lines by some part.
-
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23deleteLinesWhere+for+String+input+-+by+line"></iframe>
     @param input Map[String,Object] to search and delete.
     @returns List[List] of data.
   */
@@ -1318,8 +719,11 @@ class CSV {
 
   /**
     - operator overload, Delete line or lines correspords to condition.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#-+operator+for+List+input+-+by+index"></iframe>
     @param input Integer, List[Integer] or Map to search.
-    @see #deleteLines
+    @see #deleteLines(Map)
   */
   CSV minus(def item) {
     if (isInteger(item)) {
@@ -1336,29 +740,8 @@ class CSV {
   /**
     Get String CSV interpretation.
     <p>
-    Example:
-    <pre>
-    {@code
-    List header = ['a', 'b', 'c']
-    List data = [
-      [1, 2, 3]
-    ]
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(
-      header    : header,
-      data      : data,
-      delimiter : ';'
-    )
-    assert csv.getCsv() ==
-    """
-    a;b;c
-    1;2;3
-    """
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23getCsv+with+header"></iframe>
     @returns String of CSV data.
   */
   String getCsv() {
@@ -1386,7 +769,10 @@ class CSV {
 
   /**
     Alias of getCsv().
-    @see #getCsv
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#%23toString+is+alias+for+%23getCsv"></iframe>
+    @see #getCsv()
   */
   String toString() {
     return getCsv()
@@ -1395,7 +781,7 @@ class CSV {
   /**
     Alias of toString().
     @deprecated Use toString() or 'as' operator instead
-    @see #toString
+    @see #toString()
   */
   String to() {
     return getCsv()
@@ -1404,36 +790,12 @@ class CSV {
   /**
     Get internal data passed format.
     <p>
-    Example:
-    <pre>
-    {@code
-    List header = ['a', 'b', 'c']
-    List data = [
-      [1, 2, 3]
-    ]
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(
-      header    : header,
-      data      : data,
-      delimiter : ';'
-    )
-    assert csv as String ==
-    """
-    a;b;c
-    1;2;3
-    """
-    assert csv as List == [
-      [1,2,3]
-    ]
-    }</pre>
-
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.CSVSpec.html#as+operator+with+String+type+input+is+alias+for+%23toString"></iframe>
     @param target Class convert value to. Possible values - String or List
     @returns String or List[List] of CSV. If withHeader is set, header prepends to String value as first line, but List is always without header.
-    @see #getCsv
-    @see #getData
+    @see #getCsv()
+    @see #getData()
     @see #withHeader
   */
   def asType(Class target) {
