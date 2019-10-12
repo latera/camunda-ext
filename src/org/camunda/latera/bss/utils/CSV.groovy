@@ -211,9 +211,8 @@ class CSV {
               result << parseLine(line)
             }
           } else if (isMap(line)) {
-            List mapKeys = keysList(line)
             if (!header) {
-              setHeader(mapKeys)
+              setHeader(keysList(line))
             }
             header.each { CharSequence column ->
               item << line[column]
@@ -297,6 +296,9 @@ class CSV {
     @returns List with CSV data
   */
   List parseHeader(def rawHeader) {
+    if (isMap(rawHeader)){
+      return parseLine(keysList(rawHeader))
+    }
     return parseLine(rawHeader)
   }
 
