@@ -111,10 +111,10 @@ class CSV {
     input.remove('skipLines')
     input.remove('withHeader')
 
-    this.delimiter      = this.delimiter      ?: DEFAULT_DELIMITER
-    this.linesDelimiter = this.linesDelimiter ?: DEFAULT_LINES_DELIMITER
-    this.skipLines      = this.skipLines      ?: DEFAULT_SKIP_LINES
-    this.withHeader     = this.withHeader     ?: DEFAULT_WITH_HEADER
+    this.delimiter      = this.delimiter          ?: DEFAULT_DELIMITER
+    this.linesDelimiter = this.linesDelimiter     ?: DEFAULT_LINES_DELIMITER
+    this.skipLines      = this.skipLines          ?: DEFAULT_SKIP_LINES
+    this.withHeader     = this.withHeader != null ? this.withHeader : DEFAULT_WITH_HEADER
     this.header         = []
     this.data           = []
 
