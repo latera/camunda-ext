@@ -793,7 +793,7 @@ class CSV {
           i = toIntSafe(i)
           if (data.size() > i) {
             if (isMap(value)) {
-              data[i] = parseLine(merge(getAt(i), value)) // csv + [0: [column: 'val']] - update line with index 0
+              data[i] = parseLine(merge(getAt(i), value)) // csv + [0: [column1: 'val']] - update line with index 0
             } else {
               data[i] = parseLine(value) // csv + [0: ['first', 'second']]  or csv + [0: 'first;second'] - replace line with index 0
             }
@@ -803,7 +803,16 @@ class CSV {
         addLine(item) // csv + [column: 'val'] - insert new line
       }
     } else {
-      addLines(item)
+      if (isList(item) && item.size() > 0) {
+        def firstLine = item[0]
+        if (isString(firstLine) || isMap(firstLine) || isList(firstLine)) {
+          addLines(item) // csv + ['first;second'], csv + [column1:'first', column2: 'second'], csv + [['first', 'second']],
+        } else {
+          addLine(item) // csv + ['first', 'second']
+        }
+      } else {
+        addLines(item)
+      }
     }
     return this
   }
