@@ -961,37 +961,16 @@ class CSV {
     return this
   }
 
-  /**
-    Checks if line satisfies some condition.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert csv.isExist(where: [a: 1]) // by column name and value
-    assert !csv.isExist(where: [b: null])
-    assert csv.isExist(where: [1]) // by line or its part
-    assert !csv.isExist(where: [0])
-    assert csv.isExist(indexes: [0]) // by index
-    assert csv.isExist(indexes: [0, 1]) // any of index from list should exist
-    assert !csv.isExist(indexes: [1])
-    }</pre>
-
-    @param input Map with 'where' query in Map[String,Object] or List[Object] format or 'indexes' in List[Integer] format to search.
-    @returns True if there is any line in data which corresponds to condition, false otherwise.
-  */
-  Boolean checkLine(Integer i, Map input) {
+  private Boolean checkLine(Integer i, Map input) {
     def line = data[i]
-    Boolean ok = false
 
     if (input.indexes) {
-      if (isList(input.indexes) && i in input.indexes) {
-        ok = true
+      if (isList(input.indexes)){
+        if (i in input.indexes) {
+          return true
+        }
+      } else (isInteger(input.indexes) && i == input.indexes) {
+        return true
       }
     } else if (input.where) {
       Integer _skip = 0
@@ -1003,7 +982,7 @@ class CSV {
           }
         }
         if (_skip == keysCount(input.where)) {
-          ok = true
+          return true
         }
       } else if (isList(input.where)) {
         input.where.eachWithIndex { def value, Integer column ->
@@ -1012,11 +991,11 @@ class CSV {
           }
         }
         if (_skip == input.where.size()) {
-          ok = true
+          return true
         }
       }
     }
-    return ok
+    return false
   }
 
   /**
@@ -1044,44 +1023,14 @@ class CSV {
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
   Boolean isExists(Map input) {
+    Boolean ok = false
     List result = []
     data.eachWithIndex { def line, Integer i ->
       if (checkLine(i, input)) {
-        return true
-      }
-    }
-    return false
+        ok = true
   }
-
-  /**
-    in operator overload. Checks if some line or lines exist in CSV.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String data =
-    """
-    a;b;c
-    1;2;3
-    """
-    def csv = new CSV(data)
-    assert 0 in csv // by index
-    assert [a: 1] in csv // by query
-    assert !([b: null] in csv)
-    }</pre>
-
-    @param inputMap[String,Object] or List[Object] query format Integer line intex to search.
-    @returns True if there is any line with this value of column, false otherwise.
-    @see #isExists(Map)
-    @see #isExistsWhere(Map)
-  */
-  Boolean isCase(def item) {
-    if (isMap(item)) {
-      return isExistsWhere(item)
-    } else if (isList(item)) {
-      return isExists(item)
     }
-    return isExists([item])
+    return ok
   }
 
   /**
