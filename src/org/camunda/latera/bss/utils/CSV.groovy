@@ -124,9 +124,9 @@ class CSV {
     }
 
     if (input.data) {
-      this.setData(input.data)
+      this.setData(input.data, skipLines)
     } else {
-      this.setData([input])
+      this.setData([input], skipLines)
     }
   }
 
@@ -179,35 +179,11 @@ class CSV {
 
   /**
     Parser of CSV data into internal format.
-    <p>
-    Example:
-    <pre>
-    {@code
-    String str =
-    """
-    a;b;c
-    1;2;3
-    """
-    List listOfStrings = [
-      "a;b;c",
-      "1;2;3"
-    ]
-    List listOfMaps = [
-      [a:1,  b:2,  c:3],
-      [a:10, b:20, c:30]
-    ]
-    List listOfLists = [
-      ['a', 'b', 'c'],
-      [1,    2,    3]
-    ]
-    csv.parseLines(str) // or listOfStrings, or listOfMaps, or listOfLists
-    }</pre>
-
     @param lines String, List[String], List[Map], or List[List] with CSV data.
     @param skipLines [optional] @see #skipLines
     @returns List[List] with CSV data
   */
-  List parseLines(def lines, Integer _skipLines = skipLines) {
+  List parseLines(def lines, Integer _skipLines = 0) {
     List result = []
     if (lines) {
       if (isString(lines)) {
@@ -460,18 +436,19 @@ class CSV {
 
     @param lines String, List[String], List[Map], or List[List] with CSV data.
   */
-  CSV setData(def lines) {
+  CSV setData(def lines, Integer _skipLines = 0) {
     clear()
     if (!header && isList(lines)) {
-      List linesToParse = lines.drop(skipLines)
+      List linesToParse = lines.drop(_skipLines)
       if (linesToParse.size() > 0) {
         def firstLine = linesToParse[0]
         if (isList(firstLine)) {
           setHeader(firstLine)
+          _skipLines = 0
         }
       }
     }
-    addLines(lines, skipLines)
+    addLines(lines, _skipLines)
     return this
   }
 
@@ -631,8 +608,8 @@ class CSV {
     @param lines List[String], List[Map], or List[List] with CSV data.
     @returns List[List] ot internal data.
   */
-  List addLines(def lines) {
-    data += parseLines(lines)
+  List addLines(def lines, Integer _skipLines = 0) {
+    data += parseLines(lines, _skipLines)
     return data
   }
 
