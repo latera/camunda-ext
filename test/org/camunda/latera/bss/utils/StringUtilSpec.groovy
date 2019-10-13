@@ -2,7 +2,6 @@ package org.camunda.latera.bss.utils
 
 import spock.lang.*
 import java.nio.charset.Charset
-import org.codehaus.groovy.runtime.GStringImpl
 import org.camunda.latera.bss.utils.StringUtil
 
 class StringUtilSpec extends Specification {

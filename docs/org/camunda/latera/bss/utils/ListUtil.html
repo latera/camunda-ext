@@ -138,43 +138,43 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#forceNvl(java.util.List)">forceNvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#forceNvl(java.util.List)">forceNvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Return list without null, '', 'null' and 'NULL' items.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isByteArray(def)">isByteArray</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#isByteArray(def)">isByteArray</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Check if input is byte[]</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isList(def)">isList</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#isList(def)">isList</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Check if input is List or Array</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#lowerCase(java.util.List)">lowerCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#lowerCase(java.util.List)">lowerCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Change string items case of list or array to lower</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#nvl(java.util.List)">nvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#nvl(java.util.List)">nvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Remove null items, coerse '', 'null' and 'NULL' items of list as null, return others unchanged.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#parse(def)">parse</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#parse(def)">parse</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Parse input as list value.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#upperCase(java.util.List)">upperCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#upperCase(java.util.List)">upperCase</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Change string items case of list or array to upper</td>
                         </tr>
                         
                     </table>
@@ -231,7 +231,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>forceNvl</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
+                                <p>
+    Return list without null, '', 'null' and 'NULL' items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23forceNvl"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[String]</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -239,7 +244,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isByteArray</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
-                                <p></p>
+                                <p>
+    Check if input is byte[]
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isByteArray"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Any object for type check</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -247,7 +257,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isList</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
-                                <p></p>
+                                <p>
+    Check if input is List or Array
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isList"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Any object for type check</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -255,7 +270,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>lowerCase</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
+                                <p>
+    Change string items case of list or array to lower
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23lowerCase"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[String]</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -263,7 +283,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>nvl</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
+                                <p>
+    Remove null items, coerse '', 'null' and 'NULL' items of list as null, return others unchanged.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23nvl"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[String]</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -271,7 +296,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>parse</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
-                                <p></p>
+                                <p>
+    Parse input as list value.
+    <p>
+    '[...]' became list, [...] returned unchanged, non-list values became a list with just one item.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23parse"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List, String with JSON array or Any value</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -279,7 +311,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>upperCase</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
+                                <p>
+    Change string items case of list or array to upper
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23upperCase"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[String]</DD></DL></p>
                             </li>
                         </ul>
                     
