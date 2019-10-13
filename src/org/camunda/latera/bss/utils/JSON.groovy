@@ -8,41 +8,70 @@ import static org.camunda.latera.bss.utils.ListUtil.isList
 import static org.camunda.latera.bss.utils.MapUtil.isMap
 
 class JSON {
-  static def escape(obj) {
-    if (isMap(obj)) {
+  /**
+    Convert some class values before get JSON representation.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23escape"></iframe>
+    @param input Any object
+  */
+  static def escape(def input) {
+    if (isMap(input)) {
       LinkedHashMap newMap = [:]
-      obj.each { def k, def v ->
+      input.each { def k, def v ->
         newMap[k] = escape(v)
       }
       return newMap
-    } else if (isList(obj)) {
+    } else if (isList(input)) {
       List newList = []
-      obj.each { def item ->
+      input.each { def item ->
         newList << escape(item)
       }
       return newList
-    } else if (isDate(obj)) {
-      return iso(obj)
-    } else if (obj instanceof CSV) {
-      return obj.dataMap
+    } else if (isDate(input)) {
+      return iso(input)
+    } else if (input instanceof CSV) {
+      return input.dataMap
     } else {
-      return obj
+      return input
     }
   }
 
-  static String to(Object obj) {
-    return JsonOutput.toJson(escape(obj))
+  /**
+    Get object JSON representation.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23to"></iframe>
+    @param input Any object
+  */
+  static String to(def input) {
+    return JsonOutput.toJson(escape(input))
   }
 
+  /**
+    Prettify JSON input.
+    @param json String with JSON representation
+  */
   static String pretty(CharSequence json) {
     return JsonOutput.prettyPrint(json)
   }
 
-  static String pretty(Object obj) {
-    return pretty(to(obj))
+  /**
+    Get object prettified JSON representation.
+    @param input Any object
+  */
+  static String pretty(def input) {
+    return pretty(to(input))
   }
 
-  static Object from(CharSequence json) {
+  /**
+    Parse JSON value to object
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23from"></iframe>
+    @param json String with JSON representation
+  */
+  static def from(CharSequence json) {
     return new JsonSlurper().parseText(json)
   }
 }

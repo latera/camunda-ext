@@ -138,31 +138,31 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
-                            <td class="colLast"><code><strong><a href="#escape(def)">escape</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> obj)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#escape(def)">escape</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Convert some class values before get JSON representation.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a></code></td>
-                            <td class="colLast"><code><strong><a href="#from(java.lang.CharSequence)">from</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</code><br></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
+                            <td class="colLast"><code><strong><a href="#from(java.lang.CharSequence)">from</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</code><br>Parse JSON value to object</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#pretty(java.lang.CharSequence)">pretty</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#pretty(java.lang.CharSequence)">pretty</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</code><br>Prettify JSON input.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#pretty(java.lang.Object)">pretty</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a> obj)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#pretty(def)">pretty</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Get object prettified JSON representation.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#to(java.lang.Object)">to</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a> obj)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#to(def)">to</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</code><br>Get object JSON representation.</td>
                         </tr>
                         
                     </table>
@@ -218,16 +218,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="escape(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>escape</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> obj)</h4>
-                                <p></p>
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>escape</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
+                                <p>
+    Convert some class values before get JSON representation.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23escape"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Any object</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="from(java.lang.CharSequence)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a> <strong>from</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</h4>
-                                <p></p>
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>from</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</h4>
+                                <p>
+    Parse JSON value to object
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23from"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>json</code> -  String with JSON representation</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -235,23 +245,32 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>pretty</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> json)</h4>
-                                <p></p>
+                                <p>
+    Prettify JSON input.
+  <DL><DT><B>Parameters:</B></DT><DD><code>json</code> -  String with JSON representation</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="pretty(java.lang.Object)"><!-- --></a>
+                        <a name="pretty(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>pretty</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a> obj)</h4>
-                                <p></p>
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>pretty</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
+                                <p>
+    Get object prettified JSON representation.
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Any object</DD></DL></p>
                             </li>
                         </ul>
                     
-                        <a name="to(java.lang.Object)"><!-- --></a>
+                        <a name="to(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>to</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='Object'>Object</a> obj)</h4>
-                                <p></p>
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>to</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> input)</h4>
+                                <p>
+    Get object JSON representation.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23to"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Any object</DD></DL></p>
                             </li>
                         </ul>
                     

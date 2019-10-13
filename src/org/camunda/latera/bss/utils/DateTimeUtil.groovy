@@ -9,18 +9,20 @@ import java.time.temporal.Temporal
 import java.time.temporal.ChronoUnit
 
 class DateTimeUtil {
-  static DateTimeFormatter ISO_FORMAT       = DateTimeFormatter.ISO_OFFSET_DATE_TIME
-  static DateTimeFormatter ISO_FORMAT_NO_TZ = DateTimeFormatter.ISO_LOCAL_DATE_TIME
-  static DateTimeFormatter DATE_FORMAT      = DateTimeFormatter.ofPattern('yyyy-MM-dd')
-  static DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
-  static DateTimeFormatter FULL_DATE_FORMAT = DateTimeFormatter.ofPattern('dd MMMM yyyy')
+  static DateTimeFormatter ISO_FORMAT              = DateTimeFormatter.ISO_OFFSET_DATE_TIME
+  static DateTimeFormatter ISO_FORMAT_NO_TZ        = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+  static DateTimeFormatter ISO_DATE_FORMAT         = DateTimeFormatter.ISO_OFFSET_DATE
+  static DateTimeFormatter ISO_DATE_FORMAT_NO_TZ   = DateTimeFormatter.ISO_LOCAL_DATE
+  static DateTimeFormatter DATE_FORMAT             = DateTimeFormatter.ofPattern('yyyy-MM-dd')
+  static DateTimeFormatter DATE_TIME_FORMAT        = DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm:ss')
+  static DateTimeFormatter FULL_DATE_FORMAT        = DateTimeFormatter.ofPattern('dd MMMM yyyy')
   static DateTimeFormatter DAY_FORMAT              = DateTimeFormatter.ofPattern('dd')
   static DateTimeFormatter MONTH_FORMAT            = DateTimeFormatter.ofPattern('MM')
   static DateTimeFormatter MONTH_FULL_FORMAT       = DateTimeFormatter.ofPattern('MMMM')
   static DateTimeFormatter YEAR_FORMAT             = DateTimeFormatter.ofPattern('yyyy')
   static DateTimeFormatter SIMPLE_DATE_FORMAT      = DateTimeFormatter.ofPattern('dd.MM.yyyy')
   static DateTimeFormatter SIMPLE_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('dd.MM.yyyy HH:mm:ss')
-  static String DATE_TIME_FORMAT_ORACLE = 'DD.MM.YYYY HH24:MI:SS'
+  static String DATE_TIME_FORMAT_ORACLE            = 'DD.MM.YYYY HH24:MI:SS'
 
   static LocalDateTime now() {
     return LocalDateTime.now()
@@ -30,36 +32,48 @@ class DateTimeUtil {
     def result = null
     try {
       result = parseDateTimeIso(input)
+    } catch (Exception e) {
+      result = null
+    }
+    if (result) {
       return result
-    } catch (Exception e) {}
+    }
+
     try {
       result = parseDateTime(input)
+    } catch (Exception e) {
+      result = null
+    }
+    if (result) {
       return result
-    } catch (Exception e) {}
+    }
+
     try {
       result = parseDate(input)
-      return result
-    } catch (Exception e) {}
+    } catch (Exception e) {
+      result = null
+    }
 
-    return null
+    return result
   }
 
   static def parseDateTimeIso(CharSequence input) {
     def result = null
     try {
       result = parseIso(input)
-      return result
     } catch (Exception e) {
       result = null
+    }
+    if (result) {
+      return result
     }
 
     try {
       result = parseIsoNoTZ(input)
-      return result
     } catch (Exception e) {
       result = null
     }
-    return null
+    return result
   }
 
   static def parseDateTime(CharSequence input) {
@@ -68,28 +82,15 @@ class DateTimeUtil {
       DATE_TIME_FORMAT,
       SIMPLE_DATE_TIME_FORMAT
     ].each {format ->
-      try {
-        result = parse(input, format)
-        return result
-      } catch (Exception e) {
-        result = null
+      if (!result) {
+        try {
+          result = parse(input, format)
+        } catch (Exception e) {
+          result = null
+        }
       }
     }
-    return null
-  }
-
-  static def parseDate(CharSequence input) {
-    [
-      DATE_FORMAT,
-      SIMPLE_DATE_FORMAT
-    ].each {format ->
-      try {
-        def result = parse(input, format)
-        return result
-      } catch (Exception e) {
-      }
-    }
-    return null
+    return result
   }
 
   static LocalDateTime parse(
@@ -99,12 +100,55 @@ class DateTimeUtil {
     return LocalDateTime.parse(input, format)
   }
 
+  static def parseDate(CharSequence input) {
+    def result = null
+    [
+      DATE_FORMAT,
+      SIMPLE_DATE_FORMAT
+    ].each { def format ->
+      if (!result) {
+        try {
+          result = parse(input, format)
+        } catch (Exception e) {
+          result = null
+        }
+      }
+    }
+    return result
+  }
+
   static LocalDateTime parseIsoNoTZ(CharSequence input) {
-    return ZonedDateTime.parse(input, ISO_FORMAT_NO_TZ)
+    def result = null
+    [
+      ISO_FORMAT_NO_TZ,
+      ISO_DATE_FORMAT_NO_TZ
+    ].each { def format ->
+      if (!result) {
+        try {
+          result = parse(input, format)
+        } catch (Exception e) {
+          result = null
+        }
+      }
+    }
+    return result
   }
 
   static ZonedDateTime parseIso(CharSequence input) {
-    return ZonedDateTime.parse(input, ISO_FORMAT)
+    def result = null
+    [
+      ISO_FORMAT,
+      ISO_DATE_FORMAT
+    ].each { def format ->
+      if (!result) {
+        try {
+          result = ZonedDateTime.parse(input, format)
+        } catch (Exception e) {
+          result = null
+        }
+      }
+    }
+    return result
   }
 
   static String format(
@@ -112,7 +156,7 @@ class DateTimeUtil {
     def format = this.SIMPLE_DATE_FORMAT,
     CharSequence locale = 'en'
   ) {
-    return input.format(format.withLocale(new Locale(locale)))
+    return local(input).format(format.withLocale(new Locale(locale)))
   }
 
   static String format(
