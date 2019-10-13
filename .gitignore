@@ -4,3 +4,6 @@
 activiti-ext.iml
 dst/*
 target/*
+.env
+.sonarqube
+.postgresql
