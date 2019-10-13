@@ -53,7 +53,7 @@ trait Country {
     return createEntity(getCountryEntityType(), params)
   }
 
-  Map updateCountry(def id, Map data, Map additionalParams = [:]) {
+  Map updateCountry(def id, Map input, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryParams(input, additionalParams)
     return updateEntity(getCountryEntityType(), id, params)
   }
@@ -87,9 +87,9 @@ trait Country {
 
   private Map getCountryStateParamsMap(Map params) {
     return [
-      code       : input.code,
-      name       : input.name,
-      country_id : input.countryId
+      code       : params.code,
+      name       : params.name,
+      country_id : params.countryId
     ]
   }
 

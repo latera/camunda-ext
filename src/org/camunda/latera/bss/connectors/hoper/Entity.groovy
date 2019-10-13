@@ -3,27 +3,6 @@ package org.camunda.latera.bss.connectors.hoper.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 trait Entity {
-  private Map getEntityDefaultParams() {
-    return [:]
-  }
-
-  private Map getEntityParamsMap(Map params) {
-    return [:]
-  }
-
-  private Map getPaginationDefaultParams() {
-    return [
-      perPage : 10,
-      page    : 1
-    ]
-  }
-
-  private Map getEntityParams(Map input) {
-    LinkedHashMap params = getEntityDefaultParams() + input
-    LinkedHashMap where  = getEntityParamsMap(params)
-    return getEntityParamsMap(params)
-  }
-
   Map getEntity(Map type, def id, Map query = [:]) {
     LinkedHashMap result = null
     try {

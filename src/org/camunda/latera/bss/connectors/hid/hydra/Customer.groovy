@@ -296,7 +296,7 @@ trait Customer {
   }
 
   Boolean enableCustomer(def customerId) {
-    enableSubject(subjectId)
+    enableSubject(customerId)
   }
 
   Boolean suspendCustomer(def customerId) {

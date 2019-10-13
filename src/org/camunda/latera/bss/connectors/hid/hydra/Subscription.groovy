@@ -288,7 +288,7 @@ trait Subscription {
       hid.execute('SI_USERS_PKG.SI_USER_GOODS_CLOSE', [
         num_N_SUBJ_GOOD_ID : subscriptionId,
         dt_D_END           : endDate,
-        b_InvoiceEnd       : encodeFlag(setInvoiceDate),
+        b_InvoiceEnd       : encodeFlag(closeChargeLog),
       ])
       logger.info("   Subscription closed successfully!")
       return true

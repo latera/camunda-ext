@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.utils
 
-import groovy.lang.GroovyObject
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
@@ -11,8 +10,6 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.iso
 import static org.camunda.latera.bss.utils.ListUtil.forceNvl
 import static org.camunda.latera.bss.utils.ListUtil.parse as parseList
 import static org.camunda.latera.bss.utils.MapUtil.parse  as parseMap
-import org.camunda.latera.bss.utils.CSV
-import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.connectors.Minio
 
 class Order implements GroovyObject {

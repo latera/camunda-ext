@@ -4,7 +4,6 @@ import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.StringUtil.trim
 import static org.camunda.latera.bss.utils.StringUtil.forceIsEmpty
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
-import org.camunda.latera.bss.utils.JSON
 
 class ListUtil {
   static Boolean isList(def input) {

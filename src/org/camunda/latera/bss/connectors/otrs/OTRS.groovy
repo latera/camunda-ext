@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.connectors
 
-import groovyx.net.http.HttpException
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger

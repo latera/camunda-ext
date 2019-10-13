@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.internal
 
-import java.math.BigInteger
 import java.util.concurrent.ConcurrentHashMap
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 

@@ -3,8 +3,6 @@ package org.camunda.latera.bss.connectors
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.camunda.latera.bss.utils.Numeric
-import java.text.DecimalFormat
 import static org.camunda.latera.bss.utils.MapUtil.snakeCaseKeys
 import static org.camunda.latera.bss.utils.MapUtil.deepSnakeCaseKeys
 
@@ -12,7 +10,6 @@ class DadataSuggest {
   String url
   String version
   private String token
-  private String secret
   HTTPRestProcessor http
   SimpleLogger logger
 
@@ -144,7 +141,7 @@ class DadataSuggest {
   }
 
   List suggestBanks(Map data, CharSequence input) {
-    return suggestList('bank', input, limit)
+    return suggestList('bank', input, data)
   }
 
   List suggestBanks(CharSequence input, Integer limit = 10) {

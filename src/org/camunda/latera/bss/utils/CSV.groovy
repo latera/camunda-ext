@@ -532,7 +532,6 @@ class CSV {
   */
   Boolean isExists(Map input) {
     Boolean ok = false
-    List result = []
     data.eachWithIndex { def line, Integer i ->
       if (checkLine(i, input)) {
         ok = true

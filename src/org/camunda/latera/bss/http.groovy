@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.http
 
-import java.net.URL
 import groovyx.net.http.HttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
@@ -76,14 +75,14 @@ class HTTPRestProcessor {
       logger.info("Content-Type: ${response.contentType}")
       logger.info("Response data: -----")
       if (data) {
-        if (!supress) {
+        if (supress) {
+          logger.info("*Supressing response data*")
+        } else {
           if (data instanceof byte[]) {
             logger.info(new String(data))
           } else {
             logger.info(data.toString())
           }
-        } else {
-          logger.info("*Supressing response data*")
         }
       } else {
         logger.info("*Empty response*")
@@ -121,10 +120,10 @@ class HTTPRestProcessor {
     }
     if (params.body || params.query) {
       logger.info("Request data: ------")
-      if (!supressRequestBody) {
-        logger.info(params.body ? params.body.toString() : params.query.toString())
-      } else {
+      if (supressRequestBody) {
         logger.info("*Supressing request data*")
+      } else {
+        logger.info(params.body ? params.body.toString() : params.query.toString())
       }
       logger.info("--------------------")
     }

@@ -279,7 +279,7 @@ trait Document {
   }
 
   Boolean isDocument(CharSequence docType) {
-    return entityType.contains('DOC')
+    return docType.contains('DOC')
   }
 
   Boolean isDocument(def docIdOrDocTypeId) {

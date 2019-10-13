@@ -404,7 +404,6 @@ trait Region {
   Number createRegionTree(Map input) {
     logger.info("Trying to create region ${input}")
     def regionId       = 0
-    Integer typeIndex  = 0
     Map existingRegion = [:]
     Map region         = [:]
 

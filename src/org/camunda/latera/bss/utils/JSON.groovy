@@ -2,7 +2,6 @@ package org.camunda.latera.bss.utils
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
-import org.camunda.latera.bss.utils.CSV
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.DateTimeUtil.iso
 import static org.camunda.latera.bss.utils.ListUtil.isList

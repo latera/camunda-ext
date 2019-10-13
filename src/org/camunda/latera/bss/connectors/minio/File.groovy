@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.connectors.minio
 
-import java.io.InputStream
 import static org.camunda.latera.bss.utils.IO.getStream
 import static org.camunda.latera.bss.utils.Base64Converter.to as toBase64
 import static org.camunda.latera.bss.utils.Base64Converter.from as fromBase64
@@ -110,7 +109,7 @@ trait File {
 
   Map getFileMetadata(CharSequence bucketName, CharSequence fileName) {
     try {
-      return getFiles(bucketName ?: defaultBucketName, filename)?.getAt(0)
+      return getFiles(bucketName ?: defaultBucketName, fileName)?.getAt(0)
     } catch (MinioException e) {
       logger.error(e)
       return null
@@ -245,6 +244,6 @@ trait File {
   }
 
   Boolean deleteFile(List fileNames) {
-    return deleteFile(defaultBucketName, fileName)
+    return deleteFile(defaultBucketName, fileNames)
   }
 }

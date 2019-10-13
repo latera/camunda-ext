@@ -1,6 +1,5 @@
 package org.camunda.latera.bss.utils
 
-import java.util.Locale
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId

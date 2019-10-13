@@ -7,7 +7,9 @@ class Numeric {
   static def toIntSafe(def value, def defaultValue = null) {
     if (!value.respondsTo("toBigInteger")) {
       return defaultValue
-    } else try {
+    }
+
+    try {
       return value.toBigInteger()
     }
     catch (NumberFormatException e) {
@@ -18,7 +20,9 @@ class Numeric {
   static def toFloatSafe(def value, def defaultValue = null) {
     if (!value.respondsTo("toBigDecimal")) {
       return defaultValue
-    } else try {
+    }
+
+    try {
       if (isString(value)) {
         value = value.replace(',', '.')
       }

@@ -225,7 +225,7 @@ trait Ticket {
   }
 
   Map updateTicketDynamicField(def id, CharSequence name, def value = null) {
-    List dynamicFields = [[name: value]]
+    List dynamicFields = [["${name}": value]]
     return updateTicket(id, [:], [], dynamicFields)
   }
 

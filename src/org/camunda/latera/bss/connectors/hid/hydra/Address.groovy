@@ -682,7 +682,7 @@ trait Address {
         Boolean after = decodeBool(it[1])
         String  name  = it[2]
         if (forceNotEmpty(name)) {
-          String item = (!after ? (part ?  part + ' ' : '') : '') + name + (after ? (part ?  ' ' + part : '') : '')
+          String item = (after ? '' : (part ?  part + ' ' : '')) + name + (after ? (part ?  ' ' + part : '') : '')
           address << item
         }
       }
@@ -1011,7 +1011,7 @@ trait Address {
       AND OA.N_ADDRESS_ID        = FA.N_ADDRESS_ID
       AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
     )"""
-    String notAssignedChild = params.mask != '30' ? """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+    String notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
       SELECT 1
       FROM
           SI_V_OBJ_ADDRESSES OA,
@@ -1028,7 +1028,7 @@ trait Address {
           RP.N_PAR_ADDR_ID       = FA.N_ADDRESS_ID
       CONNECT BY PRIOR
           RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
-    )""" : '1=1'
+    )"""
 
     // WARN Чтобы получение подсети работало, подсети нужного размера должны быть нарезаны
     try {

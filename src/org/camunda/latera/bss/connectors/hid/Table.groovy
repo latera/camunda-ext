@@ -1,7 +1,6 @@
 package org.camunda.latera.bss.connectors.hid
 
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
-import static org.camunda.latera.bss.utils.DateTimeUtil.iso
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.ListUtil.lowerCase
 import static org.camunda.latera.bss.utils.ListUtil.isList

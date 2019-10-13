@@ -95,7 +95,7 @@ class HOMS {
       ]
     ]
     logger.info('/ Saving order data...')
-    def result = this.http.sendRequest(
+    this.http.sendRequest(
       'put',
       path: "orders/${homsOrderCode}",
       body: body

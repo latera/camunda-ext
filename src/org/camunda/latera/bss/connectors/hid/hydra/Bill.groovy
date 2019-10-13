@@ -46,7 +46,7 @@ trait Bill {
   }
 
   String getDefaultPrepaidBillWorkflow() {
-    return DEFAULT_PREPAID_BILL_WORKFLOW
+    return DEFAULT_PREPAYMENT_BILL_WORKFLOW
   }
 
   Number getDefaultPrepaidBillWorkflowId() {

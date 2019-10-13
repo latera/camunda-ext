@@ -84,9 +84,6 @@ trait Good {
   }
 
   Number getGoodUnitId(def goodId) {
-    LinkedHashMap where = [
-      n_good_id: goodId
-    ]
     return toIntSafe(getGood(goodId).n_unit_id)
   }
 

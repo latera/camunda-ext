@@ -459,7 +459,7 @@ trait Equipment {
   }
 
   Map updateEquipmentEntry(def equipmentId, def entryId, Map input) {
-    return updateEquipmentEntry(input + [equipmentId: equipmentId, componentId: componentId])
+    return updateEquipmentEntry(input + [equipmentId: equipmentId, componentId: entryId])
   }
 
   Map updateEquipmentEntry(Map input, def equipmentId, def entryId) {
@@ -715,7 +715,7 @@ trait Equipment {
   }
 
   Boolean deleteObjectAddParam(Map input) {
-    return deleteEquipmentAddParam(objValueId)
+    return deleteEquipmentAddParam(input)
   }
 
   List getEquipmentBindsBy(Map input) {
