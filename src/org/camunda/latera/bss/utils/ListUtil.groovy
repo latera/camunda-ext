@@ -73,7 +73,7 @@ class ListUtil {
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23parse"></iframe>
-    @param input List, String with JSON array or Any value
+    @param input List, null, String with JSON array or Any value
   */
   static List parse(def input) {
     List result = []
@@ -119,6 +119,8 @@ class ListUtil {
 
   /**
     Return list without null, '', 'null' and 'NULL' items.
+    <p>
+    Like #nvl(List), but remove more items.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23forceNvl"></iframe>

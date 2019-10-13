@@ -204,11 +204,11 @@ class StringUtilSpec extends Specification {
     StringUtil.snakeCase(input) == result
 
     where:
-    input      |result
-    'some'     |'some'
-    'someText' |'some_text'
-    'SomeText' |'some_text'
-    ''         |''
+    input       |result
+    'some'      |'some'
+    'someText'  |'some_text'
+    'SomeText'  |'some_text'
+    ''          |''
   }
 
   def "#capitalize"() {
@@ -250,16 +250,16 @@ class StringUtilSpec extends Specification {
     StringUtil.join(input, delimiter) == result
 
     where:
-    input                        |delimiter|result
-    [1,2]                        |','      |'1,2'
-    [1,2]                        |' '      |'1 2'
-    [1,2]                        |';'      |'1;2'
-    [1,2,null,'','null',0,false] |','      |'1,2,null,,null,0,false'
-    [1,2,null,'','null',0,false] |' '      |'1 2 null  null 0 false'
-    [1,2,null,'','null',0,false] |';'      |'1;2;null;;null;0;false'
-    []                           |','      |''
-    []                           |';'      |''
-    []                           |' '      |''
+    input                        |delimiter||result
+    [1,2]                        |','      ||'1,2'
+    [1,2]                        |' '      ||'1 2'
+    [1,2]                        |';'      ||'1;2'
+    [1,2,null,'','null',0,false] |','      ||'1,2,null,,null,0,false'
+    [1,2,null,'','null',0,false] |' '      ||'1 2 null  null 0 false'
+    [1,2,null,'','null',0,false] |';'      ||'1;2;null;;null;0;false'
+    []                           |','      ||''
+    []                           |';'      ||''
+    []                           |' '      ||''
   }
 
   def "#joinNonEmpty"() {
@@ -267,28 +267,28 @@ class StringUtilSpec extends Specification {
     StringUtil.joinNonEmpty(input, delimiter) == result
 
     where:
-    input                        |delimiter|result
-    [1,2]                        |','      |'1,2'
-    [1,2]                        |' '      |'1 2'
-    [1,2]                        |';'      |'1;2'
-    [1,2,null,'','null',0,false] |','      |'1,2'
-    [1,2,null,'','null',0,false] |' '      |'1 2'
-    [1,2,null,'','null',0,false] |';'      |'1;2'
-    []                           |','      |''
-    []                           |';'      |''
-    []                           |' '      |''
+    input                        |delimiter||result
+    [1,2]                        |','      ||'1,2'
+    [1,2]                        |' '      ||'1 2'
+    [1,2]                        |';'      ||'1;2'
+    [1,2,null,'','null',0,false] |','      ||'1,2'
+    [1,2,null,'','null',0,false] |' '      ||'1 2'
+    [1,2,null,'','null',0,false] |';'      ||'1;2'
+    []                           |','      ||''
+    []                           |';'      ||''
+    []                           |' '      ||''
   }
 
   def "#random"() {
     expect:
-    StringUtil.random(inputLen).size() == resultLen
-    StringUtil.random(inputLen) != StringUtil.random(inputLen)
+    StringUtil.random(length).size() == length
+    StringUtil.random(length) != StringUtil.random(length)
 
     where:
-    inputLen|resultLen
-    6       |6
-    7       |7
-    8       |8
+    length| _
+    6     | _
+    7     | _
+    8     | _
   }
 
   def "#unicodeToVarchar"() {
@@ -313,14 +313,14 @@ class StringUtilSpec extends Specification {
     StringUtil.varcharToUnicode(input) == result
 
     where:
-    input                |result
-    [116, 101, 115, 116] |'test'
-    [84,  101, 115, 116] |'Test'
-    [48]                 |'0'
-    [32]                 |' '
-    ''                   |null
-    []                   |null
-    null                 |null
+    input               |result
+    [116, 101, 115, 116]|'test'
+    [84,  101, 115, 116]|'Test'
+    [48]                |'0'
+    [32]                |' '
+    ''                  |null
+    []                  |null
+    null                |null
   }
 
   def "#unicodeToCP1251"() {
@@ -350,7 +350,7 @@ class StringUtilSpec extends Specification {
     [84,  101, 115, 116]|'Test'
     [48]                |'0'
     [32]                |' '
-    ''                   |null
+    ''                  |null
     []                  |null
     null                |null
   }

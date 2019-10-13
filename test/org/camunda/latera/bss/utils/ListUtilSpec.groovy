@@ -87,6 +87,7 @@ class ListUtilSpec extends Specification {
     '["a"]'  |['a']
     'null'   |['null']
     '[null]' |[null]
+    false    |[false]
     'false'  |['false']
     '[false]'|[false]
     [:]      |[[:]]

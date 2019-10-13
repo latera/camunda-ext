@@ -1728,8 +1728,8 @@ m e</td>
 <div class='block-kind'>Expect:</div>
 </td>
 <td>
-<pre class='block-source'>StringUtil.random(inputLen).size() == resultLen
-StringUtil.random(inputLen) != StringUtil.random(inputLen)</pre>
+<pre class='block-source'>StringUtil.random(length).size() == length
+StringUtil.random(length) != StringUtil.random(length)</pre>
 </td>
 </tr>
 <tr>
@@ -1740,22 +1740,18 @@ StringUtil.random(inputLen) != StringUtil.random(inputLen)</pre>
 <div class='spec-examples'>
 <table class='ex-table'>
 <thead>
-<th class='ex-header'>inputLen</th>
-<th class='ex-header'>resultLen</th>
+<th class='ex-header'>length</th>
 </thead>
 <tbody>
 <tr class='ex-pass'>
 <td class='ex-value'>6</td>
-<td class='ex-value'>6</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
 <td class='ex-value'>7</td>
-<td class='ex-value'>7</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
-<td class='ex-value'>8</td>
 <td class='ex-value'>8</td>
 <td class='ex-result'>OK</td>
 </tr>

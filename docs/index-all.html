@@ -226,7 +226,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/StringUtil.html#camelize(java.util.Map, java.lang.CharSequence)" title="Method in StringUtil">camelize(Map, CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/utils/StringUtil.html">StringUtil</a>
 </dt><dd> <div class="block">Alias for #camelize with named args.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#camelizeKeys(java.util.List, java.lang.Boolean)" title="Method in MapUtil">camelizeKeys(List, Boolean)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Convert map keys to camelCase.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#cancelBill(def)" title="Method in Bill">cancelBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#cancelDocument(def)" title="Method in Document">cancelDocument(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
@@ -413,9 +413,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/Oracle.html#decodeNull(def)" title="Method in Oracle">decodeNull(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/Oracle.html">Oracle</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#deepCamelizeKeys(java.util.List, java.lang.Boolean)" title="Method in MapUtil">deepCamelizeKeys(List, Boolean)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Convert map keys to camelCase.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#deepSnakeCaseKeys(java.util.List)" title="Method in MapUtil">deepSnakeCaseKeys(List)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Convert map keys to snake_case.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Address.html#deleteAddress(def, def, def)" title="Method in Address">deleteAddress(def, def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Address.html">Address</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/minio/Bucket.html#deleteBucket(java.lang.CharSequence)" title="Method in Bucket">deleteBucket(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/minio/Bucket.html">Bucket</a>
@@ -581,7 +581,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/ListUtil.html#forceNvl(java.util.List)" title="Method in ListUtil">forceNvl(List)</a></span> - Method in <a href="org/camunda/latera/bss/utils/ListUtil.html">ListUtil</a>
 </dt><dd> <div class="block">Return list without null, '', 'null' and 'NULL' items.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#forceNvl(java.util.Map)" title="Method in MapUtil">forceNvl(Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Remove null, '', 'null' and 'NULL' values from map, return other values and all keys unchanged.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/StringUtil.html#forceNvl(def)" title="Method in StringUtil">forceNvl(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/StringUtil.html">StringUtil</a>
 </dt><dd> <div class="block">Convert 'null', 'NULL' and empty Strings to null value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/DateTimeUtil.html#format(java.util.LinkedHashMap, java.time.ZonedDateTime)" title="Method in DateTimeUtil">format(LinkedHashMap, ZonedDateTime)</a></span> - Method in <a href="org/camunda/latera/bss/utils/DateTimeUtil.html">DateTimeUtil</a>
@@ -1786,7 +1786,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/ListUtil.html#isList(def)" title="Method in ListUtil">isList(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/ListUtil.html">ListUtil</a>
 </dt><dd> <div class="block">Check if input is List or Array</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#isMap(def)" title="Method in MapUtil">isMap(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Check if input is Map</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/Numeric.html#isNumber(def)" title="Method in Numeric">isNumber(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/Numeric.html">Numeric</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/DateTimeUtil.html#iso(java.time.ZonedDateTime)" title="Method in DateTimeUtil">iso(ZonedDateTime)</a></span> - Method in <a href="org/camunda/latera/bss/utils/DateTimeUtil.html">DateTimeUtil</a>
@@ -1824,9 +1824,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dl>
 
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#keysCount(java.util.Map)" title="Method in MapUtil">keysCount(Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get keys count from map.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#keysList(java.util.Map)" title="Method in MapUtil">keysList(Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Return list of map keys.</div></dd>
 </dl>
 
     
@@ -1871,9 +1871,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/Numeric.html#max(def, def)" title="Method in Numeric">max(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/Numeric.html">Numeric</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#merge(java.util.Map, java.util.Map)" title="Method in MapUtil">merge(Map, Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Merge 2 maps into one.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#mergeNotNull(java.util.Map, java.util.Map)" title="Method in MapUtil">mergeNotNull(Map, Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Merge 2 maps into one.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Message.html" title="Trait in org.camunda.latera.bss.connectors.hid.hydra">Message</a></span> - Trait in <a href="./org/camunda/latera/bss/connectors/hid/hydra/package-summary.html">org.camunda.latera.bss.connectors.hid.hydra</a>
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/MessageCache.html" title="Class in org.camunda.latera.bss.internal">MessageCache</a></span> - Class in <a href="./org/camunda/latera/bss/internal/package-summary.html">org.camunda.latera.bss.internal</a>
@@ -1950,7 +1950,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/ListUtil.html#nvl(java.util.List)" title="Method in ListUtil">nvl(List)</a></span> - Method in <a href="org/camunda/latera/bss/utils/ListUtil.html">ListUtil</a>
 </dt><dd> <div class="block">Remove null items, coerse '', 'null' and 'NULL' items of list as null, return others unchanged.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#nvl(java.util.Map)" title="Method in MapUtil">nvl(Map)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Remove null values from map, coerse '', 'null' and 'NULL' values as null, return other values and all keys unchanged.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/Oracle.html#nvl(def, def, java.util.List)" title="Method in Oracle">nvl(def, def, List)</a></span> - Method in <a href="org/camunda/latera/bss/utils/Oracle.html">Oracle</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/StringUtil.html#nvl(def)" title="Method in StringUtil">nvl(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/StringUtil.html">StringUtil</a>
@@ -1990,7 +1990,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/ListUtil.html#parse(def)" title="Method in ListUtil">parse(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/ListUtil.html">ListUtil</a>
 </dt><dd> <div class="block">Parse input as list value.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#parse(def)" title="Method in MapUtil">parse(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Parse input as map value.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/DateTimeUtil.html#parseDate(java.lang.CharSequence)" title="Method in DateTimeUtil">parseDate(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/utils/DateTimeUtil.html">DateTimeUtil</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/DateTimeUtil.html#parseDateTime(java.lang.CharSequence)" title="Method in DateTimeUtil">parseDateTime(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/utils/DateTimeUtil.html">DateTimeUtil</a>
@@ -2324,7 +2324,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/StringUtil.html#snakeCase(java.lang.CharSequence)" title="Method in StringUtil">snakeCase(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/utils/StringUtil.html">StringUtil</a>
 </dt><dd> <div class="block">Convert camelCase or CamelCase to snake_case</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/MapUtil.html#snakeCaseKeys(java.util.List)" title="Method in MapUtil">snakeCaseKeys(List)</a></span> - Method in <a href="org/camunda/latera/bss/utils/MapUtil.html">MapUtil</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Convert map keys to snake_case.</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/executionListeners/StartOrder.html" title="Class in org.camunda.latera.bss.executionListeners">StartOrder</a></span> - Class in <a href="./org/camunda/latera/bss/executionListeners/package-summary.html">org.camunda.latera.bss.executionListeners</a>
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/HOMS.html#startOrder()" title="Method in HOMS">startOrder()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/HOMS.html">HOMS</a>
