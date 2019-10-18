@@ -11,5 +11,7 @@ org.camunda.latera.bss.connectors.odoo.types
 org.camunda.latera.bss.connectors.otrs
 org.camunda.latera.bss.connectors.otrs.types
 org.camunda.latera.bss.executionListeners
+org.camunda.latera.bss.helpers.camunda
+org.camunda.latera.bss.helpers.hydra
 org.camunda.latera.bss.internal
 org.camunda.latera.bss.utils
