@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.minio
 
 import static org.camunda.latera.bss.utils.IO.getStream
+import static org.camunda.latera.bss.utils.IO.getBytes
 import static org.camunda.latera.bss.utils.Base64Converter.to as toBase64
 import static org.camunda.latera.bss.utils.Base64Converter.from as fromBase64
 import static org.camunda.latera.bss.utils.StringUtil.isString
@@ -55,7 +56,7 @@ trait File {
     try {
       def stream = getFile(bucketName, fileName)
       if (stream) {
-        return IO.getBytes(stream)
+        return getBytes(stream)
       } else {
         return null
       }
