@@ -22,6 +22,13 @@
     <minio.version>6.0.8</minio.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <sonar.projectKey>camunda-ext</sonar.projectKey>
+    <sonar.projectName>camunda-ext</sonar.projectName>
+    <sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
+    <sonar.sources>src</sonar.sources>
+    <sonar.tests>test</sonar.tests>
+    <sonar.inclusions>**/**</sonar.inclusions>
+    <sonar.language>grvy</sonar.language>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -244,6 +251,51 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
+
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.5</version>
+          <executions>
+            <execution>
+              <id>prepare-agent</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>report-aggregate</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.7.0.1746</version>
+        </plugin>
+        <!--
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>4.3.0</version>
+          <configuration>
+            <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
+          </configuration>
+          <executions>
+            <execution>
+              <id>report-export</id>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        -->
       <plugin>
         <groupId>com.bluetrainsoftware.maven</groupId>
         <artifactId>groovydoc-maven-plugin</artifactId>
@@ -263,69 +315,4 @@
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>coverage</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <sonar.projectKey>camunda-ext</sonar.projectKey>
-        <sonar.projectName>camunda-ext</sonar.projectName>
-        <sonar.host.url>http://127.0.0.1:9000</sonar.host.url>
-        <sonar.sources>src</sonar.sources>
-        <sonar.tests>test</sonar.tests>
-        <sonar.inclusions>**/**</sonar.inclusions>
-        <sonar.language>grvy</sonar.language>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.5</version>
-            <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>report-aggregate</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
-            <version>3.7.0.1746</version>
-          </plugin>
-          <!--
-          <plugin>
-            <groupId>org.eluder.coveralls</groupId>
-            <artifactId>coveralls-maven-plugin</artifactId>
-            <version>4.3.0</version>
-            <configuration>
-              <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
-            </configuration>
-            <executions>
-              <execution>
-                <id>report-export</id>
-                <phase>prepare-package</phase>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          -->
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

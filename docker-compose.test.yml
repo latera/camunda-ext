@@ -20,7 +20,6 @@ services:
       - db
     env_file: .env.test
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - ./.postgresql/:/var/lib/postgresql/data
 networks:
   db:
