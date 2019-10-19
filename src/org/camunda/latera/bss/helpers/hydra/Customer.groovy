@@ -226,7 +226,7 @@ trait Customer {
       result = true
     }
     order."${customerPrefix}${netServicePrefix}AccessAdded" = result
-    return false
+    return result
   }
 
   Boolean addAppAccess(Map input = [:]) {
