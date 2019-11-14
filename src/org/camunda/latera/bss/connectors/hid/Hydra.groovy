@@ -27,6 +27,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Equipment
 import org.camunda.latera.bss.connectors.hid.hydra.Region
 import org.camunda.latera.bss.connectors.hid.hydra.Address
 import org.camunda.latera.bss.connectors.hid.hydra.Search
+import org.camunda.latera.bss.internal.Version
 
 class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, Invoice, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Search {
   private static Integer DEFAULT_FIRM = 100
@@ -37,6 +38,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   def resellerId
   SimpleLogger logger
   String locale
+  Version version
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
@@ -47,21 +49,16 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     this.locale     = execution.getVariable('locale')
     this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: 'hydra'
     this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
-    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId') ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
+    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId')     ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
     this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
     this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
-    this.hid.execute('MAIN.INIT', [
-      vch_VC_IP       : '127.0.0.1',
-      vch_VC_USER     : this.user,
-      vch_VC_PASS     : this.password,
-      vch_VC_APP_CODE : 'NETSERV_HID',
-      vch_VC_CLN_APPID: 'HydraOMS'
-    ])
-
-    this.hid.execute('MAIN.SET_ACTIVE_FIRM', [
-      num_N_FIRM_ID: getFirmId()
-    ])
+    mainInit(
+      user     : this.user,
+      password : this.password
+    )
+    setFirm()
+    this.version = getVersion()
   }
 
   private Map mergeParams(Map initial, Map input) {
@@ -114,6 +111,48 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
       langCode = 'russian'
     }
     return getRefIdByCode("LANG_${capitalize(langCode)}")
+  }
+
+  void mainInit(Map input) {
+    LinkedHashMap params = [
+      ip       : '127.0.0.1',
+      user     : null,
+      password : null,
+      appCode  : 'NETSERV_HID',
+      appId    : 'HydraOMS'
+    ] + input
+
+    hid.execute('MAIN.INIT', [
+      vch_VC_IP       : params.ip,
+      vch_VC_USER     : params.user,
+      vch_VC_PASS     : params.password,
+      vch_VC_APP_CODE : params.appCode,
+      vch_VC_CLN_APPID: params.appId
+    ])
+
+  }
+
+  void setFirm(def firmId = getFirmId()) {
+    hid.execute('MAIN.SET_ACTIVE_FIRM', [
+      num_N_FIRM_ID: firmId
+    ])
+  }
+
+  Version getVersion() {
+    try {
+      LinkedHashMap result = hid.execute('MAIN.GET_DB_VERSION', [
+        num_HydraVersion    : null,
+        num_MajorVersion    : null,
+        num_MinorVersion    : null,
+        num_Modification    : null,
+        vch_Revision        : null,
+        dt_InstallationDate : null
+      ])
+      return new Version(result.num_HydraVersion, result.num_MajorVersion, result.num_MinorVersion, result.num_Modification)
+    } catch (Exception e){
+      logger.error_oracle(e)
+      return null
+    }
   }
   //Other methods are imported from traits
 }

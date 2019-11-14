@@ -139,22 +139,22 @@ class Version
                         
                         <tr class="altColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#main">main</a></code><br></td>
+                            <td class="colLast"><code><a href="#main">main</a></code><br>First item of Hydra version (e.g. 5 for 5.1.2.4)</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#major">major</a></code><br></td>
+                            <td class="colLast"><code><a href="#major">major</a></code><br>Second item of Hydra version (e.g. 1 for 5.1.2.4)</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#minor">minor</a></code><br></td>
+                            <td class="colLast"><code><a href="#minor">minor</a></code><br>Third item of Hydra version (e.g. 2 for 5.1.2.4)</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code><strong><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#mod">mod</a></code><br></td>
+                            <td class="colLast"><code><a href="#mod">mod</a></code><br>Forth item of Hydra version (e.g. 4 for 5.1.2.4)</td>
                         </tr>
                         
                     </table>
@@ -181,25 +181,25 @@ class Version
                         <tr class="altColor">
                             <td class="colFirst">
                                 <code><a href="#Version(def, def, def, def)">Version</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> main, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> major, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> minor = null, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> mod = null)</code><br></td>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> main, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> major, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> minor = null, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> mod = null)</code><br>Constructor with separated version items.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst">
-                                <code><a href="#Version(java.lang.Number)">Version</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> input)</code><br></td>
+                                <code><a href="#Version(java.util.Map)">Version</a>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Constructor overload with named arguments.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#Version(java.util.Map)">Version</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                                <code><a href="#Version(java.lang.Number)">Version</a>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> input)</code><br>Constructor overload for Number input.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst">
                                 <code><a href="#Version(java.lang.CharSequence)">Version</a>
-                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</code><br></td>
+                                (<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</code><br>Constructor overload for String input.</td>
                         </tr>
                         
                     </table>
@@ -226,19 +226,19 @@ class Version
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
-                            <td class="colLast"><code><strong><a href="#compareTo(def)">compareTo</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> v)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#compareTo(def)">compareTo</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> v)</code><br>Compare two versions.</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
-                            <td class="colLast"><code><strong><a href="#toNumber()">toNumber</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#toNumber()">toNumber</a></strong>()</code><br>Get version as integer of decimal number (only main.major, without other parts).</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br>Get version as string.</td>
                         </tr>
                         
                     </table>
@@ -288,7 +288,9 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> <strong>main</strong></h4>
-                                <p></p>
+                                <p>
+    First item of Hydra version (e.g. 5 for 5.1.2.4)
+  </p>
                             </li>
                         </ul>
                     
@@ -296,7 +298,9 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> <strong>major</strong></h4>
-                                <p></p>
+                                <p>
+    Second item of Hydra version (e.g. 1 for 5.1.2.4)
+  </p>
                             </li>
                         </ul>
                     
@@ -304,7 +308,9 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> <strong>minor</strong></h4>
-                                <p></p>
+                                <p>
+    Third item of Hydra version (e.g. 2 for 5.1.2.4)
+  </p>
                             </li>
                         </ul>
                     
@@ -312,7 +318,9 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a> <strong>mod</strong></h4>
-                                <p></p>
+                                <p>
+    Forth item of Hydra version (e.g. 4 for 5.1.2.4)
+  </p>
                             </li>
                         </ul>
                     
@@ -334,15 +342,12 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>Version</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> main, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> major, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> minor = null, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> mod = null)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="Version(java.lang.Number)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><strong>Version</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor with separated version items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD>main</DD><DD>major</DD><DD>minor</DD><DD>mod</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#main'>main</a></DD><DD><a href='#major'>major</a></DD><DD><a href='#minor'>minor</a></DD><DD><a href='#mod'>mod</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -350,7 +355,25 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>Version</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor overload with named arguments.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+Number+input"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Map with named arguments.</DD></DL><DL><DT><B>See Also:</B></DT><DD>Version(def)</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="Version(java.lang.Number)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><strong>Version</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> input)</h4>
+                                <p>
+    Constructor overload for Number input.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+Number+input"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Number with version data.</DD></DL><DL><DT><B>See Also:</B></DT><DD>Version(def)</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -358,7 +381,12 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><strong>Version</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> input)</h4>
-                                <p></p>
+                                <p>
+    Constructor overload for String input.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+String+input"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  String or GStringImpl with version data.</DD></DL><DL><DT><B>See Also:</B></DT><DD>Version(def)</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -379,7 +407,12 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>int <strong>compareTo</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> v)</h4>
-                                <p></p>
+                                <p>
+    Compare two versions.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23compareTo"></iframe><DL><DT><B>returns:</B></DT><DD>0 if source satisfies target (5.1.2 == 5.1), -1 if source less than target (5.0.0 < 5.1) or 1 if source more than target (5.1.2 > 5.0)</DD></DL>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  Version, Number or String with version to compare.</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -387,7 +420,12 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>toNumber</strong>()</h4>
-                                <p></p>
+                                <p>
+    Get version as integer of decimal number (only main.major, without other parts).
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23toNumber"></iframe><DL><DT><B>returns:</B></DT><DD>BigInteger or BigDecimal with version.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
@@ -395,7 +433,12 @@ class Version
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>toString</strong>()</h4>
-                                <p></p>
+                                <p>
+    Get version as string.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23toString"></iframe><DL><DT><B>returns:</B></DT><DD>String with version.</DD></DL>
+  </p>
                             </li>
                         </ul>
                     
