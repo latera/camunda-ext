@@ -110,7 +110,7 @@ trait Ref {
 
     List result = hid.getTableData(getRefsTable(), where: where, limit: params.limit)
     if (result) {
-      result.each { ref ->
+      result.each { Map ref ->
         RefCache.instance.put(ref.vc_code, ref.n_ref_id)
       }
     }

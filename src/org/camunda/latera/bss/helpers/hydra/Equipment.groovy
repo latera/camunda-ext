@@ -68,6 +68,8 @@ trait Equipment {
 
   void fetchEquipmentFirstComponent(Map input = [:]) {
     Map params = [
+      typeId          : null,
+      goodSpecId      : null,
       equipmentPrefix : '',
       equipmentSuffix : '',
       componentPrefix : '',
@@ -78,7 +80,7 @@ trait Equipment {
     String componentPrefix = "${capitalize(params.componentPrefix)}Component${capitalize(params.componentSuffix)}"
 
     def equipmentId = order."${equipmentPrefix}Id"?: [is: 'null']
-    Map component = hydra.getEquipmentComponentBy(equipmentId: equipmentId)
+    Map component = hydra.getEquipmentComponentBy(equipmentId: equipmentId, typeId: params.typeId, goodSpecId: params.goodSpecId)
 
     order."${equipmentPrefix}${componentPrefix}Id" = component?.n_object_id
     fetchEquipment(prefix: params.equipmentPrefix, suffix: "${capitalize(params.equipmentSuffix)}${componentPrefix}")
@@ -194,8 +196,8 @@ trait Equipment {
     def equipmentId = order."${equipmentPrefix}Id"
     def componentId = order."${componentPrefix}Id"
     Map inp = [
-      mainId      : equipmentId,
-      componentId : params.sourceIsComponent ? componentId : null,
+      mainId      : params.sourceIsComponent ? equipmentId : null,
+      componentId : params.sourceIsComponent ? componentId : equipmentId,
       bindRole    : "OBJOBJ_BIND_TYPE_${params.bindRole}"
     ]
 

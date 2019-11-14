@@ -313,8 +313,8 @@ trait Equipment {
     if (params.typeId || params.goodId) {
       where.n_good_id = params.typeId ?: params.goodId
     }
-    if (params.componentTypeId) {
-      where.n_good_spec_id = params.componentTypeId
+    if (params.componentTypeId || params.goodSpecId) {
+      where.n_good_spec_id = params.componentTypeId || params.goodSpecId
     }
     if (params.ownerId) {
       where.n_owner_id = params.ownerId
