@@ -1,6 +1,9 @@
 package org.camunda.latera.bss.connectors.hid
 
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
+import static org.camunda.latera.bss.utils.MapUtil.isMap
+import static org.camunda.latera.bss.utils.ListUtil.isList
+import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
@@ -64,22 +67,40 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   private Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
 
-    //If it is set opf instead of opfId, get proper reference ids from Hydra
+    //If it is set addressType instead of addressTypeId, substitute constants here
     LinkedHashMap result = [:]
     List keysToExclude = []
-    params.each{ name, value ->
+    params.each{ CharSequence name, def value ->
+      // addressTypeId
       def group = (name =~ /^(.*)Id$/)
       if (group.size() > 0) {
-        String noIdName = group[0][1]
-        if (params.containsKey(noIdName) && params[noIdName] != null) {
-          result[name] = getRefIdByCode(params[noIdName])
-          keysToExclude.add(name)
-          keysToExclude.add(noIdName)
+        String noIdName = group[0][1] // addressType
+        if (params.containsKey(noIdName) && params[noIdName] != null) { // addressTypeId: ..., addressType: 'ADDR_TYPE_IP', excluding addressType: null
+          if (isMap(params[noIdName])) {
+            Map where = params[noIdName]
+            ['in', 'not in'].each {CharSequence operator ->
+              // addressTypeId: ..., addressType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6'], 'not in': ['ADDR_TYPE_Subnet']]
+              if (where.containsKey(operator) && isList(where[operator])) {
+                Map newWhere = [:]
+                where[operator].each { CharSequence key, CharSequence val ->
+                  newWhere[key] = getRefIdByCode(val)  // -> addressTypeId: [in: [123, 456], 'not in': [789]]
+                }
+                params[noIdName] = newWhere
+              }
+            } // overwise addressType: [like: 'A%'] -> addressTypeId: [like: 'A%']
+            result[name] = params[noIdName]
+          } else if (isString(params[noIdName])) {
+            result[name] = getRefIdByCode(params[noIdName]) // addressType: 'ADDR_TYPE_IP' -> addressTypeId: 123
+          } else {
+            result[name] = params[noIdName] // addressTypeId: ..., addressType: [in: [123, 456]] -> addressTypeId: [in: [123, 456]]
+          }
+          keysToExclude.add(name) // original addressTypeId
+          keysToExclude.add(noIdName) // addressType
         }
       }
     }
     //And then remove non-id key if id was set above
-    params.each{ name, value ->
+    params.each{ CharSequence name, def value ->
       if (!keysToExclude.contains(name)) {
         result[name] = value
       }
