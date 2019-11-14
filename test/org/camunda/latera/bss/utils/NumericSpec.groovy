@@ -13,8 +13,8 @@ class NumericSpec extends Specification {
     1    |1
     1.1  |1
     '1'  |1
-    '1.1'|null
-    '1,1'|null
+    '1.1'|1
+    '1,1'|1
     'a'  |null
     null |null
     false|null
@@ -30,6 +30,24 @@ class NumericSpec extends Specification {
     input|defaultValue||result
     1    |0           ||1
     1.1  |0           ||1
+    '1'  |0           ||1
+    '1.1'|0           ||1
+    '1,1'|0           ||1
+    'a'  |0           ||0
+    null |0           ||0
+    false|0           ||0
+    []   |0           ||0
+    [:]  |0           ||0
+  }
+
+  def "#toIntStrict with default value"() {
+    expect:
+    Numeric.toIntStrict(input, defaultValue) == result
+
+    where:
+    input|defaultValue||result
+    1    |0           ||1
+    1.1  |0           ||0
     '1'  |0           ||1
     '1.1'|0           ||0
     '1,1'|0           ||0
@@ -75,6 +93,7 @@ class NumericSpec extends Specification {
     []   |0           ||0
     [:]  |0           ||0
   }
+
   def "#isInteger"() {
     expect:
     Numeric.isInteger(input) == result
@@ -82,7 +101,26 @@ class NumericSpec extends Specification {
     where:
     input|result
     1    |true
-    1.1  |true
+    1.1  |false
+    '1'  |true
+    '1.1'|false
+    '1,1'|false
+    'a'  |false
+    null |false
+    false|false
+    []   |false
+    [:]  |false
+  }
+
+  def "#isIntegerStrict"() {
+    expect:
+    Numeric.isIntegerStrict(input) == result
+
+    where:
+    input|result
+    1    |true
+    1.0  |false
+    1.1  |false
     '1'  |true
     '1.1'|false
     '1,1'|false

@@ -144,13 +144,25 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isInt(def)">isInt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Float or not.</td>
+                            <td class="colLast"><code><strong><a href="#isInt(def)">isInt</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not.</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isIntStrict(def)">isIntStrict</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#isInteger(def)">isInteger</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#isIntegerStrict(def)">isIntegerStrict</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not.</td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -187,6 +199,12 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
                             <td class="colLast"><code><strong><a href="#toIntSafe(def, def)">toIntSafe</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</code><br>Convert input to BigInt or return default value.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
+                            <td class="colLast"><code><strong><a href="#toIntStrict(def, def)">toIntStrict</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</code><br>Convert input to BigInt or return default value.</td>
                         </tr>
                         
                     </table>
@@ -257,10 +275,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isInt</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
                                 <p>
-    Check whether input is Float or not.
+    Check whether input is Integer or not.
     <p>
     Alias for #isInteger()
   <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to check</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isInteger(def)'>isInteger(def)</a></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="isIntStrict(def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isIntStrict</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
+                                <p>
+    Check whether input is Integer or not.
+    <p>
+    Alias for #isIntegerStrict()
+  <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to check</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isIntegerStrict(def)'>isIntegerStrict(def)</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -268,6 +298,19 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isInteger</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
+                                <p>
+    Check whether input is Integer or not.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to check</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="isIntegerStrict(def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isIntegerStrict</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
                                 <p>
     Check whether input is Integer or not.
     <p>
@@ -357,6 +400,19 @@ if (location.href.indexOf('is-external=true') == -1) {
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntSafe+without+default+value"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to convert</DD><DD><code>defaultValue</code> -  If not possible to convert, value to return. Default null</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="toIntStrict(def, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>toIntStrict</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</h4>
+                                <p>
+    Convert input to BigInt or return default value.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntExact+without+default+value"></iframe>
   <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to convert</DD><DD><code>defaultValue</code> -  If not possible to convert, value to return. Default null</DD></DL></p>
                             </li>
                         </ul>

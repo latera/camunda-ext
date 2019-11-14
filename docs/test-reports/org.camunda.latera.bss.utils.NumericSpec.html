@@ -261,7 +261,7 @@ div.footer {
 </thead>
 <tbody>
 <tr>
-<td>10</td>
+<td>12</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -285,6 +285,9 @@ div.footer {
 <a href='#%23toIntSafe+with+default+value' class='feature-toc-pass'>#toIntSafe with default value</a>
 </li>
 <li>
+<a href='#%23toIntStrict+with+default+value' class='feature-toc-pass'>#toIntStrict with default value</a>
+</li>
+<li>
 <a href='#%23toFloatSafe+without+default+value' class='feature-toc-pass'>#toFloatSafe without default value</a>
 </li>
 <li>
@@ -292,6 +295,9 @@ div.footer {
 </li>
 <li>
 <a href='#%23isInteger' class='feature-toc-pass'>#isInteger</a>
+</li>
+<li>
+<a href='#%23isIntegerStrict' class='feature-toc-pass'>#isIntegerStrict</a>
 </li>
 <li>
 <a href='#%23isFloat' class='feature-toc-pass'>#isFloat</a>
@@ -356,12 +362,12 @@ div.footer {
 </tr>
 <tr class='ex-pass'>
 <td class='ex-value'>1.1</td>
-<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>1</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
 <td class='ex-value'>1,1</td>
-<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>1</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
@@ -438,6 +444,105 @@ div.footer {
 <td class='ex-value'>1.1</td>
 <td class='ex-value'>0</td>
 <td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1.1</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1,1</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>a</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>false</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[:]</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td>
+<div class='spec-status'>10/10 passed</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23toIntStrict+with+default+value'>
+<span>#toIntStrict with default value</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>Numeric.toIntStrict(input, defaultValue) == result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<th class='ex-header'>input</th>
+<th class='ex-header'>defaultValue</th>
+<th class='ex-header'>result</th>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>1</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1.1</td>
+<td class='ex-value'>0</td>
+<td class='ex-value'>0</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
@@ -720,7 +825,7 @@ div.footer {
 </tr>
 <tr class='ex-pass'>
 <td class='ex-value'>1.1</td>
-<td class='ex-value'>true</td>
+<td class='ex-value'>false</td>
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
@@ -769,6 +874,99 @@ div.footer {
 </td>
 <td>
 <div class='spec-status'>10/10 passed</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isIntegerStrict'>
+<span>#isIntegerStrict</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>Numeric.isIntegerStrict(input) == result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<th class='ex-header'>input</th>
+<th class='ex-header'>result</th>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>1</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1.0</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1.1</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1.1</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>1,1</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>a</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[:]</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td>
+<div class='spec-status'>11/11 passed</div>
 </td>
 </tr>
 <tr>

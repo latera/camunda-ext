@@ -18,9 +18,28 @@ class Numeric {
     }
 
     try {
-      return value.toBigInteger()
+      return toFloatSafe(value, defaultValue).toBigInteger()
+    } catch (Exception e) {
+      return defaultValue
     }
-    catch (NumberFormatException e) {
+  }
+  /**
+    Convert input to BigInt or return default value.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntExact+without+default+value"></iframe>
+    @param value Any object to convert
+    @param defaultValue If not possible to convert, value to return. Default null
+  */
+  static def toIntStrict(def value, def defaultValue = null) {
+    def val = toFloatSafe(value, defaultValue)
+    if (val == defaultValue) {
+      return val
+    }
+
+    try {
+      return val.toBigDecimal().toBigIntegerExact()
+    } catch (Exception e) {
       return defaultValue
     }
   }
@@ -43,8 +62,7 @@ class Numeric {
         value = value.replace(',', '.')
       }
       return value.toBigDecimal()
-    }
-    catch (NumberFormatException e) {
+    } catch (Exception e) {
       return defaultValue
     }
   }
@@ -57,11 +75,29 @@ class Numeric {
     @param value Any object to check
   */
   static Boolean isInteger(def value) {
-    return toIntSafe(value, null) != null
+    return toIntStrict(value, null) != null
   }
 
   /**
-    Check whether input is Float or not.
+    Check whether input is Integer or not.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
+    @param value Any object to check
+  */
+  static Boolean isIntegerStrict(def value) {
+    def val = toFloatSafe(value, null)
+    if (val == null) {
+      return false
+    }
+    if (val instanceof Integer || val instanceof BigInteger || (val instanceof BigDecimal && val.scale == 0)) {
+      return true
+    }
+    return false
+  }
+
+  /**
+    Check whether input is Integer or not.
     <p>
     Alias for #isInteger()
     @param value Any object to check
@@ -69,6 +105,17 @@ class Numeric {
   */
   static Boolean isInt(def value) {
     return isInteger(value)
+  }
+
+  /**
+    Check whether input is Integer or not.
+    <p>
+    Alias for #isIntegerStrict()
+    @param value Any object to check
+    @see #isIntegerStrict(def)
+  */
+  static Boolean isIntStrict(def value) {
+    return isIntegerStrict(value)
   }
 
   /**
