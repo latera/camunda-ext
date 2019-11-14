@@ -1,5 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.Numeric.isInteger
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+
 trait DataType {
   private static String STRING_TYPE  = 'DATA_TYPE_Varchar'
   private static String BOOLEAN_TYPE = 'DATA_TYPE_Char'

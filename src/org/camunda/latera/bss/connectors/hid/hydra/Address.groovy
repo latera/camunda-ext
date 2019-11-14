@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
@@ -9,6 +10,7 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
+import org.camunda.latera.bss.internal.Version
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
@@ -146,7 +148,11 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      where.n_entrance_no = params.entrance
+      if (this.version >= '5.1.2') {
+        where.vc_entrance_no = params.entrance
+      } else {
+        where.n_entrance_no = params.entrance
+      }
     }
     if (params.rem) {
       where.vc_rem = params.rem
@@ -241,7 +247,11 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      where.n_entrance_no = params.entrance
+      if (this.version >= '5.1.2') {
+        where.vc_entrance_no = params.entrance
+      } else {
+        where.n_entrance_no = params.entrance
+      }
     }
     if (params.rem) {
       where.vc_rem = params.rem
@@ -334,6 +344,9 @@ trait Address {
     LinkedHashMap where = [:]
     if (params.addressId) {
       where.n_address_id = params.addressId
+      if (addrTypeId == getDefaultAddressTypeId()) {
+        params.addrTypeId = null
+      }
     }
     if (params.addrTypeId) {
       where.n_addr_type_id = params.addrTypeId
@@ -357,7 +370,11 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      where.n_entrance_no = params.entrance
+      if (this.version >= '5.1.2') {
+        where.vc_entrance_no = params.entrance
+      } else {
+        where.n_entrance_no = params.entrance
+      }
     }
     if (params.providerId) {
       where."DECODE(n_provider_id, NULL, ${params.providerId}, n_provider_id)" = params.providerId
@@ -423,7 +440,26 @@ trait Address {
     ], input)
     try {
       logger.info("Putting address with params ${params}")
-      LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
+      LinkedHashMap address = null
+      if (this.version >= '5.1.2') {
+        address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
+          num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
+          num_N_ADDRESS_ID        : params.addressId,
+          num_N_SUBJECT_ID        : params.subjectId,
+          num_N_SUBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+          num_N_ADDR_TYPE_ID      : params.addrTypeId,
+          vch_VC_CODE             : params.code,
+          vch_VC_ADDRESS          : params.rawAddress,
+          num_N_REGION_ID         : params.regionId,
+          vch_VC_FLAT             : params.flat,
+          vch_VC_ENTRANCE_NO      : params.entrance,
+          num_N_FLOOR_NO          : params.floor,
+          ch_C_FL_MAIN            : encodeBool(params.isMain),
+          num_N_ADDR_STATE_ID     : params.stateId,
+          vch_VC_REM              : params.rem
+        ])
+      } else {
+        address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
           num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
           num_N_ADDRESS_ID        : params.addressId,
           num_N_SUBJECT_ID        : params.subjectId,
@@ -438,7 +474,8 @@ trait Address {
           ch_C_FL_MAIN            : encodeBool(params.isMain),
           num_N_ADDR_STATE_ID     : params.stateId,
           vch_VC_REM              : params.rem
-      ])
+        ])
+      }
       logger.info("   Address ${address.num_N_ADDRESS_ID} added to subject!")
       return address
     } catch (Exception e){
@@ -469,7 +506,28 @@ trait Address {
     ], input)
     try {
       logger.info("Putting address with params ${params}")
-      LinkedHashMap address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
+      LinkedHashMap address = null
+      if (this.version >= '5.1.2') {
+        address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
+          num_N_OBJ_ADDRESS_ID   : params.objAddressId,
+          num_N_ADDRESS_ID       : params.addressId,
+          num_N_OBJECT_ID        : params.objectId,
+          num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+          num_N_ADDR_TYPE_ID     : params.addrTypeId,
+          vch_VC_CODE            : params.code,
+          vch_VC_ADDRESS         : params.rawAddress,
+          num_N_REGION_ID        : params.regionId,
+          vch_VC_FLAT            : params.flat,
+          vch_VC_ENTRANCE_NO     : params.entrance,
+          num_N_FLOOR_NO         : params.floor,
+          ch_C_FL_MAIN           : encodeBool(params.isMain),
+          dt_D_BEGIN             : params.beginDate ?: local(),
+          dt_D_END               : params.endDate,
+          num_N_ADDR_STATE_ID    : params.stateId,
+          vch_VC_REM             : params.rem
+        ])
+      } else {
+        address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
           num_N_OBJ_ADDRESS_ID   : params.objAddressId,
           num_N_ADDRESS_ID       : params.addressId,
           num_N_OBJECT_ID        : params.objectId,
@@ -486,7 +544,8 @@ trait Address {
           dt_D_END               : params.endDate,
           num_N_ADDR_STATE_ID    : params.stateId,
           vch_VC_REM             : params.rem
-      ])
+        ])
+      }
       logger.info("   Address ${address.num_N_ADDRESS_ID} added to object!")
       return address
     } catch (Exception e){
@@ -865,18 +924,42 @@ trait Address {
   }
 
   List getFreeIPAddresses(Map input) {
-    LinkedHashMap params = mergeParams([
-      groupId         : null,
-      subnetAddressId : null,
-      operationDate   : local(),
-      firmId          : getFirmId()
-    ], input)
-
+    LinkedHashMap defaultParams = [
+      groupId           : null,
+      objectId          : null,
+      subnetAddressId   : null,
+      operationDate     : local(),
+      firmId            : getFirmId()
+    ]
+    if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
+      input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
+      input.remove('subnetAddress')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
     String date = encodeDateStr(params.operationDate)
 
     try {
-      if (groupId) {
+      if (params.objectId) {
+        addresses = hid.queryDatabase("""
+          SELECT
+              'vc_ip',       A.VC_CODE,
+              'n_subnet_id', A.N_ADDRESS_ID,
+              'vc_subnet',   PA.VC_CODE VC_SUBNET
+          FROM
+              TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                num_N_OBJECT_ID        => ${params.objectId},
+                num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP'),
+                num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId ?: 'NULL'}
+              )) A,
+              SI_V_ADDRESSES AA,
+              SI_V_ADDRESSES PA
+          WHERE
+              AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+          AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+          AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+        """, true)
+      } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
           SELECT
               'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
@@ -885,7 +968,7 @@ trait Address {
               'n_subnet_id', A.N_ADDRESS_ID,
               'vc_subnet',   A.VC_CODE
           FROM
-              SI_V_ADDRESSES A,
+              SI_V_ADDRESSES   A,
               RG_PAR_ADDRESSES RG
           WHERE
               ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
@@ -895,7 +978,7 @@ trait Address {
           AND RG.N_PROVIDER_ID       = ${params.firmId}
         """, true)
       } else {
-        addresses = hid.queryFirst("""
+        addresses = hid.queryDatabase("""
           SELECT
               'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
                 num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
@@ -927,19 +1010,164 @@ trait Address {
     return getFreeIPAddress(input)?.vc_ip
   }
 
-  List getFreeTelephoneNumbers(Map input) {
-    LinkedHashMap params = mergeParams([
-      groupId       : null,
-      telCodeId     : null,
-      operationDate : local(),
-      firmId        : getFirmId()
-    ], input)
+  List getFreeIPv6Addresses(Map input) {
+    LinkedHashMap defaultParams = [
+      groupId         : null,
+      objectId        : null,
+      subnetAddressId : null,
+      operationDate   : local(),
+      firmId          : getFirmId()
+    ]
+    if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
+      input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet6')?.n_address_id
+      input.remove('subnetAddress')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
 
     List addresses = []
     String date = encodeDateStr(params.operationDate)
 
     try {
-      if (params.groupId) {
+      if (this.version >= '5.1.2') {
+        if (params.objectId) {
+          if (params.subnetAddressId) {
+            addresses = hid.queryDatabase("""
+              SELECT
+                  'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                  'n_subnet_id', PA.N_ADDRESS_ID,
+                  'vc_subnet',   PA.VC_CODE VC_SUBNET
+              FROM
+                  TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                    num_N_OBJECT_ID        => ${params.objectId},
+                    num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                    num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId}
+                  )) A,
+                  SI_V_ADDRESSES PA
+              WHERE
+                PA.N_ADDRESS_ID  = ${params.subnetAddressId}
+            AND PA.N_PROVIDER_ID = ${params.firmId}
+            """, true)
+          } else {
+            addresses = hid.queryDatabase("""
+              SELECT
+                  'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                  'n_subnet_id', PA.N_ADDRESS_ID,
+                  'vc_subnet',   PA.VC_CODE VC_SUBNET
+              FROM
+                  TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                    num_N_OBJECT_ID        => ${params.objectId},
+                    num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                    num_N_RANGE_ADDRESS_ID => NULL
+                  )) A,
+                  SI_V_ADDRESSES AA,
+                  SI_V_ADDRESSES PA
+              WHERE
+                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+            """, true)
+          }
+        } else {
+          addresses = hid.queryDatabase("""
+            SELECT
+                'vc_ip', SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(SI_ADDRESS_RESTRICTIONS_PKG_S.GET_FREE_IP6_SLOW(
+                  num_N_RANGE_ADDRESS_ID => A.N_ADDRESS_ID,
+                  num_N_PROVIDER_ID      => ${params.firmId})),
+                'n_subnet_id', A.N_ADDRESS_ID,
+                'vc_subnet',   A.VC_CODE
+            FROM
+                SI_V_ADDRESSES A
+            WHERE
+                A.N_ADDRESS_ID = ${params.subnetAddressId}
+          """, true)
+        }
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+  Map getFreeIPv6Address(Map input) {
+    List result = getFreeIPv6Addresses(input)
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
+  }
+
+  String getFreeIPv6(Map input) {
+    return getFreeIPv6Address(input)?.vc_ip
+  }
+
+  String getFreeIPv6Subnet(Map input) {
+    String subnet = null
+    try {
+      subnet = "${getFreeIPv6(input)}/${getIPv6Mask()}"
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return subnet
+  }
+
+  List getFreeTelephoneNumbers(Map input) {
+    LinkedHashMap defaultParams = [
+      groupId       : null,
+      objectId      : null,
+      telCodeId     : null,
+      operationDate : local(),
+      firmId        : getFirmId()
+    ]
+    if (input.containsKey('telCode') && notEmpty(input.telCode)) {
+      input.telCodeId = getAddressBy(code: input.telCode, addrType: 'ADDR_TYPE_TelCode')?.n_address_id
+      input.remove('telCode')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
+
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
+
+    try {
+      if (params.objectId) {
+        if (params.telCodeId) {
+          addresses = hid.queryDatabase("""
+            SELECT
+                'vc_phone_number', A.VC_CODE,
+                'n_telcode_id',    A.N_ADDRESS_ID,
+                'vc_tel_code',     A.VC_CODE VC_SUBNET
+            FROM
+                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                  num_N_OBJECT_ID        => ${params.objectId},
+                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
+                  num_N_RANGE_ADDRESS_ID => ${params.telCodeId}
+                )) A,
+                SI_V_ADDRESSES PA
+            WHERE
+                PA.N_ADDRESS_ID  = ${params.telCodeId}
+            AND PA.N_PROVIDER_ID = ${params.firmId}
+          """, true)
+        } else {
+          addresses = hid.queryDatabase("""
+            SELECT
+                'vc_phone_number', A.VC_CODE,
+                'n_telcode_id',    A.N_ADDRESS_ID,
+                'vc_tel_code',     A.VC_CODE VC_SUBNET
+            FROM
+                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                  num_N_OBJECT_ID        => ${params.objectId},
+                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
+                  num_N_RANGE_ADDRESS_ID => NULL
+                )) A,
+                SI_V_ADDRESSES AA,
+                SI_V_ADDRESSES PA
+            WHERE
+                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+          """, true)
+        }
+      } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
           SELECT
               'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
@@ -958,7 +1186,7 @@ trait Address {
           AND RG.N_PROVIDER_ID       = ${params.firmId}
         """, true)
       } else {
-        addresses = hid.queryFirst("""
+        addresses = hid.queryDatabase("""
           SELECT
               'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
                 num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
@@ -991,13 +1219,18 @@ trait Address {
   }
 
   List getFreeSubnetAddresses(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       groupId       : null,
       rootId        : null,
       mask          : null,
       operationDate : local(),
       firmId        : getFirmId()
-    ], input)
+    ]
+    if (input.containsKey('root') && notEmpty(input.root)) {
+      input.rootId = getAddressBy(code: input.root, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
+      input.remove('root')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
 
     List addresses = []
     String date = encodeDateStr(params.operationDate)
@@ -1007,76 +1240,139 @@ trait Address {
       FROM
           SI_V_OBJ_ADDRESSES OA
       WHERE
-          OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-      AND OA.N_ADDRESS_ID        = FA.N_ADDRESS_ID
+          OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+      AND OA.N_ADDRESS_ID    = FA.N_ADDRESS_ID
       AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
     )"""
-    String notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
-      SELECT 1
-      FROM
-          SI_V_OBJ_ADDRESSES OA,
-          RG_PAR_ADDRESSES   RP
-      WHERE
-          OA.N_ADDR_TYPE_ID      = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-      AND OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-      AND RP.N_ADDRESS_ID        = OA.N_ADDRESS_ID
-      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-      AND ${date} BETWEEN RP.D_BEGIN AND NVL(RP.D_END, ${date})
-      AND RP.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-      AND RP.N_PROVIDER_ID       = ${params.firmId}
-      START WITH
-          RP.N_PAR_ADDR_ID       = FA.N_ADDRESS_ID
-      CONNECT BY PRIOR
-          RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
-    )"""
+
+    String notAssignedChild = ''
+      if (this.version >= '5.1.2') {
+      notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+        SELECT 1
+        FROM
+            SI_V_OBJ_ADDRESSES OA,
+            SI_V_ADDRESSES     A
+        WHERE
+            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+        AND A.N_ADDRESS_ID     = OA.N_ADDRESS_ID
+        AND A.N_ADDR_TYPE_ID   = FA.N_ADDR_TYPE_ID
+        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+        AND A.N_PROVIDER_ID    = ${params.firmId}
+        START WITH
+            A.N_PAR_ADDR_ID    = FA.N_ADDRESS_ID
+        CONNECT BY PRIOR
+            A.N_ADDRESS_ID     = A.N_PAR_ADDR_ID
+      )"""
+    } else {
+      notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+        SELECT 1
+        FROM
+            SI_V_OBJ_ADDRESSES OA,
+            RG_PAR_ADDRESSES   RP
+        WHERE
+            OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+        AND OA.N_ADDR_TYPE_ID      = FA.N_ADDR_TYPE_ID
+        AND RP.N_ADDRESS_ID        = OA.N_ADDRESS_ID
+        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+        AND ${date} BETWEEN RP.D_BEGIN AND NVL(RP.D_END, ${date})
+        AND RP.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+        AND RP.N_PROVIDER_ID       = ${params.firmId}
+        START WITH
+            RP.N_PAR_ADDR_ID       = FA.N_ADDRESS_ID
+        CONNECT BY PRIOR
+            RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
+      )"""
+    }
 
     // WARN Чтобы получение подсети работало, подсети нужного размера должны быть нарезаны
     try {
-      addresses = hid.queryDatabase("""
-      WITH AVAILABLE_SUBNETS AS (
-        SELECT RA.*
-        FROM   RG_PAR_ADDRESSES   RA
-        WHERE  RA.N_PROVIDER_ID = ${params.firmId}
-        CONNECT BY PRIOR
-              RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
-        AND   RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-        START WITH
-              RA.N_PAR_ADDR_ID = ${params.groupId ? params.groupId : params.rootId}
-      ),
-      FILTERED_SUBNETS AS (
+      if (this.version >= '5.1.2') {
+        addresses = hid.queryDatabase("""
+        WITH AVAILABLE_SUBNETS AS (
+          SELECT *
+          FROM   SI_V_PROV_SUBNETS A
+          WHERE  A.N_PROVIDER_ID = ${params.firmId}
+          CONNECT BY PRIOR
+                A.N_ADDRESS_ID  = A.N_PAR_ADDR_ID
+          START WITH
+                A.N_PAR_ADDR_ID = ${params.rootId}
+        ),
+        FILTERED_SUBNETS AS (
+          SELECT
+              *
+          FROM
+              AVAILABLE_SUBNETS A
+          WHERE
+              ${filter}
+        ),
+        FREE_SUBNETS AS (
+          SELECT DISTINCT
+              *
+          FROM
+              FILTERED_SUBNETS FA
+          WHERE
+              ${notAssigned}
+          AND ${notAssignedChild}
+        ),
+        SORTED_SUBNETS AS (
+          SELECT *
+          FROM FREE_SUBNETS
+          ORDER BY N_VALUE
+        )
         SELECT
-            AA.*,
-            A.VC_CODE,
-            A.N_VALUE
-        FROM
-            AVAILABLE_SUBNETS AA,
-            SI_V_ADDRESSES    A
-        WHERE
-            A.N_ADDRESS_ID        = AA.N_ADDRESS_ID
-        AND ${filter}
-        AND A.N_ADDR_TYPE_ID      = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-      ),
-      FREE_SUBNETS AS (
-        SELECT DISTINCT
-            *
-        FROM
-            FILTERED_SUBNETS FA
-        WHERE
-            ${notAssigned}
-        AND ${notAssignedChild}
-      ),
-      SORTED_SUBNETS AS (
-        SELECT *
-        FROM FREE_SUBNETS
-        ORDER BY N_VALUE
-      )
-      SELECT
-          'n_subnet_id',   N_ADDRESS_ID,
-          'vc_subnet',     VC_CODE,
-          'n_par_addr_id', N_PAR_ADDR_ID
-      FROM  SORTED_SUBNETS
-      WHERE ROWNUM < 10
-      """, true)
+            'n_subnet_id',   N_ADDRESS_ID,
+            'vc_subnet',     VC_CODE,
+            'n_par_addr_id', N_PAR_ADDR_ID
+        FROM  SORTED_SUBNETS
+        WHERE ROWNUM < 10
+        """, true)
+      } else {
+        addresses = hid.queryDatabase("""
+        WITH AVAILABLE_SUBNETS AS (
+          SELECT RA.*
+          FROM   RG_PAR_ADDRESSES   RA
+          WHERE  RA.N_PROVIDER_ID = ${params.firmId}
+          CONNECT BY PRIOR
+                RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
+          AND   RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+          START WITH
+                RA.N_PAR_ADDR_ID = ${params.groupId ?: params.rootId}
+        ),
+        FILTERED_SUBNETS AS (
+          SELECT
+              AA.*,
+              A.VC_CODE,
+              A.N_VALUE
+          FROM
+              AVAILABLE_SUBNETS AA,
+              SI_V_ADDRESSES    A
+          WHERE
+              A.N_ADDRESS_ID = AA.N_ADDRESS_ID
+          AND ${filter}
+          AND A.N_ADDR_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+        ),
+        FREE_SUBNETS AS (
+          SELECT DISTINCT
+              *
+          FROM
+              FILTERED_SUBNETS FA
+          WHERE
+              ${notAssigned}
+          AND ${notAssignedChild}
+        ),
+        SORTED_SUBNETS AS (
+          SELECT *
+          FROM FREE_SUBNETS
+          ORDER BY N_VALUE
+        )
+        SELECT
+            'n_subnet_id',   N_ADDRESS_ID,
+            'vc_subnet',     VC_CODE,
+            'n_par_addr_id', N_PAR_ADDR_ID
+        FROM  SORTED_SUBNETS
+        WHERE ROWNUM < 10
+        """, true)
+      }
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -1094,10 +1390,14 @@ trait Address {
   Number getSubnetIdByIP(CharSequence ip) {
     def subnetId = null
     try {
-      subnetId = toIntSafe(hid.queryFirst("""
-        SELECT SI_ADDRESSES_PKG_S.GET_SUBNET_BY_IP_ADDRESS('$ip')
-        FROM   DUAL
-      """)?.getAt(0))
+      if (this.version >= '5.1.2') {
+        subnetId = toIntSafe(getAddressBy(code: ip, addrType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6']])?.n_par_addr_id)
+      } else {
+        subnetId = toIntSafe(hid.queryFirst("""
+          SELECT SI_ADDRESSES_PKG_S.GET_SUBNET_BY_IP_ADDRESS('$ip')
+          FROM   DUAL
+        """)?.getAt(0))
+      }
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -1135,41 +1435,71 @@ trait Address {
     return mask
   }
 
+  String getSuubnetv6Mask() {
+    return getIPv6Mask()
+  }
+
+  String getIPv6Mask() {
+    return getParamValue(param: 'PAR_IPv6SubnetLength', subjectId: getFirmId())
+  }
+
   List getParentSubnetAddresses(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       addressId     : null,
-      code          : null,
       mask          : null,
       operationDate : local(),
       firmId        : getFirmId()
-    ], input)
-
+    ]
+    if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
+      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')
+      input.remove('address')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
     String date = encodeDateStr(params.operationDate)
-    String startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
 
     try {
-      addresses = hid.queryDatabase("""
-        SELECT DISTINCT
-            'n_address_id',  A.N_ADDRESS_ID,
-            'code',          A.VC_CODE,
-            'n_value',       A.N_VALUE,
-            'n_par_addr_id', RA.N_PAR_ADDR_ID,
-            'level',         LEVEL
-        FROM
-            SI_V_ADDRESSES   A,
-            RG_PAR_ADDRESSES RA
-        WHERE
-            RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
-        AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-        AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-        AND RA.N_PROVIDER_ID       = ${params.firmId}
-        START WITH
-            ${startWith}
-        CONNECT BY PRIOR
-            RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
-        ORDER BY LEVEL ASC
-      """, true)
+      if (this.version >= '5.1.2') {
+        addresses = hid.queryDatabase("""
+          SELECT DISTINCT
+              'n_address_id',  A.N_ADDRESS_ID,
+              'code',          A.VC_CODE,
+              'n_value',       A.N_VALUE,
+              'n_par_addr_id', A.N_PAR_ADDR_ID,
+              'level',         LEVEL
+          FROM
+              SI_V_PROV_SUBNETS A
+          WHERE
+              A.N_PROVIDER_ID = ${params.firmId}
+          START WITH
+              A.N_ADDRESS_ID = ${params.addressId}"
+          CONNECT BY PRIOR
+              A.N_PAR_ADDR_ID  = A.N_ADDRESS_ID
+          ORDER BY LEVEL ASC
+        """, true)
+      } else {
+        addresses = hid.queryDatabase("""
+          SELECT DISTINCT
+              'n_address_id',  A.N_ADDRESS_ID,
+              'code',          A.VC_CODE,
+              'n_value',       A.N_VALUE,
+              'n_par_addr_id', RA.N_PAR_ADDR_ID,
+              'level',         LEVEL
+          FROM
+              SI_V_ADDRESSES   A,
+              RG_PAR_ADDRESSES RA
+          WHERE
+              RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+          AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+          AND RA.N_PROVIDER_ID       = ${params.firmId}
+          START WITH
+              A.N_ADDRESS_ID = ${params.addressId}"
+          CONNECT BY PRIOR
+              RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+          ORDER BY LEVEL ASC
+        """, true)
+      }
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -1177,57 +1507,91 @@ trait Address {
   }
 
   Map getVLANAddressBySubnet(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       addressId     : null,
-      code          : null,
+      mask          : null,
       operationDate : local(),
       firmId        : getFirmId()
-    ], input)
-
+    ]
+    if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
+      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')
+      input.remove('address')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
     LinkedHashMap address = null
     String date = encodeDateStr(params.operationDate)
-    String startWith = params.addressId ? "A.N_ADDRESS_ID = ${params.addressId}" : "A.VC_CODE = '${params.code}'"
 
     try {
-      address = hid.queryFirst("""
-        WITH SUBNETS AS (
-          SELECT DISTINCT
-              A.N_ADDRESS_ID,
-              A.VC_CODE,
-              A.N_VALUE,
-              RA.N_PAR_ADDR_ID,
-              LEVEL
-          FROM
-              SI_V_ADDRESSES   A,
-              RG_PAR_ADDRESSES RA
-          WHERE
-              RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
-          AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-          AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-          AND RA.N_PROVIDER_ID       = ${params.firmId}
-          START WITH
-              ${startWith}
-          CONNECT BY PRIOR
-              RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
-          ORDER BY LEVEL ASC
-        )
+      if (this.version >= '5.1.2') {
+        address = hid.queryFirst("""
+          WITH SUBNETS AS (
+            SELECT DISTINCT
+                A.N_ADDRESS_ID,
+                A.VC_CODE,
+                A.N_VALUE,
+                A.N_PAR_ADDR_ID,
+                LEVEL
+            FROM
+                SI_V_PROV_SUBNETS4 A
+            WHERE
+                A.N_PROVIDER_ID = ${params.firmId}
+            START WITH
+                A.N_ADDRESS_ID = ${params.addressId}"
+            CONNECT BY PRIOR
+                A.N_PAR_ADDR_ID  = A.N_ADDRESS_ID
+            ORDER BY LEVEL ASC
+          )
 
-        SELECT
-            'n_vlan_id',     A.N_ADDRESS_ID,
-            'vc_vlan',       A.VC_CODE
-        FROM
-            SUBNETS          S,
-            SI_V_ADDRESSES   A,
-            RG_PAR_ADDRESSES RG
-        WHERE
-            RG.N_ADDRESS_ID        = S.N_ADDRESS_ID
-        AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-        AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
-        AND RG.N_PROVIDER_ID       = ${params.firmId}
-        AND RG.N_PAR_ADDR_ID       = A.N_ADDRESS_ID
-        AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
-      """, true)
+          SELECT
+              'n_vlan_id',        A.N_VLAN_ID,
+              'vc_vlan',          A.VC_VLAN_CODE
+          FROM
+              SUBNETS             S,
+              SI_V_VLAN_ADDRESSES A
+          WHERE
+              S.N_ADDRESS_ID = A.N_ADDRESS_ID
+        """, true)
+      } else {
+        address = hid.queryFirst("""
+          WITH SUBNETS AS (
+            SELECT DISTINCT
+                A.N_ADDRESS_ID,
+                A.VC_CODE,
+                A.N_VALUE,
+                RA.N_PAR_ADDR_ID,
+                LEVEL
+            FROM
+                SI_V_ADDRESSES   A,
+                RG_PAR_ADDRESSES RA
+            WHERE
+                RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
+            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
+            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+            AND RA.N_PROVIDER_ID       = ${params.firmId}
+            START WITH
+                A.N_ADDRESS_ID = ${params.addressId}"
+            CONNECT BY PRIOR
+                RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+            ORDER BY LEVEL ASC
+          )
+
+          SELECT
+              'n_vlan_id',     A.N_ADDRESS_ID,
+              'vc_vlan',       A.VC_CODE
+          FROM
+              SUBNETS          S,
+              SI_V_ADDRESSES   A,
+              RG_PAR_ADDRESSES RG
+          WHERE
+              RG.N_ADDRESS_ID        = S.N_ADDRESS_ID
+          AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
+          AND RG.N_PROVIDER_ID       = ${params.firmId}
+          AND RG.N_PAR_ADDR_ID       = A.N_ADDRESS_ID
+          AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
+        """, true)
+      }
     } catch (Exception e){
       logger.error_oracle(e)
     }

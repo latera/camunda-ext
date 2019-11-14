@@ -104,7 +104,7 @@ trait Region {
 
   // Get region hierarchy keys excluding last one
   List getRegionLevelNamesWoBuilding() {
-    return getRegionLevelNames()[0..-1]
+    return getRegionLevelNames() - [getBuildingLevelName()]
   }
 
   // Get 'state' key by index 0
@@ -115,6 +115,11 @@ trait Region {
   // Get ['stateType', 'oblastType', ...] = region hierarchy key types
   List getRegionLevelTypeNames() {
     return getRegionLevelNames()*.concat('Type')
+  }
+
+  // Get ['stateType', 'oblastType', ...] = region hierarchy key types
+  List getRegionLevelTypeNamesWoBuilding() {
+    return getRegionLevelNamesWoBuilding()*.concat('Type')
   }
 
   // Get 'stateType' key type by key 'state'
@@ -337,7 +342,7 @@ trait Region {
 
   List getRegionItems(Map input) {
     List queryParts = []
-    List typeNames = getRegionLevelTypeNames()
+    List typeNames = getRegionLevelTypeNamesWoBuilding()
     typeNames.eachWithIndex{ type, i ->
       queryParts << """
       SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[getRegionLevelName(i)] ?: ''}'

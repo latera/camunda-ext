@@ -179,6 +179,24 @@ trait Address {
     ])
   }
 
+  void fetchEquipmentSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      operationDate   : null,
+      beginDate       : null,
+      endDate         : null,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : '',
+      withId          : false
+    ] + input
+
+    fetchEquipmentAddress(params + [
+      addrType : 'Subnet6'
+    ])
+  }
+
   void fetchEquipmentVLAN(Map input = [:]) {
     Map params = [
       bindAddrType    : 'Actual',
@@ -236,6 +254,7 @@ trait Address {
   void fetchEquipmentFreeIP(Map input = [:]) {
     Map params = [
       groupId         : null,
+      objectId        : null,
       subnetAddressId : null,
       operationDate   : local(),
       equipmentPrefix : '',
@@ -248,6 +267,34 @@ trait Address {
 
     def address  = hydra.getFreeIP(
       groupId         : params.groupId,
+      objectId        : params.objectId,
+      subnetAddress   : params.subnetAddress,
+      subnetAddressId : params.subnetAddressId,
+      operationDate   : params.operationDate
+    )
+    if (address) {
+      order."${prefix}${addrType}" = address
+    }
+  }
+
+  void fetchEquipmentFreeSubnet6(Map input = [:]) {
+    Map params = [
+      groupId         : null,
+      objectId        : null,
+      subnetAddressId : null,
+      operationDate   : local(),
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : ''
+    ] + input
+
+    def addrType = 'Subnet6'
+    def prefix   = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}${capitalize(params.prefix)}"
+
+    def address  = hydra.getFreeIPv6Subnet(
+      groupId         : params.groupId,
+      objectId        : params.objectId,
+      subnetAddress   : params.subnetAddress,
       subnetAddressId : params.subnetAddressId,
       operationDate   : params.operationDate
     )
@@ -259,6 +306,7 @@ trait Address {
   void fetchEquipmentFreeTelephone(Map input = [:]) {
     Map params = [
       groupId         : null,
+      objectId        : null,
       telCodeId       : null,
       operationDate   : local(),
       equipmentPrefix : '',
@@ -271,6 +319,8 @@ trait Address {
 
     def address  = hydra.getFreePhoneNumber(
       groupId       : params.groupId,
+      objectId      : params.objectId,
+      telCode       : params.telCode,
       telCodeId     : params.telCodeId,
       operationDate : params.operationDate
     )
@@ -283,6 +333,7 @@ trait Address {
     Map params = [
       groupId         : null,
       rootId          : null,
+      objectId        : null,
       mask            : null,
       operationDate   : local(),
       equipmentPrefix : '',
@@ -296,6 +347,7 @@ trait Address {
     def address  = hydra.getFreeSubnet(
       groupId       : params.groupId,
       rootId        : params.rootId,
+      objectId      : params.objectId,
       mask          : params.mask,
       operationDate : params.operationDate
     )
@@ -507,6 +559,24 @@ trait Address {
 
   Boolean notEquipmentIPEmpty(Map input = [:]) {
     return !isEquipmentIPEmpty(input)
+  }
+
+  Boolean isEquipmentSubnet6Empty(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : '',
+      write           : true
+    ] + input
+
+    return isEquipmentAddressEmpty(params + [
+      addrType : 'Subnet6'
+    ])
+  }
+
+  Boolean notEquipmentSubnet6Empty(Map input = [:]) {
+    return !isEquipmentSubnet6Empty(input)
   }
 
   Boolean isEquipmentVLANEmpty(Map input = [:]) {
@@ -806,6 +876,22 @@ trait Address {
     ])
   }
 
+  Boolean createEquipmentSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      beginDate       : null,
+      endDate         : null,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : ''
+    ] + input
+
+    return createEquipmentAddress(params + [
+      addrType : 'Subnet6'
+    ])
+  }
+
   Boolean createEquipmentVLAN(Map input = [:]) {
     Map params = [
       bindAddrType    : 'Actual',
@@ -863,6 +949,7 @@ trait Address {
       bindAddrType    : 'Actual',
       isMain          : true,
       groupId         : null,
+      objectId        : null,
       subnetAddressId : null,
       operationDate   : local(),
       beginDate       : null,
@@ -874,6 +961,25 @@ trait Address {
 
     fetchEquipmentFreeIP(params)
     return createEquipmentIP(params)
+  }
+
+  Boolean assignEquipmentFreeSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      groupId         : null,
+      objectId        : null,
+      subnetAddressId : null,
+      operationDate   : local(),
+      beginDate       : null,
+      endDate         : null,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : ''
+    ] + input
+
+    fetchEquipmentFreeSubnet6(params)
+    return createEquipmentSubnet6(params)
   }
 
   Boolean assignEquipmentFreeTelephone(Map input = [:]) {
@@ -1005,6 +1111,21 @@ trait Address {
 
     return closeEquipmentAddress(params + [
       addrType : 'IP',
+    ])
+  }
+
+  Boolean closeEquipmentSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      endDate         : null,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : ''
+    ] + input
+
+    return closeEquipmentAddress(params + [
+      addrType : 'Subnet6',
     ])
   }
 
@@ -1186,6 +1307,20 @@ trait Address {
 
     return deleteEquipmentAddress(params + [
       addrType: 'IP'
+    ])
+  }
+
+  Boolean deleteEquipmentSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : ''
+    ] + input
+
+    return deleteEquipmentAddress(params + [
+      addrType: 'Subnet6'
     ])
   }
 
