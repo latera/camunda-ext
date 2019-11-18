@@ -1,5 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.DateTimeUtil.dayBegin
+
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
@@ -153,10 +155,10 @@ trait Person {
         num_N_DOC_AUTH_TYPE_ID : params.docTypeId,
         vch_VC_DOC_SERIAL      : params.docSerial,
         vch_VC_DOC_NO          : params.docNumber,
-        dt_D_DOC               : params.docDate,
+        dt_D_DOC               : params.docDate   ? dayBegin(params.docDate)   : null,
         vch_VC_DOCUMENT        : params.docAuthor,
         vch_VC_DOC_DEPARTMENT  : params.docDepartment,
-        dt_D_BIRTH             : params.birthDate,
+        dt_D_BIRTH             : params.birthDate ? dayBegin(params.birthDate) : null,
         vch_VC_BIRTH_PLACE     : params.birthPlace,
         vch_VC_REM             : params.rem
       ])
