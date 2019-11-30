@@ -6,12 +6,12 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 
 trait DataType {
   private static String STRING_TYPE  = 'DATA_TYPE_Varchar'
-  private static String BOOLEAN_TYPE = 'DATA_TYPE_Char'
+  private static String CHAR_TYPE    = 'DATA_TYPE_Char'
   private static String FLOAT_TYPE   = 'DATA_TYPE_Number'
   private static String INTEGER_TYPE = 'DATA_TYPE_Integer'
   private static String DATE_TYPE    = 'DATA_TYPE_Date'
   private static String REF_TYPE     = 'DATA_TYPE_Ref'
-  private static String FLAG_TYPE    = 'DATA_TYPE_Flag'
+  private static String BOOLEAN_TYPE = 'DATA_TYPE_Flag'
   private static String CLOB_TYPE    = 'DATA_TYPE_Clob'
   private static String HTML_TYPE    = 'DATA_TYPE_HTML'
 
@@ -23,20 +23,12 @@ trait DataType {
     return getRefIdByCode(getStringType())
   }
 
-  String getBooleanType() {
-    return BOOLEAN_TYPE
+  String getCharType() {
+    return CHAR_TYPE
   }
 
-  Number getBooleanTypeId() {
-    return getRefIdByCode(getBooleanType())
-  }
-
-  String getBoolType() {
-    return getBooleanType()
-  }
-
-  Number getBoolTypeId() {
-    return getBooleanTypeId()
+  Number getCharTypeId() {
+    return getRefIdByCode(getCharType())
   }
 
   String getFloatType() {
@@ -79,12 +71,20 @@ trait DataType {
     return getRefIdByCode(getRefType())
   }
 
-  String getFlagType() {
-    return FLAG_TYPE
+  String getBooleanType() {
+    return BOOLEAN_TYPE
   }
 
-  Number getFlagTypeId() {
-    return getRefIdByCode(getFlagType())
+  Number getBooleanTypeId() {
+    return getRefIdByCode(getBooleanType())
+  }
+
+  String getBoolType() {
+    return getBooleanType()
+  }
+
+  Number getBoolTypeId() {
+    return getBooleanTypeId()
   }
 
   String getCLOBType() {
