@@ -33,19 +33,40 @@ class SimpleLogger {
   String processInstanceId
   String homsOrderCode
   DateTimeFormatter dateFormat
+  Integer currentLevel
 
   SimpleLogger(DelegateExecution execution) {
     this.processInstanceId = execution.getProcessInstanceId()
     this.homsOrderCode = execution.getVariable('homsOrderCode')  ?: 'ORD-NONE'
     this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DATE_TIME_FORMAT
+    this.currentLevel = levelToInt(execution.getVariable('loggingLevel') ?: 'info')
   }
 
-  void log(Object message, CharSequence level = "info") {
-    String timestamp = format(local(), this.dateFormat)
-    String logPrefix = "${timestamp} ${processInstanceId} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
+  static Integer levelToInt(CharSequence level) {
+    switch (level) {
+      case 'debug':
+          return 0
+      case 'info':
+          return 1
+      case ['warn', 'warning']:
+          return 2
+      case ['err', 'error']:
+          return 3
+      case ['crit', 'critical']:
+          return 4
+      default:
+          return 5
+    }
+  }
 
-    message.toString().split('\n').each { def it ->
-      println(logPrefix + it)
+  void log(Object message, CharSequence level = 'info') {
+    if (levelToInt(level) >= this.currentLevel) {
+      String timestamp = format(local(), this.dateFormat)
+      String logPrefix = "${timestamp} ${processInstanceId} [${homsOrderCode}] ${level.toUpperCase().padRight(5, ' ')} - ".toString()
+
+      message.toString().split('\n').each { def it ->
+        println(logPrefix + it)
+      }
     }
   }
 

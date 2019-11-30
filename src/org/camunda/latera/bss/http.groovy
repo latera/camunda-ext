@@ -71,23 +71,23 @@ class HTTPRestProcessor {
 
   def private responseBlock(Boolean failure = false, Boolean supress = false) {
     {FromServer response, Object data ->
-      logger.info("Response status: ${response.statusCode}")
-      logger.info("Content-Type: ${response.contentType}")
-      logger.info("Response data: -----")
+      logger.debug("Response status: ${response.statusCode}")
+      logger.debug("Content-Type: ${response.contentType}")
+      logger.debug("Response data: -----")
       if (data) {
         if (supress) {
-          logger.info("*Supressing response data*")
+          logger.debug("*Supressing response data*")
         } else {
           if (data instanceof byte[]) {
-            logger.info(new String(data))
+            logger.debug(new String(data))
           } else {
-            logger.info(data.toString())
+            logger.debug(data.toString())
           }
         }
       } else {
-        logger.info("*Empty response*")
+        logger.debug("*Empty response*")
       }
-      logger.info("--------------------")
+      logger.debug("--------------------")
 
       if (failure) {
         throw new HttpException(response, data)
@@ -119,13 +119,13 @@ class HTTPRestProcessor {
       params.body = escape(params.body)
     }
     if (params.body || params.query) {
-      logger.info("Request data: ------")
+      logger.debug("Request data: ------")
       if (supressRequestBody) {
-        logger.info("*Supressing request data*")
+        logger.debug("*Supressing request data*")
       } else {
-        logger.info(params.body ? params.body.toString() : params.query.toString())
+        logger.debug(params.body ? params.body.toString() : params.query.toString())
       }
-      logger.info("--------------------")
+      logger.debug("--------------------")
     }
 
     def result = httpClient."${method}" {

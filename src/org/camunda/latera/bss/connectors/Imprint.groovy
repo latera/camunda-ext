@@ -37,7 +37,7 @@ class Imprint {
   }
 
   def print(CharSequence template, Map data = [:]) {
-    this.logger.info('Printing begin...')
+    logger.info('Printing begin...')
     if (!data) {
       data = Order.getData(execution)
     }

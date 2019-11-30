@@ -35,17 +35,17 @@ class Console {
     logger.info("Exit code: ${proc.exitValue()}")
 
     if (!supressStdout) {
-      logger.info('Stdout:')
-      logger.info(stdout)
+      logger.debug('Stdout:')
+      logger.debug(stdout)
     }
 
     if (!supressStderr) {
       if (proc.exitValue()) {
-        logger.error('Sterr:')
-        logger.error(stderr)
+        logger.debug('Sterr:')
+        logger.debug(stderr)
       } else {
-        logger.info('Sterr:')
-        logger.info(stderr)
+        logger.debug('Sterr:')
+        logger.debug(stderr)
       }
     }
     return [proc: proc, stdout: stdout, stderr: stderr]
