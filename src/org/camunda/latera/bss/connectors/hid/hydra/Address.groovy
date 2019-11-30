@@ -105,6 +105,7 @@ trait Address {
       entrance        : null,
       rem             : null,
       bindAddrTypeId  : getDefaultAddressBindTypeId(),
+      parObjAddressId : null,
       stateId         : getDefaultAddressStateId(),
       isMain          : null,
       operationDate   : null,
@@ -164,6 +165,9 @@ trait Address {
       where.c_fl_main = encodeBool(params.isMain)
     }
     // Only for objects addresses
+    if (params.parObjAddressId) {
+      where.n_par_obj_addr_id = params.parObjAddressId
+    }
     if (params.beginDate) {
       where.d_begin = params.beginDate
     }
@@ -279,25 +283,26 @@ trait Address {
 
   List getEntityAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
-      entityAddressId : null,
-      entityTypeId    : null,
-      entityId        : null,
-      addressId       : null,
-      addrTypeId      : getDefaultAddressTypeId(),
-      parAddressId    : null,
-      code            : null,
-      regionId        : null,
-      rawAddress      : null,
-      flat            : null,
-      floor           : null,
-      entrance        : null,
-      rem             : null,
-      bindAddrTypeId  : getDefaultAddressBindTypeId(),
-      stateId         : getDefaultAddressStateId(),
-      isMain          : null,
-      operationDate   : null,
-      beginDate       : null,
-      endDate         : null
+      entityAddressId    : null,
+      entityTypeId       : null,
+      entityId           : null,
+      addressId          : null,
+      addrTypeId         : getDefaultAddressTypeId(),
+      parAddressId       : null,
+      code               : null,
+      regionId           : null,
+      rawAddress         : null,
+      flat               : null,
+      floor              : null,
+      entrance           : null,
+      rem                : null,
+      bindAddrTypeId     : getDefaultAddressBindTypeId(),
+      parEntityAddressId : null,
+      stateId            : getDefaultAddressStateId(),
+      isMain             : null,
+      operationDate      : null,
+      beginDate          : null,
+      endDate            : null
     ], input)
     Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
 
@@ -306,8 +311,9 @@ trait Address {
       params.subjectId     = params.entityId
       return getSubjAddressesBy(params)
     } else {
-      params.objAddressId  = params.entityAddressId
-      params.objectId      = params.entityId
+      params.objAddressId    = params.entityAddressId
+      params.objectId        = params.entityId
+      params.parObjAddressId = params.parEntityAddressId
       return getObjAddressesBy(params)
     }
   }
@@ -487,22 +493,23 @@ trait Address {
 
   Map putObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
-      objAddressId   : null,
-      addressId      : null,
-      objectId       : null,
-      bindAddrTypeId : null,
-      addrTypeId     : null,
-      code           : null,
-      regionId       : null,
-      rawAddress     : null,
-      flat           : null,
-      floor          : null,
-      entrance       : null,
-      rem            : null,
-      stateId        : getDefaultAddressStateId(),
-      isMain         : null,
-      beginDate      : local(),
-      endDate        : null
+      objAddressId    : null,
+      addressId       : null,
+      objectId        : null,
+      bindAddrTypeId  : null,
+      parObjAddressid : null,
+      addrTypeId      : null,
+      code            : null,
+      regionId        : null,
+      rawAddress      : null,
+      flat            : null,
+      floor           : null,
+      entrance        : null,
+      rem             : null,
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      beginDate       : local(),
+      endDate         : null
     ], input)
     try {
       logger.info("Putting address with params ${params}")
@@ -513,6 +520,7 @@ trait Address {
           num_N_ADDRESS_ID       : params.addressId,
           num_N_OBJECT_ID        : params.objectId,
           num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+          num_N_PAR_OBJ_ADDR_ID  : params.parObjAddressid,
           num_N_ADDR_TYPE_ID     : params.addrTypeId,
           vch_VC_CODE            : params.code,
           vch_VC_ADDRESS         : params.rawAddress,
@@ -532,6 +540,7 @@ trait Address {
           num_N_ADDRESS_ID       : params.addressId,
           num_N_OBJECT_ID        : params.objectId,
           num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+          num_N_PAR_OBJ_ADDR_ID  : params.parObjAddressid,
           num_N_ADDR_TYPE_ID     : params.addrTypeId,
           vch_VC_CODE            : params.code,
           vch_VC_ADDRESS         : params.rawAddress,
@@ -557,40 +566,42 @@ trait Address {
 
   Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
-      entityAddressId : null,
-      entityId        : null,
-      entityTypeId    : null,
-      addressId       : null,
-      bindAddrTypeId  : null,
-      addrTypeId      : null,
-      code            : null,
-      regionId        : null,
-      rawAddress      : null,
-      flat            : null,
-      floor           : null,
-      entrance        : null,
-      rem             : null,
-      stateId         : getDefaultAddressStateId(),
-      isMain          : null,
-      beginDate       : local(),
-      endDate         : null
+      entityAddressId    : null,
+      entityId           : null,
+      entityTypeId       : null,
+      addressId          : null,
+      bindAddrTypeId     : null,
+      parEntityAddressId : null,
+      addrTypeId         : null,
+      code               : null,
+      regionId           : null,
+      rawAddress         : null,
+      flat               : null,
+      floor              : null,
+      entrance           : null,
+      rem                : null,
+      stateId            : getDefaultAddressStateId(),
+      isMain             : null,
+      beginDate          : local(),
+      endDate            : null
     ], input)
 
     Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
 
     if (isSubj) {
-      params.subjAddressId  = params.entityAddressId
-      params.subjectId      = params.entityId
-      LinkedHashMap address = putSubjAddress(params)
+      params.subjAddressId   = params.entityAddressId
+      params.subjectId       = params.entityId
+      LinkedHashMap address  = putSubjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_SUBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_SUBJECT_ID
       }
       return address
     } else {
-      params.objAddressId  = params.entityAddressId
-      params.objectId      = params.entityId
-      LinkedHashMap address = putObjAddress(params)
+      params.objAddressId    = params.entityAddressId
+      params.objectId        = params.entityId
+      params.parObjAddressId = params.parEntityAddressId
+      LinkedHashMap address  = putObjAddress(params)
       if (address) {
         address.num_N_ENTITY_ADDRESS_ID = address.num_N_OBJ_ADDRESS_ID
         address.num_N_ENTITY_ID         = address.num_N_OBJECT_ID
@@ -885,25 +896,27 @@ trait Address {
 
   Boolean closeObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
-      objAddressId   : null,
-      addressId      : null,
-      objectId       : null,
-      bindAddrTypeId : null,
-      addrTypeId     : null,
-      stateId        : getDefaultAddressStateId(),
-      isMain         : null,
-      endDate        : local()
+      objAddressId    : null,
+      addressId       : null,
+      objectId        : null,
+      bindAddrTypeId  : null,
+      parObjAddressId : null,
+      addrTypeId      : null,
+      stateId         : getDefaultAddressStateId(),
+      isMain          : null,
+      endDate         : local()
     ], input)
 
     if (!params.objAddressId) {
       LinkedHashMap address = getObjAddress(
-        addressId      : params.addressId,
-        objectId       : params.objectId,
-        addrTypeId     : params.addrTypeId,
-        bindAddrTypeId : params.bindAddrTypeId,
-        operationDate  : params.endDate,
-        stateId        : params.stateId,
-        isMain         : params.isMain
+        addressId       : params.addressId,
+        objectId        : params.objectId,
+        addrTypeId      : params.addrTypeId,
+        bindAddrTypeId  : params.bindAddrTypeId,
+        parObjAddressId : params.parObjAddressId,
+        operationDate   : params.endDate,
+        stateId         : params.stateId,
+        isMain          : params.isMain
       )
       if (!address) {
         logger.error('No address found!')

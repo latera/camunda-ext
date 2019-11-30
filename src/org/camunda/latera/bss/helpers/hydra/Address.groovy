@@ -726,17 +726,21 @@ trait Address {
 
   Boolean createAddress(Map input = [:]) {
     Map params = [
-      addrType      : '',
-      bindAddrType  : 'Actual',
-      isMain        : true,
-      beginDate     : null,
-      endDate       : null,
-      entityPrefix  : '',
-      prefix        : ''
+      addrType           : '',
+      bindAddrType       : 'Actual',
+      isMain             : true,
+      beginDate          : null,
+      endDate            : null,
+      entityPrefix       : '',
+      prefix             : '',
+      parentPrefix       : '',
+      parentAddrType     : '',
+      parentBindAddrType : ''
     ] + input
 
     String entityPrefix = capitalize(params.entityPrefix)
     String prefix       = "${entityPrefix}${capitalize(params.prefix)}"
+    String parentPrefix = capitalize(params.parentPrefix)
 
     String entityId   = order."${entityPrefix}Id"
     String entityType = order."${entityPrefix}Type"
@@ -762,12 +766,29 @@ trait Address {
           inp[item] = value
         }
       }
-      prefixId      = "${params.bindAddrType}AddressId"
-      prefixCreated = "${params.bindAddrType}AddressCreated"
+      prefixId       = "${params.bindAddrType}Address"
+      parentPrefixId = "${params.bindAddrType}${parentPrefix}ParentAddress"
     } else {
-      inp.code      = order."${prefix}${params.addrType}"
-      prefixId      = "${params.addrType}Id"
-      prefixCreated = "${params.addrType}Created"
+      inp.code       = order."${prefix}${params.addrType}"
+      prefixId       = "${params.addrType}"
+      parentPrefixId = "${params.addrType}${parentPrefix}Parent${params.parentAddrType}"
+    }
+
+    // e.g. equipmentIP is set and equipmentIPParentVLAN is filled up with VLAN, so created IP address will bound to VLAN
+    def parAddress   = order."${prefix}${parentPrefixId}"
+    def parAddressId = order."${prefix}${parentPrefixId}Id"
+    if (parAddressId || parAddress) {
+      Map parAddressParams = [
+        entityId     : entityId,
+        addrType     : params.parentAddrType     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
+        bindAddrType : params.parentBindAddrType ? "BIND_ADDR_TYPE_${params.parentBindAddrType}" : null
+      ]
+      if (parAddressId) {
+        parAddressParams.addressId = parAddressId
+      } else if (parAddress) {
+        parAddressParams.code = parAddress
+      }
+      inp.parEntityAddressId = hydra.getEntityAddressBy(parAddressParams)?.n_obj_address_id
     }
 
     Boolean result = false
@@ -776,7 +797,7 @@ trait Address {
       order."${prefix}${prefixId}" = address.num_N_ENTITY_ADDRESS_ID
       result = true
     }
-    order."${prefix}${prefixCreated}" = result
+    order."${prefix}${prefixId}Created" = result
     return result
   }
 
