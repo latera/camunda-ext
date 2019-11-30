@@ -137,6 +137,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
+                            <td class="colLast"><code><strong><a href="#firstNotNull(java.util.List, def)">firstNotNull</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</code><br>Return first non-null item list, or defaultValue, if there are no such items.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a></code></td>
+                            <td class="colLast"><code><strong><a href="#firstNvl(java.util.List, def)">firstNvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</code><br>Return first item of list excluding '', 'null' and 'NULL', or defaultValue, if there are no such items.</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
                             <td class="colLast"><code><strong><a href="#forceNvl(java.util.List)">forceNvl</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br>Return list without null, '', 'null' and 'NULL' items.</td>
                         </tr>
@@ -226,6 +238,32 @@ if (location.href.indexOf('is-external=true') == -1) {
                     <!--   -->
                 </a>
                     <h3>Method Detail</h3>
+                    
+                        <a name="firstNotNull(java.util.List, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>firstNotNull</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</h4>
+                                <p>
+    Return first non-null item list, or defaultValue, if there are no such items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNotNull"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[Any]</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="firstNvl(java.util.List, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> <strong>firstNvl</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> defaultValue = null)</h4>
+                                <p>
+    Return first item of list excluding '', 'null' and 'NULL', or defaultValue, if there are no such items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNvl"></iframe>
+  <DL><DT><B>Parameters:</B></DT><DD><code>input</code> -  List[Any]</DD><DD><code>defaultValue</code> -  Any</DD></DL></p>
+                            </li>
+                        </ul>
                     
                         <a name="forceNvl(java.util.List)"><!-- --></a>
                         <ul class="blockListLast">

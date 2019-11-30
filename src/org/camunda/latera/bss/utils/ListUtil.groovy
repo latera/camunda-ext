@@ -135,5 +135,38 @@ class ListUtil {
     }
     return result
   }
+
+  /**
+    Return first non-null item list, or defaultValue, if there are no such items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNotNull"></iframe>
+    @param input List[Any]
+  */
+  static def firstNotNull(List input, def defaultValue = null) {
+    for (def item in input) {
+      if (item != null) {
+        return item
+      }
+    }
+    return defaultValue
+  }
+
+  /**
+    Return first item of list excluding '', 'null' and 'NULL', or defaultValue, if there are no such items.
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNvl"></iframe>
+    @param input List[Any]
+    @param defaultValue Any
+  */
+  static def firstNvl(List input, def defaultValue = null) {
+    for (def item in input) {
+      if (forceNotEmpty(item)) {
+        return item
+      }
+    }
+    return defaultValue
+  }
 }
 

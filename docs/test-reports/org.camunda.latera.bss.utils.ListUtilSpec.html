@@ -261,7 +261,7 @@ div.footer {
 </thead>
 <tbody>
 <tr>
-<td>7</td>
+<td>9</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -298,6 +298,12 @@ div.footer {
 </li>
 <li>
 <a href='#%23forceNvl' class='feature-toc-pass'>#forceNvl</a>
+</li>
+<li>
+<a href='#%23firstNotNull' class='feature-toc-pass'>#firstNotNull</a>
+</li>
+<li>
+<a href='#%23firstNvl' class='feature-toc-pass'>#firstNvl</a>
 </li>
 </ul>
 <tr>
@@ -811,6 +817,11 @@ div.footer {
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>[null]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
 <td class='ex-value'>[1]</td>
 <td class='ex-value'>[1]</td>
 <td class='ex-result'>OK</td>
@@ -825,7 +836,7 @@ div.footer {
 </div>
 </td>
 <td>
-<div class='spec-status'>9/9 passed</div>
+<div class='spec-status'>10/10 passed</div>
 </td>
 </tr>
 <tr>
@@ -894,6 +905,11 @@ div.footer {
 <td class='ex-result'>OK</td>
 </tr>
 <tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>[]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
 <td class='ex-value'>[1]</td>
 <td class='ex-value'>[1]</td>
 <td class='ex-result'>OK</td>
@@ -908,7 +924,481 @@ div.footer {
 </div>
 </td>
 <td>
-<div class='spec-status'>9/9 passed</div>
+<div class='spec-status'>10/10 passed</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23firstNotNull'>
+<span>#firstNotNull</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>ListUtil.firstNotNull(input, defaultValue) == result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<th class='ex-header'>input</th>
+<th class='ex-header'>defaultValue</th>
+<th class='ex-header'>result</th>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>null</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>NULL</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>[]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>[:]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>null</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>NULL</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>[]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>[:]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>null</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>NULL</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>[]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>[:]</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>0</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td>
+<div class='spec-status'>33/33 passed</div>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23firstNvl'>
+<span>#firstNvl</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>ListUtil.firstNvl(input, defaultValue) == result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Examples:</div>
+</td>
+<td>
+<div class='spec-examples'>
+<table class='ex-table'>
+<thead>
+<th class='ex-header'>input</th>
+<th class='ex-header'>defaultValue</th>
+<th class='ex-header'>result</th>
+</thead>
+<tbody>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>&lt;null&gt;</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>false</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>false</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[null]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[NULL]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[:]]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[[]]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[false]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[true]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[0]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>true</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[1]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>1</td>
+<td class='ex-result'>OK</td>
+</tr>
+<tr class='ex-pass'>
+<td class='ex-value'>[a]</td>
+<td class='ex-value'>true</td>
+<td class='ex-value'>a</td>
+<td class='ex-result'>OK</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td>
+<div class='spec-status'>33/33 passed</div>
 </td>
 </tr>
 </tbody>

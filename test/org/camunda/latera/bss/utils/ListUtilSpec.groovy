@@ -108,6 +108,7 @@ class ListUtilSpec extends Specification {
     [false] |[null]
     [[]]    |[null]
     [[:]]   |[null]
+    [0]     |[null]
     [1]     |[1]
     ['a']   |['a']
   }
@@ -125,7 +126,90 @@ class ListUtilSpec extends Specification {
     [[:]]   |[]
     [[]]    |[]
     [false] |[]
+    [0]     |[]
     [1]     |[1]
     ['a']   |['a']
+  }
+
+  def "#firstNotNull"() {
+    expect:
+    ListUtil.firstNotNull(input, defaultValue) == result
+
+    where:
+    input   |defaultValue|result
+    []      |null        |null
+    [null]  |null        |null
+    ['null']|null        |'null'
+    ['NULL']|null        |'NULL'
+    [false] |null        |false
+    [true]  |null        |true
+    [[]]    |null        |[]
+    [[:]]   |null        |[:]
+    [0]     |null        |0
+    [1]     |null        |1
+    ['a']   |null        |'a'
+    []      |false       |false
+    [null]  |false       |false
+    ['null']|false       |'null'
+    ['NULL']|false       |'NULL'
+    [false] |false       |false
+    [true]  |false       |true
+    [[]]    |false       |[]
+    [[:]]   |false       |[:]
+    [0]     |false       |0
+    [1]     |false       |1
+    ['a']   |false       |'a'
+    []      |true        |true
+    [null]  |true        |true
+    ['null']|true        |'null'
+    ['NULL']|true        |'NULL'
+    [false] |true        |false
+    [true]  |false       |true
+    [[]]    |true        |[]
+    [[:]]   |true        |[:]
+    [0]     |true        |0
+    [1]     |true        |1
+    ['a']   |true        |'a'
+  }
+
+  def "#firstNvl"() {
+    expect:
+    ListUtil.firstNvl(input, defaultValue) == result
+
+    where:
+    input   |defaultValue|result
+    []      |null        |null
+    [null]  |null        |null
+    ['null']|null        |null
+    ['NULL']|null        |null
+    [[:]]   |null        |null
+    [[]]    |null        |null
+    [false] |null        |null
+    [true]  |null        |true
+    [0]     |null        |null
+    [1]     |null        |1
+    ['a']   |null        |'a'
+    []      |false       |false
+    [null]  |false       |false
+    ['null']|false       |false
+    ['NULL']|false       |false
+    [[:]]   |false       |false
+    [[]]    |false       |false
+    [false] |false       |false
+    [true]  |false       |true
+    [0]     |false       |false
+    [1]     |false       |1
+    ['a']   |false       |'a'
+    []      |true        |true
+    [null]  |true        |true
+    ['null']|true        |true
+    ['NULL']|true        |true
+    [[:]]   |true        |true
+    [[]]    |true        |true
+    [false] |true        |true
+    [true]  |true        |true
+    [0]     |true        |true
+    [1]     |true        |1
+    ['a']   |true        |'a'
   }
 }

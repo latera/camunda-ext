@@ -19,9 +19,9 @@ class OTRS implements Main, Entity, Ticket {
     this.logger   = new SimpleLogger(execution)
     def ENV       = System.getenv()
 
-    this.url      = ENV['OTRS_URL']      ?: execution.getVariable('otrsUrl')
-    this.user     = ENV['OTRS_USER']     ?: execution.getVariable('otrsUser')
-    this.password = ENV['OTRS_PASSWORD'] ?: execution.getVariable('otrsPassword')
+    this.url      = execution.getVariable('otrsUrl')      ?: ENV['OTRS_URL']
+    this.user     = execution.getVariable('otrsUser')     ?: ENV['OTRS_USER']
+    this.password = execution.getVariable('otrsPassword') ?: ENV['OTRS_PASSWORD']
     this.http     = new HTTPRestProcessor(
       baseUrl   : url,
       execution : execution,
