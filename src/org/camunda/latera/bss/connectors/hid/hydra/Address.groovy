@@ -943,7 +943,8 @@ trait Address {
       subnetAddressId   : null,
       vlanId            : null,
       operationDate     : local(),
-      firmId            : getFirmId()
+      firmId            : getFirmId(),
+      limit             : 10
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -979,7 +980,7 @@ trait Address {
               AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
           AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
           AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-        """, true)
+        """, true, params.limit)
       } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
           SELECT
@@ -997,7 +998,7 @@ trait Address {
           AND RG.N_PAR_ADDR_ID       = ${params.groupId}
           AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
           AND RG.N_PROVIDER_ID       = ${params.firmId}
-        """, true)
+        """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
           SELECT
@@ -1019,7 +1020,7 @@ trait Address {
   }
 
   Map getFreeIPAddress(Map input) {
-    List result = getFreeIPAddresses(input)
+    List result = getFreeIPAddresses(input + [limit: 1])
     if (result) {
       return result.getAt(0)
     } else {
@@ -1036,7 +1037,8 @@ trait Address {
       groupId         : null,
       objectId        : null,
       subnetAddressId : null,
-      firmId          : getFirmId()
+      firmId          : getFirmId(),
+      limit           : 10
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet6')?.n_address_id
@@ -1064,7 +1066,7 @@ trait Address {
               WHERE
                 PA.N_ADDRESS_ID  = ${params.subnetAddressId}
             AND PA.N_PROVIDER_ID = ${params.firmId}
-            """, true)
+            """, true, params.limit)
           } else {
             addresses = hid.queryDatabase("""
               SELECT
@@ -1083,7 +1085,7 @@ trait Address {
                 AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
             AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
             AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-            """, true)
+            """, true, params.limit)
           }
         } else {
           addresses = hid.queryDatabase("""
@@ -1097,7 +1099,7 @@ trait Address {
                 SI_V_ADDRESSES A
             WHERE
                 A.N_ADDRESS_ID = ${params.subnetAddressId}
-          """, true)
+          """, true, params.limit)
         }
       }
     } catch (Exception e){
@@ -1107,7 +1109,7 @@ trait Address {
   }
 
   Map getFreeIPv6Address(Map input) {
-    List result = getFreeIPv6Addresses(input)
+    List result = getFreeIPv6Addresses(input + [limit: 1])
     if (result) {
       return result.getAt(0)
     } else {
@@ -1135,7 +1137,8 @@ trait Address {
       objectId      : null,
       telCodeId     : null,
       operationDate : local(),
-      firmId        : getFirmId()
+      firmId        : getFirmId(),
+      limit         : 10
     ]
     if (input.containsKey('telCode') && notEmpty(input.telCode)) {
       input.telCodeId = getAddressBy(code: input.telCode, addrType: 'ADDR_TYPE_TelCode')?.n_address_id
@@ -1164,7 +1167,7 @@ trait Address {
             WHERE
                 PA.N_ADDRESS_ID  = ${params.telCodeId}
             AND PA.N_PROVIDER_ID = ${params.firmId}
-          """, true)
+          """, true, params.limit)
         } else {
           addresses = hid.queryDatabase("""
             SELECT
@@ -1183,7 +1186,7 @@ trait Address {
                 AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
             AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
             AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-          """, true)
+          """, true, params.limit)
         }
       } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
@@ -1202,7 +1205,7 @@ trait Address {
           AND RG.N_PAR_ADDR_ID       = ${params.groupId}
           AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
           AND RG.N_PROVIDER_ID       = ${params.firmId}
-        """, true)
+        """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
           SELECT
@@ -1215,7 +1218,7 @@ trait Address {
               SI_V_ADDRESSES A
           WHERE
               A.N_ADDRESS_ID = ${params.telCodeId}
-        """, true)
+        """, true, params.limit)
       }
     } catch (Exception e){
       logger.error_oracle(e)
@@ -1224,7 +1227,7 @@ trait Address {
   }
 
   Map getFreeTelephoneNumber(Map input) {
-    List result = getFreeTelephoneNumbers(input)
+    List result = getFreeTelephoneNumbers(input + [limit: 1])
     if (result) {
       return result.getAt(0)
     } else {
@@ -1243,7 +1246,8 @@ trait Address {
       mask          : null,
       vlanId        : null,
       operationDate : local(),
-      firmId        : getFirmId()
+      firmId        : getFirmId(),
+      limit         : 10
     ]
     if (input.containsKey('root') && notEmpty(input.root)) {
       input.rootId = getAddressBy(code: input.root, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -1366,8 +1370,7 @@ trait Address {
             'vc_subnet',     VC_CODE,
             'n_par_addr_id', N_PAR_ADDR_ID
         FROM  SORTED_SUBNETS
-        WHERE ROWNUM < 10
-        """, true)
+        """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
         WITH AVAILABLE_SUBNETS AS (
@@ -1415,8 +1418,7 @@ trait Address {
             'vc_subnet',     VC_CODE,
             'n_par_addr_id', N_PAR_ADDR_ID
         FROM  SORTED_SUBNETS
-        WHERE ROWNUM < 10
-        """, true)
+        """, true, params.limit)
       }
     } catch (Exception e){
       logger.error_oracle(e)
@@ -1425,7 +1427,12 @@ trait Address {
   }
 
   Map getFreeSubnetAddress(Map input) {
-    return getFreeSubnetAddresses(input)?.getAt(0)
+    List result = getFreeSubnetAddresses(input + [limit: 1])
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
   }
 
   String getFreeSubnet(Map input) {
@@ -1493,7 +1500,8 @@ trait Address {
       addressId     : null,
       mask          : null,
       operationDate : local(),
-      firmId        : getFirmId()
+      firmId        : getFirmId(),
+      limit         : 0
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
       input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -1521,7 +1529,7 @@ trait Address {
           CONNECT BY PRIOR
               A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
           ORDER BY LEVEL ASC
-        """, true)
+        """, true, params.level ?: params.limit)
       } else {
         addresses = hid.queryDatabase("""
           SELECT DISTINCT
@@ -1543,7 +1551,7 @@ trait Address {
           CONNECT BY PRIOR
               RA.N_PAR_ADDR_ID = RA.N_ADDRESS_ID
           ORDER BY LEVEL ASC
-        """, true)
+        """, true, params.level ?: params.limit)
       }
     } catch (Exception e){
       logger.error_oracle(e)
@@ -1652,7 +1660,8 @@ trait Address {
       addressId     : null,
       mask          : null,
       operationDate : local(),
-      firmId        : getFirmId()
+      firmId        : getFirmId(),
+      limit         : 0
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
       input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_VLAN')?.n_address_id
@@ -1677,7 +1686,7 @@ trait Address {
           AND A.N_SUBNET_ID   = V.N_ADDRESS_ID
           AND A.N_PROVIDER_ID = ${params.firmId}
           ORDER BY A.N_VALUE ASC
-        """, true)
+        """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
           SELECT
@@ -1696,7 +1705,7 @@ trait Address {
           AND RV.N_PAR_ADDR_ID       = V.N_ADDRESS_ID
           AND A.N_ADDRESS_ID         = ${params.addressId ?: params.vlanId}
           AND V.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
-        """, true)
+        """, true, params.limit)
       }
     } catch (Exception e){
       logger.error_oracle(e)
@@ -1706,7 +1715,7 @@ trait Address {
 
 
   Map getSubnetAddressByVLAN(Map input) {
-    List result = getSubnetAddressesByVLAN(input)
+    List result = getSubnetAddressesByVLAN(input + [limit: 1])
     if (result) {
       return result.getAt(0)
     } else {
