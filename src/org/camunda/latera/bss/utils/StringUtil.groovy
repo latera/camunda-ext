@@ -242,7 +242,7 @@ class StringUtil {
     if (input.size() == 0) {
       return ''
     } else if (input.size() == 1) {
-      return input.toLowerCase().toString()
+      return input.toString().toLowerCase()
     } else {
       return (input?.getAt(0).toLowerCase() + input?.substring(1)).toString()
     }

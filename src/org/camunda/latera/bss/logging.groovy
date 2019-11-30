@@ -36,14 +36,17 @@ class SimpleLogger {
   Integer currentLevel
 
   SimpleLogger(DelegateExecution execution) {
-    this.processInstanceId = execution.getProcessInstanceId()
-    this.homsOrderCode = execution.getVariable('homsOrderCode')  ?: 'ORD-NONE'
-    this.dateFormat = execution.getVariable('loggingDateFormat') ? DateTimeFormatter.ofPattern(execution.getVariable('loggingDateFormat')) : DATE_TIME_FORMAT
-    this.currentLevel = levelToInt(execution.getVariable('loggingLevel') ?: 'info')
+    def ENV = System.getenv()
+
+    this.processInstanceId =  execution.getProcessInstanceId()
+    this.homsOrderCode     =  execution.getVariable('homsOrderCode') ?: 'ORD-NONE'
+    this.dateFormat        = (execution.getVariable('logDateFormat') || execution.getVariable('loggingDateFormat')) ? DateTimeFormatter.ofPattern(execution.getVariable('logDateFormat') ?: execution.getVariable('loggingDateFormat')) : DATE_TIME_FORMAT
+    this.currentLevel      =  levelToInt(execution.getVariable('logLevel') ?: execution.getVariable('loggingLevel') ?: ENV['BPM_LOG_LEVEL'] ?: 'info')
   }
 
   static Integer levelToInt(CharSequence level) {
-    switch (level) {
+    String lvl = level.toString().toLowerCase()
+    switch (lvl) {
       case 'debug':
           return 0
       case 'info':

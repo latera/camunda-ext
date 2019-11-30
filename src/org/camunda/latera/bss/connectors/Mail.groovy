@@ -19,10 +19,10 @@ class MailSender {
   MailSender(DelegateExecution execution) {
     def ENV       = System.getenv()
 
-    this.host     = ENV['SMTP_HOST']     ?: execution.getVariable('smtpHost')
-    this.port     = (ENV['SMTP_PORT']    ?: execution.getVariable('smtpPort') ?: '587').toInteger()
-    this.user     = ENV['SMTP_USER']     ?: execution.getVariable('smtpUser')
-    this.password = ENV['SMTP_PASSWORD'] ?: execution.getVariable('smtpPassword')
+    this.host     =  execution.getVariable('smtpHost')     ?: ENV['SMTP_HOST']
+    this.port     = (execution.getVariable('smtpPort')     ?: ENV['SMTP_PORT'] ?: 587).toInteger()
+    this.user     =  execution.getVariable('smtpUser')     ?: ENV['SMTP_USER']
+    this.password =  execution.getVariable('smtpPassword') ?: ENV['SMTP_PASSWORD']
 
     this.props = System.getProperties()
     this.props.put('mail.smtp.host',            host)

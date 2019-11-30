@@ -23,12 +23,12 @@ class HOMS {
     this.logger     = new SimpleLogger(this.execution)
     def ENV         = System.getenv()
 
-    this.url        = ENV['HOMS_URL']  ?: execution.getVariable('homsUrl') ?: 'http://homs:3000/api'
-    this.user       = ENV['HOMS_USER'] ?: execution.getVariable('homsUser')
-    this.token      = ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD'] ?: execution.getVariable('hbwToken') ?: execution.getVariable('homsToken') ?: execution.getVariable('homsPassword')
+    this.url        = execution.getVariable('homsUrl')  ?: ENV['HOMS_URL'] ?: 'http://homs:3000/api'
+    this.user       = execution.getVariable('homsUser') ?: ENV['HOMS_USER']
+    this.token      = execution.getVariable('hbwToken') ?: execution.getVariable('homsToken') ?: execution.getVariable('homsPassword') ?: ENV['HBW_TOKEN'] ?: ENV['HOMS_TOKEN'] ?: ENV['HOMS_PASSWORD']
     Boolean supress = execution.getVariable('homsOrderSupress') ?: false
 
-    this.http       = new HTTPRestProcessor(
+    this.http = new HTTPRestProcessor(
       baseUrl   : this.url,
       user      : this.user,
       password  : this.token,

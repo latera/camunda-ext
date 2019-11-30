@@ -131,7 +131,7 @@ trait Subscription {
   Map getAvailableService(def customerId, Map input) {
     def serviceId = input.serviceId ?: input.goodId
     List availableServices = getAvailableServices(customerId, input)
-    for (service in availableServices) {
+    for (Map service in availableServices) {
       if (service.n_good_id.toString() == serviceId.toString()) {
           return service
       }
@@ -145,7 +145,7 @@ trait Subscription {
   Map getAvailableServiceByName(def customerId, Map input) {
     String serviceName = input.serviceName ?: input.goodName
     List availableServices = getAvailableServices(customerId, input)
-    for (service in availableServices) {
+    for (Map service in availableServices) {
       if (service.vc_name == serviceName) {
         return service
       }

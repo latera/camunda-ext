@@ -18,9 +18,9 @@ class Planado {
     this.logger  =  new SimpleLogger(execution)
     def ENV      =  System.getenv()
 
-    this.url     =  ENV['PLANADO_URL']     ?: 'https://api.planadoapp.com'
-    this.version = (ENV['PLANADO_VERSION'] ?: ENV['PLANADO_API_VERSION'] ?: execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: 1)?.toInteger()
-    this.token   =  ENV['PLANADO_TOKEN']   ?: ENV['PLANADO_API_KEY']     ?: execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')
+    this.url     =  execution.getVariable('planadoUrl')                                                   ?: ENV['PLANADO_URL']     ?: 'https://api.planadoapp.com'
+    this.version = (execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: ENV['PLANADO_VERSION'] ?: ENV['PLANADO_API_VERSION'] ?: 1)?.toInteger()
+    this.token   =  execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')     ?: ENV['PLANADO_TOKEN']   ?: ENV['PLANADO_API_KEY']
 
     LinkedHashMap headers = ['X-Planado-Api-Token': token]
     this.http = new HTTPRestProcessor(
@@ -32,7 +32,7 @@ class Planado {
 
   private String makeExtId(CharSequence input) {
     logger.info('Generating externalId for Planado entity')
-    def messageDigest = MessageDigest.getInstance("MD5")
+    def messageDigest = MessageDigest.getInstance('MD5')
     messageDigest.update(input.getBytes())
     return new BigInteger(1, messageDigest.digest()).toString(16)
   }

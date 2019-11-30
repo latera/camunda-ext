@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.console
 
 import org.camunda.latera.bss.logging.SimpleLogger
+import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 
 class Console {
   SimpleLogger logger
@@ -9,19 +10,23 @@ class Console {
 
   Console(Map params) {
     this.logger = new SimpleLogger(params.execution)
-    params.remove('execution')
+    def ENV     = System.getenv()
 
-    this.supressStdout = false
-    this.supressStderr = false
+    this.supressStdout = Boolean.valueOf(firstNotNull([
+      params.supressStdout,
+      params.execution.getVariable('consoleSupressStdout'),
+      params.execution.getVariable('consoleSupress'),
+      ENV['CONSOLE_SUPRESS_STDOUT'],
+      ENV['CONSOLE_SUPRESS']
+    ], false))
 
-    if (params.supressStdout != null) {
-      this.supressStdout = params.supressStdout
-      params.remove('supressStdout')
-    }
-    if (params.supressStderr != null) {
-      this.supressStderr = params.supressStderr
-      params.remove('supressStderr')
-    }
+    this.supressStderr = Boolean.valueOf(firstNotNull([
+      params.supressStderr,
+      params.execution.getVariable('consoleSupressStderr'),
+      params.execution.getVariable('consoleSupress'),
+      ENV['CONSOLE_SUPRESS_STDERR'],
+      ENV['CONSOLE_SUPRESS']
+    ], false))
   }
 
   Map runCommand(CharSequence command, List args = []) {

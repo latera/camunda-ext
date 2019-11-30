@@ -13,13 +13,13 @@ class DadataAPI {
   SimpleLogger logger
 
   DadataAPI(DelegateExecution execution) {
-    this.logger  =  new SimpleLogger(execution)
-    def ENV      =  System.getenv()
+    this.logger  = new SimpleLogger(execution)
+    def ENV      = System.getenv()
 
-    this.url     =  ENV['DADATA_API_URL']     ?: 'https://dadata.ru/api'
-    this.version = (ENV['DADATA_API_VERSION'] ?: execution.getVariable('dadataApiVersion') ?: 2).toInteger()
-    this.token   =  ENV['DADATA_API_TOKEN']   ?: ENV['DADATA_TOKEN']   ?: execution.getVariable('dadataApiToken') ?: execution.getVariable('dadataToken')
-    this.secret  =  ENV['DADATA_API_SECRET']  ?: execution.getVariable('dadataSecret')
+    this.url     =  execution.getVariable('dadataApiUrl')                                             ?: ENV['DADATA_API_URL']     ?: 'https://dadata.ru/api'
+    this.version = (execution.getVariable('dadataApiVersion')                                         ?: ENV['DADATA_API_VERSION'] ?: 2).toInteger()
+    this.token   =  execution.getVariable('dadataApiToken')   ?: execution.getVariable('dadataToken') ?: ENV['DADATA_API_TOKEN']   ?: ENV['DADATA_TOKEN']
+    this.secret  =  execution.getVariable('dadataSecret')                                             ?: ENV['DADATA_API_SECRET']
 
     LinkedHashMap headers = [
       'Authorization' : "Token ${token}",

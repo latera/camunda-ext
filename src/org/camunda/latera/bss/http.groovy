@@ -6,6 +6,7 @@ import groovyx.net.http.HttpException
 import org.camunda.latera.bss.logging.SimpleLogger
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 import static org.camunda.latera.bss.utils.JSON.escape
 
 class HTTPRestProcessor {
@@ -18,21 +19,33 @@ class HTTPRestProcessor {
 
   HTTPRestProcessor(Map params) {
     this.logger = new SimpleLogger(params.execution)
-    params.remove('execution')
+    def ENV     = System.getenv()
 
     this.baseUrl  = params.baseUrl
     this.basePath = parsePath(this.baseUrl)
-    this.supressRequestBodyLog  = false
-    this.supressResponseBodyLog = false
+    this.supressRequestBodyLog  = Boolean.valueOf(firstNotNull([
+      params.supressRequestBodyLog,
+      params.execution.getVariable('httpSupressRequestBody'),
+      params.execution.getVariable('httpSupressRequest'),
+      params.execution.getVariable('httpSupressBody'),
+      ENV['HTTP_SUPRESS_REQUEST_BODY'],
+      ENV['HTTP_SUPRESS_REQUEST'],
+      ENV['HTTP_SUPRESS_BODY']
+    ], false))
+    this.supressResponseBodyLog = Boolean.valueOf(firstNotNull([
+      params.supressResponseBodyLog,
+      params.execution.getVariable('httpSupressResponseBody'),
+      params.execution.getVariable('httpSupressResponse'),
+      params.execution.getVariable('httpSupressBody'),
+      ENV['HTTP_SUPRESS_RESPONSE_BODY'],
+      ENV['HTTP_SUPRESS_RESPONSE'],
+      ENV['HTTP_SUPRESS_BODY']
+    ], false))
 
-    if (params.supressRequestBodyLog  != null) {
-      this.supressRequestBodyLog  = params.supressRequestBodyLog
-      params.remove('supressRequestBodyLog')
-    }
-    if (params.supressResponseBodyLog != null) {
-      this.supressResponseBodyLog = params.supressResponseBodyLog
-      params.remove('supressResponseBodyLog')
-    }
+    params.remove('supressRequestBodyLog')
+    params.remove('supressResponseBodyLog')
+    params.remove('execution')
+
     this.httpClient = HttpBuilder.configure {
       request.uri = this.baseUrl.toString()
       params.remove('baseUrl')

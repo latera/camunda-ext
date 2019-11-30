@@ -14,12 +14,12 @@ class DadataSuggest {
   SimpleLogger logger
 
   DadataSuggest(DelegateExecution execution) {
-    this.logger  =  new SimpleLogger(execution)
-    def ENV      =  System.getenv()
+    this.logger = new SimpleLogger(execution)
+    def ENV     = System.getenv()
 
-    this.url     =  ENV['DADATA_SUGGEST_URL']     ?: 'https://suggestions.dadata.ru/suggestions/api'
-    this.version =  ENV['DADATA_SUGGEST_VERSION'] ?: execution.getVariable('dadataSuggestVersion') ?: '4.1'
-    this.token   =  ENV['DADATA_SUGGEST_TOKEN']   ?: ENV['DADATA_TOKEN']?: execution.getVariable('dadataSuggestToken') ?: execution.getVariable('dadataToken')
+    this.url     =  execution.getVariable('dadataSuggestUrl')                                             ?: ENV['DADATA_SUGGEST_URL']     ?: 'https://suggestions.dadata.ru/suggestions/api'
+    this.version =  execution.getVariable('dadataSuggestVersion')                                         ?: ENV['DADATA_SUGGEST_VERSION'] ?: '4.1'
+    this.token   =  execution.getVariable('dadataSuggestToken')   ?: execution.getVariable('dadataToken') ?: ENV['DADATA_SUGGEST_TOKEN']   ?: ENV['DADATA_TOKEN']
 
     LinkedHashMap headers = [
       'Authorization' : "Token ${token}"

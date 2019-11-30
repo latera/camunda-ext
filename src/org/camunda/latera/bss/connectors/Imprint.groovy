@@ -20,10 +20,10 @@ class Imprint {
     this.logger     = new SimpleLogger(execution)
     def ENV         = System.getenv()
 
-    this.locale     = execution.getVariable('locale') ?: 'ru'
-    this.url        =  ENV['IMPRINT_URL']     ?: execution.getVariable('imprintUrl')     ?: 'http://imprint:2300/api'
-    this.version    = (ENV['IMPRINT_VERSION'] ?: execution.getVariable('imprintVersion') ?: 1)?.toInteger()
-    this.token      =  ENV['IMPRINT_TOKEN']   ?: execution.getVariable('imprintToken')
+    this.locale     =  execution.getVariable('locale') ?: 'ru'
+    this.url        =  execution.getVariable('imprintUrl')     ?: ENV['IMPRINT_URL']     ?: 'http://imprint:2300/api'
+    this.version    = (execution.getVariable('imprintVersion') ?: ENV['IMPRINT_VERSION'] ?: 1)?.toInteger()
+    this.token      =  execution.getVariable('imprintToken')   ?: ENV['IMPRINT_TOKEN']
     LinkedHashMap headers = [
       'X_IMPRINT_API_VERSION' : this.version,
       'X_IMPRINT_API_TOKEN'   : this.token

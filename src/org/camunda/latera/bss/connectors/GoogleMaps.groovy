@@ -15,8 +15,8 @@ class GoogleMaps {
     this.logger  =  new SimpleLogger(execution)
     def ENV      =  System.getenv()
 
-    this.url     =  ENV['GOOGLE_MAPS_URL']   ?: 'https://maps.googleapis.com/maps/api'
-    this.token   =  ENV['GOOGLE_MAPS_TOKEN'] ?: execution.getVariable('googleMapsToken')
+    this.url     =  execution.getVariable('googleMapsUrl')   ?: ENV['GOOGLE_MAPS_URL'] ?: 'https://maps.googleapis.com/maps/api'
+    this.token   =  execution.getVariable('googleMapsToken') ?: ENV['GOOGLE_MAPS_TOKEN']
 
     this.http = new HTTPRestProcessor(
       baseUrl   : url,

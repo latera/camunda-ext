@@ -16,13 +16,14 @@ class Minio implements Bucket, File {
   SimpleLogger logger
 
   Minio(DelegateExecution execution) {
-    this.logger    =  new SimpleLogger(execution)
-    def ENV        =  System.getenv()
+    this.logger = new SimpleLogger(execution)
+    def ENV     = System.getenv()
 
-    this.url       =  ENV['MINIO_URL']        ?: execution.getVariable("minioUrl")     ?: 'http://minio:9000'
-    this.accessKey =  ENV['MINIO_ACCESS_KEY'] ?: execution.getVariable("minioAccessKey")
-    this.secretKey =  ENV['MINIO_SECRET_KEY'] ?: execution.getVariable("minioSecretKey")
-    this.defaultBucketName = ENV['MINIO_BUCKET_NAME'] ?: execution.getVariable("minioBucketName")
-    this.client    =  new MinioClient(url, accessKey, secretKey)
+    this.url               = execution.getVariable('minioUrl')        ?: ENV['MINIO_URL'] ?: 'http://minio:9000'
+    this.accessKey         = execution.getVariable('minioAccessKey')  ?: ENV['MINIO_ACCESS_KEY']
+    this.secretKey         = execution.getVariable('minioSecretKey')  ?: ENV['MINIO_SECRET_KEY']
+    this.defaultBucketName = execution.getVariable('minioBucketName') ?: ENV['MINIO_BUCKET_NAME']
+
+    this.client = new MinioClient(url, accessKey, secretKey)
   }
 }
