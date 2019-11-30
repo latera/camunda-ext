@@ -134,6 +134,9 @@ trait Table {
         } else if (isDate(value)) {
           query += """
     AND ${field} = ${encodeDateStr(value)}""" // d_begin: LocalDateTime('2001-01-01T00:00:00+00')
+        } else if (field.startsWith("${tableAlias}.vc_") || field.startsWith("${tableAlias}.VC_") || field.startsWith('vc_') || field.startsWith('VC_')) {
+          query += """
+    AND ${field} = '${value}'""" // vc_code: '91' instead of vc_code: 91
         } else {
           query += """
     AND ${field} = ${value}""" // n_object_id: 123

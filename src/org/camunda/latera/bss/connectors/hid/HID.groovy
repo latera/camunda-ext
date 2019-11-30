@@ -2,6 +2,10 @@ package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.XMLRPCServerProxy
 import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.Numeric.isIntegerStrict
+import static org.camunda.latera.bss.utils.Numeric.isNumber
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.Oracle.encodeDate
@@ -91,15 +95,26 @@ WHERE ROWNUM <= ${limit}"""
 
   def execute(CharSequence execName, Map params) {
     LinkedHashMap encodedParams = [:]
-    params.each{ key, value ->
+    params.each{ CharSequence key, def value ->
       if (isDate(value)) {
         value = encodeDate(value)
       }
-      if (isString(value)) {
+      if (isString(value) || key.startsWith('vch_') || key.startsWith('VC_')) {
         value = value.toString() // Convert GStringImpl to String
+      }
+      if (key.startsWith('num_') || key.startsWith('N_')) {
+        if (isIntegerStrict(value)) { // Convert Ids to numbers
+          value = toIntSafe(value)
+        } else if (isNumber(value)) { // Convert floats to numbers to remove localized delimiters
+          value = toFloatSafe(value)
+        }
       }
       encodedParams[key] = encodeNull(value)
     }
     return this.proxy.invokeMethod(execName, [encodedParams])
+  }
+
+  def execute(Map params = [:], CharSequence execName) {
+    return execute(execName, params)
   }
 }
