@@ -77,19 +77,19 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
       if (group.size() > 0) {
         String noIdName = group[0][1] // addressType
         if (params.containsKey(noIdName) && params[noIdName] != null) { // addressTypeId: ..., addressType: 'ADDR_TYPE_IP', excluding addressType: null
-          if (isMap(params[noIdName])) {
+          if (isMap(params[noIdName])) { //addrType: [in: ...]
             Map where = params[noIdName]
-            ['in', 'not in'].each {CharSequence operator ->
+            ['in', 'not in'].each { CharSequence operator ->
               // addressTypeId: ..., addressType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6'], 'not in': ['ADDR_TYPE_Subnet']]
               if (where.containsKey(operator) && isList(where[operator])) {
-                Map newWhere = [:]
-                where[operator].each { CharSequence key, CharSequence val ->
-                  newWhere[key] = getRefIdByCode(val)  // -> addressTypeId: [in: [123, 456], 'not in': [789]]
+                List newWhere = []
+                where[operator].each { CharSequence code ->
+                  newWhere << getRefIdByCode(code)  // -> addressTypeId: [in: [123, 456], 'not in': [789]]
                 }
-                params[noIdName] = newWhere
+                where[operator] = newWhere
               }
             } // overwise addressType: [like: 'A%'] -> addressTypeId: [like: 'A%']
-            result[name] = params[noIdName]
+            result[name] = where
           } else if (isString(params[noIdName])) {
             result[name] = getRefIdByCode(params[noIdName]) // addressType: 'ADDR_TYPE_IP' -> addressTypeId: 123
           } else {
