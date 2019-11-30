@@ -54,7 +54,7 @@ trait Address {
           order."${prefix}${params.bindAddrType}RegionId" = address.n_region_id
 
           if (params.withId) {
-            order."${prefix}${params.bindAddrType}AddressId" = address.n_address_id
+            order."${prefix}${params.bindAddrType}AddressId" = address.n_obj_address_id
           }
 
           hydra.getAddressFieldNames().each{ name ->
@@ -69,6 +69,10 @@ trait Address {
           )
         } else {
           order."${prefix}${params.addrType}" = address.vc_visual_code
+
+          if (params.withId) {
+            order."${prefix}${params.addrType}Id" = address.n_obj_address_id
+          }
         }
       }
     }
@@ -785,7 +789,7 @@ trait Address {
     Boolean result = false
     Map address = hydra.putEntityAddress(inp)
     if (address) {
-      order."${prefix}${prefixId}" = address.num_N_ENTITY_ADDRESS_ID
+      order."${prefix}${prefixId}Id" = address.num_N_OBJ_ADDRESS_ID
       result = true
     }
     order."${prefix}${prefixId}Created" = result
@@ -1063,17 +1067,17 @@ trait Address {
       prefixClosed = "${addrType}Closed" // equipmentSubnetClosed
     }
 
-    def addressId   = order."${prefix}${prefixId}"
-    def addressCode = order."${prefix}${prefixCode}"
+    def entityAddressId = order."${prefix}${prefixId}"
+    def addressCode    = order."${prefix}${prefixCode}"
     Boolean result = hydra.closeEntityAddress(
-      entityId     : entityId,
-      entityType   : entityType,
-      addressId    : addressId,
-      bindAddrType : "BIND_ADDR_TYPE_${bindAddrType}",
-      addrType     : "ADDR_TYPE_${addrType ?: 'FactPlace'}",
-      code         : addressCode,
-      isMain       : isMain,
-      endDate      : endDate
+      entityId        : entityId,
+      entityType      : entityType,
+      entityAddressId : entityAddressId,
+      bindAddrType    : "BIND_ADDR_TYPE_${bindAddrType}",
+      addrType        : "ADDR_TYPE_${addrType ?: 'FactPlace'}",
+      code            : addressCode,
+      isMain          : isMain,
+      endDate         : endDate
     )
 
     order."${prefix}${prefixClosed}" = result
@@ -1216,16 +1220,16 @@ trait Address {
       prefixDeleted = "${addrType}Deleted"
     }
 
-    def addressId   = order."${prefix}${prefixId}"
+    def entityAddressId = order."${prefix}${prefixId}"
     def addressCode = order."${prefix}${prefixCode}"
     Boolean result = hydra.deleteEntityAddress(
-      entityId     : entityId,
-      entityType   : entityType,
-      addressId    : addressId,
-      bindAddrType : "BIND_ADDR_TYPE_${bindAddrType}",
-      addrType     : "ADDR_TYPE_${addrType ?: 'FactPlace'}",
-      code         : addressCode,
-      isMain       : isMain
+      entityId        : entityId,
+      entityType      : entityType,
+      entityAddressId : entityAddressId,
+      bindAddrType    : "BIND_ADDR_TYPE_${bindAddrType}",
+      addrType        : "ADDR_TYPE_${addrType ?: 'FactPlace'}",
+      code            : addressCode,
+      isMain          : isMain
     )
 
     order."${prefix}${prefixDeleted}" = result
