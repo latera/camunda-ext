@@ -265,13 +265,7 @@ trait Address {
     def addrType = 'IP'
     def prefix   = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}${capitalize(params.prefix)}"
 
-    def address  = hydra.getFreeIP(
-      groupId         : params.groupId,
-      objectId        : params.objectId,
-      subnetAddress   : params.subnetAddress,
-      subnetAddressId : params.subnetAddressId,
-      operationDate   : params.operationDate
-    )
+    def address  = hydra.getFreeIP(params)
     if (address) {
       order."${prefix}${addrType}" = address
     }
@@ -344,13 +338,7 @@ trait Address {
     def addrType = 'Subnet'
     def prefix   = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}${capitalize(params.prefix)}"
 
-    def address  = hydra.getFreeSubnet(
-      groupId       : params.groupId,
-      rootId        : params.rootId,
-      objectId      : params.objectId,
-      mask          : params.mask,
-      operationDate : params.operationDate
-    )
+    def address  = hydra.getFreeSubnet(params)
     if (address) {
       order."${prefix}${addrType}" = address
     }
@@ -754,12 +742,12 @@ trait Address {
       beginDate    : params.beginDate,
       endDate      : params.endDate
     ]
-    String prefixId      = ''
-    String prefixCreated = ''
+    String prefixId       = ''
+    String parentPrefixId = ''
 
     if (isEmpty(params.addrType)) {
       Pattern pattern = Pattern.compile("^${prefix}${params.bindAddrType}(RegionId|${hydra.getAddressFieldNames().join('|')})\$", Pattern.CASE_INSENSITIVE)
-      order.data.each { key, value ->
+      order.data.each { String key, def value ->
         def group = (key =~ pattern)
         if (group.size() > 0) {
           String item = decapitalize(group[0][1])

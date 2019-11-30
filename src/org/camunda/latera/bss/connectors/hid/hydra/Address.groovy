@@ -941,12 +941,20 @@ trait Address {
       groupId           : null,
       objectId          : null,
       subnetAddressId   : null,
+      vlanId            : null,
       operationDate     : local(),
       firmId            : getFirmId()
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
       input.remove('subnetAddress')
+    }
+    if (input.containsKey('vlan') && notEmpty(input.vlan)) {
+      input.vlanId = getAddressBy(code: input.vlan, addrType: 'ADDR_TYPE_VLAN')?.n_address_id
+      input.remove('vlan')
+    }
+    if (input.vlanId && !input.subnetAddressId) {
+      input.subnetAddressId = getSubnetAddressByVLAN(vlanId: input.vlanId)?.n_subnet_id
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
@@ -1242,6 +1250,13 @@ trait Address {
     if (input.containsKey('root') && notEmpty(input.root)) {
       input.rootId = getAddressBy(code: input.root, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
       input.remove('root')
+    }
+    if (input.containsKey('vlan') && notEmpty(input.vlan)) {
+      input.vlanId = getAddressBy(code: input.vlan, addrType: 'ADDR_TYPE_VLAN')?.n_address_id
+      input.remove('vlan')
+    }
+    if (input.vlanId && !input.groupId && !input.rootId) {
+      input.rootId = getSubnetAddressByVLAN(vlanId: input.vlanId)?.n_subnet_id
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
 
@@ -1613,6 +1628,77 @@ trait Address {
 
   String getVLANBySubnet(Map input) {
     return getVLANAddressBySubnet(input)?.vc_vlan
+  }
+
+  List getSubnetAddressesByVLAN(Map input) {
+    LinkedHashMap defaultParams = [
+      addressId     : null,
+      mask          : null,
+      operationDate : local(),
+      firmId        : getFirmId()
+    ]
+    if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
+      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_VLAN')?.n_address_id
+      input.remove('address')
+    }
+    LinkedHashMap params = mergeParams(defaultParams, input)
+    List addresses = []
+    String date = encodeDateStr(params.operationDate)
+
+    try {
+      if (this.version >= '5.1.2') {
+        addresses = hid.queryDatabase("""
+          SELECT
+              'n_subnet_id',   A.N_SUBNET_ID,
+              'vc_subnet',     A.VC_CODE,
+              'n_par_addr_id', A.N_PAR_SUBNET_ID
+          FROM
+              SI_V_PROV_SUBNETS4  A,
+              SI_V_VLAN_ADDRESSES V
+          WHERE
+              V.N_VLAN_ID     = ${params.addressId ?: params.vlanId}
+          AND A.N_SUBNET_ID   = V.N_ADDRESS_ID
+          AND A.N_PROVIDER_ID = ${params.firmId}
+          ORDER BY A.N_VALUE ASC
+        """, true)
+      } else {
+        addresses = hid.queryDatabase("""
+          SELECT
+              'n_subnet_id',   A.N_ADDRESS_ID,
+              'vc_subnet',     A.VC_CODE,
+              'n_par_addr_id', A.N_PAR_ADDR_ID
+          FROM
+              SI_V_ADDRESSES   A,
+              SI_V_ADDRESSES   V,
+              RG_PAR_ADDRESSES RV
+          WHERE
+              RV.N_ADDRESS_ID        = A.N_ADDRESS_ID
+          AND ${date} BETWEEN RV.D_BEGIN AND NVL(RV.D_END, ${date})
+          AND RV.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
+          AND RV.N_PROVIDER_ID       = ${params.firmId}
+          AND RV.N_PAR_ADDR_ID       = V.N_ADDRESS_ID
+          AND A.N_ADDRESS_ID         = ${params.addressId ?: params.vlanId}
+          AND V.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
+        """, true)
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return addresses
+  }
+
+
+  Map getSubnetAddressByVLAN(Map input) {
+    List result = getSubnetAddressesByVLAN(input)
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
+  }
+
+  String getSubnetByVLAN(Map input) {
+    return getSubnetAddressByVLAN(input)?.vc_subnet
   }
 
   Boolean refreshObjAddresses(CharSequence method = 'C') {
