@@ -10,7 +10,6 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
-import org.camunda.latera.bss.internal.Version
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
@@ -1278,18 +1277,18 @@ trait Address {
       )"""
     } else {
       notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
-      SELECT 1
-      FROM
-          SI_V_OBJ_ADDRESSES OA
-      WHERE
-          OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-      AND OA.N_ADDRESS_ID    = FA.N_ADDRESS_ID
-      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-    )"""
+        SELECT 1
+        FROM
+            SI_V_OBJ_ADDRESSES OA
+        WHERE
+            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+        AND OA.N_ADDRESS_ID    = FA.N_ADDRESS_ID
+        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+      )"""
     }
 
     String notAssignedChild = ''
-      if (this.version >= '5.1.2') {
+    if (this.version >= '5.1.2') {
       notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
         SELECT 1
         FROM
@@ -1381,10 +1380,10 @@ trait Address {
           WHERE
               RA.N_PROVIDER_ID = ${params.firmId}
           CONNECT BY PRIOR
-                RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
+              RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
           AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
           START WITH
-                RA.N_PAR_ADDR_ID = ${params.groupId ?: params.rootId}
+              RA.N_PAR_ADDR_ID = ${params.groupId ?: params.rootId}
         ),
         FILTERED_SUBNETS AS (
           SELECT
@@ -1485,6 +1484,68 @@ trait Address {
       mask = getSubnetMaskById(subnetId)
     }
     return mask
+  }
+
+  String getIPMaskById(def addressId) {
+    String mask = null
+    try {
+      String ip = getAddress(addressId)?.vc_code
+      mask = getIPMask(ip)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return mask
+  }
+
+  String getIPMask(CharSequence ip) {
+    String mask = null
+    def subnetId = getSubnetIdByIP(ip)
+    if (subnetId) {
+      mask = getSubnetMaskById(subnetId)
+    }
+    return mask
+  }
+
+  String getSubnetGatewayById(def subnetId) {
+    String gateway = null
+    try {
+      def gatewayId = getAddress(subnetId)?.n_bind_addr_id
+      if (gatewayId) {
+        gateway = getAddress(gatewayId)?.vc_code
+      }
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return gateway
+  }
+
+  String getSubnetGateway(CharSequence subnet) {
+    String gateway = null
+    def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
+    if (subnetId) {
+      gateway = getSubnetGatewayById(subnetId)
+    }
+    return gateway
+  }
+
+  String getIPGatewayById(def addressId) {
+    String gateway = null
+    try {
+      String ip = getAddress(addressId)?.vc_code
+      gateway = getIPGateway(ip)
+    } catch (Exception e){
+      logger.error_oracle(e)
+    }
+    return gateway
+  }
+
+  String getIPGateway(CharSequence ip) {
+    String gateway = null
+    def subnetId = getSubnetIdByIP(ip)
+    if (subnetId) {
+      gateway = getSubnetGatewayById(subnetId)
+    }
+    return gateway
   }
 
   String getSubnetv6Mask() {

@@ -177,6 +177,11 @@ trait Address {
     fetchEquipmentAddress(params + [
       addrType : 'IP'
     ])
+
+    String equipmentPrefix     = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix              = "${equipmentPrefix}${capitalize(params.prefix)}"
+    order."${prefix}IPMask"    = hydra.getIPMask(order."${prefix}IP")
+    order."${prefix}IPGateway" = hydra.getIPGateway(order."${prefix}IP")
   }
 
   void fetchEquipmentVLAN(Map input = [:]) {
@@ -213,6 +218,11 @@ trait Address {
     fetchEquipmentAddress(params + [
       addrType : 'Subnet'
     ])
+
+    String equipmentPrefix         = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix                  = "${equipmentPrefix}${capitalize(params.prefix)}"
+    order."${prefix}SubnetMask"    = hydra.getSubnetMask(order."${prefix}Subnet")
+    order."${prefix}SubnetGateway" = hydra.getSubnetGateway(order."${prefix}Subnet")
   }
 
   void fetchEquipmentSubnet6(Map input = [:]) {
@@ -231,6 +241,11 @@ trait Address {
     fetchEquipmentAddress(params + [
       addrType : 'Subnet6'
     ])
+
+    String equipmentPrefix          = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix                   = "${equipmentPrefix}${capitalize(params.prefix)}"
+    order."${prefix}Subnet6Mask"    = hydra.getSubnetMask(order."${prefix}Subnet6")
+    order."${prefix}Subnet6Gateway" = hydra.getSubnetGateway(order."${prefix}Subnet6")
   }
 
   void fetchEquipmentTelephone(Map input = [:]) {
