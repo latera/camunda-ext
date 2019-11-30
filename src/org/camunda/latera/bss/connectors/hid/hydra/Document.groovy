@@ -559,8 +559,8 @@ trait Document {
     input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      String valueType = getAddParamDataType(param)
-      input."${valueType}" = input.value
+      def (valueType, val) = getAddParamDataType(param, input.value)
+      input."${valueType}" = val
       input.remove('value')
     }
     return input

@@ -532,7 +532,7 @@ trait Equipment {
   Map prepareEquipmentAddParam(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param')) {
-      param = getEquipmentAddParamTypeBy(input.param.toString())
+      param = getEquipmentAddParamTypeByCode(input.param.toString())
       input.paramId = param?.n_good_value_type_id
       input.remove('param')
     } else if (input.containsKey('paramId')) {
@@ -541,8 +541,8 @@ trait Equipment {
     input.isMultiple = decodeBool(param.c_fl_multi)
 
     if (input.containsKey('value')) {
-      String valueType = getAddParamDataType(param)
-      input."${valueType}" = input.value
+      def (valueType, val) = getAddParamDataType(param, input.value)
+      input."${valueType}" = val
       input.remove('value')
     }
     return input

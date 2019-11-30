@@ -172,7 +172,7 @@ trait Param {
   Map prepareParamValue(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param') || input.containsKey('code')) {
-      param = getParamByCode(input.param || input.code)
+      param = getParamByCode(input.param ?: input.code)
       input.paramId = param.n_par_id
       input.remove('param')
       input.remove('code')
@@ -180,8 +180,8 @@ trait Param {
       param = getParam(input.paramId)
     }
     if (input.containsKey('value')) {
-      String valueType = getAddParamDataType(param)
-      input."${valueType}" = input.value
+      def (valueType, val) = getAddParamDataType(param, input.value)
+      input."${valueType}" = val
       input.remove('value')
     }
     return input
@@ -238,6 +238,11 @@ trait Param {
   }
 
   Map getParamValueBy(Map input) {
-    return getParamValuesBy(input + [limit: 1])?.getAt(0)
+    List result = getParamValuesBy(input + [limit: 1])
+    if (result) {
+      return result.getAt(0)
+    } else {
+      return null
+    }
   }
 }
