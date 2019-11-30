@@ -179,24 +179,6 @@ trait Address {
     ])
   }
 
-  void fetchEquipmentSubnet6(Map input = [:]) {
-    Map params = [
-      bindAddrType    : 'Actual',
-      isMain          : true,
-      operationDate   : null,
-      beginDate       : null,
-      endDate         : null,
-      equipmentPrefix : '',
-      equipmentSuffix : '',
-      prefix          : '',
-      withId          : false
-    ] + input
-
-    fetchEquipmentAddress(params + [
-      addrType : 'Subnet6'
-    ])
-  }
-
   void fetchEquipmentVLAN(Map input = [:]) {
     Map params = [
       bindAddrType    : 'Actual',
@@ -230,6 +212,24 @@ trait Address {
 
     fetchEquipmentAddress(params + [
       addrType : 'Subnet'
+    ])
+  }
+
+  void fetchEquipmentSubnet6(Map input = [:]) {
+    Map params = [
+      bindAddrType    : 'Actual',
+      isMain          : true,
+      operationDate   : null,
+      beginDate       : null,
+      endDate         : null,
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : '',
+      withId          : false
+    ] + input
+
+    fetchEquipmentAddress(params + [
+      addrType : 'Subnet6'
     ])
   }
 
@@ -285,13 +285,7 @@ trait Address {
     def addrType = 'Subnet6'
     def prefix   = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}${capitalize(params.prefix)}"
 
-    def address  = hydra.getFreeIPv6Subnet(
-      groupId         : params.groupId,
-      objectId        : params.objectId,
-      subnetAddress   : params.subnetAddress,
-      subnetAddressId : params.subnetAddressId,
-      operationDate   : params.operationDate
-    )
+    def address  = hydra.getFreeIPv6Subnet(params)
     if (address) {
       order."${prefix}${addrType}" = address
     }
@@ -311,13 +305,7 @@ trait Address {
     def addrType = 'Telephone'
     def prefix   = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}${capitalize(params.prefix)}"
 
-    def address  = hydra.getFreePhoneNumber(
-      groupId       : params.groupId,
-      objectId      : params.objectId,
-      telCode       : params.telCode,
-      telCodeId     : params.telCodeId,
-      operationDate : params.operationDate
-    )
+    def address  = hydra.getFreePhoneNumber(params)
     if (address) {
       order."${prefix}${addrType}" = address
     }

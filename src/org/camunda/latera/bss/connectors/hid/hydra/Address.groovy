@@ -1036,7 +1036,6 @@ trait Address {
       groupId         : null,
       objectId        : null,
       subnetAddressId : null,
-      operationDate   : local(),
       firmId          : getFirmId()
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
@@ -1044,9 +1043,7 @@ trait Address {
       input.remove('subnetAddress')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
-
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     try {
       if (this.version >= '5.1.2') {
@@ -1125,7 +1122,7 @@ trait Address {
   String getFreeIPv6Subnet(Map input) {
     String subnet = null
     try {
-      subnet = "${getFreeIPv6(input)}/${getIPv6Mask()}"
+      subnet = "${getFreeIPv6(input)}/${getSubnetv6Mask()}"
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -1244,6 +1241,7 @@ trait Address {
       groupId       : null,
       rootId        : null,
       mask          : null,
+      vlanId        : null,
       operationDate : local(),
       firmId        : getFirmId()
     ]
@@ -1262,8 +1260,20 @@ trait Address {
 
     List addresses = []
     String date = encodeDateStr(params.operationDate)
-    String filter = params.mask ? "SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}'" : '1=1'
-    String notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
+    String filter = params.mask ? "(SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}' OR A.N_MASK = '${params.mask}')" : '1=1'
+    String notAssigned = ''
+    if (this.version >= '5.1.2') {
+      notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
+        SELECT 1
+        FROM
+            SI_V_OBJ_ADDRESSES OA
+        WHERE
+            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+        AND OA.N_ADDRESS_ID    = FA.N_SUBNET_ID
+        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+      )"""
+    } else {
+      notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
       SELECT 1
       FROM
           SI_V_OBJ_ADDRESSES OA
@@ -1272,6 +1282,7 @@ trait Address {
       AND OA.N_ADDRESS_ID    = FA.N_ADDRESS_ID
       AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
     )"""
+    }
 
     String notAssignedChild = ''
       if (this.version >= '5.1.2') {
@@ -1287,7 +1298,7 @@ trait Address {
         AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
         AND A.N_PROVIDER_ID    = ${params.firmId}
         START WITH
-            A.N_PAR_ADDR_ID    = FA.N_ADDRESS_ID
+            A.N_PAR_ADDR_ID    = FA.N_SUBNET_ID
         CONNECT BY PRIOR
             A.N_ADDRESS_ID     = A.N_PAR_ADDR_ID
       )"""
@@ -1317,13 +1328,16 @@ trait Address {
       if (this.version >= '5.1.2') {
         addresses = hid.queryDatabase("""
         WITH AVAILABLE_SUBNETS AS (
-          SELECT *
-          FROM   SI_V_PROV_SUBNETS A
-          WHERE  A.N_PROVIDER_ID = ${params.firmId}
+          SELECT
+              *
+          FROM
+              SI_V_PROV_SUBNETS A
+          WHERE
+              A.N_PROVIDER_ID = ${params.firmId}
           CONNECT BY PRIOR
-                A.N_ADDRESS_ID  = A.N_PAR_ADDR_ID
+              A.N_SUBNET_ID  = A.N_PAR_SUBNET_ID
           START WITH
-                A.N_PAR_ADDR_ID = ${params.rootId}
+              A.N_PAR_SUBNET_ID = ${params.rootId}
         ),
         FILTERED_SUBNETS AS (
           SELECT
@@ -1357,12 +1371,15 @@ trait Address {
       } else {
         addresses = hid.queryDatabase("""
         WITH AVAILABLE_SUBNETS AS (
-          SELECT RA.*
-          FROM   RG_PAR_ADDRESSES   RA
-          WHERE  RA.N_PROVIDER_ID = ${params.firmId}
+          SELECT
+              RA.*
+          FROM
+              RG_PAR_ADDRESSES   RA
+          WHERE
+              RA.N_PROVIDER_ID = ${params.firmId}
           CONNECT BY PRIOR
                 RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
-          AND   RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
+          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
           START WITH
                 RA.N_PAR_ADDR_ID = ${params.groupId ?: params.rootId}
         ),
@@ -1434,7 +1451,7 @@ trait Address {
 
   String getSubnetByIP(CharSequence ip) {
     def subnetId = getSubnetIdByIP(ip)
-    LinkedHashMap subnet = null
+    String subnet = null
     if (subnetId) {
       subnet = getAddress(addressId: subnetId, addrType: 'ADDR_TYPE_SUBNET')?.vc_code
     }
@@ -1442,7 +1459,7 @@ trait Address {
   }
 
   String getSubnetMaskById(def subnetId) {
-    String mask = ''
+    String mask = null
     try {
       mask = hid.queryFirst("""
         SELECT SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(SI_ADDRESSES_PKG_S.GET_N_MASK_BY_SUBNET(${subnetId}))
@@ -1455,7 +1472,7 @@ trait Address {
   }
 
   String getSubnetMask(CharSequence subnet) {
-    String mask = ''
+    String mask = null
     def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
     if (subnetId) {
       mask = getSubnetMaskById(subnetId)
@@ -1463,12 +1480,12 @@ trait Address {
     return mask
   }
 
-  String getSuubnetv6Mask() {
+  String getSubnetv6Mask() {
     return getIPv6Mask()
   }
 
   String getIPv6Mask() {
-    return getParamValue(param: 'PAR_IPv6SubnetLength', subjectId: getFirmId())
+    return getParamValueBy(param: 'PAR_IPv6SubnetLength', subjectId: getFirmId())?.n_value
   }
 
   List getParentSubnetAddresses(Map input) {
@@ -1479,7 +1496,7 @@ trait Address {
       firmId        : getFirmId()
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
-      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')
+      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')?.n_address_id
       input.remove('address')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
@@ -1498,11 +1515,11 @@ trait Address {
           FROM
               SI_V_PROV_SUBNETS A
           WHERE
-              A.N_PROVIDER_ID = ${params.firmId}
+              A.N_PROVIDER_ID   = ${params.firmId}
           START WITH
-              A.N_ADDRESS_ID = ${params.addressId}"
+              A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
           CONNECT BY PRIOR
-              A.N_PAR_ADDR_ID  = A.N_ADDRESS_ID
+              A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
           ORDER BY LEVEL ASC
         """, true)
       } else {
@@ -1517,14 +1534,14 @@ trait Address {
               SI_V_ADDRESSES   A,
               RG_PAR_ADDRESSES RA
           WHERE
-              RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
+              RA.N_ADDRESS_ID = A.N_ADDRESS_ID
           AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
           AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-          AND RA.N_PROVIDER_ID       = ${params.firmId}
+          AND RA.N_PROVIDER_ID = ${params.firmId}
           START WITH
-              A.N_ADDRESS_ID = ${params.addressId}"
+              A.N_ADDRESS_ID = ${params.addressId ?: params.subnetId}"
           CONNECT BY PRIOR
-              RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
+              RA.N_PAR_ADDR_ID = RA.N_ADDRESS_ID
           ORDER BY LEVEL ASC
         """, true)
       }
@@ -1542,7 +1559,7 @@ trait Address {
       firmId        : getFirmId()
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
-      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')
+      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')?.n_address_id
       input.remove('address')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
@@ -1562,11 +1579,11 @@ trait Address {
             FROM
                 SI_V_PROV_SUBNETS4 A
             WHERE
-                A.N_PROVIDER_ID = ${params.firmId}
+                A.N_PROVIDER_ID   = ${params.firmId}
             START WITH
-                A.N_ADDRESS_ID = ${params.addressId}"
+                A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
             CONNECT BY PRIOR
-                A.N_PAR_ADDR_ID  = A.N_ADDRESS_ID
+                A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
             ORDER BY LEVEL ASC
           )
 
@@ -1577,7 +1594,7 @@ trait Address {
               SUBNETS             S,
               SI_V_VLAN_ADDRESSES A
           WHERE
-              S.N_ADDRESS_ID = A.N_ADDRESS_ID
+              S.N_SUBNET_ID = A.N_ADDRESS_ID
         """, true)
       } else {
         address = hid.queryFirst("""
@@ -1598,7 +1615,7 @@ trait Address {
             AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
             AND RA.N_PROVIDER_ID       = ${params.firmId}
             START WITH
-                A.N_ADDRESS_ID = ${params.addressId}"
+                A.N_ADDRESS_ID = ${params.addressId ?: params.subnetId}"
             CONNECT BY PRIOR
                 RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
             ORDER BY LEVEL ASC
