@@ -162,7 +162,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isIntegerStrict(def)">isIntegerStrict</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not.</td>
+                            <td class="colLast"><code><strong><a href="#isIntegerStrict(def)">isIntegerStrict</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</code><br>Check whether input is Integer or not. </td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -312,11 +312,11 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isIntegerStrict</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> value)</h4>
                                 <p>
-    Check whether input is Integer or not.
+    Check whether input is Integer or not. Same as #isInteger, but returns false if there is decimal part in input (even 0).
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
-  <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to check</DD></DL></p>
+  <DL><DT><B>Parameters:</B></DT><DD><code>value</code> -  Any object to check</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#isInteger'>isInteger</a></DD></DL></p>
                             </li>
                         </ul>
                     

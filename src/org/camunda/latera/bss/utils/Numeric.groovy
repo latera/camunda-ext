@@ -79,11 +79,12 @@ class Numeric {
   }
 
   /**
-    Check whether input is Integer or not.
+    Check whether input is Integer or not. Same as #isInteger, but returns false if there is decimal part in input (even 0).
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
     @param value Any object to check
+    @see #isInteger
   */
   static Boolean isIntegerStrict(def value) {
     def val = toFloatSafe(value, null)

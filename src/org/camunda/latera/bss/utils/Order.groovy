@@ -4,6 +4,9 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.decapitalize
+import static org.camunda.latera.bss.utils.Numeric.isNumber
+import static org.camunda.latera.bss.utils.Numeric.toIntStrict
+import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.parseDateTimeAny
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.DateTimeUtil.iso
@@ -16,7 +19,7 @@ class Order implements GroovyObject {
   private DelegateExecution _execution
 
   Order(DelegateExecution execution) {
-    this._execution  = execution
+    this._execution = execution
   }
 
   static def getValue(CharSequence name, Boolean raw = false, DelegateExecution execution) {
@@ -49,6 +52,16 @@ class Order implements GroovyObject {
     def date = parseDateTimeAny(result)
     if (date) {
       return date
+    }
+
+    def number = toIntStrict(result)
+    if (number != null) {
+      return number
+    }
+
+    number = toFloatSafe(result)
+    if (number != null) {
+      return number
     }
     return result
   }
@@ -95,7 +108,7 @@ class Order implements GroovyObject {
   static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
-      if (key =~ /^homsOrderData/ && key != 'homsOrderDataUploadedFile') {
+      if (key.startsWith('homsOrderData') && key != 'homsOrderDataUploadedFile') {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
         data[_key] = getValue(key, raw, execution)
       }
@@ -145,6 +158,9 @@ class Order implements GroovyObject {
       }
       if (isDate(value)) {
         value = iso(value)
+      }
+      if (isNumber(value)) {
+        value = value.toString() // BigDecimal and BigInteger values are stored in serializable format, so convert them to String
       }
     }
     execution.setVariable(name, value)
