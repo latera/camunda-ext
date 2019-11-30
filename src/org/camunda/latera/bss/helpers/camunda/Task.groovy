@@ -66,42 +66,42 @@ trait Task {
   }
 
   CamundaTask getProgressTask() {
-    String progressTaskName = execution.getVariable('progressTaskName') ?: 'Progress'
-    return getTaskByName(progressTaskName)
+    return getTaskByName(execution.getVariable('progressTaskName') ?: 'Progress')
   }
 
   CamundaTask getWaitTask() {
-    String progressTaskName = execution.getVariable('waitTaskName') ?: 'Wait'
-    return getTaskByName(progressTaskName)
+    return getTaskByName(execution.getVariable('waitTaskName') ?: 'Wait')
   }
 
   CamundaTask getCheckTask() {
-    String progressTaskName = execution.getVariable('checkTaskName') ?: 'Check'
-    return getTaskByName(progressTaskName)
+    return getTaskByName(execution.getVariable('checkTaskName') ?: 'Check')
+  }
+
+  CamundaTask getTimerTask() {
+    return getTaskByName(execution.getVariable('timerTaskName') ?: 'Timer')
   }
 
   Boolean refreshProgressTaskVariables() {
-    CamundaTask progressTask = getProgressTask()
-    return updateTaskVariables(progressTask, execution.getVariables())
+    return updateTaskVariables(getProgressTask(), execution.getVariables())
   }
 
   Boolean closeProgressTask() {
-    CamundaTask task = getProgressTask()
-    return completeTask(task)
+    return completeTask(getProgressTask())
   }
 
   Boolean closeWaitTask() {
-    CamundaTask task = getWaitTask()
-    return completeTask(task)
+    return completeTask(getWaitTask())
   }
 
   Boolean closeCheckTask() {
-    CamundaTask task = getCheckTask()
-    return completeTask(task)
+    return completeTask(getCheckTask())
+  }
+
+  Boolean closeTimerTask() {
+    return completeTask(getTimerTask())
   }
 
   Boolean closeTask(String name) {
-    CamundaTask task = getTaskByName(name)
-    return completeTask(task)
+    return completeTask(getTaskByName(name))
   }
 }
