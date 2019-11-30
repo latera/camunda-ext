@@ -1,8 +1,6 @@
 package org.camunda.latera.bss.helpers.hydra
 
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
-import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
-import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import org.camunda.latera.bss.http.HTTPRestProcessor
 
 trait Spartial {
@@ -13,30 +11,14 @@ trait Spartial {
       prefix          : ''
     ] + input
 
-    String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
-    String prefix = "${equipmentPrefix}${capitalize(params.prefix)}"
+    List addParams  = ['DirectPolarization', 'DirectRFCC', 'Azimuth', 'AntennaPhi', 'AntennaDiameter', 'DirectdB', 'DirectRayNumber', 'DirectEIRP', 'ReversedB', 'ReversedBK', 'ReverseGT']
 
-    def equipmentId   = order."${prefix}Id" ?: [is: null]
-    List stringParams  = ['DirectPolarization', 'DirectRFCC']
-    List numericParams = ['Azimuth', 'AntennaPhi', 'AntennaDiameter', 'DirectdB', 'DirectRayNumber', 'DirectEIRP', 'ReversedB', 'ReversedBK', 'ReverseGT']
-
-    (stringParams + numericParams).each { it ->
-      Map addParam = hydra.getEquipmentAddParamBy(
-        equipmentId : equipmentId ?: [is: 'null'],
-        param       : "EQUIP_ADD_PARAM_${it}"
+    addParams.each { CharSequence param ->
+      fetchEquipmentAddParam(
+        equipmentPrefix : params.equipmentPrefix,
+        equipmentSuffix : params.equipmentSuffix,
+        param           : param
       )
-      def value = null
-      if (stringParams.contains(it)) {
-        value = addParam?.vc_value
-      } else {
-        value = addParam?.n_value?.replace(',', '.')
-        if (value?.contains('.')) {
-          value = toFloatSafe(value)
-        } else {
-          value = toIntSafe(value)
-        }
-      }
-      order."${prefix}${it}" = value
     }
   }
 
@@ -82,27 +64,20 @@ trait Spartial {
     ] + input
 
     String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
-    String prefix = "${equipmentPrefix}${capitalize(params.prefix)}"
+    String prefix  = "${equipmentPrefix}${capitalize(params.prefix)}"
+    Boolean result = true
 
-    def equipmentId    = order."${prefix}Id"
-    List stringParams  = ['DirectPolarization', 'DirectRFCC']
-    List numericParams = ['Azimuth', 'AntennaPhi', 'AntennaDiameter', 'DirectdB', 'DirectRayNumber', 'DirectEIRP', 'ReversedB', 'ReversedBK', 'ReverseGT']
-    Boolean result     = true
+    List addParams = ['DirectPolarization', 'DirectRFCC', 'Azimuth', 'AntennaPhi', 'AntennaDiameter', 'DirectdB', 'DirectRayNumber', 'DirectEIRP', 'ReversedB', 'ReversedBK', 'ReverseGT']
 
-    (stringParams + numericParams).each { it ->
-      def value = order."${prefix}${it}"
-      Map inp = [
-        equipmentId : equipmentId,
-        param       : "EQUIP_ADD_PARAM_${it}"
-      ]
-      inp[stringParams.contains(it) ? 'string' : 'number'] = value
-
-      Map res = hydra.putEquipmentAddParam(inp)
-      if (!res) {
+    addParams.each { CharSequence param ->
+      if (!saveEquipmentAddParam(
+        equipmentPrefix : params.equipmentPrefix,
+        equipmentSuffix : params.equipmentSuffix,
+        param           : param
+      )) {
         result = false
       }
     }
-
     order."${prefix}TargetingDataSet" = result
     return result
   }

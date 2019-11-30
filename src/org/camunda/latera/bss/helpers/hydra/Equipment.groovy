@@ -374,4 +374,87 @@ trait Equipment {
 
     fetchEquipmentByAddress(params + [addrType : 'Subnet'])
   }
+
+  def fetchEquipmentAddParam(Map input = [:]) {
+    Map params = [
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      prefix          : '',
+      param           : '',
+      code            : ''
+    ] + input
+
+    String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def equipmentId = order."${equipmentPrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getEquipmentAddParamBy(
+      equipmentId : equipmentId,
+      param       : params.code ?: "EQUIP_ADD_PARAM_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${equipmentPrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
+  Boolean saveEquipmentAddParam(Map input = [:]) {
+    Map params = [
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      param           : '',
+      code            : ''
+    ] + input
+
+    String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix   = capitalize(params.prefix)
+    String param    = capitalize(params.param)
+    def equipmentId = order."${equipmentPrefix}Id"
+    def value       = order."${equipmentPrefix}${prefix}${params.code ?: param}" ?: order."${equipmentPrefix}${prefix}${params.code ?: param}Id"
+
+    Map addParam = hydra.addEquipmentAddParam(
+      equipmentId,
+      param       : params.code ?: "EQUIP_ADD_PARAM_${param}",
+      value       : value
+    )
+    Boolean result = false
+    if (addParam) {
+      result = true
+    }
+    order."${equipmentPrefix}${prefix}${params.code ?: param}Saved" = result
+    return result
+  }
+
+  Boolean deleteEquipmentAddParam(Map input = [:]) {
+    Map params = [
+      equipmentPrefix : '',
+      equipmentSuffix : '',
+      param           : '',
+      code            : ''
+    ] + input
+
+    String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
+    String prefix   = capitalize(params.prefix)
+    String param    = capitalize(params.param)
+    def equipmentId = order."${equipmentPrefix}Id"
+    def value       = order."${equipmentPrefix}${prefix}${params.code ?: param}" ?: order."${equipmentPrefix}${prefix}${params.code ?: param}Id"
+
+    Boolean result = true
+
+    if (params.force) {
+      result = hydra.deleteEquipmentAddParam(
+        equipmentId : equipmentId,
+        param       : params.code ?: "EQUIP_ADD_PARAM_${param}"
+      )
+    } else {
+      result = hydra.deleteEquipmentAddParam(
+        equipmentId : equipmentId,
+        param       : params.code ?: "EQUIP_ADD_PARAM_${param}",
+        value       : value // multiple add param support
+      )
+    }
+
+    order."${equipmentPrefix}${prefix}${params.code ?: param}Deleted" = result
+    return result
+  }
 }

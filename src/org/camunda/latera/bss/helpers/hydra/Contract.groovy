@@ -86,6 +86,90 @@ trait Contract {
     return result
   }
 
+  def fetchContractAddParam(Map input = [:]) {
+    Map params = [
+      contractPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
+    ] + input
+
+    String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def contractId = order."${contractPrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getDocumentAddParamBy(
+      docId : contractId,
+      param : params.code ?: "DOC_VAL_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${contractPrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
+  Boolean saveContractAddParam(Map input = [:]) {
+    Map params = [
+      contractPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
+    ] + input
+
+    String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
+    String prefix  = capitalize(params.prefix)
+    String param    = capitalize(params.param)
+    def contractId = order."${contractPrefix}Id"
+    def value      = order."${contractPrefix}${prefix}${params.code ?: param}" ?: order."${contractPrefix}${prefix}${params.code ?: param}Id"
+
+    Map addParam = hydra.addDocumentAddParam(
+      docId : contractId,
+      param : params.code ?: "DOC_VAL_${param}",
+      value : value
+    )
+    Boolean result = false
+    if (addParam) {
+      result = true
+    }
+    order."${contractPrefix}${prefix}${params.code ?: param}Saved" = result
+    return result
+  }
+
+  Boolean deleteContractAddParam(Map input = [:]) {
+    Map params = [
+      contractPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : '',
+      force          : true
+    ] + input
+
+    String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def contractId = order."${contractPrefix}Id"
+    def value      = order."${contractPrefix}${prefix}${params.code ?: param}" ?: order."${contractPrefix}${prefix}${params.code ?: param}Id"
+
+    Boolean result = true
+
+    if (params.force) {
+      result = hydra.deleteDocumentAddParam(
+        docId : contractId,
+        param : params.code ?: "DOC_VAL_${param}"
+      )
+    } else {
+      result = hydra.deleteDocumentAddParam(
+        docId : contractId,
+        param : params.code ?: "DOC_VAL_${param}",
+        value : value // multiple add param support
+      )
+    }
+
+    order."${contractPrefix}${prefix}${params.code ?: param}Deleted" = result
+    return result
+  }
+
   Boolean fetchContractApp(Map input = [:]) {
     Map params = [
       contractPrefix : '',
@@ -145,6 +229,91 @@ trait Contract {
     return result
   }
 
+  def fetchContractAppAddParam(Map input = [:]) {
+    Map params = [
+      contractAppPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
+    ] + input
+
+    String contractAppPrefix = "${capitalize(params.contractAppPrefix)}ContractApp"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def contractAppId = order."${contractAppPrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getDocumentAddParamBy(
+      docId : contractAppId,
+      param : params.code ?: "DOC_VAL_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${contractAppPrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
+  Boolean saveContractAppAddParam(Map input = [:]) {
+    Map params = [
+      contractAppPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
+    ] + input
+
+    String contractAppPrefix = "${capitalize(params.contractAppPrefix)}ContractApp"
+    String prefix     = capitalize(params.prefix)
+    String param      = capitalize(params.param)
+
+    def contractAppId = order."${contractAppPrefix}Id"
+    def value         = order."${contractAppPrefix}${prefix}${params.code ?: param}" ?: order."${contractAppPrefix}${prefix}${params.code ?: param}Id"
+
+    Map addParam = hydra.addDocumentAddParam(
+      docId : contractAppId,
+      param : params.code ?: "DOC_VAL_${param}",
+      value : value
+    )
+    Boolean result = false
+    if (addParam) {
+      result = true
+    }
+    order."${contractAppPrefix}${prefix}${params.code ?: param}Saved" = result
+    return result
+  }
+
+  Boolean deleteContractAppAddParam(Map input = [:]) {
+    Map params = [
+      contractAppPrefix : '',
+      prefix            : '',
+      param             : '',
+      code              : '',
+      force             : true
+    ] + input
+
+    String contractAppPrefix = "${capitalize(params.contractAppPrefix)}ContractApp"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def contractAppId = order."${contractAppPrefix}Id"
+    def value         = order."${contractAppPrefix}${prefix}${params.code ?: param}" ?: order."${contractAppPrefix}${prefix}${params.code ?: param}Id"
+
+    Boolean result = true
+
+    if (params.force) {
+      result = hydra.deleteDocumentAddParam(
+        docId : contractAppId,
+        param : params.code ?: "DOC_VAL_${param}"
+      )
+    } else {
+      result = hydra.deleteDocumentAddParam(
+        docId : contractAppId,
+        param : params.code ?: "DOC_VAL_${param}",
+        value : value // multiple add param support
+      )
+    }
+
+    order."${contractAppPrefix}${prefix}${params.code ?: param}Deleted" = result
+    return result
+  }
+
   void fetchAddAgreement(Map input = [:]) {
     Map params = [
       contractPrefix : '',
@@ -201,6 +370,90 @@ trait Contract {
       order."${prefix}DissolveDate" = params.endDate
     }
     order."${prefix}Dissolved" = result
+    return result
+  }
+
+  def fetchAddAgreementAddParam(Map input = [:]) {
+    Map params = [
+      addAgreementPrefix : '',
+      prefix             : '',
+      param              : '',
+      code               : ''
+    ] + input
+
+    String addAgreementPrefix = "${capitalize(params.addAgreementPrefix)}AddAgreement"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def addAgreementId = order."${addAgreementPrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getDocumentAddParamBy(
+      docId : addAgreementId,
+      param : params.code ?: "DOC_VAL_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${addAgreementPrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
+  Boolean saveAddAgreementAddParam(Map input = [:]) {
+    Map params = [
+      addAgreementPrefix : '',
+      prefix             : '',
+      param              : '',
+      code               : ''
+    ] + input
+
+    String addAgreementPrefix = "${capitalize(params.addAgreementPrefix)}AddAgreement"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def addAgreementId = order."${addAgreementPrefix}Id"
+    def value      = order."${addAgreementPrefix}${prefix}${params.code ?: param}" ?: order."${addAgreementPrefix}${prefix}${params.code ?: param}Id"
+
+    Map addParam = hydra.addDocumentAddParam(
+      docId : addAgreementId,
+      param : params.code ?: "DOC_VAL_${param}",
+      value : value
+    )
+    Boolean result = false
+    if (addParam) {
+      result = true
+    }
+    order."${addAgreementPrefix}${prefix}${params.code ?: param}Saved" = result
+    return result
+  }
+
+  Boolean deleteAddAgreementAddParam(Map input = [:]) {
+    Map params = [
+      addAgreementPrefix : '',
+      prefix             : '',
+      param              : '',
+      code               : '',
+      force              : true
+    ] + input
+
+    String addAgreementPrefix = "${capitalize(params.addAgreementPrefix)}AddAgreement"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def addAgreementId = order."${addAgreementPrefix}Id"
+    def value          = order."${addAgreementPrefix}${prefix}${params.code ?: param}" ?: order."${addAgreementPrefix}${prefix}${params.code ?: param}Id"
+
+    Boolean result = true
+
+    if (params.force) {
+      result = hydra.deleteDocumentAddParam(
+        docId : addAgreementId,
+        param : params.code ?: "DOC_VAL_${param}"
+      )
+    } else {
+      result = hydra.deleteDocumentAddParam(
+        docId : addAgreementId,
+        param : params.code ?: "DOC_VAL_${param}",
+        value : value // multiple add param support
+      )
+    }
+    order."${addAgreementPrefix}${prefix}${params.code ?: param}Deleted" = result
     return result
   }
 }

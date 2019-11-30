@@ -25,6 +25,28 @@ trait Service {
     order."${servicePrefix}PriceWoTax" = toFloatSafe(priceLine?.n_price_wo_tax?.replace(',', '.'), 0.0)
   }
 
+  def fetchServiceAddParam(Map input = [:]) {
+    Map params = [
+      servicePrefix : '',
+      prefix        : '',
+      param         : '',
+      code          : ''
+    ] + input
+
+    String servicePrefix = "${capitalize(params.servicePrefix)}Service"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def serviceId = order."${servicePrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getGoodAddParamBy(
+      goodId : serviceId,
+      param  : params.code ?: "GOOD_VAL_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${servicePrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
   void fetchSubscription(Map input = [:]) {
     Map params = [
       parSubscriptionPrefix  : '',

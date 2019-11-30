@@ -293,27 +293,86 @@ trait Customer {
     return result
   }
 
-  Boolean saveCustomerAddParam(Map input = [:]) {
+  def fetchCustomerAddParam(Map input = [:]) {
     Map params = [
-      prefix : '',
-      param  : ''
+      customerPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
     ] + input
 
-    String customerPrefix = "${capitalize(params.prefix)}Customer"
+    String customerPrefix = "${capitalize(params.customerPrefix)}Customer"
+    String prefix = capitalize(params.prefix)
     String param  = capitalize(params.param)
 
+    def customerId = order."${customerPrefix}Id" ?: [is: 'null']
+    Map addParam = hydra.getSubjectAddParamBy(
+      subjectId : customerId,
+      param     : params.code ?: "SUBJ_VAL_${param}"
+    )
+    def (value, valueType) = hydra.getAddParamValue(addParam)
+    order."${customerPrefix}${prefix}${params.code ?: param}${valueType == 'refId' ? 'Id': ''}" = value
+    return value
+  }
+
+  Boolean saveCustomerAddParam(Map input = [:]) {
+    Map params = [
+      customerPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : ''
+    ] + input
+
+    String customerPrefix = "${capitalize(params.customerPrefix)}Customer"
+    String prefix  = capitalize(params.prefix)
     def customerId = order."${customerPrefix}Id"
-    def value      = order."${customerPrefix}${param}"
-    Map addParam = hydra.putCustomerAddParam(
+    def value      = order."${customerPrefix}${prefix}${params.code ?: param}" ?: order."${customerPrefix}${prefix}${params.code ?: param}Id"
+
+    Map addParam = hydra.addCustomerAddParam(
       customerId : customerId,
-      param      : "SUBJ_VAL_${param}",
+      param      : params.code ?: "SUBJ_VAL_${param}",
       value      : value
     )
     Boolean result = false
     if (addParam) {
       result = true
     }
-    order."${customerPrefix}${param}Saved" = result
+    order."${customerPrefix}${prefix}${params.code ?: param}Saved" = result
+    return result
+  }
+
+  Boolean deleteCustomerAddParam(Map input = [:]) {
+    Map params = [
+      customerPrefix : '',
+      prefix         : '',
+      param          : '',
+      code           : '',
+      force          : true
+    ] + input
+
+    String customerPrefix = "${capitalize(params.customerPrefix)}Customer"
+    String prefix = capitalize(params.prefix)
+    String param  = capitalize(params.param)
+
+    def customerId = order."${customerPrefix}Id"
+    def value      = order."${customerPrefix}${prefix}${params.code ?: param}" ?: order."${customerPrefix}${prefix}${params.code ?: param}Id"
+
+    Boolean result = true
+
+    if (params.force) {
+      result = hydra.deleteSubjectAddParam(
+        subjectId : customerId,
+        param     : params.code ?: "SUBJ_VAL_${param}"
+      )
+    } else {
+      result = hydra.deleteSubjectAddParam(
+        subjectId : customerId,
+        param     : params.code ?: "SUBJ_VAL_${param}",
+        value     : value // multiple add param support
+      )
+    }
+
+    order."${customerPrefix}${prefix}${params.code ?: param}Deleted" = result
     return result
   }
 }
