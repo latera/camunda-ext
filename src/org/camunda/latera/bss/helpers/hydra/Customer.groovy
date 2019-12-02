@@ -221,6 +221,7 @@ trait Customer {
     Map access = hydra.putCustomerNetServiceAccess(options)
     Boolean result = false
     if (access) {
+      order."${customerPrefix}${netServicePrefix}Id"       = access.num_N_SUBJ_SERV_ID
       order."${customerPrefix}${netServicePrefix}Login"    = access.vch_VC_LOGIN
       order."${customerPrefix}${netServicePrefix}Password" = access.vch_VC_PASS
       result = true
@@ -248,6 +249,7 @@ trait Customer {
 
     Boolean result = false
     if (access) {
+      order."${customerPrefix}${appPrefix}Id"       = access.num_N_SUBJ_SERV_ID
       order."${customerPrefix}${appPrefix}Login"    = access.vch_VC_LOGIN
       order."${customerPrefix}${appPrefix}Password" = access.vch_VC_PASS
       result = true
@@ -272,6 +274,7 @@ trait Customer {
     )
     Boolean result = false
     if (access) {
+      order."${customerPrefix}${selfCarePrefix}Id"       = access.num_N_SUBJ_SERV_ID
       order."${customerPrefix}${selfCarePrefix}Login"    = access.vch_VC_LOGIN
       order."${customerPrefix}${selfCarePrefix}Password" = access.vch_VC_PASS
       result = true
