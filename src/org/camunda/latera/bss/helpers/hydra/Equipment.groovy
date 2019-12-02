@@ -430,7 +430,8 @@ trait Equipment {
       equipmentPrefix : '',
       equipmentSuffix : '',
       param           : '',
-      code            : ''
+      code            : '',
+      force           : false
     ] + input
 
     String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"

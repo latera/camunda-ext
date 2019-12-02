@@ -350,7 +350,7 @@ trait Customer {
       prefix         : '',
       param          : '',
       code           : '',
-      force          : true
+      force          : false
     ] + input
 
     String customerPrefix = "${capitalize(params.customerPrefix)}Customer"

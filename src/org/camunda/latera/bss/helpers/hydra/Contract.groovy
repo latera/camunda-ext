@@ -141,7 +141,7 @@ trait Contract {
       prefix         : '',
       param          : '',
       code           : '',
-      force          : true
+      force          : false
     ] + input
 
     String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
@@ -285,7 +285,7 @@ trait Contract {
       prefix            : '',
       param             : '',
       code              : '',
-      force             : true
+      force             : false
     ] + input
 
     String contractAppPrefix = "${capitalize(params.contractAppPrefix)}ContractApp"
@@ -429,7 +429,7 @@ trait Contract {
       prefix             : '',
       param              : '',
       code               : '',
-      force              : true
+      force              : false
     ] + input
 
     String addAgreementPrefix = "${capitalize(params.addAgreementPrefix)}AddAgreement"

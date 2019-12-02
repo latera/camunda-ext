@@ -72,7 +72,7 @@ trait BaseSubject {
       prefix            : '',
       param             : '',
       code              : '',
-      force             : true
+      force             : false
     ] + input
 
     String baseSubjectPrefix = "${capitalize(params.baseSubjectPrefix)}BaseSubject"
