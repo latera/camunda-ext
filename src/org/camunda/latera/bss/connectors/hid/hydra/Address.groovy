@@ -18,7 +18,7 @@ trait Address {
   private static String OBJECT_ADDRESSES_MV       = 'SI_MV_OBJ_ADDRESSES'
   private static String SUBJECT_ADDRESSES_MV      = 'SI_MV_SUBJ_ADDRESSES'
   private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
-  private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Serv'
+  private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Actual'
   private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
 
   /*
@@ -975,18 +975,18 @@ trait Address {
                 A.N_VALUE       N_VALUE,
                 PA.N_ADDRESS_ID N_SUBNET_ID,
                 PA.VC_CODE      VC_SUBNET
-          FROM
-              TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                num_N_OBJECT_ID        => ${params.objectId},
-                num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP'),
-                num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId ?: 'NULL'}
-              )) A,
-              SI_V_ADDRESSES AA,
-              SI_V_ADDRESSES PA
-          WHERE
-              AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
-          AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
-          AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+            FROM
+                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                  num_N_OBJECT_ID        => ${params.objectId},
+                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP'),
+                  num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId ?: 'NULL'}
+                )) A,
+                SI_V_ADDRESSES AA,
+                SI_V_ADDRESSES PA
+            WHERE
+                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
             ORDER BY
                 N_VALUE
           )
@@ -1000,21 +1000,21 @@ trait Address {
       } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
           WITH FREE_IP AS (
-          SELECT
+            SELECT
                 SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                  num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
                   num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
                 A.N_ADDRESS_ID N_SUBNET_ID,
                 A.VC_CODE      VC_SUBNET
-          FROM
-              SI_V_ADDRESSES   A,
-              RG_PAR_ADDRESSES RG
-          WHERE
-              ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-          AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
-          AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-          AND RG.N_PROVIDER_ID       = ${params.firmId}
+            FROM
+                SI_V_ADDRESSES   A,
+                RG_PAR_ADDRESSES RG
+            WHERE
+                ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+            AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
+            AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+            AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+            AND RG.N_PROVIDER_ID       = ${params.firmId}
           ),
           SORTED_IP AS (
             SELECT DISTINCT
@@ -1035,16 +1035,16 @@ trait Address {
       } else {
         addresses = hid.queryDatabase("""
           WITH FREE_IP AS (
-          SELECT
+            SELECT
                 SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                  num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
                   num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
                 A.N_ADDRESS_ID N_SUBNET_ID,
                 A.VC_CODE      VC_SUBNET
-          FROM
-              SI_V_ADDRESSES A
-          WHERE
-              A.N_ADDRESS_ID = ${params.subnetAddressId}
+            FROM
+                SI_V_ADDRESSES A
+            WHERE
+                A.N_ADDRESS_ID = ${params.subnetAddressId}
           ),
           SORTED_IP AS (
             SELECT DISTINCT
