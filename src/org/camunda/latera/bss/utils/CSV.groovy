@@ -531,13 +531,12 @@ class CSV {
     @returns True if there is any line in data which corresponds to condition, false otherwise.
   */
   Boolean isExists(Map input) {
-    Boolean ok = false
-    data.eachWithIndex { def line, Integer i ->
+    for (int i = 0; i < data.size(); i++) {
       if (checkLine(i, input)) {
-        ok = true
+        return true
       }
     }
-    return ok
+    return false
   }
 
   /**
