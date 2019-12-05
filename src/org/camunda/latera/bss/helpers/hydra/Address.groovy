@@ -3,6 +3,7 @@ package org.camunda.latera.bss.helpers.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.decapitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.mergeNotNull
 import java.util.regex.Pattern
@@ -772,15 +773,17 @@ trait Address {
     // e.g. equipmentIP is set and equipmentIPParentVLAN is filled up with VLAN, so created IP address will bound to VLAN
     def parAddress   = order."${prefix}${parentPrefixId}"
     def parAddressId = order."${prefix}${parentPrefixId}Id"
-    if (parAddressId || parAddress) {
+    if (notEmpty(parAddressId) || notEmpty(parAddress)) {
       Map parAddressParams = [
-        entityId     : entityId,
-        addrType     : params.parentAddrType     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
-        bindAddrType : params.parentBindAddrType ? "BIND_ADDR_TYPE_${params.parentBindAddrType}" : null
+        entityId       : entityId,
+        addrTypeId     : null,
+        addrType       : params.parentAddrType     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
+        bindAddrTypeId : null,
+        bindAddrType   : params.parentBindAddrType ? "BIND_ADDR_TYPE_${params.parentBindAddrType}" : null
       ]
-      if (parAddressId) {
-        parAddressParams.addressId = parAddressId
-      } else if (parAddress) {
+      if (notEmpty(parAddressId)) {
+        parAddressParams.entityAddressId = parAddressId
+      } else if (notEmpty(parAddress)) {
         parAddressParams.code = parAddress
       }
       inp.parEntityAddressId = hydra.getEntityAddressBy(parAddressParams)?.n_obj_address_id
