@@ -943,6 +943,7 @@ trait Address {
       vlanId            : null,
       operationDate     : local(),
       firmId            : getFirmId(),
+      isPublic          : null,
       limit             : 10
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
@@ -960,13 +961,20 @@ trait Address {
     List addresses = []
     String date = encodeDateStr(params.operationDate)
 
+    String filterReal = '1=1'
+    if (params.isPublic != null) {
+      filterReal = "UTILS_ADDRESSES_PKG_S.IS_REAL_IP(A.N_VALUE) = '${params.isPublic ? 'Y' : 'N'}'"
+    }
+
     try {
       if (params.objectId) {
         addresses = hid.queryDatabase("""
-          SELECT
-              'vc_ip',       A.VC_CODE,
-              'n_subnet_id', A.N_ADDRESS_ID,
-              'vc_subnet',   PA.VC_CODE VC_SUBNET
+          WITH FREE_IP AS (
+            SELECT DISTINCT
+                A.VC_CODE       VC_IP,
+                A.N_VALUE       N_VALUE,
+                PA.N_ADDRESS_ID N_SUBNET_ID,
+                PA.VC_CODE      VC_SUBNET
           FROM
               TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
                 num_N_OBJECT_ID        => ${params.objectId},
@@ -979,15 +987,25 @@ trait Address {
               AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
           AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
           AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+            ORDER BY
+                N_VALUE
+          )
+          SELECT
+            'vc_ip',       A.VC_IP,
+            'n_subnet_id', A.N_SUBNET_ID,
+            'vc_subnet',   A.VC_SUBNET
+          FROM FREE_IP A
+          WHERE ${filterReal}
         """, true, params.limit)
       } else if (params.groupId && this.version <= '5.1.2') {
         addresses = hid.queryDatabase("""
+          WITH FREE_IP AS (
           SELECT
-              'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
                 num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                num_N_PROVIDER_ID    => ${params.firmId})),
-              'n_subnet_id', A.N_ADDRESS_ID,
-              'vc_subnet',   A.VC_CODE
+                  num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
+                A.N_ADDRESS_ID N_SUBNET_ID,
+                A.VC_CODE      VC_SUBNET
           FROM
               SI_V_ADDRESSES   A,
               RG_PAR_ADDRESSES RG
@@ -997,19 +1015,52 @@ trait Address {
           AND RG.N_PAR_ADDR_ID       = ${params.groupId}
           AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
           AND RG.N_PROVIDER_ID       = ${params.firmId}
+          ),
+          SORTED_IP AS (
+            SELECT DISTINCT
+                *,
+                SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(A.N_VALUE) VC_IP
+            FROM
+                FREE_IP A
+            ORDER BY
+                N_VALUE
+          )
+          SELECT
+            'vc_ip',       A.VC_IP,
+            'n_subnet_id', A.N_SUBNET_ID,
+            'vc_subnet',   A.VC_SUBNET
+          FROM SORTED_IP A
+          WHERE ${filterReal}
         """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
+          WITH FREE_IP AS (
           SELECT
-              'vc_ip', SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
                 num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                num_N_PROVIDER_ID    => ${params.firmId})),
-              'n_subnet_id', A.N_ADDRESS_ID,
-              'vc_subnet',   A.VC_CODE
+                  num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
+                A.N_ADDRESS_ID N_SUBNET_ID,
+                A.VC_CODE      VC_SUBNET
           FROM
               SI_V_ADDRESSES A
           WHERE
               A.N_ADDRESS_ID = ${params.subnetAddressId}
+          ),
+          SORTED_IP AS (
+            SELECT DISTINCT
+                *,
+                SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(N_VALUE) VC_IP
+            FROM
+                FREE_IP
+            ORDER BY
+                N_VALUE
+          )
+          SELECT
+            'vc_ip',       A.VC_IP,
+            'n_subnet_id', A.N_SUBNET_ID,
+            'vc_subnet',   A.VC_SUBNET
+          FROM SORTED_IP A
+          WHERE ${filterReal}
         """, true)
       }
     } catch (Exception e){
@@ -1246,6 +1297,7 @@ trait Address {
       vlanId        : null,
       operationDate : local(),
       firmId        : getFirmId(),
+      isPublic      : null,
       limit         : 10
     ]
     if (input.containsKey('root') && notEmpty(input.root)) {
@@ -1260,6 +1312,11 @@ trait Address {
       input.rootId = getSubnetAddressByVLAN(vlanId: input.vlanId)?.n_subnet_id
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
+
+    String filterReal = '1=1'
+    if (params.isPublic != null) {
+      filterReal = "UTILS_ADDRESSES_PKG_S.IS_REAL_SUBNET(S.N_VALUE, S.N_MASK) = ${params.isPublic ? 1 : 0}"
+    }
 
     List addresses = []
     String date = encodeDateStr(params.operationDate)
@@ -1358,17 +1415,15 @@ trait Address {
           WHERE
               ${notAssigned}
           AND ${notAssignedChild}
+          ORDER BY
+              N_VALUE
         ),
-        SORTED_SUBNETS AS (
-          SELECT *
-          FROM FREE_SUBNETS
-          ORDER BY N_VALUE
-        )
         SELECT
-            'n_subnet_id',   N_ADDRESS_ID,
-            'vc_subnet',     VC_CODE,
-            'n_par_addr_id', N_PAR_ADDR_ID
-        FROM  SORTED_SUBNETS
+            'n_subnet_id',   S.N_ADDRESS_ID,
+            'vc_subnet',     S.VC_CODE,
+            'n_par_addr_id', S.N_PAR_ADDR_ID
+        FROM  FREE_SUBNETS S
+        WHERE ${filterReal}
         """, true, params.limit)
       } else {
         addresses = hid.queryDatabase("""
@@ -1389,7 +1444,8 @@ trait Address {
           SELECT
               AA.*,
               A.VC_CODE,
-              A.N_VALUE
+              A.N_VALUE,
+              A.N_MASK
           FROM
               AVAILABLE_SUBNETS AA,
               SI_V_ADDRESSES    A
@@ -1406,17 +1462,15 @@ trait Address {
           WHERE
               ${notAssigned}
           AND ${notAssignedChild}
-        ),
-        SORTED_SUBNETS AS (
-          SELECT *
-          FROM FREE_SUBNETS
-          ORDER BY N_VALUE
+          ORDER BY
+              N_VALUE
         )
         SELECT
-            'n_subnet_id',   N_ADDRESS_ID,
-            'vc_subnet',     VC_CODE,
-            'n_par_addr_id', N_PAR_ADDR_ID
-        FROM  SORTED_SUBNETS
+            'n_subnet_id',   S.N_ADDRESS_ID,
+            'vc_subnet',     S.VC_CODE,
+            'n_par_addr_id', S.N_PAR_ADDR_ID
+        FROM  FREE_SUBNETS S
+        WHERE ${filterReal}
         """, true, params.limit)
       }
     } catch (Exception e){
