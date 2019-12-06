@@ -30,9 +30,9 @@ class Logging {
 }
 
 class SimpleLogger {
-  String processInstanceId
-  String homsOrderCode
-  DateTimeFormatter dateFormat
+  String processInstanceId = null
+  String homsOrderCode = 'ORD-NONE'
+  DateTimeFormatter dateFormat = DATE_TIME_FORMAT
   Integer currentLevel
 
   SimpleLogger(DelegateExecution execution) {
@@ -42,6 +42,12 @@ class SimpleLogger {
     this.homsOrderCode     =  execution.getVariable('homsOrderCode') ?: 'ORD-NONE'
     this.dateFormat        = (execution.getVariable('logDateFormat') || execution.getVariable('loggingDateFormat')) ? DateTimeFormatter.ofPattern(execution.getVariable('logDateFormat') ?: execution.getVariable('loggingDateFormat')) : DATE_TIME_FORMAT
     this.currentLevel      =  levelToInt(execution.getVariable('logLevel') ?: execution.getVariable('loggingLevel') ?: ENV['BPM_LOG_LEVEL'] ?: 'info')
+  }
+
+  SimpleLogger(CharSequence level = null) {
+    def ENV = System.getenv()
+
+    this.currentLevel = levelToInt(level ?: ENV['BPM_LOG_LEVEL'] ?: 'info')
   }
 
   static Integer levelToInt(CharSequence level) {
