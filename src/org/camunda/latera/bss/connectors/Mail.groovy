@@ -1,10 +1,18 @@
 package org.camunda.latera.bss.connectors
 
 import org.camunda.bpm.engine.delegate.DelegateExecution
-import javax.mail.*
-import javax.mail.internet.*
-import javax.activation.*
+import javax.activation.DataHandler
 import javax.mail.Message
+import javax.mail.Message.RecipientType
+import javax.mail.Multipart
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeBodyPart
+import javax.mail.internet.MimeMessage
+import javax.mail.internet.MimeMultipart
+import javax.mail.internet.MimeUtility
+import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 
 class MailSender {
   private String     host
@@ -24,18 +32,45 @@ class MailSender {
     this.user     =  execution.getVariable('smtpUser')     ?: ENV['SMTP_USER']
     this.password =  execution.getVariable('smtpPassword') ?: ENV['SMTP_PASSWORD']
 
+    Boolean auth = Boolean.valueOf(firstNotNull([
+      execution.getVariable('smtpAuth'),
+      ENV['SMTP_AUTH'],
+      true
+    ]))
+
+    Boolean tls = Boolean.valueOf(firstNotNull([
+      execution.getVariable('smtpTLS'),
+      ENV['SMTP_TLS'],
+      true
+    ]))
+
+    Boolean ssl = Boolean.valueOf(firstNotNull([
+      execution.getVariable('smtpSSL'),
+      ENV['SMTP_SSL'],
+      true
+    ]))
+
     this.props = System.getProperties()
-    this.props.put('mail.smtp.host',            host)
-    this.props.put('mail.smtp.port',            port)
-    this.props.put('mail.smtp.user',            user)
-    this.props.put('mail.smtp.password',        password)
-    this.props.put('mail.smtp.auth',            true)
-    this.props.put('mail.smtp.starttls.enable', 'true')
-    this.props.put('mail.smtp.ssl.trust',       true)
+    this.props.put('mail.smtp.host',     host)
+    this.props.put('mail.smtp.port',     port)
+    this.props.put('mail.smtp.user',     user)
+    this.props.put('mail.smtp.password', password)
+    this.props.put('mail.smtp.auth',     auth)
+    this.props.put('mail.mime.encodefilename', true)
+
+    if (tls) {
+      this.props.put('mail.smtp.starttls.enable', tls.toString()) // DO NOT REMOVE toString() here !!!
+    }
+    if (ssl) {
+      this.props.put('mail.smtp.ssl.trust', ssl)
+    } else if (tls) {
+      this.props.put('mail.smtp.ssl.trust', host)
+    }
 
     this.session   = Session.getDefaultInstance(props, null)
     this.message   = new MimeMessage(session)
     this.multipart = new MimeMultipart()
+    this.setFrom(user)
   }
 
   MailSender getHost() {
@@ -108,8 +143,17 @@ class MailSender {
     return this
   }
 
+  MailSender attachFile(CharSequence name, CharSequence urlStr = '') {
+    MimeBodyPart attachment = new MimeBodyPart()
+    URL url = new URL(urlStr)
+    part.setDataHandler(new DataHandler(url))
+    part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
+    multipart.addBodyPart(part)
+    return this
+  }
+
   void send(){
-    Transport transport = session.getTransport("smtp")
+    Transport transport = session.getTransport('smtp')
     transport.connect(host, port, user, password)
     try {
       message.setContent(multipart)
