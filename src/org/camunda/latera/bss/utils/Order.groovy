@@ -27,7 +27,7 @@ class Order implements GroovyObject {
       name = "homsOrderData${capitalize(name)}"
     }
 
-    if (name == 'homsOrderDataUploadedFile') {
+    if (name.endsWith('UploadedFile') || name.endsWith('FileUpload')) {
       return null
     }
     def result = execution.getVariable(name)
@@ -108,7 +108,7 @@ class Order implements GroovyObject {
   static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
-      if (key.startsWith('homsOrderData') && key != 'homsOrderDataUploadedFile') {
+      if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') || !name.endsWith('FileUpload')) {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
         data[_key] = getValue(key, raw, execution)
       }
@@ -139,7 +139,7 @@ class Order implements GroovyObject {
     if (!name.startsWith('homsOrderData')) {
       name = "homsOrderData${capitalize(name)}"
     }
-    if (name == 'homsOrderDataUploadedFile') {
+    if (name.endsWith('UploadedFile') || name.endsWith('FileUpload')) {
       return
     }
     if (!raw) {
