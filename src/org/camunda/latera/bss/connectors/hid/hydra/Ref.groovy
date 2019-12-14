@@ -108,7 +108,7 @@ trait Ref {
       where.c_fl_manual = encodeBool(params.isManual)
     }
 
-    List result = hid.getTableData(getRefsTable(), where: where, limit: params.limit)
+    List result = hid.getTableData(getRefsTable(), where: where, order: params.order, limit: params.limit)
     if (result) {
       result.each { Map ref ->
         RefCache.instance.put(ref.vc_code, ref.n_ref_id)

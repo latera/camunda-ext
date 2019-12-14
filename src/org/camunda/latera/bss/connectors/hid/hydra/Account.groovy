@@ -85,7 +85,7 @@ trait Account {
     if (params.firmId) {
       where.n_firm_id = params.firmId
     }
-    return hid.getTableData(getAccountsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getAccountsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getAccountBy(Map input) {

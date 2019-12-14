@@ -188,7 +188,7 @@ trait Customer {
     if (params.tags) {
       where.t_tags = params.tags
     }
-    return hid.getTableData(getCustomersTable(), where: where, limit: params.limit)
+    return hid.getTableData(getCustomersTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getCustomerBy(Map input) {
@@ -411,7 +411,7 @@ trait Customer {
     if (params.hashTypeId) {
       where.n_hash_type_id = hashTypeId
     }
-    return hid.getTableData(getCustomerNetServicesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getCustomerNetServicesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getCustomerNetServiceAccessBy(Map input) {

@@ -97,7 +97,7 @@ trait Person {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getPersonsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getPersonsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getPersonBy(Map input) {

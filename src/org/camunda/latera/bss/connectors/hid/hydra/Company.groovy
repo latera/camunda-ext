@@ -97,7 +97,7 @@ trait Company {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getCompaniesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getCompaniesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getCompanyBy(Map input) {

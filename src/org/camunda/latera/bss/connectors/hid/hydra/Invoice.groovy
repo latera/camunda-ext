@@ -141,7 +141,7 @@ trait Invoice {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    return hid.getTableData(getGoodMovesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getGoodMovesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
@@ -238,7 +238,8 @@ trait Invoice {
       operationDate     : null,
       beginDate         : null,
       endDate           : null,
-      limit             : 0
+      limit             : 0,
+      order             : [n_line_no: 'asc']
     ], input)
     LinkedHashMap where = [:]
 
@@ -335,8 +336,7 @@ trait Invoice {
     if (params.operationDate) {
       where.d_oper = params.operationDate
     }
-    LinkedHashMap order = [n_line_no: 'asc']
-    return hid.getTableData(getInvoiceLinesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   List getInvoiceLines(def docId, Integer limit = 0) {

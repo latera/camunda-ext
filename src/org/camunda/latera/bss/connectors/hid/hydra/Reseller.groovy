@@ -61,7 +61,7 @@ trait Reseller {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getResellersTable(), where: where, limit: params.limit)
+    return hid.getTableData(getResellersTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getResellerBy(Map input) {

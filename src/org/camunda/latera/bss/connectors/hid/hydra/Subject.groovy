@@ -140,7 +140,7 @@ trait Subject {
     if (params.tags) {
       where.t_tags = params.tags
     }
-    return hid.getTableData(getSubjectsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubjectBy(Map input) {
@@ -250,7 +250,7 @@ trait Subject {
     if (params.isReadOnly != null) {
       where.c_fl_read_only = encodeBool(params.isReadOnly)
     }
-    return hid.getTableData(getSubjectAddParamTypesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getSubjectAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubjectAddParamTypeBy(Map input) {
@@ -318,7 +318,7 @@ trait Subject {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getSubjectAddParamsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getSubjectAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubjectAddParamBy(Map input) {
@@ -402,10 +402,10 @@ trait Subject {
       subjectId : null,
       groupId   : null,
       isMain    : null,
-      limit     : 0
+      limit     : 0,
+      order     : [c_fl_main: 'desc']
     ], input)
     LinkedHashMap where = [:]
-    LinkedHashMap order = [c_fl_main: 'DESC']
 
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
@@ -416,7 +416,7 @@ trait Subject {
     if (params.isMain != null) {
       where.c_fl_main = encodeBool(params.isMain)
     }
-    return hid.getTableData(getSubjectGroupsTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getSubjectGroupsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubjectGroupBy(Map input) {

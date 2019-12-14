@@ -125,7 +125,7 @@ trait Equipment {
     if (params.invNo) {
       where.vc_inv_no = params.invNo
     }
-    return hid.getTableData(getObjectsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getObjectsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getObjectBy(Map input) {
@@ -328,7 +328,7 @@ trait Equipment {
     if (params.name) {
       where.vc_name = params.name
     }
-    return hid.getTableData(getEquipmentComponentsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getEquipmentComponentsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getEquipmentComponentBy(Map input) {
@@ -586,7 +586,7 @@ trait Equipment {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getEquipmentAddParamsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getEquipmentAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getEquipmentAddParamBy(Map input) {
@@ -747,7 +747,7 @@ trait Equipment {
     if (params.bindComponentId) {
       where.n_bind_object_id = params.bindComponentId
     }
-    return hid.getTableData(getEquipmentBindsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getEquipmentBindsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getEquipmentBindBy(Map input) {

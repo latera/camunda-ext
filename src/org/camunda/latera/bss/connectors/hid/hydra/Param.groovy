@@ -101,7 +101,7 @@ trait Param {
       where.vc_rem = params.rem
     }
 
-    List result = hid.getTableData(getParamsTable(), where: where, limit: params.limit)
+    List result = hid.getTableData(getParamsTable(), where: where, order: params.order, limit: params.limit)
     if (result) {
       result.each { Map param ->
         ParamCache.instance.put(param.vc_code, param.n_ref_id)
@@ -234,7 +234,7 @@ trait Param {
       where.n_value_id = params.refId
     }
 
-    return hid.getTableData(getParamValuesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getParamValuesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getParamValueBy(Map input) {

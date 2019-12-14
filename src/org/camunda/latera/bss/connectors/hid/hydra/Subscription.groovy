@@ -34,7 +34,8 @@ trait Subscription {
       operationDate      : null,
       beginDate          : null,
       endDate            : null,
-      limit              : 0
+      limit              : 0,
+      order              : [d_begin: 'asc']
     ], input)
     LinkedHashMap where = [:]
 
@@ -78,8 +79,7 @@ trait Subscription {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    LinkedHashMap order = [d_begin: 'asc']
-    return hid.getTableData(getSubscriptionsTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getSubscriptionsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubscriptionBy(Map input) {

@@ -76,7 +76,7 @@ trait Good {
     if (params.isCustomer != null) {
       where.c_fl_customer_equipment = encodeBool(params.isCustomer)
     }
-    return hid.getTableData(getGoodsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getGoodsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getGoodBy(Map input) {
@@ -137,7 +137,7 @@ trait Good {
     if (params.isObject != null) {
       where.c_fl_object = encodeBool(params.isObject)
     }
-    return hid.getTableData(getGoodAddParamTypesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getGoodAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getGoodAddParamTypeBy(Map input) {
@@ -204,7 +204,7 @@ trait Good {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getGoodAddParamsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getGoodAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getGoodAddParamBy(Map input) {
@@ -339,7 +339,7 @@ trait Good {
       where.c_fl_archived = encodeBool(params.isArchived)
     }
 
-    return hid.getTableData(getServSchemesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getServSchemesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getServSchemeBy(Map input) {

@@ -36,7 +36,8 @@ trait PriceOrder {
       schedDeferTypeId    : null,
       schedDeferPayDays   : null,
       unschedDeferPayDays : null,
-      limit               : 0
+      limit               : 0,
+      order               : [d_begin: 'asc']
     ], input)
     LinkedHashMap where = [:]
 
@@ -114,8 +115,7 @@ trait PriceOrder {
     if (params.unschedDeferPayDays) {
       where.n_unsched_defer_pay_days = params.unschedDeferPayDays
     }
-    LinkedHashMap order = [d_begin: 'asc']
-    return hid.getTableData(getPriceOrdersTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getPriceOrdersTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getPriceOrder(def docId) {
@@ -154,7 +154,8 @@ trait PriceOrder {
       providerId        : null,
       priceParam        : null,
       userRem           : null,
-      limit             : 0
+      limit             : 0,
+      order             : [n_line_no: 'asc']
     ], input)
     LinkedHashMap where = [:]
 
@@ -239,8 +240,7 @@ trait PriceOrder {
     if (params.userRem) {
       where.vc_user_rem = params.userRem
     }
-    LinkedHashMap order = [n_line_no: 'asc']
-    return hid.getTableData(getPriceLinesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getPriceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   List getPriceLines(def docId, Integer limit = 0) {

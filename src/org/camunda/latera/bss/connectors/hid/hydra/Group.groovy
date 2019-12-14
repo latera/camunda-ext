@@ -60,7 +60,7 @@ trait Group {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
-    return hid.getTableData(getGroupsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getGroupsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getGroupBy(Map input) {

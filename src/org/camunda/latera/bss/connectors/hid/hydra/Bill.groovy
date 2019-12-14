@@ -116,7 +116,8 @@ trait Bill {
       operationDate     : null,
       beginDate         : null,
       endDate           : null,
-      limit             : 0
+      limit             : 0,
+      order             : [n_line_no: 'asc']
     ], input)
     LinkedHashMap where = [:]
 
@@ -193,8 +194,7 @@ trait Bill {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    LinkedHashMap order = [n_line_no: 'asc']
-    return hid.getTableData(getBillLinesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getBillLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   List getBillLines(def docId, Integer limit = 0) {

@@ -275,7 +275,7 @@ trait Region {
     if (params.zip) {
       where.vc_zip = params.zip
     }
-    return hid.getTableData(getRegionsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getRegionsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getRegionBy(Map input) {

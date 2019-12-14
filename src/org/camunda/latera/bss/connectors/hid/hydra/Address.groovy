@@ -111,7 +111,8 @@ trait Address {
       operationDate   : null,
       beginDate       : null,
       endDate         : null,
-      limit           : 0
+      limit           : 0,
+      order           : [c_fl_main: 'desc']
     ], input)
 
     LinkedHashMap where = [:]
@@ -181,8 +182,7 @@ trait Address {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    LinkedHashMap order = [c_fl_main: 'desc']
-    return hid.getTableData(getObjectAddressesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getObjectAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getObjAddressBy(Map input) {
@@ -213,7 +213,8 @@ trait Address {
       bindAddrTypeId  : getDefaultAddressBindTypeId(),
       stateId         : getDefaultAddressStateId(),
       isMain          : null,
-      limit           : 0
+      limit           : 0,
+      order           : [c_fl_main: 'desc']
     ], input)
 
     LinkedHashMap where = [:]
@@ -266,8 +267,7 @@ trait Address {
     if (params.isMain != null) {
       where.c_fl_main = encodeBool(params.isMain)
     }
-    LinkedHashMap order = [c_fl_main: 'desc']
-    return hid.getTableData(getSubjectAddressesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getSubjectAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getSubjAddressBy(Map input) {
@@ -344,7 +344,8 @@ trait Address {
       floor        : null,
       entrance     : null,
       providerId   : getFirmId(),
-      rem          : null
+      rem          : null,
+      order        : [n_address_id: 'desc']
     ], input)
 
     LinkedHashMap where = [:]
@@ -388,8 +389,7 @@ trait Address {
     if (params.rem) {
       where.vc_rem = params.rem
     }
-    LinkedHashMap order = [n_address_id: 'desc']
-    return hid.getTableData(getMainAddressesTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getMainAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getAddressBy(Map input) {
@@ -952,7 +952,7 @@ trait Address {
       input.remove('subnetAddress')
     }
     if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
-      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet').collect {Map address -> address?.n_address_id}
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet', order: [n_value: 'asc']).collect {Map address -> address?.n_address_id}
       input.remove('subnetAddress')
     }
     if (input.containsKey('vlan') && notEmpty(input.vlan)) {
@@ -1110,7 +1110,7 @@ trait Address {
       input.remove('subnetAddress')
     }
     if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
-      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet6').collect {Map address -> address?.n_address_id}
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet6', order: [n_value: 'asc', vc_value: 'asc']).collect {Map address -> address?.n_address_id}
       input.remove('subnetAddresses')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
@@ -1224,7 +1224,7 @@ trait Address {
       input.remove('telCode')
     }
     if (input.containsKey('telCodes') && notEmpty(input.telCodes) && isList(input.telCodes)) {
-      input.telCodeIds = getAddressesBy(code: [in: input.telCodes], addrType: 'ADDR_TYPE_TelCode').collect {Map address -> address?.n_address_id}
+      input.telCodeIds = getAddressesBy(code: [in: input.telCodes], addrType: 'ADDR_TYPE_TelCode', order: [n_value: 'asc']).collect {Map address -> address?.n_address_id}
       input.remove('telCode')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
@@ -1862,6 +1862,7 @@ trait Address {
           AND RV.N_PAR_ADDR_ID       = V.N_ADDRESS_ID
           AND A.N_ADDRESS_ID         = ${params.addressId ?: params.vlanId}
           AND V.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
+          ORDER BY A.N_VALUE ASC
         """, true, params.limit)
       }
     } catch (Exception e){

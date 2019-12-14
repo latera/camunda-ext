@@ -186,7 +186,8 @@ trait Document {
       endDate       : null,
       number        : null,
       tags          : null,
-      limit         : 0
+      limit         : 0,
+      order         : [d_begin: 'desc', vc_doc_no: 'desc']
     ], input)
     LinkedHashMap where  = [:]
     LinkedHashMap fields = ['*': null]
@@ -257,8 +258,7 @@ trait Document {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    LinkedHashMap order = [d_begin: 'desc', vc_doc_no: 'desc']
-    return hid.getTableData(getDocumentsTable(), where: where, order: order, limit: params.limit)
+    return hid.getTableData(getDocumentsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getDocumentBy(Map input) {
@@ -407,7 +407,7 @@ trait Document {
     if (params.accountId) {
       where.n_account_id = params.accountId
     }
-    return hid.getTableData(getDocumentSubjectsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getDocumentSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getDocumentSubjectBy(Map input) {
@@ -531,7 +531,7 @@ trait Document {
     if (params.isMulti != null) {
       where.c_fl_multi = encodeBool(params.isMulti)
     }
-    return hid.getTableData(getDocumentAddParamTypesTable(), where: where, limit: params.limit)
+    return hid.getTableData(getDocumentAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getDocumentAddParamTypeBy(Map input) {
@@ -600,7 +600,7 @@ trait Document {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    return hid.getTableData(getDocumentAddParamsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getDocumentAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getDocumentAddParamBy(Map input) {
@@ -711,7 +711,7 @@ trait Document {
     if (params.lineNumber) {
       where.n_line_no = params.lineNumber
     }
-    return hid.getTableData(getDocumentBindsTable(), where: where, limit: params.limit)
+    return hid.getTableData(getDocumentBindsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getDocumentBindBy(Map input) {
