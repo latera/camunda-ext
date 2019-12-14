@@ -13,14 +13,22 @@
     <gmavenplus-plugin.version>1.8.0</gmavenplus-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
     <slf4j-api.version>1.7.7</slf4j-api.version>
     <slf4j-simple.version>1.7.13</slf4j-simple.version>
     <commons-io.version>2.6</commons-io.version>
+    <http-builder.version>0.7.1</http-builder.version>
     <http-builder-ng.version>1.0.3</http-builder-ng.version>
+    <commons-beanutils.version>1.8.0</commons-beanutils.version>
+    <commons-lang.version>2.5</commons-lang.version>
+    <commons-codec.version>1.11</commons-codec.version>
+    <commons-collections.version>3.2.1</commons-collections.version>
+    <ezmorph.version>1.0.6</ezmorph.version>
+    <org.apache.xml.resolver.version>3.8.0</org.apache.xml.resolver.version>
+    <json-lib.version>2.4</json-lib.version>
+    <json-lib.classifier>jdk15</json-lib.classifier>
     <groovy-xmlrpc.version>0.8</groovy-xmlrpc.version>
     <httpclient.version>4.5.6</httpclient.version>
     <httpcore.version>4.4.10</httpcore.version>
@@ -41,6 +49,12 @@
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>maven.thingml.org</id>
+      <url>http://maven.thingml.org/thirdparty</url>
+    </repository>
+  </repositories>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -102,9 +116,54 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+      <artifactId>http-builder</artifactId>
+      <version>${http-builder.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>io.github.http-builder-ng</groupId>
       <artifactId>http-builder-ng-core</artifactId>
       <version>${http-builder-ng.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.ezmorph</groupId>
+      <artifactId>ezmorph</artifactId>
+      <version>${ezmorph.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.maven</groupId>
+      <artifactId>org.apache.xml.resolver</artifactId>
+      <version>${org.apache.xml.resolver.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <version>${json-lib.version}</version>
+      <classifier>${json-lib.classifier}</classifier>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-json</artifactId>
+      <version>${groovy.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -176,14 +235,6 @@
   </dependencies>
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>${maven-dependency-plugin.version}</version>
-        <configuration>
-          <outputDirectory>${project.build.directory}/bundle</outputDirectory>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
