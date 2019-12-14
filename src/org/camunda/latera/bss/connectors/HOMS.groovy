@@ -72,10 +72,10 @@ class HOMS {
     def initiatorEmail = execution.getVariable('initiatorEmail')
     LinkedHashMap body = [
       order: [
-        state      : "in_progress",
+        state      : 'in_progress',
         done_at    : null,
         bp_id      : execution.getProcessInstanceId(),
-        bp_state   : "in_progress",
+        bp_state   : 'in_progress',
         user_email : initiatorEmail,
       ]
     ]
@@ -126,8 +126,8 @@ class HOMS {
   void finishOrder() {
     LinkedHashMap body = [
       order: [
-        state:    "done",
-        bp_state: "done",
+        state:    'done',
+        bp_state: 'done',
         done_at:  local()
       ]
     ]

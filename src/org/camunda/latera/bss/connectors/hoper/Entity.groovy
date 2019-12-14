@@ -34,11 +34,15 @@ trait Entity {
   Map createEntity(Map type, Map params) {
     LinkedHashMap result = null
     try {
-      logger.info("Creating ${type.one} with params ${params}")
+      Map paramsWoBase64 = suppressBase64(params)
+      Boolean supress = params != paramsWoBase64
+      logger.info("Creating ${type.one} with params ${paramsWoBase64}")
       result = hoper.sendRequest(
         'post',
         path : preparePath(type),
-        body : ["${type.one}": params]
+        body : ["${type.one}": params],
+        supressRequestBodyLog  : supress,
+        supressResponseBodyLog : supress
       )?."${type.one}"
       logger.info("   ${capitalize(type.one)} was created successfully!")
     } catch (Exception e) {
@@ -51,11 +55,15 @@ trait Entity {
   Map updateEntity(Map type, def id, Map params) {
     LinkedHashMap result = null
     try {
-      logger.info("Updating ${type.one} id ${id} with params ${params}")
+      Map paramsWoBase64 = suppressBase64(params)
+      Boolean supress = params != paramsWoBase64
+      logger.info("Updating ${type.one} id ${id} with params ${paramsWoBase64}")
       result = hoper.sendRequest(
         'put',
         path : preparePath(type, id),
-        body : ["${type.one}": params]
+        body : ["${type.one}": params],
+        supressRequestBodyLog  : supress,
+        supressResponseBodyLog : supress
       )?."${type.one}"
       logger.info("   ${capitalize(type.one)} was updated successfully!")
     } catch (Exception e) {
