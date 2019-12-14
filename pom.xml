@@ -7,13 +7,25 @@
   <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <gmavenplus.version>1.6.2</gmavenplus.version>
+    <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <groovy.version>2.4.16</groovy.version>
+    <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
-    <slf4j.version>1.7.7</slf4j.version>
+    <slf4j-api.version>1.7.7</slf4j-api.version>
+    <slf4j-simple.version>1.7.13</slf4j-simple.version>
     <commons-io.version>2.6</commons-io.version>
+    <http-builder.version>0.7.1</http-builder.version>
     <http-builder-ng.version>1.0.3</http-builder-ng.version>
+    <commons-beanutils.version>1.8.0</commons-beanutils.version>
+    <commons-lang.version>2.5</commons-lang.version>
+    <commons-codec.version>1.11</commons-codec.version>
+    <commons-collections.version>3.2.1</commons-collections.version>
+    <ezmorph.version>1.0.6</ezmorph.version>
+    <org.apache.xml.resolver.version>3.8.0</org.apache.xml.resolver.version>
+    <json-lib.version>2.4</json-lib.version>
+    <json-lib.classifier>jdk15</json-lib.classifier>
     <groovy-xmlrpc.version>0.8</groovy-xmlrpc.version>
     <httpclient.version>4.5.6</httpclient.version>
     <httpcore.version>4.4.10</httpcore.version>
@@ -21,6 +33,12 @@
     <javax_activation.version>1.1.1</javax_activation.version>
     <minio.version>6.0.8</minio.version>
   </properties>
+  <repositories>
+    <repository>
+      <id>maven.thingml.org</id>
+      <url>http://maven.thingml.org/thirdparty</url>
+    </repository>
+  </repositories>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -37,97 +55,144 @@
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
       <version>${groovy.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.bpm</groupId>
       <artifactId>camunda-engine</artifactId>
       <version>${camunda.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.bpm.model</groupId>
       <artifactId>camunda-bpmn-model</artifactId>
       <version>${camunda.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.bpm.model</groupId>
       <artifactId>camunda-xml-model</artifactId>
       <version>${camunda.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.commons</groupId>
       <artifactId>camunda-commons-utils</artifactId>
       <version>${camunda.commons.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.commons</groupId>
       <artifactId>camunda-commons-typed-values</artifactId>
       <version>${camunda.commons.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-      <scope>provided</scope>
+      <version>${slf4j-api.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy.modules.http-builder</groupId>
+      <artifactId>http-builder</artifactId>
+      <version>${http-builder.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.http-builder-ng</groupId>
       <artifactId>http-builder-ng-core</artifactId>
       <version>${http-builder-ng.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${commons-beanutils.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.ezmorph</groupId>
+      <artifactId>ezmorph</artifactId>
+      <version>${ezmorph.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.maven</groupId>
+      <artifactId>org.apache.xml.resolver</artifactId>
+      <version>${org.apache.xml.resolver.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <version>${json-lib.version}</version>
+      <classifier>${json-lib.classifier}</classifier>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-json</artifactId>
+      <version>${groovy.version}</version>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-xmlrpc</artifactId>
       <version>${groovy-xmlrpc.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>${httpclient.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpcore</artifactId>
       <version>${httpcore.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>${javax_mail.version}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
       <version>${javax_activation.version}</version>
-      <scope>provided</scope>
-    </dependency><dependency>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>io.minio</groupId>
       <artifactId>minio</artifactId>
       <version>${minio.version}</version>
-      <scope>provided</scope>
-  </dependency>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>${gmavenplus.version}</version>
+        <version>${gmavenplus-plugin.version}</version>
         <configuration>
           <sources>
             <source>
@@ -160,15 +225,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>${maven-jar-plugin.version}</version>
         <configuration>
-          <finalName>camunda-latera-${project.version}</finalName>
+          <finalName>camunda-ext-${project.version}</finalName>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>${maven-compiler-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
