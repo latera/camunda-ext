@@ -100,7 +100,7 @@ class DateTimeUtil {
     return LocalDateTime.parse(input, format)
   }
 
-  static def parseDate(CharSequence input) {
+  static LocalDateTime parseDate(CharSequence input) {
     def result = null
     [
       DATE_FORMAT,

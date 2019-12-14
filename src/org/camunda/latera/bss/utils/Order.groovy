@@ -10,7 +10,8 @@ import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.parseDateTimeAny
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.DateTimeUtil.iso
-import static org.camunda.latera.bss.utils.ListUtil.forceNvl
+import static org.camunda.latera.bss.utils.StringUtil.forceNvl as nvlString
+import static org.camunda.latera.bss.utils.ListUtil.forceNvl as nvlList
 import static org.camunda.latera.bss.utils.ListUtil.parse as parseList
 import static org.camunda.latera.bss.utils.MapUtil.parse  as parseMap
 import org.camunda.latera.bss.connectors.Minio
@@ -37,32 +38,67 @@ class Order implements GroovyObject {
 
     if (name.endsWith('CSV')) {
       try {
+        /* servicesCSV: """
+        n_price_line_id;n_quant;vc_rem;c_flag
+        123431201;null;test;Y
+        123431301;1;;N
+        """
+        ->
+        servicesCSV: new CSV([
+          [
+            n_price_line_id: 123431201,
+            n_quant: null,
+            vc_rem: 'test',
+            c_flag: true
+          ],[
+            n_price_line_id: 123431301,
+            n_quant: 1,
+            vc_rem: null,
+            c_flag: false
+          ]
+        ])
+        */
         return new CSV(data: result, execution: execution)
       } catch (Exception e) {}
     }
 
     if (name.endsWith('JSON') || name.endsWith('Map')) {
+      // servicesMap: '{a:1, b:'2'}' -> servicesMap: [a:1, b:'2']
       return parseMap(result)
     }
 
     if (name.endsWith('List')) {
-      return forceNvl(parseList(result)) // TODO: remove forceNvl after CONSULT-3350 be solved
+      // TODO: remove nvlList after CONSULT-3350 be solved
+      // serviceList: "[1,2,'3']" -> serviceList: [1, 2, '3']
+      return nvlList(parseList(result))
     }
 
+    // '2019-12-31', '31.12.2019', '31.12.2019 23:59:59', '2019-12-31T23:59:59' -> LocalDateTime
+    // '2019-12-31T23:59:59+03:00' -> ZonedDateTime
+    // but '2019' -> '2019'
     def date = parseDateTimeAny(result)
     if (date) {
       return date
     }
 
+    // '123431201' -> new BigInteger(123431201), but '123431201.0' -> '123431201.0'
     def number = toIntStrict(result)
     if (number != null) {
       return number
     }
 
+    // '0.00' -> new BigDecimal(0.00), '0' -> new BigInteger(0), but '0ASF' -> '0ASF'
     number = toFloatSafe(result)
     if (number != null) {
       return number
     }
+
+    // '', ' ', null, 'null' -> null, otherwise trimmed string is returned
+    if (isString(result)) {
+      return nvlString(result)
+    }
+
+    //boolean and other types remain unchanged
     return result
   }
 
@@ -145,22 +181,51 @@ class Order implements GroovyObject {
     if (!raw) {
       if (name.endsWith('CSV')) {
         try {
+        /*
+        servicesCSV: new CSV([
+          [
+            n_price_line_id: 123431201,
+            n_quant: null,
+            vc_rem: 'test',
+            c_flag: true
+          ],[
+            n_price_line_id: 123431301,
+            n_quant: 1,
+            vc_rem: null,
+            c_flag: false
+          ]
+        ])
+        ->
+        servicesCSV: """
+        n_price_line_id;n_quant;vc_rem;c_flag
+        123431201;null;test;Y
+        123431301;1;;N
+        """
+        */
           value = value as String
         } catch (Exception e) {}
       }
       if (name.endsWith('List') || name.endsWith('JSON') || name.endsWith('Map')) {
         try {
+          // servicesMap: [a:1, b:'2'] -> servicesMap: '{a:1, b:'2'}'
+          // serviceList: [1, 2, '3']  -> serviceList: "[1,2,'3']"
           value = JSON.to(value)
         } catch (Exception e) {}
       }
       if (isString(value)) {
-        value = value.toString() // Convert GStringImpl to String
+        // Convert GStringImpl to String
+        // "text" -> 'text'
+        value = value.toString()
       }
       if (isDate(value)) {
+        // ZonedDateTime -> '2019-12-31T23:59:59+03:00'
+        // LocalDateTime, LocalDate, Date -> '2019-12-31T23:59:59'
         value = iso(value)
       }
       if (isNumber(value)) {
-        value = value.toString() // BigDecimal and BigInteger values are stored in serializable format, so convert them to String
+        // BigDecimal and BigInteger values are stored in serializable format, so convert them to String
+        // 12101201 -> '12101201'
+        value = value.toString()
       }
     }
     execution.setVariable(name, value)
