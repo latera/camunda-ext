@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
+import static org.camunda.latera.bss.utils.ListUtil.isList
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
@@ -950,14 +951,26 @@ trait Address {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
       input.remove('subnetAddress')
     }
+    if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet').collect {Map address -> address?.n_address_id}
+      input.remove('subnetAddress')
+    }
     if (input.containsKey('vlan') && notEmpty(input.vlan)) {
       input.vlanId = getAddressBy(code: input.vlan, addrType: 'ADDR_TYPE_VLAN')?.n_address_id
       input.remove('vlan')
     }
-    if (input.vlanId && !input.subnetAddressId) {
-      input.subnetAddressId = getSubnetAddressByVLAN(vlanId: input.vlanId)?.n_subnet_id
-    }
     LinkedHashMap params = mergeParams(defaultParams, input)
+
+    if (params.subnetAddressId && !params.subnetAddressIds) {
+      params.subnetAddressIds = [params.subnetAddressId]
+      params.remove('subnetAddressId')
+    }
+    if (params.vlanId && !params.subnetAddressIds) {
+      params.subnetAddressIds = getSubnetAddressesByVLAN(vlanId: params.vlanId).collect{ Map subnet -> subnet.n_subnet_id }
+    }
+    if (!params.subnetAddressIds) {
+      params.subnetAddressIds = []
+    }
     List addresses = []
     String date = encodeDateStr(params.operationDate)
 
@@ -966,105 +979,107 @@ trait Address {
       filterReal = "UTILS_ADDRESSES_PKG_S.IS_REAL_IP(A.N_VALUE) = '${params.isPublic ? 'Y' : 'N'}'"
     }
 
-    try {
-      if (params.objectId) {
-        addresses = hid.queryDatabase("""
-          WITH FREE_IP AS (
-            SELECT DISTINCT
-                A.VC_CODE       VC_IP,
-                A.N_VALUE       N_VALUE,
-                PA.N_ADDRESS_ID N_SUBNET_ID,
-                PA.VC_CODE      VC_SUBNET
-            FROM
-                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                  num_N_OBJECT_ID        => ${params.objectId},
-                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP'),
-                  num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId ?: 'NULL'}
-                )) A,
-                SI_V_ADDRESSES AA,
-                SI_V_ADDRESSES PA
-            WHERE
-                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
-            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
-            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-            ORDER BY
-                N_VALUE
-          )
-          SELECT
-            'vc_ip',       A.VC_IP,
-            'n_subnet_id', A.N_SUBNET_ID,
-            'vc_subnet',   A.VC_SUBNET
-          FROM FREE_IP A
-          WHERE ${filterReal}
-        """, true, params.limit)
-      } else if (params.groupId && this.version <= '5.1.2') {
-        addresses = hid.queryDatabase("""
-          WITH FREE_IP AS (
+    (params.subnetAddressIds ?: [null]).each { def subnetAddressId ->
+      try {
+        if (!addresses) {
+          if (params.objectId) {
+            addresses = hid.queryDatabase("""
+              WITH FREE_IP AS (
+                SELECT DISTINCT
+                    A.VC_CODE       VC_IP,
+                    A.N_VALUE       N_VALUE,
+                    PA.N_ADDRESS_ID N_SUBNET_ID,
+                    PA.VC_CODE      VC_SUBNET
+                FROM
+                    TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                      num_N_OBJECT_ID        => ${params.objectId},
+                      num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP'),
+                      num_N_RANGE_ADDRESS_ID => ${subnetAddressId ?: 'NULL'}
+                    )) A,
+                    SI_V_ADDRESSES AA,
+                    SI_V_ADDRESSES PA
+                WHERE
+                    AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+                AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+                AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+                ORDER BY
+                    N_VALUE
+              )
+              SELECT
+                'vc_ip',       A.VC_IP,
+                'n_subnet_id', A.N_SUBNET_ID,
+                'vc_subnet',   A.VC_SUBNET
+              FROM FREE_IP A
+              WHERE ${filterReal}
+            """, true, params.limit)
+          } else if (params.groupId && this.version <= '5.1.2') {
+          addresses = hid.queryDatabase("""
+            WITH FREE_IP AS (
+              SELECT
+                  SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                    num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                    num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
+                  A.N_ADDRESS_ID N_SUBNET_ID,
+                  A.VC_CODE      VC_SUBNET
+              FROM
+                  SI_V_ADDRESSES   A,
+                  RG_PAR_ADDRESSES RG
+              WHERE
+                  ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+              AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
+              AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+              AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+              AND RG.N_PROVIDER_ID       = ${params.firmId}
+            ),
+            SORTED_IP AS (
+              SELECT DISTINCT
+                  *,
+                  SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(A.N_VALUE) VC_IP
+              FROM
+                  FREE_IP A
+              ORDER BY
+                  N_VALUE
+            )
             SELECT
-                SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                  num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                  num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
-                A.N_ADDRESS_ID N_SUBNET_ID,
-                A.VC_CODE      VC_SUBNET
-            FROM
-                SI_V_ADDRESSES   A,
-                RG_PAR_ADDRESSES RG
-            WHERE
-                ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-            AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
-            AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-            AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-            AND RG.N_PROVIDER_ID       = ${params.firmId}
-          ),
-          SORTED_IP AS (
-            SELECT DISTINCT
-                *,
-                SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(A.N_VALUE) VC_IP
-            FROM
-                FREE_IP A
-            ORDER BY
-                N_VALUE
-          )
-          SELECT
-            'vc_ip',       A.VC_IP,
-            'n_subnet_id', A.N_SUBNET_ID,
-            'vc_subnet',   A.VC_SUBNET
-          FROM SORTED_IP A
-          WHERE ${filterReal}
-        """, true, params.limit)
-      } else {
-        addresses = hid.queryDatabase("""
-          WITH FREE_IP AS (
+              'vc_ip',       A.VC_IP,
+              'n_subnet_id', A.N_SUBNET_ID,
+              'vc_subnet',   A.VC_SUBNET
+            FROM SORTED_IP A
+            WHERE ${filterReal}
+          """, true, params.limit)
+        } else {
+          addresses = hid.queryDatabase("""
+            WITH FREE_IP AS (
+              SELECT
+                  SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                    num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                    num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
+                  A.N_ADDRESS_ID N_SUBNET_ID,
+                  A.VC_CODE      VC_SUBNET
+              FROM
+                  SI_V_ADDRESSES A
+              WHERE
+                  A.N_ADDRESS_ID = ${subnetAddressId}
+            ),
+            SORTED_IP AS (
+              SELECT DISTINCT
+                  *,
+                  SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(N_VALUE) VC_IP
+              FROM
+                  FREE_IP
+              ORDER BY
+                  N_VALUE
+            )
             SELECT
-                SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                  num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                  num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
-                A.N_ADDRESS_ID N_SUBNET_ID,
-                A.VC_CODE      VC_SUBNET
-            FROM
-                SI_V_ADDRESSES A
-            WHERE
-                A.N_ADDRESS_ID = ${params.subnetAddressId}
-          ),
-          SORTED_IP AS (
-            SELECT DISTINCT
-                *,
-                SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(N_VALUE) VC_IP
-            FROM
-                FREE_IP
-            ORDER BY
-                N_VALUE
-          )
-          SELECT
-            'vc_ip',       A.VC_IP,
-            'n_subnet_id', A.N_SUBNET_ID,
-            'vc_subnet',   A.VC_SUBNET
-          FROM SORTED_IP A
-          WHERE ${filterReal}
-        """, true)
-      }
-    } catch (Exception e){
-      logger.error_oracle(e)
+              'vc_ip',       A.VC_IP,
+              'n_subnet_id', A.N_SUBNET_ID,
+              'vc_subnet',   A.VC_SUBNET
+            FROM SORTED_IP A
+            WHERE ${filterReal}
+          """, true)
+          }
+        }
+      } catch (Exception e) {}
     }
     return addresses
   }
@@ -1094,66 +1109,80 @@ trait Address {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet6')?.n_address_id
       input.remove('subnetAddress')
     }
+    if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet6').collect {Map address -> address?.n_address_id}
+      input.remove('subnetAddresses')
+    }
     LinkedHashMap params = mergeParams(defaultParams, input)
+    if (params.subnetAddressId && !params.subnetAddressIds) {
+      params.subnetAddressIds = [params.subnetAddressId]
+      params.remove('subnetAddressId')
+    }
+    if (!params.subnetAddressIds) {
+      params.subnetAddressIds = []
+    }
+
     List addresses = []
 
-    try {
-      if (this.version >= '5.1.2') {
-        if (params.objectId) {
-          if (params.subnetAddressId) {
-            addresses = hid.queryDatabase("""
-              SELECT
-                  'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
-                  'n_subnet_id', PA.N_ADDRESS_ID,
-                  'vc_subnet',   PA.VC_CODE VC_SUBNET
-              FROM
-                  TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                    num_N_OBJECT_ID        => ${params.objectId},
-                    num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
-                    num_N_RANGE_ADDRESS_ID => ${params.subnetAddressId}
-                  )) A,
-                  SI_V_ADDRESSES PA
-              WHERE
-                PA.N_ADDRESS_ID  = ${params.subnetAddressId}
-            AND PA.N_PROVIDER_ID = ${params.firmId}
-            """, true, params.limit)
-          } else {
-            addresses = hid.queryDatabase("""
-              SELECT
-                  'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
-                  'n_subnet_id', PA.N_ADDRESS_ID,
-                  'vc_subnet',   PA.VC_CODE VC_SUBNET
-              FROM
-                  TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                    num_N_OBJECT_ID        => ${params.objectId},
-                    num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
-                    num_N_RANGE_ADDRESS_ID => NULL
-                  )) A,
-                  SI_V_ADDRESSES AA,
-                  SI_V_ADDRESSES PA
-              WHERE
-                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
-            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
-            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-            """, true, params.limit)
+    (params.subnetAddressIds ?: [null]).each { def subnetAddressId ->
+      try {
+        if (!addresses) {
+          if (this.version >= '5.1.2') {
+            if (params.objectId) {
+              if (subnetAddressId) {
+                addresses = hid.queryDatabase("""
+                  SELECT
+                      'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                      'n_subnet_id', PA.N_ADDRESS_ID,
+                      'vc_subnet',   PA.VC_CODE VC_SUBNET
+                  FROM
+                      TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                        num_N_OBJECT_ID        => ${params.objectId},
+                        num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                        num_N_RANGE_ADDRESS_ID => ${subnetAddressId}
+                      )) A,
+                      SI_V_ADDRESSES PA
+                  WHERE
+                    PA.N_ADDRESS_ID  = ${subnetAddressId}
+                AND PA.N_PROVIDER_ID = ${params.firmId}
+                """, true, params.limit)
+              } else {
+                addresses = hid.queryDatabase("""
+                  SELECT
+                      'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                      'n_subnet_id', PA.N_ADDRESS_ID,
+                      'vc_subnet',   PA.VC_CODE VC_SUBNET
+                  FROM
+                      TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                        num_N_OBJECT_ID        => ${params.objectId},
+                        num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                        num_N_RANGE_ADDRESS_ID => NULL
+                      )) A,
+                      SI_V_ADDRESSES AA,
+                      SI_V_ADDRESSES PA
+                  WHERE
+                    AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+                AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+                AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+                """, true, params.limit)
+              }
+            } else {
+              addresses = hid.queryDatabase("""
+                SELECT
+                    'vc_ip', SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(SI_ADDRESS_RESTRICTIONS_PKG_S.GET_FREE_IP6_SLOW(
+                      num_N_RANGE_ADDRESS_ID => A.N_ADDRESS_ID,
+                      num_N_PROVIDER_ID      => ${params.firmId})),
+                    'n_subnet_id', A.N_ADDRESS_ID,
+                    'vc_subnet',   A.VC_CODE
+                FROM
+                    SI_V_ADDRESSES A
+                WHERE
+                    A.N_ADDRESS_ID = ${subnetAddressId}
+              """, true, params.limit)
+            }
           }
-        } else {
-          addresses = hid.queryDatabase("""
-            SELECT
-                'vc_ip', SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(SI_ADDRESS_RESTRICTIONS_PKG_S.GET_FREE_IP6_SLOW(
-                  num_N_RANGE_ADDRESS_ID => A.N_ADDRESS_ID,
-                  num_N_PROVIDER_ID      => ${params.firmId})),
-                'n_subnet_id', A.N_ADDRESS_ID,
-                'vc_subnet',   A.VC_CODE
-            FROM
-                SI_V_ADDRESSES A
-            WHERE
-                A.N_ADDRESS_ID = ${params.subnetAddressId}
-          """, true, params.limit)
         }
-      }
-    } catch (Exception e){
-      logger.error_oracle(e)
+      } catch (Exception e) {}
     }
     return addresses
   }
@@ -1194,84 +1223,97 @@ trait Address {
       input.telCodeId = getAddressBy(code: input.telCode, addrType: 'ADDR_TYPE_TelCode')?.n_address_id
       input.remove('telCode')
     }
+    if (input.containsKey('telCodes') && notEmpty(input.telCodes) && isList(input.telCodes)) {
+      input.telCodeIds = getAddressesBy(code: [in: input.telCodes], addrType: 'ADDR_TYPE_TelCode').collect {Map address -> address?.n_address_id}
+      input.remove('telCode')
+    }
     LinkedHashMap params = mergeParams(defaultParams, input)
+    if (params.telCodeId && !params.telCodeIds) {
+      params.telCodeIds = [params.telCodeId]
+      params.remove('telCodeId')
+    }
+    if (!params.telCodeIds) {
+      params.telCodeIds = []
+    }
 
     List addresses = []
     String date = encodeDateStr(params.operationDate)
 
-    try {
-      if (params.objectId) {
-        if (params.telCodeId) {
-          addresses = hid.queryDatabase("""
-            SELECT
-                'vc_phone_number', A.VC_CODE,
-                'n_telcode_id',    A.N_ADDRESS_ID,
-                'vc_tel_code',     A.VC_CODE VC_SUBNET
-            FROM
-                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                  num_N_OBJECT_ID        => ${params.objectId},
-                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
-                  num_N_RANGE_ADDRESS_ID => ${params.telCodeId}
-                )) A,
-                SI_V_ADDRESSES PA
-            WHERE
-                PA.N_ADDRESS_ID  = ${params.telCodeId}
-            AND PA.N_PROVIDER_ID = ${params.firmId}
-          """, true, params.limit)
-        } else {
-          addresses = hid.queryDatabase("""
-            SELECT
-                'vc_phone_number', A.VC_CODE,
-                'n_telcode_id',    A.N_ADDRESS_ID,
-                'vc_tel_code',     A.VC_CODE VC_SUBNET
-            FROM
-                TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                  num_N_OBJECT_ID        => ${params.objectId},
-                  num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
-                  num_N_RANGE_ADDRESS_ID => NULL
-                )) A,
-                SI_V_ADDRESSES AA,
-                SI_V_ADDRESSES PA
-            WHERE
-                AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
-            AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
-            AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-          """, true, params.limit)
+    (params.telCodeIds ?: [null]).each { def telCodeId ->
+      try {
+        if (!addresses) {
+          if (params.objectId) {
+            if (telCodeId) {
+              addresses = hid.queryDatabase("""
+                SELECT
+                    'vc_phone_number', A.VC_CODE,
+                    'n_telcode_id',    A.N_ADDRESS_ID,
+                    'vc_tel_code',     A.VC_CODE VC_SUBNET
+                FROM
+                    TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                      num_N_OBJECT_ID        => ${params.objectId},
+                      num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
+                      num_N_RANGE_ADDRESS_ID => ${telCodeId}
+                    )) A,
+                    SI_V_ADDRESSES PA
+                WHERE
+                    PA.N_ADDRESS_ID  = ${telCodeId}
+                AND PA.N_PROVIDER_ID = ${params.firmId}
+              """, true, params.limit)
+            } else {
+              addresses = hid.queryDatabase("""
+                SELECT
+                    'vc_phone_number', A.VC_CODE,
+                    'n_telcode_id',    A.N_ADDRESS_ID,
+                    'vc_tel_code',     A.VC_CODE VC_SUBNET
+                FROM
+                    TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                      num_N_OBJECT_ID        => ${params.objectId},
+                      num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_Telephone'),
+                      num_N_RANGE_ADDRESS_ID => NULL
+                    )) A,
+                    SI_V_ADDRESSES AA,
+                    SI_V_ADDRESSES PA
+                WHERE
+                    AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+                AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+                AND PA.N_PROVIDER_ID (+)= ${params.firmId}
+              """, true, params.limit)
+            }
+          } else if (params.groupId && this.version <= '5.1.2') {
+            addresses = hid.queryDatabase("""
+              SELECT
+                  'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
+                    num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
+                    num_N_PROVIDER_ID => ${params.firmId}),
+                  'n_telcode_id', A.N_ADDRESS_ID,
+                  'vc_tel_code',  A.VC_CODE
+              FROM
+                  SI_V_ADDRESSES A,
+                  RG_PAR_ADDRESSES RG
+              WHERE
+                  ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
+              AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
+              AND RG.N_PAR_ADDR_ID       = ${params.groupId}
+              AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
+              AND RG.N_PROVIDER_ID       = ${params.firmId}
+            """, true, params.limit)
+          } else {
+            addresses = hid.queryDatabase("""
+              SELECT
+                  'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
+                    num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
+                    num_N_PROVIDER_ID => ${params.firmId}),
+                  'n_telcode_id', A.N_ADDRESS_ID,
+                  'vc_tel_code',  A.VC_CODE
+              FROM
+                  SI_V_ADDRESSES A
+              WHERE
+                  A.N_ADDRESS_ID = ${telCodeId}
+            """, true, params.limit)
+          }
         }
-      } else if (params.groupId && this.version <= '5.1.2') {
-        addresses = hid.queryDatabase("""
-          SELECT
-              'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
-                num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
-                num_N_PROVIDER_ID => ${params.firmId}),
-              'n_telcode_id', A.N_ADDRESS_ID,
-              'vc_tel_code',  A.VC_CODE
-          FROM
-              SI_V_ADDRESSES A,
-              RG_PAR_ADDRESSES RG
-          WHERE
-              ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-          AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
-          AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-          AND RG.N_PROVIDER_ID       = ${params.firmId}
-        """, true, params.limit)
-      } else {
-        addresses = hid.queryDatabase("""
-          SELECT
-              'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
-                num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
-                num_N_PROVIDER_ID => ${params.firmId}),
-              'n_telcode_id', A.N_ADDRESS_ID,
-              'vc_tel_code',  A.VC_CODE
-          FROM
-              SI_V_ADDRESSES A
-          WHERE
-              A.N_ADDRESS_ID = ${params.telCodeId}
-        """, true, params.limit)
-      }
-    } catch (Exception e){
-      logger.error_oracle(e)
+      } catch (Exception e) {}
     }
     return addresses
   }
