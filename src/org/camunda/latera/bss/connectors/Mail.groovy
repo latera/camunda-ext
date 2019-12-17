@@ -144,7 +144,7 @@ class MailSender {
   }
 
   MailSender attachFile(CharSequence name, CharSequence urlStr = '') {
-    MimeBodyPart attachment = new MimeBodyPart()
+    MimeBodyPart part = new MimeBodyPart()
     URL url = new URL(urlStr)
     part.setDataHandler(new DataHandler(url))
     part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
