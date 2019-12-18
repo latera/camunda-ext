@@ -162,7 +162,7 @@ trait Ticket {
   }
 
   Map getTicket(def id) {
-    return getEntity(getTicketEntityType(), id)
+    return getEntity(getTicketEntityType(), id, query: [DynamicField: 1])
   }
 
   Map createTicket(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {

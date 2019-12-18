@@ -1,12 +1,13 @@
 package org.camunda.latera.bss.connectors.otrs
 
 trait Entity {
-  Map getEntity(CharSequence type, def id) {
+  Map getEntity(Map params = [:], CharSequence type, def id) {
     LinkedHashMap result = null
     try {
       result = sendRequest(
         'get',
-        path : "${type}Get/${id}"
+        path : "${type}Get/${id}",
+        query: params.query
       )
     } catch (Exception e) {
       logger.error(e)
