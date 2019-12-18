@@ -1,4 +1,5 @@
-[![Release](https://jitpack.io/v/latera/camunda-ext.svg)](https://jitpack.io/#latera/camunda-ext)
+[![Release](https://travis-ci.com/latera/camunda-ext.svg?branch=master)](https://travis-ci.com/latera/camunda-ext)
+[![JAR](https://jitpack.io/v/latera/camunda-ext.svg)](https://jitpack.io/#latera/camunda-ext)
 # Camunda-ext
 
 Repo with helper classes for BPMN development.
