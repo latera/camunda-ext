@@ -5,11 +5,18 @@
   <artifactId>bss</artifactId>
   <version>1.1</version>
   <packaging>jar</packaging>
+  <scm>
+    <connection>scm:git:git@github.com:latera/camunda-ext.git</connection>
+    <developerConnection>scm:git:git@github.com:latera/camunda-ext.git</developerConnection>
+    <url>https://github.com/latera/camunda-ext</url>
+  </scm>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
+    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <groovy.version>2.4.16</groovy.version>
     <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
+    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
     <slf4j-api.version>1.7.7</slf4j-api.version>
@@ -215,11 +222,45 @@
         </dependencies>
       </plugin>
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>${buildnumber-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>${maven-jar-plugin.version}</version>
         <configuration>
           <finalName>camunda-ext-${project.version}</finalName>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+            <manifestEntries>
+              <Implementation-Build>${buildNumber}</Implementation-Build>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-plugin.version}</version>
+        <configuration>
+          <outputDirectory>./target/dependencies/</outputDirectory>
         </configuration>
       </plugin>
     </plugins>

@@ -1,0 +1,7 @@
+.git
+docker_images
+*.tar
+cache
+.cache
+.postgresql
+.sonarqube
