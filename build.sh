@@ -1,2 +1,2 @@
-#!/bin/bash
-mvn clean compile package
+#!/bin/sh
+mvn clean compile package $@

@@ -10,7 +10,7 @@ class ListUtil {
     Check if input is List or Array
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isList"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isList"></iframe>
     @param input Any object for type check
   */
   static Boolean isList(def input) {
@@ -21,7 +21,7 @@ class ListUtil {
     Check if input is byte[]
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isByteArray"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23isByteArray"></iframe>
     @param input Any object for type check
   */
   static Boolean isByteArray(def input) {
@@ -32,7 +32,7 @@ class ListUtil {
     Change string items case of list or array to upper
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23upperCase"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23upperCase"></iframe>
     @param input List[String]
   */
   static List upperCase(List input) {
@@ -51,7 +51,7 @@ class ListUtil {
     Change string items case of list or array to lower
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23lowerCase"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23lowerCase"></iframe>
     @param input List[String]
   */
   static List lowerCase(List input) {
@@ -72,7 +72,7 @@ class ListUtil {
     '[...]' became list, [...] returned unchanged, non-list values became a list with just one item.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23parse"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23parse"></iframe>
     @param input List, null, String with JSON array or Any value
   */
   static List parse(def input) {
@@ -100,7 +100,7 @@ class ListUtil {
     Remove null items, coerse '', 'null' and 'NULL' items of list as null, return others unchanged.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23nvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23nvl"></iframe>
     @param input List[String]
   */
   static List nvl(List input) {
@@ -123,7 +123,7 @@ class ListUtil {
     Like #nvl(List), but remove more items.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23forceNvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23forceNvl"></iframe>
     @param input List[String]
   */
   static List forceNvl(List input) {
@@ -140,7 +140,7 @@ class ListUtil {
     Return first non-null item list, or defaultValue, if there are no such items.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNotNull"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNotNull"></iframe>
     @param input List[Any]
   */
   static def firstNotNull(List input, def defaultValue = null) {
@@ -156,7 +156,7 @@ class ListUtil {
     Return first item of list excluding '', 'null' and 'NULL', or defaultValue, if there are no such items.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.ListUtilSpec.html#%23firstNvl"></iframe>
     @param input List[Any]
     @param defaultValue Any
   */

@@ -1,47 +1,47 @@
 sudo: required
 language: groovy
 jdk:
-- openjdk8
+  - openjdk8
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
+    - target/dependencies
+    - docker_images
 branches:
   only:
-  - master
   - /[\d]+\.\d+/
-git:
-  depth: false
 env:
   global:
-  - DOCKER_REPO=latera%2Fcamunda
-  - REPO=${TRAVIS_REPO_SLUG}
-  - COMMIT=${TRAVIS_COMMIT::8}
+    - DOCKERHUB_REPO=latera/camunda
+git:
+  depth: false
+before_install:
+  - docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD
+  - docker load -i docker_images/images.tar || true
+before_cache:
+  - docker save -o docker_images/images.tar $(docker images -a -q)
 script:
   - ./test.sh
-  - ./docs.sh
-  - git checkout docs/test-reports
-  - if git status docs | grep modified; then echo 'Documentation is outdated!' && exit 1; fi
-after_success:
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./deploy.sh; fi
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./docs.sh; fi
 deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN
     file_glob: true
-    file: "target/*.jar"
-    skip_cleanup: true
-    overwrite: true
-    prerelease: true
-    on:
-      repo: latera/camunda-ext
-      branch: master
-  - provider: releases
-    api_key: $GITHUB_TOKEN
-    file_glob: true
-    file: "target/*.jar"
+    file:
+      - "target/*.jar"
+      - "demo_processes/**/target/*.war"
     skip_cleanup: true
     overwrite: true
     on:
       repo: latera/camunda-ext
       all_branches: true
-      condition: $TRAVIS_TAG =~ ^([0-9]+.[0-9]+)$ || $TRAVIS_BRANCH =~ ^([0-9]+.[0-9]+)$
+      condition: $TRAVIS_TAG =~ ^([0-9]+.[0-9]+)(.[0-9]+)?$
+  - provider: script
+    script: docker tag $DOCKERHUB_REPO:$TRAVIS_JOB_ID $DOCKERHUB_REPO:$TRAVIS_TAG && docker push $DOCKERHUB_REPO:$TRAVIS_TAG
+    skip_cleanup: true
+    on:
+      repo: latera/camunda-ext
+      all_branches: true
+      condition: $TRAVIS_TAG =~ ^([0-9]+.[0-9]+)(.[0-9]+)?$

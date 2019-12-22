@@ -15,7 +15,7 @@
 ## Types
 * Don't use _String_ or _Integer_ identifiers because different systems return different types of fields. Allow both with _def_ type.
 * Use interfaces in function arguments - e.g. create function with _CharSequence_ argument to accept both _String_ and _GStringImpl_ input values. _def_ here is too wide.
-* Use exact types in function return values if possible to leverage redundant `def` usage.
+* Use exact types in function return values if possible to leverage redundant _def_ usage.
 * Return _Map_ in case of returning exactly one value.
 * Return _List_ in case of multiple return values.
 * Log errors and return `null` (for _Map_) or `[]` (for _List_) instead of throwing exception.

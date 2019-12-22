@@ -1,4 +1,4 @@
-v1.3 [unreleased]
+v1.3 [2020-01-07]
 -------------------
 ### Breaking changes
 -   [#05e0108](https://github.com/latera/camunda-ext/commit/05e0108) Change hydra_account field to `hydra_customer_id` in _Odoo_ class

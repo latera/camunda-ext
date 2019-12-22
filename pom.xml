@@ -9,19 +9,23 @@
     <connection>scm:git:git@github.com:latera/camunda-ext.git</connection>
     <developerConnection>scm:git:git@github.com:latera/camunda-ext.git</developerConnection>
     <url>https://github.com/latera/camunda-ext</url>
-</scm>
+  </scm>
   <properties>
     <skipTests>true</skipTests>
     <jacoco.skip>${skipTests}</jacoco.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <gmavenplus-plugin.version>1.6.2</gmavenplus-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <groovy.version>2.4.16</groovy.version>
     <gmavenplus-plugin.version>1.8.0</gmavenplus-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
+    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <camunda.version>7.9.0</camunda.version>
     <camunda.commons.version>1.5.0</camunda.commons.version>
     <slf4j-api.version>1.7.7</slf4j-api.version>
@@ -325,6 +329,14 @@
               <Implementation-Build>${buildNumber}</Implementation-Build>
             </manifestEntries>
           </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-dependency-plugin.version}</version>
+        <configuration>
+          <outputDirectory>./target/dependencies/</outputDirectory>
         </configuration>
       </plugin>
       <plugin>

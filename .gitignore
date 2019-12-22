@@ -2,8 +2,11 @@
 .idea/*
 .project
 activiti-ext.iml
+docs/*
 dst/*
-target/*
+target
 .env
 .sonarqube
 .postgresql
+.classpath
+.settings/
