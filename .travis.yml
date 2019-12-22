@@ -1,0 +1,65 @@
+sudo: required
+language: groovy
+jdk:
+- openjdk8
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+branches:
+  only:
+  - master
+  - /\d+\.\d+/
+git:
+  depth: false
+env:
+  global:
+  - secure: dDbv91f8ZRkjoZhxPgCD0mU//or+0FZ2GWd/iEvj8wPxk8UsKIW3H1fXDlO/cKVSfdaYknEANor5F6FMKX/iB9y0gRX/jP1KYYTYBwWN661en1JIPoZNJAiyyHj8bMyKUHuUNEq09Kk/n9tfi69gLPSlqNinj+takPKyI3pJNsB68k5gf5kAdVnZBK72TYUV7hSf/hQUcaVBi/jgVDNdezsXHydm2scPT+by/Y42Ywpc7IXy7OhskuQEtIzHSkw5IR/CXP7zz5eJHB0q9euEl2dSCrz4wTONyLERfNKJVd0fDkIdo7Hj57tNaHbATJqb4vTts6mI59NqE6x3WndU6btBGEw3rkiVy9iMDPxV2hoxgpGzt8NT0djLk8a7NpHGQoneX6H6xPYS9slysjKkup/8db90l4/PqNNwqfbE4p/giGBW6xv4RhkZ1MtLA0NKhEnejS4Tcl50XhtH2O833dy9aaPFIxYg8w4COjmvhyqdNbQus4ORgt7CU397cLEsCPKftj9yFVP5FRPh7ODtAoi3YMg7TrbmuHpC96GLmg8kBR2F1cEFG1aAU1lWAQxXa4pxftOdQAvdZKCt7XD5Tj1+oI30HdGrPUgIn7gu5G49Pwki+ODRyE6rF/qnX0HgJbwdIK2yDi8ocXvzHtT+OzyA+a1Z5PderFCDkAA837I=  #TRAVIS_TOKEN
+  - secure: "oUDHcVM+oSEQCQbzcLiBv3b0J4gTsO27TJojmwCa2s+nIEh0D+1+4H0MwqkZUxtUdMHGnxa743AhtfmJw7ZT2Qb1BktI4jpA7hxHyTqmbTeVOK/S/vfkTPI6lI3Pj3+wyMkOte0cU1CEZTiF3RcH/bydpFsGHajRk0sVxD2Cm6aMX7AOZNPL6c5ujarwC0t5OoBqiNSd6ZGQhV/6U7NBMstV3g7mfckZucPIhiNZcat1OXJAWAuG9Byn0Fn5u4SPwxej0Gzm4pnnSv/bZWcNhzYJYbt11Ma+hGTs5Jn71BHL5s35KX19eHPIS6FfqPY+7FdAuXpejWGjZ+kS3ilN7sxWk+cdGpA+l+NQkZ6fqIqRCkKNWb1LMW+u5esmt6ruqt1Akmbmi1rE1ohN6NZ4T4qYwYG2U378riOYjmbtLOdtXYs3VrmU6AZZzFwCFN3CL76h7KZhf6mIRBSARTpDACpz4e3Sxrv8nmKcaTYs8oWbcM8sxP1W87n4T/NKGC3BKzimc8UrF+FKfx6U27tr4fiOZZThlG0FIAkY8eh4C4bM3TgSQyaAZTS68MUfm6BNzXktAOF/IGNc44Lj3L35PDfoF4DJgPH+r1tC1GcsysVLy8DymB204dLTo6mMUH2S8ElDRe78a6LJSDGrvn2Uig98K7/+Q84mUat71BfB7Fk=" #GITHUB_TOKEN
+  - secure: "KyX4iY9GETEp18w8hSwqRXRhwXdBzvHI4OpJpuVjClwJqn+nZv0HM6wzo2McT3E1RTUvE7qvwsqWZT2XZe8kPvE6XR/0dlQ43RfKptUw8DSQtdcOogb7SnIMc1Omd9iqm7v9KGyWGc80CrLJY7LpyekomCgs5AhFgREbgtvoiA5279cQ2nu5r5Ha/sz+18sMG5nig/TiHf55T5vvR3blhPzYhQhQB56484HrTtRJhPLvGxx5844xZItnO+iq5QUoLt6iIH4UVH9aTIr+TndTs0oxUSyWFFlugUZ0CudtZxaiXPqd24WiF4R7HEpbVq2D7wSuv0GMvdsvXvyKBaGrb91v0Xi3+9ECIbm9i+KA3Xcr6o3jUrVmWgTrOWRIEib2lQeAVJud0TGBwGpq70FI5b+2pT+Ykzeqd6pqLGWQ+7/K41wN5Fv1Bv6Q6wm/nJrKjP1LDsuddctplc79cg14XPolDgtAUBMGWj1a7HbTFGGQIHRvVum73GuB6RTvIcbe3+LjB3hMdaB40V+gUfNYmKDyyRX1FG83i/VjDFwodp1AEafUeI/080V2cPPw/9IYAIxpW5VGKhxsaC3I1D8Dci69PBH8xj6/Fxxb+ExGg+VIDFBwktgq8Ln7aQwWpmX4xbmr3fNZDdA4IUm9hrMMIwEzKdzb0rGtfTV+trRQq3A=" #SONAR_TOKEN
+  - DOCKER_REPO=dolfinus%2Fcamunda
+  - REPO=${TRAVIS_REPO_SLUG}
+  - COMMIT=${TRAVIS_COMMIT::8}
+script:
+- ./build.sh
+after_success:
+- export TAG=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+- export PREV_DIR=$(pwd)
+- cd .. && git clone https://github.com/latera/camunda-ext.git master && cd master && export LATEST_MASTER_COMMIT=$(git log -n1 --pretty=format:'%H') && cd $PREV_DIR
+- export BRANCH="$TRAVIS_BRANCH"
+- if [[ "$LATEST_MASTER_COMMIT" == "$TRAVIS_COMMIT" ]]; then export BRANCH=master; fi
+- export MESSAGE="Triggered by camunda-ext"
+- if [[ "x$BRANCH" != "xmaster" ]]; then export
+  MESSAGE="$MESSAGE from separated branch $BRANCH"; fi
+- if [[ "x$TAG" != "x" && "x$TRAVIS_COMMIT" != "x$(git rev-list -n 1 $TAG)" ]]; then git tag -d $TAG; git tag $TAG; git remote add origin-travis https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git > /dev/null 2>&1; git push --tags -f --set-upstream origin-travis --quiet; exit 0; fi
+- |
+  curl -s -X POST \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Travis-API-Version: 3' \
+  -H "Authorization: token ${TRAVIS_TOKEN}" \
+  -d "{\"request\":{\"branch\":\"$BRANCH\",\"message\":\"$MESSAGE\",\"config\":{\"merge_mode\":\"deep_merge\",\"env\":{\"VERSION\":\"$TAG\",\"COMMIT\":\"$COMMIT\"}}}}" \
+  https://api.travis-ci.com/repo/$DOCKER_REPO/requests || exit 0
+deploy:
+  - provider: releases
+    api_key:
+      secure: VZJP05Uaphf/KOn0q5fMjYT/HaXhGArJiE/I4aZQXH4I9JQikFQBKLpc/y3ATZWV1OiYbCkmNAlt1offyJQnYuDGXj8dtDAM4WQzczNVGeSVS+mscvQobcpVeCZsMs5iWkSKD0AQsTZXGrZ3ndV/01E4tGXzEKTB8/J05gHtPm/QR1qCgjVaDaOZ2fS1QV3NBTjk3p0BG0XEvu0jsvFgmfEZiewej6DUcsk9GRoyqEa9VnabAfkp+AEOB/rTzf/jjvHguMj0DVo+xOQv7w5y24dNO4ZnxG+tahJ5Zn578KXIExfbRdeAoLdQEib1oRjBdGb152GTiehHZ2Jwfhrk5VC8fxQXmVMZNu8MMf3TjsulcXvQt+die01Ht9OSpwotbLl02ZkINxJU1xy4nvUSwTHjS6j3x9Gg+Qp8Bla5mDO+Bn2WuZp36MuB2eKV84WNC9Ac/gdfxgNy0qcSy2fgMHZLatCbIG0RxkLFiEw3G51ByELQnOsJBlBzA+z/eBHrsFk3O4JetPFdxGdFSoqg8ST7jv5+Pl78+g5+kO8ghA16hcAWlbZOPO9xiwdQ39YLEBgQzSwLdtHu2ihcmSSU6rfpFYnonUS6OrPTVGA8Bs/qsfRPILAMXmZTxECyg4qAsAT5nG8yxvufeJyZwBt0MwKG0NPQls074tOn1XiSUOs=
+    file_glob: true
+    file: "target/*.jar"
+    skip_cleanup: true
+    overwrite: true
+    prerelease: true
+    on:
+      repo: latera/camunda-ext
+      branch: master
+  - provider: releases
+    api_key:
+      secure: VZJP05Uaphf/KOn0q5fMjYT/HaXhGArJiE/I4aZQXH4I9JQikFQBKLpc/y3ATZWV1OiYbCkmNAlt1offyJQnYuDGXj8dtDAM4WQzczNVGeSVS+mscvQobcpVeCZsMs5iWkSKD0AQsTZXGrZ3ndV/01E4tGXzEKTB8/J05gHtPm/QR1qCgjVaDaOZ2fS1QV3NBTjk3p0BG0XEvu0jsvFgmfEZiewej6DUcsk9GRoyqEa9VnabAfkp+AEOB/rTzf/jjvHguMj0DVo+xOQv7w5y24dNO4ZnxG+tahJ5Zn578KXIExfbRdeAoLdQEib1oRjBdGb152GTiehHZ2Jwfhrk5VC8fxQXmVMZNu8MMf3TjsulcXvQt+die01Ht9OSpwotbLl02ZkINxJU1xy4nvUSwTHjS6j3x9Gg+Qp8Bla5mDO+Bn2WuZp36MuB2eKV84WNC9Ac/gdfxgNy0qcSy2fgMHZLatCbIG0RxkLFiEw3G51ByELQnOsJBlBzA+z/eBHrsFk3O4JetPFdxGdFSoqg8ST7jv5+Pl78+g5+kO8ghA16hcAWlbZOPO9xiwdQ39YLEBgQzSwLdtHu2ihcmSSU6rfpFYnonUS6OrPTVGA8Bs/qsfRPILAMXmZTxECyg4qAsAT5nG8yxvufeJyZwBt0MwKG0NPQls074tOn1XiSUOs=
+    file_glob: true
+    file: "target/*.jar"
+    skip_cleanup: true
+    overwrite: true
+    on:
+      repo: latera/camunda-ext
+      all_branches: true
+      condition: $TRAVIS_TAG =~ ^([0-9]+.[0-9]+)$ || $TRAVIS_BRANCH =~ ^([0-9]+.[0-9]+)$
