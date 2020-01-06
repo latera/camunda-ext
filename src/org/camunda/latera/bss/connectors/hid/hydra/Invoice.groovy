@@ -85,6 +85,22 @@ trait Invoice {
     return getDocumentBy(input)
   }
 
+  Map getInvoiceByCode(CharSequence code) {
+    return getInvoiceBy(code: code)
+  }
+
+  Map getInvoiceByName(CharSequence name) {
+    return getInvoiceBy(name: name)
+  }
+
+  Number getInvoiceIdByCode(CharSequence code) {
+    return toIntSafe(getInvoiceByCode(code)?.n_doc_id)
+  }
+
+  Number getInvoiceIdByName(CharSequence name) {
+    return toIntSafe(getInvoiceByName(name)?.n_doc_id)
+  }
+
   Number getInvoiceIdBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
@@ -148,8 +164,8 @@ trait Invoice {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
-  Boolean isInvoice(CharSequence entityType) {
-    return entityType == getInvoiceType()
+  Boolean isInvoice(CharSequence entityOrEntityType) {
+    return entityOrEntityType == getInvoiceType() || getInvoiceByCode(entityOrEntityType) != null || getInvoiceByName(entityOrEntityType) != null
   }
 
   Boolean isInvoice(def entityIdOrEntityTypeId) {
@@ -356,5 +372,29 @@ trait Invoice {
       n_line_id: line
     ]
     return hid.getTableFirst(getInvoiceLinesTable(), where: where)
+  }
+
+  Map addInvoiceTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addInvoiceTag(def docId, CharSequence tag) {
+    return addInvoiceTag(docId: docId, tag: tag)
+  }
+
+  Map addInvoiceTag(Map input = [:], def docId) {
+    return addInvoiceTag(input + [docId: docId])
+  }
+
+  Boolean deleteInvoiceTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteInvoiceTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteInvoiceTag(def docId, CharSequence tag) {
+    return deleteInvoiceTag(docId: docId, tag: tag)
   }
 }

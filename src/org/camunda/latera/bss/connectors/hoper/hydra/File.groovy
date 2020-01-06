@@ -85,6 +85,14 @@ trait File {
     return createSubjectFile(subjectId, input)
   }
 
+  List createSubjectFiles(def subjectId, List input) {
+    List result = []
+    input.each { Map item ->
+      result += createSubjectFile(item, subjectId)
+    }
+    return result
+  }
+
   Map updateSubjectFile(def subjectId, def fileId, Map input) {
     LinkedHashMap params = getFileParams(input)
     return updateEntity(getSubjectFileEntityType(subjectId), fileId, params)
@@ -100,6 +108,14 @@ trait File {
 
   Map updateSubjectFile(Map input, def subjectId, def fileId) {
     return updateSubjectFile(subjectId, fileId, input)
+  }
+
+  List updateSubjectFiles(def subjectId, List input) {
+    List result = []
+    input.each { Map item ->
+      result += updateSubjectFile(ite + [subjectId: subjectId])
+    }
+    return result
   }
 
   Map putSubjectFile(def subjectId, Map input) {

@@ -15,7 +15,7 @@ trait File {
     String prefix         = "${customerPrefix}${filesPrefix}Files${capitalize(params.prefix)}"
 
     List attachments = order.getFilesContent(filesPrefix)
-    List files = hoper.putSubjectFiles(order."${customerPrefix}Id", attachments)
+    List files = hoper.createSubjectFiles(order."${customerPrefix}Id", attachments)
 
     Boolean result = false
     if (files.size() == attachments.size() && (files.findAll { it == null }).size() == 0) {

@@ -15,6 +15,7 @@ trait Document {
   private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
   private static String DOCUMENTS_MV                   = 'SD_MV_DOCUMENTS'
   private static String DOCUMENT_ADD_PARAMS_MV         = 'SD_MV_DOC_VALUES'
+  private static String ENTITY_TYPE_DOCUMENT           = 'ENTITY_TYPE_Document'
   private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
   private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
   private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
@@ -54,6 +55,14 @@ trait Document {
 
   String getDocumentAddParamsMV() {
     return DOCUMENT_ADD_PARAMS_MV
+  }
+
+  String getDocumentEntityType() {
+    return ENTITY_TYPE_DOCUMENT
+  }
+
+  Number getDocumentEntityTypeId() {
+    return getRefIdByCode(getDocumentEntityType())
   }
 
   String getDocumentStateActual() {
@@ -265,6 +274,22 @@ trait Document {
     return getDocumentsBy(input + [limit: 1])?.getAt(0)
   }
 
+  Map getDocumentByCode(CharSequence code) {
+    return getDocumentBy(code: code)
+  }
+
+  Map getDocumentByName(CharSequence name) {
+    return getDocumentBy(name: name)
+  }
+
+  Number getDocumentIdByCode(CharSequence code) {
+    return toIntSafe(getDocumentByCode(code)?.n_doc_id)
+  }
+
+  Number getDocumentIdByName(CharSequence name) {
+    return toIntSafe(getDocumentByName(name)?.n_doc_id)
+  }
+
   Number getDocumentTypeId(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -279,12 +304,12 @@ trait Document {
     return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where))
   }
 
-  Boolean isDocument(CharSequence docType) {
-    return docType.contains('DOC')
+  Boolean isDocument(CharSequence docOrDocType) {
+    return docType.contains('DOC') || docOrDocType == getDocumentEntityType() || getDocumentByCode(docOrDocType) != null || getDocumentByName(docOrDocType) != null
   }
 
   Boolean isDocument(def docIdOrDocTypeId) {
-    return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
+    return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null || docIdOrDocTypeId == getDocumentEntityTypeId()
   }
 
   Map putDocument(Map input) {
@@ -793,6 +818,34 @@ trait Document {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  Map addDocumentTag(Map input) {
+    input.entityId = input.docId
+    input.remove('docId')
+    return addEntityTag(input)
+  }
+
+  Map addDocumentTag(def docId, CharSequence tag) {
+    return addDocumentTag(docId: docId, tag: tag)
+  }
+
+  Map addDocumentTag(Map input = [:], def docId) {
+    return addDocumentTag(input + [docId: docId])
+  }
+
+  Boolean deleteDocumentTag(def docTagId) {
+    return deleteEntityTag(docTagId)
+  }
+
+  Boolean deleteDocumentTag(Map input) {
+    input.entityId = input.docId
+    input.remove('docId')
+    return deleteEntityTag(input)
+  }
+
+  Boolean deleteEntityTag(def docId, CharSequence tag) {
+    return deleteEntityTag(docId: docId, tag: tag)
   }
 
   Boolean actualizeDocument(def docId) {

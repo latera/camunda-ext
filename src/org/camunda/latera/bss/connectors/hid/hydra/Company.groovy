@@ -104,8 +104,24 @@ trait Company {
     return getCompaniesBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isCompany(CharSequence entityType) {
-    return entityType == getCompanyType()
+  Map getCompanyByCode(CharSequence code) {
+    return getCompanyBy(code: code)
+  }
+
+  Map getCompanyByName(CharSequence name) {
+    return getCompanyBy(name: name)
+  }
+
+  def getCompanyIdByCode(CharSequence code) {
+    return toIntSafe(getCompanyByCode(code)?.n_subject_id)
+  }
+
+  def getCompanyIdByName(CharSequence name) {
+    return toIntSafe(getCompanyByName(name)?.n_subject_id)
+  }
+
+  Boolean isCompany(CharSequence entityOrEntityType) {
+    return entityOrEntityType == getCompanyType() || getCompanyByCode(entityOrEntityType) != null || getCompanyByName(entityOrEntityType) != null
   }
 
   Boolean isCompany(def entityIdOrEntityTypeId) {
@@ -212,11 +228,39 @@ trait Company {
   }
 
   Map addCompanyAddParam(def companyId, Map input) {
-    return putCompanyAddParam(input + [companyId: companyId])
+    return addCompanyAddParam(input + [companyId: companyId])
   }
 
   Map addCompanyAddParam(Map input, def companyId) {
-    return putCompanyAddParam(companyId, input)
+    return addCompanyAddParam(companyId, input)
+  }
+
+  Map addCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return addSubjectTag(input)
+  }
+
+  Map addCompanyTag(def companyId, CharSequence tag) {
+    return addCompanyTag(companyId: companyId, tag: tag)
+  }
+
+  Map addCompanyTag(Map input = [:], def companyId) {
+    return addCompanyTag(input + [companyId: companyId])
+  }
+
+  Boolean deleteCompanyTag(def companyTagId) {
+    return deleteSubjectTag(companyTagId)
+  }
+
+  Boolean deleteCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deleteCompanyTag(def companyId, CharSequence tag) {
+    return deleteCompanyTag(companyId: companyId, tag: tag)
   }
 
   Boolean refreshCompanies(CharSequence method = 'C') {

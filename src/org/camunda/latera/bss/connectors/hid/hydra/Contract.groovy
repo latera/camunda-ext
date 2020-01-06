@@ -193,6 +193,30 @@ trait Contract {
     return updateContract(customerId, docId, input)
   }
 
+  Map addContractTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractTag(def docId, CharSequence tag) {
+    return addContractTag(docId: docId, tag: tag)
+  }
+
+  Map addContractTag(Map input = [:], def docId) {
+    return addContractTag(input + [docId: docId])
+  }
+
+  Boolean deleteContractTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractTag(def docId, CharSequence tag) {
+    return deleteContractTag(docId: docId, tag: tag)
+  }
+
   Boolean dissolveContract(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
@@ -319,6 +343,30 @@ trait Contract {
     return updateContractApp(customerId, docId, input)
   }
 
+  Map addContractAppTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractAppTag(def docId, CharSequence tag) {
+    return addContractAppTag(doc: docId, tag: tag)
+  }
+
+  Map addContractAppTag(Map input = [:], def docId) {
+    return addContractAppTag(input + [doc: docId])
+  }
+
+  Boolean deleteContractAppTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractAppTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractAppTag(def docId, CharSequence tag) {
+    return deleteContractAppTag(docId: docId, tag: tag)
+  }
+
   Boolean dissolveContractApp(Map input) {
     return dissolveContract(input)
   }
@@ -425,6 +473,30 @@ trait Contract {
 
   Map updateAddAgreement(Map input, def customerId, def docId) {
     return updateAddAgreement(customerId, docId, input)
+  }
+
+  Map addAddAgreementTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addAddAgreementTag(def docId, CharSequence tag) {
+    return addAddAgreementTag(doc: docId, tag: tag)
+  }
+
+  Map addAddAgreementTag(Map input = [:], def docId) {
+    return addAddAgreementTag(input + [doc: docId])
+  }
+
+  Boolean deleteAddAgreementTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteAddAgreementTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
+    return deleteAddAgreementTag(docId: docId, tag: tag)
   }
 
   Boolean dissolveAddAgreement(Map input) {

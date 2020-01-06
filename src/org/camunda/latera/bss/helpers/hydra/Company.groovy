@@ -31,6 +31,8 @@ trait Company {
     order."${prefix}Name"         = name
     order."${prefix}Code"         = code
     order."${prefix}OGRN"         = company?.vc_ogrn
+    order."${prefix}OCPO"         = company?.vc_ocpo
+    order."${prefix}OKVED"        = company?.vc_okved
   }
 
   Boolean createCompany(Map input = [:]) {
@@ -51,13 +53,15 @@ trait Company {
     String companyCode = trim(order."${prefix}Code")
     String name = trim([opfCode, (opfCode ? "\"${companyCode}\"" : companyCode)].join(' '))
 
-    Map company = hydra.putCompany(
+    Map company = hydra.createCompany(
       name  : name.toString(),
       code  : order."${prefix}Code",
       opfId : order."${subjectPrefix}OPFId",
       inn   : trim(order."${subjectPrefix}INN"),
       kpp   : trim(order."${subjectPrefix}KPP"),
-      ogrn  : trim(order."${prefix}OGRN")
+      ogrn  : trim(order."${prefix}OGRN"),
+      ocpo  : trim(order."${prefix}OCPO"),
+      okved : trim(order."${prefix}OKVED")
     )
     Boolean result = false
     if (company) {

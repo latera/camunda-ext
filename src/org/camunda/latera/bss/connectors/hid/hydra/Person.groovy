@@ -6,7 +6,7 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.dayBegin
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
-  private static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
+  private static String PERSON_TYPE           = 'SUBJ_TYPE_Person'
 
   String getPersonType() {
     return PERSON_TYPE
@@ -104,6 +104,38 @@ trait Person {
     return getPersonsBy(input + [limit: 1])?.getAt(0)
   }
 
+  Map getPersonByCode(CharSequence code) {
+    return getPersonBy(code: code)
+  }
+
+  Map getPersonByName(CharSequence name) {
+    return getPersonBy(name: name)
+  }
+
+  Map getPersonByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
+    return getPersonBy(firstName: firstName, lastName: lastName, secondName: secondName)
+  }
+
+  Map getPersonByFio(Map input) {
+    return getPersonByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
+  }
+
+  Number getPersonIdByCode(CharSequence code) {
+    return toIntSafe(getPersonByCode(code)?.n_subject_id)
+  }
+
+  Number getPersonIdByName(CharSequence name) {
+    return toIntSafe(getPersonByName(name)?.n_subject_id)
+  }
+
+  Number getPersonIdByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
+    return getPersonByFio(firstName, lastName, secondName)
+  }
+
+  Number getPersonIdByFio(Map input) {
+    return getPersonIdByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
+  }
+
   Map getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -115,8 +147,24 @@ trait Person {
     return entityType == getPersonType()
   }
 
-  Boolean isPerson(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
+  Map getPersonPrivateByCode(CharSequence code) {
+    return getPersonPrivateBy(code: code)
+  }
+
+  Map getPersonPrivateByName(CharSequence name) {
+    return getPersonPrivateBy(name: name)
+  }
+
+  Map getPersonPrivateByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
+    return getPersonPrivateBy(firstName: firstName, lastName: lastName, secondName: secondName)
+  }
+
+  Map getPersonPrivateByFio(Map input) {
+    return getPersonPrivateByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
+  }
+
+  Boolean isPerson(CharSequence entityOrEntityType) {
+    return entityOrEntityType == getPersonType() || getPersonByCode(entityOrEntityType) != null || getPersonByName(entityOrEntityType) != null
   }
 
   Map createPerson(Map input) {
@@ -227,7 +275,35 @@ trait Person {
   }
 
   Map addPersonAddParam(Map input, def personId) {
-    return putPersonAddParam(personId, input)
+    return addPersonAddParam(personId, input)
+  }
+
+  Map addPersonTag(Map input) {
+    input.subjectId = input.subjectId ?: input.personId
+    input.remove('personId')
+    return addSubjectTag(input)
+  }
+
+  Map addPersonTag(def personId, CharSequence tag) {
+    return addPersonTag(personId: personId, tag: tag)
+  }
+
+  Map addPersonTag(Map input = [:], def personId) {
+    return addPersonTag(input + [personId: personId])
+  }
+
+  Boolean deletePersonTag(def personTagId) {
+    return deleteSubjectTag(personTagId)
+  }
+
+  Boolean deletePersonTag(Map input) {
+    input.subjectId = input.subjectId ?: input.personId
+    input.remove('personId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deletePersonTag(def personId, CharSequence tag) {
+    return deletePersonTag(personId: personId, tag: tag)
   }
 
   Boolean refreshPersons(CharSequence method = 'C') {

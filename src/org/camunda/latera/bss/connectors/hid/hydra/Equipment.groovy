@@ -10,6 +10,7 @@ trait Equipment {
   private static String EQUIPMENT_ADD_PARAMS_TABLE   = 'SI_V_OBJ_VALUES'
   private static String OBJECTS_MV                   = 'SI_V_OBJECTS'
   private static String EQUIPMENT_ADD_PARAMS_MV      = 'SI_V_OBJ_VALUES'
+  private static String ENTITY_TYPE_OBJECT           = 'ENTITY_TYPE_Object'
   private static String EQUIPMENT_STATE_ACTUAL       = 'OBJ_STATE_Active'
   private static String EQUIPMENT_STATE_NOT_ACTIVE   = 'OBJ_STATE_NotActive'
   private static String EQUIPMENT_STATE_REGISTER_OFF = 'OBJ_STATE_RegisterOff'
@@ -40,6 +41,14 @@ trait Equipment {
 
   String getEquipmentMV() {
     return getObjectsMV()
+  }
+
+  String getEquipmentEntityType() {
+    return ENTITY_TYPE_OBJECT
+  }
+
+  Number getEquipmentEntityTypeId() {
+    return getRefIdByCode(getEquipmentEntityType())
   }
 
   String getEquipmentAddParamsMV() {
@@ -130,6 +139,30 @@ trait Equipment {
 
   Map getObjectBy(Map input) {
     return getObjectsBy(input + [limit: 1])?.getAt(0)
+  }
+
+  Map getObjectByCode(CharSequence code) {
+    return getObjectBy(code: code)
+  }
+
+  Map getObjectByName(CharSequence name) {
+    return getObjectBy(name: name)
+  }
+
+  Number getObjectIdByCode(CharSequence code) {
+    return toIntSafe(getObjectByCode(code)?.n_object_id)
+  }
+
+  Number getObjectIdByName(CharSequence name) {
+    return toIntSafe(getObjectByName(name)?.n_object_id)
+  }
+
+  Boolean isObject(CharSequence entityOrEntityType) {
+    return getObjectByCode(entityOrEntityType) != null || getObjectByName(entityOrEntityType) != null || entityOrEntityType == getObjectEntityType() || entityOrEntityType in [getObjectGoodKind(), getNetServiceKind()]
+  }
+
+  Boolean isObject(def entityIdOrEntityTypeId) {
+    return getObject(entityIdOrEntityTypeId) != null || entityIdOrEntityTypeId == getObjectEntityTypeId() || toIntSafe(getGood(entityIdOrEntityTypeId)?.n_good_kind_id) in [getObjectGoodKindId(), getNetServiceKindId()]
   }
 
   List getCustomerObjects(def customerId, Map input = [:]) {

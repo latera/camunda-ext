@@ -45,8 +45,8 @@ trait Account {
     String customerPrefix = "${capitalize(params.customerPrefix)}Customer"
     String prefix = "${capitalize(params.prefix)}Account"
 
-    Map account = hydra.putCustomerAccount(
-      customerId : order."${customerPrefix}Id",
+    Map account = hydra.createCustomerAccount(
+      order."${customerPrefix}Id",
       currencyId : order."${prefix}CurrencyId" ?: execution.getVariable('currencyId'),
       currency   : order."${prefix}Currency"   ?: execution.getVariable('currency'),
       number     : order."${prefix}Number"

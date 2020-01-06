@@ -12,6 +12,7 @@ trait Subject {
   private static String SUBJECT_GROUPS_TABLE          = 'SI_V_SUBJECT_BIND_GROUPS'
   private static String SUBJECTS_MV                   = 'SI_MV_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_MV         = 'SI_MV_SUBJ_VALUES'
+  private static String ENTITY_TYPE_SUBJECT           = 'ENTITY_TYPE_Subject'
   private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
@@ -40,6 +41,14 @@ trait Subject {
 
   String getSubjectAddParamsMV() {
     return SUBJECT_ADD_PARAMS_MV
+  }
+
+  String getSubjectEntityType() {
+    return ENTITY_TYPE_SUBJECT
+  }
+
+  Number getSubjectEntityTypeId() {
+    return getRefIdByCode(getSubjectEntityType())
   }
 
   String getSubjectStateOn() {
@@ -147,6 +156,22 @@ trait Subject {
     return getSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
+  Map getSubjectByCode(CharSequence code) {
+    return getSubjectBy(code: code)
+  }
+
+  Map getSubjectByName(CharSequence name) {
+    return getSubjectBy(name: name)
+  }
+
+  Number getSubjectIdByCode(CharSequence code) {
+    return toIntSafe(getSubjectByCode(code)?.n_subject_id)
+  }
+
+  Number getSubjectIdByName(CharSequence name) {
+    return toIntSafe(getSubjectByName(name)?.n_subject_id)
+  }
+
   Map getSubject(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -161,12 +186,12 @@ trait Subject {
     return toIntSafe(hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where))
   }
 
-  Boolean isSubject(CharSequence entityType) {
-    return entityType.contains('SUBJ_TYPE_')
+  Boolean isSubject(CharSequence entityOrEntityType) {
+    return entityOrEntityType.contains('SUBJ_TYPE_') || entityOrEntityType == getSubjectEntityType() || getSubjectByCode(entityOrEntityType) != null || getSubjectByName(entityOrEntityType) != null
   }
 
   Boolean isSubject(def entityIdOrEntityTypeId) {
-    return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || getSubject(entityIdOrEntityTypeId) != null
+    return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
   }
 
   Boolean changeSubjectState(
@@ -423,6 +448,22 @@ trait Subject {
     return getSubjectGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
+  Map getSubjectGroupByCode(CharSequence code) {
+    return getSubjectGroupBy(code: code)
+  }
+
+  Map getSubjectGroupByName(CharSequence name) {
+    return getSubjectGroupBy(name: name)
+  }
+
+  def getSubjectGroupIdByCode(CharSequence code) {
+    return getSubjectGroupByCode(code)?.n_subject_id
+  }
+
+  def getSubjectGroupIdByName(CharSequence name) {
+    return getSubjectGroupByName(name)?.n_subject_id
+  }
+
   List getSubjectGroups(def subjectId) {
     return getSubjectGroupsBy(subjectId: subjectId)
   }
@@ -534,6 +575,34 @@ trait Subject {
       logger.error_oracle(e)
       return null
     }
+  }
+
+  Map addSubjectTag(Map input) {
+    input.entityId = input.subjectId
+    input.remove('subjectId')
+    return addEntityTag(input)
+  }
+
+  Map addSubjectTag(def subjectId, CharSequence tag) {
+    return addSubjectTag(subjectId: subjectId, tag: tag)
+  }
+
+  Map addSubjectTag(Map input = [:], def subjectId) {
+    return addSubjectTag(input + [subjectId: subjectId])
+  }
+
+  Boolean deleteSubjectTag(def subjTagId) {
+    return deleteEntityTag(subjTagId)
+  }
+
+  Boolean deleteSubjectTag(Map input) {
+    input.entityId = input.subjectId
+    input.remove('subjectId')
+    return deleteEntityTag(input)
+  }
+
+  Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
+    return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
   Boolean addSubjectComment(Map input) {

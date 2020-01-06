@@ -4,6 +4,7 @@ import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import java.time.temporal.Temporal
 
 trait Customer {
@@ -195,8 +196,24 @@ trait Customer {
     return getCustomersBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isCustomer(CharSequence entityType) {
-    return entityType == getCustomerType()
+  Map getCustomerByCode(CharSequence code) {
+    return getCustomerBy(code: code)
+  }
+
+  Map getCustomerByName(CharSequence name) {
+    return getCustomerBy(name: name)
+  }
+
+  Number getCustomerIdByCode(CharSequence code) {
+    return toIntSafe(getCustomerByCode(code)?.n_subject_id)
+  }
+
+  Number getCustomerIdByName(CharSequence name) {
+    return toIntSafe(getCustomerByName(name)?.n_subject_id)
+  }
+
+  Boolean isCustomer(CharSequence entityOrEntityType) {
+    return entityType == getCustomerType() || getCustomerByCode(entityOrEntityType) != null || getCustomerByName(entityOrEntityType) != null
   }
 
   Boolean isCustomer(def entityIdOrEntityTypeId) {
@@ -623,7 +640,33 @@ trait Customer {
   }
 
   Boolean changeSelfCarePassword(Map input) {
-    return changeNetServicePassword(input)
+
+  Map addCustomerTag(Map input) {
+    input.subjectId = input.subjectId ?: input.customerId
+    input.remove('customerId')
+    return addSubjectTag(input)
+  }
+
+  Map addCustomerTag(def customerId, CharSequence tag) {
+    return addCustomerTag(customerId: customerId, tag: tag)
+  }
+
+  Map addCustomerTag(Map input = [:], def customerId) {
+    return addCustomerTag(input + [customerId: customerId])
+  }
+
+  Boolean deleteCustomerTag(def customerTagId) {
+    return deleteSubjectTag(customerTagId)
+  }
+
+  Boolean deleteCustomerTag(Map input) {
+    input.subjectId = input.subjectId ?: input.customerId
+    input.remove('customerId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deleteCustomerTag(def customerId, CharSequence tag) {
+    return deleteCustomerTag(customerId: customerId, tag: tag)
   }
 
   Boolean processCustomer(
