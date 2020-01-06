@@ -326,6 +326,14 @@ class Order implements GroovyObject {
     return this.class.getFiles(prefix, this._execution)
   }
 
+  static List setFiles(CharSequence prefix = '', def value, DelegateExecution execution) {
+    return setValue("${prefix}FileList", value, execution)
+  }
+
+  List setFiles(CharSequence prefix = '', def value) {
+    return this.class.setFiles(prefix, value, this._execution)
+  }
+
   static Map getFile(CharSequence name, CharSequence prefix = '', DelegateExecution execution) {
     List files = getFiles(prefix, execution)
     files.each { Map file ->

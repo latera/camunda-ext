@@ -159,7 +159,7 @@ class HOMS {
     if (save) {
       List existingFiles = Order.getFiles(prefix, execution)
       List newList = existingFiles + newFiles
-      execution.setVariable('homsOrderDataFileList', JSON.to(newList))
+      Order.setFiles(prefix, newList, execution)
     }
     return newFiles
   }
