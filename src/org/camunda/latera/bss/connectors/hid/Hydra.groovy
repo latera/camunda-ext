@@ -57,10 +57,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
     this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
-    mainInit(
-      user     : this.user,
-      password : this.password
-    )
+    mainInit()
     setFirm()
     this.version = getVersion()
   }
@@ -135,23 +132,22 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return getRefIdByCode("LANG_${capitalize(langCode)}")
   }
 
-  void mainInit(Map input) {
+  void mainInit(Map input = [:]) {
     LinkedHashMap params = [
       ip       : '127.0.0.1',
-      user     : null,
-      password : null,
-      appCode  : 'NETSERV_HID',
+      user     : this.user,
+      password : this.password,
+      app      : 'NETSERV_HID',
       appId    : 'HydraOMS'
     ] + input
 
     hid.execute('MAIN.INIT', [
-      vch_VC_IP       : params.ip,
-      vch_VC_USER     : params.user,
-      vch_VC_PASS     : params.password,
-      vch_VC_APP_CODE : params.appCode,
-      vch_VC_CLN_APPID: params.appId
+      vch_VC_IP        : params.ip,
+      vch_VC_USER      : params.user,
+      vch_VC_PASS      : params.password,
+      vch_VC_APP_CODE  : params.app ?: params.appCode,
+      vch_VC_CLN_APPID : params.appId
     ])
-
   }
 
   void setFirm(def firmId = getFirmId()) {
