@@ -2,6 +2,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.DateTimeUtil.dayEnd
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import java.time.temporal.Temporal
 
@@ -335,16 +336,19 @@ trait Account {
     ], input)
     try {
       logger.info("Putting adjustment with params ${params}")
-      hid.execute('SD_BALANCE_ADJUSTMENTS_PKG.CHARGE_ADJUSTMENT', [
+      LinkedHashMap args = [
         num_N_ACCOUNT_ID  : params.accountId,
         num_N_CONTRACT_ID : params.docId,
         num_N_OBJECT_ID   : params.equipmentId,
         num_N_SERVICE_ID  : params.goodId,
         num_N_SUM         : params.sum,
         num_N_SUM_WO_TAX  : params.sumWoTax,
-        dt_D_OPER         : params.operationDate,
-        num_N_FIRM_ID     : params.firmId
-      ])
+        dt_D_OPER         : params.operationDate
+      ]
+      if (this.version < '5.1.2') {
+        args['num_N_FIRM_ID'] = params.firmId
+      }
+      hid.execute('SD_BALANCE_ADJUSTMENTS_PKG.CHARGE_ADJUSTMENT', args)
       logger.info("   Adjustment was put successfully!")
       return true
     } catch (Exception e){
