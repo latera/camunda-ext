@@ -191,7 +191,7 @@ trait Person {
   }
 
   Number getPersonAddParamTypeIdByCode(CharSequence code) {
-    return toIntSafe(getSubjectAddParamTypeIdByCode(code, getCompanyTypeId()))
+    return toIntSafe(getSubjectAddParamTypeIdByCode(code, getPersonTypeId()))
   }
 
   List getPersonAddParamsBy(Map input) {
@@ -223,11 +223,11 @@ trait Person {
   }
 
   Map addPersonAddParam(def personId, Map input) {
-    return putPersonAddParam(input + [personId: personId])
+    return addPersonAddParam(input + [personId: personId])
   }
 
   Map addPersonAddParam(Map input, def personId) {
-    return putPersonAddParam(personId, input)
+    return addPersonAddParam(personId, input)
   }
 
   Boolean refreshPersons(CharSequence method = 'C') {
