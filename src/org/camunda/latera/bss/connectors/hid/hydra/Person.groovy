@@ -111,8 +111,104 @@ trait Person {
     return hid.getTableFirst(getPersonsPrivateTable(), where: where)
   }
 
-  Boolean isPerson(CharSequence entityType) {
-    return entityType == getPersonType()
+  List getPersonsPrivateBy(Map input) {
+    LinkedHashMap params = mergeParams([
+      personId      : null,
+      regionId      : null,
+      creatorId     : null,
+      name          : null,
+      code          : null,
+      firstName     : null,
+      secondName    : null,
+      lastName      : null,
+      docTypeId     : null,
+      docSerial     : null,
+      docNumber     : null,
+      docDate       : null,
+      docDepartment : null,
+      docAuthor     : null,
+      birthDate     : null,
+      birthPlace    : null,
+      opfId         : null,
+      sexId         : null,
+      groupId       : null,
+      firmId        : getFirmId(),
+      stateId       : getSubjectStateOnId(),
+      limit         : 0
+    ], input)
+    LinkedHashMap where = [:]
+
+    if (params.personId) {
+      where.n_person_id = params.personId
+    }
+    if (params.regionId) {
+      where.n_region_id = params.regionId
+    }
+    if (params.creatorId) {
+      where.n_creator_id = params.creatorId
+    }
+    if (params.name) {
+      where.vc_name = params.name
+    }
+    if (params.code) {
+      where.vc_code = params.code
+    }
+    if (params.firstName) {
+      where.vc_first_name = params.firstName
+    }
+    if (params.secondName) {
+      where.vc_second_name = params.secondName
+    }
+    if (params.lastName) {
+      where.vc_surname = params.lastName
+    }
+    if (params.docTypeId) {
+      where.n_doc_auth_type_id = params.docTypeId
+    }
+    if (params.docSerial) {
+      where.vc_doc_serial = params.docSerial
+    }
+    if (params.docNumber) {
+      where.vc_doc_no = params.docNumber
+    }
+    if (params.docDate) {
+      where.d_doc = params.docDate
+    }
+    if (params.docDepartment) {
+      where.vc_doc_department = params.docDepartment
+    }
+    if (params.docAuthor) {
+      where.vc_document = params.docAuthor
+    }
+    if (params.birthDate) {
+      where["TRUNC(d_birth)"] = params.birthDate
+    }
+    if (params.birthPlace) {
+      where.vc_birth_place = params.birthPlace
+    }
+    if (params.inn) {
+      where.vc_inn = params.inn
+    }
+    if (params.sexId) {
+      where.n_sex_id = params.sexId
+    }
+    if (params.opfId) {
+      where.n_opf_id = params.opfId
+    }
+    if (params.groupId) {
+      where.n_subj_group_id = params.groupId
+    }
+    if (params.firmId) {
+      where.n_firm_id = params.firmId
+    }
+    if (params.stateId) {
+      where.n_subj_state_id = params.stateId
+    }
+    return hid.getTableData(getPersonsPrivateTable(), where: where, order: params.order, limit: params.limit)
+  }
+
+  Map getPersonPrivateBy(Map input) {
+    return getPersonsPrivateBy(input + [limit: 1])?.getAt(0)
   }
 
   Boolean isPerson(def entityIdOrEntityTypeId) {
