@@ -128,7 +128,7 @@ trait Ticket {
 
     List attachmentList = []
     if (attachments) {
-      attachments.each { it ->
+      attachments.each { Map it ->
         LinkedHashMap attachment = getTicketAttachmentDefaultParams() + it
         attachmentList += getTicketAttachmentParamsMap(attachment)
       }
@@ -136,7 +136,7 @@ trait Ticket {
 
     List dynamicFieldsList = []
     if (dynamicFields) {
-      dynamicFields.each { key, value ->
+      dynamicFields.each { CharSequence key, def value ->
         LinkedHashMap field = getTicketDynamicFieldDefaultParams() + [
           name  : key,
           value : value

@@ -15,14 +15,18 @@ trait Entity {
     return result
   }
 
-  Map createEntity(CharSequence type, Map params) {
+  Map createEntity(Map params = [:], CharSequence type) {
     LinkedHashMap result = null
     try {
-      logger.info("Creating ${type} with params ${params}")
+      Map paramsWoBase64 = suppressBase64(params)
+      Boolean supress = params != paramsWoBase64
+      logger.info("Creating ${type} with params ${paramsWoBase64}")
       result = sendRequest(
         'post',
         path : "${type}Create/",
-        body : params
+        body : params,
+        supressRequestBodyLog  : supress,
+        supressResponseBodyLog : supress
       )
     } catch (Exception e) {
       logger.error("   Error while creating ${type}")
@@ -31,14 +35,18 @@ trait Entity {
     return result
   }
 
-  Map updateEntity(CharSequence type, def id, Map params) {
+  Map updateEntity(Map params = [:], CharSequence type, def id) {
     LinkedHashMap result = null
     try {
-      logger.info("Updating ${type} id ${id} with params ${params}")
+      Map paramsWoBase64 = suppressBase64(params)
+      Boolean supress = params != paramsWoBase64
+      logger.info("Updating ${type} id ${id} with params ${paramsWoBase64}")
       result = sendRequest(
         'put',
         path : "${type}Update/${id}",
-        body : params
+        body : params,
+        supressRequestBodyLog  : supress,
+        supressResponseBodyLog : supress
       )
     } catch (Exception e) {
       logger.error("   Error while updating ${type}")
