@@ -365,9 +365,9 @@ trait Subscription {
 
   Boolean deleteSubscriptionForce(def subscriptionId) {
     Boolean result = true
-    List invoices = getInvoicesBySubscription(subscriptionId)
-    invoices.each { it ->
-      Boolean cancelResult = cancelInvoice(it.n_doc_id)
+    List invoices = getInvoicesBySubscription(subscriptionId: subscriptionId)
+    invoices.each { Map invoice ->
+      Boolean cancelResult = cancelInvoice(invoice.n_doc_id)
       result = result && cancelResult
     }
     Boolean deleteResult = deleteSubscription(subscriptionId)
