@@ -10,6 +10,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |0
     1    |1
     1.1  |1
     '1'  |1
@@ -28,6 +29,7 @@ class NumericSpec extends Specification {
 
     where:
     input|defaultValue||result
+    0    |-1          ||0
     1    |0           ||1
     1.1  |0           ||1
     '1'  |0           ||1
@@ -46,6 +48,7 @@ class NumericSpec extends Specification {
 
     where:
     input|defaultValue||result
+    0    |-1          ||0
     1    |0           ||1
     1.1  |0           ||0
     '1'  |0           ||1
@@ -64,6 +67,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |0
     1    |1
     1.1  |1.1
     '1'  |1
@@ -82,6 +86,7 @@ class NumericSpec extends Specification {
 
     where:
     input|defaultValue||result
+    0    |-1          ||0
     1    |0           ||1
     1.1  |0           ||1.1
     '1'  |0           ||1
@@ -100,6 +105,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |true
     1    |true
     1.1  |false
     '1'  |true
@@ -118,6 +124,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |true
     1    |true
     1.0  |false
     1.1  |false
@@ -137,6 +144,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |true
     1    |true
     1.1  |true
     '1'  |true
@@ -155,6 +163,7 @@ class NumericSpec extends Specification {
 
     where:
     input|result
+    0    |true
     1    |true
     1.1  |true
     '1'  |true

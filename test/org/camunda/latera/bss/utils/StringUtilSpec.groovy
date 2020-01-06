@@ -34,8 +34,8 @@ class StringUtilSpec extends Specification {
     null         |true
     'null'       |false
     'NULL'       |false
-    0            |true
-    false        |true
+    0            |false
+    false        |false
     []           |true
     [:]          |true
   }
@@ -54,8 +54,8 @@ class StringUtilSpec extends Specification {
     null         |false
     'null'       |true
     'NULL'       |true
-    0            |false
-    false        |false
+    0            |true
+    false        |true
     []           |false
     [:]          |false
   }
@@ -74,8 +74,8 @@ class StringUtilSpec extends Specification {
     null         |true
     'null'       |true
     'NULL'       |true
-    0            |true
-    false        |true
+    0            |false
+    false        |false
     []           |true
     [:]          |true
   }
@@ -94,8 +94,8 @@ class StringUtilSpec extends Specification {
     null         |false
     'null'       |false
     'NULL'       |false
-    0            |false
-    false        |false
+    0            |true
+    false        |true
     []           |false
     [:]          |false
   }
@@ -271,9 +271,9 @@ class StringUtilSpec extends Specification {
     [1,2]                        |','      ||'1,2'
     [1,2]                        |' '      ||'1 2'
     [1,2]                        |';'      ||'1;2'
-    [1,2,null,'','null',0,false] |','      ||'1,2'
-    [1,2,null,'','null',0,false] |' '      ||'1 2'
-    [1,2,null,'','null',0,false] |';'      ||'1;2'
+    [1,2,null,'','null',0,false] |','      ||'1,2,0,false'
+    [1,2,null,'','null',0,false] |' '      ||'1 2 0 false'
+    [1,2,null,'','null',0,false] |';'      ||'1;2;0;false'
     []                           |','      ||''
     []                           |';'      ||''
     []                           |' '      ||''

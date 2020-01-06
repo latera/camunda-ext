@@ -1,6 +1,8 @@
 package org.camunda.latera.bss.utils
 import java.nio.charset.Charset
 import java.security.SecureRandom
+import static org.camunda.latera.bss.utils.Numeric.isNumber
+import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 
 class StringUtil {
   /**
@@ -33,9 +35,18 @@ class StringUtil {
     @param input String to check emptiness
   */
   static Boolean notEmpty(def input) {
-    if (input) {
+    if (input != null) {
       if (isString(input)) {
         return !!(trim(input) as Boolean)
+      }
+      if (isNumber(input)) {
+        return true // 0 is not empty value
+      }
+      if (isDate(input)) {
+        return true // date values cannout be empty
+      }
+      if (input instanceof Boolean) {
+        return true // false is not empty value
       }
       return !!(input as Boolean)
     }
@@ -68,9 +79,18 @@ class StringUtil {
     @see #notEmpty(def)
   */
   static Boolean forceNotEmpty(def input) {
-    if (input) {
+    if (input != null) {
       if (isString(input)) {
         return !!(nvl(input) as Boolean)
+      }
+      if (isNumber(input)) {
+        return true // 0 is not empty value
+      }
+      if (isDate(input)) {
+        return true // date values cannout be empty
+      }
+      if (input instanceof Boolean) {
+        return true // false is not empty value
       }
       return !!(input as Boolean)
     }

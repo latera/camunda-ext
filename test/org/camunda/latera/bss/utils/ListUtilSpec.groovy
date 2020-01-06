@@ -105,10 +105,11 @@ class ListUtilSpec extends Specification {
     [null]  |[]
     ['null']|[null]
     ['NULL']|[null]
-    [false] |[null]
+    [false] |[false]
+    [true]  |[true]
     [[]]    |[null]
     [[:]]   |[null]
-    [0]     |[null]
+    [0]     |[0]
     [1]     |[1]
     ['a']   |['a']
   }
@@ -125,8 +126,8 @@ class ListUtilSpec extends Specification {
     ['NULL']|[]
     [[:]]   |[]
     [[]]    |[]
-    [false] |[]
-    [0]     |[]
+    [false] |[false]
+    [0]     |[0]
     [1]     |[1]
     ['a']   |['a']
   }
@@ -184,9 +185,9 @@ class ListUtilSpec extends Specification {
     ['NULL']|null        |null
     [[:]]   |null        |null
     [[]]    |null        |null
-    [false] |null        |null
+    [false] |null        |false
     [true]  |null        |true
-    [0]     |null        |null
+    [0]     |null        |0
     [1]     |null        |1
     ['a']   |null        |'a'
     []      |false       |false
@@ -197,7 +198,7 @@ class ListUtilSpec extends Specification {
     [[]]    |false       |false
     [false] |false       |false
     [true]  |false       |true
-    [0]     |false       |false
+    [0]     |false       |0
     [1]     |false       |1
     ['a']   |false       |'a'
     []      |true        |true
@@ -206,9 +207,9 @@ class ListUtilSpec extends Specification {
     ['NULL']|true        |true
     [[:]]   |true        |true
     [[]]    |true        |true
-    [false] |true        |true
+    [false] |true        |false
     [true]  |true        |true
-    [0]     |true        |true
+    [0]     |true        |0
     [1]     |true        |1
     ['a']   |true        |'a'
   }
