@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
@@ -196,26 +197,26 @@ trait Equipment {
       }
       LinkedHashMap params = mergeParams(defaultParams, input)
 
-      if (input.equipmentId) {
+      if (notEmpty(input.equipmentId)) {
         logger.info("Updating equipment with params ${params}")
-        LinkedHashMap result = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
-          num_N_OBJECT_ID        : equipment.equipmentId,
-          num_N_GOOD_ID          : equipment.typeId ?: params.goodId,
-          vch_VC_NAME            : equipment.name,
-          vch_VC_CODE            : equipment.code,
-          num_N_FIRM_ID          : equipment.firmId,
-          vch_VC_CODE_ADD        : equipment.extCode,
-          vch_VC_REM             : equipment.rem,
-          vch_VC_SERIAL          : equipment.serialNo,
-          vch_VC_INV_NO          : equipment.invNo,
-          num_N_OWNER_ID         : equipment.ownerId,
-          num_N_MAIN_OBJECT_ID   : equipment.bindMainId
+        LinkedHashMap equipment = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
+          num_N_OBJECT_ID        : params.equipmentId,
+          num_N_GOOD_ID          : params.typeId ?: params.goodId,
+          vch_VC_NAME            : params.name,
+          vch_VC_CODE            : params.code,
+          num_N_FIRM_ID          : params.firmId,
+          vch_VC_CODE_ADD        : params.extCode,
+          vch_VC_REM             : params.rem,
+          vch_VC_SERIAL          : params.serialNo,
+          vch_VC_INV_NO          : params.invNo,
+          num_N_OWNER_ID         : params.ownerId,
+          num_N_MAIN_OBJECT_ID   : params.bindMainId
         ])
         logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was updated successfully!")
-        return result
+        return equipment
       } else {
         logger.info("Creating equipment with params ${params}")
-        LinkedHashMap result = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
+        LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
           num_N_OBJECT_ID        : params.equipmentId,
           num_N_GOOD_ID          : params.typeId ?: params.goodId,
           num_N_USER_ID          : params.ownerId,
@@ -228,13 +229,13 @@ trait Equipment {
           num_N_BIND_MAIN_OBJ_ID : params.bindMainId,
           num_N_OBJ_ROLE_ID      : params.bindRoleId
         ])
-        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was created successfully!")
+        logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was created successfully!")
 
         if (params.extCode || params.serialNo || params.invNo) {
-          params.equipmentId = result.num_N_OBJECT_ID
+          params.equipmentId = equipment.num_N_OBJECT_ID
           return updateEquipment(params)
         }
-        return result
+        return equipment
       }
     } catch (Exception e){
       logger.error("   Error while putting new equipment!")
@@ -381,7 +382,7 @@ trait Equipment {
       }
 
       logger.info("Creating equipment component with params ${params}")
-      LinkedHashMap result = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
+      LinkedHashMap component = hid.execute('US_SPECIAL_PKG.ADD_ONE_OBJECT_SPEC', [
         num_N_SPEC_OBJECT_ID : null,
         num_N_OBJECT_ID      : params.equipmentId,
         num_N_GOOD_SPEC_ID   : params.typeId ?: params.goodId,
@@ -390,13 +391,13 @@ trait Equipment {
         vch_VC_CODE          : params.code,
         vch_VC_NAME          : params.name
       ])
-      logger.info("   Component id ${result.num_N_SPEC_OBJECT_ID} was created successfully!")
+      logger.info("   Component id ${component.num_N_SPEC_OBJECT_ID} was created successfully!")
 
-      if (params.extCode || params.serialNo || params.invNo) {
-        params.componentId = result.num_N_SPEC_OBJECT_ID
+      if (notEmpty(params.extCode) || notEmpty(params.serialNo) || notEmpty(params.invNo)) {
+        params.componentId = component.num_N_SPEC_OBJECT_ID
         return updateEquipmentComponent(params)
       }
-      return result
+      return component
     } catch (Exception e){
       logger.error("   Error while creating new component!")
       logger.error_oracle(e)
@@ -612,9 +613,9 @@ trait Equipment {
         )?.n_obj_value_id
       }
 
-      logger.info("${params.objValueId ? 'Putting' : 'Creating'} object additional value with params ${params}")
+      logger.info("${params.objValueId ? 'Updating' : 'Creating'} object additional value with params ${params}")
 
-      def result = hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_PUT', [
+      LinkedHashMap addParam = hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_PUT', [
         num_N_OBJ_VALUE_ID       : params.objValueId,
         num_N_OBJECT_ID          : params.equipmentId,
         num_N_GOOD_VALUE_TYPE_ID : params.paramId,
@@ -624,10 +625,10 @@ trait Equipment {
         ch_C_FL_VALUE            : encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      logger.info("   Object additional value was ${params.objValueId ? 'put' : 'created'} successfully!")
-      return result
+      logger.info("   Object additional value ${addParam.num_N_OBJ_VALUE_ID} was ${params.objValueId ? 'updated' : 'created'} successfully!")
+      return addParam
     } catch (Exception e){
-      logger.error("  Error while putting object additional value!")
+      logger.error("  Error while ${input.objValueId ? 'updating' : 'creating'} object additional value!")
       logger.error_oracle(e)
       return null
     }
