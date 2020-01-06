@@ -24,6 +24,7 @@ trait Ref {
   List getRefsBy(Map input) {
     LinkedHashMap params = mergeParams([
       refId      : null,
+      typeId     : null,
       refTypeId  : null,
       parRefId   : null,
       baseRefId  : null,
@@ -50,7 +51,7 @@ trait Ref {
     if (params.refId) {
       where.n_ref_id = params.refId
     }
-    if (params.refTypeId) {
+    if (params.refTypeId ?: params.typeId) {
       where.n_ref_type_id = params.refTypeId
     }
     if (params.parRefId) {

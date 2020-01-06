@@ -180,12 +180,12 @@ trait Invoice {
     ], input)
     try {
       logger.info("Changing invoice id ${params.docId} end date to ${params.endDate} with reason ${params.closeReasonId}")
-      LinkedHashMap contract = hid.execute('SD_INVOICES_PKG.CHANGE_INVOICE_PERIOD', [
+      LinkedHashMap invoice = hid.execute('SD_INVOICES_PKG.CHANGE_INVOICE_PERIOD', [
         num_N_DOC_ID          : params.docId,
         dt_D_OPER             : params.endDate,
         num_N_CLOSE_REASON_ID : params.closeReasonId
       ])
-      logger.info("   Invoice ${contract.num_N_DOC_ID} end date was changed successfully!")
+      logger.info("   Invoice ${invoice.num_N_DOC_ID} end date was changed successfully!")
       return true
     } catch (Exception e){
       logger.error("   Error while changing invoice end date!")

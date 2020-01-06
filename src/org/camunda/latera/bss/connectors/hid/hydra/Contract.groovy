@@ -131,23 +131,62 @@ trait Contract {
           dt_D_END            : params.endDate,
           vch_VC_DOC_NO       : params.number
         ])
-        logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
 
-        if (params.providerId) {
-          putDocumentSubject(
-            docId      : contract.num_N_DOC_ID,
+        if (params.providerId || params.providerAccountId) {
+          Boolean providerAdded = addDocumentSubject(
+            contract.num_N_DOC_ID,
             subjectId  : params.providerId,
+            accountId  : params.providerAccountId,
             roleId     : getProviderRoleId(),
             workflowId : params.workflowId
           )
+          if (!providerAdded) {
+            throw new Exception("Cannot set provider ${params.providerId} for document ${contract.num_N_DOC_ID}")
+          }
         }
-        if (params.receiverId) {
-          putDocumentSubject(
-            docId      : contract.num_N_DOC_ID,
+
+        if (params.receiverId || params.receiverAccountId) {
+          Boolean receiverAdded = addDocumentSubject(
+            contract.num_N_DOC_ID,
             subjectId  : params.receiverId,
+            accountId  : params.receiverAccountId,
             roleId     : getReceiverRoleId(),
             workflowId : params.workflowId
           )
+          if (!receiverAdded) {
+            throw new Exception("Cannot set receiver ${params.receiverId} for document ${contract.num_N_DOC_ID}")
+          }
+        }
+
+        if (params.memberId || params.memberAccountId) {
+          Boolean memberAdded = addDocumentSubject(
+            contract.num_N_DOC_ID,
+            subjectId  : params.memberId,
+            accountId  : params.memberAccountId,
+            roleId     : getMemberRoleId(),
+            workflowId : params.workflowId
+          )
+          if (!memberAdded) {
+            throw new Exception("Cannot set member ${params.memberId} for document ${contract.num_N_DOC_ID}")
+          }
+        }
+
+        if (params.managerId || params.managerAccountId) {
+          Boolean managerAdded = addDocumentSubject(
+            contract.num_N_DOC_ID,
+            subjectId  : params.managerId,
+            accountId  : params.managerAccountId,
+            roleId     : getManagerRoleId(),
+            workflowId : params.workflowId
+          )
+          if (!managerAdded) {
+            throw new Exception("Cannot set manager ${params.managerId} for document ${contract.num_N_DOC_ID}")
+          }
+        }
+
+        Boolean contractActualized = actualizeDocument(contract.num_N_DOC_ID)
+        if (!contractActualized) {
+          throw new Exception("Cannot actualize document ${contract.num_N_DOC_ID}")
         }
         actualizeDocument(contract.num_N_DOC_ID)
       }

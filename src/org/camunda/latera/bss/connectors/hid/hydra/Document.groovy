@@ -332,30 +332,30 @@ trait Document {
       firmId      : getFirmId()
     ]
     try {
-      if (input.docId) {
-        LinkedHashMap doc = getDocument(input.docId)
+      if (notEmpty(input.docId)) {
+        LinkedHashMap existDocument = getDocument(input.docId)
         defaultParams += [
-          docTypeId   : doc.n_doc_type_id,
-          workflowId  : doc.n_workflow_id,
-          parentDocId : doc.n_parent_doc_id,
-          reasonDocId : doc.n_reason_doc_id,
-          prevDocId   : doc.n_prev_doc_Id,
-          stornoDocId : doc.n_storno_doc_id,
-          docDate     : doc.d_doc,
-          docTime     : doc.d_time,
-          number      : doc.vc_doc_no,
-          name        : doc.vc_name,
-          code        : doc.vc_code,
-          rem         : doc.vc_rem,
-          beginDate   : doc.d_begin,
-          endDate     : doc.d_end,
-          firmId      : doc.n_firm_id
+          docTypeId   : existDocument.n_doc_type_id,
+          workflowId  : existDocument.n_workflow_id,
+          parentDocId : existDocument.n_parent_doc_id,
+          reasonDocId : existDocument.n_reason_doc_id,
+          prevDocId   : existDocument.n_prev_doc_Id,
+          stornoDocId : existDocument.n_storno_doc_id,
+          docDate     : existDocument.d_doc,
+          docTime     : existDocument.d_time,
+          number      : existDocument.vc_doc_no,
+          name        : existDocument.vc_name,
+          code        : existDocument.vc_code,
+          rem         : existDocument.vc_rem,
+          beginDate   : existDocument.d_begin,
+          endDate     : existDocument.d_end,
+          firmId      : existDocument.n_firm_id
         ]
       }
       LinkedHashMap params = mergeParams(defaultParams, input)
 
       logger.info("${params.docId ? 'Updating' : 'Creating'} document with params ${params}")
-      LinkedHashMap result = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
+      LinkedHashMap document = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
         num_N_DOC_ID        : params.docId,
         num_N_DOC_TYPE_ID   : params.docTypeId,
         num_N_FIRM_ID       : params.firmId,
@@ -373,8 +373,8 @@ trait Document {
         dt_D_END            : params.endDate,
         num_N_WORKFLOW_ID   : params.workflowId
       ])
-      logger.info("   Document was ${params.docId ? 'updated' : 'created'} successfully!")
-      return result
+      logger.info("   Document ${document.num_N_DOC_ID} was ${params.docId ? 'updated' : 'created'} successfully!")
+      return document
     } catch (Exception e){
       logger.error("   Error while updating or creating document value!")
       logger.error_oracle(e)
@@ -427,7 +427,7 @@ trait Document {
       where.n_doc_role_id = params.roleId
     }
     if (params.subjectId) {
-      where.n_subject_id = params.docsubjectIdId
+      where.n_subject_id = params.subjectId
     }
     if (params.accountId) {
       where.n_account_id = params.accountId
@@ -498,15 +498,15 @@ trait Document {
     }
   }
 
-  Map addDocumentSubject(Map input) {
+  Boolean addDocumentSubject(Map input) {
     return putDocumentSubject(input)
   }
 
-  Map addDocumentSubject(def docId, Map input) {
-    return putDocumentSubject(input + [docId: docId])
+  Boolean addDocumentSubject(def docId, Map input) {
+    return addDocumentSubject(input + [docId: docId])
   }
 
-  Map addDocumentSubject(Map input, def docId) {
+  Boolean addDocumentSubject(Map input, def docId) {
     return addDocumentSubject(docId, input)
   }
 
@@ -651,7 +651,7 @@ trait Document {
         )?.n_doc_value_id
       }
 
-      logger.info("${params.docValueId ? 'Putting' : 'Creating'} document additional value with params ${params}")
+      logger.info("${params.docValueId ? 'Updating' : 'Creating'} document additional value with params ${params}")
       LinkedHashMap result = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_VALUES_PUT', [
         num_N_DOC_VALUE_ID       : params.docValueId,
         num_N_DOC_ID             : params.docId,
@@ -662,10 +662,10 @@ trait Document {
         ch_C_FL_VALUE            : encodeBool(params.bool),
         num_N_REF_ID             : params.refId
       ])
-      logger.info("   Document additional value was ${params.docValueId ? 'put' : 'created'} successfully!")
+      logger.info("   Document additional value was ${params.docValueId ? 'updating' : 'created'} successfully!")
       return result
     } catch (Exception e){
-      logger.error("   Error while putting or creating document additional value!")
+      logger.error("   Error while ${input.docValueId ? 'updating' : 'creating'} document additional value!")
       logger.error_oracle(e)
       return null
     }
@@ -721,17 +721,17 @@ trait Document {
     ], input)
     LinkedHashMap where = [:]
 
-    if (params.docDocumentId || params.docBindId || params.bindId) {
-      where.n_doc_document_id = params.docDocumentId ?: params.docBindId ?: params.bindId
+    if (params.docDocumentId || params.bindId) {
+      where.n_doc_document_id = params.docDocumentId ?: params.bindId
     }
     if (params.bindTypeId || params.docBindTypeId) {
-      where.n_doc_id = params.docId ?: params.docBindTypeId
+      where.n_doc_bind_type_id = params.bindTypeId ?: params.docBindTypeId
     }
     if (params.docId) {
       where.n_doc_id = params.docId
     }
-    if (params.docBindId) {
-      where.n_doc_bind_id = params.docBindId
+    if (params.docBindId || params.bindDocId) {
+      where.n_doc_bind_id = params.docBindId ?: params.bindDocId
     }
     if (params.lineNumber) {
       where.n_line_no = params.lineNumber

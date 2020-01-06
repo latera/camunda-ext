@@ -56,11 +56,16 @@ class Imprint {
                   homsOrderCode : execution.getVariable('homsOrderCode')
                 ] + data
     ]
-    return this.http.sendRequest(
-      'post',
-      path : 'print',
-      body : body
-    )
+    try {
+      return this.http.sendRequest(
+        'post',
+        path : 'print',
+        body : body
+      )
+    } catch (Exception e) {
+      logger.error(e)
+      return null
+    }
   }
 
   def print(Map data, CharSequence template) {

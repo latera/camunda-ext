@@ -395,11 +395,11 @@ trait Subject {
   }
 
   Map addSubjectAddParam(def subjectId, Map input) {
-    return putSubjectAddParam(input + [subjectId: subjectId])
+    return addSubjectAddParam(input + [subjectId: subjectId])
   }
 
   Map addSubjectAddParam(Map input, def subjectId) {
-    return putSubjectAddParam(subjectId, input)
+    return addSubjectAddParam(subjectId, input)
   }
 
   Boolean deleteSubjectAddParam(def subjValueId) {
@@ -502,11 +502,11 @@ trait Subject {
   }
 
   Boolean addSubjectGroup(def subjectId, Map input) {
-    return putSubjectGroup(input + [subjectId: subjectId])
+    return addSubjectGroup(input + [subjectId: subjectId])
   }
 
   Boolean addSubjectGroup(Map input, def subjectId) {
-    return putSubjectGroup(subjectId, input)
+    return addSubjectGroup(subjectId, input)
   }
 
   Boolean deleteSubjectGroup(Map input) {
@@ -556,18 +556,20 @@ trait Subject {
     try {
       logger.info("Putting subject id ${params.subjectId} comment line ${params.lineId} with content ${params.content} and signal date ${params.signalDate}")
 
-      LinkedHashMap subjComment = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_PUT', [
+      LinkedHashMap args = [
         num_N_LINE_ID         : params.lineId,
         num_N_SUBJECT_ID      : params.subjectId,
         num_N_COMMENT_TYPE_ID : params.typeId,
         dt_D_OPER             : params.operationDate,
         dt_D_SIGNAL           : params.signalDate,
         clb_CL_COMMENT        : params.content
-      ] + (params.authorId != null ?
-      [
-        num_N_AUTHOR_ID       : params.authorId
-      ] : [:])
-      )
+      ]
+
+      if (params.authorId != null) {
+        args.num_N_AUTHOR_ID = params.authorId
+      }
+
+      LinkedHashMap subjComment = hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_PUT',  args)
       logger.info("   Subject comment was put successfully!")
       return subjComment
     } catch (Exception e){
@@ -610,11 +612,11 @@ trait Subject {
   }
 
   Boolean addSubjectComment(def subjectId, Map input) {
-    return putSubjectComment(input + [subjectId: subjectId])
+    return addSubjectComment(input + [subjectId: subjectId])
   }
 
   Boolean addSubjectComment(Map input, def subjectId) {
-    return putSubjectComment(subjectId, input)
+    return addSubjectComment(subjectId, input)
   }
 
   Boolean deleteSubjectComment(def lineId) {
