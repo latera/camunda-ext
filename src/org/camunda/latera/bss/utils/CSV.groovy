@@ -163,13 +163,13 @@ class CSV {
               line.each { def value ->
                 if (isString(value)) {
                   value = forceNvl(value)
-                  if (value == 'Y') {
+                  if (value == 'Y' || value == 'true') {
                     value = true
                   }
-                  if (value == 'N') {
+                  if (value == 'N' || value == 'false') {
                     value = false
                   }
-                } else {
+                } else if (!(value instanceof Boolean)) {
                   value = value.toString()
                 }
                 item << value
@@ -752,9 +752,9 @@ class CSV {
         result << join(line.collect { def item ->
           if (isString(item) && forceIsEmpty(item)) {
             return null
-          } else if (item == true) {
+          } else if (item == true || item == 'true') {
             return 'Y'
-          } else if (item == false) {
+          } else if (item == false || item == 'false') {
             return 'N'
           } else {
             return item
