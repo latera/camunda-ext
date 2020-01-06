@@ -97,9 +97,9 @@ trait Equipment {
     String customerPrefix = "${capitalize(params.customerPrefix)}Customer${capitalize(params.customerSuffix)}"
     String prefix = "${capitalize(params.prefix)}Equipment${capitalize(params.suffix)}"
 
-    Map equipment = hydra.putEquipment(
-      typeId  : order."${prefix}GoodId",
-      ownerId : order."${customerPrefix}Id"
+    Map equipment = hydra.createCustomerEquipment(
+      order."${customerPrefix}Id",
+      typeId  : order."${prefix}GoodId"
     )
     Boolean result = false
     if (equipment) {
@@ -121,8 +121,8 @@ trait Equipment {
     String equipmentPrefix = "${capitalize(params.equipmentPrefix)}Equipment${capitalize(params.equipmentSuffix)}"
     String prefix = "${equipmentPrefix}${capitalize(params.prefix)}Component${capitalize(params.suffix)}"
 
-    Map component = hydra.putEquipmentComponent(
-      equipmentId : order."${equipmentPrefix}Id",
+    Map component = hydra.createEquipmentComponent(
+      order."${equipmentPrefix}Id",
       typeId      : order."${prefix}GoodId"
     )
     Boolean result = false
@@ -247,7 +247,7 @@ trait Equipment {
       bindComponentId : params.destinationIsComponent ? bindComponentId : bindEquipmentId
     ]
 
-    Map equipmentBind = hydra.putEquipmentBind(inp)
+    Map equipmentBind = hydra.addEquipmentBind(inp)
     Boolean result = false
     if (equipmentBind) {
       order."${prefix}${bindPrefix}Id" = equipmentBind.num_N_OBJ_OBJECT_ID

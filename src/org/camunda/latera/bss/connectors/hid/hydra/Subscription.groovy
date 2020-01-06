@@ -86,16 +86,11 @@ trait Subscription {
     return getSubscriptionsBy(input + [limit: 1])?.getAt(0)
   }
 
-  List getChildSubscriptions(def customerId, def subscriptionId, Map input = [:]) {
-    return getSubscriptionsBy(
-      input + [
-        customerId        : customerId,
-        parSubscriptionId : subscriptionId
-      ]
-    )
+  List getChildSubscriptions(Map input = [:], def parSubscriptionId) {
+    return getSubscriptionsBy(input + [parSubscriptionId : parSubscriptionId])
   }
 
-  Map getChildSubscription(def customerId, def subscriptionId, def childSubscriptionId) {
+  Map getChildSubscription(def childSubscriptionId) {
     return getSubscription(childSubscriptionId)
   }
 
@@ -150,93 +145,20 @@ trait Subscription {
     }
   }
 
-  Map putSubscription(def customerId, Map input) {
+  Map createSubscription(Map input = [:], def customerId) {
     return putSubscription(input + [customerId: customerId])
   }
 
-  Map putSubscription(Map input, def customerId) {
-    return putSubscription(customerId, input)
+  Map updateSubscription(Map input = [:], def subscriptionId) {
+    return putSubscription(input + [subscriptionId: subscriptionId])
   }
 
-  Map createSubscription(Map input) {
-    input.remove('subscriptionId')
-    return putSubscription(input)
+  Map createChildSubscription(Map input = [:], def parSubscriptionId) {
+    return putSubscription(input + [parSubscriptionId: parSubscriptionId])
   }
 
-  Map createSubscription(def customerId, Map input) {
-    return createSubscription(input + [customerId: customerId])
-  }
-
-  Map createSubscription(Map input, def customerId) {
-    return createSubscription(customerId, input)
-  }
-
-  Map updateSubscription(Map input) {
-    return putSubscription(input)
-  }
-
-  Map updateSubscription(def customerId, def subscriptionId, Map input) {
-    return updateSubscription(input + [subscriptionId: subscriptionId, customerId: customerId])
-  }
-
-  Map updateSubscription(Map input, def customerId, def subscriptionId) {
-    return updateSubscription(customerId, subscriptionId, input)
-  }
-
-  Map putChildSubscription(Map input) {
-    return putSubscription(input)
-  }
-
-  Map putChildSubscription(def customerId, Map input) {
-    putChildSubscription(input + [customerId: customerId])
-  }
-
-  Map putChildSubscription(Map input, def customerId) {
-    return putChildSubscription(customerId, input)
-  }
-
-  Map putChildSubscription(def customerId, def parSubscriptionId, Map input) {
-    putChildSubscription(input + [parSubscriptionId: parSubscriptionId, customerId: customerId])
-  }
-
-  Map putChildSubscription(Map input, def customerId, def parSubscriptionId) {
-    return putChildSubscription(customerId, parSubscriptionId, input)
-  }
-
-  Map createChildSubscription(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    def parSubscriptionId = input.subscriptionId ?: input.parSubscriptionId
-    input.remove('subscriptionId')
-    input.remove('parSubscriptionId')
-    return putChildSubscription(customerId, parSubscriptionId, input)
-  }
-
-  Map createChildSubscription(def customerId, def subscriptionId, Map input = [:]) {
-    return createChildSubscription(input + [parSubscriptionId: subscriptionId, customerId: customerId])
-  }
-
-  Map createChildSubscription(Map input, def customerId, def subscriptionId) {
-    return createChildSubscription(customerId, subscriptionId, input)
-  }
-
-  Map updateChildSubscription(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    def parSubscriptionId = input.parSubscriptionId
-    input.remove('parSubscriptionId')
-    def subscriptionId = input.subscriptionId ?: input.childSubscriptionId
-    input.remove('subscriptionId')
-    input.remove('childSubscriptionId')
-    return putChildSubscription(customerId, parSubscriptionId, input + [subscriptionId: subscriptionId])
-  }
-
-  Map updateChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Map input = [:]) {
-    return updateChildSubscription(input + [customerId: customerId, parSubscriptionId: subscriptionId, subscriptionId: childSubscriptionId])
-  }
-
-  Map updateChildSubscription(Map input, def customerId, def subscriptionId, def childSubscriptionId) {
-    return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, input)
+  Map updateChildSubscription(Map input = [:], def childSubscriptionId) {
+    return updateSubscription(input, childSubscriptionId)
   }
 
   Map putOneOffSubscription(Map input) {
@@ -278,17 +200,17 @@ trait Subscription {
     }
   }
 
-  Boolean closeSubscription(
-    def      subscriptionId,
-    Temporal endDate = local(),
-    Boolean  closeChargeLog = false
-  ) {
+  Boolean closeSubscription(Map input = [:], def subscriptionId) {
+    LinkedHashMap params = [
+      endDate        : local(),
+      closeChargeLog : false
+    ] + input
     try {
       logger.info("Closing subscription ${subscriptionId} with date ${endDate}")
       hid.execute('SI_USERS_PKG.SI_USER_GOODS_CLOSE', [
         num_N_SUBJ_GOOD_ID : subscriptionId,
-        dt_D_END           : endDate,
-        b_InvoiceEnd       : encodeFlag(closeChargeLog),
+        dt_D_END           : params.endDate,
+        b_InvoiceEnd       : encodeFlag(params.closeChargeLog ?: params.immediate),
       ])
       logger.info("   Subscription closed successfully!")
       return true
@@ -299,53 +221,18 @@ trait Subscription {
     }
   }
 
-  Boolean closeSubscription(Map input) {
-    LinkedHashMap params = mergeParams([
-      subscriptionId : null,
-      endDate        : local(),
-      closeChargeLog : false
-    ], input)
-    return closeSubscription(params.subscriptionId, params.endDate, params.closeChargeLog ?: params.setInvoiceDate)
+  Boolean closeChildSubscription(Map input = [:], def childSubscriptionId) {
+    return closeSubscription(input, childSubscriptionId)
   }
 
-  Map closeSubscription(def customerId, def subscriptionId, Temporal endDate, Boolean closeChargeLog = false) {
-    return closeSubscription(subscriptionId, endDate, closeChargeLog)
-  }
-
-  Boolean closeSubscriptionForce(
-    def subscriptionId,
-    Temporal endDate = local()
-  ) {
-    Boolean result = closeSubscription(subscriptionId, endDate, true)
+  Boolean closeSubscriptionForce(def subscriptionId, Temporal endDate = local()) {
+    Boolean result = closeSubscription(subscriptionId, endDate: endDate, closeChargeLog: true)
 
     def invoiceId = getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: endDate)
     if (invoiceId) {
       result = closeInvoice(docId: invoiceId, endDate: endDate)
     }
     return result
-  }
-
-  Boolean closeSubscriptionForce(Map input) {
-    LinkedHashMap params = mergeParams([
-      subscriptionId : null,
-      endDate        : local()
-    ], input)
-    return closeSubscriptionForce(params.subscriptionId, params.endDate)
-  }
-
-  Map closeChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Temporal endDate = local(), Boolean immediate = false) {
-    return closeSubscriptionForce(childSubscriptionId, endDate, immediate)
-  }
-
-  Map closeChildSubscription(Map input) {
-    LinkedHashMap params = [
-      customerId          : null,
-      subscriptionId      : null,
-      childSubscriptionId : null,
-      endDate             : local(),
-      immediate           : true
-    ] + input
-    return closeChildSubscription(params.customerId, params.subscriptionId, params.childSubscriptionId, params.endDate, params.immediate)
   }
 
   Boolean deleteSubscription(def subscriptionId) {

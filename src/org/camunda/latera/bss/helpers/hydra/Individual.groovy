@@ -54,7 +54,7 @@ trait Individual {
     String subjectPrefix = "${capitalize(params.subjectPrefix)}BaseSubject"
     String prefix = "${capitalize(params.prefix)}Individual"
 
-    Map individual = hydra.putPerson(
+    Map individual = hydra.createPerson(
       firstName     : order."${prefix}FirstName",
       secondName    : order."${prefix}SecondName" ?: order."${prefix}MiddleName",
       lastName      : order."${prefix}LastName",

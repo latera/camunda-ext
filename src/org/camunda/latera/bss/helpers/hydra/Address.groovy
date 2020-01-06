@@ -775,7 +775,6 @@ trait Address {
     def parAddressId = order."${prefix}${parentPrefixId}Id"
     if (notEmpty(parAddressId) || notEmpty(parAddress)) {
       Map parAddressParams = [
-        entityId       : entityId,
         addrTypeId     : null,
         addrType       : params.parentAddrType     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
         bindAddrTypeId : null,
@@ -790,9 +789,9 @@ trait Address {
     }
 
     Boolean result = false
-    Map address = hydra.putEntityAddress(inp)
+    Map address = hydra.createEntityAddress(inp, entityId)
     if (address) {
-      order."${prefix}${prefixId}Id" = address.num_N_OBJ_ADDRESS_ID
+      order."${prefix}${prefixId}Id" = address.num_N_ENTITY_ADDRESS_ID
       result = true
     }
     order."${prefix}${prefixId}Created" = result

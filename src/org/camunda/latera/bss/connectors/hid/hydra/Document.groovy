@@ -362,16 +362,8 @@ trait Document {
     return putDocument(input)
   }
 
-  Map updateDocument(Map input) {
-    return putDocument(input)
-  }
-
-  Map updateDocument(def docId, Map input) {
+  Map updateDocument(Map input = [:], def docId) {
     return putDocument(input + [docId: docId])
-  }
-
-  Map updateDocument(Map input, def docId) {
-    return updateDocument(docId, input)
   }
 
   Map getDocumentSubject(def docSubjectId) {
@@ -473,16 +465,8 @@ trait Document {
     }
   }
 
-  Boolean addDocumentSubject(Map input) {
-    return putDocumentSubject(input)
-  }
-
-  Boolean addDocumentSubject(def docId, Map input) {
-    return addDocumentSubject(input + [docId: docId])
-  }
-
-  Boolean addDocumentSubject(Map input, def docId) {
-    return addDocumentSubject(docId, input)
+  Boolean addDocumentSubject(Map input = [:], def docId) {
+    return putDocumentSubject(input + [docId: docId])
   }
 
   Map getDocumentAddParamType(def paramId) {
@@ -646,16 +630,8 @@ trait Document {
     }
   }
 
-  Map addDocumentAddParam(Map input) {
-    return putDocumentAddParam(input)
-  }
-
-  Map addDocumentAddParam(def docId, Map input) {
+  Map addDocumentAddParam(Map input = [:], def docId) {
     return putDocumentAddParam(input + [docId: docId])
-  }
-
-  Map addDocumentAddParam(Map input, def docId) {
-    return addDocumentAddParam(docId, input)
   }
 
   Boolean deleteDocumentAddParam(def docValueId) {
@@ -744,16 +720,8 @@ trait Document {
     }
   }
 
-  Map addDocumentBind(Map input) {
-    return putDocumentBind(input)
-  }
-
-  Map addDocumentBind(def docId, Map input) {
+  Map addDocumentBind(Map input = [:], def docId) {
     return putDocumentBind(input + [docId: docId])
-  }
-
-  Map addDocumentBind(Map input, def docId) {
-    return putDocumentBind(docId, input)
   }
 
   Boolean deleteDocumentBind(def docDocumentId) {

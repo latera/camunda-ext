@@ -133,32 +133,16 @@ trait Equipment {
     return getObjectsBy(input + [limit: 1])?.getAt(0)
   }
 
-  List getCustomerObjects(def customerId, Map input = [:]) {
-    return getObjectBy(input + [ownerId: customerId])
-  }
-
-  Map getCustomerObjects(Map input, def customerId) {
-    return getCustomerObjects(customerId, input)
-  }
-
-  List getEquipmentsBy(Map input) { //Ew...
-    return getObjectsBy(input)
-  }
-
-  Map getCustomerEquipments(def customerId, Map input = [:]) {
-    return getCustomerObjects(customerId, input)
-  }
-
-  Map getCustomerEquipments(Map input, def customerId) {
-    return getCustomerEquipments(customerId, input)
-  }
-
   Map getEquipmentBy(Map input) {
     return getObjectBy(input)
   }
 
-  Map getCustomerEquipment(def customerId, def equipmentId) {
-    return getEquipmentBy(ownerId: customerId, equipmentId: equipmentId)
+  List getCustomerObjects(Map input = [:], def customerId) {
+    return getObjectsBy(input + [ownerId: customerId])
+  }
+
+  Map getCustomerObject(Map input = [:], def customerId) {
+    return getObjectBy(input + [ownerId: customerId])
   }
 
   Map putEquipment(Map input) {
@@ -249,47 +233,12 @@ trait Equipment {
     return putEquipment(input)
   }
 
-  Map createCustomerEquipment(def customerId, Map input) {
+  Map createCustomerEquipment(Map input = [:], def customerId) {
     return createEquipment(input + [ownerId: customerId])
   }
 
-  Map createCustomerEquipment(Map input, def customerId) {
-    return createCustomerEquipment(customerId, input)
-  }
-
-  Map updateEquipment(Map input) {
-    return putEquipment(input)
-  }
-
-  Map updateEquipment(def equipmentId, Map input) {
-    return updateEquipment(input + [equipmentId: equipmentId])
-  }
-
-  Map updateEquipment(Map input, def equipmentId) {
-    return updateEquipment(equipmentId, input)
-  }
-
-  Map putCustomerEquipment(Map input) {
-    def customerId = input.customerId ?: input.ownerId
-    input.remove('customerId')
-    input.remove('ownerId')
-    return putEquipment(input + [ownerId: customerId])
-  }
-
-  Map putCustomerEquipment(def customerId, Map input) {
-    return putCustomerEquipment(input + [customerId: customerId])
-  }
-
-  Map putCustomerEquipment(Map input, def customerId) {
-    return putCustomerEquipment(customerId, input)
-  }
-
-  Map updateCustomerEquipment(def customerId, def equipmentId, Map input) {
-    return putCustomerEquipment(customerId, input + [equipmentId: equipmentId])
-  }
-
-  Map updateCustomerEquipment(Map input, def customerId, def equipmentId) {
-    return updateCustomerEquipment(customerId, equipmentId, input)
+  Map updateEquipment(Map input = [:], def equipmentId) {
+    return putEquipment(input + [equipmentId: equipmentId])
   }
 
   List getEquipmentComponentsBy(Map input) {
@@ -336,20 +285,12 @@ trait Equipment {
     return getEquipmentComponentsBy(input + [limit: 1])?.getAt(0)
   }
 
-  List getEquipmentEntries(def equipmentId, Map input = [:]) {
+  List getEquipmentEntries(Map input = [:], def equipmentId) {
     return getEquipmentComponentsBy(input + [equipmentId: equipmentId])
-  }
-
-  List getEquipmentEntries(Map input, def equipmentId) {
-    return getEquipmentEntries(equipmentId, input)
   }
 
   Map getEquipmentComponent(def componentId) {
     return getEquipmentComponentBy(componentId: componentId)
-  }
-
-  Map getEquipmentEntry(def equipmentId, def entryId) {
-    return getEquipmentComponentBy(equipmentId: equipmentId, componentId: entryId)
   }
 
   Map putEquipmentComponent(Map input) {
@@ -405,66 +346,15 @@ trait Equipment {
     }
   }
 
-  Map createEquipmentComponent(Map input) {
+  Map createEquipmentComponent(Map input = [:], def equipmentId) {
     input.remove('entryId')
     input.remove('componentId')
     input.remove('equipmentComponentId')
-    return putEquipmentComponent(input)
+    return putEquipmentComponent(input + [equipmentId: equipmentId])
   }
 
-  Map createEquipmentComponent(def equipmentId, Map input) {
-    return createEquipmentComponent(input + [equipmentId: equipmentId])
-  }
-
-  Map createEquipmentComponent(Map input, def equipmentId) {
-    return createEquipmentComponent(equipmentId, input)
-  }
-
-  Map updateEquipmentComponent(Map input) {
-    return putEquipmentComponent(input)
-  }
-
-  Map updateEquipmentComponent(def equipmentId, def componentId, Map input) {
-    return updateEquipmentComponent(input + [equipmentId: equipmentId, componentId: componentId])
-  }
-
-  Map updateEquipmentComponent(Map input, def equipmentId, def componentId) {
-    return updateEquipmentComponent(equipmentId, componentId, input)
-  }
-
-  Map putEquipmentEntry(Map input) {
-    return putEquipmentComponent(input)
-  }
-
-  Map putEquipmentEntry(def equipmentId, Map input) {
-    return putEquipmentEntry(input + [equipmentId: equipmentId])
-  }
-
-  Map createEquipmentEntry(Map input) {
-    input.remove('entryId')
-    input.remove('componentId')
-    input.remove('equipmentComponentId')
-    return putEquipmentEntry(input)
-  }
-
-  Map createEquipmentEntry(def equipmentId, Map input) {
-    return createEquipmentEntry(input + [equipmentId: equipmentId])
-  }
-
-  Map createEquipmentEntry(Map input, def equipmentId) {
-    return createEquipmentComponent(input, equipmentId)
-  }
-
-  Map updateEquipmentEntry(Map input) {
-    return putEquipmentEntry(input)
-  }
-
-  Map updateEquipmentEntry(def equipmentId, def entryId, Map input) {
-    return updateEquipmentEntry(input + [equipmentId: equipmentId, componentId: entryId])
-  }
-
-  Map updateEquipmentEntry(Map input, def equipmentId, def entryId) {
-    return updateEquipmentEntry(input, equipmentId, entryId)
+  Map updateComponent(Map input = [:], def componentId) {
+    return putEquipmentComponent(input + [componentId: componentId])
   }
 
   Boolean deleteEquipment(def equipmentId) {
@@ -492,10 +382,6 @@ trait Equipment {
 
   Boolean deleteEquipmentComponent(def componentId) {
     return deleteComponent(componentId)
-  }
-
-  Boolean deleteEquipmentEntry(def equipmentId, def entryId) {
-    return deleteComponent(entryId)
   }
 
   Map getEquipmentAddParamType(def paramId) {
@@ -608,7 +494,7 @@ trait Equipment {
     try {
       if (!params.objValueId && !params.isMultiple) {
         params.objValueId = getEquipmentAddParamBy(
-          objectId : input.objectId,
+          objectId : input.equipmentId ?: input.objectId,
           paramId  : input.paramId
         )?.n_obj_value_id
       }
@@ -617,7 +503,7 @@ trait Equipment {
 
       LinkedHashMap addParam = hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_PUT', [
         num_N_OBJ_VALUE_ID       : params.objValueId,
-        num_N_OBJECT_ID          : params.equipmentId,
+        num_N_OBJECT_ID          : params.equipmentId ?: params.objectId,
         num_N_GOOD_VALUE_TYPE_ID : params.paramId,
         dt_D_VALUE               : params.date,
         vch_VC_VALUE             : params.string,
@@ -634,52 +520,16 @@ trait Equipment {
     }
   }
 
-  Map putEquipmentComponentAddParam(Map input) {
-    def componentId = input.componentId ?: input.equipmentId
-    input.remove('componentId')
-    return putEquipmentAddParam(input + [equipmentId: componentId])
+  Map addObjectAddParam(Map input = [:], def equipmentId) {
+    return putEquipmentAddParam(input + [equipmentId: equipmentId])
   }
 
-  Map putObjectAddParam(Map input) {
-    return putEquipmentAddParam(input)
-  }
-
-  Map addEquipmentAddParam(Map input) {
-    return putEquipmentAddParam(input)
-  }
-
-  Map addEquipmentAddParam(def equipmentId, Map input) {
-    return addEquipmentAddParam(input + [equipmentId: equipmentId])
-  }
-
-  Map addEquipmentAddParam(Map input, def equipmentId) {
-    return addEquipmentAddParam(equipmentId, input)
-  }
-
-  Map addEquipmentComponentAddParam(Map input) {
-    return putEquipmentComponentAddParam(input)
-  }
-
-  Map addEquipmentComponentAddParam(def componentId, Map input) {
-    return addEquipmentComponentAddParam(input + [componentId: componentId])
+  Map addEquipmentAddParam(Map input = [:], def equipmentId) {
+    return addObjectAddParam(input, equipmentId)
   }
 
   Map addEquipmentComponentAddParam(Map input, def componentId) {
-    return addEquipmentComponentAddParam(componentId, input)
-  }
-
-  Map addObjectAddParam(Map input) {
-    def objectId = input.objectId ?: input.equipmentId
-    input.remove('objectId')
-    return putEquipmentAddParam(input + [equipmentId: objectId])
-  }
-
-  Map addObjectAddParam(def objectId, Map input) {
-    return addObjectAddParam(input + [objectId: objectId])
-  }
-
-  Map addObjectAddParam(Map input, def objectId) {
-    return addObjectAddParam(objectId, input)
+    return addObjectAddParam(input, componentId)
   }
 
   Boolean deleteEquipmentAddParam(def objValueId) {
@@ -698,6 +548,7 @@ trait Equipment {
   }
 
   Boolean deleteEquipmentAddParam(Map input) {
+    input.objectId = input.objectId ?: input.equipmentId
     def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentAddParam(objValueId)
   }
@@ -707,7 +558,8 @@ trait Equipment {
   }
 
   Boolean deleteEquipmentComponentAddParam(Map input) {
-    def objValueId = getEquipmentComponentAddParamBy(input)?.n_obj_value_id
+    input.objectId = input.objectId ?: input.componentId
+    def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentComponentAddParam(objValueId)
   }
 

@@ -198,38 +198,14 @@ trait Contract {
     }
   }
 
-  Map createContract(Map input) {
+  Map createContract(Map input = [:], def customerId) {
     input.remove('docId')
     input.remove('contractId')
-    return putContract(input)
+    return putContract(input + [receiverId: customerId])
   }
 
-  Map createContract(def customerId, Map input) {
-    return createContract(input + [receiverId: customerId])
-  }
-
-  Map createContract(Map input, def customerId) {
-    return createContract(customerId, input)
-  }
-
-  Map updateContract(Map input) {
-    return putContract(input)
-  }
-
-  Map updateContract(def docId, Map input) {
+  Map updateContract(Map input = [:], def docId) {
     return updateContract(input + [docId: docId])
-  }
-
-  Map updateContract(Map input, def docId) {
-    return updateContract(docId, input)
-  }
-
-  Map updateContract(def customerId, def docId, Map input) {
-    return updateContract(input + [docId: docId, receiverId: customerId])
-  }
-
-  Map updateContract(Map input, def customerId, def docId) {
-    return updateContract(customerId, docId, input)
   }
 
   Boolean dissolveContract(Map input) {
@@ -324,38 +300,14 @@ trait Contract {
     return putContract(params)
   }
 
-  Map createContractApp(Map input) {
+  Map createContractApp(Map input = [:], def contractId) {
     input.remove('docId')
     input.remove('contractAppId')
-    return putContractApp(input)
+    return putContractApp(input + [contractId: contractId])
   }
 
-  Map createContractApp(def contractId, Map input) {
-    return createContractApp(input + [contractId: contractId])
-  }
-
-  Map createContractApp(Map input, def contractId) {
-    return createContractApp(contractId, input)
-  }
-
-  Map updateContractApp(Map input) {
-    return putContractApp(input)
-  }
-
-  Map updateContractApp(def docId, Map input) {
+  Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
-  }
-
-  Map updateContractApp(Map input, def docId) {
-    return updateContractApp(docId, input)
-  }
-
-  Map updateContractApp(def customerId, def docId, Map input) {
-    return updateContractApp(input + [docId: docId, receiverId: customerId])
-  }
-
-  Map updateContractApp(Map input, def customerId, def docId) {
-    return updateContractApp(customerId, docId, input)
   }
 
   Boolean dissolveContractApp(Map input) {
@@ -431,39 +383,15 @@ trait Contract {
     return putContract(params)
   }
 
-  Map createAddAgreement(Map input) {
+  Map createAddAgreement(Map input = [:], def contractId) {
     input.remove('docId')
     input.remove('agreementId')
     input.remove('addAgreementId')
-    return putAddAgreement(input)
-  }
-
-  Map createAddAgreement(def contractId, Map input) {
     return createAddAgreement(input + [contractId: contractId])
   }
 
-  Map createAddAgreement(Map input, def contractId) {
-    return createAddAgreement(contractId, input)
-  }
-
-  Map updateAddAgreement(Map input) {
-    return putAddAgreement(input)
-  }
-
-  Map updateAddAgreement(def docId, Map input) {
+  Map updateAddAgreement(Map input = [:], def docId) {
     return putAddAgreement(input + [docId: docId])
-  }
-
-  Map updateAddAgreement(Map input, def docId) {
-    return updateAddAgreement(docId, input)
-  }
-
-  Map updateAddAgreement(def customerId, def docId, Map input) {
-    return updateAddAgreement(input + [docId: docId, receiverId: customerId])
-  }
-
-  Map updateAddAgreement(Map input, def customerId, def docId) {
-    return updateAddAgreement(customerId, docId, input)
   }
 
   Boolean dissolveAddAgreement(Map input) {

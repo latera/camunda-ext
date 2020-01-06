@@ -70,27 +70,9 @@ trait Company {
     return createEntity(getCompanyEntityType(), params)
   }
 
-  Map updateCompany(def id, Map input, Map additionalParams = [:]) {
+  Map updateCompany(Map input = [:], def id, Map additionalParams = [:]) {
     LinkedHashMap params = getCompanyParams(input, additionalParams)
     return updateEntity(getCompanyEntityType(), id, params)
-  }
-
-  Map updateCompany(Map input, Map additionalParams = [:]) {
-    def id = input.id ?: input.companyId
-    input.remove('id')
-    input.remove('companyId')
-    return updateCompany(id, input, additionalParams)
-  }
-
-  Map putCompany(Map input, Map additionalParams = [:]) {
-    def companyId = input.companyId
-    input.remove('companyId')
-
-    if (companyId) {
-      return updateCompany(companyId, input, additionalParams)
-    } else {
-      return createCompany(input, additionalParams)
-    }
   }
 
   Boolean deleteCompany(def id) {

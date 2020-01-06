@@ -365,16 +365,8 @@ trait Subject {
     }
   }
 
-  Map addSubjectAddParam(Map input) {
-    return putSubjectAddParam(input)
-  }
-
-  Map addSubjectAddParam(def subjectId, Map input) {
-    return addSubjectAddParam(input + [subjectId: subjectId])
-  }
-
-  Map addSubjectAddParam(Map input, def subjectId) {
-    return addSubjectAddParam(subjectId, input)
+  Map addSubjectAddParam(Map input = [:], def subjectId) {
+    return putSubjectAddParam(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectAddParam(def subjValueId) {
@@ -456,16 +448,8 @@ trait Subject {
     }
   }
 
-  Boolean addSubjectGroup(Map input) {
-    return putSubjectGroup(input)
-  }
-
-  Boolean addSubjectGroup(def subjectId, Map input) {
-    return addSubjectGroup(input + [subjectId: subjectId])
-  }
-
-  Boolean addSubjectGroup(Map input, def subjectId) {
-    return addSubjectGroup(subjectId, input)
+  Map addSubjectGroup(Map input = [:], def subjectId) {
+    return putSubjectGroup(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectGroup(Map input) {
@@ -538,16 +522,8 @@ trait Subject {
     }
   }
 
-  Boolean addSubjectComment(Map input) {
-    return putSubjectComment(input)
-  }
-
-  Boolean addSubjectComment(def subjectId, Map input) {
-    return addSubjectComment(input + [subjectId: subjectId])
-  }
-
-  Boolean addSubjectComment(Map input, def subjectId) {
-    return addSubjectComment(subjectId, input)
+  Map addSubjectComment(Map input = [:], def subjectId) {
+    return putSubjectComment(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectComment(def lineId) {

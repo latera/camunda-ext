@@ -52,9 +52,9 @@ trait Contract {
     String customerPrefix = "${capitalize(params.customerPrefix)}Customer"
     String prefix = "${capitalize(params.prefix)}Contract"
 
-    Map contract = hydra.putContract(
+    Map contract = hydra.createContract(
+      order."${customerPrefix}Id",
       parentDocId : order."${baseContractPrefix}Id",
-      receiverId  : order."${customerPrefix}Id",
       number      : order."${prefix}Number"
     )
 
@@ -197,9 +197,9 @@ trait Contract {
     String prefix = "${capitalize(params.prefix)}ContractApp"
     String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
 
-    Map contractApp = hydra.putContractApp(
-      parentDocId : order."${contractPrefix}Id",
-      number      : order."${prefix}Number"
+    Map contractApp = hydra.createContractApp(
+      order."${contractPrefix}Id",
+      number : order."${prefix}Number"
     )
     Boolean result = false
     if (contractApp) {
@@ -341,9 +341,9 @@ trait Contract {
     String prefix = "${capitalize(params.prefix)}AddAgreement"
     String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
 
-    Map addAgreement = hydra.putAddAgreement(
-      parentDocId : order."${contractPrefix}Id",
-      number      : order."${prefix}Number"
+    Map addAgreement = hydra.createAddAgreement(
+      order."${contractPrefix}Id",
+      number : order."${prefix}Number"
     )
     Boolean result = false
     if (addAgreement) {

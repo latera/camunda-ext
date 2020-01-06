@@ -610,127 +610,47 @@ trait Address {
     }
   }
 
-  Map putPersonAddress(def personId, Map input) {
-    return putSubjAddress(input + [subjectId: personId])
-  }
-
-  Map putPersonAddress(Map input, def personId) {
-    return putPersonAddress(personId, input)
-  }
-
-  Map putCompanyAddress(def companyId, Map input) {
-    return putSubjAddress(input + [subjectId: companyId])
-  }
-
-  Map putCompanyAddress(Map input, def companyId) {
-    return putCompanyAddress(companyId, input)
-  }
-
-  Map createSubjAddress(Map input) {
+  Map createSubjAddress(Map input = [:], def subjectId) {
     input.remove('subjAddressId')
-    return putSubjAddress(input)
-  }
-
-  Map createObjAddress(Map input) {
-    input.remove('objAddressId')
-    return putObjAddress(input)
-  }
-
-  Map createEntityAddress(Map input) {
-    input.remove('entityAddressId')
-    return putEntityAddress(input)
-  }
-
-  Map createSubjAddress(def subjectId, Map input) {
     return putSubjAddress(input + [subjectId: subjectId])
   }
 
-  Map createSubjAddress(Map input, def subjectId) {
-    return createSubjAddress(subjectId, input)
+  Map createPersonAddress(Map input = [:], def personId) {
+    return createSubjAddress(input, personId)
   }
 
-  Map createPersonAddress(def personId, Map input) {
-    return createSubjAddress(personId, input)
+  Map createCompanyAddress(Map input = [:], def companyId) {
+    return createSubjAddress(input, companyId)
   }
 
-  Map createPersonAddress(Map input, def personId) {
-    return createPersonAddress(personId, input)
-  }
-
-  Map createCompanyAddress(def companyId, Map input) {
-    return createSubjAddress(companyId, input)
-  }
-
-  Map createCompanyAddress(Map input, def companyId) {
-    return createCompanyAddress(companyId, input)
-  }
-
-  Map createObjAddress(def objectId, Map input) {
+  Map createObjAddress(Map input = [:], def objectId) {
+    input.remove('objAddressId')
     return putObjAddress(input + [objectId: objectId])
   }
 
-  Map createObjAddress(Map input, def objectId) {
-    return createObjAddress(objectId, input)
-  }
-
-  Map createEntityAddress(def entityId, Map input) {
+  Map createEntityAddress(Map input = [:], def entityId) {
+    input.remove('entityAddressId')
     return putEntityAddress(input + [entityId: entityId])
   }
 
-  Map createEntityAddress(Map input, def entityId) {
-    return createEntityAddress(entityId, input)
-  }
-
-  Map updateSubjAddress(Map input) {
-    return putSubjAddress(input)
-  }
-
-  Map updateObjAddress(Map input) {
-    return putObjAddress(input)
-  }
-
-  Map updateEntityAddress(Map input) {
-    return putEntityAddress(input)
-  }
-
-  Map updateSubjAddress(def subjAddressId, Map input) {
+  Map updateSubjAddress(Map input = [:], def subjAddressId) {
     return putSubjAddress(input + [subjAddressId: subjAddressId])
   }
 
-  Map updateSubjAddress(Map input, def subjAddressId) {
-    return updateSubjAddress(subjAddressId, input)
+  Map updatePersonAddress(Map input = [:], def subjAddressId) {
+    return updateSubjAddress(input, subjAddressId)
   }
 
-  Map updatePersonAddress(def personId, def subjAddressId, Map input) {
-    return updateSubjAddress(subjAddressId, input)
+  Map updateCompanyAddress(Map input = [:], def subjAddressId) {
+    return updateSubjAddress(input, subjAddressId)
   }
 
-  Map updatePersonAddress(Map input, def personId, def subjAddressId) {
-    return updatePersonAddress(personId, subjAddressId, input)
-  }
-
-  Map updateCompanyAddress(def companyId, def subjAddressId, Map input) {
-    return updateSubjAddress(subjAddressId, input)
-  }
-
-  Map updateCompanyAddress(Map input, def companyId, def subjAddressId) {
-    return updateCompanyAddress(companyId, subjAddressId, input)
-  }
-
-  Map updateObjAddress(def objAddressId, Map input) {
+  Map updateObjAddress(Map input = [:], def objAddressId) {
     return putObjAddress(input + [objAddressId: objAddressId])
   }
 
-  Map updateObjAddress(Map input, def objAddressId) {
-    return updateObjAddress(objAddressId, input)
-  }
-
-  Map updateEntityAddress(def entityAddressId, Map input) {
+  Map updateEntityAddress(Map input = [:], def entityAddressId) {
     return putEntityAddress(input + [entityAddressId: entityAddressId])
-  }
-
-  Map updateEntityAddress(Map input, def entityAddressId) {
-    return updateEntityAddress(entityAddressId, input)
   }
 
   List getAddressItems(Map input) {

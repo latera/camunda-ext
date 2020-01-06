@@ -81,31 +81,11 @@ trait Person {
     return createEntity(getPersonEntityType(), params)
   }
 
-  Map updatePerson(def id, Map input, Map additionalParams = [:]) {
-    LinkedHashMap params = getPersonParams(input, additionalParams)
-    return updateEntity(getPersonEntityType(), id, params)
-  }
-
-  Map updatePerson(Map input, Map additionalParams = [:]) {
+  Map updatePerson(Map input = [:], Map additionalParams = [:]) {
     def id = input.id ?: input.personId
     input.remove('id')
     input.remove('personId')
     return updatePerson(id, input, additionalParams)
-  }
-
-  Map updatePerson(Map input, def id, Map additionalParams = [:]) {
-    return updatePerson(id, input, additionalParams)
-  }
-
-  Map putPerson(Map input, Map additionalParams = [:]) {
-    LinkedHashMap personId = input.personId
-    input.remove('personId')
-
-    if (personId) {
-      return updatePerson(personId, input, additionalParams)
-    } else {
-      return createPerson(input, additionalParams)
-    }
   }
 
   Boolean deletePerson(def id) {
