@@ -952,7 +952,7 @@ trait Address {
       input.remove('subnetAddress')
     }
     if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
-      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet', order: [n_value: 'asc']).collect {Map address -> address?.n_address_id}
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet', order: [n_value: 'asc']).collect { Map address -> toIntSafe(address.n_address_id) }
       input.remove('subnetAddress')
     }
     if (input.containsKey('vlan') && notEmpty(input.vlan)) {
@@ -965,11 +965,16 @@ trait Address {
       params.subnetAddressIds = [params.subnetAddressId]
       params.remove('subnetAddressId')
     }
-    if (params.vlanId && !params.subnetAddressIds) {
-      params.subnetAddressIds = getSubnetAddressesByVLAN(vlanId: params.vlanId).collect{ Map subnet -> subnet.n_subnet_id }
-    }
     if (!params.subnetAddressIds) {
       params.subnetAddressIds = []
+    }
+    if (params.vlanId) {
+      List subnetIdsByVLAN = getSubnetAddressesByVLAN(vlanId: params.vlanId).collect{ Map subnet -> toIntSafe(subnet.n_subnet_id) }
+      if (params.subnetAddressIds) {
+        params.subnetAddressIds = params.subnetAddressIds.findAll { Map subnetAddrId -> toIntSafe(subnetAddrId) in subnetIdsByVLAN }
+      } else {
+        params.subnetAddressIds = subnetIdsByVLAN
+      }
     }
     List addresses = []
     String date = encodeDateStr(params.operationDate)
@@ -979,7 +984,7 @@ trait Address {
       filterReal = "UTILS_ADDRESSES_PKG_S.IS_REAL_IP(A.N_VALUE) = '${params.isPublic ? 'Y' : 'N'}'"
     }
 
-    (params.subnetAddressIds ?: [null]).each { def subnetAddressId ->
+    (params.subnetAddressIds ?: [null]).each { def subnetAddrId ->
       try {
         if (!addresses) {
           if (params.objectId) {
