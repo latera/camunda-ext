@@ -428,7 +428,7 @@ trait Address {
   }
 
   Map putSubjAddress(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       subjAddressId  : null,
       addressId      : null,
       subjectId      : null,
@@ -443,56 +443,64 @@ trait Address {
       rem            : null,
       stateId        : getDefaultAddressStateId(),
       isMain         : null
-    ], input)
+    ]
     try {
-      logger.info("Putting address with params ${params}")
-      LinkedHashMap address = null
-      if (this.version >= '5.1.2') {
-        address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
-          num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
-          num_N_ADDRESS_ID        : params.addressId,
-          num_N_SUBJECT_ID        : params.subjectId,
-          num_N_SUBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
-          num_N_ADDR_TYPE_ID      : params.addrTypeId,
-          vch_VC_CODE             : params.code,
-          vch_VC_ADDRESS          : params.rawAddress,
-          num_N_REGION_ID         : params.regionId,
-          vch_VC_FLAT             : params.flat,
-          vch_VC_ENTRANCE_NO      : params.entrance,
-          num_N_FLOOR_NO          : params.floor,
-          ch_C_FL_MAIN            : encodeBool(params.isMain),
-          num_N_ADDR_STATE_ID     : params.stateId,
-          vch_VC_REM              : params.rem
-        ])
-      } else {
-        address = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', [
-          num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
-          num_N_ADDRESS_ID        : params.addressId,
-          num_N_SUBJECT_ID        : params.subjectId,
-          num_N_SUBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
-          num_N_ADDR_TYPE_ID      : params.addrTypeId,
-          vch_VC_CODE             : params.code,
-          vch_VC_ADDRESS          : params.rawAddress,
-          num_N_REGION_ID         : params.regionId,
-          vch_VC_FLAT             : params.flat,
-          num_N_ENTRANCE_NO       : params.entrance,
-          num_N_FLOOR_NO          : params.floor,
-          ch_C_FL_MAIN            : encodeBool(params.isMain),
-          num_N_ADDR_STATE_ID     : params.stateId,
-          vch_VC_REM              : params.rem
-        ])
+      LinkedHashMap existingAddress = [:]
+      if (notEmpty(input.subjAddressId)) {
+        LinkedHashMap subjAddress = getSubjAddress(input.subjAddressId)
+        existingAddress = [
+          subjAddressId  : subjAddress.n_sub_address_id,
+          addressId      : subjAddress.n_address_id,
+          subjectId      : subjAddress.n_subject_id,
+          bindAddrTypeId : subjAddress.n_subj_addr_type_id,
+          addrTypeId     : subjAddress.n_addr_type_id,
+          code           : subjAddress.vc_code,
+          regionId       : subjAddress.n_region_id,
+          rawAddress     : subjAddress.vc_address,
+          flat           : subjAddress.vc_flat,
+          floor          : subjAddress.n_floor,
+          entrance       : subjAddress.n_entrance_no ?: subjAddress.vc_entrance_no,
+          rem            : subjAddress.vc_rem,
+          stateId        : subjAddress.n_addr_state_id,
+          isMain         : decodeBool(subjAddress.c_fl_main)
+        ]
       }
-      logger.info("   Address ${address.num_N_ADDRESS_ID} added to subject!")
-      return address
+      LinkedHashMap params = mergeParams(defaultParams, existingAddress + input)
+
+      logger.info("${params.subjAddressId ? 'Updating' : 'Creating'} address with params ${params}")
+      LinkedHashMap args = [
+        num_N_SUBJ_ADDRESS_ID   : params.subjAddressId,
+        num_N_ADDRESS_ID        : params.addressId,
+        num_N_SUBJECT_ID        : params.subjectId,
+        num_N_SUBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+        num_N_ADDR_TYPE_ID      : params.addrTypeId,
+        vch_VC_CODE             : params.code,
+        vch_VC_ADDRESS          : params.rawAddress,
+        num_N_REGION_ID         : params.regionId,
+        vch_VC_FLAT             : params.flat,
+        num_N_FLOOR_NO          : params.floor,
+        ch_C_FL_MAIN            : encodeBool(params.isMain),
+        num_N_ADDR_STATE_ID     : params.stateId,
+        vch_VC_REM              : params.rem
+      ]
+      if (this.version >= '5.1.2') {
+        args.vch_VC_ENTRANCE_NO = params.entrance
+      } else {
+        args.num_N_ENTRANCE_NO = params.entrance
+      }
+
+      LinkedHashMap result = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', args)
+      logger.info("   Subject ${params.subjectId} address ${result.num_N_SUBJ_ADDRESS_ID} was ${params.subjAddressId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while adding a subject address!")
+      logger.error("   Error while ${input.subjAddressId ? 'updating' : 'creating'} a subject address!")
       logger.error_oracle(e)
       return null
     }
   }
 
   Map putObjAddress(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       objAddressId    : null,
       addressId       : null,
       objectId        : null,
@@ -510,55 +518,63 @@ trait Address {
       isMain          : null,
       beginDate       : local(),
       endDate         : null
-    ], input)
+    ]
     try {
-      logger.info("Putting address with params ${params}")
-      LinkedHashMap address = null
-      if (this.version >= '5.1.2') {
-        address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
-          num_N_OBJ_ADDRESS_ID   : params.objAddressId,
-          num_N_ADDRESS_ID       : params.addressId,
-          num_N_OBJECT_ID        : params.objectId,
-          num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
-          num_N_PAR_OBJ_ADDR_ID  : params.parObjAddressId,
-          num_N_ADDR_TYPE_ID     : params.addrTypeId,
-          vch_VC_CODE            : params.code,
-          vch_VC_ADDRESS         : params.rawAddress,
-          num_N_REGION_ID        : params.regionId,
-          vch_VC_FLAT            : params.flat,
-          vch_VC_ENTRANCE_NO     : params.entrance,
-          num_N_FLOOR_NO         : params.floor,
-          ch_C_FL_MAIN           : encodeBool(params.isMain),
-          dt_D_BEGIN             : params.beginDate ?: local(),
-          dt_D_END               : params.endDate,
-          num_N_ADDR_STATE_ID    : params.stateId,
-          vch_VC_REM             : params.rem
-        ])
-      } else {
-        address = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', [
-          num_N_OBJ_ADDRESS_ID   : params.objAddressId,
-          num_N_ADDRESS_ID       : params.addressId,
-          num_N_OBJECT_ID        : params.objectId,
-          num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
-          num_N_PAR_OBJ_ADDR_ID  : params.parObjAddressId,
-          num_N_ADDR_TYPE_ID     : params.addrTypeId,
-          vch_VC_CODE            : params.code,
-          vch_VC_ADDRESS         : params.rawAddress,
-          num_N_REGION_ID        : params.regionId,
-          vch_VC_FLAT            : params.flat,
-          num_N_ENTRANCE_NO      : params.entrance,
-          num_N_FLOOR_NO         : params.floor,
-          ch_C_FL_MAIN           : encodeBool(params.isMain),
-          dt_D_BEGIN             : params.beginDate ?: local(),
-          dt_D_END               : params.endDate,
-          num_N_ADDR_STATE_ID    : params.stateId,
-          vch_VC_REM             : params.rem
-        ])
+      LinkedHashMap existingAddress = [:]
+      if (notEmpty(input.objAddressId)) {
+        LinkedHashMap objAddress = getSubjAddress(input.objAddressId)
+        existingAddress = [
+          objAddressId    : objAddress.n_obj_address_id,
+          addressId       : objAddress.n_address_id,
+          objectId        : objAddress.n_object_id,
+          bindAddrTypeId  : objAddress.n_obj_addr_type_id,
+          parObjAddressId : objAddress.n_par_obj_addr_id,
+          addrTypeId      : objAddress.n_addr_type_id,
+          code            : objAddress.vc_code,
+          regionId        : objAddress.n_region_id,
+          rawAddress      : objAddress.vc_address,
+          flat            : objAddress.vc_flat,
+          floor           : objAddress.n_floor,
+          entrance        : objAddress.n_entrance_no ?: objAddressId.vc_entrance_no,
+          rem             : objAddress.vc_rem,
+          stateId         : objAddress.n_addr_state_id,
+          isMain          : decodeBool(objAddress.c_fl_main),
+          beginDate       : objAddress.d_begin,
+          endDate         : objAddress.d_end
+        ]
       }
-      logger.info("   Address ${address.num_N_ADDRESS_ID} added to object!")
-      return address
+      LinkedHashMap params = mergeParams(defaultParams, existingAddress + input)
+
+      logger.info("${params.objAddressId ? 'Updating' : 'Creating'} address with params ${params}")
+      LinkedHashMap args = [
+        num_N_OBJ_ADDRESS_ID   : params.objAddressId,
+        num_N_ADDRESS_ID       : params.addressId,
+        num_N_OBJECT_ID        : params.objectId,
+        num_N_OBJ_ADDR_TYPE_ID : params.bindAddrTypeId,
+        num_N_PAR_OBJ_ADDR_ID  : params.parObjAddressId,
+        num_N_ADDR_TYPE_ID     : params.addrTypeId,
+        vch_VC_CODE            : params.code,
+        vch_VC_ADDRESS         : params.rawAddress,
+        num_N_REGION_ID        : params.regionId,
+        vch_VC_FLAT            : params.flat,
+        num_N_FLOOR_NO         : params.floor,
+        ch_C_FL_MAIN           : encodeBool(params.isMain),
+        dt_D_BEGIN             : params.beginDate ?: local(),
+        dt_D_END               : params.endDate,
+        num_N_ADDR_STATE_ID    : params.stateId,
+        vch_VC_REM             : params.rem
+      ]
+      if (this.version >= '5.1.2') {
+        args.vch_VC_ENTRANCE_NO = params.entrance
+      } else {
+        args.num_N_ENTRANCE_NO = params.entrance
+      }
+
+      LinkedHashMap result = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', args)
+      logger.info("   Object ${params.objectId} address ${result.num_N_OBJ_ADDRESS_ID} was ${params.objAddressId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while adding an object address!")
+      logger.error("   Error while ${input.objAddressId ? 'updating' : 'creating'} an object address!")
       logger.error_oracle(e)
       return null
     }

@@ -4,6 +4,7 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import java.time.temporal.Temporal
 
@@ -93,36 +94,57 @@ trait Contract {
       endDate     : null,
       number      : null
     ]
-    LinkedHashMap params = mergeParams(defaultParams, input)
-    params.docId         = params.docId ?: params.contractId
-    params.parentDocId   = params.parentDocId ?: params.baseContractId
-
     String _docTypeName = ''
-    if (params.docTypeId == getContractTypeId()) {
-      _docTypeName = 'contract'
-    } else if (params.docTypeId == getContractAppTypeId()) {
-      _docTypeName = 'contract app'
-    } else if (params.docTypeId == getAddAgreementTypeId()) {
-      _docTypeName = 'add agreement'
-    }
-    String docTypeName = capitalize(_docTypeName)
 
     try {
+      LinkedHashMap existingContract = [:]
+      if (isEmpty(input.docId) && notEmpty(input.contractId)) {
+        input.docId = input.contractId
+      }
+      if (isEmpty(input.parentDocId) && notEmpty(input.baseContractId)) {
+        input.parentDocId = input.baseContractId
+      }
+
+      if (notEmpty(input.docId)) {
+        LinkedHashMap contract = getContract(input.docId)
+        existingContract = [
+          docId       : contract.n_doc_id,
+          docTypeId   : contract.n_doc_type_id,
+          parentDocId : contract.n_par_doc_id,
+          workflowId  : contract.n_workflow_id,
+          providerId  : contract.n_provider_id,
+          receiverId  : contract.n_receiver_id,
+          stateId     : contract.n_doc_state_id,
+          beginDate   : contract.d_begin,
+          endDate     : contract.d_end,
+          number      : contract.vc_doc_no
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, existingContract + input)
+
+      if (params.docTypeId == getContractTypeId()) {
+        _docTypeName = 'contract'
+      } else if (params.docTypeId == getContractAppTypeId()) {
+        _docTypeName = 'contract app'
+      } else if (params.docTypeId == getAddAgreementTypeId()) {
+        _docTypeName = 'add agreement'
+      }
+      String docTypeName = capitalize(_docTypeName)
+
       List paramsNames = keysList(defaultParams) - ['parentDocId', 'providerId', 'receiverId', 'number']
-      LinkedHashMap contract = [:]
-      if (params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && isEmpty(params.number)) {
+      if (isEmpty(input.docId) && params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && isEmpty(params.number)) {
         logger.info("Creating new ${_docTypeName} with params ${params}")
-        contract = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
+        result = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
           num_N_USER_ID          : params.receiverId,
           num_N_FIRM_ID          : params.providerId,
           num_N_BASE_CONTRACT_ID : params.parentDocId,
           num_N_CONTRACT_ID      : null
         ])
-        contract.num_N_DOC_ID = contract.num_N_CONTRACT_ID
-        logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
+        result.num_N_DOC_ID = result.num_N_CONTRACT_ID
+        logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was created successfully!")
       } else {
-        logger.info("Putting ${_docTypeName} with params ${params}")
-        contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_PUT', [
+        logger.info("${params.docId ? 'Updating' : 'Creating'} ${_docTypeName} with params ${params}")
+        result = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_PUT', [
           num_N_DOC_ID        : params.docId,
           num_N_DOC_TYPE_ID   : params.docTypeId,
           num_N_PARENT_DOC_ID : params.parentDocId,
@@ -131,11 +153,11 @@ trait Contract {
           dt_D_END            : params.endDate,
           vch_VC_DOC_NO       : params.number
         ])
-        logger.info("   ${docTypeName} ${contract.num_N_DOC_ID} was put successfully!")
+        logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was put successfully!")
 
         if (params.providerId) {
           putDocumentSubject(
-            docId      : contract.num_N_DOC_ID,
+            docId      : result.num_N_DOC_ID,
             subjectId  : params.providerId,
             roleId     : getProviderRoleId(),
             workflowId : params.workflowId
@@ -143,17 +165,18 @@ trait Contract {
         }
         if (params.receiverId) {
           putDocumentSubject(
-            docId      : contract.num_N_DOC_ID,
+            docId      : result.num_N_DOC_ID,
             subjectId  : params.receiverId,
             roleId     : getReceiverRoleId(),
             workflowId : params.workflowId
           )
         }
-        actualizeDocument(contract.num_N_DOC_ID)
+
+        logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was ${params.docId ? 'updated' : 'created'} successfully!")
       }
-      return contract
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting ${_docTypeName}!")
+      logger.error("   Error while ${input.docId ? 'updating' : 'creating'} ${_docTypeName}!")
       logger.error_oracle(e)
       return null
     }

@@ -1,5 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 trait Company {
   private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
   private static String COMPANY_TYPE    = 'SUBJ_TYPE_Company'
@@ -113,7 +115,7 @@ trait Company {
   }
 
   Map putCompany(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       companyId : null,
       name      : null,
       code      : null,
@@ -131,10 +133,40 @@ trait Company {
       groupId   : null,
       firmId    : getFirmId(),
       stateId   : getSubjectStateOnId()
-    ], input)
+    ]
     try {
-      logger.info("Putting company with params ${params}")
-      LinkedHashMap company = hid.execute('SI_COMPANIES_PKG.SI_COMPANIES_PUT',[
+      if (isEmpty(input.companyId) && notEmpty(input.subjectId)) {
+        input.companyId = input.subjectId
+      }
+
+      LinkedHashMap existingCompany = [:]
+
+      if (notEmpty(input.companyId)) {
+        LinkedHashMap company = getCompany(input.companyId)
+        existingCompany = [
+          companyId : company.n_company_id,
+          name      : company.vc_name,
+          code      : company.vc_code,
+          opfId     : company.n_opf_id,
+          inn       : company.vc_inn,
+          kpp       : company.vc_kpp,
+          ocato     : company.vc_ocato,
+          ocfs      : company.vc_ocfs,
+          ocogu     : company.vc_ocogu,
+          ocopf     : company.vc_ocopf,
+          ogrn      : company.vc_ogrn,
+          okved     : company.vc_okved,
+          rem       : company.vc_rem,
+          regionId  : company.n_region_id,
+          groupId   : company.n_subj_group_id,
+          firmId    : company.n_firm_id,
+          stateId   : company.n_subj_state_id
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, existingCompany + input)
+
+      logger.info("${params.companyId ? 'Updating' : 'Creating'} company with params ${params}")
+      LinkedHashMap result = hid.execute('SI_COMPANIES_PKG.SI_COMPANIES_PUT',[
         num_N_SUBJECT_ID    : params.companyId,
         num_N_FIRM_ID       : params.firmId,
         num_N_SUBJ_STATE_ID : params.stateId,
@@ -153,10 +185,10 @@ trait Company {
         vch_VC_OKVED        : params.okved,
         vch_VC_REM          : params.rem
       ])
-      logger.info("   Company ${company.num_N_SUBJECT_ID} was put successfully!")
-      return company
+      logger.info("   Company ${result.num_N_SUBJECT_ID} was ${params.companyId ? 'put' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting company!")
+      logger.error("   Error while ${input.companyId ? 'updating' : 'creating'} company!")
       logger.error_oracle(e)
       return null
     }

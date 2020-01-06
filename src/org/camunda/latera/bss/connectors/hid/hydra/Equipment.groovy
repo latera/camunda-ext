@@ -179,9 +179,10 @@ trait Equipment {
       bindRoleId  : null
     ]
     try {
-      if (input.equipmentId) {
+      LinkedHashMap existingEquipment = [:]
+      if (notEmpty(input.equipmentId)) {
         LinkedHashMap equipment = getEquipment(input.equipmentId)
-        defaultParams += [
+        existingEquipment = [
           equipmentId : equipment.n_object_id,
           typeId      : equipment.n_good_id,
           ownerId     : equipment.n_owner_id,
@@ -195,11 +196,11 @@ trait Equipment {
           bindMainId  : equipment.n_main_object_id
         ]
       }
-      LinkedHashMap params = mergeParams(defaultParams, input)
+      LinkedHashMap params = mergeParams(defaultParams, existingEquipment + input)
 
       if (notEmpty(input.equipmentId)) {
         logger.info("Updating equipment with params ${params}")
-        LinkedHashMap equipment = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
+        LinkedHashMap result = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
           num_N_OBJECT_ID        : params.equipmentId,
           num_N_GOOD_ID          : params.typeId ?: params.goodId,
           vch_VC_NAME            : params.name,
@@ -212,11 +213,11 @@ trait Equipment {
           num_N_OWNER_ID         : params.ownerId,
           num_N_MAIN_OBJECT_ID   : params.bindMainId
         ])
-        logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was updated successfully!")
-        return equipment
+        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was updated successfully!")
+        return result
       } else {
         logger.info("Creating equipment with params ${params}")
-        LinkedHashMap equipment = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
+        LinkedHashMap result = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
           num_N_OBJECT_ID        : params.equipmentId,
           num_N_GOOD_ID          : params.typeId ?: params.goodId,
           num_N_USER_ID          : params.ownerId,
@@ -229,13 +230,13 @@ trait Equipment {
           num_N_BIND_MAIN_OBJ_ID : params.bindMainId,
           num_N_OBJ_ROLE_ID      : params.bindRoleId
         ])
-        logger.info("   Equipment id ${equipment.num_N_OBJECT_ID} was created successfully!")
+        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was created successfully!")
 
         if (params.extCode || params.serialNo || params.invNo) {
-          params.equipmentId = equipment.num_N_OBJECT_ID
+          params.equipmentId = result.num_N_OBJECT_ID
           return updateEquipment(params)
         }
-        return equipment
+        return result
       }
     } catch (Exception e){
       logger.error("   Error while putting new equipment!")
