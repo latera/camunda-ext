@@ -109,6 +109,12 @@ class Planado {
       return existingUser
     }
 
+    ['email', 'phone', 'addressEntrance', 'addressFloor', 'addressApartment', 'addressLat', 'addressLon'].each { CharSequence field ->
+      if (data[field] != null) {
+        data[field] = data[field].toString()
+      }
+    }
+
     LinkedHashMap payload = [
       external_id   : extId,
       organization  : false,
@@ -176,6 +182,12 @@ class Planado {
     if (existingCompany) {
       logger.info("Company exists")
       return existingCompany
+    }
+
+    ['email', 'phone', 'addressEntrance', 'addressFloor', 'addressApartment', 'addressLat', 'addressLon'].each { CharSequence field ->
+      if (data[field] != null) {
+        data[field] = data[field].toString()
+      }
     }
 
     LinkedHashMap payload = [
