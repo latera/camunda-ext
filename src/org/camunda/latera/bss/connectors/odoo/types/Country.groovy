@@ -19,7 +19,7 @@ trait Country {
     ]
   }
 
-  private Map getCountryParamsMap(Map params) {
+  Map getCountryParamsMap(Map params) {
     return [
       code           : params.code,
       name           : params.name,
@@ -85,7 +85,7 @@ trait Country {
     ]
   }
 
-  private Map getCountryStateParamsMap(Map params) {
+  Map getCountryStateParamsMap(Map params) {
     return [
       code       : params.code,
       name       : params.name,

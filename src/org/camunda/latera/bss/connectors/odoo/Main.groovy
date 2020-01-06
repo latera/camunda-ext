@@ -4,8 +4,10 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.DateTimeUtil.iso
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.StringUtil.join
+import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.MapUtil.isMap
 import static org.camunda.latera.bss.utils.MapUtil.nvl
+import static org.camunda.latera.bss.utils.MapUtil.snakeCaseKeys
 import static org.camunda.latera.bss.utils.ListUtil.isList
 
 trait Main {
@@ -107,7 +109,7 @@ trait Main {
     ]
   }
 
-  private Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
+  Map prepareParams(Closure paramsParser, Map input, Map additionalParams) {
     return convertParams(nvl(paramsParser(input) + negativeParser(paramsParser, input)) + convertKeys(additionalParams))
   }
 

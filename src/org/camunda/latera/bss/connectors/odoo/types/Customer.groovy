@@ -29,7 +29,7 @@ trait Customer {
     ]
   }
 
-  private Map getCustomerParamsMap(Map params) {
+  Map getCustomerParamsMap(Map params) {
     return [
       name              : params.name,
       email             : params.email,

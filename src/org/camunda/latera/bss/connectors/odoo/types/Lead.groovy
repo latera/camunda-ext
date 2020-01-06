@@ -34,7 +34,7 @@ trait Lead {
     ]
   }
 
-  private Map getLeadParamsMap(Map params) {
+  Map getLeadParamsMap(Map params) {
     return [
       contact_name : params.name,
       email_from   : params.email,
