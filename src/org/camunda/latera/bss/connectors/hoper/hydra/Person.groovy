@@ -6,7 +6,7 @@ trait Person {
     plural : 'persons'
   ]
 
-  private Map getPersonEntityType(def id = null) {
+  Map getPersonEntityType(def id = null) {
     return PERSON_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 

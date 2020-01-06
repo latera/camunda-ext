@@ -9,15 +9,15 @@ trait Address {
   private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
   private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
-  private Map getAddressEntityType(Map parentType, def id = null) {
+  Map getAddressEntityType(Map parentType, def id = null) {
     return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  private Map getPersonAddressEntityType(def personId, def id = null) {
+  Map getPersonAddressEntityType(def personId, def id = null) {
     return getAddressEntityType(getPersonEntityType(personId), id)
   }
 
-  private Map getCompanyAddressEntityType(def companyId, def id = null) {
+  Map getCompanyAddressEntityType(def companyId, def id = null) {
     return getAddressEntityType(getCompanyEntityType(companyId), id)
   }
 

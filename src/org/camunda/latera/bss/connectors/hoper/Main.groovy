@@ -4,6 +4,13 @@ import static org.camunda.latera.bss.utils.MapUtil.nvl
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 
 trait Main {
+  Map getPaginationDefaultParams() {
+    return [
+      perPage : 10,
+      page    : 1
+    ]
+  }
+
   Map withId(def id = null) {
     if (id) {
       return [id: id]

@@ -19,15 +19,15 @@ trait Subscription {
     plural : 'additional_services'
   ]
 
-  private Map getAvailableServicesEntityType(def customerId, def id = null) {
+  Map getAvailableServicesEntityType(def customerId, def id = null) {
     return AVAILABLE_SERVICES_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  private Map getSubscriptionEntityType(def customerId, def id = null) {
+  Map getSubscriptionEntityType(def customerId, def id = null) {
     return SUBSCRIPTION_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 
-  private Map getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
+  Map getChildSubscriptionEntityType(def customerId, def subscriptionId, def id = null) {
     return CHILD_SUBSCRIPTION_ENTITY_TYPE + withParent(getSubscriptionEntityType(customerId, subscriptionId)) + withId(id)
   }
 

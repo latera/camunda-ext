@@ -11,7 +11,7 @@ trait Company {
     plural : 'organizations'
   ]
 
-  private Map getCompanyEntityType(def id = null) {
+  Map getCompanyEntityType(def id = null) {
     if (hoper.version == 1) {
       return COMPANY_ENTITY_TYPE_V1 + withParent(getSubjectEntityType()) + withId(id)
     } else if (hoper.version == 2) {

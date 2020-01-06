@@ -8,11 +8,11 @@ trait File {
     plural : 'files'
   ]
 
-  private Map getFileEntityType(def parentType, def id = null) {
+  Map getFileEntityType(def parentType, def id = null) {
     return FILE_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  private Map getSubjectFileEntityType(def subjectId, def id = null) {
+  Map getSubjectFileEntityType(def subjectId, def id = null) {
     return getFileEntityType(getSubjectEntityType(subjectId), id)
   }
 

@@ -17,15 +17,15 @@ trait Equipment {
   private static Integer EQUIPMENT_STATE_NOT_ACTIVE_ID   = 2040 // 'OBJ_STATE_NotActive'
   private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 // 'OBJ_STATE_RegisterOff'
 
-  private Map getEquipmentEntityType(def id = null) {
+  Map getEquipmentEntityType(def id = null) {
     return EQUIPMENT_ENTITY_TYPE + withParent(getObjectEntityType()) + withId(id)
   }
 
-  private Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
+  Map getEquipmentEntryEntityType(def equipmentId, def id = null) {
     return EQUIPMENT_ENTRY_ENTITY_TYPE + withParent(getEquipmentEntityType(equipmentId)) + withId(id)
   }
 
-  private Map getCustomerEquipmentEntityType(def customerId, def id = null) {
+  Map getCustomerEquipmentEntityType(def customerId, def id = null) {
     return CUSTOMER_EQUIPMENT_ENTITY_TYPE + withParent(getCustomerEntityType(customerId)) + withId(id)
   }
 

@@ -7,11 +7,11 @@ trait Account {
   ]
   private static Integer DEFAULT_CURRENCY_ID = 1044 // 'CURR_Ruble'
 
-  private Map getAccountEntityType(Map parentType, def id = null) {
+  Map getAccountEntityType(Map parentType, def id = null) {
     return ACCOUNT_ENTITY_TYPE + withParent(parentType) + withId(id)
   }
 
-  private Map getCustomerAccountEntityType(def customerId, def id = null) {
+  Map getCustomerAccountEntityType(def customerId, def id = null) {
     return getAccountEntityType(getCustomerEntityType(customerId), id)
   }
 
