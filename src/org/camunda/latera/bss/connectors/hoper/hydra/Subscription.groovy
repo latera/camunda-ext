@@ -119,11 +119,6 @@ trait Subscription {
     return prepareParams(data)
   }
 
-  List getAvailableServices(def customerId, Map input = [:]) {
-    LinkedHashMap params = getPaginationDefaultParams() + getAvailableServicesParams(input)
-    return getEntities(getAvailableServicesEntityType(customerId), params)
-  }
-
   List getAvailableServices(Map input = [:], def customerId) {
     return getAvailableServices(customerId, input)
   }
@@ -140,7 +135,7 @@ trait Subscription {
 
   Map getAvailableServiceByName(Map input = [:], def customerId) {
     String serviceName = input.serviceName ?: input.goodName ?: input.name
-    List availableServices = getAvailableServices(customerId, input)
+    List availableServices = getAvailableServices(input, customerId)
     for (Map service in availableServices) {
       if (service.vc_name == serviceName) {
         return service
@@ -224,10 +219,6 @@ trait Subscription {
     return updateEntity(getChildSubscriptionEntityType(customerId, subscriptionId), childSubscriptionId, params)
   }
 
-  Map closeChildSubscription(def customerId, def subscriptionId, def childSubscriptionId, Temporal endDate = local(), Boolean immediate = false) {
-    return updateChildSubscription(customerId, subscriptionId, childSubscriptionId, [endDate: endDate, immediate: immediate])
-  }
-
   Map closeChildSubscription(Map input) {
     LinkedHashMap params = [
       customerId          : null,
@@ -236,7 +227,7 @@ trait Subscription {
       endDate             : local(),
       immediate           : true
     ] + input
-    return closeChildSubscription(params.customerId, params.subscriptionId, params.childSubscriptionId, params.endDate, params.immediate)
+    return updateChildSubscription(params.customerId, params.subscriptionId, endDate: endDate, immediate: immediate)
   }
 
   Map closeChildSubscription(Map input = [:], def customerId, def subscriptionId, def childSubscriptionId) {

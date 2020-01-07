@@ -123,7 +123,7 @@ trait Address {
     }
   }
 
-  Map createPersonAddress(Map input = [:], def personId, ) {
+  Map createPersonAddress(Map input = [:], def personId) {
     LinkedHashMap params = getAddressParams(input)
     return createEntity(getPersonAddressEntityType(personId), params)
   }

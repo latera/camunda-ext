@@ -415,7 +415,7 @@ trait Region {
     List levelNames = getRegionLevelNamesWoBuilding()
 
     //Create all regions need step by step
-    levelNames.each { name ->
+    levelNames.each { CharSequence name ->
       String type = getRegionLevelTypeName(name)
       if (input[name]) {
         existingRegion = getRegionBy(
@@ -427,11 +427,11 @@ trait Region {
         if (existingRegion) {
           regionId = existingRegion.n_region_id
         } else {
-          region = putRegion(
+          region = putRegion([
             parRegionId : regionId,
             regionType  : input[type],
             code        : input[name]
-          )
+          ])
           if (region) {
             regionId = region.num_N_REGION_ID
           }
@@ -440,7 +440,7 @@ trait Region {
     }
 
     Map buildingFields = [:]
-    getBuildingFieldNames().each { field ->
+    getBuildingFieldNames().each { CharSequence field ->
       def value = input[field]
       if (notEmpty(value)) {
         if (field == 'building') {
