@@ -231,7 +231,7 @@ trait Account {
   """, true)
   }
 
-  Map putCustomerAccount(Map input) {
+  private Map putCustomerAccount(Map input) {
     LinkedHashMap params = mergeParams([
       accountId            : null,
       customerId           : null,

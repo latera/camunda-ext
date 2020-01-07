@@ -325,7 +325,7 @@ trait Subject {
     return getSubjectAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putSubjectAddParam(Map input) {
+  private Map putSubjectAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       subjValueId : null,
       subjectId   : null,
@@ -423,7 +423,7 @@ trait Subject {
     return getSubjectGroupBy(subjectId: subjectId, isMain: true)
   }
 
-  Map putSubjectGroup(Map input) {
+  private Map putSubjectGroup(Map input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
       subjectId     : null,
@@ -486,7 +486,7 @@ trait Subject {
     return deleteSubjGroup(subjSubjectId: subjSubjectId)
   }
 
-  Map putSubjectComment(Map input) {
+  private Map putSubjectComment(Map input) {
     LinkedHashMap params = mergeParams([
       lineId        : null,
       subjectId     : null,

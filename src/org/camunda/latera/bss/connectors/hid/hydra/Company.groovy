@@ -112,7 +112,7 @@ trait Company {
     return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
   }
 
-  Map putCompany(Map input) {
+  private Map putCompany(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       name      : null,
@@ -192,9 +192,7 @@ trait Company {
   }
 
   Map addCompanyAddParam(Map input = [:], def companyId) {
-    input.subjectId = input.companyId
-    input.remove('companyId')
-    return putSubjectAddParam(input)
+    return addSubjectAddParam(input, companyId)
   }
 
   Boolean refreshCompanies(CharSequence method = 'C') {

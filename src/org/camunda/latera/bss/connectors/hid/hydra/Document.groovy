@@ -287,7 +287,7 @@ trait Document {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
   }
 
-  Map putDocument(Map input) {
+  private Map putDocument(Map input) {
     LinkedHashMap defaultParams = [
       docId       : null,
       docTypeId   : null,
@@ -591,7 +591,7 @@ trait Document {
     return getDocumentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putDocumentAddParam(Map input) {
+  private Map putDocumentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       docValueId : null,
       docId      : null,
@@ -694,7 +694,7 @@ trait Document {
     return getDocumentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putDocumentBind(Map input) {
+  private Map putDocumentBind(Map input) {
     LinkedHashMap params = mergeParams([
       docDocumentId : null,
       bindTypeId    : null,

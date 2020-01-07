@@ -203,7 +203,7 @@ trait Customer {
     return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
   }
 
-  Map putCustomer(Map input) {
+  private Map putCustomer(Map input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
       baseSubjectId : null,
@@ -272,9 +272,7 @@ trait Customer {
   }
 
   Map addCustomerAddParam(Map input = [:], def customerId) {
-    input.subjectId = customerId
-    input.remove('customerId')
-    return putSubjectAddParam(input)
+    return addSubjectAddParam(input, customerId)
   }
 
   Boolean enableCustomer(def customerId) {
@@ -314,9 +312,7 @@ trait Customer {
   }
 
   Map addCustomerGroup(Map input = [:], def customerId) {
-    input.subjectId = customerId
-    input.remove('customerId')
-    return putSubjectGroup(input)
+    return addSubjectGroup(input, customerId)
   }
 
   Boolean deleteCustomerGroup(def customerId) {
@@ -386,7 +382,7 @@ trait Customer {
     return getCustomerNetServicesAccessBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putCustomerNetServiceAccess(Map input) {
+  private Map putCustomerNetServiceAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -512,7 +508,7 @@ trait Customer {
     return getCustomerAppsAccessBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putCustomerAppAccess(Map input) {
+  private Map putCustomerAppAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -573,7 +569,7 @@ trait Customer {
     return getCustomerAppAccessBy(input)
   }
 
-  Map putCustomerSelfCareAccess(Map input) {
+  private Map putCustomerSelfCareAccess(Map input) {
     LinkedHashMap params = mergeParams([
       customerId : null,
       login      : null,

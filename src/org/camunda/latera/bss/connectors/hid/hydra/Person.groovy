@@ -224,7 +224,7 @@ trait Person {
     return putPerson(input + [personId: personId])
   }
 
-  Map putPerson(Map input) {
+  private Map putPerson(Map input) {
     LinkedHashMap params = mergeParams([
       personId      : null,
       firstName     : null,
@@ -299,7 +299,7 @@ trait Person {
   }
 
   Map addPersonAddParam(Map input = [:], def personId) {
-    return putSubjectAddParam(input + [subjectId: personId])
+    return addSubjectAddParam(input, personId)
   }
 
   Boolean refreshPersons(CharSequence method = 'C') {

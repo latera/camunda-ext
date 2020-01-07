@@ -355,7 +355,7 @@ trait Region {
     return hid.queryDatabase(regionQuery)
   }
 
-  Map putRegion(Map input) {
+  private Map putRegion(Map input) {
     LinkedHashMap defaultParams = [
       regionId     : null,
       regionTypeId : null,

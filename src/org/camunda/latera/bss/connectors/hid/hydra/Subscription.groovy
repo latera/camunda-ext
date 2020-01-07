@@ -94,7 +94,7 @@ trait Subscription {
     return getSubscription(childSubscriptionId)
   }
 
-  Map putSubscription(Map input) {
+  private Map putSubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId      : null,
       customerId          : null,
@@ -159,45 +159,6 @@ trait Subscription {
 
   Map updateChildSubscription(Map input = [:], def childSubscriptionId) {
     return updateSubscription(input, childSubscriptionId)
-  }
-
-  Map putOneOffSubscription(Map input) {
-    LinkedHashMap params = mergeParams([
-      accountId           : null,
-      docId               : null,
-      goodId              : null,
-      equipmentId         : null,
-      parSubscriptionId   : null,
-      quant               : 1,
-      beginDate           : null,
-      charge              : true
-    ], input)
-    def unitId = getGoodUnitId(params.goodId)
-    if (unitId == getPieceUnitId() && params.quant == null) {
-      params.quant = 1
-    } else if (unitId == getUnknownUnitId()) {
-      params.quant = null
-    }
-    try {
-      logger.info("Putting one-off subscription with params ${params}")
-      LinkedHashMap subscription = hid.execute('US_SPECIAL_PKG.ADD_ONE_OFF_SUBSCRIPTION', [
-        num_N_SUBSCRIPTION_ID      : null,
-        num_N_ACCOUNT_ID           : params.accountId,
-        num_N_CONTRACT_ID          : params.docId,
-        num_N_SERVICE_ID           : params.goodId,
-        num_N_OBJECT_ID            : params.equipmentId,
-        num_N_PAR_SUBSCRIPTION_ID  : params.parSubscriptionId,
-        num_N_QUANT                : params.quant,
-        dt_D_BEGIN                 : params.beginDate,
-        b_Charge                   : encodeFlag(params.charge)
-      ])
-      logger.info("   One-off Subscription ${subscription.num_N_SUBSCRIPTION_ID} was put successfully!")
-      return subscription
-    } catch (Exception e){
-      logger.error("   Error while putting one-off subscription!")
-      logger.error_oracle(e)
-      return null
-    }
   }
 
   Boolean closeSubscription(Map input = [:], def subscriptionId) {

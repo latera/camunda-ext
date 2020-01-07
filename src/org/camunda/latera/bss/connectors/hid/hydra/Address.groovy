@@ -427,7 +427,7 @@ trait Address {
     return !isRegionAddressEmpty(input)
   }
 
-  Map putSubjAddress(Map input) {
+  private Map putSubjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       subjAddressId  : null,
       addressId      : null,
@@ -491,7 +491,7 @@ trait Address {
     }
   }
 
-  Map putObjAddress(Map input) {
+  private Map putObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       objAddressId    : null,
       addressId       : null,
@@ -564,7 +564,7 @@ trait Address {
     }
   }
 
-  Map putEntityAddress(Map input) {
+  private Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId    : null,
       entityId           : null,

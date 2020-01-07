@@ -80,7 +80,7 @@ trait Contract {
     return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractTypeId()
   }
 
-  Map putContract(Map input) {
+  private Map putContract(Map input) {
     LinkedHashMap defaultParams = [
       docId       : null,
       docTypeId   : getContractTypeId(),
@@ -287,7 +287,7 @@ trait Contract {
     return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
   }
 
-  Map putContractApp(Map input) {
+  private Map putContractApp(Map input) {
     LinkedHashMap params = [
       docTypeId  : getContractAppTypeId(),
       workflowId : getDefaultContractAppWorkflowId()
@@ -370,7 +370,7 @@ trait Contract {
     return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
   }
 
-  Map putAddAgreement(Map input) {
+  private Map putAddAgreement(Map input) {
     LinkedHashMap params = [
       docTypeId  : getAddAgreementTypeId(),
       workflowId : getDefaultAddAgreementWorkflowId()

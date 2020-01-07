@@ -145,7 +145,7 @@ trait Equipment {
     return getObjectBy(input + [ownerId: customerId])
   }
 
-  Map putEquipment(Map input) {
+  private Map putEquipment(Map input) {
     LinkedHashMap defaultParams = [
       equipmentId : null,
       typeId      : null,
@@ -293,7 +293,7 @@ trait Equipment {
     return getEquipmentComponentBy(componentId: componentId)
   }
 
-  Map putEquipmentComponent(Map input) {
+  private Map putEquipmentComponent(Map input) {
     LinkedHashMap defaultParams = [
       equipmentId : null,
       componentId : null,
@@ -480,7 +480,7 @@ trait Equipment {
     return getEquipmentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putEquipmentAddParam(Map input) {
+  private Map putEquipmentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       objValueId  : null,
       equipmentId : null,
@@ -607,7 +607,7 @@ trait Equipment {
     return getEquipmentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putEquipmentBind(Map input) {
+  private Map putEquipmentBind(Map input) {
     LinkedHashMap params = mergeParams([
       bindId          : null,
       mainId          : null,
