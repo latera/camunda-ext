@@ -44,7 +44,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   Number resellerId
   SimpleLogger logger
   String locale
-  Version version
+  private Version version
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
@@ -77,7 +77,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
     mainInit()
     setFirm()
-    this.version = getVersion()
+    setVersion(params.version)
   }
 
   private Map mergeParams(Map initial, Map input) {
@@ -170,7 +170,19 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     ])
   }
 
+  void setVersion(Version version = null) {
+    if (version == null) {
+      this.version = null
+      getVersion()
+    } else {
+      this.version = version
+    }
+  }
+
   Version getVersion() {
+    if (this.version != null) {
+      return this.version
+    }
     try {
       LinkedHashMap result = hid.execute('MAIN.GET_DB_VERSION', [
         num_HydraVersion    : null,
@@ -180,7 +192,9 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
         vch_Revision        : null,
         dt_InstallationDate : null
       ])
-      return new Version(result.num_HydraVersion, result.num_MajorVersion, result.num_MinorVersion, result.num_Modification)
+      this.version = new Version(result.num_HydraVersion, result.num_MajorVersion, result.num_MinorVersion, result.num_Modification)
+      return this.version
+
     } catch (Exception e){
       logger.error_oracle(e)
       return null
