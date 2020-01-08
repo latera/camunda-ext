@@ -1,0 +1,820 @@
+<!DOCTYPE html><html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+<style>body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+h3 {
+  font-weight: 200;
+}
+
+.back-link {
+  font-size: small;
+}
+
+table {
+  margin: 5px;
+}
+
+div.date-test-ran {
+  font-size: small;
+  font-style: italic;
+}
+
+table.features-table {
+  width: 800px;
+}
+
+table.summary-table {
+  width: 800px;
+  text-align: left;
+  font-weight: bold;
+  font-size: small;
+}
+
+table.summary-table th {
+  background: lightblue;
+  padding: 6px;
+}
+
+table.summary-table td {
+  background: #E0E0E0;
+  padding: 6px;
+}
+
+pre.title {
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+pre.narrative {
+  font-family: inherit;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 23px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+.feature-description {
+  font-size: large;
+  background: lightblue;
+  padding: 12px;
+}
+
+.feature-toc-error {
+  color: #F89A4F;
+}
+
+.feature-toc-failure {
+  color: #FF8080;
+}
+
+.feature-toc-ignored {
+  color: lightgray;
+}
+
+.feature-toc-pass {
+  color: green;
+}
+
+.feature-description.error {
+  background: #F89A4F;
+}
+
+.feature-description.failure {
+  background: #FF8080;
+}
+
+.feature-description.ignored {
+  background: lightgray;
+}
+
+.feature-description.ignored .reason {
+  color: black;
+  font-style: italic;
+  font-size: small;
+}
+
+div.extra-info {
+  font-size: small;
+}
+
+div.spec-headers {
+  margin: 4px;
+  font-style: italic;
+}
+
+div.spec-header {
+}
+
+div.issues {
+  margin-top: 6px;
+  padding: 10px 5px 5px 5px;
+  background-color: lemonchiffon;
+  color: black;
+  font-weight: 500;
+  font-size: small;
+  max-width: 50%;
+}
+
+div.pending-feature {
+  background-color: dodgerblue;
+  color: white;
+  margin-top: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: small;
+  max-width: 120px;
+}
+
+div.problem-description {
+  padding: 10px;
+  background: pink;
+  border-radius: 10px;
+}
+
+div.problem-header {
+  font-weight: bold;
+  color: red;
+}
+
+div.problem-list {
+
+}
+
+table.ex-table th {
+  background: lightblue;
+  padding: 5px;
+}
+
+table.ex-table td {
+  background: #E0E0E0;
+  padding: 2px 5px 2px 5px;
+}
+
+table td {
+  min-width: 50px;
+}
+
+col.block-kind-col {
+  width: 70px;
+}
+
+span.spec-header {
+  font-weight: bold;
+}
+
+div.spec-text {
+  /*color: green;*/
+}
+
+div.spec-status {
+  font-style: italic;
+}
+
+.ignored {
+  color: gray;
+}
+
+td.ex-result {
+  text-align: center;
+  background: white !important;
+}
+
+.ex-pass {
+  color: darkgreen;
+}
+
+.ex-fail {
+  color: red;
+  font-weight: bold;
+}
+
+div.block-kind {
+  margin: 2px;
+  font-style: italic;
+}
+
+div.block-text {
+
+}
+
+pre.block-source {
+  background-color: whitesmoke;
+  padding: 10px;
+}
+
+pre.block-source.error {
+  background-color: pink;
+  color: red;
+  font-weight: bold;
+}
+
+pre.block-source.pre-error {
+
+}
+
+pre.block-source.before-error {
+  margin-bottom: -14px;
+}
+
+pre.block-source.after-error {
+  color: gray;
+  margin-top: -14px;
+}
+
+pre.block-source.post-error {
+  color: gray;
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+}
+</style>
+</head>
+<body>
+<h2>Report for org.camunda.latera.bss.connectors.hid.HydraSpec</h2>
+<hr></hr>
+<div class='back-link'>
+<a href='index.html'>&lt;&lt; Back</a>
+</div>
+<div class='summary-report'>
+<h3>Summary:</h3>
+<table class='summary-table'>
+<thead>
+<th>Executed features</th>
+<th>Failures</th>
+<th>Errors</th>
+<th>Skipped</th>
+<th>Success rate</th>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100,0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Features:</h3>
+<table class='features-table'>
+<colgroup>
+<col class='block-kind-col'></col>
+<col class='block-text-col'></col>
+</colgroup>
+<tbody>
+<ul id='toc'>
+<li>
+<a href='#%23mainInit' class='feature-toc-pass'>#mainInit</a>
+</li>
+<li>
+<a href='#%23setFirm' class='feature-toc-pass'>#setFirm</a>
+</li>
+<li>
+<a href='#%23setVersion+for+null+input' class='feature-toc-pass'>#setVersion for null input</a>
+</li>
+<li>
+<a href='#%23setVersion+for+non-null+input' class='feature-toc-pass'>#setVersion for non-null input</a>
+</li>
+<li>
+<a href='#%23getVersion+with+not+set+version' class='feature-toc-pass'>#getVersion with not set version</a>
+</li>
+<li>
+<a href='#%23getVersion+with+set+version' class='feature-toc-pass'>#getVersion with set version</a>
+</li>
+</ul>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23mainInit'>
+<span>#mainInit</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)
+String user = 'HyDrA'
+String password = '123'
+String ip = '255.255.255.255'
+String app = 'NETSERV_ISP_OFFICE'
+String appId = 'test'</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Call without arguments</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit()</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>It calls procedure at least once</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>(1.._) * hid.execute('MAIN.INIT', [
+  'vch_VC_IP'        : '127.0.0.1',
+  'vch_VC_USER'      : 'hydra',
+  'vch_VC_PASS'      : null,
+  'vch_VC_APP_CODE'  :'NETSERV_HID',
+  'vch_VC_CLN_APPID' :'HydraOMS'
+])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Set custom username</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit(user: user)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>It is being passed to procedure</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.INIT', { it.vch_VC_USER == user })</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Set custom password</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit(password: password)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>It is being passed to procedure</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.INIT', { it.vch_VC_PASS == password })</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Set custom IP</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit(ip: ip)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>It is being passed to procedure</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.INIT', { it.vch_VC_IP == ip })</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Set custom application</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit(app: app)
+hydra.mainInit(appCode: app)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<pre class='block-source'>2 * hid.execute('MAIN.INIT', { it.vch_VC_APP_CODE == app })</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>Set custom app description</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.mainInit(appId: appId)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>It is being passed to procedure</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.INIT', { it.vch_VC_CLN_APPID == appId })</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setFirm'>
+<span>#setFirm</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>firmId is passed</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.setFirm(200)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>procedure will be called with this value</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.SET_ACTIVE_FIRM', [
+  num_N_FIRM_ID: 200
+])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>firmId is not passed</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.setFirm()</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>Fallback to default firmId</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.SET_ACTIVE_FIRM', [
+  num_N_FIRM_ID: 100
+])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setVersion+for+null+input'>
+<span>#setVersion for null input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)
+Version version = new Version(5, 1, 2, 3)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>version is set to null or not set</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version = null</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>procedure will be called via HID</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.execute('MAIN.GET_DB_VERSION', [
+  num_HydraVersion    : null,
+  num_MajorVersion    : null,
+  num_MinorVersion    : null,
+  num_Modification    : null,
+  vch_Revision        : null,
+  dt_InstallationDate : null
+])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setVersion+for+non-null+input'>
+<span>#setVersion for non-null input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)
+Version version = new Version(5, 1, 2, 3)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>some non-null version is passed</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version = version</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>version will be equal to passed one</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version == version</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getVersion+with+not+set+version'>
+<span>#getVersion with not set version</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)
+Version version = new Version(5, 1, 2, 3)
+Map response = [
+  num_HydraVersion   : 5,
+  num_MajorVersion   : 1,
+  num_MinorVersion   : 2,
+  num_Modification   : 3,
+  vch_Revision       : 1234,
+  dt_InstallationDate: 4567
+]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>version is not set</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.getVersion()</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>procedure MAIN.GET_DB_VERSION is being called</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>(1.._) * hid.execute('MAIN.GET_DB_VERSION', [
+  num_HydraVersion    : null,
+  num_MajorVersion    : null,
+  num_MinorVersion    : null,
+  num_Modification    : null,
+  vch_Revision        : null,
+  dt_InstallationDate : null
+]) &gt;&gt; response</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>version field will be set</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version == version</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getVersion+with+set+version'>
+<span>#getVersion with set version</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Hydra hydra = new Hydra(hid)
+Version version = new Version(5, 1, 2, 3)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>version is set manually</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version = version</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>no procedure call will be performed</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>0 * hid.execute('MAIN.GET_DB_VERSION', [
+  num_HydraVersion    : null,
+  num_MajorVersion    : null,
+  num_MinorVersion    : null,
+  num_Modification    : null,
+  vch_Revision        : null,
+  dt_InstallationDate : null
+])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>version field will the same as set</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>hydra.version == version</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<hr></hr>
+<div class='footer'>Generated by <a href='https://github.com/renatoathaydes/spock-reports'>Athaydes Spock Reports</a></div>
+</body>
+</html>

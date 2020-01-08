@@ -124,18 +124,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return result
   }
 
-  Number getFirmId() {
-    return firmId
-  }
-
-  Number getResellerId() {
-    return resellerId
-  }
-
-  String getLocale() {
-    return locale
-  }
-
   Number getLangId() {
     String langCode = getLocale()
     if (langCode == 'en') {
