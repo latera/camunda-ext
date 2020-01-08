@@ -14,19 +14,41 @@ import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class HID implements Table {
+  private static String DEFAULT_URL  = 'http://hid:10080/xml-rpc/db'
+  private static String DEFAULT_USER = 'hydra'
   String url
   String user
   private String password
   XMLRPCServerProxy proxy
 
-  HID(DelegateExecution execution) {
+  HID(CharSequence url = DEFAULT_URL, CharSequence user = DEFAULT_USER, CharSequence password = null) {
     def ENV       = System.getenv()
-    this.url      = execution.getVariable('hidUrl')      ?: ENV['HID_URL']  ?: 'http://hid:10080/xml-rpc/db'
-    this.user     = execution.getVariable('hidUser')     ?: ENV['HID_USER'] ?: 'hydra'
-    this.password = execution.getVariable('hidPassword') ?: ENV['HID_PASSWORD']
+    this.url      = url      ?: ENV['HID_URL']  ?: DEFAULT_URL
+    this.user     = user     ?: ENV['HID_USER'] ?: DEFAULT_USER
+    this.password = password ?: ENV['HID_PASSWORD']
 
+    connect()
+    auth()
+  }
+
+  HID(DelegateExecution execution) {
+    this(
+      url      : execution.getVariable('hidUrl'),
+      user     : execution.getVariable('hidUser'),
+      password : execution.getVariable('hidPassword')
+    )
+  }
+
+  HID(Map params) {
+    this(params.url, params.user, params.password)
+  }
+
+  private void connect() {
     this.proxy = new XMLRPCServerProxy(this.url)
-    this.proxy.setBasicAuth(this.user, this.password)
+  }
+
+  private void auth() {
+    proxy.setBasicAuth(this.user, this.password)
   }
 
   List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
