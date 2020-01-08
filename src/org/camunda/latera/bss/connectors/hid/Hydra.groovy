@@ -34,28 +34,46 @@ import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.internal.Version
 
 class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, Invoice, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search {
-  private static Integer DEFAULT_FIRM = 100
+  private static String  DEFAULT_USER   = 'hydra'
+  private static Integer DEFAULT_FIRM   = 100
+  private static String  DEFAULT_LOCALE = 'ru'
   HID hid
   String user
   private String password
-  def firmId
-  def resellerId
+  Number firmId
+  Number resellerId
   SimpleLogger logger
   String locale
   Version version
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
-    this.logger     = new SimpleLogger(execution)
-    this.hid        = new HID(execution)
-    def ENV         = System.getenv()
+    this(
+      new HID(execution),
+      logger          : new SimpleLogger(execution),
+      user            : execution.getVariable('hydraUser'),
+      password        : execution.getVariable('hydraPassword'),
+      firmId          : execution.getVariable('hydraFirmId')     ?: execution.getVariable('homsOrderDataFirmId'),
+      resellerId      : execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'),
+      locale          : execution.getVariable('locale'),
+      regionHierarchy : execution.getVariable('regionHierarchy')
+    )
+  }
 
-    this.locale     = execution.getVariable('locale')
-    this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: 'hydra'
-    this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
-    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId')     ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
-    this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
-    this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
+  Hydra(Map params = [:], HID hid) {
+    this(params + [hid: hid])
+  }
+
+  Hydra(Map params = [:]) {
+    def ENV         = System.getenv()
+    this.hid        = params.hid      ?: new HID()
+    this.logger     = params.logger   ?: new SimpleLogger()
+    this.user       = params.user     ?: ENV['HYDRA_USER'] ?: DEFAULT_USER
+    this.password   = params.password ?: ENV['HYDRA_PASSWORD']
+    this.locale     = params.locale   ?: DEFAULT_LOCALE
+    this.firmId     = toIntSafe(params.firmId) ?: DEFAULT_FIRM
+    this.resellerId = toIntSafe(params.resellerId)
+    this.regionHierarchyOverride = params.regionHierarchy
 
     mainInit()
     setFirm()
@@ -106,10 +124,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return result
   }
 
-  Number getDefaultFirmId() {
-    return DEFAULT_FIRM
-  }
-
   Number getFirmId() {
     return firmId
   }
@@ -119,7 +133,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   }
 
   String getLocale() {
-    return locale ?: 'ru'
+    return locale
   }
 
   Number getLangId() {
