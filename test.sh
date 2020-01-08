@@ -1,3 +1,3 @@
 #!/bin/bash
-mvn package -DskipTests=false
+mvn compile package -DskipTests=false
 #mvn sonar:sonar
