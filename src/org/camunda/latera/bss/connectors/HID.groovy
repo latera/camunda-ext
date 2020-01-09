@@ -16,19 +16,25 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 class HID implements Table {
   private static String DEFAULT_URL  = 'http://hid:10080/xml-rpc/db'
   private static String DEFAULT_USER = 'hydra'
-  String url
-  String user
-  private String password
   XMLRPCServerProxy proxy
 
-  HID(CharSequence url = DEFAULT_URL, CharSequence user = DEFAULT_USER, CharSequence password = null) {
-    def ENV       = System.getenv()
-    this.url      = url      ?: ENV['HID_URL']  ?: DEFAULT_URL
-    this.user     = user     ?: ENV['HID_USER'] ?: DEFAULT_USER
-    this.password = password ?: ENV['HID_PASSWORD']
+  HID(Map params = [:]) {
+    if (params.proxy != null) {
+      this.proxy = params.proxy
+    } else {
+      def ENV = System.getenv()
 
-    connect()
-    auth()
+      String url      = params.url      ?: ENV['HID_URL']  ?: DEFAULT_URL
+      String user     = params.user     ?: ENV['HID_USER'] ?: DEFAULT_USER
+      String password = params.password ?: ENV['HID_PASSWORD']
+
+      this.proxy = new XMLRPCServerProxy(url)
+      proxy.setBasicAuth(user, password)
+    }
+  }
+
+  HID(XMLRPCServerProxy proxy) {
+    this(proxy: proxy)
   }
 
   HID(DelegateExecution execution) {
@@ -39,16 +45,16 @@ class HID implements Table {
     )
   }
 
-  HID(Map params) {
-    this(params.url, params.user, params.password)
+  HID(CharSequence url, CharSequence user, CharSequence password) {
+    this(
+      url      : url,
+      user     : user,
+      password : password
+    )
   }
 
-  private void connect() {
-    this.proxy = new XMLRPCServerProxy(this.url)
-  }
-
-  private void auth() {
-    proxy.setBasicAuth(this.user, this.password)
+  Map call(CharSequence name, def params) {
+    return proxy.invokeMethod(name, params)
   }
 
   List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
@@ -59,16 +65,15 @@ ${query}
 )
 WHERE ROWNUM <= ${limit}"""
     }
-    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), page])
-    List rows = answer.SelectResult
+    List rows = call('SELECT', [query.toString(), page]).SelectResult
     if (rows) {
-      rows.each{ row ->
+      rows.each{ List row ->
         // There is row number, just remove it
         row.removeAt(0)
 
         // Convert codepage from
         List convertedRow = []
-        row.each{ value ->
+        row.each{ def value ->
           if (isString(value)) {
             convertedRow.add(varcharToUnicode(value))
           } else {
@@ -98,7 +103,7 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   def queryFirst(CharSequence query, Boolean asMap = false) {
-    List result = this.queryDatabase(query, asMap, 1)
+    List result = queryDatabase(query, asMap, 1)
 
     if (result) {
       return result.getAt(0)
@@ -115,7 +120,7 @@ WHERE ROWNUM <= ${limit}"""
     return queryFirst(query, true)
   }
 
-  def execute(CharSequence execName, Map params) {
+  Map execute(CharSequence execName, Map params) {
     LinkedHashMap encodedParams = [:]
     params.each{ CharSequence key, def value ->
       if (isDate(value)) {
@@ -133,10 +138,10 @@ WHERE ROWNUM <= ${limit}"""
       }
       encodedParams[key] = encodeNull(value)
     }
-    return this.proxy.invokeMethod(execName, [encodedParams])
+    return call(execName, [encodedParams])
   }
 
-  def execute(Map params = [:], CharSequence execName) {
+  Map execute(Map params = [:], CharSequence execName) {
     return execute(execName, params)
   }
 }
