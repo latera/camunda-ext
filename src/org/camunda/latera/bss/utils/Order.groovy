@@ -122,7 +122,7 @@ class Order implements GroovyObject {
   }
 
   def getValueRaw(CharSequence name) {
-    return getValue(name. true)
+    return getValue(name, true)
   }
 
   def getProperty(String propertyName) { // ALERT: do not change type to CharSequence, dynamic access will not work
