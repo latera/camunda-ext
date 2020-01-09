@@ -3,6 +3,7 @@ package org.camunda.latera.bss.logging
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
+import static org.camunda.latera.bss.utils.Constants.*
 import java.time.format.DateTimeFormatter
 
 class SimpleLogger {
@@ -30,17 +31,17 @@ class SimpleLogger {
     String lvl = level.toString().toLowerCase()
     switch (lvl) {
       case 'debug':
-        return 0
+        return DEBUG
       case 'info':
-        return 1
+        return INFO
       case ['warn', 'warning']:
-        return 2
+        return WARNING
       case ['err', 'error']:
-        return 3
+        return ERROR
       case ['crit', 'critical']:
-        return 4
+        return CRITICAL
       default:
-        return 5
+        return DEFAULT
     }
   }
 
