@@ -143,8 +143,7 @@ class Order implements GroovyObject {
 
   static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
-    execution.getVariables().each { key, value ->
-      if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') || !name.endsWith('FileUpload')) {
+      if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') && !name.endsWith('FileUpload')) {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
         data[_key] = getValue(key, raw, execution)
       }
