@@ -1,0 +1,910 @@
+<!DOCTYPE html><html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+<style>body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+h3 {
+  font-weight: 200;
+}
+
+.back-link {
+  font-size: small;
+}
+
+table {
+  margin: 5px;
+}
+
+div.date-test-ran {
+  font-size: small;
+  font-style: italic;
+}
+
+table.features-table {
+  width: 800px;
+}
+
+table.summary-table {
+  width: 800px;
+  text-align: left;
+  font-weight: bold;
+  font-size: small;
+}
+
+table.summary-table th {
+  background: lightblue;
+  padding: 6px;
+}
+
+table.summary-table td {
+  background: #E0E0E0;
+  padding: 6px;
+}
+
+pre.title {
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+pre.narrative {
+  font-family: inherit;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 23px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+.feature-description {
+  font-size: large;
+  background: lightblue;
+  padding: 12px;
+}
+
+.feature-toc-error {
+  color: #F89A4F;
+}
+
+.feature-toc-failure {
+  color: #FF8080;
+}
+
+.feature-toc-ignored {
+  color: lightgray;
+}
+
+.feature-toc-pass {
+  color: green;
+}
+
+.feature-description.error {
+  background: #F89A4F;
+}
+
+.feature-description.failure {
+  background: #FF8080;
+}
+
+.feature-description.ignored {
+  background: lightgray;
+}
+
+.feature-description.ignored .reason {
+  color: black;
+  font-style: italic;
+  font-size: small;
+}
+
+div.extra-info {
+  font-size: small;
+}
+
+div.spec-headers {
+  margin: 4px;
+  font-style: italic;
+}
+
+div.spec-header {
+}
+
+div.issues {
+  margin-top: 6px;
+  padding: 10px 5px 5px 5px;
+  background-color: lemonchiffon;
+  color: black;
+  font-weight: 500;
+  font-size: small;
+  max-width: 50%;
+}
+
+div.pending-feature {
+  background-color: dodgerblue;
+  color: white;
+  margin-top: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: small;
+  max-width: 120px;
+}
+
+div.problem-description {
+  padding: 10px;
+  background: pink;
+  border-radius: 10px;
+}
+
+div.problem-header {
+  font-weight: bold;
+  color: red;
+}
+
+div.problem-list {
+
+}
+
+table.ex-table th {
+  background: lightblue;
+  padding: 5px;
+}
+
+table.ex-table td {
+  background: #E0E0E0;
+  padding: 2px 5px 2px 5px;
+}
+
+table td {
+  min-width: 50px;
+}
+
+col.block-kind-col {
+  width: 70px;
+}
+
+span.spec-header {
+  font-weight: bold;
+}
+
+div.spec-text {
+  /*color: green;*/
+}
+
+div.spec-status {
+  font-style: italic;
+}
+
+.ignored {
+  color: gray;
+}
+
+td.ex-result {
+  text-align: center;
+  background: white !important;
+}
+
+.ex-pass {
+  color: darkgreen;
+}
+
+.ex-fail {
+  color: red;
+  font-weight: bold;
+}
+
+div.block-kind {
+  margin: 2px;
+  font-style: italic;
+}
+
+div.block-text {
+
+}
+
+pre.block-source {
+  background-color: whitesmoke;
+  padding: 10px;
+}
+
+pre.block-source.error {
+  background-color: pink;
+  color: red;
+  font-weight: bold;
+}
+
+pre.block-source.pre-error {
+
+}
+
+pre.block-source.before-error {
+  margin-bottom: -14px;
+}
+
+pre.block-source.after-error {
+  color: gray;
+  margin-top: -14px;
+}
+
+pre.block-source.post-error {
+  color: gray;
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+}
+</style>
+</head>
+<body>
+<h2>Report for org.camunda.latera.bss.connectors.HIDSpec</h2>
+<hr></hr>
+<div class='back-link'>
+<a href='index.html'>&lt;&lt; Back</a>
+</div>
+<div class='summary-report'>
+<h3>Summary:</h3>
+<table class='summary-table'>
+<thead>
+<th>Executed features</th>
+<th>Failures</th>
+<th>Errors</th>
+<th>Skipped</th>
+<th>Success rate</th>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100,0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Features:</h3>
+<table class='features-table'>
+<colgroup>
+<col class='block-kind-col'></col>
+<col class='block-text-col'></col>
+</colgroup>
+<tbody>
+<ul id='toc'>
+<li>
+<a href='#%23queryDatabaseList' class='feature-toc-pass'>#queryDatabaseList</a>
+</li>
+<li>
+<a href='#%23queryDatabaseMap' class='feature-toc-pass'>#queryDatabaseMap</a>
+</li>
+<li>
+<a href='#%23queryFirstList' class='feature-toc-pass'>#queryFirstList</a>
+</li>
+<li>
+<a href='#%23queryFirstMap' class='feature-toc-pass'>#queryFirstMap</a>
+</li>
+<li>
+<a href='#%23execute' class='feature-toc-pass'>#execute</a>
+</li>
+</ul>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23queryDatabaseList'>
+<span>#queryDatabaseList</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>HID hid = GroovySpy(HID, constructorArgs:[proxy])
+String listListQuery = """
+SELECT 145253, 'text1' FROM DUAL
+UNION ALL
+SELECT 564535, 'text2' FROM DUAL
+"""
+Map listListResponse = [
+  PagesNumber   : '1',
+  RecordsNumber : '2',
+  SelectResult  : [
+    ['1', 145253, 'text1'],
+    ['2', 564535, 'text2']
+  ]
+]
+List listListResult = [
+  [145253, 'text1'],
+  [564535, 'text2']
+]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>List res = hid.queryDatabaseList(listListQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; listListResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as List[List] of column values</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == listListResult</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>resultset is empty</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res = hid.queryDatabaseList(emptyListQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; emptyResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return empty List</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23queryDatabaseMap'>
+<span>#queryDatabaseMap</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>HID hid = GroovySpy(HID, constructorArgs:[proxy])
+String listMapQuery = """
+SELECT 'n_value', 145253, 'vc_value', 'text1' FROM DUAL
+UNION ALL
+SELECT 'n_value', 564535, 'vc_value', 'text2' FROM DUAL
+"""
+Map listMapResponse = [
+  PagesNumber   : '1',
+  RecordsNumber : '2',
+  SelectResult  : [
+    ['1', 'n_value', 145253, 'vc_value', 'text1'],
+    ['2', 'n_value', 564535, 'vc_value', 'text2']
+  ]
+]
+List listMapResult = [
+  [n_value: 145253, vc_value: 'text1'],
+  [n_value: 564535, vc_value: 'text2']
+]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>List res = hid.queryDatabaseMap(listMapQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; listMapResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as List[Map] of query result</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == listMapResult</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>resultset is empty</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res = hid.queryDatabaseMap(emptyMapQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; emptyResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return empty List</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23queryFirstList'>
+<span>#queryFirstList</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>HID hid = GroovySpy(HID, constructorArgs:[proxy])
+String listQuery = """
+SELECT 145253, 'text1' FROM DUAL
+"""
+Map listResponse = [
+  PagesNumber   : '1',
+  RecordsNumber : '1',
+  SelectResult  : [
+    ['1', 145253, 'text1']
+  ]
+]
+List listResult = [145253, 'text1']</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>List res = hid.queryFirstList(listQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; listResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as List with column values</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == listResult</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>resultset is empty</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res = hid.queryFirstList(emptyListQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; emptyResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return empty List</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == null</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23queryFirstMap'>
+<span>#queryFirstMap</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>HID hid = GroovySpy(HID, constructorArgs:[proxy])
+String mapQuery = """
+SELECT 'n_value', 145253, 'vc_value', 'text1' FROM DUAL
+UNION ALL
+SELECT 'n_value', 564535, 'vc_value', 'text2' FROM DUAL
+"""
+Map mapResponse = [
+  PagesNumber   : '1',
+  RecordsNumber : '1',
+  SelectResult  : [
+    ['1', 'n_value', 145253, 'vc_value', 'text1']
+  ]
+]
+Map mapResult = [n_value: 145253, vc_value: 'text1']</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>Map res = hid.queryFirstMap(mapQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; mapResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as Map with query result</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == mapResult</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>resultset is empty</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res = hid.queryFirstMap(emptyMapQuery)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s SELECT internal function</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call('SELECT', _) &gt;&gt; emptyResponse</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return empty List</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == null</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23execute'>
+<span>#execute</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>HID hid = GroovySpy(HID, constructorArgs:[proxy])
+String procedure = 'SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT'
+Date          current  = new Date()
+LocalDateTime now      = DateTimeUtil.parseIsoNoTZ('2020-01-01T00:00:00')
+ZonedDateTime local    = DateTimeUtil.parseIso('2020-01-01T00:00:00+03:00')
+Map args = [
+  num_N_DOC_ID      : null,
+  num_N_OWNER_ID    : 'NULL',
+  vch_VC_DOC_NAME   : '',
+  num_N_BASE_DOC_ID : 123,
+  num_N_PAR_DOC_ID  : '345',
+  num_N_PRICE       : '567.90',
+  vch_VC_CODE       : 'Some code',
+  dt_D_BEGIN        : current,
+  dt_D_END          : now,
+  dt_D_OPER         : local
+]
+Map input = [
+  num_N_DOC_ID      : 'NULL',
+  num_N_OWNER_ID    : 'NULL',
+  vch_VC_DOC_NAME   : 'NULL',
+  num_N_BASE_DOC_ID : 123,
+  num_N_PAR_DOC_ID  : 345,
+  num_N_PRICE       : 567.90,
+  vch_VC_CODE       : 'Some code',
+  dt_D_BEGIN        : current,
+  dt_D_END          : Oracle.encodeDate(now),
+  dt_D_OPER         : Oracle.encodeDate(local)
+]
+Map result = [
+  num_N_DOC_ID      : null,
+  num_N_OWNER_ID    : null,
+  vch_VC_DOC_NAME   : null,
+  num_N_BASE_DOC_ID : 123,
+  num_N_PAR_DOC_ID  : 345,
+  num_N_PRICE       : 567.90,
+  vch_VC_CODE       : 'Some code',
+  dt_D_BEGIN        : current,
+  dt_D_END          : Oracle.encodeDate(now),
+  dt_D_OPER         : Oracle.encodeDate(local)
+]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>Map res = hid.execute(procedure, args)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s procedure with passed args</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call(procedure, [input]) &gt;&gt; result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as Map with input and output values</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>When:</div>
+</td>
+<td>
+<div class='block-text'>execute query using named args overload</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res = hid.execute(procedure, *: args)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Then:</div>
+</td>
+<td>
+<div class='block-text'>it calls HID`s procedure with passed args</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>1 * hid.call(procedure, [input]) &gt;&gt; result</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>And:</div>
+</td>
+<td>
+<div class='block-text'>return data as Map with input and output values</div>
+</td>
+</tr>
+<tr>
+<td></td>
+<td>
+<pre class='block-source'>res == result</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<hr></hr>
+<div class='footer'>Generated by <a href='https://github.com/renatoathaydes/spock-reports'>Athaydes Spock Reports</a></div>
+</body>
+</html>
