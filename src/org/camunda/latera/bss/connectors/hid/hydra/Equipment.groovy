@@ -494,8 +494,8 @@ trait Equipment {
     try {
       if (!params.objValueId && !params.isMultiple) {
         params.objValueId = getEquipmentAddParamBy(
-          objectId : input.equipmentId ?: input.objectId,
-          paramId  : input.paramId
+          equipmentId : input.equipmentId,
+          paramId     : input.paramId
         )?.n_obj_value_id
       }
 
@@ -503,7 +503,7 @@ trait Equipment {
 
       LinkedHashMap addParam = hid.execute('SI_OBJECTS_PKG.SI_OBJ_VALUES_PUT', [
         num_N_OBJ_VALUE_ID       : params.objValueId,
-        num_N_OBJECT_ID          : params.equipmentId ?: params.objectId,
+        num_N_OBJECT_ID          : params.equipmentId,
         num_N_GOOD_VALUE_TYPE_ID : params.paramId,
         dt_D_VALUE               : params.date,
         vch_VC_VALUE             : params.string,
@@ -520,8 +520,8 @@ trait Equipment {
     }
   }
 
-  Map addObjectAddParam(Map input = [:], def equipmentId) {
-    return putEquipmentAddParam(input + [equipmentId: equipmentId])
+  Map addObjectAddParam(Map input = [:], def objectId) {
+    return putEquipmentAddParam(input + [equipmentId: objectId])
   }
 
   Map addEquipmentAddParam(Map input = [:], def equipmentId) {
@@ -548,7 +548,6 @@ trait Equipment {
   }
 
   Boolean deleteEquipmentAddParam(Map input) {
-    input.objectId = input.objectId ?: input.equipmentId
     def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentAddParam(objValueId)
   }
@@ -558,7 +557,8 @@ trait Equipment {
   }
 
   Boolean deleteEquipmentComponentAddParam(Map input) {
-    input.objectId = input.objectId ?: input.componentId
+    input.equipmentId = input.componentId
+    input.remove('componentId')
     def objValueId = getEquipmentAddParamBy(input)?.n_obj_value_id
     return deleteEquipmentComponentAddParam(objValueId)
   }
@@ -568,6 +568,8 @@ trait Equipment {
   }
 
   Boolean deleteObjectAddParam(Map input) {
+    input.equipmentId = input.objectId
+    input.remove('objectId')
     return deleteEquipmentAddParam(input)
   }
 

@@ -97,8 +97,8 @@ trait Equipment {
     String customerPrefix = "${capitalize(params.customerPrefix)}Customer${capitalize(params.customerSuffix)}"
     String prefix = "${capitalize(params.prefix)}Equipment${capitalize(params.suffix)}"
 
-    Map equipment = hydra.createCustomerEquipment(
-      order."${customerPrefix}Id",
+    Map equipment = hydra.createEquipment(
+      ownerId : order."${customerPrefix}Id",
       typeId  : order."${prefix}GoodId"
     )
     Boolean result = false
