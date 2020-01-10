@@ -529,6 +529,26 @@ trait Customer {
     }
   }
 
+  Boolean deleteCustomerNetServiceAccess(def subjServId) {
+    try {
+      logger.info("Deleting customer net service subscription id ${subjServId}")
+      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SERVICES_DEL', [
+        num_N_SUBJ_SERV_ID : subjServId
+      ])
+      logger.info("   Net service subscription was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("  Error while deleting net service subscription!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
+
+  Boolean deleteCustomerNetServiceAccess(Map input) {
+    def subjServId = getCustomerNetServiceAccessBy(input)?.n_subj_serv_id
+    return deleteCustomerNetServiceAccess(subjServId)
+  }
+
   List getCustomerAppsAccessBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
@@ -541,7 +561,7 @@ trait Customer {
       passwordHash   : null,
       hashTypeId     : null
     ], input)
-    return getCustomerNetServicesAccessBy(params + [netServiceId: params.appId])
+    return getCustomerNetServicesAccessBy(params + [netServiceId: params.applicationId ?: params.appId])
   }
 
   Map getCustomerAppAccessBy(Map input) {
@@ -599,6 +619,15 @@ trait Customer {
     return changeNetServicePassword(input)
   }
 
+  Boolean deleteCustomerAppAccess(def subjServId) {
+    return deleteCustomerNetServiceAccess(subjServId)
+  }
+
+  Boolean deleteCustomerAppAccess(Map input) {
+    def subjServId = getCustomerAppAccessBy(input)?.n_subj_serv_id
+    return deleteCustomerAppAccess(subjServId)
+  }
+
   Map getCustomerSelfCareAccessBy(Map input) {
     input.appId = getSelfCareAppId()
     return getCustomerAppAccessBy(input)
@@ -643,7 +672,12 @@ trait Customer {
   }
 
   Boolean changeSelfCarePassword(Map input) {
-    return changeNetServicePassword(input)
+    return changeAppPassword(input + [appId: getSelfCareApplicationId()])
+  }
+
+  Boolean deleteCustomerSelfCareAccess(def customerId) {
+    def subjServId = getCustomerAppAccessBy(customerId: customerId, appId: getSelfCareApplicationId())?.n_subj_serv_id
+    return deleteCustomerAppAccess(subjServId)
   }
 
   Boolean processCustomer(

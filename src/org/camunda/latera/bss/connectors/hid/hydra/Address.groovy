@@ -11,6 +11,7 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
+import org.camunda.latera.bss.internal.Version
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
@@ -483,7 +484,7 @@ trait Address {
         num_N_ADDR_STATE_ID     : params.stateId,
         vch_VC_REM              : params.rem
       ]
-      if (this.version >= '5.1.2') {
+      if (this.version >= new Version('5.1.2')) {
         args.vch_VC_ENTRANCE_NO = params.entrance
       } else {
         args.num_N_ENTRANCE_NO = params.entrance
@@ -564,7 +565,7 @@ trait Address {
         num_N_ADDR_STATE_ID    : params.stateId,
         vch_VC_REM             : params.rem
       ]
-      if (this.version >= '5.1.2') {
+      if (this.version >= new Version('5.1.2')) {
         args.vch_VC_ENTRANCE_NO = params.entrance
       } else {
         args.num_N_ENTRANCE_NO = params.entrance

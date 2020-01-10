@@ -122,7 +122,7 @@ class Order implements GroovyObject {
   }
 
   def getValueRaw(CharSequence name) {
-    return getValue(name. true)
+    return getValue(name, true)
   }
 
   def getProperty(String propertyName) { // ALERT: do not change type to CharSequence, dynamic access will not work
@@ -144,7 +144,7 @@ class Order implements GroovyObject {
   static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
     execution.getVariables().each { key, value ->
-      if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') || !name.endsWith('FileUpload')) {
+      if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') && !name.endsWith('FileUpload')) {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
         data[_key] = getValue(key, raw, execution)
       }
