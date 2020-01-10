@@ -4,30 +4,6 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
 import java.time.format.DateTimeFormatter
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-class Logging {
-
-  static Logger getLogger(def entity) {
-    Logger logger = null
-    try {
-      String processId = "${entity.getProcessDefinitionId()} (${entity.getProcessInstanceId()})".toString()
-      logger = LoggerFactory.getLogger(processId)
-    }
-    finally {
-      logger
-    }
-  }
-
-  static void log(def msg, CharSequence level = "info", Logger logger = null) {
-    if (logger) {
-      logger."${level}"(msg)
-    } else {
-      println("[${level}] ${msg}")
-    }
-  }
-}
 
 class SimpleLogger {
   String processInstanceId = null
@@ -54,17 +30,17 @@ class SimpleLogger {
     String lvl = level.toString().toLowerCase()
     switch (lvl) {
       case 'debug':
-          return 0
+        return 0
       case 'info':
-          return 1
+        return 1
       case ['warn', 'warning']:
-          return 2
+        return 2
       case ['err', 'error']:
-          return 3
+        return 3
       case ['crit', 'critical']:
-          return 4
+        return 4
       default:
-          return 5
+        return 5
     }
   }
 
