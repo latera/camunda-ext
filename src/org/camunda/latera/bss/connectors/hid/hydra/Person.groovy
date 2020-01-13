@@ -222,19 +222,11 @@ trait Person {
     return putPerson(input)
   }
 
-  Map updatePerson(Map input) {
-    return putPerson(input)
-  }
-
-  Map updatePerson(def personId, Map input) {
+  Map updatePerson(Map input = [:], def personId) {
     return putPerson(input + [personId: personId])
   }
 
-  Map updatePerson(Map input, def personId) {
-    return updatePerson(personId, input)
-  }
-
-  Map putPerson(Map input) {
+  private Map putPerson(Map input) {
     LinkedHashMap defaultParams = [
       personId      : null,
       firstName     : null,
@@ -340,24 +332,8 @@ trait Person {
     return getSubjectAddParamBy(input)
   }
 
-  Map putPersonAddParam(Map input) {
-    if (input.containsKey('personId')) {
-      input.subjectId = input.personId
-      input.remove('personId')
-    }
-    return putSubjectAddParam(input)
-  }
-
-  Map addPersonAddParam(Map input) {
-    return putPersonAddParam(input)
-  }
-
-  Map addPersonAddParam(def personId, Map input) {
-    return addPersonAddParam(input + [personId: personId])
-  }
-
-  Map addPersonAddParam(Map input, def personId) {
-    return addPersonAddParam(personId, input)
+  Map addPersonAddParam(Map input = [:], def personId) {
+    return addSubjectAddParam(input, personId)
   }
 
   Boolean refreshPersons(CharSequence method = 'C') {

@@ -53,20 +53,9 @@ trait Country {
     return createEntity(getCountryEntityType(), params)
   }
 
-  Map updateCountry(def id, Map input, Map additionalParams = [:]) {
+  Map updateCountry(Map input = [:], def id, Map additionalParams = [:]) {
     LinkedHashMap params = getCountryParams(input, additionalParams)
     return updateEntity(getCountryEntityType(), id, params)
-  }
-
-  Map updateCountry(Map input, Map additionalParams = [:]) {
-    def id = input.id ?: input.countryId
-    input.remove('id')
-    input.remove('countryId')
-    return updateCountry(id, input, additionalParams)
-  }
-
-  Map updateCountry(Map input, def id, Map additionalParams = [:]) {
-    return updateCountry(id, input, additionalParams)
   }
 
   Boolean deleteCountry(def id) {
@@ -116,13 +105,13 @@ trait Country {
     return createEntity(getCountryStateEntityType(), params)
   }
 
-  Map updateCountryState(def id, Map input, Map additionalParams = [:]) {
-    LinkedHashMap params = getCountryStateParams(input, additionalParams)
-    return updateEntity(getCountryStateEntityType(), id, params)
+  Map createCountryState(Map input = [:], def countryId, Map additionalParams = [:]) {
+    return createCountryState(input + [countryId: countryId], additionalParams)
   }
 
-  Map updateCountryState(Map input, def id, Map additionalParams = [:]) {
-    return updateCountryState(id, input, additionalParams)
+  Map updateCountryState(Map input = [:], def id, Map additionalParams = [:]) {
+    LinkedHashMap params = getCountryStateParams(input, additionalParams)
+    return updateEntity(getCountryStateEntityType(), id, params)
   }
 
   Boolean deleteCountryState(def id) {

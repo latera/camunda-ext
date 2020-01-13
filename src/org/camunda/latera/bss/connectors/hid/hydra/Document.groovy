@@ -289,7 +289,7 @@ trait Document {
     return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
   }
 
-  Map putDocument(Map input) {
+  private Map putDocument(Map input) {
     LinkedHashMap defaultParams = [
       docId       : null,
       docTypeId   : null,
@@ -365,16 +365,8 @@ trait Document {
     return putDocument(input)
   }
 
-  Map updateDocument(Map input) {
-    return putDocument(input)
-  }
-
-  Map updateDocument(def docId, Map input) {
+  Map updateDocument(Map input = [:], def docId) {
     return putDocument(input + [docId: docId])
-  }
-
-  Map updateDocument(Map input, def docId) {
-    return updateDocument(docId, input)
   }
 
   Map getDocumentSubject(def docSubjectId) {
@@ -476,16 +468,8 @@ trait Document {
     }
   }
 
-  Boolean addDocumentSubject(Map input) {
-    return putDocumentSubject(input)
-  }
-
-  Boolean addDocumentSubject(def docId, Map input) {
-    return addDocumentSubject(input + [docId: docId])
-  }
-
-  Boolean addDocumentSubject(Map input, def docId) {
-    return addDocumentSubject(docId, input)
+  Boolean addDocumentSubject(Map input = [:], def docId) {
+    return putDocumentSubject(input + [docId: docId])
   }
 
   Map getDocumentAddParamType(def paramId) {
@@ -610,7 +594,7 @@ trait Document {
     return getDocumentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putDocumentAddParam(Map input) {
+  private Map putDocumentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       docValueId : null,
       docId      : null,
@@ -649,16 +633,8 @@ trait Document {
     }
   }
 
-  Map addDocumentAddParam(Map input) {
-    return putDocumentAddParam(input)
-  }
-
-  Map addDocumentAddParam(def docId, Map input) {
+  Map addDocumentAddParam(Map input = [:], def docId) {
     return putDocumentAddParam(input + [docId: docId])
-  }
-
-  Map addDocumentAddParam(Map input, def docId) {
-    return addDocumentAddParam(docId, input)
   }
 
   Boolean deleteDocumentAddParam(def docValueId) {
@@ -721,7 +697,7 @@ trait Document {
     return getDocumentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putDocumentBind(Map input) {
+  private Map putDocumentBind(Map input) {
     LinkedHashMap defaultParams = [
       docDocumentId : null,
       bindTypeId    : null,
@@ -769,16 +745,8 @@ trait Document {
     }
   }
 
-  Map addDocumentBind(Map input) {
-    return putDocumentBind(input)
-  }
-
-  Map addDocumentBind(def docId, Map input) {
+  Map addDocumentBind(Map input = [:], def docId) {
     return putDocumentBind(input + [docId: docId])
-  }
-
-  Map addDocumentBind(Map input, def docId) {
-    return putDocumentBind(docId, input)
   }
 
   Boolean deleteDocumentBind(def docDocumentId) {

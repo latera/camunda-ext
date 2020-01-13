@@ -47,7 +47,7 @@ trait Account {
     return prepareParams(data)
   }
 
-  List getCustomerAccounts(def customerId, Map input = [:]) {
+  List getCustomerAccounts(Map input = [:], def customerId) {
     LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCustomerAccountEntityType(customerId), params)
   }
@@ -56,57 +56,14 @@ trait Account {
     return getEntity(getCustomerAccountEntityType(customerId), accountId)
   }
 
-  Map createCustomerAccount(def customerId, Map input = [:]) {
+  Map createCustomerAccount(Map input = [:], def customerId) {
     LinkedHashMap params = getAccountParams(input)
     return createEntity(getCustomerAccountEntityType(customerId), params)
   }
 
-  Map createCustomerAccount(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return createCustomerAccount(customerId, input)
-  }
-
-  Map createCustomerAccount(Map input, def customerId) {
-    return createCustomerAccount(customerId, input)
-  }
-
-  Map updateCustomerAccount(def customerId, def accountId, Map input) {
+  Map updateCustomerAccount(Map input = [:], def customerId, def accountId) {
     LinkedHashMap params = getAccountParams(input)
     return updateEntity(getCustomerAccountEntityType(customerId), accountId, params)
-  }
-
-  Map updateCustomerAccount(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    def accountId  = input.accountId
-    input.remove('accountId')
-    return updateCustomerAccount(customerId, accountId, input)
-  }
-
-  Map updateCustomerAccount(Map input, def customerId, def accountId) {
-    return updateCustomerAccount(customerId, accountId, input)
-  }
-
-  Map putCustomerAccount(def customerId, Map input) {
-    def accountId = input.accountId
-    input.remove('accountId')
-
-    if (accountId) {
-      return updateCustomerAccount(customerId, accountId, input)
-    } else {
-      return createCustomerAccount(customerId, input)
-    }
-  }
-
-  Map putCustomerAccount(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return putCustomerAccount(customerId, input)
-  }
-
-  Map putCustomerAccount(Map input, def customerId) {
-    return putCustomerAccount(customerId, input)
   }
 
   Boolean deleteCustomerAccount(def customerId, def accountId) {

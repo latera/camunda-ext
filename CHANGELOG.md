@@ -1,4 +1,14 @@
-v1.3 [unreleased]
+v1.4 [2020-01-13]
+-------------------
+### Breaking changes
+-   [#2](https://github.com/latera/camunda-ext/pull/2) Remove deprecated Logging class
+-   [#5](https://github.com/latera/camunda-ext/pull/5) Get rid of put methods
+
+### Features
+
+### Bugfixes
+
+v1.3 [2020-01-07]
 -------------------
 ### Breaking changes
 -   [#05e0108](https://github.com/latera/camunda-ext/commit/05e0108) Change hydra_account field to `hydra_customer_id` in _Odoo_ class

@@ -355,7 +355,7 @@ trait Region {
     return hid.queryDatabase(regionQuery)
   }
 
-  Map putRegion(Map input) {
+  private Map putRegion(Map input) {
     LinkedHashMap defaultParams = [
       regionId     : null,
       regionTypeId : null,
@@ -459,11 +459,11 @@ trait Region {
         if (existingRegion) {
           regionId = existingRegion.n_region_id
         } else {
-          region = putRegion(
+          region = putRegion([
             parRegionId : regionId,
             regionType  : input[type],
             code        : input[name]
-          )
+          ])
           if (region) {
             regionId = region.num_N_REGION_ID
           }
@@ -472,7 +472,7 @@ trait Region {
     }
 
     Map buildingFields = [:]
-    getBuildingFieldNames().each { field ->
+    getBuildingFieldNames().each { CharSequence field ->
       def value = input[field]
       if (notEmpty(value)) {
         if (field == 'building') {
