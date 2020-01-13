@@ -112,137 +112,46 @@ trait Equipment {
     return prepareParams(data)
   }
 
-  List getCustomerObjects(def customerId, Map input = [:]) {
+  List getCustomerObjects(Map input = [:], def customerId) {
     LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCustomerEquipmentEntityType(customerId), params)
-  }
-
-  List getCustomerObjects(Map input, def customerId) {
-    return getCustomerObjects(customerId, input)
-  }
-
-  Map getCustomerEquipments(def customerId, Map input = [:]) {
-    return getCustomerObjects(customerId, input)
-  }
-
-  List getCustomerEquipments(Map input, def customerId) {
-    return getCustomerEquipments(customerId, input)
   }
 
   Map getCustomerEquipment(def customerId, def equipmentId) {
     return getEntity(getCustomerEquipmentEntityType(customerId), equipmentId)
   }
 
-  List getEquipmentEntries(def equipmentId, Map input = [:]) {
-    LinkedHashMap params = getPaginationDefaultParams() + input
-    return getEntities(getEquipmentEntryEntityType(equipmentId), params)
+  Map getCustomerObject(def customerId, def equipmentId) {
+    return getCustomerEquipment(customerId, equipmentId)
   }
 
-  List getEquipmentEntries(Map input, def equipmentId) {
-    return getEquipmentEntries(equipmentId, input)
+  List getEquipmentEntries(Map input = [:], def equipmentId) {
+    LinkedHashMap params = getPaginationDefaultParams() + input
+    return getEntities(getEquipmentEntryEntityType(equipmentId), params)
   }
 
   Map getEquipmentEntry(def equipmentId, def entryId) {
     return getEntity(getEquipmentEntryEntityType(equipmentId), entryId)
   }
 
-  Map createCustomerEquipment(def customerId, Map input, Map additionalParams = [:]) {
+  Map createCustomerEquipment(Map input = [:], def customerId, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentParams(input, additionalParams)
     return createEntity(getCustomerEquipmentEntityType(customerId), params)
   }
 
-  Map createCustomerEquipment(Map input, Map additionalParams = [:]) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return createCustomerEquipment(customerId, input, additionalParams)
-  }
-
-  Map createCustomerEquipment(Map input, def customerId, Map additionalParams = [:]) {
-    return createCustomerEquipment(customerId, input, additionalParams)
-  }
-
-  Map createEquipmentEntry(def equipmentId, Map input, Map additionalParams = [:]) {
+  Map createEquipmentEntry(Map input = [:], def equipmentId, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentEntryParams(input + [mainObjectId: equipmentId], additionalParams)
     return createEntity(getEquipmentEntryEntityType(equipmentId), params)
   }
 
-  Map createEquipmentEntry(Map input, Map additionalParams = [:]) {
-    def equipmentId = input.equipmentId
-    input.remove('equipmentId')
-    return createCustomerEquipment(equipmentId, input, additionalParams)
-  }
-
-  Map createEquipmentEntry(Map input, def equipmentId, Map additionalParams = [:]) {
-    return createEquipmentEntry(equipmentId, input, additionalParams)
-  }
-
-  Map updateCustomerEquipment(def customerId, def equipmentId, Map input, Map additionalParams = [:]) {
+  Map updateCustomerEquipment(Map input = [:], def customerId, def equipmentId, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentParams(input, additionalParams)
     return updateEntity(getCustomerEquipmentEntityType(customerId), equipmentId, params)
   }
 
-  Map updateCustomerEquipment(Map input, Map additionalParams = [:]) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    def equipmentId = input.equipmentId
-    input.remove('equipmentId')
-    return updateCustomerEquipment(customerId, equipmentId, input, additionalParams)
-  }
-
-  Map updateCustomerEquipment(Map input, def customerId, def equipmentId, Map additionalParams = [:]) {
-    return updateCustomerEquipment(customerId, equipmentId, input, additionalParams)
-  }
-
-  Map updateEquipmentEntry(def equipmentId, def entryId, Map input, Map additionalParams = [:]) {
+  Map updateEquipmentEntry(Map input = [:], def equipmentId, def entryId, Map additionalParams = [:]) {
     LinkedHashMap params = getEquipmentEntryParams(input, additionalParams)
     return updateEntity(getEquipmentEntryEntityType(equipmentId), entryId, params)
-  }
-
-  Map updateEquipmentEntry(Map input, Map additionalParams = [:]) {
-    def equipmentId = input.equipmentId
-    input.remove('equipmentId')
-    def entryId = input.entryId
-    input.remove('entryId')
-    return updateEquipmentEntry(equipmentId, entryId, input, additionalParams)
-  }
-
-  Map updateEquipmentEntry(Map input, def equipmentId, def entryId, Map additionalParams = [:]) {
-    return updateEquipmentEntry(equipmentId, entryId, input, additionalParams)
-  }
-
-  Map putCustomerEquipment(def customerId, Map input, Map additionalParams = [:]) {
-    def equipmentId = input.equipmentId
-    input.remove('equipmentId')
-
-    if (equipmentId) {
-      return updateCustomerEquipment(customerId, equipmentId, input, additionalParams)
-    } else {
-      return createCustomerEquipment(customerId, input, additionalParams)
-    }
-  }
-
-  Map putCustomerEquipment(Map input, Map additionalParams = [:]) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return putCustomerEquipment(customerId, input, additionalParams)
-  }
-
-  Map putEquipmentEntry(def equipmentId, Map input, Map additionalParams = [:]) {
-    def entryId = input.entryId ?: input.objectId
-    input.remove('objectId')
-
-    if (entryId) {
-      return updateEquipmentEntry(equipmentId, entryId, input, additionalParams)
-    } else {
-      return createEquipmentEntry(equipmentId, input, additionalParams)
-    }
-  }
-
-  Map putEquipmentEntry(Map input, Map additionalParams = [:]) {
-    def equipmentId = input.equipmentId
-    input.remove('equipmentId')
-
-    return putEquipmentEntry(equipmentId, input, additionalParams)
   }
 
   Boolean deleteCustomerEquipment(def customerId, def equipmentId) {

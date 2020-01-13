@@ -58,7 +58,7 @@ trait Customer {
     String subjectPrefix  = "${capitalize(params.subjectPrefix)}BaseSubject"
     String customerPrefix = "${capitalize(params.prefix)}Customer"
 
-    Map customer = hydra.putCustomer(
+    Map customer = hydra.createCustomer(
       baseSubjectId : order."${subjectPrefix}Id",
       code          : order."${customerPrefix}Code",
       groupId       : order."${customerPrefix}GroupId"
@@ -95,10 +95,10 @@ trait Customer {
       order."${bindPrefix}Id" = existingGroup.num_N_SUBJ_SUBJECT_ID
       result = true
     } else {
-      Map newGroup = hydra.putCustomerGroup(
-        customerId : order."${customerPrefix}Id",
-        groupId    : order."${groupPrefix}Id",
-        isMain     : params.isMain
+      Map newGroup = hydra.addCustomerGroup(
+        order."${customerPrefix}Id",
+        groupId : order."${groupPrefix}Id",
+        isMain  : params.isMain
       )
       if (newGroup) {
         order."${bindPrefix}Id" = group.num_N_SUBJ_SUBJECT_ID
@@ -208,7 +208,6 @@ trait Customer {
     String customerPrefix   = "${capitalize(params.prefix)}Customer"
 
     Map options = [
-      customerId   : order."${customerPrefix}Id",
       netServiceId : order."${netServicePrefix}Id",
       login        : order."${customerPrefix}${netServicePrefix}Login",
       password     : order."${customerPrefix}${netServicePrefix}Password"
@@ -218,7 +217,7 @@ trait Customer {
       options.objectId = order."${equipmentPrefix}Id"
     }
 
-    Map access = hydra.putCustomerNetServiceAccess(options)
+    Map access = hydra.addCustomerNetServiceAccess(options, order."${customerPrefix}Id")
     Boolean result = false
     if (access) {
       order."${customerPrefix}${netServicePrefix}Id"       = access.num_N_SUBJ_SERV_ID
@@ -240,8 +239,8 @@ trait Customer {
     String appPrefix      = capitalize(params.appPrefix) ?: 'Application'
     String customerPrefix = "${capitalize(params.prefix)}Customer"
 
-    Map access = hydra.putCustomerAppAccess(
-      customerId  : order."${customerPrefix}Id",
+    Map access = hydra.addCustomerAppAccess(
+      order."${customerPrefix}Id",
       application : params.application,
       login       : order."${customerPrefix}${appPrefix}Login",
       password    : order."${customerPrefix}${appPrefix}Password"
@@ -267,8 +266,8 @@ trait Customer {
     String selfCarePrefix = "${capitalize(params.appPrefix)}SelfCare"
     String customerPrefix = "${capitalize(params.prefix)}Customer"
 
-    Map access = hydra.putCustomerSelfCareAccess(
-      customerId : order."${customerPrefix}Id",
+    Map access = hydra.addCustomerSelfCareAccess(
+      order."${customerPrefix}Id",
       login      : order."${customerPrefix}${selfCarePrefix}Login",
       password   : order."${customerPrefix}${selfCarePrefix}Password"
     )

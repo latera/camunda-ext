@@ -167,30 +167,22 @@ trait Ticket {
 
   Map createTicket(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     LinkedHashMap params = getTicketParams(input, attachments, dynamicFields, additionalParams)
-    return createEntity(getTicketEntityType(), params)
+    return createEntity(params, getTicketEntityType())
   }
 
-  Map updateTicket(def id, Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
+  Map updateTicket(Map input = [:], def id, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     LinkedHashMap params = getTicketParams(input, attachments, dynamicFields, additionalParams)
-    return updateEntity(getTicketEntityType(), id, params)
+    return updateEntity(params, getTicketEntityType(), id)
   }
 
   Map updateTicket(Map input, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
     def id = input.id ?: input.ticketId
     input.remove('id')
     input.remove('ticketId')
-    return updateTicket(id, input, attachments, dynamicFields, additionalParams)
+    return updateTicket(input, id, attachments, dynamicFields, additionalParams)
   }
 
-  Map updateTicket(Map input, def id, List attachments = [], Map dynamicFields = [:], Map additionalParams = [:]) {
-    return updateTicket(id, input, attachments, dynamicFields, additionalParams)
-  }
-
-  Map addTicketFile(def id, Map file) {
-    return addTicketFiles(id, [file])
-  }
-
-  Map addTicketFile(Map file, def id) {
+  Map addTicketFile(Map file = [:], def id) {
     return addTicketFile(id, file)
   }
 
@@ -198,7 +190,7 @@ trait Ticket {
     def id = input.id ?: input.ticketId
     input.remove('id')
     input.remove('ticketId')
-    return addTicketFile(id, input)
+    return addTicketFile(input, id)
   }
 
   Map addTicketFile(def id, CharSequence name, byte[] content) {
@@ -209,7 +201,7 @@ trait Ticket {
     return updateTicket(id, [:], attachments)
   }
 
-  Map updateTicketArticle(def id, Map input) {
+  Map updateTicketArticle(Map input = [:], def id) {
     return updateTicket(id, input)
   }
 
@@ -217,11 +209,7 @@ trait Ticket {
     def id = input.id ?: input.ticketId
     input.remove('id')
     input.remove('ticketId')
-    return updateTicketArticle(id, input)
-  }
-
-  Map updateTicketArticle(Map input, def id) {
-    return updateTicketArticle(id, input)
+    return updateTicketArticle(input, id)
   }
 
   Map updateTicketDynamicField(def id, CharSequence name, def value = null) {
@@ -229,18 +217,18 @@ trait Ticket {
     return updateTicket(id, [:], [], dynamicFields)
   }
 
+  Map updateTicketDynamicField(Map input = [:], def id) {
+    updateTicketDynamicField(id, input.name, input.value)
+  }
+
   Map updateTicketDynamicField(Map input) {
     def id = input.id ?: input.ticketId
     input.remove('id')
     input.remove('ticketId')
-    return updateTicketDynamicField(id, input)
+    return updateTicketDynamicField(input, id)
   }
 
-  Map updateTicketDynamicField(Map input, def id) {
-    updateTicketDynamicField(id, input.name, input.value)
-  }
-
-  Map updateTicketDynamicFields(Map input, def id) {
+  Map updateTicketDynamicFields(Map input = [:], def id) {
     input.each { key, value ->
       updateTicketDynamicField(id, key, value)
     }
@@ -250,7 +238,7 @@ trait Ticket {
     def id = input.id ?: input.ticketId
     input.remove('id')
     input.remove('ticketId')
-    return updateTicketDynamicFields(id, input)
+    return updateTicketDynamicFields(input, id)
   }
 
   Boolean deleteTicket(def id) {

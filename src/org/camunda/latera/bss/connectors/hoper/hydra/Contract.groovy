@@ -68,16 +68,12 @@ trait Contract {
     return prepareParams(data)
   }
 
-  List getCustomerContracts(def customerId, Map input = [:]) {
+  List getCustomerContracts(Map input = [:], def customerId) {
     LinkedHashMap params = getPaginationDefaultParams() + input
     return getEntities(getCustomerContractEntityType(customerId), params)
   }
 
-  Map getCustomerContract(def customerId, def contractId) {
-    return getEntity(getCustomerContractEntityType(customerId), contractId)
-  }
-
-  Map createCustomerContract(def customerId, Map input = [:]) {
+  Map createCustomerContract(Map input = [:], def customerId) {
     LinkedHashMap params = getContractParams(input)
     params.remove('n_doc_state_id')
 
@@ -88,48 +84,9 @@ trait Contract {
     return result
   }
 
-  Map createCustomerContract(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return createCustomerContract(customerId, input)
-  }
-
-  Map createCustomerContract(Map input, def customerId) {
-    return createCustomerContract(customerId, input)
-  }
-
-  Map updateCustomerContract(def customerId, def contractId, Map input) {
+  Map updateCustomerContract(Map input = [:], def customerId, def contractId) {
     LinkedHashMap params = getContractParams(input)
     return updateEntity(getCustomerContractEntityType(customerId), contractId, params)
-  }
-
-  Map updateCustomerContract(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    def contractId = input.contractId
-    input.remove('contractId')
-    return updateCustomerContract(customerId, contractId, input)
-  }
-
-  Map updateCustomerContract(Map input, def customerId, def contractId) {
-    return updateCustomerContract(customerId, contractId, input)
-  }
-
-  Map putCustomerContract(def customerId, Map input) {
-    def contractId = input.contractId
-    input.remove('contractId')
-
-    if (contractId) {
-      return updateCustomerContract(customerId, contractId, input)
-    } else {
-      return createCustomerContract(customerId, input)
-    }
-  }
-
-  Map putCustomerContract(Map input) {
-    def customerId = input.customerId
-    input.remove('customerId')
-    return putCustomerContract(customerId, input)
   }
 
   Boolean deleteCustomerContract(def customerId, def contractId) {

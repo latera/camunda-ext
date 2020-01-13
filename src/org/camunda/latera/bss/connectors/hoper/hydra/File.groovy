@@ -36,7 +36,7 @@ trait File {
     return prepareParams(data)
   }
 
-  List getSubjectFiles(def subjectId, Map input = [:]) {
+  List getSubjectFiles(Map input = [:], def subjectId) {
     LinkedHashMap params = getPaginationDefaultParams() + input
 
     List result = []
@@ -70,65 +70,38 @@ trait File {
     return getSubjectFile(input.subjectId, input.fileId)
   }
 
-  Map createSubjectFile(def subjectId, Map input = [:]) {
+  Map createSubjectFile(Map input = [:], def subjectId) {
     LinkedHashMap params = getFileParams(input)
     return createEntity(getSubjectFileEntityType(subjectId), params)
   }
 
-  Map createSubjectFile(Map input) {
-    def subjectId = input.subjectId
-    input.remove('subjectId')
-    return createSubjectFile(subjectId, input)
+  List createSubjectFiles(Object[] input = [], def subjectId) {
+    List result = []
+    input.each { Map item ->
+      result += createSubjectFile(item, subjectId)
+    }
+    return result
   }
 
-  Map createSubjectFile(Map input, def subjectId) {
-    return createSubjectFile(subjectId, input)
+  List createSubjectFiles(def subjectId, List input) {
+    return createSubjectFiles(input as Object[], subjectId)
   }
 
-  Map updateSubjectFile(def subjectId, def fileId, Map input) {
+  Map updateSubjectFile(Map input = [:], def subjectId, def fileId) {
     LinkedHashMap params = getFileParams(input)
     return updateEntity(getSubjectFileEntityType(subjectId), fileId, params)
   }
 
-  Map updateSubjectFile(Map input) {
-    def subjectId = input.subjectId
-    input.remove('subjectId')
-    def fileId = input.fileId
-    input.remove('fileId')
-    return updateSubjectFile(subjectId, fileId, input)
-  }
-
-  Map updateSubjectFile(Map input, def subjectId, def fileId) {
-    return updateSubjectFile(subjectId, fileId, input)
-  }
-
-  Map putSubjectFile(def subjectId, Map input) {
-    def fileId = input.fileId
-    input.remove('fileId')
-
-    if (fileId) {
-      return updateSubjectFile(subjectId, fileId, input)
-    } else {
-      return createSubjectFile(subjectId, input)
-    }
-  }
-
-  Map putSubjectFile(Map input) {
-    def subjectId = input.subjectId
-    input.remove('subjectId')
-    return putSubjectFile(subjectId, input)
-  }
-
-  Map putSubjectFile(Map input, def subjectId) {
-    return putSubjectFile(subjectId, input)
-  }
-
-  List putSubjectFiles(def subjectId, List input) {
+  List updateSubjectFiles(Object[] input = [], def subjectId) {
     List result = []
-    input.each { item ->
-      result += putSubjectFile(subjectId, item)
+    input.each { Map item ->
+      result += updateSubjectFile(item + [subjectId: subjectId])
     }
     return result
+  }
+
+  List updateSubjectFiles(def subjectId, List input) {
+    return updateSubjectFiles(input as Object[], subjectId)
   }
 
   Boolean deleteSubjectFile(def subjectId, def fileId) {

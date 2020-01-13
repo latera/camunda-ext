@@ -19,14 +19,14 @@ if [[ "x$BRANCH" != "xmaster" ]]; then
   export MESSAGE="$MESSAGE from separated branch $BRANCH"
 fi
 
-export LATEST_TAG_COMMIT="$(git rev-list -n 1 $TAG)"
-if [[ "x$TAG" != "x" && "x$TRAVIS_COMMIT" != "x$LATEST_TAG_COMMIT" ]]; then
-  git tag -d $TAG
-  git tag $TAG
-  git remote add origin-travis https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git > /dev/null 2>&1
-  git push --tags -f --set-upstream origin-travis --quiet
-  exit 0
-fi
+#export LATEST_TAG_COMMIT="$(git rev-list -n 1 $TAG)"
+#if [[ "x$TAG" != "x" && "x$TRAVIS_COMMIT" != "x$LATEST_TAG_COMMIT" ]]; then
+#  git tag -d $TAG
+#  git tag $TAG
+#  git remote add origin-travis https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git > /dev/null 2>&1
+#  git push --tags -f --set-upstream origin-travis --quiet
+#  exit 0
+#fi
 
 curl -s -X POST \
   -H 'Content-Type: application/json' \

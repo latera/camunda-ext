@@ -200,8 +200,8 @@ trait Service {
     def equipmentId        = order."${equipmentPrefix}Id"
     def parSubscriptionId  = order."${parSubscriptionPrefix}Id"
     def prevSubscriptionId = order."${prevSubscriptionPrefix}Id"
-    Map subscription = hydra.putSubscription(
-      customerId         : customerId,
+    Map subscription = hydra.createSubscription(
+      customerId,
       accountId          : accountId,
       docId              : contractId,
       goodId             : serviceId,
@@ -234,25 +234,29 @@ trait Service {
       beginDate             : local()
     ] + input
 
+    String customerPrefix        = "${capitalize(params.customerPrefix)}Customer"
     String accountPrefix         = "${capitalize(params.accountPrefix)}Account"
     String contractPrefix        = "${capitalize(params.contractPrefix)}Contract"
     String servicePrefix         = "${capitalize(params.servicePrefix)}OneOffService"
     String equipmentPrefix       = "${capitalize(params.equipmentPrefix)}Equipment"
-    String parSubscriptionPrefix  = "${equipmentPrefix}${servicePrefix}${capitalize(params.parSubscriptionPrefix)}ParSubscription"
-    String subscriptionPrefix     = "${equipmentPrefix}${servicePrefix}${capitalize(params.prefix)}Subscription"
+    String parSubscriptionPrefix = "${equipmentPrefix}${servicePrefix}${capitalize(params.parSubscriptionPrefix)}ParSubscription"
+    String subscriptionPrefix    = "${equipmentPrefix}${servicePrefix}${capitalize(params.prefix)}Subscription"
 
+    def customerId        = order."${customerPrefix}Id"
     def accountId         = order."${accountPrefix}Id"
     def contractId        = order."${contractPrefix}Id"
     def serviceId         = order."${servicePrefix}Id"
     def equipmentId       = order."${equipmentPrefix}Id"
     def parSubscriptionId = order."${parSubscriptionPrefix}Id"
-    Map subscription = hydra.putOneOffSubscription(
+    Map subscription = hydra.createSubscription(
+      customerId,
       accountId         : accountId,
       docId             : contractId,
       goodId            : serviceId,
       equipmentId       : equipmentId,
       parSubscriptionId : parSubscriptionId,
-      beginDate         : params.beginDate
+      beginDate         : params.beginDate,
+      endDate           : params.beginDate
     )
 
     Boolean result = false
@@ -287,8 +291,8 @@ trait Service {
     def contractId   = order."${contractPrefix}Id"
     def serviceId    = order."${adjustmentServicePrefix}Id"
     def equipmentId  = order."${equipmentPrefix}Id"
-    Boolean result = hydra.putAdjustment(
-      accountId     : accountId,
+    Boolean result = hydra.addAdjustment(
+      accountId,
       docId         : contractId,
       goodId        : serviceId,
       equipmentId   : equipmentId,
@@ -315,7 +319,10 @@ trait Service {
     String subscriptionPrefix = "${equipmentPrefix}${servicePrefix}${prefix}"
 
     def subscriptionId = order."${subscriptionPrefix}Id"
-    Boolean result     = hydra.closeSubscriptionForce(subscriptionId, params.endDate)
+    Boolean result     = hydra.closeSubscriptionForce(
+      subscriptionId,
+      endDate: params.endDate
+    )
 
     if (result) {
       order."${subscriptionPrefix}CloseDate" = params.endDate

@@ -112,7 +112,7 @@ trait Company {
     return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
   }
 
-  Map putCompany(Map input) {
+  private Map putCompany(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       name      : null,
@@ -167,16 +167,8 @@ trait Company {
     return putCompany(input)
   }
 
-  Map updateCompany(Map input) {
-    return putCompany(input)
-  }
-
-  Map updateCompany(def companyId, Map input) {
+  Map updateCompany(Map input = [:], def companyId) {
     return putCompany(input + [companyId: companyId])
-  }
-
-  Map updateCompany(Map input, def companyId) {
-    return updateCompany(companyId, input)
   }
 
   Number getCompanyAddParamTypeIdByCode(CharSequence code) {
@@ -199,24 +191,8 @@ trait Company {
     return getSubjectAddParamBy(input)
   }
 
-  Map putCompanyAddParam(Map input) {
-    if (input.containsKey('companyId')) {
-      input.subjectId = input.companyId
-      input.remove('companyId')
-    }
-    return putSubjectAddParam(input)
-  }
-
-  Map addCompanyAddParam(Map input) {
-    return putCompanyAddParam(input)
-  }
-
-  Map addCompanyAddParam(def companyId, Map input) {
-    return putCompanyAddParam(input + [companyId: companyId])
-  }
-
-  Map addCompanyAddParam(Map input, def companyId) {
-    return putCompanyAddParam(companyId, input)
+  Map addCompanyAddParam(Map input = [:], def companyId) {
+    return addSubjectAddParam(input, companyId)
   }
 
   Boolean refreshCompanies(CharSequence method = 'C') {
