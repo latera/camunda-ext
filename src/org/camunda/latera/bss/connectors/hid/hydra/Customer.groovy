@@ -6,6 +6,7 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import java.time.temporal.Temporal
+import org.camunda.latera.bss.internal.Version
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
@@ -245,7 +246,7 @@ trait Customer {
         vch_VC_CODE           : params.code,
         vch_VC_REM            : params.rem
       ]
-      if (this.version > 5 && notEmpty(params.resellerId)) {
+      if (this.version > new Version('5') && notEmpty(params.resellerId)) {
         args.num_N_RESELLER_ID = resellerId
       }
       LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USERS_PUT', args)
