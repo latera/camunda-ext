@@ -156,36 +156,20 @@ trait Account {
     return getSubjectAccount(customerId, accountTypeId)
   }
 
-  Map getSubjectAccountBy(Map input, def subjectId) {
+  Map getSubjectAccountBy(Map input = [:], def subjectId) {
     return getAccountBy(input + [subjectId: subjectId])
   }
 
-  Map getSubjectAccountBy(def subjectId, Map input) {
-    return getSubjectAccountBy(input, subjectId)
+  Map getCompanyAccountBy(Map input = [:], def companyId) {
+    return getSubjectAccountBy(input, companyId)
   }
 
-  Map getCompanyAccountBy(Map input, def companyId) {
-    return getSubjectAccountBy(companyId, input)
+  Map getPersonAccountBy(Map input = [:], def personId) {
+    return getSubjectAccountBy(input, personId)
   }
 
-  Map getCompanyAccountBy(def companyId, Map input) {
-    return getSubjectAccountBy(companyId, input)
-  }
-
-  Map getPersonAccountBy(Map input, def personId) {
-    return getSubjectAccountBy(personId, input)
-  }
-
-  Map getPersonAccountBy(def personId, Map input) {
-    return getSubjectAccountBy(personId, input)
-  }
-
-  Map getCustomerAccountBy(Map input, def customerId) {
-    return getSubjectAccountBy(customerId, input)
-  }
-
-  Map getCustomerAccountBy(def customerId, Map input) {
-    return getSubjectAccountBy(customerId, input)
+  Map getCustomerAccountBy(Map input = [:], def customerId) {
+    return getSubjectAccountBy(input, customerId)
   }
 
   Map getAccountBalance(
@@ -247,7 +231,7 @@ trait Account {
   """, true)
   }
 
-  Map putCustomerAccount(Map input) {
+  private Map putCustomerAccount(Map input) {
     LinkedHashMap params = mergeParams([
       accountId            : null,
       customerId           : null,
@@ -286,41 +270,12 @@ trait Account {
     }
   }
 
-  Map putCustomerAccount(def customerId, Map input) {
-    return putCustomerAccount(input + [customerId: customerId])
-  }
-
-  Map putCustomerAccount(Map input, def customerId) {
-    return putCustomerAccount(customerId, input)
-  }
-
-  Map createCustomerAccount(Map input) {
-    input.remove('accountId')
-    return putCustomerAccount(input)
-  }
-
-  Map createCustomerAccount(Map input, def customerId) {
+  Map createCustomerAccount(Map input = [:], def customerId) {
     return createCustomerAccount(input + [customerId: customerId])
   }
 
-  Map updateCustomerAccount(Map input) {
-    return putCustomerAccount(input)
-  }
-
-  Map updateCustomerAccount(def accountId, Map input) {
+  Map updateCustomerAccount(Map input = [:], def accountId) {
     return putCustomerAccount(input + [accountId: accountId])
-  }
-
-  Map updateCustomerAccount(Map input, def accountId) {
-    return updateCustomerAccount(accountId, input)
-  }
-
-  Map updateCustomerAccount(def customerId, def accountId, Map input) {
-    return putCustomerAccount(input + [accountId: accountId, customerId : customerId])
-  }
-
-  Map updateCustomerAccount(Map input, def customerId, def accountId) {
-    return updateCustomerAccount(customerId, accountId, input)
   }
 
   Boolean putAdjustment(Map input) {
@@ -358,16 +313,8 @@ trait Account {
     }
   }
 
-  Boolean addAdjustment(Map input) {
-    return putAdjustment(input)
-  }
-
-  Boolean addAdjustment(def accountId, Map input) {
-    return putAdjustment(input + [accountId: accountId])
-  }
-
-  Boolean addAdjustment(Map input, def accountId) {
-    return addAdjustment(accountId, input)
+  Boolean addAdjustment(Map input = [:], def accountId) {
+    return addAdjustment(input + [accountId: accountId])
   }
 
   Boolean putPermanentOverdraft(Map input) {
@@ -409,16 +356,8 @@ trait Account {
     )
   }
 
-  Boolean addPermanentOverdraft(Map input) {
-    return putPermanentOverdraft(input)
-  }
-
-  Boolean addPermanentOverdraft(
-    def accountId,
-    Double sum = 0,
-    def reasonId = getDefaultOverdraftReasonId()
-  ) {
-    return putPermanentOverdraft(accountId, sum, reasonId)
+  Boolean addPermanentOverdraft(Map input = [:], def accountId) {
+    return putPermanentOverdraft(input + [accountId: accountId])
   }
 
   Boolean deletePermanentOverdraft(def accountId) {
@@ -464,31 +403,8 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(
-    def accountId,
-    Double sum = 0,
-    Temporal endDate = dayEnd(),
-    def reasonId = getDefaultOverdraftReasonId()
-  ) {
-    return putTemporalOverdraft(
-      accountId : accountId,
-      sum       : sum,
-      endDate   : endDate,
-      reasonId  : reasonId
-    )
-  }
-
-  Boolean addTemporalOverdraft(Map input) {
-    return putTemporalOverdraft(input)
-  }
-
-  Boolean addTemporalOverdraft(
-    def accountId,
-    Double sum = 0,
-    Temporal endDate = dayEnd(),
-    def reasonId = getDefaultOverdraftReasonId()
-  ) {
-    return putTemporalOverdraft(accountId, sum, endDate, reasonId)
+  Boolean addTemporalOverdraft(Map input = [:], def accountId) {
+    return putTemporalOverdraft(input + [accountId: accountId])
   }
 
   Boolean deleteTemporalOverdraft(def accountId) {
@@ -506,17 +422,17 @@ trait Account {
     }
   }
 
-  Boolean processAccount(
-    def accountId,
-    Temporal beginDate = local(),
-    Temporal endDate   = null
-  ) {
+  Boolean processAccount(Map input = [:], def accountId) {
+    LinkedHashMap params = [
+      beginDate : local(),
+      endDate   : null
+    ] + input
     try {
       logger.info("Processing account id ${accountId}")
       hid.execute('SD_CHARGE_LOGS_CHARGING_PKG.PROCESS_ACCOUNT', [
         num_N_ACCOUNT_ID : accountId,
-        dt_D_OPER        : beginDate,
-        dt_D_OPER_END    : endDate
+        dt_D_OPER        : params.beginDate,
+        dt_D_OPER_END    : params.endDate
       ])
       logger.info("   Account processed successfully!")
       return true
@@ -525,15 +441,6 @@ trait Account {
       logger.error_oracle(e)
       return false
     }
-  }
-
-  Boolean processAccount(Map input) {
-    LinkedHashMap params = mergeParams([
-      accountId : null,
-      beginDate : local(),
-      endDate   : null
-    ], input)
-    return processAccount(params.accountId, params.beginDate, params.endDate)
   }
 
   Boolean refreshAccounts(CharSequence method = 'C') {

@@ -203,7 +203,7 @@ trait Customer {
     return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
   }
 
-  Map putCustomer(Map input) {
+  private Map putCustomer(Map input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
       baseSubjectId : null,
@@ -243,16 +243,12 @@ trait Customer {
     return putCustomer(input)
   }
 
-  Map updateCustomer(Map input) {
-    return putCustomer(input)
+  Map createCustomer(Map input, def baseSubjectId) {
+    return createCustomer(input + [baseSubjectId: baseSubjectId])
   }
 
-  Map updateCustomer(def customerId, Map input) {
+  Map updateCustomer(Map input = [:], def customerId) {
     return putCustomer(input + [customerId: customerId])
-  }
-
-  Map updateCustomer(Map input, def customerId) {
-    return updateCustomer(customerId, input)
   }
 
   Number getCustomerAddParamTypeIdByCode(CharSequence code) {
@@ -275,24 +271,8 @@ trait Customer {
     return getSubjectAddParamBy(input)
   }
 
-  Map putCustomerAddParam(Map input) {
-    if (input.containsKey('customerId')) {
-      input.subjectId = input.customerId
-      input.remove('customerId')
-    }
-    return putSubjectAddParam(input)
-  }
-
-  Map addCustomerAddParam(Map input) {
-    return putCustomerAddParam(input)
-  }
-
-  Map addCustomerAddParam(def customerId, Map input) {
-    return putCustomerAddParam(input + [customerId: customerId])
-  }
-
-  Map addCustomerAddParam(Map input, def customerId) {
-    return addCustomerAddParam(customerId, input)
+  Map addCustomerAddParam(Map input = [:], def customerId) {
+    return addSubjectAddParam(input, customerId)
   }
 
   Boolean enableCustomer(def customerId) {
@@ -331,24 +311,12 @@ trait Customer {
     return getSubjectGroup(customerId)
   }
 
-  Map putCustomerGroup(Map input) {
-    if (input.containsKey('customerId')) {
-      input.subjectId = input.customerId
-      input.remove('customerId')
-    }
-    return putSubjectGroup(input)
+  Map addCustomerGroup(Map input = [:], def customerId) {
+    return addSubjectGroup(input, customerId)
   }
 
-  Map addCustomerGroup(Map input) {
-    return putCustomerGroup(input)
-  }
-
-  Map addCustomerGroup(def customerId, Map input) {
-    return putCustomerGroup(input + [customerId: customerId])
-  }
-
-  Map addCustomerGroup(Map input, def customerId) {
-    return addCustomerGroup(customerId, input)
+  Boolean deleteCustomerGroup(def customerId) {
+    return deleteSubjectGroup(customerId)
   }
 
   Boolean deleteCustomerGroup(Map input) {
@@ -357,10 +325,6 @@ trait Customer {
       input.remove('customerId')
     }
     return deleteSubjectGroup(input)
-  }
-
-  Boolean deleteCustomerGroup(def customerId) {
-    return deleteSubjectGroup(customerId)
   }
 
   List getCustomerNetServicesAccessBy(Map input) {
@@ -418,7 +382,7 @@ trait Customer {
     return getCustomerNetServicesAccessBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putCustomerNetServiceAccess(Map input) {
+  private Map putCustomerNetServiceAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -455,16 +419,8 @@ trait Customer {
     }
   }
 
-  Map addCustomerNetServiceAccess(Map input) {
-    return putCustomerNetServiceAccess(input)
-  }
-
-  Map addCustomerNetServiceAccess(def customerId, Map input) {
+  Map addCustomerNetServiceAccess(Map input = [:], def customerId) {
     return putCustomerNetServiceAccess(input + [customerId: customerId])
-  }
-
-  Map addCustomerNetServiceAccess(Map input, def customerId) {
-    return addCustomerNetServiceAccess(customerId, input)
   }
 
   Boolean changeNetServicePassword(Map input) {
@@ -509,6 +465,10 @@ trait Customer {
     }
   }
 
+  Boolean changeNetServicePassword(Map input = [:], def customerId) {
+    return changeNetServicePassword(input + [customerId: customerId])
+  }
+
   Boolean deleteCustomerNetServiceAccess(def subjServId) {
     try {
       logger.info("Deleting customer net service subscription id ${subjServId}")
@@ -548,7 +508,7 @@ trait Customer {
     return getCustomerAppsAccessBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putCustomerAppAccess(Map input) {
+  private Map putCustomerAppAccess(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -583,20 +543,16 @@ trait Customer {
     }
   }
 
-  Map addCustomerAppAccess(Map input) {
-    return putCustomerAppAccess(input)
-  }
-
-  Map addCustomerAppAccess(def customerId, Map input) {
+  Map addCustomerAppAccess(Map input = [:], def customerId) {
     return putCustomerAppAccess(input + [customerId: customerId])
-  }
-
-  Map addCustomerAppAccess(Map input, def customerId) {
-    return addCustomerAppAccess(customerId, input)
   }
 
   Boolean changeAppPassword(Map input) {
     return changeNetServicePassword(input)
+  }
+
+  Boolean changeAppPassword(Map input = [:], def customerId) {
+    return changeAppPassword(input + [customerId: customerId])
   }
 
   Boolean deleteCustomerAppAccess(def subjServId) {
@@ -613,7 +569,7 @@ trait Customer {
     return getCustomerAppAccessBy(input)
   }
 
-  Map putCustomerSelfCareAccess(Map input) {
+  private Map putCustomerSelfCareAccess(Map input) {
     LinkedHashMap params = mergeParams([
       customerId : null,
       login      : null,
@@ -639,20 +595,16 @@ trait Customer {
     }
   }
 
-  Map addCustomerSelfCareAccess(Map input) {
-    return putCustomerSelfCareAccess(input)
-  }
-
-  Map addCustomerSelfCareAccess(def customerId, Map input) {
+  Map addCustomerSelfCareAccess(Map input = [:], def customerId) {
     return putCustomerSelfCareAccess(input + [customerId: customerId])
-  }
-
-  Map addCustomerSelfCareAccess(Map input, def customerId) {
-    return addCustomerSelfCareAccess(customerId, input)
   }
 
   Boolean changeSelfCarePassword(Map input) {
     return changeAppPassword(input + [appId: getSelfCareApplicationId()])
+  }
+
+  Boolean changeSelfCarePassword(Map input = [:], def customerId) {
+    return changeSelfCarePassword(input + [customerId: customerId])
   }
 
   Boolean deleteCustomerSelfCareAccess(def customerId) {
