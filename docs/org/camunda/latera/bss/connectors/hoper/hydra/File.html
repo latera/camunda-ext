@@ -26,7 +26,7 @@
 
 <html>
 <head>
-    <title>File (org.camunda.latera:bss:1.3)</title>
+    <title>File (org.camunda.latera:bss:1.4)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="shortcut icon">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="icon">
@@ -35,7 +35,7 @@
 <body class="center">
 <script type="text/javascript"><!--
 if (location.href.indexOf('is-external=true') == -1) {
-    parent.document.title="File (org.camunda.latera:bss:1.3)";
+    parent.document.title="File (org.camunda.latera:bss:1.4)";
 }
 //-->
 </script>
@@ -138,19 +138,19 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createSubjectFile(def, java.util.Map)">createSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</code><br></td>
+                            <td class="colLast"><code><strong><a href="#createSubjectFile(java.util.Map, def)">createSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createSubjectFile(java.util.Map)">createSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#createSubjectFiles(org.camunda.latera.bss.connectors.hoper.hydra.Object, def)">createSubjectFiles</a></strong>(<a href='../../../../../../../org/camunda/latera/bss/connectors/hoper/hydra/Object.html'>Object</a>[] input = [], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createSubjectFile(java.util.Map, def)">createSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#createSubjectFiles(def, java.util.List)">createSubjectFiles</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -168,61 +168,49 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getSubjectFile(def, def)">getSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getFileEntityType(def, def)">getFileEntityType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> parentType, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectFile(def, def)">getSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#getSubjectFile(java.util.Map)">getSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getSubjectFiles(def, java.util.Map)">getSubjectFiles</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</code><br></td>
-                        </tr>
-                        
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putSubjectFile(def, java.util.Map)">putSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putSubjectFile(java.util.Map)">putSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putSubjectFile(java.util.Map, def)">putSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectFileEntityType(def, def)">getSubjectFileEntityType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putSubjectFiles(def, java.util.List)">putSubjectFiles</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectFiles(java.util.Map, def)">getSubjectFiles</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateSubjectFile(def, def, java.util.Map)">updateSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#updateSubjectFile(java.util.Map, def, def)">updateSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateSubjectFile(java.util.Map)">updateSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#updateSubjectFiles(org.camunda.latera.bss.connectors.hoper.hydra.Object, def)">updateSubjectFiles</a></strong>(<a href='../../../../../../../org/camunda/latera/bss/connectors/hoper/hydra/Object.html'>Object</a>[] input = [], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateSubjectFile(java.util.Map, def, def)">updateSubjectFile</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#updateSubjectFiles(def, java.util.List)">updateSubjectFiles</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</code><br></td>
                         </tr>
                         
                     </table>
@@ -257,26 +245,26 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="createSubjectFile(def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="createSubjectFile(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="createSubjectFile(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="createSubjectFiles(org.camunda.latera.bss.connectors.hoper.hydra.Object, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>createSubjectFiles</strong>(<a href='../../../../../../../org/camunda/latera/bss/connectors/hoper/hydra/Object.html'>Object</a>[] input = [], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="createSubjectFiles(def, java.util.List)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>createSubjectFiles</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -297,6 +285,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="getFileEntityType(def, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getFileEntityType</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> parentType, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="getSubjectFile(def, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -313,58 +309,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="getSubjectFiles(def, java.util.Map)"><!-- --></a>
+                        <a name="getSubjectFileEntityType(def, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getSubjectFiles</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getSubjectFileEntityType</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="putSubjectFile(def, java.util.Map)"><!-- --></a>
+                        <a name="getSubjectFiles(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putSubjectFile(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putSubjectFile(java.util.Map, def)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putSubjectFiles(def, java.util.List)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>putSubjectFiles</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="updateSubjectFile(def, def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="updateSubjectFile(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getSubjectFiles</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -372,7 +328,23 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="updateSubjectFile(java.util.Map, def, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateSubjectFile</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> fileId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="updateSubjectFiles(org.camunda.latera.bss.connectors.hoper.hydra.Object, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>updateSubjectFiles</strong>(<a href='../../../../../../../org/camunda/latera/bss/connectors/hoper/hydra/Object.html'>Object</a>[] input = [], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="updateSubjectFiles(def, java.util.List)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>updateSubjectFiles</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> input)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -418,7 +390,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<li><a href="#method_detail">Method</a></li>&nbsp;&nbsp;&nbsp;
         </ul>
     </div>
-    <p>org.camunda.latera:bss:1.3</p>
+    <p>org.camunda.latera:bss:1.4</p>
     <a name="skip-navbar_bottom">
         <!--   -->
     </a>

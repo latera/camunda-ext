@@ -61,20 +61,13 @@ trait Customer {
     return createEntity(getCustomerEntityType(), params)
   }
 
-  Map updateCustomer(def id, Map input, Map additionalParams = [:]) {
-    LinkedHashMap params = getCustomerParams(input, additionalParams)
-    return updateEntity(getCustomerEntityType(), id, params)
+  Map createCustomer(Map input = [:], def baseSubjectId, Map additionalParams = [:]) {
+    createCustomer(input + [baseSubjectId: baseSubjectId], additionalParams)
   }
 
-  Map putCustomer(Map input, Map additionalParams = [:]) {
-    def customerId = input.customerId
-    input.remove('customerId')
-
-    if (customerId) {
-      return updateCustomer(customerId, input, additionalParams)
-    } else {
-      return createCustomer(input, additionalParams)
-    }
+  Map updateCustomer(Map input = [:], def id, Map additionalParams = [:]) {
+    LinkedHashMap params = getCustomerParams(input, additionalParams)
+    return updateEntity(getCustomerEntityType(), id, params)
   }
 
   Boolean deleteCustomer(def id) {

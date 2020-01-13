@@ -26,7 +26,7 @@
 
 <html>
 <head>
-    <title>Person (org.camunda.latera:bss:1.3)</title>
+    <title>Person (org.camunda.latera:bss:1.4)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="shortcut icon">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="icon">
@@ -35,7 +35,7 @@
 <body class="center">
 <script type="text/javascript"><!--
 if (location.href.indexOf('is-external=true') == -1) {
-    parent.document.title="Person (org.camunda.latera:bss:1.3)";
+    parent.document.title="Person (org.camunda.latera:bss:1.4)";
 }
 //-->
 </script>
@@ -138,25 +138,49 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addPersonAddParam(java.util.Map)">addPersonAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addPersonAddParam(java.util.Map, def)">addPersonAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addPersonAddParam(def, java.util.Map)">addPersonAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addPersonTag(java.util.Map)">addPersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addPersonAddParam(java.util.Map, def)">addPersonAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addPersonTag(def, java.lang.CharSequence)">addPersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addPersonTag(java.util.Map, def)">addPersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#createPerson(java.util.Map)">createPerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deletePersonTag(def)">deletePersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personTagId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deletePersonTag(java.util.Map)">deletePersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deletePersonTag(def, java.lang.CharSequence)">deletePersonTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -192,25 +216,109 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonPrivate(def)">getPersonPrivate</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getPersonByCode(java.lang.CharSequence)">getPersonByCode</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonType()">getPersonType</a></strong>()</code><br></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)">getPersonByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonByFio(java.util.Map)">getPersonByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonByName(java.lang.CharSequence)">getPersonByName</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonIdByCode(java.lang.CharSequence)">getPersonIdByCode</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonIdByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)">getPersonIdByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonIdByFio(java.util.Map)">getPersonIdByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonIdByName(java.lang.CharSequence)">getPersonIdByName</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivate(def)">getPersonPrivate</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivateBy(java.util.Map)">getPersonPrivateBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivateByCode(java.lang.CharSequence)">getPersonPrivateByCode</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivateByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)">getPersonPrivateByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivateByFio(java.util.Map)">getPersonPrivateByFio</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonPrivateByName(java.lang.CharSequence)">getPersonPrivateByName</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonType()">getPersonType</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
                             <td class="colLast"><code><strong><a href="#getPersonTypeId()">getPersonTypeId</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getPersonsBy(java.util.Map)">getPersonsBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonsBy(java.util.Map)">getPersonsBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getPersonsPrivateBy(java.util.Map)">getPersonsPrivateBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -228,49 +336,19 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isPerson(java.lang.CharSequence)">isPerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityType)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#isPerson(java.lang.CharSequence)">isPerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityOrEntityType)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isPerson(def)">isPerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> entityIdOrEntityTypeId)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putPerson(java.util.Map)">putPerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putPersonAddParam(java.util.Map)">putPersonAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#refreshPersons(java.lang.CharSequence)">refreshPersons</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updatePerson(java.util.Map)">updatePerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updatePerson(def, java.util.Map)">updatePerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updatePerson(java.util.Map, def)">updatePerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#updatePerson(java.util.Map, def)">updatePerson</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
                         </tr>
                         
                     </table>
@@ -305,26 +383,34 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="addPersonAddParam(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonAddParam</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="addPersonAddParam(def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonAddParam</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="addPersonAddParam(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonAddParam</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonAddParam</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addPersonTag(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addPersonTag(def, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addPersonTag(java.util.Map, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addPersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -333,6 +419,30 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createPerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deletePersonTag(def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deletePersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personTagId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deletePersonTag(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deletePersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deletePersonTag(def, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deletePersonTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -377,10 +487,114 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="getPersonByCode(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonByCode</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonByFio(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonByName(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonByName</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonIdByCode(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getPersonIdByCode</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonIdByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getPersonIdByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonIdByFio(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getPersonIdByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonIdByName(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getPersonIdByName</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="getPersonPrivate(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivate</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonPrivateBy(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivateBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonPrivateByCode(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivateByCode</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonPrivateByFio(java.lang.CharSequence, java.lang.CharSequence, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivateByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> firstName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> lastName, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> secondName = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonPrivateByFio(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivateByFio</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getPersonPrivateByName(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonPrivateByName</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -409,6 +623,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="getPersonsPrivateBy(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getPersonsPrivateBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="getPersonsPrivateTable()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -428,31 +650,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="isPerson(java.lang.CharSequence)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isPerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityType)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="isPerson(def)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isPerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> entityIdOrEntityTypeId)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putPerson(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putPerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putPersonAddParam(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putPersonAddParam</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isPerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityOrEntityType)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -465,26 +663,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="updatePerson(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updatePerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="updatePerson(def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updatePerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="updatePerson(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updatePerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updatePerson</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -530,7 +712,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<li><a href="#method_detail">Method</a></li>&nbsp;&nbsp;&nbsp;
         </ul>
     </div>
-    <p>org.camunda.latera:bss:1.3</p>
+    <p>org.camunda.latera:bss:1.4</p>
     <a name="skip-navbar_bottom">
         <!--   -->
     </a>

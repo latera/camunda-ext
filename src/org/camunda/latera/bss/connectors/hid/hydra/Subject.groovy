@@ -350,7 +350,7 @@ trait Subject {
     return getSubjectAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map putSubjectAddParam(Map input) {
+  private Map putSubjectAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       subjValueId : null,
       subjectId   : null,
@@ -390,16 +390,8 @@ trait Subject {
     }
   }
 
-  Map addSubjectAddParam(Map input) {
-    return putSubjectAddParam(input)
-  }
-
-  Map addSubjectAddParam(def subjectId, Map input) {
-    return addSubjectAddParam(input + [subjectId: subjectId])
-  }
-
-  Map addSubjectAddParam(Map input, def subjectId) {
-    return addSubjectAddParam(subjectId, input)
+  Map addSubjectAddParam(Map input = [:], def subjectId) {
+    return putSubjectAddParam(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectAddParam(def subjValueId) {
@@ -472,7 +464,7 @@ trait Subject {
     return getSubjectGroupBy(subjectId: subjectId, isMain: true)
   }
 
-  Map putSubjectGroup(Map input) {
+  private Map putSubjectGroup(Map input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
       subjectId     : null,
@@ -497,16 +489,8 @@ trait Subject {
     }
   }
 
-  Boolean addSubjectGroup(Map input) {
-    return putSubjectGroup(input)
-  }
-
-  Boolean addSubjectGroup(def subjectId, Map input) {
-    return addSubjectGroup(input + [subjectId: subjectId])
-  }
-
-  Boolean addSubjectGroup(Map input, def subjectId) {
-    return addSubjectGroup(subjectId, input)
+  Map addSubjectGroup(Map input = [:], def subjectId) {
+    return putSubjectGroup(input + [subjectId: subjectId])
   }
 
   Boolean deleteSubjectGroup(Map input) {
@@ -543,7 +527,7 @@ trait Subject {
     return deleteSubjGroup(subjSubjectId: subjSubjectId)
   }
 
-  Map putSubjectComment(Map input) {
+  private Map putSubjectComment(Map input) {
     LinkedHashMap params = mergeParams([
       lineId        : null,
       subjectId     : null,
@@ -578,6 +562,25 @@ trait Subject {
       return null
     }
   }
+  
+  Map addSubjectComment(Map input = [:], def subjectId) {
+    return putSubjectComment(input + [subjectId: subjectId])
+  }
+
+  Boolean deleteSubjectComment(def lineId) {
+    try {
+      logger.info("Deleting subject comment line id ${lineId}")
+      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_DEL', [
+        num_N_LINE_ID : lineId
+      ])
+      logger.info("   Subject comment was deleted successfully!")
+      return true
+    } catch (Exception e){
+      logger.error("   Error while deleting a subject comment!")
+      logger.error_oracle(e)
+      return false
+    }
+  }
 
   Map addSubjectTag(Map input) {
     input.entityId = input.subjectId
@@ -605,33 +608,6 @@ trait Subject {
 
   Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
     return deleteSubjectTag(subjectId: subjectId, tag: tag)
-  }
-
-  Boolean addSubjectComment(Map input) {
-    return putSubjectComment(input)
-  }
-
-  Boolean addSubjectComment(def subjectId, Map input) {
-    return addSubjectComment(input + [subjectId: subjectId])
-  }
-
-  Boolean addSubjectComment(Map input, def subjectId) {
-    return addSubjectComment(subjectId, input)
-  }
-
-  Boolean deleteSubjectComment(def lineId) {
-    try {
-      logger.info("Deleting subject comment line id ${lineId}")
-      hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_COMMENTS_DEL', [
-        num_N_LINE_ID : lineId
-      ])
-      logger.info("   Subject comment was deleted successfully!")
-      return true
-    } catch (Exception e){
-      logger.error("   Error while deleting a subject comment!")
-      logger.error_oracle(e)
-      return false
-    }
   }
 
   Boolean refreshSubjects(CharSequence method = 'C') {

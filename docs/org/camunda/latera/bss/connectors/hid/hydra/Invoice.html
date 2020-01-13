@@ -26,7 +26,7 @@
 
 <html>
 <head>
-    <title>Invoice (org.camunda.latera:bss:1.3)</title>
+    <title>Invoice (org.camunda.latera:bss:1.4)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="shortcut icon">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="icon">
@@ -35,7 +35,7 @@
 <body class="center">
 <script type="text/javascript"><!--
 if (location.href.indexOf('is-external=true') == -1) {
-    parent.document.title="Invoice (org.camunda.latera:bss:1.3)";
+    parent.document.title="Invoice (org.camunda.latera:bss:1.4)";
 }
 //-->
 </script>
@@ -137,32 +137,68 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addInvoiceTag(java.util.Map)">addInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addInvoiceTag(def, java.lang.CharSequence)">addInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addInvoiceTag(java.util.Map, def)">addInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#cancelInvoice(def)">cancelInvoice</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#changeInvoiceEnd(java.util.Map)">changeInvoiceEnd</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#changeInvoiceEnd(def, java.time.temporal.Temporal, def)">changeInvoiceEnd</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> endDate = local(, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> closeReasonId = null)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#closeInvoice(java.util.Map)">closeInvoice</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#closeInvoice(def, java.time.temporal.Temporal, def)">closeInvoice</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> endDate = local(, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> closeReasonId = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deleteInvoiceTag(def)">deleteInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docTagId)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deleteInvoiceTag(java.util.Map)">deleteInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#deleteInvoiceTag(def, java.lang.CharSequence)">deleteInvoiceTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -234,6 +270,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getInvoiceByCode(java.lang.CharSequence)">getInvoiceByCode</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getInvoiceByName(java.lang.CharSequence)">getInvoiceByName</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#getInvoiceBySubscription(java.util.Map)">getInvoiceBySubscription</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
@@ -241,6 +289,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#getInvoiceBySubscription(def, java.time.temporal.Temporal)">getInvoiceBySubscription</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subscriptionId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getInvoiceIdByCode(java.lang.CharSequence)">getInvoiceIdByCode</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getInvoiceIdByName(java.lang.CharSequence)">getInvoiceIdByName</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -324,7 +384,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isInvoice(java.lang.CharSequence)">isInvoice</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityType)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#isInvoice(java.lang.CharSequence)">isInvoice</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityOrEntityType)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -365,6 +425,30 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
+                        <a name="addInvoiceTag(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addInvoiceTag(def, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addInvoiceTag(java.util.Map, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>addInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="cancelInvoice(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -401,6 +485,30 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>closeInvoice</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> endDate = local(, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> closeReasonId = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deleteInvoiceTag(def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docTagId)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deleteInvoiceTag(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="deleteInvoiceTag(def, java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteInvoiceTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -493,6 +601,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="getInvoiceByCode(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getInvoiceByCode</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getInvoiceByName(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getInvoiceByName</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="getInvoiceBySubscription(java.util.Map)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -505,6 +629,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getInvoiceBySubscription</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subscriptionId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getInvoiceIdByCode(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getInvoiceIdByCode</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> code)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getInvoiceIdByName(java.lang.CharSequence)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getInvoiceIdByName</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> name)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -616,7 +756,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="isInvoice(java.lang.CharSequence)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isInvoice</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityType)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isInvoice</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> entityOrEntityType)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -670,7 +810,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<li><a href="#method_detail">Method</a></li>&nbsp;&nbsp;&nbsp;
         </ul>
     </div>
-    <p>org.camunda.latera:bss:1.3</p>
+    <p>org.camunda.latera:bss:1.4</p>
     <a name="skip-navbar_bottom">
         <!--   -->
     </a>

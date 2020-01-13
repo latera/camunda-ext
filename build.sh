@@ -1,4 +1,2 @@
 #!/bin/bash
-mvn package
-
-. ./docs.sh&
+mvn clean compile package

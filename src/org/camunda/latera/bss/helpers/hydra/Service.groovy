@@ -319,7 +319,10 @@ trait Service {
     String subscriptionPrefix = "${equipmentPrefix}${servicePrefix}${prefix}"
 
     def subscriptionId = order."${subscriptionPrefix}Id"
-    Boolean result     = hydra.closeSubscriptionForce(subscriptionId, params.endDate)
+    Boolean result     = hydra.closeSubscriptionForce(
+      subscriptionId,
+      endDate: params.endDate
+    )
 
     if (result) {
       order."${subscriptionPrefix}CloseDate" = params.endDate

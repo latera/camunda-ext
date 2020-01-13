@@ -26,7 +26,7 @@
 
 <html>
 <head>
-    <title>Contract (org.camunda.latera:bss:1.3)</title>
+    <title>Contract (org.camunda.latera:bss:1.4)</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="shortcut icon">
     <link href="../../../../../../../groovy.ico" type="image/x-icon" rel="icon">
@@ -35,7 +35,7 @@
 <body class="center">
 <script type="text/javascript"><!--
 if (location.href.indexOf('is-external=true') == -1) {
-    parent.document.title="Contract (org.camunda.latera:bss:1.3)";
+    parent.document.title="Contract (org.camunda.latera:bss:1.4)";
 }
 //-->
 </script>
@@ -138,19 +138,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createCustomerContract(def, java.util.Map)">createCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createCustomerContract(java.util.Map)">createCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createCustomerContract(java.util.Map, def)">createCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#createCustomerContract(java.util.Map, def)">createCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -173,56 +161,38 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getContractEntityType(java.util.Map, def)">getContractEntityType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> parentType, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></code></td>
                             <td class="colLast"><code><strong><a href="#getContractTypeId()">getContractTypeId</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCustomerContract(def, def)">getCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCustomerContractEntityType(def, def)">getCustomerContractEntityType</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getCustomerContracts(java.util.Map, def)">getCustomerContracts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCustomerContracts(def, java.util.Map)">getCustomerContracts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Integer.html' title='Integer'>Integer</a></code></td>
                             <td class="colLast"><code><strong><a href="#getDefaultContractWorkflowId()">getDefaultContractWorkflowId</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putCustomerContract(def, java.util.Map)">putCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putCustomerContract(java.util.Map)">putCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateCustomerContract(def, def, java.util.Map)">updateCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateCustomerContract(java.util.Map)">updateCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateCustomerContract(java.util.Map, def, def)">updateCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#updateCustomerContract(java.util.Map, def, def)">updateCustomerContract</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</code><br></td>
                         </tr>
                         
                     </table>
@@ -257,26 +227,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="createCustomerContract(def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="createCustomerContract(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="createCustomerContract(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -305,6 +259,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
+                        <a name="getContractEntityType(java.util.Map, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getContractEntityType</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> parentType, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="getContractTypeId()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -313,18 +275,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="getCustomerContract(def, def)"><!-- --></a>
+                        <a name="getCustomerContractEntityType(def, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCustomerContractEntityType</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> id = null)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="getCustomerContracts(def, java.util.Map)"><!-- --></a>
+                        <a name="getCustomerContracts(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getCustomerContracts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:])</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getCustomerContracts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -337,42 +299,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="putCustomerContract(def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putCustomerContract(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>putCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="updateCustomerContract(def, def, java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId, <a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="updateCustomerContract(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="updateCustomerContract(java.util.Map, def, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateCustomerContract</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> contractId)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -418,7 +348,7 @@ if (location.href.indexOf('is-external=true') == -1) {
             Field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<li><a href="#method_detail">Method</a></li>&nbsp;&nbsp;&nbsp;
         </ul>
     </div>
-    <p>org.camunda.latera:bss:1.3</p>
+    <p>org.camunda.latera:bss:1.4</p>
     <a name="skip-navbar_bottom">
         <!--   -->
     </a>
