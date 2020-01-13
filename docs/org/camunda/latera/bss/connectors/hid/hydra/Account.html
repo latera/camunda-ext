@@ -138,85 +138,97 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addAdjustment(java.util.Map, def)">addAdjustment</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addAdjustment(java.util.Map, def)">addAdjustment</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Add adjustment for account</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addPermanentOverdraft(java.util.Map, def)">addPermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addPermanentOverdraft(java.util.Map, def)">addPermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Set permanent overdraft for account</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#addTemporalOverdraft(java.util.Map, def)">addTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#addPermanentOverdraft(def, java.lang.Double, def)">addPermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</code><br>Set permanent overdraft for account</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addTemporalOverdraft(java.util.Map, def)">addTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Set temporal overdraft for account</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#addTemporalOverdraft(def, java.lang.Double, java.time.temporal.Temporal, def)">addTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> endDate = dayEnd(, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</code><br>Set temporal overdraft for account</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#createCustomerAccount(java.util.Map, def)">createCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#createCustomerAccount(java.util.Map, def)">createCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br>Create customer account</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deletePermanentOverdraft(def)">deletePermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deletePermanentOverdraft(def)">deletePermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Delete permanent overdraft from account</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteTemporalOverdraft(def)">deleteTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteTemporalOverdraft(def)">deleteTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Delete temporal overdraft from account</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccount(def)">getAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccount(def)">getAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Get account by id</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountActualInvoicesSum(def)">getAccountActualInvoicesSum</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountActualInvoicesSum(def)">getAccountActualInvoicesSum</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Get account actual invoices total</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountBalance(def, java.time.temporal.Temporal)">getAccountBalance</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountBalance(def, java.time.temporal.Temporal)">getAccountBalance</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br>Get account balance info</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountBalanceTotal(def, java.time.temporal.Temporal)">getAccountBalanceTotal</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountBalanceTotal(def, java.time.temporal.Temporal)">getAccountBalanceTotal</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br>Get account total balance</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountBy(java.util.Map)">getAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountBy(java.util.Map)">getAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Search for one account by different fields value</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountFree(def, java.time.temporal.Temporal)">getAccountFree</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountFree(def, java.time.temporal.Temporal)">getAccountFree</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br>Get account free balance</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountPeriodicAmounts(def, java.time.temporal.Temporal)">getAccountPeriodicAmounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountPeriodicAmounts(def, java.time.temporal.Temporal)">getAccountPeriodicAmounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</code><br>Get account rediodic amounts</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getAccountsBy(java.util.Map)">getAccountsBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getAccountsBy(java.util.Map)">getAccountsBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Search for accounts by different fields value</td>
                         </tr>
                         
                         <tr class="altColor">
@@ -234,145 +246,121 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCompanyAccount(def, def)">getCompanyAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCompanyAccount(def, def)">getCompanyAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get first account by company id</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCompanyAccountBy(java.util.Map, def)">getCompanyAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCompanyAccountBy(java.util.Map, def)">getCompanyAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId)</code><br>Get account by company id and other field values</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCompanyAccounts(def, def)">getCompanyAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCompanyAccounts(def, def)">getCompanyAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get accounts by company id</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCustomerAccount(def, def)">getCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCustomerAccount(def, def)">getCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get first account by customer id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCustomerAccountBy(java.util.Map, def)">getCustomerAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCustomerAccountBy(java.util.Map, def)">getCustomerAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</code><br>Get account by customer id and other field values</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getCustomerAccounts(def, def)">getCustomerAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getCustomerAccounts(def, def)">getCustomerAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get accounts by customer id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getDefaultAccountType()">getDefaultAccountType</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getDefaultAccountType()">getDefaultAccountType</a></strong>()</code><br>Get default account type (personal) ref code</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getDefaultAccountTypeId()">getDefaultAccountTypeId</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getDefaultAccountTypeId()">getDefaultAccountTypeId</a></strong>()</code><br>Get default account type (personal) ref Id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getDefaultOverdraftReason()">getDefaultOverdraftReason</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getDefaultOverdraftReason()">getDefaultOverdraftReason</a></strong>()</code><br>Get default overdraft reason (manual) ref code</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getDefaultOverdraftReasonId()">getDefaultOverdraftReasonId</a></strong>()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getDefaultOverdraftReasonId()">getDefaultOverdraftReasonId</a></strong>()</code><br>Get default overdraft reason (manual) ref Id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonAccount(def, def)">getPersonAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getPersonAccount(def, def)">getPersonAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get first account by person id</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonAccountBy(java.util.Map, def)">getPersonAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getPersonAccountBy(java.util.Map, def)">getPersonAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</code><br>Get account by person id and other field values</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getPersonAccounts(def, def)">getPersonAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getPersonAccounts(def, def)">getPersonAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get accounts by person id</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getSubjectAccount(def, def)">getSubjectAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectAccount(def, def)">getSubjectAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get first account by subject id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getSubjectAccountBy(java.util.Map, def)">getSubjectAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectAccountBy(java.util.Map, def)">getSubjectAccountBy</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</code><br>Get account by subject id and other field values</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a></code></td>
-                            <td class="colLast"><code><strong><a href="#getSubjectAccounts(def, def)">getSubjectAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br></td>
+                            <td class="colLast"><code><strong><a href="#getSubjectAccounts(def, def)">getSubjectAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</code><br>Get accounts by subject id</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#processAccount(java.util.Map, def)">processAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#processAccount(java.util.Map, def)">processAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Try to generate invoices for account</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putAdjustment(java.util.Map)">putAdjustment</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#refreshAccounts(java.lang.CharSequence)">refreshAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br>Refresh customer accounts quick search material view</td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putPermanentOverdraft(java.util.Map)">putPermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putPermanentOverdraft(def, java.lang.Double, def)">putPermanentOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#putTemporalOverdraft(java.util.Map)">putTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#refreshAccounts(java.lang.CharSequence)">refreshAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#refreshCustomerAccounts(java.lang.CharSequence)">refreshCustomerAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br></td>
+                            <td class="colLast"><code><strong><a href="#refreshCustomerAccounts(java.lang.CharSequence)">refreshCustomerAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br>Refresh customer accounts quick search material view</td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
-                            <td class="colLast"><code><strong><a href="#updateCustomerAccount(java.util.Map, def)">updateCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#updateCustomerAccount(java.util.Map, def)">updateCustomerAccount</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</code><br>Update customer account</td>
                         </tr>
                         
                     </table>
@@ -411,23 +399,44 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addAdjustment</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Add adjustment for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>docId</code> -          <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>goodId</code> -         <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>equipmentId</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -            <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero) or null (only it sumWoTax is not null)</DD><DD><code>sumWoTax</code> -       <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero) or null (only it sum is not null)</DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>firmId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: current firm Id</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if adjustment was created successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="addPermanentOverdraft(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addPermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addPermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
+                                <p> Set permanent overdraft for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: manual overdraft</DD><DD><code>reason</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addPermanentOverdraft(def, java.lang.Double, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addPermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</h4>
+                                <p> Set permanent overdraft for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: manual overdraft</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
                         <a name="addTemporalOverdraft(java.util.Map, def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
+                                <p> Set temporal overdraft for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: manual overdraft</DD><DD><code>reason</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="addTemporalOverdraft(def, java.lang.Double, java.time.temporal.Temporal, def)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>addTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> endDate = dayEnd(, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</h4>
+                                <p> Set temporal overdraft for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: manual overdraft</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -435,7 +444,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>createCustomerAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</h4>
-                                <p></p>
+                                <p> Create customer account
+   <DL><DT><B>Parameters:</B></DT><DD><code>customerId</code> -            <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>currencyId</code> -            [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>currency</code> -              [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>name</code> -                  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>code</code> -                  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>number</code> -                [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>permanentOverdraft</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>temporalOverdraft</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>temporalOverdraftEnd</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a></DD><DD><code>maxOverdraft</code> -          [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>rem</code> -                   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with created customer account (in Oracle API procedure notation)</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -443,7 +453,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deletePermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Delete permanent overdraft from account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was deleted successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -451,7 +462,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Delete temporal overdraft from account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: manual overdraft</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -459,7 +471,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Get account by id
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with subject account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -467,7 +480,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> <strong>getAccountActualInvoicesSum</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Get account actual invoices total
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Double with total sum of account invoices</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -475,7 +489,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getAccountBalance</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</h4>
-                                <p></p>
+                                <p> Get account balance info
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with customer account balance data</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -483,7 +498,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> <strong>getAccountBalanceTotal</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</h4>
-                                <p></p>
+                                <p> Get account total balance
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD></DL><DL><DT><B>Returns:</B></DT><DD>Double with account total sum</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -491,7 +507,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getAccountBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p> Search for one account by different fields value
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>subjectId</code> -      [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>accountTypeId</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query. Default: see <a href='#getDefaultAccountTypeId()'>getDefaultAccountTypeId()</a></DD><DD><code>bankId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>currencyId</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>currency</code> -       [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>code</code> -           [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>name</code> -           [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>number</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>maxOverdraft</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>rem</code> -            [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>firmId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query. Default: current firm Id</DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with subject account table row</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -499,7 +516,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> <strong>getAccountFree</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</h4>
-                                <p></p>
+                                <p> Get account free balance
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD></DL><DL><DT><B>Returns:</B></DT><DD>Double with account free sum</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -507,7 +525,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getAccountPeriodicAmounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/time/temporal/Temporal.html' title='Temporal'>Temporal</a> operationDate = local()</h4>
-                                <p></p>
+                                <p> Get account rediodic amounts
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD></DL><DL><DT><B>Returns:</B></DT><DD>List[Map] with periodic charges from account</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -515,7 +534,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getAccountsBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p> Search for accounts by different fields value
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>subjectId</code> -      [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>accountTypeId</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query. Default: see <a href='#getDefaultAccountTypeId()'>getDefaultAccountTypeId()</a></DD><DD><code>bankId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>currencyId</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>currency</code> -       [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>code</code> -           [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>name</code> -           [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>number</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>maxOverdraft</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>rem</code> -            [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query</DD><DD><code>firmId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query. Default: current firm Id</DD><DD><code>limit</code> -          [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/util/LinkedHashMap.html' title='Map'>Map</a> with WHERE clause or SELECT query. Default: 0 (unlimited)</DD></DL><DL><DT><B>Returns:</B></DT><DD>List[Map] of subject account table rows</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -541,7 +561,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCompanyAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get first account by company id
+   <DL><DT><B>Parameters:</B></DT><DD><code>companyId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with company account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -549,7 +570,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCompanyAccountBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId)</h4>
-                                <p></p>
+                                <p> Get account by company id and other field values
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#getAccountBy(java.util.Map)'>getAccountBy(Map)</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with company account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -557,7 +579,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getCompanyAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> companyId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get accounts by company id
+   <DL><DT><B>Parameters:</B></DT><DD><code>companyId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>List[Map] of company account table rows</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -565,7 +588,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCustomerAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get first account by customer id
+   <DL><DT><B>Parameters:</B></DT><DD><code>customerId</code> -     <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with customer account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -573,7 +597,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getCustomerAccountBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId)</h4>
-                                <p></p>
+                                <p> Get account by customer id and other field values
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#getAccountBy(java.util.Map)'>getAccountBy(Map)</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with customer account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -581,7 +606,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getCustomerAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> customerId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get accounts by customer id
+   <DL><DT><B>Parameters:</B></DT><DD><code>customerId</code> -     <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>List[Map] of customer account table rows</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -589,7 +615,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>getDefaultAccountType</strong>()</h4>
-                                <p></p>
+                                <p> Get default account type (personal) ref code
+   </p>
                             </li>
                         </ul>
                     
@@ -597,7 +624,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getDefaultAccountTypeId</strong>()</h4>
-                                <p></p>
+                                <p> Get default account type (personal) ref Id
+   </p>
                             </li>
                         </ul>
                     
@@ -605,7 +633,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/String.html' title='String'>String</a> <strong>getDefaultOverdraftReason</strong>()</h4>
-                                <p></p>
+                                <p> Get default overdraft reason (manual) ref code
+   </p>
                             </li>
                         </ul>
                     
@@ -613,7 +642,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Number.html' title='Number'>Number</a> <strong>getDefaultOverdraftReasonId</strong>()</h4>
-                                <p></p>
+                                <p> Get default overdraft reason (manual) ref Id
+   </p>
                             </li>
                         </ul>
                     
@@ -621,7 +651,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get first account by person id
+   <DL><DT><B>Parameters:</B></DT><DD><code>personId</code> -       <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with person account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -629,7 +660,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getPersonAccountBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId)</h4>
-                                <p></p>
+                                <p> Get account by person id and other field values
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#getAccountBy(java.util.Map)'>getAccountBy(Map)</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with person account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -637,7 +669,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getPersonAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> personId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get accounts by person id
+   <DL><DT><B>Parameters:</B></DT><DD><code>personId</code> -       <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>List[Map] of person account table rows</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -645,7 +678,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getSubjectAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get first account by subject id
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with subject account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -653,7 +687,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>getSubjectAccountBy</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId)</h4>
-                                <p></p>
+                                <p> Get account by subject id and other field values
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>See Also:</B></DT><DD><a href='#getAccountBy(java.util.Map)'>getAccountBy(Map)</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with subject account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -661,7 +696,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/List.html' title='List'>List</a> <strong>getSubjectAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> subjectId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountTypeId = getDefaultAccountTypeId()</h4>
-                                <p></p>
+                                <p> Get accounts by subject id
+   <DL><DT><B>Parameters:</B></DT><DD><code>subjectId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>accountTypeId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with subject account table row or null</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -669,39 +705,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>processAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putAdjustment(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putAdjustment</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putPermanentOverdraft(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putPermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putPermanentOverdraft(def, java.lang.Double, def)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putPermanentOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Double.html' title='Double'>Double</a> sum = 0, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> reasonId = getDefaultOverdraftReasonId()</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putTemporalOverdraft(java.util.Map)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
-                                <p></p>
+                                <p> Try to generate invoices for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>beginDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if customer account was processed successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -709,7 +714,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>refreshAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</h4>
-                                <p></p>
+                                <p>Refresh customer accounts quick search material view
+   <DL><DT><B>Parameters:</B></DT><DD><code>method</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a> from list: 'C', 'F', 'P', '?'</DD></DL><DL><DT><B>See Also:</B></DT><DD><a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if quick search was updated successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -717,7 +723,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>refreshCustomerAccounts</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</h4>
-                                <p></p>
+                                <p> Refresh customer accounts quick search material view
+   <DL><DT><B>See Also:</B></DT><DD><a href='#refreshAccounts(java.lang.CharSequence)'>refreshAccounts(CharSequence)</a></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -725,7 +732,8 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> <strong>updateCustomerAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
-                                <p></p>
+                                <p> Update customer account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -             <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>currencyId</code> -            [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>currency</code> -              [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>name</code> -                  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>code</code> -                  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>number</code> -                [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD><DD><code>permanentOverdraft</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>temporalOverdraft</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>temporalOverdraftEnd</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a></DD><DD><code>maxOverdraft</code> -          [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>rem</code> -                   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>Map with updated customer account (in Oracle API procedure notation)</DD></DL></p>
                             </li>
                         </ul>
                     

@@ -132,7 +132,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html#actualizeEquipment(def)" title="Method in Equipment">actualizeEquipment(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html">Equipment</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#addAdjustment(java.util.Map, def)" title="Method in Account">addAdjustment(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Add adjustment for account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/helpers/hydra/Customer.html#addAppAccess(java.util.Map)" title="Method in Customer">addAppAccess(Map)</a></span> - Method in <a href="org/camunda/latera/bss/helpers/hydra/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html#addCompanyAddParam(java.util.Map, def)" title="Method in Company">addCompanyAddParam(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html">Company</a>
@@ -173,8 +173,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/AddParam.html" title="Trait in org.camunda.latera.bss.connectors.hid.hydra">AddParam</a></span> - Trait in <a href="./org/camunda/latera/bss/connectors/hid/hydra/package-summary.html">org.camunda.latera.bss.connectors.hid.hydra</a>
 </dt><dd><div class="block"></div></dd>
-<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#addPermanentOverdraft(java.util.Map, def)" title="Method in Account">addPermanentOverdraft(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#addPermanentOverdraft(def, java.lang.Double, def)" title="Method in Account">addPermanentOverdraft(def, Double, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
+</dt><dd> <div class="block">Set permanent overdraft for account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html#addPersonAddParam(java.util.Map, def)" title="Method in Person">addPersonAddParam(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html">Person</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/MailSender.html#addRecipient(java.lang.CharSequence, org.camunda.latera.bss.connectors.hid.hydra.Message.RecipientType)" title="Method in MailSender">addRecipient(CharSequence, RecipientType)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/MailSender.html">MailSender</a>
@@ -189,8 +189,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html#addSubjectGroup(java.util.Map, def)" title="Method in Subject">addSubjectGroup(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html">Subject</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#addTemporalOverdraft(java.util.Map, def)" title="Method in Account">addTemporalOverdraft(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#addTemporalOverdraft(def, java.lang.Double, java.time.temporal.Temporal, def)" title="Method in Account">addTemporalOverdraft(def, Double, Temporal, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
+</dt><dd> <div class="block">Set temporal overdraft for account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/MailSender.html#addTextPart(java.lang.CharSequence)" title="Method in MailSender">addTextPart(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/MailSender.html">MailSender</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/otrs/types/Ticket.html#addTicketFile(def, java.lang.CharSequence, byte[])" title="Method in Ticket">addTicketFile(def, CharSequence, byte[])</a></span> - Method in <a href="org/camunda/latera/bss/connectors/otrs/types/Ticket.html">Ticket</a>
@@ -625,7 +625,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html#deleteObjectAddParam(java.util.Map)" title="Method in Equipment">deleteObjectAddParam(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html">Equipment</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#deletePermanentOverdraft(def)" title="Method in Account">deletePermanentOverdraft(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Delete permanent overdraft from account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Person.html#deletePerson(def)" title="Method in Person">deletePerson(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Person.html">Person</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Address.html#deletePersonAddress(def, def)" title="Method in Address">deletePersonAddress(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Address.html">Address</a>
@@ -647,7 +647,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Subscription.html#deleteSubscriptionForce(def)" title="Method in Subscription">deleteSubscriptionForce(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Subscription.html">Subscription</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#deleteTemporalOverdraft(def)" title="Method in Account">deleteTemporalOverdraft(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Delete temporal overdraft from account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/otrs/types/Ticket.html#deleteTicket(def)" title="Method in Ticket">deleteTicket(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/otrs/types/Ticket.html">Ticket</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/Planado.html#deleteUser(def)" title="Method in Planado">deleteUser(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/Planado.html">Planado</a>
@@ -880,23 +880,23 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/TableColumnCache.html#get(java.lang.CharSequence)" title="Method in TableColumnCache">get(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/internal/TableColumnCache.html">TableColumnCache</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccount(def)" title="Method in Account">getAccount(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account by id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountActualInvoicesSum(def)" title="Method in Account">getAccountActualInvoicesSum(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account actual invoices total</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountBalance(def, java.time.temporal.Temporal)" title="Method in Account">getAccountBalance(def, Temporal)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account balance info</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountBalanceTotal(def, java.time.temporal.Temporal)" title="Method in Account">getAccountBalanceTotal(def, Temporal)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account total balance</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountBy(java.util.Map)" title="Method in Account">getAccountBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for one account by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Account.html#getAccountEntityType(java.util.Map, def)" title="Method in Account">getAccountEntityType(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Account.html">Account</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountFree(def, java.time.temporal.Temporal)" title="Method in Account">getAccountFree(def, Temporal)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account free balance</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountPeriodicAmounts(def, java.time.temporal.Temporal)" title="Method in Account">getAccountPeriodicAmounts(def, Temporal)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account rediodic amounts</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountsBy(java.util.Map)" title="Method in Account">getAccountsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for accounts by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountsMV()" title="Method in Account">getAccountsMV()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
 </dt><dd> <div class="block">Get accounts quick search material view name</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getAccountsTable()" title="Method in Account">getAccountsTable()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
@@ -1044,11 +1044,11 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Company.html#getCompany(def)" title="Method in Company">getCompany(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Company.html">Company</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCompanyAccount(def, def)" title="Method in Account">getCompanyAccount(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get first account by company id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCompanyAccountBy(java.util.Map, def)" title="Method in Account">getCompanyAccountBy(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account by company id and other field values</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCompanyAccounts(def, def)" title="Method in Account">getCompanyAccounts(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get accounts by company id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html#getCompanyAddParamBy(java.util.Map)" title="Method in Company">getCompanyAddParamBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html">Company</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html#getCompanyAddParamsBy(java.util.Map)" title="Method in Company">getCompanyAddParamsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html">Company</a>
@@ -1122,13 +1122,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/odoo/types/Customer.html#getCustomer(def)" title="Method in Customer">getCustomer(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/odoo/types/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCustomerAccount(def, def)" title="Method in Account">getCustomerAccount(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get first account by customer id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCustomerAccountBy(java.util.Map, def)" title="Method in Account">getCustomerAccountBy(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account by customer id and other field values</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Account.html#getCustomerAccountEntityType(def, def)" title="Method in Account">getCustomerAccountEntityType(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Account.html">Account</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getCustomerAccounts(def, def)" title="Method in Account">getCustomerAccounts(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get accounts by customer id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html#getCustomerAddParamBy(java.util.Map)" title="Method in Customer">getCustomerAddParamBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html#getCustomerAddParamsBy(java.util.Map)" title="Method in Customer">getCustomerAddParamsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html">Customer</a>
@@ -1200,9 +1200,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html#getDateTypeId()" title="Method in DataType">getDateTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html">DataType</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getDefaultAccountType()" title="Method in Account">getDefaultAccountType()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get default account type (personal) ref code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getDefaultAccountTypeId()" title="Method in Account">getDefaultAccountTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get default account type (personal) ref Id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html#getDefaultAddAgreementWorkflow()" title="Method in Contract">getDefaultAddAgreementWorkflow()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html">Contract</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html#getDefaultAddAgreementWorkflowId()" title="Method in Contract">getDefaultAddAgreementWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html">Contract</a>
@@ -1252,9 +1252,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Invoice.html#getDefaultInvoiceWorkflowId()" title="Method in Invoice">getDefaultInvoiceWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Invoice.html">Invoice</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getDefaultOverdraftReason()" title="Method in Account">getDefaultOverdraftReason()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get default overdraft reason (manual) ref code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getDefaultOverdraftReasonId()" title="Method in Account">getDefaultOverdraftReasonId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get default overdraft reason (manual) ref Id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultPrepaidBillWorkflow()" title="Method in Bill">getDefaultPrepaidBillWorkflow()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultPrepaidBillWorkflowId()" title="Method in Bill">getDefaultPrepaidBillWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
@@ -1740,11 +1740,11 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html#getPerson(def)" title="Method in Person">getPerson(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html">Person</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getPersonAccount(def, def)" title="Method in Account">getPersonAccount(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get first account by person id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getPersonAccountBy(java.util.Map, def)" title="Method in Account">getPersonAccountBy(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account by person id and other field values</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getPersonAccounts(def, def)" title="Method in Account">getPersonAccounts(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get accounts by person id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html#getPersonAddParamBy(java.util.Map)" title="Method in Person">getPersonAddParamBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html">Person</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html#getPersonAddParamsBy(java.util.Map)" title="Method in Person">getPersonAddParamsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Person.html">Person</a>
@@ -1924,11 +1924,11 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html#getSubject(def)" title="Method in Subject">getSubject(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html">Subject</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getSubjectAccount(def, def)" title="Method in Account">getSubjectAccount(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get first account by subject id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getSubjectAccountBy(java.util.Map, def)" title="Method in Account">getSubjectAccountBy(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get account by subject id and other field values</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getSubjectAccounts(def, def)" title="Method in Account">getSubjectAccounts(def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get accounts by subject id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html#getSubjectAddParamBy(java.util.Map)" title="Method in Subject">getSubjectAddParamBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html">Subject</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html#getSubjectAddParamsBy(java.util.Map)" title="Method in Subject">getSubjectAddParamsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Subject.html">Subject</a>
@@ -2546,7 +2546,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/Imprint.html#print(java.util.Map, java.lang.CharSequence)" title="Method in Imprint">print(Map, CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/Imprint.html">Imprint</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#processAccount(java.util.Map, def)" title="Method in Account">processAccount(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Try to generate invoices for account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html#processCustomer(java.util.Map)" title="Method in Customer">processCustomer(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/MessageCache.html#put(java.lang.CharSequence, def)" title="Method in MessageCache">put(CharSequence, def)</a></span> - Method in <a href="org/camunda/latera/bss/internal/MessageCache.html">MessageCache</a>
@@ -2556,8 +2556,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/RefCache.html#put(java.lang.CharSequence, def)" title="Method in RefCache">put(CharSequence, def)</a></span> - Method in <a href="org/camunda/latera/bss/internal/RefCache.html">RefCache</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/TableColumnCache.html#put(java.lang.CharSequence, java.util.List)" title="Method in TableColumnCache">put(CharSequence, List)</a></span> - Method in <a href="org/camunda/latera/bss/internal/TableColumnCache.html">TableColumnCache</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#putAdjustment(java.util.Map)" title="Method in Account">putAdjustment(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/MessageCache.html#putAndGet(java.lang.CharSequence, def)" title="Method in MessageCache">putAndGet(CharSequence, def)</a></span> - Method in <a href="org/camunda/latera/bss/internal/MessageCache.html">MessageCache</a>
 </dt><dd> <div class="block"></div></dd>
@@ -2583,10 +2581,6 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#putDocumentSubject(java.util.Map)" title="Method in Document">putDocumentSubject(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/minio/File.html#putFile(java.lang.CharSequence, def)" title="Method in File">putFile(CharSequence, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/minio/File.html">File</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#putPermanentOverdraft(def, java.lang.Double, def)" title="Method in Account">putPermanentOverdraft(def, Double, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#putTemporalOverdraft(java.util.Map)" title="Method in Account">putTemporalOverdraft(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
 </dt><dd> <div class="block"></div></dd>
 </dl>
 
@@ -2621,7 +2615,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/internal/RefCache.html" title="Class in org.camunda.latera.bss.internal">RefCache</a></span> - Class in <a href="./org/camunda/latera/bss/internal/package-summary.html">org.camunda.latera.bss.internal</a>
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#refreshAccounts(java.lang.CharSequence)" title="Method in Account">refreshAccounts(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Refresh customer accounts quick search material view</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html#refreshBaseContracts(java.lang.CharSequence)" title="Method in Contract">refreshBaseContracts(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html">Contract</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html#refreshCompanies(java.lang.CharSequence)" title="Method in Company">refreshCompanies(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Company.html">Company</a>
@@ -2631,7 +2625,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html#refreshContractsTree(java.lang.CharSequence)" title="Method in Contract">refreshContractsTree(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html">Contract</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#refreshCustomerAccounts(java.lang.CharSequence)" title="Method in Account">refreshCustomerAccounts(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Refresh customer accounts quick search material view</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html#refreshCustomers(java.lang.CharSequence)" title="Method in Customer">refreshCustomers(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#refreshDocumentAddParams(java.lang.CharSequence)" title="Method in Document">refreshDocumentAddParams(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
@@ -2895,7 +2889,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/odoo/types/Customer.html#updateCustomer(java.util.Map, def, java.util.Map)" title="Method in Customer">updateCustomer(Map, def, Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/odoo/types/Customer.html">Customer</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#updateCustomerAccount(java.util.Map, def)" title="Method in Account">updateCustomerAccount(Map, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Update customer account</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Contract.html#updateCustomerContract(java.util.Map, def, def)" title="Method in Contract">updateCustomerContract(Map, def, def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Contract.html">Contract</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hoper/hydra/Equipment.html#updateCustomerEquipment(java.util.Map, def, def, java.util.Map)" title="Method in Equipment">updateCustomerEquipment(Map, def, def, Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hoper/hydra/Equipment.html">Equipment</a>
