@@ -118,7 +118,7 @@ class Order implements GroovyObject {
 
   def getValue(CharSequence name, Boolean raw = false) {
     if (name == 'data') {
-      return getData(raw)
+      return this.getData(raw)
     }
     return this.getClass().getValue(name, raw, this._execution)
   }
@@ -128,14 +128,18 @@ class Order implements GroovyObject {
   }
 
   def getProperty(String propertyName) { // ALERT: do not change type to CharSequence, dynamic access will not work
-    return getAt(propertyName)
+    if (_raw) {
+      return this.getValueRaw(propertyName)
+    } else {
+      return this.getValue(propertyName)
+    }
   }
 
   def getAt(CharSequence name) {
     if (_raw) {
-      return getValueRaw(name)
+      return this.getValueRaw(name)
     } else {
-      return getValue(name)
+      return this.getValue(name)
     }
   }
 
@@ -258,19 +262,27 @@ class Order implements GroovyObject {
   }
 
   void setProperty(String propertyName, def newValue) { // do not change type to CharSequence, dynamic access will not work
-    putAt(propertyName, newValue)
+    if (_raw) {
+      this.setValueRaw(propertyName, newValue)
+    } else {
+      this.setValue(propertyName, newValue)
+    }
   }
 
   Order plus(Map data) {
-    putAt(data.name, data.value)
+    if (_raw) {
+      this.setValueRaw(data.name, data.value)
+    } else {
+      this.setValue(data.name, data.value)
+    }
     return this
   }
 
   void putAt(CharSequence name, def value) {
     if (_raw) {
-      setValueRaw(name, value)
+      this.setValueRaw(name, value)
     } else {
-      setValue(name, value)
+      this.setValue(name, value)
     }
   }
 
