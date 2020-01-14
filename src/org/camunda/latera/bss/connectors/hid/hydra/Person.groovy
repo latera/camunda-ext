@@ -2,6 +2,8 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayBegin
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
@@ -225,7 +227,7 @@ trait Person {
   }
 
   private Map putPerson(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       personId      : null,
       firstName     : null,
       secondName    : null,
@@ -245,10 +247,42 @@ trait Person {
       groupId       : null,
       firmId        : getFirmId(),
       stateId       : getSubjectStateOnId()
-    ], input)
+    ]
     try {
-      logger.info("Putting person with params ${params}")
-      LinkedHashMap person = hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
+      if (isEmpty(input.personId) && notEmpty(input.subjectId)) {
+        input.personId = input.subjectId
+      }
+
+      LinkedHashMap existingPerson = [:]
+
+      if (notEmpty(input.personId)) {
+        LinkedHashMap person = getPersonPrivate(input.personId)
+        existingPerson = [
+          personId      : person.n_person_id,
+          firstName     : person.vc_first_name,
+          secondName    : person.vc_second_name,
+          lastName      : person.vc_surname,
+          opfId         : person.n_opf_id,
+          sexId         : person.n_sex_id,
+          inn           : person.vc_inn,
+          docTypeId     : person.n_doc_auth_type_id,
+          docSerial     : person.vc_doc_serial,
+          docNumber     : person.vc_doc_no,
+          docDate       : person.d_doc,
+          docDepartment : person.vc_doc_department,
+          docAuthor     : person.vc_document,
+          birthDate     : person.d_birth,
+          birthPlace    : person.vc_birth_place,
+          rem           : person.vc_rem,
+          groupId       : person.n_subj_group_id,
+          firmId        : person.n_firm_id,
+          stateId       : person.n_subj_state_id
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, existingPerson + input)
+
+      logger.info("${params.personId ? 'Updating' : 'Creating'} person with params ${params}")
+      LinkedHashMap result = hid.execute('SI_PERSONS_PKG.SI_PERSONS_PUT', [
         num_N_SUBJECT_ID       : params.personId,
         num_N_FIRM_ID          : params.firmId,
         num_N_SUBJ_STATE_ID    : params.stateId,
@@ -269,10 +303,10 @@ trait Person {
         vch_VC_BIRTH_PLACE     : params.birthPlace,
         vch_VC_REM             : params.rem
       ])
-      logger.info("   Person ${person.num_N_SUBJECT_ID} was put successfully!")
-      return person
+      logger.info("   Person ${result.num_N_SUBJECT_ID} was ${params.personId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting person!")
+      logger.error("   Error while ${input.personId ? 'updating' : 'creating'} person!")
       logger.error_oracle(e)
       return null
     }

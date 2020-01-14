@@ -4,6 +4,8 @@ import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayBegin
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.MapUtil.nvl
 
@@ -307,30 +309,31 @@ trait Document {
       firmId      : getFirmId()
     ]
     try {
+      LinkedHashMap existingDocument = [:]
       if (notEmpty(input.docId)) {
-        LinkedHashMap existDocument = getDocument(input.docId)
+        LinkedHashMap document = getDocument(input.docId)
         defaultParams += [
-          docTypeId   : existDocument.n_doc_type_id,
-          workflowId  : existDocument.n_workflow_id,
-          parentDocId : existDocument.n_parent_doc_id,
-          reasonDocId : existDocument.n_reason_doc_id,
-          prevDocId   : existDocument.n_prev_doc_Id,
-          stornoDocId : existDocument.n_storno_doc_id,
-          docDate     : existDocument.d_doc,
-          docTime     : existDocument.d_time,
-          number      : existDocument.vc_doc_no,
-          name        : existDocument.vc_name,
-          code        : existDocument.vc_code,
-          rem         : existDocument.vc_rem,
-          beginDate   : existDocument.d_begin,
-          endDate     : existDocument.d_end,
-          firmId      : existDocument.n_firm_id
+          docTypeId   : document.n_doc_type_id,
+          workflowId  : document.n_workflow_id,
+          parentDocId : document.n_parent_doc_id,
+          reasonDocId : document.n_reason_doc_id,
+          prevDocId   : document.n_prev_doc_Id,
+          stornoDocId : document.n_storno_doc_id,
+          docDate     : document.d_doc,
+          docTime     : document.d_time,
+          number      : document.vc_doc_no,
+          name        : document.vc_name,
+          code        : document.vc_code,
+          rem         : document.vc_rem,
+          beginDate   : document.d_begin,
+          endDate     : document.d_end,
+          firmId      : document.n_firm_id
         ]
       }
-      LinkedHashMap params = mergeParams(defaultParams, input)
+      LinkedHashMap params = mergeParams(defaultParams, existingDocument + input)
 
       logger.info("${params.docId ? 'Updating' : 'Creating'} document with params ${params}")
-      LinkedHashMap document = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
+      LinkedHashMap result = hid.execute('SD_DOCUMENTS_PKG.SD_DOCUMENTS_PUT', [
         num_N_DOC_ID        : params.docId,
         num_N_DOC_TYPE_ID   : params.docTypeId,
         num_N_FIRM_ID       : params.firmId,
@@ -348,8 +351,8 @@ trait Document {
         dt_D_END            : params.endDate,
         num_N_WORKFLOW_ID   : params.workflowId
       ])
-      logger.info("   Document ${document.num_N_DOC_ID} was ${params.docId ? 'updated' : 'created'} successfully!")
-      return document
+      logger.info("   Document ${result.num_N_DOC_ID} was ${params.docId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
       logger.error("   Error while updating or creating document value!")
       logger.error_oracle(e)
@@ -695,26 +698,48 @@ trait Document {
   }
 
   private Map putDocumentBind(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       docDocumentId : null,
       bindTypeId    : null,
       docId         : null,
       docBindId     : null,
       lineNumber    : null
-    ], input)
+    ]
     try {
-      logger.info("Putting doc-doc bind with params ${params}")
+      if (isEmpty(input.docDocumentId) && notEmpty(input.bindId)) {
+        input.docDocumentId = input.bindId
+      }
+      if (isEmpty(input.bindTypeId) && notEmpty(input.docBindTypeId)) {
+        input.bindTypeId = input.docBindTypeId
+      }
+      if (isEmpty(input.docBindId) && notEmpty(input.bindDocId)) {
+        input.docBindId = input.bindDocId
+      }
+
+      if (notEmpty(input.docDocumentId)) {
+        LinkedHashMap existBind = getDocumentBind(input.docDocumentId)
+        defaultParams += [
+          docDocumentId : existBind.n_doc_document_id,
+          bindTypeId    : existBind.n_doc_bind_type_id,
+          docId         : existBind.n_doc_id,
+          docBindId     : existBind.n_doc_bind_id,
+          lineNumber    : existBind.n_line_no
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, input)
+
+      logger.info("${params.docDocumentId ? 'Updating' : 'Creating'} doc-doc bind with params ${params}")
       LinkedHashMap bind = hid.execute('SD_DOCUMENTS_PKG.SD_DOC_DOCUMENTS_PUT', [
-        num_N_DOC_DOCUMENT_ID    : params.docDocumentId ?: params.docBindId ?: params.bindId,
-        num_N_DOC_BIND_TYPE_ID   : params.bindTypeId    ?: params.docBindTypeId,
+        num_N_DOC_DOCUMENT_ID    : params.docDocumentId,
+        num_N_DOC_BIND_TYPE_ID   : params.bindTypeId,
         num_N_DOC_ID             : params.docId,
         num_N_DOC_BIND_ID        : params.docBindId,
         num_N_LINE_NO            : params.lineNumber
       ])
-      logger.info("   Doc-doc bind id ${bind.num_N_DOC_DOCUMENT_ID} was put successfully!")
+      logger.info("   Doc-doc bind id ${bind.num_N_DOC_DOCUMENT_ID} was ${params.docDocumentId ? 'updated' : 'created'} successfully!")
       return bind
     } catch (Exception e){
-      logger.error("   Error while putting new doc-doc bind!")
+      logger.error("   Error while ${input.docDocumentId ? 'updating' : 'creating'} new doc-doc bind!")
       logger.error_oracle(e)
       return null
     }
