@@ -3,6 +3,7 @@ package org.camunda.latera.bss.connectors
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.bpm.engine.delegate.DelegateExecution
+import org.camunda.bpm.engine.delegate.DelegateTask
 import org.camunda.latera.bss.utils.Order
 import org.camunda.latera.bss.utils.JSON
 import org.camunda.latera.bss.utils.Base64Converter
@@ -166,5 +167,21 @@ class HOMS {
 
   List attachFile(Map file, String prefix = '', Boolean save = true) {
     return attachFiles([file], prefix, save)
+  }
+
+  void sendTaskEvent(String taskId, String eventName) {
+    LinkedHashMap body = [
+      event_name: eventName
+    ]
+
+    logger.info("/ Sending event ${eventName} for task ${taskId} ...")
+
+    this.http.sendRequest(
+      'put',
+      path: "events/tasks/${taskId}",
+      body: body
+    )
+
+    logger.info("\\ Event ${eventName} for task ${taskId} sent")
   }
 }
