@@ -19,8 +19,13 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 ```
 ## Install Java 8+, Groovy and Maven
 ```bash
-sdk install java 8.0.222
+sdk list java
+sdk install java 8.0.232.hs-adpt #latest Java 8 version from previous command
+
+sdk list groovy
 sdk install groovy 2.4.16
+
+sdk list maven
 sdk install maven 3.6.0
 ```
 ## Clone this repo
