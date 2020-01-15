@@ -132,6 +132,7 @@ trait Contract {
       String docTypeName = capitalize(_docTypeName)
 
       List paramsNames = keysList(defaultParams) - ['parentDocId', 'providerId', 'receiverId', 'number']
+      LinkedHashMap result = [:]
       if (isEmpty(input.docId) && params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && isEmpty(params.number)) {
         logger.info("Creating new ${_docTypeName} with params ${params}")
         result = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
@@ -410,7 +411,7 @@ trait Contract {
     input.remove('docId')
     input.remove('agreementId')
     input.remove('addAgreementId')
-    return createAddAgreement(input + [contractId: contractId])
+    return putAddAgreement(input + [contractId: contractId])
   }
 
   Map updateAddAgreement(Map input = [:], def docId) {
