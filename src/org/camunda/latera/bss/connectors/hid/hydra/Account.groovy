@@ -271,7 +271,8 @@ trait Account {
   }
 
   Map createCustomerAccount(Map input = [:], def customerId) {
-    return createCustomerAccount(input + [customerId: customerId])
+    input.remove('accountId')
+    return putCustomerAccount(input + [customerId: customerId])
   }
 
   Map updateCustomerAccount(Map input = [:], def accountId) {
