@@ -1,6 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.forceNotEmpty
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 import static org.camunda.latera.bss.utils.ListUtil.isList
@@ -898,17 +899,17 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
 
-    if (params.subnetAddressId && !params.subnetAddressIds) {
+    if (params.subnetAddressId && isEmpty(params.subnetAddressIds)) {
       params.subnetAddressIds = [params.subnetAddressId]
       params.remove('subnetAddressId')
     }
-    if (!params.subnetAddressIds) {
+    if (isEmpty(params.subnetAddressIds)) {
       params.subnetAddressIds = []
     }
     if (params.vlanId) {
       List subnetIdsByVLAN = getSubnetAddressesByVLAN(vlanId: params.vlanId).collect{ Map subnet -> toIntSafe(subnet.n_subnet_id) }
       if (params.subnetAddressIds) {
-        params.subnetAddressIds = params.subnetAddressIds.findAll { Map subnetAddrId -> toIntSafe(subnetAddrId) in subnetIdsByVLAN }
+        params.subnetAddressIds = params.subnetAddressIds.findAll { def subnetAddrId -> toIntSafe(subnetAddrId) in subnetIdsByVLAN }
       } else {
         params.subnetAddressIds = subnetIdsByVLAN
       }
@@ -921,10 +922,14 @@ trait Address {
       filterReal = "UTILS_ADDRESSES_PKG_S.IS_REAL_IP(A.N_VALUE) = '${params.isPublic ? 'Y' : 'N'}'"
     }
 
-    (params.subnetAddressIds ?: [null]).each { def subnetAddrId ->
+    if (isEmpty(params.subnetAddressIds)) {
+      params.subnetAddressIds = [null]
+    }
+
+    params.subnetAddressIds.each { def subnetAddressId ->
       try {
-        if (!addresses) {
-          if (params.objectId) {
+        if (isEmpty(addresses)) {
+          if (notEmpty(params.objectId)) {
             addresses = hid.queryDatabase("""
               WITH FREE_IP AS (
                 SELECT DISTINCT
@@ -954,7 +959,7 @@ trait Address {
               FROM FREE_IP A
               WHERE ${filterReal}
             """, true, params.limit)
-          } else if (params.groupId && this.version <= '5.1.2') {
+          } else if (notEmpty(params.groupId) && this.version <= '5.1.2') {
           addresses = hid.queryDatabase("""
             WITH FREE_IP AS (
               SELECT
@@ -1052,26 +1057,29 @@ trait Address {
       input.remove('subnetAddress')
     }
     if (input.containsKey('subnetAddresses') && notEmpty(input.subnetAddresses) && isList(input.subnetAddresses)) {
-      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet6', order: [n_value: 'asc', vc_value: 'asc']).collect {Map address -> address?.n_address_id}
+      input.subnetAddressIds = getAddressesBy(code: [in: input.subnetAddresses], addrType: 'ADDR_TYPE_Subnet6', order: [n_value: 'asc', vc_value: 'asc']).collect {Map address -> toIntSafe(address.n_address_id) }
       input.remove('subnetAddresses')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
-    if (params.subnetAddressId && !params.subnetAddressIds) {
+    if (params.subnetAddressId && isEmpty(params.subnetAddressIds)) {
       params.subnetAddressIds = [params.subnetAddressId]
       params.remove('subnetAddressId')
     }
-    if (!params.subnetAddressIds) {
+    if (isEmpty(params.subnetAddressIds)) {
       params.subnetAddressIds = []
+    }
+    if (isEmpty(params.subnetAddressIds)) {
+      params.subnetAddressIds = [null]
     }
 
     List addresses = []
 
-    (params.subnetAddressIds ?: [null]).each { def subnetAddressId ->
+    params.subnetAddressIds.each { def subnetAddressId ->
       try {
         if (!addresses) {
           if (this.version >= '5.1.2') {
-            if (params.objectId) {
-              if (subnetAddressId) {
+            if (notEmpty(params.objectId)) {
+              if (notEmpty(subnetAddressId)) {
                 addresses = hid.queryDatabase("""
                   SELECT
                       'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
