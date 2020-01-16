@@ -20,8 +20,8 @@ env:
 script:
   - ./test.sh
   - ./docs.sh
-  - git checkout docs/test-reports
-  - if git status docs | grep modified; then echo 'Documentation is outdated!' && exit 1; fi
+#  - git checkout docs/test-reports
+#  - if git status docs | grep modified; then echo 'Documentation is outdated!' && exit 1; fi
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./deploy.sh; fi
 deploy:
