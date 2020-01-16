@@ -762,12 +762,16 @@ trait Address {
           inp[item] = value
         }
       }
-      prefixId       = "${params.bindAddrType}Address"
-      parentPrefixId = "${params.bindAddrType}${parentPrefix}ParentAddress"
+      prefixId = "${params.bindAddrType}Address"
+      if (notEmpty(params.bindAddrType)) {
+        parentPrefixId = "${params.bindAddrType}${parentPrefix}ParentAddress"
+      }
     } else {
-      inp.code       = order."${prefix}${params.addrType}"
-      prefixId       = "${params.addrType}"
-      parentPrefixId = "${params.addrType}${parentPrefix}Parent${params.parentAddrType}"
+      inp.code = order."${prefix}${params.addrType}"
+      prefixId = "${params.addrType}"
+      if (notEmpty(params.parentAddrType)) {
+        parentPrefixId = "${params.addrType}${parentPrefix}Parent${params.parentAddrType}"
+      }
     }
 
     // e.g. equipmentIP is set and equipmentIPParentVLAN is filled up with VLAN, so created IP address will bound to VLAN
@@ -775,10 +779,12 @@ trait Address {
     def parAddressId = order."${prefix}${parentPrefixId}Id"
     if (notEmpty(parAddressId) || notEmpty(parAddress)) {
       Map parAddressParams = [
+        entityId       : entityId,
+        entityType     : entityType,
         addrTypeId     : null,
-        addrType       : params.parentAddrType     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
+        addrType       : notEmpty(params.parentAddrType)     ? "ADDR_TYPE_${params.parentAddrType}"          : null,
         bindAddrTypeId : null,
-        bindAddrType   : params.parentBindAddrType ? "BIND_ADDR_TYPE_${params.parentBindAddrType}" : null
+        bindAddrType   : notEmpty(params.parentBindAddrType) ? "BIND_ADDR_TYPE_${params.parentBindAddrType}" : null
       ]
       if (notEmpty(parAddressId)) {
         parAddressParams.entityAddressId = parAddressId
