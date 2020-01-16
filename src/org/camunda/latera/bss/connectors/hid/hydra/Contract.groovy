@@ -73,12 +73,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isContract(CharSequence entityType) {
-    return entityType == getContractType()
-  }
+  Boolean isContract(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isContract(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractTypeId()
+    } else {
+      return entityType == getContractType()
+    }
   }
 
   private Map putContract(Map input) {
@@ -327,12 +332,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isContractApp(CharSequence entityType) {
-    return entityType == getContractAppType()
-  }
+  Boolean isContractApp(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isContractApp(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractAppTypeId()
+    } else {
+      return entityType == getContractAppType()
+    }
   }
 
   private Map putContractApp(Map input) {
@@ -434,12 +444,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isAddAgreement(CharSequence entityType) {
-    return entityType == getAddAgreementType()
-  }
+  Boolean isAddAgreement(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isAddAgreement(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getAddAgreementTypeId()
+    } else {
+      return entityType == getAddAgreementType()
+    }
   }
 
   private Map putAddAgreement(Map input) {

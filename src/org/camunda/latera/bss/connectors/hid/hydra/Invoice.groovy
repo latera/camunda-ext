@@ -164,12 +164,17 @@ trait Invoice {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
-  Boolean isInvoice(CharSequence entityOrEntityType) {
-    return entityOrEntityType == getInvoiceType() || getInvoiceByCode(entityOrEntityType) != null || getInvoiceByName(entityOrEntityType) != null
-  }
+  Boolean isInvoice(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isInvoice(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId)?.n_doc_type_id == getInvoiceTypeId()
+    } else {
+      return entityOrEntityType == getInvoiceType()
+    }
   }
 
   Boolean changeInvoiceEnd(Map input) {

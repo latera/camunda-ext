@@ -306,12 +306,17 @@ trait Document {
     return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where))
   }
 
-  Boolean isDocument(CharSequence docOrDocType) {
-    return docType.contains('DOC') || docOrDocType == getDocumentEntityType() || getDocumentByCode(docOrDocType) != null || getDocumentByName(docOrDocType) != null
-  }
+  Boolean isDocument(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isDocument(def docIdOrDocTypeId) {
-    return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null || docIdOrDocTypeId == getDocumentEntityTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return getRefCodeById(entityIdOrEntityTypeId)?.contains('DOC') || getDocument(entityIdOrEntityTypeId) != null || entityIdOrEntityTypeId == getDocumentEntityTypeId()
+    } else {
+      return entityOrEntityType.contains('DOC') || entityOrEntityType == getDocumentEntityType()
+    }
   }
 
   private Map putDocument(Map input) {
@@ -837,7 +842,7 @@ trait Document {
     return deleteEntityTag(input)
   }
 
-  Boolean deleteEntityTag(def docId, CharSequence tag) {
+  Boolean deleteDocumentTag(def docId, CharSequence tag) {
     return deleteEntityTag(docId: docId, tag: tag)
   }
 

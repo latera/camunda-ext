@@ -85,11 +85,16 @@ trait Group {
     return toIntSafe(getGroupByName(name)?.n_subject_id)
   }
 
-  Boolean isGroup(CharSequence entityOrEntityType) {
-    return entityOrEntityType == getGroupType() || getGroupByCode(entityOrEntityType) != null || getGroupByName(entityOrEntityType) != null
-  }
+  Boolean isGroup(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isGroup(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getGroupTypeId() || getGroup(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getGroupTypeId() || getGroup(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getGroupType()
+    }
   }
 }

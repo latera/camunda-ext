@@ -186,12 +186,17 @@ trait Subject {
     return toIntSafe(hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where))
   }
 
-  Boolean isSubject(CharSequence entityOrEntityType) {
-    return entityOrEntityType.contains('SUBJ_TYPE_') || entityOrEntityType == getSubjectEntityType() || getSubjectByCode(entityOrEntityType) != null || getSubjectByName(entityOrEntityType) != null
-  }
+  Boolean isSubject(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isSubject(def entityIdOrEntityTypeId) {
-    return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType.contains('SUBJ_TYPE_') || entityOrEntityType == getSubjectEntityType()
+    }
   }
 
   Boolean changeSubjectState(

@@ -240,7 +240,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deleteEntityTag(def, java.lang.CharSequence)">deleteEntityTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#deleteDocumentTag(def, java.lang.CharSequence)">deleteDocumentTag</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -636,40 +636,34 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isDocument(java.lang.CharSequence)">isDocument</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> docOrDocType)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#isDocument(def)">isDocument</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> entityOrEntityType)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
-                            <td class="colLast"><code><strong><a href="#isDocument(def)">isDocument</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docIdOrDocTypeId)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#prepareDocumentAddParam(java.util.Map)">prepareDocumentAddParam</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#putDocumentSubject(java.util.Map)">putDocumentSubject</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#refreshDocumentAddParams(java.lang.CharSequence)">refreshDocumentAddParams</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#refreshDocuments(java.lang.CharSequence)">refreshDocuments</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a></code></td>
                             <td class="colLast"><code><strong><a href="#updateDocument(java.util.Map, def)">updateDocument</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId)</code><br></td>
@@ -843,10 +837,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="deleteEntityTag(def, java.lang.CharSequence)"><!-- --></a>
+                        <a name="deleteDocumentTag(def, java.lang.CharSequence)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteEntityTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>deleteDocumentTag</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docId, <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> tag)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -1371,18 +1365,10 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="isDocument(java.lang.CharSequence)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isDocument</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> docOrDocType)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
                         <a name="isDocument(def)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isDocument</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> docIdOrDocTypeId)</h4>
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>isDocument</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> entityOrEntityType)</h4>
                                 <p></p>
                             </li>
                         </ul>

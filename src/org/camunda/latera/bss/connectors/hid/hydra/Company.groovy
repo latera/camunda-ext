@@ -122,12 +122,17 @@ trait Company {
     return toIntSafe(getCompanyByName(name)?.n_subject_id)
   }
 
-  Boolean isCompany(CharSequence entityOrEntityType) {
-    return entityOrEntityType == getCompanyType() || getCompanyByCode(entityOrEntityType) != null || getCompanyByName(entityOrEntityType) != null
-  }
+  Boolean isCompany(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isCompany(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getCompanyType()
+    }
   }
   
   private Map putCompany(Map input) {

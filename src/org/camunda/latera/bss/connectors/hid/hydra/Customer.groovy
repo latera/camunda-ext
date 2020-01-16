@@ -214,12 +214,17 @@ trait Customer {
     return toIntSafe(getCustomerByName(name)?.n_subject_id)
   }
 
-  Boolean isCustomer(CharSequence entityOrEntityType) {
-    return entityType == getCustomerType() || getCustomerByCode(entityOrEntityType) != null || getCustomerByName(entityOrEntityType) != null
-  }
+  Boolean isCustomer(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isCustomer(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityType == getCustomerType()
+    } else {
+      return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
+    }
   }
 
   private Map putCustomer(Map input) {

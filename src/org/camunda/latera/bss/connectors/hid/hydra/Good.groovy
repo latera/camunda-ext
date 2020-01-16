@@ -162,12 +162,17 @@ trait Good {
     return getGoodByName(name)?.n_good_id
   }
 
-  Boolean isGood(CharSequence entityOrEntityType) {
-    return getGoodByCode(entityOrEntityType) != null || getGoodByName(entityOrEntityType) != null || entityOrEntityType in [getGoodEntityType(), getPricePlanGoodKind(), getAdjustmentGoodKind()]
-  }
+  Boolean isGood(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isGood(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getGoodEntityTypeId() || toIntSafe(getGood(entityIdOrEntityTypeId)?.n_good_kind_id) in [getGoodEntityTypeId(), getPricePlanGoodKindId(), getAdjustmentGoodKindId()]
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getGoodEntityTypeId() || toIntSafe(getGood(entityIdOrEntityTypeId)?.n_good_kind_id) in [getGoodEntityTypeId(), getPricePlanGoodKindId(), getAdjustmentGoodKindId()]
+    } else {
+      return entityOrEntityType in [getGoodEntityType(), getPricePlanGoodKind(), getAdjustmentGoodKind()]
+    }
   }
 
   Number getGoodUnitId(def goodId) {

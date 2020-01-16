@@ -261,8 +261,17 @@ trait Person {
     return getPersonPrivateByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
   }
 
-  Boolean isPerson(CharSequence entityOrEntityType) {
-    return entityOrEntityType == getPersonType() || getPersonByCode(entityOrEntityType) != null || getPersonByName(entityOrEntityType) != null
+  Boolean isPerson(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
+
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getPersonType()
+    }
   }
 
   Map createPerson(Map input) {

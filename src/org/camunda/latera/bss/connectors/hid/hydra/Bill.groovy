@@ -86,12 +86,17 @@ trait Bill {
     return toIntSafe(getBillByName(name)?.n_doc_id)
   }
 
-  Boolean isBill(CharSequence entityOrEntityType) {
-    return entityOrEntityType == getBillType() || getBillByCode(entityOrEntityType) != null || getBillByName(entityOrEntityType) != null
-  }
+  Boolean isBill(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isBill(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    } else {
+      return entityOrEntityType == getBillType()
+    }
   }
 
   Boolean actualizeBill(def docId) {

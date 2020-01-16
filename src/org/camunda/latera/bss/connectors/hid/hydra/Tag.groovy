@@ -112,7 +112,7 @@ trait Tag {
     return hid.getTableFirst(getEntityTagsTable(), where: where)
   }
 
-  Map putEntityTag(Map input) {
+  private Map putEntityTag(Map input) {
     LinkedHashMap defaultParams = [
       entityTagId  : null,
       tagId        : null,
@@ -126,7 +126,6 @@ trait Tag {
       input.remove('tag')
       input.remove('code')
     }
-    LinkedHashMap params = mergeParams(defaultParams, input)
 
     if (!input.entityTypeId && input.entityId) {
       if (isSubject(input.entityId)) {
@@ -139,6 +138,7 @@ trait Tag {
         input.entityTypeId = getObjectEntityTypeId()
       }
     }
+    LinkedHashMap params = mergeParams(defaultParams, input)
 
     try {
       logger.info("Tagging entity with params ${params}")
