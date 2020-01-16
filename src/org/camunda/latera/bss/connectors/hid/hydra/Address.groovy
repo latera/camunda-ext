@@ -523,7 +523,7 @@ trait Address {
     try {
       LinkedHashMap existingAddress = [:]
       if (notEmpty(input.objAddressId)) {
-        LinkedHashMap objAddress = getSubjAddress(input.objAddressId)
+        LinkedHashMap objAddress = getObjAddress(input.objAddressId)
         existingAddress = [
           objAddressId    : objAddress.n_obj_address_id,
           addressId       : objAddress.n_address_id,
