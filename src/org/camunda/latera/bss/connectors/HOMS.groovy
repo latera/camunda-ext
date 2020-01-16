@@ -169,16 +169,17 @@ class HOMS {
     return attachFiles([file], prefix, save)
   }
 
-  void sendTaskEvent(String taskId, String eventName) {
+  void sendTaskEvent(String taskId, String eventName, List<String> users) {
     LinkedHashMap body = [
-      event_name: eventName
+      event_name: eventName,
+      users:      users
     ]
 
     logger.info("/ Sending event ${eventName} for task ${taskId} ...")
 
     this.http.sendRequest(
       'put',
-      path: "events/tasks/${taskId}",
+      path: "/widget/events/tasks/${taskId}",
       body: body
     )
 
