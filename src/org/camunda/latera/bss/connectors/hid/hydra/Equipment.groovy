@@ -182,24 +182,7 @@ trait Equipment {
       }
       LinkedHashMap params = mergeParams(defaultParams, existingEquipment + input)
 
-      if (notEmpty(input.equipmentId)) {
-        logger.info("Updating equipment with params ${params}")
-        LinkedHashMap result = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
-          num_N_OBJECT_ID        : params.equipmentId,
-          num_N_GOOD_ID          : params.typeId ?: params.goodId,
-          vch_VC_NAME            : params.name,
-          vch_VC_CODE            : params.code,
-          num_N_FIRM_ID          : params.firmId,
-          vch_VC_CODE_ADD        : params.extCode,
-          vch_VC_REM             : params.rem,
-          vch_VC_SERIAL          : params.serialNo,
-          vch_VC_INV_NO          : params.invNo,
-          num_N_OWNER_ID         : params.ownerId,
-          num_N_MAIN_OBJECT_ID   : params.bindMainId
-        ])
-        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was updated successfully!")
-        return result
-      } else {
+      if (isEmpty(params.equipmentId) && notEmpty(params.ownerId)) {
         logger.info("Creating equipment with params ${params}")
         LinkedHashMap result = hid.execute('SI_USERS_PKG.CREATE_NET_DEVICE', [
           num_N_OBJECT_ID        : params.equipmentId,
@@ -220,6 +203,23 @@ trait Equipment {
           params.equipmentId = result.num_N_OBJECT_ID
           return updateEquipment(params)
         }
+        return result
+      } else {
+        logger.info("Updating equipment with params ${params}")
+        LinkedHashMap result = hid.execute('SI_OBJECTS_PKG.SI_OBJECTS_PUT', [
+          num_N_OBJECT_ID        : params.equipmentId,
+          num_N_GOOD_ID          : params.typeId ?: params.goodId,
+          vch_VC_NAME            : params.name,
+          vch_VC_CODE            : params.code,
+          num_N_FIRM_ID          : params.firmId,
+          vch_VC_CODE_ADD        : params.extCode,
+          vch_VC_REM             : params.rem,
+          vch_VC_SERIAL          : params.serialNo,
+          vch_VC_INV_NO          : params.invNo,
+          num_N_OWNER_ID         : params.ownerId,
+          num_N_MAIN_OBJECT_ID   : params.bindMainId
+        ])
+        logger.info("   Equipment id ${result.num_N_OBJECT_ID} was updated successfully!")
         return result
       }
     } catch (Exception e){
