@@ -315,7 +315,7 @@ trait Account {
   }
 
   Boolean addAdjustment(Map input = [:], def accountId) {
-    return addAdjustment(input + [accountId: accountId])
+    return putAdjustment(input + [accountId: accountId])
   }
 
   Boolean putPermanentOverdraft(Map input) {
