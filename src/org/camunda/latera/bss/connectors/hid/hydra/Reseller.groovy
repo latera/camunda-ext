@@ -61,6 +61,9 @@ trait Reseller {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_RESELLER_ID', params.tags)
+    }
     return hid.getTableData(getResellersTable(), where: where, order: params.order, limit: params.limit)
   }
 

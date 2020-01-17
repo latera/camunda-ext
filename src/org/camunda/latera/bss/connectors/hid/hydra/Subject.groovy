@@ -147,7 +147,7 @@ trait Subject {
       where.n_subj_state_id = params.stateId
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_SUBJECT_ID', params.tags)
     }
     return hid.getTableData(getSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }

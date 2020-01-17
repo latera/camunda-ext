@@ -139,6 +139,9 @@ trait Good {
     if (params.isCustomer != null) {
       where.c_fl_customer_equipment = encodeBool(params.isCustomer)
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_GOOD_ID', params.tags)
+    }
     return hid.getTableData(getGoodsTable(), where: where, order: params.order, limit: params.limit)
   }
 

@@ -44,6 +44,7 @@ trait Company {
       groupId   : null,
       firmId    : getFirmId(),
       stateId   : getSubjectStateOnId(),
+      tags      : null,
       limit     : 0
     ], input)
     LinkedHashMap where = [:]
@@ -98,6 +99,9 @@ trait Company {
     }
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
+    }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_COMPANY_ID', params.tags)
     }
     return hid.getTableData(getCompaniesTable(), where: where, order: params.order, limit: params.limit)
   }

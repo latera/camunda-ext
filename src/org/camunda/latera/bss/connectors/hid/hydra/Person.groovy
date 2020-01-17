@@ -50,6 +50,7 @@ trait Person {
       groupId    : null,
       firmId     : getFirmId(),
       stateId    : getSubjectStateOnId(),
+      tags       : null,
       limit      : 0
     ], input)
     LinkedHashMap where = [:]
@@ -98,6 +99,9 @@ trait Person {
     }
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
+    }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_PERSON_ID', params.tags)
     }
     return hid.getTableData(getPersonsTable(), where: where, order: params.order, limit: params.limit)
   }
@@ -168,6 +172,7 @@ trait Person {
       groupId       : null,
       firmId        : getFirmId(),
       stateId       : getSubjectStateOnId(),
+      tags          : null,
       limit         : 0
     ], input)
     LinkedHashMap where = [:]
@@ -237,6 +242,9 @@ trait Person {
     }
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
+    }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_PERSON_ID', params.tags)
     }
     return hid.getTableData(getPersonsPrivateTable(), where: where, order: params.order, limit: params.limit)
   }

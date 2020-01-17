@@ -2,6 +2,8 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.StringUtil.snakeCase
+import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.MapUtil.isMap
 
 trait Tag {
   private static String TAGS_TABLE        = 'SI_V_TAGS'
@@ -59,6 +61,43 @@ trait Tag {
     return hid.getTableFirst(getTagsTable(), where: where)
   }
 
+  Map prepareEntityTagQuery(CharSequence entityPrimaryKey, def where) {
+    LinkedHashMap parentWhere = [:]
+    // tags: 'some_tag'               -> AND     EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE =     '123')
+    // tags: ['!=': 'some_tag']       -> AND NOT EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE =     '123')
+    // tags: [in: ['some_tag']]       -> AND     EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE IN   ('123'))
+    // tags: ['not in': ['some_tag']] -> AND NOT EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE IN   ('123'))
+    // tags: [like: '%tag']           -> AND     EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE LIKE '%123')
+    // tags: ['not like': '%tag']     -> AND NOT EXIST (SELECT 1 FROM SI_V_TAGS TT WHERE T.N_SUBJECT_ID = TT.N_ENTITY_ID AND TT.VC_CODE LIKE '%123')
+    LinkedHashMap tagsWhere   = [:]
+    LinkedHashMap noTagsWhere = [:]
+    if (isMap(where)) {
+      where.each { CharSequence key, def value ->
+        if (key == '=') {
+          tagsWhere.vc_code = value
+        } else if (key == '!=') {
+          noTagsWhere.vc_code = value
+        } else if ('not' in key || '!' in key) {
+          String keyWithoutNo = trim(key.replace('not', '').replace('!', ''))
+          noTagsWhere.vc_code = ["${keyWithoutNo}": value]
+        } else {
+          tagsWhere.vc_code = ["${key}": value]
+        }
+      }
+    } else {
+      tagsWhere.vc_code = where
+    }
+    if (notEmpty(tagsWhere)) {
+      tagsWhere["T.${entityPrimaryKey}"] = 'TT.N_ENTITY_ID'
+      parentWhere['EXIST'] = hid.prepareTableQuery(getEntityTagsTable(), fields: ['1'], where: tagsWhere, tableAlias: 'TT', asMap: false)
+    }
+    if (notEmpty(noTagsWhere)) {
+      noTagsWhere["T.${entityPrimaryKey}"] = 'TT.N_ENTITY_ID'
+      parentWhere['NOT EXIST'] = hid.prepareTableQuery(getEntityTagsTable(), fields: ['1'], where: noTagsWhere, tableAlias: 'TT', asMap: false)
+    }
+    return parentWhere
+  }
+
   List getEntitiyTagsBy(Map input) {
     LinkedHashMap defaultParams = [
       entityTagId  : null,
@@ -102,7 +141,7 @@ trait Tag {
   }
 
   Map getEntityTagBy(Map input) {
-    return getEntitiesTagsBy(input + [limit: 1])?.getAt(0)
+    return getEntitiyTagsBy(input + [limit: 1])?.getAt(0)
   }
 
   Map getEntityTag(def entityTagId) {

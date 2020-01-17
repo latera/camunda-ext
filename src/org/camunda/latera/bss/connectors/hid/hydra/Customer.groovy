@@ -189,7 +189,7 @@ trait Customer {
       where.n_subj_state_id = params.stateId
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_CUSTOMER_ID', params.tags)
     }
     return hid.getTableData(getCustomersTable(), where: where, order: params.order, limit: params.limit)
   }
