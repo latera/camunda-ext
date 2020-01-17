@@ -907,7 +907,7 @@ trait Address {
       params.subnetAddressIds = []
     }
     if (params.vlanId) {
-      List subnetIdsByVLAN = getSubnetAddressesByVLAN(vlanId: params.vlanId).collect{ Map subnet -> toIntSafe(subnet.n_subnet_id) }
+      List subnetIdsByVLAN = getSubnetAddressesByVLAN(addressId: params.vlanId).collect{ Map subnet -> toIntSafe(subnet.n_subnet_id) }
       if (params.subnetAddressIds) {
         params.subnetAddressIds = params.subnetAddressIds.findAll { def subnetAddrId -> toIntSafe(subnetAddrId) in subnetIdsByVLAN }
       } else {
@@ -1771,8 +1771,9 @@ trait Address {
       limit         : 0
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
-      input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_VLAN')?.n_address_id
+      input.addressId = getAddressBy(code: input.address ?: input.code, addrType: 'ADDR_TYPE_VLAN')?.n_address_id
       input.remove('address')
+      input.remove('code')
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
