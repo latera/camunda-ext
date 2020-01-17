@@ -414,8 +414,8 @@ trait Equipment {
 
     Map addParam = hydra.addEquipmentAddParam(
       equipmentId,
-      param       : params.code ?: "EQUIP_ADD_PARAM_${param}",
-      value       : value
+      param : params.code ?: "EQUIP_ADD_PARAM_${param}",
+      value : value
     )
     Boolean result = false
     if (addParam) {
