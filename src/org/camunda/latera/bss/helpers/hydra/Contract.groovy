@@ -123,7 +123,7 @@ trait Contract {
     def value      = order."${contractPrefix}${prefix}${params.code ?: param}" ?: order."${contractPrefix}${prefix}${params.code ?: param}Id"
 
     Map addParam = hydra.addDocumentAddParam(
-      docId : contractId,
+      contractId,
       param : params.code ?: "DOC_VAL_${param}",
       value : value
     )
@@ -267,7 +267,7 @@ trait Contract {
     def value         = order."${contractAppPrefix}${prefix}${params.code ?: param}" ?: order."${contractAppPrefix}${prefix}${params.code ?: param}Id"
 
     Map addParam = hydra.addDocumentAddParam(
-      docId : contractAppId,
+      contractAppId,
       param : params.code ?: "DOC_VAL_${param}",
       value : value
     )
@@ -411,7 +411,7 @@ trait Contract {
     def value      = order."${addAgreementPrefix}${prefix}${params.code ?: param}" ?: order."${addAgreementPrefix}${prefix}${params.code ?: param}Id"
 
     Map addParam = hydra.addDocumentAddParam(
-      docId : addAgreementId,
+      addAgreementId,
       param : params.code ?: "DOC_VAL_${param}",
       value : value
     )

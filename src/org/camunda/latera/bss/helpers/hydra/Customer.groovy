@@ -331,9 +331,9 @@ trait Customer {
     def value      = order."${customerPrefix}${prefix}${params.code ?: param}" ?: order."${customerPrefix}${prefix}${params.code ?: param}Id"
 
     Map addParam = hydra.addCustomerAddParam(
-      customerId : customerId,
-      param      : params.code ?: "SUBJ_VAL_${param}",
-      value      : value
+      customerId,
+      param : params.code ?: "SUBJ_VAL_${param}",
+      value : value
     )
     Boolean result = false
     if (addParam) {
