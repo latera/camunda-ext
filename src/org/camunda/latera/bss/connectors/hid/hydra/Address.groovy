@@ -221,7 +221,7 @@ trait Address {
 
     LinkedHashMap where = [:]
     if (params.subjAddressId) {
-      where.n_sub_address_id = params.subjAddressId
+      where.n_subj_address_id = params.subjAddressId
     }
     if (params.subjectId) {
       where.n_subject_id = params.subjectId
@@ -451,7 +451,7 @@ trait Address {
       if (notEmpty(input.subjAddressId)) {
         LinkedHashMap subjAddress = getSubjAddress(input.subjAddressId)
         existingAddress = [
-          subjAddressId  : subjAddress.n_sub_address_id,
+          subjAddressId  : subjAddress.n_subj_address_id,
           addressId      : subjAddress.n_address_id,
           subjectId      : subjAddress.n_subject_id,
           bindAddrTypeId : subjAddress.n_subj_addr_type_id,
