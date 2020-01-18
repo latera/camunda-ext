@@ -35,27 +35,46 @@ trait Address {
     flat      : 'Addr_FlatString'
   ]
 
+  /**
+   * Get addresses table name
+   */
   String getMainAddressesTable() {
     return MAIN_ADDRESSES_TABLE
   }
 
+  /**
+   * Get subject addresses table name
+   */
   String getSubjectAddressesTable() {
     return SUBJECT_ADDRESSES_TABLE
   }
 
+  /**
+   * Get object addresses table name
+   */
   String getObjectAddressesTable() {
     return OBJECT_ADDRESSES_TABLE
   }
 
+  /**
+   * Get subject addresses material view name
+   */
   String getSubjectAddressesMV() {
     return SUBJECT_ADDRESSES_MV
   }
 
+  /**
+   * Get object addresses material view name
+   */
   String getObjectAddressesMV() {
     return OBJECT_ADDRESSES_MV
   }
 
-  // Get [building: 'зд.', home: ..., entrance: '', ...]
+  /**
+   * Get place address fields with their short names
+   * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'. Optional
+   * @return Map[field, fieldShortName], e.g. {@code [building: 'зд.', home: ..., entrance: '', ...]}
+   */
   Map getAddressFields(CharSequence buildingType = null) {
     Map result = getBuildingFields(buildingType)
     ADDRESS_FIELDS.each{ key, value ->
@@ -64,34 +83,84 @@ trait Address {
     return result
   }
 
+  /**
+   * Get place address fields
+   * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'. Optional
+   * @return List[String], e.g. {@code ['building', 'home', 'entrance', ...]}
+   */
   List getAddressFieldNames(CharSequence buildingType = null) {
     return keysList(getAddressFields(buildingType))
   }
 
+  /**
+   * Get default address type
+   */
   String getDefaultAddressType() {
     return DEFAULT_ADDRESS_TYPE
   }
 
+  /**
+   * Get default address type id
+   */
   Number getDefaultAddressTypeId() {
     return getRefIdByCode(getDefaultAddressType())
   }
 
+  /**
+   * Get default address bind type
+   */
   String getDefaultAddressBindType() {
     return DEFAULT_ADDRESS_BIND_TYPE
   }
 
+  /**
+   * Get default address bind type id
+   */
   Number getDefaultAddressBindTypeId() {
     return getRefIdByCode(getDefaultAddressBindType())
   }
 
+  /**
+   * Get default address state
+   */
   String getDefaultAddressState() {
     return DEFAULT_ADDRESS_STATE
   }
 
+  /**
+   * Get default address state id
+   */
   Number getDefaultAddressStateId() {
     return getRefIdByCode(getDefaultAddressState())
   }
 
+  /**
+   * Search for object addresses by different fields value
+   * @param objAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parObjAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate   {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate       {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return List[Map] of object address table rows
+   */
   List getObjAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       objAddressId    : null,
@@ -187,10 +256,41 @@ trait Address {
     return hid.getTableData(getObjectAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one object address by different fields value
+   * @param objAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parObjAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate   {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate       {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return Map with object address table row
+   */
   Map getObjAddressBy(Map input) {
     return getObjAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get object address by id
+   * @param objAddressId {@link java.math.BigInteger BigInteger}
+   * @return Map with object address table row
+   */
   Map getObjAddress(def objAddressId) {
     LinkedHashMap where = [
       n_obj_address_id: objAddressId
@@ -198,6 +298,29 @@ trait Address {
     return hid.getTableFirst(getObjectAddressesTable(), where: where)
   }
 
+  /**
+   * Search for subject addresses by different fields value
+   * @param subjAddressId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return List[Map] of subject address table rows
+   */
   List getSubjAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjAddressId   : null,
@@ -272,10 +395,37 @@ trait Address {
     return hid.getTableData(getSubjectAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one subject address by different fields value
+   * @param subjAddressId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return Map with subject address table row
+   */
   Map getSubjAddressBy(Map input) {
     return getSubjAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get subject address by id
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @return Map with subject address table row
+   */
   Map getSubjAddress(def subjAddressId) {
     LinkedHashMap where = [
       n_subj_address_id: subjAddressId
@@ -283,6 +433,34 @@ trait Address {
     return hid.getTableFirst(getSubjectAddressesTable(), where: where)
   }
 
+  /**
+   * Search for object or subject addresses by different fields value
+   * @param entityAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entityTypeId       {@link CharSequence String}. Used to determine, is that a subject or object address. Optional
+   * @param entityId           {@link java.math.BigInteger BigInteger}. Used to determine, is that a subject or object address. Optional
+   * @param addressId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance           {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parEntityAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param limit              {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return List[Map] of object or subject address table rows
+   */
   List getEntityAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId    : null,
@@ -320,10 +498,43 @@ trait Address {
     }
   }
 
+  /**
+   * Search for one object or subject addresses by different fields value
+   * @param entityAddressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entityTypeId       {@link CharSequence String}. Optiona, used to determine, is that a subject or object address
+   * @param entityId           {@link java.math.BigInteger BigInteger}. Optional, used to determine, is that a subject or object address
+   * @param addressId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance           {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
+   * @param bindAddrType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parEntityAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, only for object addresses
+   * @param stateId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Only for object addresses. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Only for object addresses. Optional
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: C_FL_MAIN DESC
+   * @return Map with object or subject address table row
+   */
   Map getEntityAddressBy(Map input) {
     return getEntityAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get object or subject address by id
+   * @param entityOrEntityTypeId {@link java.math.BigInteger BigInteger}. Used to determine, is that a subject or object address
+   * @param entityAddressId {@link java.math.BigInteger BigInteger}
+   * @return Map with object or subject address table row
+   */
   Map getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
     Boolean isSubj = isSubject(entityOrEntityTypeId)
 
@@ -334,6 +545,24 @@ trait Address {
     }
   }
 
+  /**
+   * Search for addresses by different fields value
+   * @param addressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance     {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm Id
+   * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_ADDRESS_ID DESC
+   * @return List[Map] of address table rows
+   */
   List getAddressesBy(Map input) {
     LinkedHashMap params = mergeParams([
       addressId    : null,
@@ -347,6 +576,7 @@ trait Address {
       entrance     : null,
       providerId   : getFirmId(),
       rem          : null,
+      limit        : 0,
       order        : [n_address_id: 'desc']
     ], input)
 
@@ -394,10 +624,33 @@ trait Address {
     return hid.getTableData(getMainAddressesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one address by different fields value
+   * @param addressId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addrTypeId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressTypeId()}
+   * @param addrType     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parAddressId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance     {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm Id
+   * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_ADDRESS_ID DESC
+   * @return Map with address table row
+   */
   Map getAddressBy(Map input) {
     return getAddressesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get address by id
+   * @param addressId {@link java.math.BigInteger BigInteger}
+   * @return Map with address table row
+   */
   Map getAddress(def addressId) {
     LinkedHashMap where = [
       n_address_id: addressId
@@ -405,6 +658,12 @@ trait Address {
     return hid.getTableFirst(getMainAddressesTable(), where: where)
   }
 
+  /**
+   * Check if address is empty
+   * @param input {@link LinkedHashMap Map} with address fields
+   * @return True if address fields are null or empty, false otherwise
+   * @see #getAddressFields()
+   */
   Boolean isAddressEmpty(Map input) {
     Boolean result = true
     List addressFields = getAddressFieldNames()
@@ -417,18 +676,54 @@ trait Address {
     return result
   }
 
+  /**
+   * Check if address is not empty
+   * @see #isAddressEmpty(Map)
+   */
   Boolean notAddressEmpty(Map input) {
     return !isAddressEmpty(input)
   }
 
+  /**
+   * Check if address and region is empty
+   * @param input {@link LinkedHashMap Map} with region and address fields
+   * @return True if region and address fields are null or empty, false otherwise
+   * @see #isAddressEmpty(Map)
+   * @see #isRegionEmpty(Map)
+   */
   Boolean isRegionAddressEmpty(Map input) {
     return isAddressEmpty(input) && isRegionEmpty(input)
   }
 
+  /**
+   * Check if address and region is not empty
+   * @see #isRegionAddressEmpty(Map)
+   */
   Boolean notRegionAddressEmpty(Map input) {
     return !isRegionAddressEmpty(input)
   }
 
+  /**
+   * Create or update subject address
+   * @param subjAddressId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param addressId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param subjectId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType   {@link CharSequence String}. Optional
+   * @param addrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType       {@link CharSequence String}. Optional
+   * @param code           {@link CharSequence String}. Optional
+   * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress     {@link CharSequence String}. Optional
+   * @param flat           {@link CharSequence String}. Optional
+   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem            {@link CharSequence String}. Optional
+   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param state          {@link CharSequence String}. Optional
+   * @param isMain         {@link Boolean}. Optional
+   * @return Map with created subject address (in Oracle API procedure notation)
+   */
   private Map putSubjAddress(Map input) {
     LinkedHashMap defaultParams = [
       subjAddressId  : null,
@@ -501,6 +796,30 @@ trait Address {
     }
   }
 
+  /**
+   * Create or update object address
+   * @param objAddressId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param objectId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType    {@link CharSequence String}. Optional
+   * @param parObjAddressId {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType        {@link CharSequence String}. Optional
+   * @param code            {@link CharSequence String}. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress      {@link CharSequence String}. Optional
+   * @param flat            {@link CharSequence String}. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem             {@link CharSequence String}. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param state           {@link CharSequence String}. Optional
+   * @param isMain          {@link Boolean}. Optional
+   * @param beginDate       {@link java.time.Temporal Any date type}. Optional
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional
+   * @return Map with created object address (in Oracle API procedure notation)
+   */
   private Map putObjAddress(Map input) {
     LinkedHashMap defaultParams = [
       objAddressId    : null,
@@ -582,6 +901,31 @@ trait Address {
     }
   }
 
+  /**
+   * Create or update subject or object address
+   * @param entityAddressId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param entityId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param entityTypeId       {@link java.math.BigInteger BigInteger}. Used to determine, is that a subject or object address. Optional
+   * @param entityType         {@link CharSequence String}. Used to determine, is that a subject or object address. Optional
+   * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType       {@link CharSequence String}. Optional
+   * @param parEntityAddressId {@link java.math.BigInteger BigInteger}. Only for object addresses. Optional
+   * @param addrTypeId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType           {@link CharSequence String}. Optional
+   * @param code               {@link CharSequence String}. Optional
+   * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress         {@link CharSequence String}. Optional
+   * @param flat               {@link CharSequence String}. Optional
+   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem                {@link CharSequence String}. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
+   * @param state              {@link CharSequence String}. Optional
+   * @param isMain             {@link Boolean}. Optional
+   * @param beginDate          {@link java.time.Temporal Any date type}. Only for object addresses. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Only for object addresses. Optional
+   * @return Map with created subject or object address (in Oracle API procedure notation)
+   */
   private Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId    : null,
@@ -604,7 +948,40 @@ trait Address {
       endDate            : null
     ], input)
 
-    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
+    Boolean isSubj = false
+
+    if (notEmpty(params.entityAddressId)) {
+      if (notEmpty(params.entityTypeId) || notEmpty(params.entityId)) {
+        isSubj = isSubject(params.entityTypeId ?: params.entityId)
+      } else {
+        LinkedHashMap objAddress = getEntityAddress(
+          entityAddressId : params.entityAddressId,
+          entityId        : params.entityId,
+          addressId       : params.addressId,
+          addrTypeId      : params.addrTypeId,
+          bindAddrTypeId  : params.bindAddrTypeId,
+          stateId         : params.stateId,
+          isMain          : params.isMain
+        )
+        LinkedHashMap subjAddress = getEntityAddress(
+          entityType      : 'SUBJ_TYPE_Company',
+          entityAddressId : params.entityAddressId,
+          entityId        : params.entityId,
+          addressId       : params.addressId,
+          addrTypeId      : params.addrTypeId,
+          bindAddrTypeId  : params.bindAddrTypeId,
+          stateId         : params.stateId,
+          isMain          : params.isMain
+        )
+        if (objAddress) {
+          isSubj = false
+        } else if (subjAddress) {
+          isSubj = true
+        } else {
+          throw new Exception ("No address found!")
+        }
+      }
+    }
 
     if (isSubj) {
       params.subjAddressId   = params.entityAddressId
@@ -628,57 +1005,226 @@ trait Address {
     }
   }
 
+  /**
+   * Create subject address
+   * @param subjectId      {@link java.math.BigInteger BigInteger}
+   * @param addressId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType   {@link CharSequence String}. Optional
+   * @param addrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType       {@link CharSequence String}. Optional
+   * @param code           {@link CharSequence String}. Optional
+   * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress     {@link CharSequence String}. Optional
+   * @param flat           {@link CharSequence String}. Optional
+   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem            {@link CharSequence String}. Optional
+   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param state          {@link CharSequence String}. Optional
+   * @param isMain         {@link Boolean}. Optional
+   * @return Map with created subject address (in Oracle API procedure notation)
+   */
   Map createSubjAddress(Map input = [:], def subjectId) {
     input.remove('subjAddressId')
     return putSubjAddress(input + [subjectId: subjectId])
   }
 
+  /**
+   * Create person address
+   * @see #createSubjAddress(Map, def)
+   */
   Map createPersonAddress(Map input = [:], def personId) {
     return createSubjAddress(input, personId)
   }
 
+  /**
+   * Create company address
+   * @see #createSubjAddress(Map, def)
+   */
   Map createCompanyAddress(Map input = [:], def companyId) {
     return createSubjAddress(input, companyId)
   }
 
+  /**
+   * Create object address
+   * @param objectId        {@link java.math.BigInteger BigInteger}
+   * @param addressId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType    {@link CharSequence String}. Optional
+   * @param parObjAddressId {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType        {@link CharSequence String}. Optional
+   * @param code            {@link CharSequence String}. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress      {@link CharSequence String}. Optional
+   * @param flat            {@link CharSequence String}. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem             {@link CharSequence String}. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param state           {@link CharSequence String}. Optional
+   * @param isMain          {@link Boolean}. Optional
+   * @param beginDate       {@link java.time.Temporal Any date type}. Optional
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional
+   * @return Map with created object address (in Oracle API procedure notation)
+   */
   Map createObjAddress(Map input = [:], def objectId) {
     input.remove('objAddressId')
     return putObjAddress(input + [objectId: objectId])
   }
 
+  /**
+   * Create or update subject or object address
+   * @param entityId           {@link java.math.BigInteger BigInteger}
+   * @param entityTypeId       {@link java.math.BigInteger BigInteger}. Used to determine, is that a subject or object address. Optional
+   * @param entityType         {@link CharSequence String}. Used to determine, is that a subject or object address. Optional
+   * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType       {@link CharSequence String}. Optional
+   * @param parEntityAddressId {@link java.math.BigInteger BigInteger}. Only for object addresses. Optional
+   * @param addrTypeId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType           {@link CharSequence String}. Optional
+   * @param code               {@link CharSequence String}. Optional
+   * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress         {@link CharSequence String}. Optional
+   * @param flat               {@link CharSequence String}. Optional
+   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem                {@link CharSequence String}. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
+   * @param state              {@link CharSequence String}. Optional
+   * @param isMain             {@link Boolean}. Optional
+   * @param beginDate          {@link java.time.Temporal Any date type}. Only for object addresses. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Only for object addresses. Optional
+   * @return Map with created subject or object  address (in Oracle API procedure notation)
+   */
   Map createEntityAddress(Map input = [:], def entityId) {
     input.remove('entityAddressId')
     return putEntityAddress(input + [entityId: entityId])
   }
 
+  /**
+   * Create or update subject or object address
+   * @see #createEntityAddress(Map, def)
+   */
+  Map createEntityAddress(Map input = [:], def entityId, def entityTypeId) {
+    input.remove('entityAddressId')
+    return putEntityAddress(input + [entityId: entityId, entityTypeId: entityTypeId])
+  }
+
+  /**
+   * Update subject address
+   * @param subjAddressId  {@link java.math.BigInteger BigInteger}
+   * @param addressId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType   {@link CharSequence String}. Optional
+   * @param addrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType       {@link CharSequence String}. Optional
+   * @param code           {@link CharSequence String}. Optional
+   * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress     {@link CharSequence String}. Optional
+   * @param flat           {@link CharSequence String}. Optional
+   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem            {@link CharSequence String}. Optional
+   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param state          {@link CharSequence String}. Optional
+   * @param isMain         {@link Boolean}. Optional
+   * @return Map with updated subject address (in Oracle API procedure notation)
+   */
   Map updateSubjAddress(Map input = [:], def subjAddressId) {
     return putSubjAddress(input + [subjAddressId: subjAddressId])
   }
 
+  /**
+   * Update person address
+   * @see #updateSubjAddress(Map, def)
+   */
   Map updatePersonAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
   }
 
+  /**
+   * Update company address
+   * @see #updateSubjAddress(Map, def)
+   */
   Map updateCompanyAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
   }
 
+  /**
+   * Update object address
+   * @param objAddressId    {@link java.math.BigInteger BigInteger}
+   * @param addressId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType    {@link CharSequence String}. Optional
+   * @param parObjAddressId {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrTypeId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType        {@link CharSequence String}. Optional
+   * @param code            {@link CharSequence String}. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress      {@link CharSequence String}. Optional
+   * @param flat            {@link CharSequence String}. Optional
+   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem             {@link CharSequence String}. Optional
+   * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param state           {@link CharSequence String}. Optional
+   * @param isMain          {@link Boolean}. Optional
+   * @param beginDate       {@link java.time.Temporal Any date type}. Optional
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional
+   * @return Map with updated object address (in Oracle API procedure notation)
+   */
   Map updateObjAddress(Map input = [:], def objAddressId) {
     return putObjAddress(input + [objAddressId: objAddressId])
   }
 
+  /**
+   * Update subject or object address
+   * @param entityAddressId    {@link java.math.BigInteger BigInteger}
+   * @param addressId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindAddrType       {@link CharSequence String}. Optional
+   * @param parEntityAddressId {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrTypeId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param addrType           {@link CharSequence String}. Optional
+   * @param code               {@link CharSequence String}. Optional
+   * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param rawAddress         {@link CharSequence String}. Optional
+   * @param flat               {@link CharSequence String}. Optional
+   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param rem                {@link CharSequence String}. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
+   * @param state              {@link CharSequence String}. Optional
+   * @param isMain             {@link Boolean}. Optional
+   * @param beginDate          {@link java.time.Temporal Any date type}. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional
+   * @return Map with updated subject or object address (in Oracle API procedure notation)
+   */
   Map updateEntityAddress(Map input = [:], def entityAddressId) {
     return putEntityAddress(input + [entityAddressId: entityAddressId])
   }
 
+  /**
+   * Get place address fields with short name position indicator and value
+   * @param input {@link LinkedHashMap Map} with address fields
+   * @return List[List[fieldType, isAfter, value]], e.g. {@code [['building', 'N', 'зд.'], ['home', 'N', 'д.'], ..]}
+   */
   List getAddressItems(Map input) {
     List addressItems = []
     getAddressFields().each{ type, value ->
-      addressItems.add([value, 'N', input[type] ?: ""])
+      addressItems.add([value, 'N', input[type] ?: ''])
     }
     return addressItems
   }
 
+
+  /**
+   * Calculate place full address from its parts
+   * @param input {@link LinkedHashMap Map} with region and address fields
+   * @return String with full address, e.g. {@code 'Россия, г. Москва, ул. Пример, зд. 1, д. 2, кв. 5'}
+   */
   String calcAddress(Map input) {
     List address = []
 
@@ -699,6 +1245,11 @@ trait Address {
     return joinNonEmpty(address, ', ')
   }
 
+  /**
+   * Delete subject address
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @return True if subject address was successfully deleted, false otherwise
+   */
   Boolean deleteSubjAddress(def subjAddressId) {
     try {
       logger.info("Deleting subject address id ${subjAddressId}")
@@ -714,6 +1265,11 @@ trait Address {
     }
   }
 
+  /**
+   * Delete object address
+   * @param objAddressId {@link java.math.BigInteger BigInteger}
+   * @return True if object address was successfully deleted, false otherwise
+   */
   Boolean deleteObjAddress(def objAddressId) {
     try {
       logger.info("Deleting object address id ${objAddressId}")
@@ -729,6 +1285,20 @@ trait Address {
     }
   }
 
+  /**
+   * Delete subject or object address
+   * @param entityAddressId {@link java.math.BigInteger BigInteger}
+   * @return True if subject or object address was successfully deleted, false if not or address not found
+   */
+  Boolean deleteEntityAddress(def entityAddressId) {
+    return deleteEntityAddress([entityAddressId: entityAddressId])
+  }
+
+  /**
+   * Delete subject or object address
+   * @param input {@link LinkedHashMap Map} with address to search for
+   * @return True if subject or object address was successfully deleted, false if not or address not found
+   */
   Boolean deleteEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId : null,
@@ -743,8 +1313,8 @@ trait Address {
 
     Boolean isSubj = false
 
-    if (params.entityAddressId) {
-      if (params.entityTypeId || params.entityId) {
+    if (notEmpty(params.entityAddressId)) {
+      if (notEmpty(params.entityTypeId) || notEmpty(params.entityId)) {
         isSubj = isSubject(params.entityTypeId ?: params.entityId)
       } else {
         LinkedHashMap objAddress = getEntityAddress(
@@ -805,14 +1375,52 @@ trait Address {
     }
   }
 
+  /**
+   * Delete person address
+   * @param personId      {@link java.math.BigInteger BigInteger}
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @see #deleteSubjAddress(def)
+   * @deprecated
+   */
   Boolean deletePersonAddress(def personId, def subjAddressId) {
     return deleteSubjAddress(subjAddressId)
   }
 
+  /**
+   * Delete person address
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @see #deleteSubjAddress(def)
+   */
+  Boolean deletePersonAddress(def subjAddressId) {
+    return deleteSubjAddress(subjAddressId)
+  }
+
+  /**
+   * Delete company address
+   * @param companyId     {@link java.math.BigInteger BigInteger}
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @see #deleteSubjAddress(def)
+   * @deprecated
+   */
   Boolean deleteCompanyAddress(def companyId, def subjAddressId) {
     return deleteSubjAddress(subjAddressId)
   }
 
+  /**
+   * Delete company address
+   * @param subjAddressId {@link java.math.BigInteger BigInteger}
+   * @see #deleteSubjAddress(def)
+   */
+  Boolean deleteCompanyAddress(def subjAddressId) {
+    return deleteSubjAddress(subjAddressId)
+  }
+
+  /**
+   * Close object address
+   * @param objAddressId {@link java.math.BigInteger BigInteger}
+   * @param endDate      {@link java.time.Temporal Any date type}. Default: current date time. Optional
+   * @return True if object address was successfully closed, false otherwise
+   */
   Boolean closeObjAddress(
     def objAddressId,
     Temporal endDate = local()
@@ -832,6 +1440,12 @@ trait Address {
     }
   }
 
+  /**
+   * Close object address
+   * @param input {@link LinkedHashMap Map} with address to close
+   * @see #getObjAddress(def)
+   * @see #closeObjAddress(def, Temporal)
+   */
   Boolean closeObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
       objAddressId    : null,
@@ -866,6 +1480,10 @@ trait Address {
     return closeObjAddress(params.objAddressId, params.endDate)
   }
 
+  /**
+   * Close entity address
+   * @see #closeObjAddress(Map)
+   */
   Boolean closeEntityAddress(Map input) {
     def objectId     = input.entityId
     def objAddressId = input.entityAddressId
@@ -874,6 +1492,22 @@ trait Address {
     return closeObjAddress(input + [objectId: objectId, objAddressId: objAddressId])
   }
 
+  /**
+   * Get free IPv4 addresses
+   * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address. Optional
+   * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
+   * @param subnetAddress    {@link CharSequence String}. Subnet address code to use for search for free IP address. Optional
+   * @param subnetAddresses  List[{@link CharSequence String}]. Subnet addresses codes to use for search for free IP address. Optional
+   * @param vlanId           {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
+   * @param vlan             {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
+   * @param isPublic         {@link Boolean}. True to get only public IPv4 addresses, false only for private ones, null to disable filtration. Optional
+   * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit            {@link Integer}. Limit for result count. Optional, default: 10
+   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2.
+   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2.
+   * @return List[Map] with IPv4 address data, e.g. {@code [[vc_ip: '10.10.10.10', n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24']]}
+   */
   List getFreeIPAddresses(Map input) {
     LinkedHashMap defaultParams = [
       groupId           : null,
@@ -1031,6 +1665,21 @@ trait Address {
     return addresses
   }
 
+  /**
+   * Get free IPv4 address
+   * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address
+   * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
+   * @param subnetAddress    {@link CharSequence String}. Subnet address code to use for search for free IP address. Optional
+   * @param subnetAddresses  List[{@link CharSequence String}]. Subnet addresses codes to use for search for free IP address. Optional
+   * @param vlanId           {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
+   * @param vlan             {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
+   * @param isPublic         {@link Boolean}. True to get only public IPv4 addresses, false only for private ones, null to disable filtration. Optional
+   * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
+   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @return Map with IPv4 address data, e.g. {@code [vc_ip: '10.10.10.10', n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24']}
+   */
   Map getFreeIPAddress(Map input) {
     List result = getFreeIPAddresses(input + [limit: 1])
     if (result) {
@@ -1040,13 +1689,30 @@ trait Address {
     }
   }
 
+  /**
+   * Get free IPv4 address code
+   * @return String with IPv4 address code, e.g. {@code '10.10.10.10'}
+   * @see #getFreeIPAddress(Map)
+   */
   String getFreeIP(Map input) {
     return getFreeIPAddress(input)?.vc_ip
   }
 
+  /**
+   * Get free IPv6 addresses
+   *
+   * !!! For 5.1.2 and higher only !!!
+   * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address
+   * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
+   * @param subnetAddress    {@link CharSequence String}. Subnet address code to use for search for free IP address. Optional
+   * @param subnetAddresses  List[{@link CharSequence String}]. Subnet addresses codes to use for search for free IP addressltration. Optional
+   * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit            Limit for result count. Optional, default: 10
+   * @return List[Map] with IPv6 address data, e.g. {@code [[vc_ip: '2400:ca00:2000:a000::', n_subnet_id: 1234142301, vc_subnet: '2400:ca00:2000:a000::/52 ']]}
+   */
   List getFreeIPv6Addresses(Map input) {
     LinkedHashMap defaultParams = [
-      groupId         : null,
       objectId        : null,
       subnetAddressId : null,
       firmId          : getFirmId(),
@@ -1137,6 +1803,18 @@ trait Address {
     return addresses
   }
 
+  /**
+   * Get free IPv6 address
+   *
+   * !!! For 5.1.2 and higher only !!!
+   * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address
+   * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
+   * @param subnetAddress    {@link CharSequence String}. Subnet address code to use for search for free IP address. Optional
+   * @param subnetAddresses  List[{@link CharSequence String}]. Subnet addresses codes to use for search for free IP addressltration. Optional
+   * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @return Map with IPv6 address data, e.g. {@code [[vc_ip: '2400:ca00:2000:a000::', n_subnet_id: 1234142301, vc_subnet: '2400:ca00:2000:a000::/52 ']]}
+   */
   Map getFreeIPv6Address(Map input) {
     List result = getFreeIPv6Addresses(input + [limit: 1])
     if (result) {
@@ -1146,10 +1824,21 @@ trait Address {
     }
   }
 
+  /**
+   * Get free IPv6 address code
+   * @return SIPv6 address code, e.g. {@code '2400:ca00:2000:a000::'}
+   * @see #getFreeIPv6Address(Map)
+   */
   String getFreeIPv6(Map input) {
     return getFreeIPv6Address(input)?.vc_ip
   }
 
+  /**
+   * Get free IPv6 subnet
+   * @return IPv6 subnet code, e.g. {@code '2400:ca00:2000:a000::/60'}
+   * @see #getFreeIPv6(Map)
+   * @see #getSubnetv6Mask()
+   */
   String getFreeIPv6Subnet(Map input) {
     String subnet = null
     try {
@@ -1160,6 +1849,19 @@ trait Address {
     return subnet
   }
 
+  /**
+   * Get free telephone addresses
+   * @param objectId      {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param telCodeId     {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
+   * @param telCodeIds    List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional
+   * @param telCode       {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
+   * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit         Limit for result count. Optional, default: 10
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Tel codes group id to use for selecting subnets. Optional, deprecated in 5.1.2
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @return List[Map] with telephone address data, e.g. {@code [[vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']]}
+   */
   List getFreeTelephoneNumbers(Map input) {
     LinkedHashMap defaultParams = [
       groupId       : null,
@@ -1268,6 +1970,18 @@ trait Address {
     return addresses
   }
 
+  /**
+   * Get free telephone address
+   * @param objectId      {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param telCodeId     {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
+   * @param telCodeIds    List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional. Optional
+   * @param telCode       {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
+   * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Tel codes group id to use for selecting subnets. Optional, deprecated in 5.1.2
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @return Map with telephone address data, e.g. {@code [vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']}
+   */
   Map getFreeTelephoneNumber(Map input) {
     List result = getFreeTelephoneNumbers(input + [limit: 1])
     if (result) {
@@ -1277,10 +1991,29 @@ trait Address {
     }
   }
 
+  /**
+   * Get free telephone number
+   * @return Telephone number, e.g. {@code '79123456789'}
+   * @see #getFreeTelephoneNumber(Map)
+   */
   String getFreePhoneNumber(Map input) {
     return getFreeTelephoneNumber(input)?.vc_phone_number
   }
 
+  /**
+   * Get free IPv4 subnet addresses
+   * !!! Unlike IPv4, IPv6 or telephones, subnets should already exist in database to return here !!!
+   * @param rootId        {@link java.math.BigInteger BigInteger}. Subnet address id to use for selecting child subnets. Optional
+   * @param mask          {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
+   * @param vlanId        {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
+   * @param vlan          {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param isPublic      {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit         Limit for result count. Optional, default: 10
+   * @return List[Map] with IPv4 subnet data, e.g. {@code [[n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]]}
+   */
   List getFreeSubnetAddresses(Map input) {
     LinkedHashMap defaultParams = [
       groupId       : null,
@@ -1471,6 +2204,19 @@ trait Address {
     return addresses
   }
 
+  /**
+   * Get free IPv4 subnet address
+   * !!! Unlike IPv4, IPv6 or telephones, subnets should already exist in database to return here !!!
+   * @param rootId           {@link java.math.BigInteger BigInteger}. Subnet address id to use for selecting child subnets. Optional
+   * @param mask             {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
+   * @param vlanId           {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
+   * @param vlan             {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
+   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
+   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param isPublic         {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
+   * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @return Map with IPv4 subnet data, e.g. {@code [n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]}
+   */
   Map getFreeSubnetAddress(Map input) {
     List result = getFreeSubnetAddresses(input + [limit: 1])
     if (result) {
@@ -1480,10 +2226,18 @@ trait Address {
     }
   }
 
+  /**
+   * Get free IPv4 subnet code
+   * @return IPv4 subnet code, e.g. {@code '10.10.0.0/24'}
+   * @see #getFreeSubnetAddress(Map)
+   */
   String getFreeSubnet(Map input) {
     return getFreeSubnetAddress(input)?.vc_subnet
   }
 
+  /**
+   * Get subnet id by IP code
+   */
   Number getSubnetIdByIP(CharSequence ip) {
     def subnetId = null
     try {
@@ -1501,6 +2255,9 @@ trait Address {
     return toIntSafe(subnetId)
   }
 
+  /**
+   * Get subnet code by IP code
+   */
   String getSubnetByIP(CharSequence ip) {
     def subnetId = getSubnetIdByIP(ip)
     String subnet = null
@@ -1510,6 +2267,9 @@ trait Address {
     return subnet
   }
 
+  /**
+   * Get subnet mask by subnet address id
+   */
   String getSubnetMaskById(def subnetId) {
     String mask = null
     try {
@@ -1523,6 +2283,9 @@ trait Address {
     return mask
   }
 
+  /**
+   * Get subnet mask by subnet code
+   */
   String getSubnetMask(CharSequence subnet) {
     String mask = null
     def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
@@ -1532,6 +2295,9 @@ trait Address {
     return mask
   }
 
+  /**
+   * Get subnet mask by IP address id
+   */
   String getIPMaskById(def addressId) {
     String mask = null
     try {
@@ -1543,6 +2309,9 @@ trait Address {
     return mask
   }
 
+  /**
+   * Get subnet mask by IP code
+   */
   String getIPMask(CharSequence ip) {
     String mask = null
     def subnetId = getSubnetIdByIP(ip)
@@ -1552,6 +2321,9 @@ trait Address {
     return mask
   }
 
+  /**
+   * Get gateway code by subnet address id
+   */
   String getSubnetGatewayById(def subnetId) {
     String gateway = null
     try {
@@ -1565,6 +2337,9 @@ trait Address {
     return gateway
   }
 
+  /**
+   * Get gateway code by subnet code
+   */
   String getSubnetGateway(CharSequence subnet) {
     String gateway = null
     def subnetId = getAddress(code: subnet, addrType: 'ADDR_TYPE_SUBNET')
@@ -1574,6 +2349,9 @@ trait Address {
     return gateway
   }
 
+  /**
+   * Get gateway code by IP address id
+   */
   String getIPGatewayById(def addressId) {
     String gateway = null
     try {
@@ -1585,6 +2363,9 @@ trait Address {
     return gateway
   }
 
+  /**
+   * Get gateway code by IP code
+   */
   String getIPGateway(CharSequence ip) {
     String gateway = null
     def subnetId = getSubnetIdByIP(ip)
@@ -1594,14 +2375,33 @@ trait Address {
     return gateway
   }
 
+  /**
+   * Get IPv6 subnet mask
+   * @see #getIPv6Mask()
+   */
   String getSubnetv6Mask() {
     return getIPv6Mask()
   }
 
+  /**
+   * Get IPv6 address mask
+   *
+   * !!! For 5.1.2 and higher only !!!
+   * @return String with IPv6 address mask from database, e.g. '60'
+   */
   String getIPv6Mask() {
     return getParamValueBy(param: 'PAR_IPv6SubnetLength', subjectId: getFirmId())?.n_value
   }
 
+  /**
+   * Get all parent IPv4 subnets for some subnet
+   * @param addressId     {@link java.math.BigInteger BigInteger}. Subnet address id. Optional
+   * @param address       {@link CharSequence String}. Subnet code. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit         Limit for result count. Optional, default: 10
+   * @return List[Map] with IPv4 subnet data, e.g. {@code [[n_address_id: 1234142301, code: '10.10.0.0/24', n_value: 168430080, n_par_addr_id: 1234142201, level: 0]]}
+   */
   List getParentSubnetAddresses(Map input) {
     LinkedHashMap defaultParams = [
       addressId     : null,
@@ -1666,10 +2466,17 @@ trait Address {
     return addresses
   }
 
+  /**
+   * Get VLAN address for subnet
+   * @param addressId     {@link java.math.BigInteger BigInteger}. Subnet address id. Optional
+   * @param address       {@link CharSequence String}. Subnet code. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @return Map with VLAN data, e.g. {@code [n_vlan_id: 1234142301, vc_vlan: '1234']}
+   */
   Map getVLANAddressBySubnet(Map input) {
     LinkedHashMap defaultParams = [
       addressId     : null,
-      mask          : null,
       operationDate : local(),
       firmId        : getFirmId()
     ]
@@ -1758,14 +2565,27 @@ trait Address {
     return address
   }
 
+  /**
+   * Get VLAN code for subnet
+   * @return VLAN code, e.g. '1234'
+   * @see getVLANAddressBySubnet
+   */
   String getVLANBySubnet(Map input) {
     return getVLANAddressBySubnet(input)?.vc_vlan
   }
 
+  /**
+   * Get subnet addresses by VLAN
+   * @param addressId     {@link java.math.BigInteger BigInteger}. VLAN address id. Optional
+   * @param address       {@link CharSequence String}. VLAN code. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
+   * @param limit         Limit for result count. Optional, default: 10
+   * @return List[Map] of subnet address data, e.g. {@code [[n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]]}
+   */
   List getSubnetAddressesByVLAN(Map input) {
     LinkedHashMap defaultParams = [
       addressId     : null,
-      mask          : null,
       operationDate : local(),
       firmId        : getFirmId(),
       limit         : 0
@@ -1822,7 +2642,14 @@ trait Address {
     return addresses
   }
 
-
+  /**
+   * Get subnet address by VLAN
+   * @param addressId     {@link java.math.BigInteger BigInteger}. VLAN address id. Optional
+   * @param address       {@link CharSequence String}. VLAN code. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, Optional, default: current firm Id
+   * @return Map with subnet address data, e.g. {@code [n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]}
+   */
   Map getSubnetAddressByVLAN(Map input) {
     List result = getSubnetAddressesByVLAN(input + [limit: 1])
     if (result) {
@@ -1832,18 +2659,38 @@ trait Address {
     }
   }
 
+  /**
+   * Get subnet code by VLAN
+   * @return Subnet code, e.g. '10.10.0.0/24'
+   * @see #getSubnetAddressByVLAN(Map)
+   */
   String getSubnetByVLAN(Map input) {
     return getSubnetAddressByVLAN(input)?.vc_subnet
   }
 
+  /**Refresh object addresses quick search material view
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshObjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddressesMV(), method)
   }
 
+  /**Refresh subject addresses quick search material view
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshSubjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getObjectAddressesMV(), method)
   }
 
+  /**Refresh object and subject addresses quick search material views
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshEntityAddresses(CharSequence method = 'C') {
     return refreshObjAddresses(method) && refreshSubjAddresses(method)
   }

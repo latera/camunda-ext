@@ -55,19 +55,20 @@ trait Account {
 
   /**
    * Search for accounts by different fields value
-   * @param accountId     [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param subjectId     [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param accountTypeId [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: see {@link #getDefaultAccountTypeId()}
-   * @param bankId        [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param currencyId    [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param currency      [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param code          [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param name          [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param number        [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param maxOverdraft  [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param rem           [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param firmId        [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current firm Id
-   * @param limit         [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: 0 (unlimited)
+   * @param accountId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: see {@link #getDefaultAccountTypeId()}
+   * @param bankId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currency      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param maxOverdraft  {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param rem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return List[Map] of subject account table rows
    */
   List getAccountsBy(Map input) {
@@ -125,18 +126,18 @@ trait Account {
 
   /**
    * Search for one account by different fields value
-   * @param accountId     [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param subjectId     [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param accountTypeId [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: see {@link #getDefaultAccountTypeId()}
-   * @param bankId        [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param currencyId    [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param currency      [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param code          [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param name          [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param number        [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param maxOverdraft  [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param rem           [optional] {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param firmId        [optional] {@link java.math.BigInteger Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current firm Id
+   * @param accountId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAccountTypeId()}
+   * @param bankId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currency      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param maxOverdraft  {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
    * @return Map with subject account table row
    */
   Map getAccountBy(Map input) {
@@ -145,7 +146,7 @@ trait Account {
 
   /**
    * Get account by id
-   * @param accountId {@link java.math.BigInteger Integer}
+   * @param accountId {@link java.math.BigInteger BigInteger}
    * @return Map with subject account table row or null
    */
   Map getAccount(def accountId) {
@@ -157,8 +158,8 @@ trait Account {
 
   /**
    * Get accounts by subject id
-   * @param subjectId     {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param subjectId     {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with subject account table row or null
    */
   List getSubjectAccounts(
@@ -170,8 +171,8 @@ trait Account {
 
   /**
    * Get accounts by company id
-   * @param companyId     {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param companyId     {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of company account table rows
    */
   List getCompanyAccounts(
@@ -183,8 +184,8 @@ trait Account {
 
   /**
    * Get accounts by person id
-   * @param personId      {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param personId      {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of person account table rows
    */
   List getPersonAccounts(
@@ -196,8 +197,8 @@ trait Account {
 
   /**
    * Get accounts by customer id
-   * @param customerId    {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param customerId    {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of customer account table rows
    */
   List getCustomerAccounts(
@@ -209,8 +210,8 @@ trait Account {
 
   /**
    * Get first account by subject id
-   * @param subjectId     {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param subjectId     {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with subject account table row or null
    */
   Map getSubjectAccount(
@@ -222,8 +223,8 @@ trait Account {
 
   /**
    * Get first account by company id
-   * @param companyId     {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param companyId     {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with company account table row or null
    */
   Map getCompanyAccount(
@@ -235,8 +236,8 @@ trait Account {
 
   /**
    * Get first account by person id
-   * @param personId      {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param personId      {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with person account table row or null
    */
   Map getPersonAccount(
@@ -248,8 +249,8 @@ trait Account {
 
   /**
    * Get first account by customer id
-   * @param customerId    {@link java.math.BigInteger Integer}
-   * @param accountTypeId {@link java.math.BigInteger Integer}
+   * @param customerId    {@link java.math.BigInteger BigInteger}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with customer account table row or null
    */
   Map getCustomerAccount(
@@ -261,7 +262,7 @@ trait Account {
 
   /**
    * Get account by subject id and other field values
-   * @param subjectId {@link java.math.BigInteger Integer}
+   * @param subjectId {@link java.math.BigInteger BigInteger}
    * @see #getAccountBy(Map)
    * @return Map with subject account table row or null
    */
@@ -271,7 +272,7 @@ trait Account {
 
   /**
    * Get account by company id and other field values
-   * @param subjectId {@link java.math.BigInteger Integer}
+   * @param subjectId {@link java.math.BigInteger BigInteger}
    * @see #getAccountBy(Map)
    * @return Map with company account table row or null
    */
@@ -281,7 +282,7 @@ trait Account {
 
   /**
    * Get account by person id and other field values
-   * @param subjectId {@link java.math.BigInteger Integer}
+   * @param subjectId {@link java.math.BigInteger BigInteger}
    * @see #getAccountBy(Map)
    * @return Map with person account table row or null
    */
@@ -291,7 +292,7 @@ trait Account {
 
   /**
    * Get account by customer id and other field values
-   * @param subjectId {@link java.math.BigInteger Integer}
+   * @param subjectId {@link java.math.BigInteger BigInteger}
    * @see #getAccountBy(Map)
    * @return Map with customer account table row or null
    */
@@ -301,8 +302,8 @@ trait Account {
 
   /**
    * Get account balance info
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Optional. default: current datetime
    * @return Map with customer account balance data
    */
   Map getAccountBalance(
@@ -329,8 +330,8 @@ trait Account {
 
   /**
    * Get account total balance
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @return Double with account total sum
    */
   Double getAccountBalanceTotal(
@@ -342,8 +343,8 @@ trait Account {
 
   /**
    * Get account free balance
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @return Double with account free sum
    */
   Double getAccountFree(
@@ -355,7 +356,7 @@ trait Account {
 
   /**
    * Get account actual invoices total
-   * @param accountId {@link java.math.BigInteger Integer}
+   * @param accountId {@link java.math.BigInteger BigInteger}
    * @return Double with total sum of account invoices
    */
   Double getAccountActualInvoicesSum(def accountId) {
@@ -367,8 +368,8 @@ trait Account {
 
   /**
    * Get account rediodic amounts
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @return List[Map] with periodic charges from account
    */
   List getAccountPeriodicAmounts(
@@ -389,18 +390,18 @@ trait Account {
 
   /**
    * Create or update customer account
-   * @param customerId           {@link java.math.BigInteger Integer}
-   * @param accountId            [optional] {@link java.math.BigInteger Integer}
-   * @param currencyId           [optional] {@link java.math.BigInteger Integer}
-   * @param currency             [optional] {@link CharSequence String}
-   * @param name                 [optional] {@link CharSequence String}
-   * @param code                 [optional] {@link CharSequence String}
-   * @param number               [optional] {@link CharSequence String}
-   * @param permanentOverdraft   [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraft    [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraftEnd [optional] {@link java.time.Temporal Any date type}
-   * @param maxOverdraft         [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param rem                  [optional] {@link CharSequence String}
+   * @param customerId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param accountId            {@link java.math.BigInteger BigInteger}. Optional
+   * @param currencyId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param currency             {@link CharSequence String}. Optional
+   * @param name                 {@link CharSequence String}. Optional
+   * @param code                 {@link CharSequence String}. Optional
+   * @param number               {@link CharSequence String}. Optional
+   * @param permanentOverdraft   {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraft    {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraftEnd {@link java.time.Temporal Any date type}. Optional
+   * @param maxOverdraft         {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param rem                  {@link CharSequence String}. Optional
    * @return Map with created customer account (in Oracle API procedure notation)
    */
   private Map putCustomerAccount(Map input) {
@@ -444,17 +445,17 @@ trait Account {
 
   /**
    * Create customer account
-   * @param customerId           {@link java.math.BigInteger Integer}
-   * @param currencyId           [optional] {@link java.math.BigInteger Integer}
-   * @param currency             [optional] {@link CharSequence String}
-   * @param name                 [optional] {@link CharSequence String}
-   * @param code                 [optional] {@link CharSequence String}
-   * @param number               [optional] {@link CharSequence String}
-   * @param permanentOverdraft   [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraft    [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraftEnd [optional] {@link java.time.Temporal Any date type}
-   * @param maxOverdraft         [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param rem                  [optional] {@link CharSequence String}
+   * @param customerId           {@link java.math.BigInteger BigInteger}
+   * @param currencyId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param currency             {@link CharSequence String}. Optional
+   * @param name                 {@link CharSequence String}. Optional
+   * @param code                 {@link CharSequence String}. Optional
+   * @param number               {@link CharSequence String}. Optional
+   * @param permanentOverdraft   {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraft    {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraftEnd {@link java.time.Temporal Any date type}. Optional
+   * @param maxOverdraft         {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param rem                  {@link CharSequence String}. Optional
    * @return Map with created customer account (in Oracle API procedure notation)
    */
   Map createCustomerAccount(Map input = [:], def customerId) {
@@ -464,17 +465,17 @@ trait Account {
 
   /**
    * Update customer account
-   * @param accountId            {@link java.math.BigInteger Integer}
-   * @param currencyId           [optional] {@link java.math.BigInteger Integer}
-   * @param currency             [optional] {@link CharSequence String}
-   * @param name                 [optional] {@link CharSequence String}
-   * @param code                 [optional] {@link CharSequence String}
-   * @param number               [optional] {@link CharSequence String}
-   * @param permanentOverdraft   [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraft    [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param temporalOverdraftEnd [optional] {@link java.time.Temporal Any date type}
-   * @param maxOverdraft         [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}
-   * @param rem                  [optional] {@link CharSequence String}
+   * @param accountId            {@link java.math.BigInteger BigInteger}
+   * @param currencyId           {@link java.math.BigInteger BigInteger}. Optional
+   * @param currency             {@link CharSequence String}. Optional
+   * @param name                 {@link CharSequence String}. Optional
+   * @param code                 {@link CharSequence String}. Optional
+   * @param number               {@link CharSequence String}. Optional
+   * @param permanentOverdraft   {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraft    {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param temporalOverdraftEnd {@link java.time.Temporal Any date type}. Optional
+   * @param maxOverdraft         {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param rem                  {@link CharSequence String}. Optional
    * @return Map with updated customer account (in Oracle API procedure notation)
    */
   Map updateCustomerAccount(Map input = [:], def accountId) {
@@ -483,17 +484,17 @@ trait Account {
 
   /**
    * Create adjustment for account
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param docId         {@link java.math.BigInteger Integer}
-   * @param goodId        {@link java.math.BigInteger Integer}
-   * @param equipmentId   [optional] {@link java.math.BigInteger Integer}
-   * @param sum           {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero) or null (only it sumWoTax is not null)
-   * @param sumWoTax      {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero) or null(only it sum is not null)
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param firmId        [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}. Default: current firm Id
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param goodId        {@link java.math.BigInteger BigInteger}
+   * @param equipmentId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param sum           {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sumWoTax is not null)
+   * @param sumWoTax      {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null(only it sum is not null)
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param firmId        {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
    * @return True if adjustment was created successfully, false otherwise
    */
-  Boolean putAdjustment(Map input) {
+  private Boolean putAdjustment(Map input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
       docId         : null,
@@ -530,14 +531,14 @@ trait Account {
 
   /**
    * Add adjustment for account
-   * @param accountId     {@link java.math.BigInteger Integer}
-   * @param docId         {@link java.math.BigInteger Integer}
-   * @param goodId        {@link java.math.BigInteger Integer}
-   * @param equipmentId   [optional] {@link java.math.BigInteger Integer}
-   * @param sum           {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero) or null (only it sumWoTax is not null)
-   * @param sumWoTax      {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero) or null (only it sum is not null)
-   * @param operationDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param firmId        [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}. Default: current firm Id
+   * @param accountId     {@link java.math.BigInteger BigInteger}
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param goodId        {@link java.math.BigInteger BigInteger}
+   * @param equipmentId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param sum           {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sumWoTax is not null)
+   * @param sumWoTax      {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sum is not null)
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param firmId        {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
    * @return True if adjustment was created successfully, false otherwise
    */
   Boolean addAdjustment(Map input = [:], def accountId) {
@@ -546,10 +547,10 @@ trait Account {
 
   /**
    * Set permanent overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
-   * @param reason    [optional] {@link CharSequence String}
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
+   * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
    */
   private Boolean putPermanentOverdraft(Map input) {
@@ -581,10 +582,10 @@ trait Account {
 
   /**
    * Set permanent overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
-   * @param reason    [optional] {@link CharSequence String}
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
+   * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
    */
   Boolean addPermanentOverdraft(Map input, def accountId) {
@@ -593,9 +594,9 @@ trait Account {
 
   /**
    * Set permanent overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
    * @return True if overdraft was set successfully, false otherwise
    */
   Boolean addPermanentOverdraft(
@@ -612,7 +613,7 @@ trait Account {
 
   /**
    * Delete permanent overdraft from account
-   * @param accountId {@link java.math.BigInteger Integer}
+   * @param accountId {@link java.math.BigInteger BigInteger}
    * @return True if overdraft was deleted successfully, false otherwise
    */
   Boolean deletePermanentOverdraft(def accountId) {
@@ -632,14 +633,14 @@ trait Account {
 
   /**
    * Set temporal overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param endDate   [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. default: manual overdraft
-   * @param reason    [optional] {@link CharSequence String}
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param endDate   {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. default: manual overdraft
+   * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
    */
-  Boolean putTemporalOverdraft(Map input) {
+  private Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       sum       : 0,
@@ -669,11 +670,11 @@ trait Account {
 
   /**
    * Set temporal overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param endDate   [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
-   * @param reason    [optional] {@link CharSequence String}
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param endDate   {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
+   * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
    */
   Boolean addTemporalOverdraft(Map input, def accountId) {
@@ -682,10 +683,10 @@ trait Account {
 
   /**
    * Set temporal overdraft for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param endDate   [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param endDate   {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
    * @return True if overdraft was set successfully, false otherwise
    */
   Boolean addTemporalOverdraft(
@@ -704,10 +705,10 @@ trait Account {
 
   /**
    * Delete temporal overdraft from account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param sum       {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer} (above zero)
-   * @param endDate   [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param reasonId  [optional] {@link java.math.BigInteger Integer}. Default: manual overdraft
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param sum       {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero)
+   * @param endDate   {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
    * @return True if overdraft was set successfully, false otherwise
    */
   Boolean deleteTemporalOverdraft(def accountId) {
@@ -727,9 +728,9 @@ trait Account {
 
   /**
    * Try to generate invoices for account
-   * @param accountId {@link java.math.BigInteger Integer}
-   * @param beginDate [optional] {@link java.time.Temporal Any date type}. Default: current datetime
-   * @param endDate   [optional] {@link java.time.Temporal Any date type}
+   * @param accountId {@link java.math.BigInteger BigInteger}
+   * @param beginDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param endDate   {@link java.time.Temporal Any date type}. Optional
    * @return True if customer account was processed successfully, false otherwise
    */
   Boolean processAccount(Map input = [:], def accountId) {
