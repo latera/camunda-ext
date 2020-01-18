@@ -18,9 +18,11 @@ import org.camunda.latera.bss.connectors.Minio
 
 class Order implements GroovyObject {
   private DelegateExecution _execution
+  Boolean _raw
 
-  Order(DelegateExecution execution) {
+  Order(Map params = [:], DelegateExecution execution) {
     this._execution = execution
+    this._raw = params.raw ?: execution.getVariable('rawOrderData') ?: false
   }
 
   static def getValue(CharSequence name, Boolean raw = false, DelegateExecution execution) {
@@ -116,7 +118,7 @@ class Order implements GroovyObject {
 
   def getValue(CharSequence name, Boolean raw = false) {
     if (name == 'data') {
-      return this.getClass().getData(this._execution)
+      return this.getData(raw)
     }
     return this.getClass().getValue(name, raw, this._execution)
   }
@@ -126,11 +128,19 @@ class Order implements GroovyObject {
   }
 
   def getProperty(String propertyName) { // ALERT: do not change type to CharSequence, dynamic access will not work
-    return getValue(propertyName)
+    if (_raw) {
+      return this.getValueRaw(propertyName)
+    } else {
+      return this.getValue(propertyName)
+    }
   }
 
   def getAt(CharSequence name) {
-    return getValue(name)
+    if (_raw) {
+      return this.getValueRaw(name)
+    } else {
+      return this.getValue(name)
+    }
   }
 
   def getVariable(CharSequence name) {
@@ -143,7 +153,7 @@ class Order implements GroovyObject {
 
   static Map getData(DelegateExecution execution, Boolean raw = false) {
     LinkedHashMap data = [:]
-    execution.getVariables().each { key, value ->
+    execution.getVariables().each { CharSequence key, def value ->
       if (key.startsWith('homsOrderData') && !name.endsWith('UploadedFile') && !name.endsWith('FileUpload')) {
         String _key = decapitalize(key.replaceFirst(/^homsOrderData/, ''))
         data[_key] = getValue(key, raw, execution)
@@ -252,16 +262,28 @@ class Order implements GroovyObject {
   }
 
   void setProperty(String propertyName, def newValue) { // do not change type to CharSequence, dynamic access will not work
-    setValue(propertyName, newValue)
-  }
-
-  void putAt(CharSequence name, def value) {
-    setValue(name, value)
+    if (_raw) {
+      this.setValueRaw(propertyName, newValue)
+    } else {
+      this.setValue(propertyName, newValue)
+    }
   }
 
   Order plus(Map data) {
-    setValue(data.name, data.value)
+    if (_raw) {
+      this.setValueRaw(data.name, data.value)
+    } else {
+      this.setValue(data.name, data.value)
+    }
     return this
+  }
+
+  void putAt(CharSequence name, def value) {
+    if (_raw) {
+      this.setValueRaw(name, value)
+    } else {
+      this.setValue(name, value)
+    }
   }
 
   void setVariable(CharSequence name, def value, Boolean raw = false) {
@@ -273,7 +295,7 @@ class Order implements GroovyObject {
   }
 
   static void saveData(Map data, Boolean raw = false, DelegateExecution execution) {
-    data.each { key, value ->
+    data.each { CharSequence key, def value ->
       setValue(key, value, raw, execution)
     }
   }

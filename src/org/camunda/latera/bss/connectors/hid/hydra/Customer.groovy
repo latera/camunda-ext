@@ -3,8 +3,10 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import java.time.temporal.Temporal
+import org.camunda.latera.bss.internal.Version
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
@@ -204,7 +206,7 @@ trait Customer {
   }
 
   private Map putCustomer(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       customerId    : null,
       baseSubjectId : null,
       groupId       : null,
@@ -213,11 +215,30 @@ trait Customer {
       firmId        : getFirmId(),
       resellerId    : getResellerId(),
       stateId       : getSubjectStateOnId()
-    ], input)
+    ]
     try {
-      logger.info("Putting customer with params ${params}")
+      LinkedHashMap existingCustomer = [:]
+      if (isEmpty(input.customerId) && notEmpty(input.subjectId)) {
+        input.customerId = input.subjectId
+      }
+      if (notEmpty(input.customerId)) {
+        LinkedHashMap customer = getCustomer(input.customerId)
+        existingCustomer += [
+          customerId    : customer.n_subject_id,
+          baseSubjectId : customer.n_base_subject_id,
+          groupId       : customer.n_subj_group_id,
+          code          : customer.vc_cpde,
+          rem           : customer.vc_rem,
+          firmId        : customer.n_firm_id,
+          resellerId    : customer.n_reseller_id,
+          stateId       : customer.n_subj_state_id
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, existingCustomer + input)
+
+      logger.info("${params.customerId ? 'Updating' : 'Creating'} customer with params ${params}")
       LinkedHashMap args = [
-        num_N_SUBJECT_ID      : params.subjectId,
+        num_N_SUBJECT_ID      : params.customerId,
         num_N_FIRM_ID         : params.firmId,
         num_N_BASE_SUBJECT_ID : params.baseSubjectId,
         num_N_SUBJ_STATE_ID   : params.stateId,
@@ -225,14 +246,14 @@ trait Customer {
         vch_VC_CODE           : params.code,
         vch_VC_REM            : params.rem
       ]
-      if (params.resellerId) {
+      if (this.version > new Version('5') && notEmpty(params.resellerId)) {
         args.num_N_RESELLER_ID = resellerId
       }
-      LinkedHashMap customer = hid.execute('SI_USERS_PKG.SI_USERS_PUT', args)
-      logger.info("   Customer ${customer.num_N_SUBJECT_ID} was put successfully!")
-      return customer
+      LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USERS_PUT', args)
+      logger.info("   Customer ${result.num_N_SUBJECT_ID} was ${params.customerId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting customer!")
+      logger.error("   Error while ${input.customerId ? 'updating' : 'creating'} customer!")
       logger.error_oracle(e)
       return null
     }

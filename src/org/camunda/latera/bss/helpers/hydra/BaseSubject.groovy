@@ -49,14 +49,14 @@ trait BaseSubject {
 
     String baseSubjectPrefix = "${capitalize(params.baseSubjectPrefix)}BaseSubject"
     String prefix     = capitalize(params.prefix)
-    String param  = capitalize(params.param)
+    String param      = capitalize(params.param)
     def baseSubjectId = order."${baseSubjectPrefix}Id"
     def value         = order."${baseSubjectPrefix}${prefix}${params.code ?: param}" ?: order."${baseSubjectPrefix}${prefix}${params.code ?: param}Id"
 
-    Map addParam = hydra.addCustomerAddParam(
-      subjectId : baseSubjectId,
-      param     : params.code ?: "SUBJ_VAL_${param}",
-      value     : value
+    Map addParam = hydra.addSubjectAddParam(
+      baseSubjectId,
+      param : params.code ?: "SUBJ_VAL_${param}",
+      value : value
     )
     Boolean result = false
     if (addParam) {

@@ -56,13 +56,17 @@ class Console {
     return [proc: proc, stdout: stdout, stderr: stderr]
   }
 
+  private Boolean isShortCommand(CharSequence key) {
+    return key.size() == 1
+  }
+
   Map runCommand(Map args, CharSequence command) {
     List arguments = []
-    args.each { k, v ->
-      if (k.size() == 1) {
-        arguments += ["-${k} ${v}"]
+    args.each { key, value ->
+      if (isShortCommand(key)) {
+        arguments += ["-${key} ${value}"]
       } else {
-        arguments += ["--${k} ${v}"]
+        arguments += ["--${key} ${value}"]
       }
     }
     return runCommand(command, arguments)

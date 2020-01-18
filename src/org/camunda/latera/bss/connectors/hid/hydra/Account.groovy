@@ -458,7 +458,8 @@ trait Account {
    * @return Map with created customer account (in Oracle API procedure notation)
    */
   Map createCustomerAccount(Map input = [:], def customerId) {
-    return createCustomerAccount(input + [customerId: customerId])
+    input.remove('accountId')
+    return putCustomerAccount(input + [customerId: customerId])
   }
 
   /**
@@ -492,7 +493,7 @@ trait Account {
    * @param firmId        [optional] {@link java.math.BigDecimal Double}, {@link java.math.BigInteger Integer}. Default: current firm Id
    * @return True if adjustment was created successfully, false otherwise
    */
-  private Boolean putAdjustment(Map input) {
+  Boolean putAdjustment(Map input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
       docId         : null,
@@ -540,7 +541,7 @@ trait Account {
    * @return True if adjustment was created successfully, false otherwise
    */
   Boolean addAdjustment(Map input = [:], def accountId) {
-    return addAdjustment(input + [accountId: accountId])
+    return putAdjustment(input + [accountId: accountId])
   }
 
   /**
@@ -638,7 +639,7 @@ trait Account {
    * @param reason    [optional] {@link CharSequence String}
    * @return True if overdraft was set successfully, false otherwise
    */
-  private Boolean putTemporalOverdraft(Map input) {
+  Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       sum       : 0,

@@ -348,6 +348,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#putAdjustment(java.util.Map)">putAdjustment</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Create adjustment for account</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
+                            <td class="colLast"><code><strong><a href="#putTemporalOverdraft(java.util.Map)">putTemporalOverdraft</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</code><br>Set temporal overdraft for account</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a></code></td>
                             <td class="colLast"><code><strong><a href="#refreshAccounts(java.lang.CharSequence)">refreshAccounts</a></strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='CharSequence'>CharSequence</a> method = 'C')</code><br>Refresh customer accounts quick search material view</td>
                         </tr>
                         
@@ -707,6 +719,24 @@ if (location.href.indexOf('is-external=true') == -1) {
                                 <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>processAccount</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input = [:], <a href='http://download.oracle.com/javase/6/docs/api/java/lang/Object.html' title='def'>def</a> accountId)</h4>
                                 <p> Try to generate invoices for account
    <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>beginDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if customer account was processed successfully, false otherwise</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="putAdjustment(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putAdjustment</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p> Create adjustment for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -      <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>docId</code> -          <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>goodId</code> -         <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>equipmentId</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -            <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero) or null (only it sumWoTax is not null)</DD><DD><code>sumWoTax</code> -       <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero) or null(only it sum is not null)</DD><DD><code>operationDate</code> -  [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>firmId</code> -         [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. Default: current firm Id</DD></DL><DL><DT><B>Returns:</B></DT><DD>True if adjustment was created successfully, false otherwise</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="putTemporalOverdraft(java.util.Map)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='http://download.oracle.com/javase/6/docs/api/java/lang/Boolean.html' title='Boolean'>Boolean</a> <strong>putTemporalOverdraft</strong>(<a href='http://download.oracle.com/javase/6/docs/api/java/util/Map.html' title='Map'>Map</a> input)</h4>
+                                <p> Set temporal overdraft for account
+   <DL><DT><B>Parameters:</B></DT><DD><code>accountId</code> -  <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a></DD><DD><code>sum</code> -        <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigDecimal.html' title='Double'>Double</a>, <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a> (above zero)</DD><DD><code>endDate</code> -    [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/time/Temporal.html' title='Any date type'>Any date type</a>. Default: current datetime</DD><DD><code>reasonId</code> -   [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/math/BigInteger.html' title='Integer'>Integer</a>. default: manual overdraft</DD><DD><code>reason</code> -     [optional] <a href='http://download.oracle.com/javase/6/docs/api/java/lang/CharSequence.html' title='String'>String</a></DD></DL><DL><DT><B>Returns:</B></DT><DD>True if overdraft was set successfully, false otherwise</DD></DL></p>
                             </li>
                         </ul>
                     

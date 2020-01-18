@@ -365,13 +365,31 @@ trait Region {
       name         : null,
       home         : null,
       building     : null,
-      construct    : null
+      construct    : null,
+      ownership    : null
     ]
-    LinkedHashMap params = mergeParams(defaultParams, input)
     try {
-      logger.info("Putting region with params ${params}")
+      LinkedHashMap existingRegion = [:]
+      if (notEmpty(input.regionId)) {
+        LinkedHashMap region = getRegion(params.regionId)
+        existingRegion = [
+          regionId     : region.n_region_id,
+          regionTypeId : region.n_region_type_id,
+          realtyGoodId : region.n_realty_good_id,
+          parRegionId  : region.n_par_region_id,
+          code         : region.vc_code,
+          name         : region.vc_name,
+          home         : region.vc_home,
+          building     : region.vc_building,
+          construct    : region.vc_construct,
+          ownership    : region.vc_ownership
+        ]
+      }
+      LinkedHashMap params = mergeParams(defaultParams, existingRegion + input)
 
-      LinkedHashMap region = hid.execute('SR_REGIONS_PKG.SR_REGIONS_PUT', [
+      logger.info("${params.regionId ? 'Updating' : 'Creating'} region with params ${params}")
+
+      LinkedHashMap result = hid.execute('SR_REGIONS_PKG.SR_REGIONS_PUT', [
         num_N_REGION_ID      : params.regionId,
         num_N_REGION_TYPE_ID : params.regionTypeId,
         num_N_PAR_REGION_ID  : params.parRegionId,
@@ -380,14 +398,28 @@ trait Region {
         vch_VC_NAME          : params.name,
         vch_VC_HOME          : params.home,
         vch_VC_BUILDING      : params.building,
-        vch_VC_CONSTRUCT     : params.construct
+        vch_VC_CONSTRUCT     : params.construct,
+        vch_VC_OWNERSHIP     : params.ownership
       ])
-      logger.info("   Region ${region.num_N_REGION_ID} was put successfully!")
-      return region
+      logger.info("   Region ${result.num_N_REGION_ID} was ${params.regionId ? 'updated' : 'created'} successfully!")
+      return result
     } catch (Exception e){
-      logger.error("   Error while putting region!")
+      logger.error("   Error while ${input.regionId ? 'updating' : 'creating'} region!")
       logger.error_oracle(e)
     }
+  }
+
+  Map createRegion(Map input) {
+    input.remove('regionId')
+    return putRegion(input)
+  }
+
+  Map updateRegion(Map input) {
+    return putRegion(input)
+  }
+
+  Map updateRegion(Map input = [:], def regionId) {
+    return updateRegion(input + [regionId: regionId])
   }
 
   Boolean isRegionEmpty(Map input) {
