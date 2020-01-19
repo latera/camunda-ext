@@ -22,34 +22,60 @@ trait Contract {
   private static String  DEFAULT_ADD_AGREEMENT_WORKFLOW    = 'WFLOW_AddAgreement'
   private static Integer DEFAULT_ADD_AGREEMENT_WORKFLOW_ID = 130021
 
+  /**
+   * Get contracts table name
+   */
   String getContractsTable() {
     return CONTRACTS_TABLE
   }
 
+  /**
+   * Get contracts tree material view
+   */
   String getContractsTreeMV() {
     return CONTRACTS_TREE_MV
   }
 
+  /**
+   * Get base contracts tree material view
+   */
   String getBaseContractsTreeMV() {
     return BASE_CONTRACTS_TREE_MV
   }
 
+  /**
+   * Get contract document type ref code
+   */
   String getContractType() {
     return CONTRACT_TYPE
   }
 
+  /**
+   * Get contract document type ref id
+   */
   Number getContractTypeId() {
     return getRefIdByCode(CONTRACT_TYPE)
   }
 
+  /**
+   * Get contract document default workflow code
+   */
   String getDefaultContractWorkflow() {
     return DEFAULT_CONTRACT_WORKFLOW
   }
 
+  /**
+   * Get contract document default workflow id
+   */
   Number getDefaultContractWorkflowId() {
     return DEFAULT_CONTRACT_WORKFLOW_ID
   }
 
+  /**
+   * Get contract by id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Map with contract table row or null
+   */
   Map getContract(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -57,6 +83,10 @@ trait Contract {
     return hid.getTableFirst(getContractsTable(), where: where)
   }
 
+  /**
+   * Search for contracts by different fields value
+   * @see #getDocumentsBy(Map)
+   */
   List getContractsBy(Map input) {
     input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
@@ -65,6 +95,10 @@ trait Contract {
     return getDocumentsBy(input)
   }
 
+  /**
+   * Search for one contract by different fields value
+   * @see #getDocumentBy(Map)
+   */
   Map getContractBy(Map input) {
     input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
@@ -73,14 +107,39 @@ trait Contract {
     return getDocumentBy(input)
   }
 
+  /**
+   * Check if entity type code is contract
+   * @param entityType {@link CharSequence String}. Document type ref code
+   * @return True if given value is contract, false otherwise
+   */
   Boolean isContract(CharSequence entityType) {
     return entityType == getContractType()
   }
 
+  /**
+   * Check if entity id ot entity type id is contract
+   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
+   * @return True if given value is contract, false otherwise
+   */
   Boolean isContract(def entityIdOrEntityTypeId) {
     return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractTypeId()
   }
 
+  /**
+   * Create or update contract
+   * @param docId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param contractId     Alias for docId
+   * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param baseContractId Alias for parentDocId
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
+   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
+   * @param receiverId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param state          {@link CharSequence String}. Optional
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with created or update contract (in Oracle API procedure notation)
+   */
   private Map putContract(Map input) {
     LinkedHashMap defaultParams = [
       docId       : null,
@@ -89,7 +148,6 @@ trait Contract {
       workflowId  : getDefaultContractWorkflowId(),
       providerId  : getFirmId(),
       receiverId  : null,
-      stateId     : getDocumentStateActualId(),
       beginDate   : local(),
       endDate     : null,
       number      : null
@@ -114,7 +172,6 @@ trait Contract {
           workflowId  : contract.n_workflow_id,
           providerId  : contract.n_provider_id,
           receiverId  : contract.n_receiver_id,
-          stateId     : contract.n_doc_state_id,
           beginDate   : contract.d_begin,
           endDate     : contract.d_end,
           number      : contract.vc_doc_no
@@ -222,16 +279,44 @@ trait Contract {
     }
   }
 
+  /**
+   * Create contract
+   * @param customerId     {@link java.math.BigInteger BigInteger}
+   * @param baseContractId {@link java.math.BigInteger BigInteger}. Optional
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
+   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with created contract (in Oracle API procedure notation)
+   */
   Map createContract(Map input = [:], def customerId) {
     input.remove('docId')
     input.remove('contractId')
     return putContract(input + [receiverId: customerId])
   }
 
+  /**
+   * Update contract
+   * @param docId          {@link java.math.BigInteger BigInteger}
+   * @param baseContractId {@link java.math.BigInteger BigInteger}. Optional
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with updated contract (in Oracle API procedure notation)
+   */
   Map updateContract(Map input = [:], def docId) {
     return updateContract(input + [docId: docId])
   }
 
+  /**
+   * Change contract state to Dissolved
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on contract app, false to disable such check. Optional, default: false
+   * @return True if contract was successfully dissolved, false otherwise
+   */
   Boolean dissolveContract(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
@@ -255,36 +340,66 @@ trait Contract {
     }
   }
 
+  /**
+   * Change contract state to Dissolved
+   *
+   * Overload with positional arguments
+   * @see @dissolveContract(Map)
+   */
   Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
+  /**
+   * Get contract apps table name
+   */
   String getContractAppsTable() {
     return getContractsTable()
   }
 
+  /**
+   * Get contract app document type ref code
+   */
   String getContractAppType() {
     return CONTRACT_APP_TYPE
   }
 
+  /**
+   * Get contract app document type ref id
+   */
   Number getContractAppTypeId() {
     return getRefIdByCode(CONTRACT_APP_TYPE)
   }
 
+  /**
+   * Get contract app document default workflow code
+   */
   String getDefaultContractAppWorkflow() {
     return DEFAULT_CONTRACT_APP_WORKFLOW
   }
 
+  /**
+   * Get contract app document default workflow id
+   */
   Number getDefaultContractAppWorkflowId() {
     return DEFAULT_CONTRACT_APP_WORKFLOW_ID
   }
 
+  /**
+   * Get contract app by id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Map with contract app table row or null
+   */
   Map getContractApp(def docId) {
     return getContract(docId)
   }
 
+  /**
+   * Search for contract apps by different fields value
+   * @see #getDocumentsBy(Map)
+   */
   List getContractAppsBy(Map input) {
-    input.docId = input.docId ?: input.contractId
+    input.docId = input.docId ?: input.contractAppId
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
@@ -293,8 +408,12 @@ trait Contract {
     return getDocumentsBy(input)
   }
 
+  /**
+   * Search for one contract app by different fields value
+   * @see #getDocumentBy(Map)
+   */
   Map getContractAppBy(Map input) {
-    input.docId = input.docId ?: input.contractId
+    input.docId = input.docId ?: input.contractAppId
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
@@ -303,14 +422,36 @@ trait Contract {
     return getDocumentBy(input)
   }
 
+  /**
+   * Check if entity type code is contract app
+   * @param entityType {@link CharSequence String}. Document type ref code
+   * @return True if given value is contract app, false otherwise
+   */
   Boolean isContractApp(CharSequence entityType) {
     return entityType == getContractAppType()
   }
 
+  /**
+   * Check if entity id ot entity type id is contract app
+   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
+   * @return True if given value is contract app, false otherwise
+   */
   Boolean isContractApp(def entityIdOrEntityTypeId) {
     return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
   }
 
+  /**
+   * Create or update contract app
+   * @param docId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param contractAppId  Alias for docId
+   * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param contractId     Alias for parentDocId
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with created or updated contract app (in Oracle API procedure notation)
+   */
   private Map putContractApp(Map input) {
     LinkedHashMap params = [
       docTypeId  : getContractAppTypeId(),
@@ -324,48 +465,104 @@ trait Contract {
     return putContract(params)
   }
 
+  /**
+   * Create contract app
+   * @param contractId     {@link java.math.BigInteger BigInteger}
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with created contract app (in Oracle API procedure notation)
+   */
   Map createContractApp(Map input = [:], def contractId) {
     input.remove('docId')
     input.remove('contractAppId')
     return putContractApp(input + [contractId: contractId])
   }
 
+  /**
+   * Update contract app
+   * @param docId          {@link java.math.BigInteger BigInteger}
+   * @param contractId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with updated contract app (in Oracle API procedure notation)
+   */
   Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
   }
 
+  /**
+   * Change contract app state to Dissolved
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on contract, false to disable such check. Optional, default: false
+   * @return True if contract was successfully dissolved, false otherwise
+   */
   Boolean dissolveContractApp(Map input) {
     return dissolveContract(input)
   }
 
+  /**
+   * Change contract app state to Dissolved
+   *
+   * Overload with positional arguments
+   * @see @dissolveContractApp(Map)
+   */
   Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
+  /**
+   * Get add agreements table name
+   */
   String getAddAgreementsTable() {
     return getContractsTable()
   }
 
+  /**
+   * Get add agreement document type ref code
+   */
   String getAddAgreementType() {
     return ADD_AGREEMENT_TYPE
   }
 
+  /**
+   * Get add agreement document type ref id
+   */
   Number getAddAgreementTypeId() {
     return getRefIdByCode(ADD_AGREEMENT_TYPE)
   }
 
+  /**
+   * Get add agreement document default workflow code
+   */
   String getDefaultAddAgreementWorkflow() {
     return DEFAULT_ADD_AGREEMENT_WORKFLOW
   }
 
+  /**
+   * Get add agreement document default workflow id
+   */
   Number getDefaultAddAgreementWorkflowId() {
     return DEFAULT_ADD_AGREEMENT_WORKFLOW_ID
   }
 
+  /**
+   * Get add agreement by id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Map with add agreement table row or null
+   */
   Map getAddAgreement(def docId) {
     return getContract(docId)
   }
 
+  /**
+   * Search for add agreements by different fields value
+   * @see #getDocumentsBy(Map)
+   */
   List getAddAgreementsBy(Map input) {
     input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
@@ -376,6 +573,10 @@ trait Contract {
     return getDocumentsBy(input)
   }
 
+  /**
+   * Search for one add agreement by different fields value
+   * @see #getDocumentBy(Map)
+   */
   Map getAddAgreementBy(Map input) {
     input.docId = input.docId ?: input.contractId
     if (!input.docTypeId) {
@@ -386,14 +587,37 @@ trait Contract {
     return getDocumentBy(input)
   }
 
+  /**
+   * Check if entity type code is add agreement
+   * @param entityType {@link CharSequence String}. Document type ref code
+   * @return True if given value is add agreement, false otherwise
+   */
   Boolean isAddAgreement(CharSequence entityType) {
     return entityType == getAddAgreementType()
   }
 
+  /**
+   * Check if entity id ot entity type id is add agreement
+   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
+   * @return True if given value is add agreement, false otherwise
+   */
   Boolean isAddAgreement(def entityIdOrEntityTypeId) {
     return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
   }
 
+  /**
+   * Create or update add agreement
+   * @param docId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param addAgreementId Alias for docId
+   * @param agreementId    Alias for docId
+   * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param contractId     Alias for parentDocId
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: add agreement default workflow
+   * @param beginDate      {@link java.time.Temporal Any date type}. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}. Optional
+   * @param number         {@link CharSequence String}. Optional
+   * @return Map with created or updated add agreement (in Oracle API procedure notation)
+   */
   private Map putAddAgreement(Map input) {
     LinkedHashMap params = [
       docTypeId  : getAddAgreementTypeId(),
@@ -407,6 +631,15 @@ trait Contract {
     return putContract(params)
   }
 
+  /**
+   * Create add agreement
+   * @param contractId {@link java.math.BigInteger BigInteger}
+   * @param workflowId {@link java.math.BigInteger BigInteger}. Optional
+   * @param beginDate  {@link java.time.Temporal Any date type}. Optional
+   * @param endDate    {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link CharSequence String}. Optional
+   * @return Map with created add agreement (in Oracle API procedure notation)
+   */
   Map createAddAgreement(Map input = [:], def contractId) {
     input.remove('docId')
     input.remove('agreementId')
@@ -414,26 +647,64 @@ trait Contract {
     return putAddAgreement(input + [contractId: contractId])
   }
 
+
+  /**
+   * Update add agreement
+   * @param docId      {@link java.math.BigInteger BigInteger}
+   * @param contractId {@link java.math.BigInteger BigInteger}. Optional
+   * @param workflowId {@link java.math.BigInteger BigInteger}. Optional
+   * @param beginDate  {@link java.time.Temporal Any date type}. Optional
+   * @param endDate    {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link CharSequence String}. Optional
+   * @return Map with created updated add agreement (in Oracle API procedure notation)
+   */
   Map updateAddAgreement(Map input = [:], def docId) {
     return putAddAgreement(input + [docId: docId])
   }
 
+  /**
+   * Change add agreement state to Dissolved
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on add agreement, false to disable such check. Optional, default: false
+   * @return True if contract was successfully dissolved, false otherwise
+   */
   Boolean dissolveAddAgreement(Map input) {
     return dissolveContract(input)
   }
 
+  /**
+   * Change add agreement state to Dissolved
+   *
+   * Overload with positional arguments
+   * @see @dissolveAddAgreement(Map)
+   */
   Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
   }
 
+  /**Refresh base contracts tree material view
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshBaseContracts(CharSequence method = 'C') {
     return refreshMaterialView(getBaseContractsTreeMV(), method)
   }
 
+  /**Refresh contracts tree material view
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshContracts(CharSequence method = 'C') {
     return refreshContractsTree(method)
   }
 
+  /**
+  /**Refresh contracts tree material view
+   * @see #refreshContracts(CharSequence)
+   */
   Boolean refreshContractsTree(CharSequence method = 'C') {
     return refreshMaterialView(getContractsTreeMV(), method)
   }
