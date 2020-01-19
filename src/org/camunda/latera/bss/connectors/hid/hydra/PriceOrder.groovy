@@ -6,14 +6,53 @@ trait PriceOrder {
   private static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'
   private static String PRICE_LINES_TABLE  = 'SD_V_PRICE_ORDERS_C'
 
+  /**
+   * Get price orders table name
+   */
   String getPriceOrdersTable() {
     return PRICE_ORDERS_TABLE
   }
 
+  /**
+   * Get price order lines table name
+   */
   String getPriceLinesTable() {
     return PRICE_LINES_TABLE
   }
 
+  /**
+   * Search for price orders by different fields value
+   * @param docId               {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param stateId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate           {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate             {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId           {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumRoundingId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param sumRounding         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRoundingId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRounding       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param calcDesignProcId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param calcDesignProc      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param deferTypeId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param deferType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferTypeId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit               {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC_LINE_NO DESC
+   * @return List[Map] of price order table rows
+   */
   List getPriceOrdersBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId               : null,
@@ -118,6 +157,38 @@ trait PriceOrder {
     return hid.getTableData(getPriceOrdersTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one price order by different fields value
+   * @param docId               {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param stateId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate           {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate             {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId           {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumRoundingId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param sumRounding         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRoundingId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRounding       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param calcDesignProcId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param calcDesignProc      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param deferTypeId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param deferType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferTypeId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC_LINE_NO DESC
+   * @return Map with price order table row
+   */
   Map getPriceOrder(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -125,6 +196,47 @@ trait PriceOrder {
     return hid.getTableFirst(getPriceOrdersTable(), where: where)
   }
 
+  /**
+   * Search for price order lines by different fields value
+   * @param docId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parLineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param goodType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param price             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param priceWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId            {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unit              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumRoundingId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param sumRounding       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRoundingId   {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRounding     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRating       {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantRatingUnitId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRatingUnit   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantFirst        {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantLast         {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantPrice        {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param initPaySum        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumLast           {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param speedVolume       {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param speedUnitId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param speedUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param timeIntervalId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param priceParam        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param userRem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit             {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
+   * @return List[Map] of price order line table rows
+   */
   List getPriceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
@@ -243,6 +355,12 @@ trait PriceOrder {
     return hid.getTableData(getPriceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Get price order lines by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param limit {@link Integer}. Optional, default: 0 (unlimited)
+   * @return List[Map] of price order line table rows
+   */
   List getPriceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -250,10 +368,56 @@ trait PriceOrder {
     return hid.getTableData(getPriceLinesTable(), where: where, limit: limit)
   }
 
+  /**
+   * Search for one price order line by different fields value
+   * @param docId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parLineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param goodType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param price             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param priceWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId            {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unit              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumRoundingId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param sumRounding       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRoundingId   {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRounding     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantRating       {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantRatingUnitId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param quantRatingUnit   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantFirst        {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantLast         {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param quantPrice        {@link Integer} with WHERE clause or SELECT query. Optional
+   * @param initPaySum        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumLast           {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param speedVolume       {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param speedUnitId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param speedUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param timeIntervalId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param priceParam        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param userRem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit             {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
+   * @return Map with price order line table row
+   */
   Map getPriceLineBy(Map input) {
     return getPriceLinesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get price order line by id
+   * @param lineId {@link java.math.BigInteger BigInteger}
+   * @return Map with price order line table row
+   */
   Map getPriceLine(def lineId) {
     LinkedHashMap where = [
       n_price_line_id: lineId

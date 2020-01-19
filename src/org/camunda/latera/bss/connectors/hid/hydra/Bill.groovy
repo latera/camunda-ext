@@ -188,9 +188,9 @@ trait Bill {
    * @param sumWoTax       {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param discountLineId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param discountDocId  {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param beginDate      {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param endDate        {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
    * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
    * @return List[Map] of bill line table rows
@@ -344,9 +344,9 @@ trait Bill {
    * @param sumWoTax       {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param discountLineId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param discountDocId  {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param beginDate      {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
-   * @param endDate        {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query
+   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
    * @return Map with bill line table row
    */
