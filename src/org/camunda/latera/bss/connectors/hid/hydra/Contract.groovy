@@ -134,11 +134,10 @@ trait Contract {
    * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
    * @param providerId     {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
    * @param receiverId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param state          {@link CharSequence String}. Optional
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created or update contract (in Oracle API procedure notation)
+   * @return Map with created or updated contract (in Oracle API procedure notation)
    */
   private Map putContract(Map input) {
     LinkedHashMap defaultParams = [
@@ -214,11 +213,10 @@ trait Contract {
         logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was put successfully!")
 
         if (params.providerId) {
-          Boolean providerAdded = addDocumentSubject(
+          Boolean providerAdded = addDocumentProvider(
             result.num_N_DOC_ID,
-            subjectId  : params.providerId,
-            accountId  : params.providerAccountId,
-            roleId     : getProviderRoleId(),
+            params.providerId,
+            params.providerAccountId,
             workflowId : params.workflowId
           )
           if (!providerAdded) {
@@ -226,11 +224,10 @@ trait Contract {
           }
         }
         if (params.receiverId) {
-          Boolean receiverAdded = addDocumentSubject(
+          Boolean receiverAdded = addDocumentReceiver(
             result.num_N_DOC_ID,
-            subjectId  : params.receiverId,
-            accountId  : params.receiverAccountId,
-            roleId     : getReceiverRoleId(),
+            params.receiverId,
+            params.receiverAccountId,
             workflowId : params.workflowId
           )
           if (!receiverAdded) {
@@ -239,11 +236,10 @@ trait Contract {
         }
 
         if (params.memberId || params.memberAccountId) {
-          Boolean memberAdded = addDocumentSubject(
+          Boolean memberAdded = addDocumentMemberMap(
             result.num_N_DOC_ID,
-            subjectId  : params.memberId,
-            accountId  : params.memberAccountId,
-            roleId     : getMemberRoleId(),
+            params.memberId,
+            params.memberAccountId,
             workflowId : params.workflowId
           )
           if (!memberAdded) {
@@ -252,11 +248,10 @@ trait Contract {
         }
 
         if (params.managerId || params.managerAccountId) {
-          Boolean managerAdded = addDocumentSubject(
+          Boolean managerAdded = addDocumentManager(
             result.num_N_DOC_ID,
-            subjectId  : params.managerId,
-            accountId  : params.managerAccountId,
-            roleId     : getManagerRoleId(),
+            params.managerId,
+            params.managerAccountId,
             workflowId : params.workflowId
           )
           if (!managerAdded) {
