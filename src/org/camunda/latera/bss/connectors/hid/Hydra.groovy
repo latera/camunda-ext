@@ -184,7 +184,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
       return this.version
 
     } catch (Exception e){
-      logger.error_oracle(e)
       return null
     }
   }
