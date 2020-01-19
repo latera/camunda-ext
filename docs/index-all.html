@@ -126,7 +126,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/helpers/hydra/Account.html" title="Trait in org.camunda.latera.bss.helpers.hydra">Account</a></span> - Trait in <a href="./org/camunda/latera/bss/helpers/hydra/package-summary.html">org.camunda.latera.bss.helpers.hydra</a>
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#actualizeBill(def)" title="Method in Bill">actualizeBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Change bill state to Actual</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#actualizeDocument(def)" title="Method in Document">actualizeDocument(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html#actualizeEquipment(def)" title="Method in Equipment">actualizeEquipment(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Equipment.html">Equipment</a>
@@ -262,7 +262,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/helpers/camunda/Camunda.html#Camunda(DelegateExecution)" title="Constructor in Camunda">Camunda(DelegateExecution)</a></span> - Constructor in <a href="org/camunda/latera/bss/helpers/camunda/Camunda.html">Camunda</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#cancelBill(def)" title="Method in Bill">cancelBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Change bill state to Canceled</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#cancelDocument(def)" title="Method in Document">cancelDocument(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Invoice.html#cancelInvoice(def)" title="Method in Invoice">cancelInvoice(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Invoice.html">Invoice</a>
@@ -710,7 +710,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/HID.html#execute(java.util.Map, java.lang.CharSequence)" title="Method in HID">execute(Map, CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/HID.html">HID</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#executeBill(def)" title="Method in Bill">executeBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Change bill state to Executed</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html#executeDocument(def)" title="Method in Document">executeDocument(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Document.html">Document</a>
 </dt><dd> <div class="block"></div></dd>
 </dl>
@@ -964,27 +964,27 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html#getBaseContractsTreeMV()" title="Method in Contract">getBaseContractsTreeMV()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Contract.html">Contract</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBill(def)" title="Method in Bill">getBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill by id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillBy(java.util.Map)" title="Method in Bill">getBillBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for one bill by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillLine(def)" title="Method in Bill">getBillLine(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill line by id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillLineBy(java.util.Map)" title="Method in Bill">getBillLineBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for one bill line by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillLines(def, java.lang.Integer)" title="Method in Bill">getBillLines(def, Integer)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill lines by doc id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillLinesBy(java.util.Map)" title="Method in Bill">getBillLinesBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for bill lines by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillLinesTable()" title="Method in Bill">getBillLinesTable()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill lines table name</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillsBy(java.util.Map)" title="Method in Bill">getBillsBy(Map)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Search for bills by different fields value</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillsTable()" title="Method in Bill">getBillsTable()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bills table name</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillType()" title="Method in Bill">getBillType()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill document type ref code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getBillTypeId()" title="Method in Bill">getBillTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill document type ref id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html#getBooleanType()" title="Method in DataType">getBooleanType()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html">DataType</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html#getBooleanTypeId()" title="Method in DataType">getBooleanTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/DataType.html">DataType</a>
@@ -1224,13 +1224,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Address.html#getDefaultAddressTypeId()" title="Method in Address">getDefaultAddressTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Address.html">Address</a>
 </dt><dd> <div class="block">Get default address type id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultAdvanceBillWorkflow()" title="Method in Bill">getDefaultAdvanceBillWorkflow()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get advance bill document default workflow code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultAdvanceBillWorkflowId()" title="Method in Bill">getDefaultAdvanceBillWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get advance bill document default workflow id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultBillWorkflow()" title="Method in Bill">getDefaultBillWorkflow()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill document default workflow code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultBillWorkflowId()" title="Method in Bill">getDefaultBillWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get bill document default workflow id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html#getDefaultBuildingType()" title="Method in Region">getDefaultBuildingType()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html">Region</a>
 </dt><dd> <div class="block">Get first value from last hierarchy key</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html#getDefaultBuildingTypeId()" title="Method in Region">getDefaultBuildingTypeId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html">Region</a>
@@ -1260,9 +1260,9 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html#getDefaultOverdraftReasonId()" title="Method in Account">getDefaultOverdraftReasonId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Account.html">Account</a>
 </dt><dd> <div class="block">Get default overdraft reason (manual) ref Id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultPrepaidBillWorkflow()" title="Method in Bill">getDefaultPrepaidBillWorkflow()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get prepaid bill document default workflow code</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#getDefaultPrepaidBillWorkflowId()" title="Method in Bill">getDefaultPrepaidBillWorkflowId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Get prepaid bill document default workflow id</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html#getDefaultRealtyGood()" title="Method in Region">getDefaultRealtyGood()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html">Region</a>
 </dt><dd> <div class="block">Get default realty good</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html#getDefaultRealtyGoodId()" title="Method in Region">getDefaultRealtyGoodId()</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Region.html">Region</a>
@@ -2150,7 +2150,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="org/camunda/latera/bss/helpers/hydra/Address.html#isBaseSubjectTelephoneEmpty(java.util.Map)" title="Method in Address">isBaseSubjectTelephoneEmpty(Map)</a></span> - Method in <a href="org/camunda/latera/bss/helpers/hydra/Address.html">Address</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html#isBill(def)" title="Method in Bill">isBill(def)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/hid/hydra/Bill.html">Bill</a>
-</dt><dd> <div class="block"></div></dd>
+</dt><dd> <div class="block">Check if entity id ot entity type id is bill</div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/connectors/minio/Bucket.html#isBucketExists(java.lang.CharSequence)" title="Method in Bucket">isBucketExists(CharSequence)</a></span> - Method in <a href="org/camunda/latera/bss/connectors/minio/Bucket.html">Bucket</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="org/camunda/latera/bss/utils/ListUtil.html#isByteArray(def)" title="Method in ListUtil">isByteArray(def)</a></span> - Method in <a href="org/camunda/latera/bss/utils/ListUtil.html">ListUtil</a>

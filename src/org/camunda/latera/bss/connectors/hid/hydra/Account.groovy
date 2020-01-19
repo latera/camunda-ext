@@ -491,7 +491,7 @@ trait Account {
    * @param sum           {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sumWoTax is not null)
    * @param sumWoTax      {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null(only it sum is not null)
    * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
-   * @param firmId        {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
    * @return True if adjustment was created successfully, false otherwise
    */
   private Boolean putAdjustment(Map input) {
@@ -538,7 +538,7 @@ trait Account {
    * @param sum           {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sumWoTax is not null)
    * @param sumWoTax      {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger} (above zero) or null (only it sum is not null)
    * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
-   * @param firmId        {@link java.math.BigDecimal BigDecimal}, {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
    * @return True if adjustment was created successfully, false otherwise
    */
   Boolean addAdjustment(Map input = [:], def accountId) {
