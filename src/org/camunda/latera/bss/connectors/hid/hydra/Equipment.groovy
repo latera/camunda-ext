@@ -4,6 +4,7 @@ import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
