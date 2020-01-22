@@ -263,17 +263,17 @@ trait Contract {
 
   Boolean dissolveContract(Map input) {
     LinkedHashMap params = mergeParams([
-      docId         : null,
-      endDate       : null,
-      checkInvoices : false
+      docId           : null,
+      endDate         : null,
+      checkChargeLogs : false
     ], input)
     params.docId = params.docId ?: params.contractId
     try {
       logger.info("Dissolving contract id ${params.docId} with date ${params.endDate}")
       LinkedHashMap contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_DISSOLVE', [
-        num_N_DOC_ID    : params.docId,
-        dt_D_END        : params.endDate,
-        b_CheckInvoices : encodeFlag(params.checkInvoices)
+        num_N_DOC_ID      : params.docId,
+        dt_D_END          : params.endDate,
+        b_CheckChargeLogs : encodeFlag(params.checkChargeLogs)
       ])
       logger.info("   Contract ${contract.num_N_DOC_ID} was dissolved successfully!")
       return true
@@ -284,8 +284,8 @@ trait Contract {
     }
   }
 
-  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   String getContractAppsTable() {
@@ -396,8 +396,8 @@ trait Contract {
     return dissolveContract(input)
   }
 
-  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   String getAddAgreementsTable() {
@@ -509,8 +509,8 @@ trait Contract {
     return dissolveContract(input)
   }
 
-  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   Boolean refreshBaseContracts(CharSequence method = 'C') {

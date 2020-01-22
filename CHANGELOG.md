@@ -1,4 +1,7 @@
 v1.5 [unreleased]
+### Breaking changes
+-   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
+
 -------------------
 ### Features
 -   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods

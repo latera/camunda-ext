@@ -7,3 +7,5 @@ target/*
 .env
 .sonarqube
 .postgresql
+.classpath
+.settings/

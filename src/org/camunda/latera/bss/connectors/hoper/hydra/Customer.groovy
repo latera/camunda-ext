@@ -30,11 +30,10 @@ trait Customer {
       group_ids         : params.groupIds,
       vc_rem            : params.rem,
       n_firm_id         : params.firmId,
-      t_tags            : params.tags
+      t_tags            : params.tags,
+      n_reseller_id     : params.resellerId
     ]
-    if (hoper.version == 2) {
-      result.n_reseller_id = params.resellerId
-    }
+
     if (additionalParams) {
       result.additional_values = params.additionalParams
     }
