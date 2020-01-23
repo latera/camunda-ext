@@ -110,38 +110,6 @@ trait Person {
     return getPersonsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getPersonByCode(CharSequence code) {
-    return getPersonBy(code: code)
-  }
-
-  Map getPersonByName(CharSequence name) {
-    return getPersonBy(name: name)
-  }
-
-  Map getPersonByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
-    return getPersonBy(firstName: firstName, lastName: lastName, secondName: secondName)
-  }
-
-  Map getPersonByFio(Map input) {
-    return getPersonByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
-  }
-
-  Number getPersonIdByCode(CharSequence code) {
-    return toIntSafe(getPersonByCode(code)?.n_subject_id)
-  }
-
-  Number getPersonIdByName(CharSequence name) {
-    return toIntSafe(getPersonByName(name)?.n_subject_id)
-  }
-
-  Number getPersonIdByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
-    return getPersonByFio(firstName, lastName, secondName)
-  }
-
-  Number getPersonIdByFio(Map input) {
-    return getPersonIdByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
-  }
-
   Map getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -251,22 +219,6 @@ trait Person {
 
   Map getPersonPrivateBy(Map input) {
     return getPersonsPrivateBy(input + [limit: 1])?.getAt(0)
-  }
-
-  Map getPersonPrivateByCode(CharSequence code) {
-    return getPersonPrivateBy(code: code)
-  }
-
-  Map getPersonPrivateByName(CharSequence name) {
-    return getPersonPrivateBy(name: name)
-  }
-
-  Map getPersonPrivateByFio(CharSequence firstName, CharSequence lastName, CharSequence secondName = null) {
-    return getPersonPrivateBy(firstName: firstName, lastName: lastName, secondName: secondName)
-  }
-
-  Map getPersonPrivateByFio(Map input) {
-    return getPersonPrivateByFio(firstName: input.firstName, lastName: input.lastName, secondName: input.secondName)
   }
 
   Boolean isPerson(def entityOrEntityType) {

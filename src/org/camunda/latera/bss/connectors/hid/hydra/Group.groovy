@@ -69,22 +69,6 @@ trait Group {
     return getGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getGroupByCode(CharSequence code) {
-    return getGroupBy(code: code)
-  }
-
-  Map getGroupByName(CharSequence name) {
-    return getGroupBy(name: name)
-  }
-
-  Number getGroupIdByCode(CharSequence code) {
-    return toIntSafe(getGroupByCode(code)?.n_subject_id)
-  }
-
-  Number getGrouIdByName(CharSequence name) {
-    return toIntSafe(getGroupByName(name)?.n_subject_id)
-  }
-
   Boolean isGroup(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

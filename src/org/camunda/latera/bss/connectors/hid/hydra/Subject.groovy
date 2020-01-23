@@ -156,22 +156,6 @@ trait Subject {
     return getSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getSubjectByCode(CharSequence code) {
-    return getSubjectBy(code: code)
-  }
-
-  Map getSubjectByName(CharSequence name) {
-    return getSubjectBy(name: name)
-  }
-
-  Number getSubjectIdByCode(CharSequence code) {
-    return toIntSafe(getSubjectByCode(code)?.n_subject_id)
-  }
-
-  Number getSubjectIdByName(CharSequence name) {
-    return toIntSafe(getSubjectByName(name)?.n_subject_id)
-  }
-
   Map getSubject(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -443,22 +427,6 @@ trait Subject {
 
   Map getSubjectGroupBy(Map input) {
     return getSubjectGroupsBy(input + [limit: 1])?.getAt(0)
-  }
-
-  Map getSubjectGroupByCode(CharSequence code) {
-    return getSubjectGroupBy(code: code)
-  }
-
-  Map getSubjectGroupByName(CharSequence name) {
-    return getSubjectGroupBy(name: name)
-  }
-
-  def getSubjectGroupIdByCode(CharSequence code) {
-    return getSubjectGroupByCode(code)?.n_subject_id
-  }
-
-  def getSubjectGroupIdByName(CharSequence name) {
-    return getSubjectGroupByName(name)?.n_subject_id
   }
 
   List getSubjectGroups(def subjectId) {

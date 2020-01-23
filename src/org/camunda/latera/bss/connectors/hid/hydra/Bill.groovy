@@ -70,22 +70,6 @@ trait Bill {
     return getDocumentBy([providerId: null] + input)
   }
 
-  Map getBillByCode(CharSequence code) {
-    return getBillBy(code: code)
-  }
-
-  Map getBillByName(CharSequence name) {
-    return getBillBy(name: name)
-  }
-
-  Number getBillIdByCode(CharSequence code) {
-    return toIntSafe(getBillByCode(code)?.n_doc_id)
-  }
-
-  Number getBillIdByName(CharSequence name) {
-    return toIntSafe(getBillByName(name)?.n_doc_id)
-  }
-
   Boolean isBill(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

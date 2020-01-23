@@ -110,22 +110,6 @@ trait Company {
     return getCompaniesBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getCompanyByCode(CharSequence code) {
-    return getCompanyBy(code: code)
-  }
-
-  Map getCompanyByName(CharSequence name) {
-    return getCompanyBy(name: name)
-  }
-
-  def getCompanyIdByCode(CharSequence code) {
-    return toIntSafe(getCompanyByCode(code)?.n_subject_id)
-  }
-
-  def getCompanyIdByName(CharSequence name) {
-    return toIntSafe(getCompanyByName(name)?.n_subject_id)
-  }
-
   Boolean isCompany(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

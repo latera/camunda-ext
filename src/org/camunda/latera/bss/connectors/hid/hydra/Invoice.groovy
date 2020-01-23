@@ -85,22 +85,6 @@ trait Invoice {
     return getDocumentBy(input)
   }
 
-  Map getInvoiceByCode(CharSequence code) {
-    return getInvoiceBy(code: code)
-  }
-
-  Map getInvoiceByName(CharSequence name) {
-    return getInvoiceBy(name: name)
-  }
-
-  Number getInvoiceIdByCode(CharSequence code) {
-    return toIntSafe(getInvoiceByCode(code)?.n_doc_id)
-  }
-
-  Number getInvoiceIdByName(CharSequence name) {
-    return toIntSafe(getInvoiceByName(name)?.n_doc_id)
-  }
-
   Number getInvoiceIdBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,

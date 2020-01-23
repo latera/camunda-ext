@@ -149,22 +149,6 @@ trait Good {
     return getGoodsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getGoodByCode(CharSequence code) {
-    return getGoodBy(code)
-  }
-
-  Map getGoodByName(CharSequence name) {
-    return getGoodBy(name)
-  }
-
-  Map getGoodIdByCode(CharSequence code) {
-    return getGoodByCode(code)?.n_good_id
-  }
-
-  Map getGoodIdByName(CharSequence name) {
-    return getGoodByName(name)?.n_good_id
-  }
-
   Boolean isGood(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

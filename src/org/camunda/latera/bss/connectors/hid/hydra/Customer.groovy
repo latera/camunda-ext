@@ -198,22 +198,6 @@ trait Customer {
     return getCustomersBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getCustomerByCode(CharSequence code) {
-    return getCustomerBy(code: code)
-  }
-
-  Map getCustomerByName(CharSequence name) {
-    return getCustomerBy(name: name)
-  }
-
-  Number getCustomerIdByCode(CharSequence code) {
-    return toIntSafe(getCustomerByCode(code)?.n_subject_id)
-  }
-
-  Number getCustomerIdByName(CharSequence name) {
-    return toIntSafe(getCustomerByName(name)?.n_subject_id)
-  }
-
   Boolean isCustomer(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

@@ -143,22 +143,6 @@ trait Equipment {
     return getObjectsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getObjectByCode(CharSequence code) {
-    return getObjectBy(code: code)
-  }
-
-  Map getObjectByName(CharSequence name) {
-    return getObjectBy(name: name)
-  }
-
-  Number getObjectIdByCode(CharSequence code) {
-    return toIntSafe(getObjectByCode(code)?.n_object_id)
-  }
-
-  Number getObjectIdByName(CharSequence name) {
-    return toIntSafe(getObjectByName(name)?.n_object_id)
-  }
-
   Boolean isObject(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false

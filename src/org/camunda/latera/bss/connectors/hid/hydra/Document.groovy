@@ -276,22 +276,6 @@ trait Document {
     return getDocumentsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getDocumentByCode(CharSequence code) {
-    return getDocumentBy(code: code)
-  }
-
-  Map getDocumentByName(CharSequence name) {
-    return getDocumentBy(name: name)
-  }
-
-  Number getDocumentIdByCode(CharSequence code) {
-    return toIntSafe(getDocumentByCode(code)?.n_doc_id)
-  }
-
-  Number getDocumentIdByName(CharSequence name) {
-    return toIntSafe(getDocumentByName(name)?.n_doc_id)
-  }
-
   Number getDocumentTypeId(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
