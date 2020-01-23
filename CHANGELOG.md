@@ -1,3 +1,8 @@
+v1.5 [unreleased]
+-------------------
+### Bugfixes
+-   [#12](https://github.com/latera/camunda-ext/pull/12) Fix helpers.Hydra#parseRegion method
+
 v1.4 [2020-01-13]
 -------------------
 ### Breaking changes
