@@ -221,9 +221,9 @@ trait Customer {
 
     Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
     if (entityIdOrEntityTypeId != null) {
-      return entityType == getCustomerType()
-    } else {
       return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
+    } else {
+      return entityType == getCustomerType()
     }
   }
 

@@ -193,7 +193,7 @@ trait Subject {
 
     Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
     if (entityIdOrEntityTypeId != null) {
-      return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
+      return getRefCode(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
     } else {
       return entityOrEntityType.contains('SUBJ_TYPE_') || entityOrEntityType == getSubjectEntityType()
     }
