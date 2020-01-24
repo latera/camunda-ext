@@ -3,6 +3,8 @@ v1.5 [unreleased]
 ### Breaking changes
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 
+v1.4.1 [unreleased]
+-------------------
 ### Features
 -   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods
 -   [#7](https://github.com/latera/camunda-ext/pull/7) Add raw arg to Order constructor
@@ -28,6 +30,7 @@ v1.5 [unreleased]
 -   [#85127dc](https://github.com/latera/camunda-ext/commit/85127dc) Fix hid.Hydra#addAdjustment method
 -   [#2b22ae7](https://github.com/latera/camunda-ext/commit/2b22ae7) Fix hoper.Hydra#getAddParamValue method
 -   [#d58ab24](https://github.com/latera/camunda-ext/commit/d58ab24) Fix hid.Hydra#createEquipment method
+-   [#19c0746](https://github.com/latera/camunda-ext/commit/19c0746) Fix helpers.Hydra#fetchSubscription method
 
 v1.4 [2020-01-13]
 -------------------
