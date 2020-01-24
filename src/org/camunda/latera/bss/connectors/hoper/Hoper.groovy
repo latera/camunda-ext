@@ -9,7 +9,6 @@ class Hoper {
   String url
   String user
   private String password
-  Integer version
   HTTPRestProcessor http
   SimpleLogger logger
 
@@ -18,12 +17,11 @@ class Hoper {
     def ENV     = System.getenv()
 
     this.url      =  execution.getVariable("hoperUrl")      ?: ENV['HOPER_URL']     ?: 'http://hoper:3000'
-    this.version  = (execution.getVariable("hoperVersion")  ?: ENV['HOPER_VERSION'] ?: 2)?.toInteger()
     this.user     =  execution.getVariable("hydraUser")     ?: ENV['HYDRA_USER']
     this.password =  execution.getVariable("hydraPassword") ?: ENV['HYDRA_PASSWORD']
 
     this.http = new HTTPRestProcessor(
-      baseUrl   : "${this.url}/rest/v${this.version}",
+      baseUrl   : "${this.url}/rest/v2",
       execution : execution
     )
   }
@@ -50,13 +48,7 @@ class Hoper {
   }
 
   private Map authHeader() {
-    if (this.version == 1) {
-      return ['Authorization': "Basic ${this.authBasic()}"]
-    }
-    if (this.version == 2) {
-      return ['Authorization': "Token token=\"${this.authToken()}\""]
-    }
-    return []
+    return ['Authorization': "Token token=\"${this.authToken()}\""]
   }
 
   def sendRequest(Map input, CharSequence method = 'get') {

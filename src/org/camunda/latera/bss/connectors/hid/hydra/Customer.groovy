@@ -250,11 +250,10 @@ trait Customer {
         num_N_SUBJ_STATE_ID   : params.stateId,
         num_N_SUBJ_GROUP_ID   : params.groupId,
         vch_VC_CODE           : params.code,
-        vch_VC_REM            : params.rem
+        vch_VC_REM            : params.rem,
+        num_N_RESELLER_ID     : params.resellerId
       ]
-      if (this.version > new Version('5') && notEmpty(params.resellerId)) {
-        args.num_N_RESELLER_ID = resellerId
-      }
+
       LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USERS_PUT', args)
       logger.info("   Customer ${result.num_N_SUBJECT_ID} was ${params.customerId ? 'updated' : 'created'} successfully!")
       return result

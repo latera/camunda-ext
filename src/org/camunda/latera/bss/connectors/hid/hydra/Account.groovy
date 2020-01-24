@@ -208,7 +208,7 @@ trait Account {
     return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_free).doubleValue()
   }
 
-  Double getAccountActualInvoicesSum(def accountId) {
+  Double getAccountActualChargeLogsSum(def accountId) {
     return toFloatSafe(hid.queryFirst("""
     SELECT SI_ACCOUNTS_PKG_S.GET_ACTUAL_CHARGE_LOGS_AMOUNT(${accountId})
     FROM   DUAL
@@ -299,11 +299,10 @@ trait Account {
         num_N_SERVICE_ID  : params.goodId,
         num_N_SUM         : params.sum,
         num_N_SUM_WO_TAX  : params.sumWoTax,
-        dt_D_OPER         : params.operationDate
+        dt_D_OPER         : params.operationDate,
+        num_N_FIRM_ID     : params.firmId
       ]
-      if (this.version < '5.1.2') {
-        args['num_N_FIRM_ID'] = params.firmId
-      }
+
       hid.execute('SD_BALANCE_ADJUSTMENTS_PKG.CHARGE_ADJUSTMENT', args)
       logger.info("   Adjustment was put successfully!")
       return true

@@ -16,7 +16,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Good
 import org.camunda.latera.bss.connectors.hid.hydra.Document
 import org.camunda.latera.bss.connectors.hid.hydra.Contract
 import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
-import org.camunda.latera.bss.connectors.hid.hydra.Invoice
+import org.camunda.latera.bss.connectors.hid.hydra.ChargeLog
 import org.camunda.latera.bss.connectors.hid.hydra.Bill
 import org.camunda.latera.bss.connectors.hid.hydra.Subject
 import org.camunda.latera.bss.connectors.hid.hydra.Company
@@ -32,9 +32,8 @@ import org.camunda.latera.bss.connectors.hid.hydra.Address
 import org.camunda.latera.bss.connectors.hid.hydra.Param
 import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.connectors.hid.hydra.Tag
-import org.camunda.latera.bss.internal.Version
 
-class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, Invoice, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
+class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
   private static Integer DEFAULT_FIRM = 100
   HID hid
   String user
@@ -43,7 +42,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   def resellerId
   SimpleLogger logger
   String locale
-  Version version
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
@@ -60,7 +58,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
     mainInit()
     setFirm()
-    this.version = getVersion()
   }
 
   private Map mergeParams(Map initial, Map input) {
@@ -155,23 +152,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     hid.execute('MAIN.SET_ACTIVE_FIRM', [
       num_N_FIRM_ID: firmId
     ])
-  }
-
-  Version getVersion() {
-    try {
-      LinkedHashMap result = hid.execute('MAIN.GET_DB_VERSION', [
-        num_HydraVersion    : null,
-        num_MajorVersion    : null,
-        num_MinorVersion    : null,
-        num_Modification    : null,
-        vch_Revision        : null,
-        dt_InstallationDate : null
-      ])
-      return new Version(result.num_HydraVersion, result.num_MajorVersion, result.num_MinorVersion, result.num_Modification)
-    } catch (Exception e){
-      logger.error_oracle(e)
-      return null
-    }
   }
   //Other methods are imported from traits
 }
