@@ -44,6 +44,7 @@ trait Company {
       groupId   : null,
       firmId    : getFirmId(),
       stateId   : getSubjectStateOnId(),
+      tags      : null,
       limit     : 0
     ], input)
     LinkedHashMap where = [:]
@@ -99,6 +100,9 @@ trait Company {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_COMPANY_ID', params.tags)
+    }
     return hid.getTableData(getCompaniesTable(), where: where, order: params.order, limit: params.limit)
   }
 
@@ -106,12 +110,17 @@ trait Company {
     return getCompaniesBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isCompany(CharSequence entityType) {
-    return entityType == getCompanyType()
-  }
+  Boolean isCompany(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isCompany(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getCompanyType()
+    }
   }
   
   private Map putCompany(Map input) {
@@ -225,6 +234,34 @@ trait Company {
 
   Map addCompanyAddParam(Map input = [:], def companyId) {
     return addSubjectAddParam(input, companyId)
+  }
+
+  Map addCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return addSubjectTag(input)
+  }
+
+  Map addCompanyTag(def companyId, CharSequence tag) {
+    return addCompanyTag(companyId: companyId, tag: tag)
+  }
+
+  Map addCompanyTag(Map input = [:], def companyId) {
+    return addCompanyTag(input + [companyId: companyId])
+  }
+
+  Boolean deleteCompanyTag(def companyTagId) {
+    return deleteSubjectTag(companyTagId)
+  }
+
+  Boolean deleteCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deleteCompanyTag(def companyId, CharSequence tag) {
+    return deleteCompanyTag(companyId: companyId, tag: tag)
   }
 
   Boolean refreshCompanies(CharSequence method = 'C') {

@@ -12,6 +12,7 @@ trait Equipment {
   private static String EQUIPMENT_ADD_PARAMS_TABLE   = 'SI_V_OBJ_VALUES'
   private static String OBJECTS_MV                   = 'SI_V_OBJECTS'
   private static String EQUIPMENT_ADD_PARAMS_MV      = 'SI_V_OBJ_VALUES'
+  private static String ENTITY_TYPE_OBJECT           = 'ENTITY_TYPE_Object'
   private static String EQUIPMENT_STATE_ACTUAL       = 'OBJ_STATE_Active'
   private static String EQUIPMENT_STATE_NOT_ACTIVE   = 'OBJ_STATE_NotActive'
   private static String EQUIPMENT_STATE_REGISTER_OFF = 'OBJ_STATE_RegisterOff'
@@ -42,6 +43,14 @@ trait Equipment {
 
   String getEquipmentMV() {
     return getObjectsMV()
+  }
+
+  String getEquipmentEntityType() {
+    return ENTITY_TYPE_OBJECT
+  }
+
+  Number getEquipmentEntityTypeId() {
+    return getRefIdByCode(getEquipmentEntityType())
   }
 
   String getEquipmentAddParamsMV() {
@@ -134,6 +143,19 @@ trait Equipment {
     return getObjectsBy(input + [limit: 1])?.getAt(0)
   }
 
+  Boolean isObject(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+  }
+
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+    return getObject(entityIdOrEntityTypeId) != null || entityIdOrEntityTypeId == getObjectEntityTypeId() || toIntSafe(getGood(entityIdOrEntityTypeId)?.n_good_kind_id) in [getObjectGoodKindId(), getNetServiceKindId()]
+    } else {
+      return entityOrEntityType == getObjectEntityType() || entityOrEntityType in [getObjectGoodKind(), getNetServiceKind()]
+  }
+  }
+  
   Map getEquipmentBy(Map input) {
     return getObjectBy(input)
   }

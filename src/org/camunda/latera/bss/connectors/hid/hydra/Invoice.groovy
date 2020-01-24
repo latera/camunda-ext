@@ -148,12 +148,17 @@ trait Invoice {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
-  Boolean isInvoice(CharSequence entityType) {
-    return entityType == getInvoiceType()
-  }
+  Boolean isInvoice(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isInvoice(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId)?.n_doc_type_id == getInvoiceTypeId()
+    } else {
+      return entityOrEntityType == getInvoiceType()
+    }
   }
 
   Boolean changeInvoiceEnd(Map input) {
@@ -356,5 +361,29 @@ trait Invoice {
       n_line_id: line
     ]
     return hid.getTableFirst(getInvoiceLinesTable(), where: where)
+  }
+
+  Map addInvoiceTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addInvoiceTag(def docId, CharSequence tag) {
+    return addInvoiceTag(docId: docId, tag: tag)
+  }
+
+  Map addInvoiceTag(Map input = [:], def docId) {
+    return addInvoiceTag(input + [docId: docId])
+  }
+
+  Boolean deleteInvoiceTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteInvoiceTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteInvoiceTag(def docId, CharSequence tag) {
+    return deleteInvoiceTag(docId: docId, tag: tag)
   }
 }
