@@ -1,0 +1,51 @@
+version: '3.6'
+services:
+  db:
+    image: postgres:11-alpine
+    container_name: postgres-bpm
+    restart: unless-stopped
+    env_file: ".env"
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_DB=${BPM_DB_NAME}
+      - POSTGRES_USER=${BPM_DB_USER}
+      - POSTGRES_PASSWORD=${BPM_DB_PASSWORD}
+    volumes:
+      - ./.postgresql/bpm:/var/lib/postgresql/data
+    networks:
+      - db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${BPM_DB_NAME}", "-U", "${BPM_DB_USER}"]
+      interval: 10m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+  bpm:
+    image: latera/camunda:1.4
+    container_name: bpm
+    restart: unless-stopped
+    env_file: ".env"
+    environment:
+      - TZ=${TZ}
+      - WAIT_FOR=${BPM_DB_HOST}:${BPM_DB_PORT}
+      - JAVA_OPTS=-Xmx1024m -XX:MaxMetaspaceSize=512m
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - default
+      - db
+      - bpm
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/camunda/app/welcome"]
+      interval: 10m
+      timeout: 5s
+      retries: 3
+      start_period: 180s
+networks:
+  db:
+    internal: true
+  bpm:
+    internal: true
+    name: bpm

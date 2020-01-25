@@ -1,5 +1,5 @@
 #!/bin/bash
-mvn compile groovydoc:generate com.bluetrainsoftware.maven:groovydoc-maven-plugin:2.1:attach-docs
+mvn compile groovydoc:generate com.bluetrainsoftware.maven:groovydoc-maven-plugin:2.1:attach-docs $@
 
 # Remove timestamps from documentation
 unamestr=`uname`
