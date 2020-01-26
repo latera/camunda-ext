@@ -2,7 +2,6 @@ package org.camunda.latera.bss.connectors
 
 import org.camunda.latera.bss.http.HTTPRestProcessor
 import org.camunda.latera.bss.logging.SimpleLogger
-import org.camunda.latera.bss.utils.Base64Converter
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class Hoper {
@@ -40,11 +39,6 @@ class Hoper {
       supressRequestBodyLog  : true,
       supressResponseBodyLog : true
     )?.session?.token
-  }
-
-  private String authBasic() {
-    String auth = "${this.user}:${this.password}"
-    return Base64Converter.to(auth)
   }
 
   private Map authHeader() {
