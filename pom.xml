@@ -60,6 +60,11 @@
     <sonar.tests>test</sonar.tests>
     <sonar.inclusions>**/**</sonar.inclusions>
     <sonar.language>grvy</sonar.language>
+    <sonar.java.source>${maven.compiler.source}</sonar.java.source>
+    <sonar.java.target>${maven.compiler.target}</sonar.java.target>
+    <sonar.core.codeCoveragePlugion>jacoco</sonar.core.codeCoveragePlugion>
+    <sonar.groovy.jacoco.reportPath>target/jacoco.exec</sonar.groovy.jacoco.reportPath>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
   </properties>
