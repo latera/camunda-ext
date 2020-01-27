@@ -2,7 +2,7 @@ version: "3.6"
 services:
   sonarqube:
     image: sonarqube
-    container_name: sonarcube
+    container_name: sonarqube
     ports:
       - "9000:9000"
     networks:
@@ -15,12 +15,12 @@ services:
       - ./.sonarqube/extensions/:/opt/sonarqube/extensions
   db:
     image: postgres:alpine
-    container_name: sonarcube-db
+    container_name: sonarqube-db
     networks:
       - db
     env_file: .env.test
     volumes:
-      - ./.postgresql/:/var/lib/postgresql/data
+      - ./.postgresql/sonar:/var/lib/postgresql/data
 networks:
   db:
     internal: true

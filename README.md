@@ -5,11 +5,14 @@
 Repo with helper classes for BPMN development.
 Included into [Latera Camunda docker image](https://github.com/latera/camunda-docker).
 
+# Download
+See [Releases](https://github.com/latera/camunda-ext/releases) for .jar files and [Dockerhub](https://hub.docker.com/r/latera/camunda) for docker images.
+
 # Documentation
-See https://latera.github.io/camunda-ext/
+See [Docs page](https://latera.github.io/camunda-ext/)
 
 # Test Cases
-See https://latera.github.io/camunda-ext/test-reports
+See [Test reports page](ttps://latera.github.io/camunda-ext/test-reports)
 
 # How to build
 ## Install [SDKman](https://sdkman.io/install)
@@ -38,3 +41,14 @@ cd camunda-ext
 ./build.sh
 ```
 See target/*.jar files
+## Test
+```bash
+./test.sh
+```
+
+# How to run
+```bash
+cp .env.sample .env
+docker-compose up -d
+```
+Then open http://localhost:8080/camunda with `user:changeme` credentials.

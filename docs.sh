@@ -15,7 +15,7 @@ if [[ "$TRAVIS_BRANCH" == "master" ]]; then
 fi
 
 # Generate docs
-mvn compile groovydoc:generate com.bluetrainsoftware.maven:groovydoc-maven-plugin:2.1:attach-docs
+mvn compile groovydoc:generate com.bluetrainsoftware.maven:groovydoc-maven-plugin:2.1:attach-docs $@
 
 # If this is a Travis build, use Github Pages relative urls /camunda-ext/version
 # Otherwise use just /camunda-ext without version,
