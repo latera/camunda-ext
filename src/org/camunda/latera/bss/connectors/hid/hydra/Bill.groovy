@@ -70,12 +70,17 @@ trait Bill {
     return getDocumentBy([providerId: null] + input)
   }
 
-  Boolean isBill(CharSequence entityType) {
-    return entityType == getBillType()
-  }
+  Boolean isBill(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isBill(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    } else {
+      return entityOrEntityType == getBillType()
+    }
   }
 
   Boolean actualizeBill(def docId) {
@@ -214,5 +219,29 @@ trait Bill {
       n_line_id: lineId
     ]
     return hid.getTableFirst(getBillLinesTable(), where: where)
+  }
+
+  Map addBillTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addBillTag(def docId, CharSequence tag) {
+    return addBillTag(docId: docId, tag: tag)
+  }
+
+  Map addBillTag(Map input = [:], def docId) {
+    return addBillTag(input + [docId: docId])
+  }
+
+  Boolean deleteBillTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteBillTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteBillTag(def docId, CharSequence tag) {
+    return deleteBillTag(docId: docId, tag: tag)
   }
 }

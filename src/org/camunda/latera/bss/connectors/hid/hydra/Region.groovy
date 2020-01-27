@@ -175,7 +175,7 @@ trait Region {
     Map result = [
       building: getRefName(getBuildingTypeId(buildingType))
     ]
-    BUILDING_FIELDS.each{ CharSequence key, CharSequence value ->
+    BUILDING_FIELDS.each { CharSequence key, CharSequence value ->
       result[key] = getMessageNameByCode(value)
     }
     return result
@@ -293,7 +293,7 @@ trait Region {
     String query = """
     SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(N_REGION_TYPE_ID),"""
     List fields = hid.getTableColumns(getRegionsTable())
-    fields.each{ CharSequence field ->
+    fields.each { CharSequence field ->
       query += """
       '${field.toLowerCase()}', ${field},"""
     }
@@ -344,7 +344,7 @@ trait Region {
   List getRegionItems(Map input) {
     List queryParts = []
     List typeNames = getRegionLevelTypeNamesWoBuilding()
-    typeNames.eachWithIndex{ type, i ->
+    typeNames.eachWithIndex { CharSequence type, Integer i ->
       queryParts << """
       SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[getRegionLevelName(i)] ?: ''}'
       FROM   ${getRefsTable()}
