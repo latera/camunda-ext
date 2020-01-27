@@ -26,8 +26,8 @@ class Hydra implements Account, Address, BaseSubject, Company, Contract, Custome
   HoperHydra hoper
 
   Hydra(Map params = [:], DelegateExecution execution) {
-    this.execution  = execution
-    this.order      = new Order(execution)
+    this.execution = execution
+    this.order     = new Order(execution)
 
     if (params.hydra != null) {
       this.hydra = params.hydra
