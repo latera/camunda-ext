@@ -7,7 +7,6 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import java.time.temporal.Temporal
-import org.camunda.latera.bss.internal.Version
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'

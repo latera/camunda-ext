@@ -2,6 +2,7 @@
 .idea/*
 .project
 activiti-ext.iml
+docs/*
 dst/*
 target
 .env

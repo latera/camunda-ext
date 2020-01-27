@@ -12,7 +12,7 @@ class JSON {
     Convert some class values before get JSON representation.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23escape"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23escape"></iframe>
     @param input Any object
   */
   static def escape(def input) {
@@ -41,7 +41,7 @@ class JSON {
     Get object JSON representation.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23to"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23to"></iframe>
     @param input Any object
   */
   static String to(def input) {
@@ -68,7 +68,7 @@ class JSON {
     Parse JSON value to object
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23from"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.JSONSpec.html#%23from"></iframe>
     @param json String with JSON representation
   */
   static def from(CharSequence json) {

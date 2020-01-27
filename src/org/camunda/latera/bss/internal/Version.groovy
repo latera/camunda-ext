@@ -38,7 +38,7 @@ class Version implements Comparable {
     Constructor with separated version items.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
     @param main @see #main
     @param major @see #major
     @param minor @see #minor
@@ -71,7 +71,7 @@ class Version implements Comparable {
     Constructor overload with named arguments.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
     @param input Map with named arguments.
     @see Version(def)
   */
@@ -83,7 +83,7 @@ class Version implements Comparable {
     Constructor overload for Number input.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+Number+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+Number+input"></iframe>
     @param input Number with version data.
     @see Version(def)
   */
@@ -95,7 +95,7 @@ class Version implements Comparable {
     Constructor overload for String input.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+String+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Constructor+for+String+input"></iframe>
     @param input String or GStringImpl with version data.
     @see Version(def)
   */
@@ -150,7 +150,7 @@ class Version implements Comparable {
     Get version as string.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#Default+constructor"></iframe>
     @returns String with version.
   */
   String toString() {
@@ -171,7 +171,7 @@ class Version implements Comparable {
     Get version as integer of decimal number (only main.major, without other parts).
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23toNumber"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23toNumber"></iframe>
     @returns BigInteger or BigDecimal with version.
   */
   Number toNumber() {
@@ -187,10 +187,10 @@ class Version implements Comparable {
     Examples:
     <br>
     For Version or String input:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23compareTo+with+Version+or+String+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23compareTo+with+Version+or+String+input"></iframe>
     <br>
     For Number input:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23compareTo+with+Number+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.internal.VersionSpec.html#%23compareTo+with+Number+input"></iframe>
     @param input Version, Number or String with version to compare.
     @returns 0 if source satisfies target (5.1.2 == 5.1), -1 if source less than target (5.0.0 < 5.1) or 1 if source more than target (5.1.2 > 5.0)
   */

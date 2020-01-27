@@ -12,7 +12,6 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
-import org.camunda.latera.bss.internal.Version
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
@@ -860,7 +859,6 @@ trait Address {
       objectId          : null,
       subnetAddressId   : null,
       vlanId            : null,
-      operationDate     : local(),
       firmId            : getFirmId(),
       isPublic          : null,
       limit             : 10
@@ -895,7 +893,6 @@ trait Address {
       }
     }
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     String filterReal = '1=1'
     if (params.isPublic != null) {
@@ -1108,7 +1105,6 @@ trait Address {
       groupId       : null,
       objectId      : null,
       telCodeId     : null,
-      operationDate : local(),
       firmId        : getFirmId(),
       limit         : 10
     ]
@@ -1130,7 +1126,6 @@ trait Address {
     }
 
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     (params.telCodeIds ?: [null]).each { def telCodeId ->
       try {
@@ -1441,7 +1436,6 @@ trait Address {
     LinkedHashMap defaultParams = [
       addressId     : null,
       mask          : null,
-      operationDate : local(),
       firmId        : getFirmId(),
       limit         : 0
     ]
@@ -1451,7 +1445,6 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     try {
       addresses = hid.queryDatabase("""
@@ -1481,7 +1474,6 @@ trait Address {
     LinkedHashMap defaultParams = [
       addressId     : null,
       mask          : null,
-      operationDate : local(),
       firmId        : getFirmId()
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
@@ -1490,7 +1482,6 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     LinkedHashMap address = null
-    String date = encodeDateStr(params.operationDate)
 
     try {
       address = hid.queryFirst("""
@@ -1535,7 +1526,6 @@ trait Address {
     LinkedHashMap defaultParams = [
       addressId     : null,
       mask          : null,
-      operationDate : local(),
       firmId        : getFirmId(),
       limit         : 0
     ]
@@ -1546,7 +1536,6 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     try {
       addresses = hid.queryDatabase("""

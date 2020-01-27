@@ -34,10 +34,10 @@ trait Individual {
     order."${prefix}FirstName"             = person?.vc_first_name
     order."${prefix}SecondName"            = person?.vc_second_name
     order."${prefix}LastName"              = person?.vc_surname
-    order."${prefix}Gender"                = person?.n_sex_id
+    order."${prefix}GenderId"              = person?.n_sex_id
     order."${prefix}BirthDate"             = person?.d_birth ? local(person.d_birth) : null
     order."${prefix}BirthPlace"            = personPrivate?.vc_birth_place
-    order."${prefix}IdentType"             = personPrivate?.n_doc_auth_type_id
+    order."${prefix}IdentTypeId"           = personPrivate?.n_doc_auth_type_id
     order."${prefix}IdentSerial"           = personPrivate?.vc_doc_serial
     order."${prefix}IdentNumber"           = personPrivate?.vc_doc_no
     order."${prefix}IdentIssuedAuthor"     = personPrivate?.vc_document
@@ -58,8 +58,10 @@ trait Individual {
       firstName     : order."${prefix}FirstName",
       secondName    : order."${prefix}SecondName" ?: order."${prefix}MiddleName",
       lastName      : order."${prefix}LastName",
-      sexId         : order."${prefix}Gender",
-      docTypeId     : order."${prefix}IdentType",
+      sex           : order."${prefix}Gender",
+      sexId         : order."${prefix}GenderId",
+      docType       : order."${prefix}IdentType",
+      docTypeId     : order."${prefix}IdentTypeId",
       docSerial     : order."${prefix}IdentSerial",
       docNumber     : order."${prefix}IdentNumber",
       docDate       : order."${prefix}IdentIssuedDate",
@@ -67,6 +69,7 @@ trait Individual {
       docAuthor     : order."${prefix}IdentIssuedAuthor",
       inn           : order."${subjectPrefix}INN",
       kpp           : order."${subjectPrefix}KPP",
+      opf           : order."${subjectPrefix}OPF",
       opfId         : order."${subjectPrefix}OPFId",
       birthDate     : order."${prefix}BirthDate",
       birthPlace    : order."${prefix}BirthPlace"

@@ -24,8 +24,8 @@ before_cache:
   - docker save -o docker_images/images.tar $(docker images -a -q)
 script:
   - ./test.sh
-  - ./deploy.sh
-  - ./docs.sh
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./deploy.sh; fi
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ./docs.sh; fi
 deploy:
   - provider: releases
     api_key: $GITHUB_TOKEN

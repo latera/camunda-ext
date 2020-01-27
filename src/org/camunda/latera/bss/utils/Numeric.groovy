@@ -8,7 +8,7 @@ class Numeric {
     Convert input to BigInt or return default value.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntSafe+without+default+value"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntSafe+without+default+value"></iframe>
     @param value Any object to convert
     @param defaultValue If not possible to convert, value to return. Default null
   */
@@ -27,7 +27,7 @@ class Numeric {
     Convert input to BigInt or return default value.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntExact+without+default+value"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toIntExact+without+default+value"></iframe>
     @param value Any object to convert
     @param defaultValue If not possible to convert, value to return. Default null
   */
@@ -48,7 +48,7 @@ class Numeric {
     Convert input to BigDecimal or return default value.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toFloatSafe+without+default+value"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23toFloatSafe+without+default+value"></iframe>
     @param value Any object to convert
     @param defaultValue If not possible to convert, value to return. Default null
   */
@@ -71,7 +71,7 @@ class Numeric {
     Check whether input is Integer or not.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
     @param value Any object to check
   */
   static Boolean isInteger(def value) {
@@ -82,7 +82,7 @@ class Numeric {
     Check whether input is Integer or not. Same as #isInteger, but returns false if there is decimal part in input (even 0).
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isInteger"></iframe>
     @param value Any object to check
     @see #isInteger
   */
@@ -123,7 +123,7 @@ class Numeric {
     Check whether input is Float or not.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isFloat"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isFloat"></iframe>
     @param value Any object to check
   */
   static Boolean isFloat(def value) {
@@ -134,7 +134,7 @@ class Numeric {
     Check whether input is Number (Integer or Float) or not.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isNumber"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23isNumber"></iframe>
     @param value Any object to check
   */
   static Boolean isNumber(def value) {
@@ -147,7 +147,7 @@ class Numeric {
     If argument cannot be converted into BigDecimal, 0 returned.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23round"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23round"></iframe>
     @param number Float to round
     @param digits Digits number. Default 2
   */
@@ -161,7 +161,7 @@ class Numeric {
     If argument cannot be converted into BigDecimal, 0 is used instead.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23max"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23max"></iframe>
     @param first First number
     @param second Second number
   */
@@ -175,7 +175,7 @@ class Numeric {
     If argument cannot be converted into BigDecimal, 0 is used instead.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23min"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.NumericSpec.html#%23min"></iframe>
     @param first First number
     @param second Second number
   */
