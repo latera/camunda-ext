@@ -36,5 +36,8 @@ fi
 
 # Push docs into separated dirs in gh-pages repo
 if [[ "x$VERSION" != "x" ]]; then
+  git remote remove origin
+  git remote add origin https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG.git > /dev/null 2>&1
+
   gh-pages-multi deploy --no-history -t $VERSION
 fi
