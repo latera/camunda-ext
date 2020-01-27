@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
@@ -29,11 +30,11 @@ trait Region {
   */
   private static LinkedHashMap REGION_HIERARCHY = [
     state    : ['REGION_TYPE_State'],
-    oblast   : ['REGION_TYPE_Oblast'],
-    okrug    : ['REGION_TYPE_Okrug'],
+    oblast   : ['REGION_TYPE_Oblast','REGION_TYPE_Republic'],
+    okrug    : ['REGION_TYPE_Okrug','REGION_TYPE_Territory'],
     district : ['REGION_TYPE_District'],
-    city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement', 'REGION_TYPE_Village'],
-    street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage', 'REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard', 'REGION_TYPE_Square'],
+    city     : ['REGION_TYPE_City','REGION_TYPE_UrbanVillage','REGION_TYPE_Settlement','REGION_TYPE_Village','REGION_TYPE_TheSettlement'],
+    street   : ['REGION_TYPE_Street','REGION_TYPE_Avenue','REGION_TYPE_Passage','REGION_TYPE_Highway','REGION_TYPE_SideStreet','REGION_TYPE_Seafront','REGION_TYPE_Boulevard','REGION_TYPE_Square','REGION_TYPE_Line'],
     building : ['REGION_TYPE_Building']
   ]
 
@@ -46,7 +47,7 @@ trait Region {
     home      : 'Region_Home_Short',
     corpus    : 'Region_Building_Short',
     construct : 'Region_Construct_Short',
-    ownership : 'Region_Ownership_Short',
+    ownership : 'Region_Ownership_Short'
   ]
 
   String getRegionsTable() {
@@ -85,9 +86,8 @@ trait Region {
 
   // Get region hierarchy excluding last element
   Map getRegionHierarchyWoBuilding() {
-    Map hierarchy = [:]
-    getRegionLevelNamesWoBuilding().each { name ->
-      hierarchy[name] = getRegionLevel(name)
+    Map hierarchy = getRegionLevelNamesWoBuilding().collectEntries { CharSequence name ->
+      [(name): getRegionLevel(name)]
     }
     return hierarchy
   }
@@ -159,13 +159,15 @@ trait Region {
 
   // Search hierarchy key by 'REGION_TYPE_State' presence in each item
   String getRegionLevelNameByItem(CharSequence code) {
-    String result = null
-    getRegionHierarchy().each{ name, values ->
-      if (code in values) {
-        result = name
+    LinkedHashMap hierarchy = getRegionHierarchy()
+    for (CharSequence name : keysList(hierarchy)) {
+      List values = hierarchy[name]
+      String realCode = code.toString()
+      if (realCode in values) {
+        return name
       }
     }
-    return result
+    return null
   }
 
   // Get [building: 'зд.', home: 'д.',]
@@ -173,7 +175,7 @@ trait Region {
     Map result = [
       building: getRefName(getBuildingTypeId(buildingType))
     ]
-    BUILDING_FIELDS.each{ key, value ->
+    BUILDING_FIELDS.each { CharSequence key, CharSequence value ->
       result[key] = getMessageNameByCode(value)
     }
     return result
@@ -291,30 +293,29 @@ trait Region {
     String query = """
     SELECT 'vc_region_type', SI_REF_PKG_S.GET_CODE_BY_ID(N_REGION_TYPE_ID),"""
     List fields = hid.getTableColumns(getRegionsTable())
-    fields.each{ field ->
+    fields.each { CharSequence field ->
       query += """
       '${field.toLowerCase()}', ${field},"""
     }
 
     List hierarchyFlatten = getRegionHierarchyWoBuildingFlatten()
-    hierarchyFlatten.each{ code ->
+    hierarchyFlatten.each { CharSequence code ->
       query += """
       '${code}', SR_REGIONS_PKG_S.GET_UPPER_REGION_CODE(N_REGION_ID, SI_REF_PKG_S.GET_ID_BY_CODE('${code}')),"""
-    }.join(',')
-
+    }
 
     query = query.replaceAll(/,*$/, '') + """
     FROM ${getRegionsTable()}
     WHERE N_REGION_ID = ${regionId}"""
 
     LinkedHashMap data = hid.queryFirst(query, true)
-    if (!data) {
-      return [:]
+    LinkedHashMap result = [:]
+    if (isEmpty(data)) {
+      return result
     }
 
-    LinkedHashMap result = [:]
-    hierarchyFlatten.each{ code ->
-      if (data[code]) {
+    hierarchyFlatten.each { CharSequence code ->
+      if (notEmpty(data[code])) {
         String name = getRegionLevelNameByItem(code)
 
         result[name] = data[code] //oblast = 'Some value'
@@ -343,7 +344,7 @@ trait Region {
   List getRegionItems(Map input) {
     List queryParts = []
     List typeNames = getRegionLevelTypeNamesWoBuilding()
-    typeNames.eachWithIndex{ type, i ->
+    typeNames.eachWithIndex { CharSequence type, Integer i ->
       queryParts << """
       SELECT VC_VALUE, NVL(VC_VALUE_2,'N'), '${input[getRegionLevelName(i)] ?: ''}'
       FROM   ${getRefsTable()}
@@ -426,7 +427,7 @@ trait Region {
     Boolean result = true
     List levelNames = getRegionLevelNames()
 
-    (['regionId'] + levelNames).each { name ->
+    (['regionId'] + levelNames).each { CharSequence name ->
       if (notEmpty(input[name])) {
         result = false
       }
