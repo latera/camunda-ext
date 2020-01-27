@@ -4,9 +4,12 @@ import org.camunda.bpm.application.ProcessApplication
 import org.camunda.bpm.application.impl.ServletProcessApplication
 import org.camunda.latera.bss.executionListeners.EventLogging
 import org.camunda.latera.bss.executionListeners.AutoSaveOrderData
+import org.camunda.latera.bss.taskListeners.TaskNotifier
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.bpm.engine.delegate.ExecutionListener
 import org.camunda.bpm.engine.delegate.DelegateExecution
+import org.camunda.bpm.engine.delegate.TaskListener
+import org.camunda.bpm.engine.delegate.DelegateTask
 
 @ProcessApplication("pizza_order")
 class PizzaOrderApplication extends ServletProcessApplication {
@@ -25,6 +28,14 @@ class PizzaOrderApplication extends ServletProcessApplication {
         if (eventName == ExecutionListener.EVENTNAME_END) {
           new AutoSaveOrderData().notify(execution)
         }
+      }
+    }
+  }
+
+  TaskListener getTaskListener() {
+    return new TaskListener() {
+      void notify(DelegateTask task) {
+        new TaskNotifier().notify(task)
       }
     }
   }
