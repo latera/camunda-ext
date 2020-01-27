@@ -9,7 +9,7 @@ class StringUtil {
     Check if input is String or GString.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23isString"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23isString"></iframe>
     @param input Any object for type check
   */
   static Boolean isString(def input) {
@@ -20,7 +20,7 @@ class StringUtil {
     Check if input is empty String (w/o space and other symbols) or null.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23isEmpty"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23isEmpty"></iframe>
     @param input String to check emptiness
   */
   static Boolean isEmpty(def input) {
@@ -31,7 +31,7 @@ class StringUtil {
     Check if input is not empty String (w/o space and other symbols) or null.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23notEmpty"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23notEmpty"></iframe>
     @param input String to check emptiness
   */
   static Boolean notEmpty(def input) {
@@ -59,7 +59,7 @@ class StringUtil {
     Like #isEmpty() but also determine 'null' or 'NULL' as empty strings. Used in HID class.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceIsEmpty"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceIsEmpty"></iframe>
     @param input String to check emptiness
     @see #isEmpty(def)
   */
@@ -74,7 +74,7 @@ class StringUtil {
     Like #notEmpty() but also determine 'null' or 'NULL' as empty strings. Used in HID class.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceNotEmpty"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceNotEmpty"></iframe>
     @param input String to check emptiness
     @see #notEmpty(def)
   */
@@ -101,7 +101,7 @@ class StringUtil {
     Trim spaces or other indent symbols from begin and end of String. Non-string values returns as String except null
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23trim"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23trim"></iframe>
     @param input String for trimming
     @see #isEmpty(def)
   */
@@ -113,7 +113,7 @@ class StringUtil {
     Convert 'null' and 'NULL' Strings to null value
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23nvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23nvl"></iframe>
     @param input String for null coerce
   */
   static String nvl(def input) {
@@ -128,7 +128,7 @@ class StringUtil {
     Convert 'null', 'NULL' and empty Strings to null value
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceNvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23forceNvl"></iframe>
     @param input String for null coerce
     @see #forceIsEmpty(def)
   */
@@ -145,7 +145,7 @@ class StringUtil {
     Used by HID class.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23unicodeToVarchar"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23unicodeToVarchar"></iframe>
     @param input String to convert
   */
   static byte[] unicodeToVarchar(CharSequence input) {
@@ -160,7 +160,7 @@ class StringUtil {
     Used by HID class.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23varcharToUnicode"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23varcharToUnicode"></iframe>
     @param input String to convert
   */
   static String varcharToUnicode(CharSequence input) {
@@ -174,7 +174,7 @@ class StringUtil {
     Convert UTF-8 string to CP-1251 charset.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23unicodeToCP1251"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23unicodeToCP1251"></iframe>
     @param input String to convert
   */
   static byte[] unicodeToCP1251(CharSequence input) {
@@ -188,7 +188,7 @@ class StringUtil {
     Convert CP-1251 string UTF-8 charset.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23cp1251ToUnicode"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23cp1251ToUnicode"></iframe>
     @param input String to convert
   */
   static String cp1251ToUnicode(CharSequence input) {
@@ -202,7 +202,7 @@ class StringUtil {
     Convert snake_case to camelCase or CamelCase
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23camelize+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23camelize+without+firstUpper"></iframe>
     @param input String for camelize
     @param firstUpper If true return first letter capital otherwise not
   */
@@ -220,7 +220,7 @@ class StringUtil {
     Alias for #camelize with named args.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23camelize+with+named+arguments+-+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23camelize+with+named+arguments+-+without+firstUpper"></iframe>
     @param input String for camelize
     @param firstUpper Whether return first letter capital or not
     @see #camelize(CharSequence,Boolean)
@@ -233,7 +233,7 @@ class StringUtil {
     Convert camelCase or CamelCase to snake_case
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23snakeCase"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23snakeCase"></iframe>
     @param input String to convert to snake case
   */
   static String snakeCase(CharSequence input) {
@@ -244,7 +244,7 @@ class StringUtil {
     Convert first word letter to capital one
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23capitalize"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23capitalize"></iframe>
     @param input String to capitalize
   */
   static String capitalize(CharSequence input){
@@ -255,7 +255,7 @@ class StringUtil {
     Convert first word letters to lower case
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23decapitalize"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23decapitalize"></iframe>
     @param input String to decapitalize
   */
   static String decapitalize(CharSequence input){
@@ -272,7 +272,7 @@ class StringUtil {
     Join list or array items with delimiter
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23join"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23join"></iframe>
     @param input List to join
     @param delimiter Delimiter, default ''
   */
@@ -284,7 +284,7 @@ class StringUtil {
     Join list or array non-empty, non-null values or non-'null' string items with delimiter
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23join"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23join"></iframe>
     @param input List to join
     @param delimiter Delimiter, default ''
   */
@@ -296,7 +296,7 @@ class StringUtil {
     Generate random string with specified length
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23random"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23random"></iframe>
     @param length String length, default 6
   */
   static String random(Integer length = 6) {

@@ -13,7 +13,7 @@ class MapUtil {
     Check if input is Map
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23isMap"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23isMap"></iframe>
     @param input Any object for type check
   */
   static Boolean isMap(def input) {
@@ -26,7 +26,7 @@ class MapUtil {
     '{...}' became list, [...:...] returned unchanged, non-map values became an empty map [:]
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23parse"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23parse"></iframe>
     @param input Map, null or String with JSON map
   */
   static Map parse(def input) {
@@ -50,7 +50,7 @@ class MapUtil {
     Return list of map keys.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23keysList"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23keysList"></iframe>
     @param input Map
   */
   static List keysList(Map input) {
@@ -61,7 +61,7 @@ class MapUtil {
     Get keys count from map.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23keysCount"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23keysCount"></iframe>
     @param input Map
   */
   static Integer keysCount(Map input) {
@@ -74,7 +74,7 @@ class MapUtil {
     GString are converted into String ones.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23merge"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23merge"></iframe>
     @param first Primary map
     @param second Secondary map
   */
@@ -98,7 +98,7 @@ class MapUtil {
     Same as #merge(Map,Map), but if second map value is null but first is not, value is being preserved.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23mergeNotNull"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23mergeNotNull"></iframe>
     @param first Primary map
     @param second Secondary map
     @see #merge(Map,Map)
@@ -125,7 +125,7 @@ class MapUtil {
     Convert map keys to camelCase.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23camelizeKeys+with+Map+input+-+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23camelizeKeys+with+Map+input+-+without+firstUpper"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
   */
@@ -143,7 +143,7 @@ class MapUtil {
     Same as #camelizeKeys(Map,Boolean), but for List[Map] input
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23camelizeKeys+with+List+input+-+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23camelizeKeys+with+List+input+-+without+firstUpper"></iframe>
     @param input List[Map]
     @param firstUpper If true return first letter capital otherwise not
     @see #camelizeKeys(Map,Boolean)
@@ -166,7 +166,7 @@ class MapUtil {
     Same as #camelizeKeys(Map,Boolean), but recursive.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+Map+input+-+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+Map+input+-+without+firstUpper"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
     @see #deepCamelizeKeys(Map,Boolean)
@@ -189,7 +189,7 @@ class MapUtil {
     Same as #deepCamelizeKeys(Map,Boolean), but for List[Map] input.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+List+input+-+without+firstUpper"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+List+input+-+without+firstUpper"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
     @see #camelizeKeys(Map,Boolean)
@@ -210,7 +210,7 @@ class MapUtil {
     Convert map keys to snake_case.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23snakeCaseKeys+with+Map+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23snakeCaseKeys+with+Map+input"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
   */
@@ -228,7 +228,7 @@ class MapUtil {
     Same as #snakeCaseKeys(Map), but for List[Map] input
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23snakeCaseKeys+with+List+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23snakeCaseKeys+with+List+input"></iframe>
     @param input List[Map]
     @see #snakeCaseKeys(Map)
   */
@@ -250,7 +250,7 @@ class MapUtil {
     Same as #snakeCaseKeys(Map), but recursive
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepSnakeCaseKeys+with+Map+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepSnakeCaseKeys+with+Map+input"></iframe>
     @param input Map
     @see #snakeCaseKeys(Map)
   */
@@ -272,7 +272,7 @@ class MapUtil {
     Same as #deepSnakeCaseKeys(Map), but for List[Map] input
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepSnakeCaseKeys+with+List+input"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepSnakeCaseKeys+with+List+input"></iframe>
     @param input Map
     @see #deepSnakeCaseKeys(Map)
   */
@@ -292,7 +292,7 @@ class MapUtil {
     Remove null values from map, coerse '', 'null' and 'NULL' values as null, return other values and all keys unchanged.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23nvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23nvl"></iframe>
     @param input Map
   */
   static Map nvl(Map input) {
@@ -315,7 +315,7 @@ class MapUtil {
     Like #nvl(Map), but remove more items.
     <p>
     Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23forceNvl"></iframe>
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23forceNvl"></iframe>
     @param input Map
   */
   static Map forceNvl(Map input) {
