@@ -1,2 +1,2 @@
 #!/bin/bash
-mvn clean compile package
+mvn clean compile package $@

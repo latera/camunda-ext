@@ -4,7 +4,10 @@
 activiti-ext.iml
 docs/*
 dst/*
-target/*
+target
 .env
 .sonarqube
 .postgresql
+.classpath
+.settings/
+demo_processes/list
