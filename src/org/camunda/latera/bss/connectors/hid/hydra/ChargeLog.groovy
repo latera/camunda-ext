@@ -5,35 +5,35 @@ import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import java.time.temporal.Temporal
 
-trait Invoice {
-  private static String  INVOICES_TABLE              = 'SD_V_INVOICES_T'
-  private static String  GOOD_MOVES_TABLE            = 'SD_V_GOOD_MOVES_T'
-  private static String  INVOICE_LINES_TABLE         = 'SD_V_INVOICES_C'
-  private static String  INVOICE_TYPE                = 'DOC_TYPE_Invoice'
-  private static String  CHARGE_CHARGED_TYPE         = 'GM_TYPE_Charged'
-  private static String  CHARGE_RESERVED_TYPE        = 'GM_TYPE_Reserve'
-  private static String  CHARGE_CANCELED_TYPE        = 'GM_TYPE_Cancelled'
-  private static String  DEFAULT_INVOICE_WORKFLOW    = 'WFLOW_Invoice'
-  private static Integer DEFAULT_INVOICE_WORKFLOW_ID = 30021
+trait ChargeLog {
+  private static String  CHARGE_LOGS_TABLE              = 'SD_V_CHARGE_LOGS_T'
+  private static String  GOOD_MOVES_TABLE               = 'SD_V_GOOD_MOVES_T'
+  private static String  CHARGE_LOG_LINES_TABLE         = 'SD_V_CHARGE_LOGS_C'
+  private static String  CHARGE_LOG_TYPE                = 'DOC_TYPE_ChargeLog'
+  private static String  CHARGE_CHARGED_TYPE            = 'GM_TYPE_Charged'
+  private static String  CHARGE_RESERVED_TYPE           = 'GM_TYPE_Reserve'
+  private static String  CHARGE_CANCELED_TYPE           = 'GM_TYPE_Cancelled'
+  private static String  DEFAULT_CHARGE_LOG_WORKFLOW    = 'WFLOW_ChargeLog'
+  private static Integer DEFAULT_CHARGE_LOG_WORKFLOW_ID = 30021
 
-  String getInvoicesTable() {
-    return INVOICES_TABLE
+  String getChargeLogsTable() {
+    return CHARGE_LOGS_TABLE
   }
 
   String getGoodMovesTable() {
     return GOOD_MOVES_TABLE
   }
 
-  String getInvoiceLinesTable() {
-    return INVOICE_LINES_TABLE
+  String getChargeLogLinesTable() {
+    return CHARGE_LOG_LINES_TABLE
   }
 
-  String getInvoiceType() {
-    return INVOICE_TYPE
+  String getChargeLogType() {
+    return CHARGE_LOG_TYPE
   }
 
-  Number getInvoiceTypeId() {
-    return getRefIdByCode(getInvoiceType())
+  Number getChargeLogTypeId() {
+    return getRefIdByCode(getChargeLogType())
   }
 
   String getChargeChargedType() {
@@ -60,32 +60,32 @@ trait Invoice {
     return getRefIdByCode(getChargeCanceledType())
   }
 
-  String getDefaultInvoiceWorkflow() {
-    return DEFAULT_INVOICE_WORKFLOW
+  String getDefaultChargeLogWorkflow() {
+    return DEFAULT_CHARGE_LOG_WORKFLOW
   }
 
-  Number getDefaultInvoiceWorkflowId() {
-    return DEFAULT_INVOICE_WORKFLOW_ID
+  Number getDefaultChargeLogWorkflowId() {
+    return DEFAULT_CHARGE_LOG_WORKFLOW_ID
   }
 
-  Map getInvoice(def docId) {
+  Map getChargeLog(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    return hid.getTableFirst(getInvoicesTable(), where: where)
+    return hid.getTableFirst(getChargeLogsTable(), where: where)
   }
 
-  List getInvoicesBy(Map input) {
-    input.docTypeId = getInvoiceTypeId()
+  List getChargeLogsBy(Map input) {
+    input.docTypeId = getChargeLogTypeId()
     return getDocumentsBy(input)
   }
 
-  Map getInvoiceBy(Map input) {
-    input.docTypeId = getInvoiceTypeId()
+  Map getChargeLogBy(Map input) {
+    input.docTypeId = getChargeLogTypeId()
     return getDocumentBy(input)
   }
 
-  Number getInvoiceIdBySubscription(Map input) {
+  Number getChargeLogIdBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       operationDate  : local()
@@ -93,7 +93,7 @@ trait Invoice {
     try {
       def docId = hid.queryFirst("""
       SELECT
-        SD_INVOICES_PKG_S.GET_INVOICE_ID_BY_SUBJ_GOOD(
+        SD_CHARGE_LOGS_PKG_S.GET_CHARGE_LOG_ID_BY_SUBJ_GOOD(
           num_N_SUBJ_GOOD_ID => ${params.subscriptionId},
           dt_D_OPER => ${encodeDateStr(params.operationDate)}
         )
@@ -105,26 +105,26 @@ trait Invoice {
     }
   }
 
-  Number getInvoiceIdBySubscription(def subscriptionId, Temporal operationDate = local()) {
-    return getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
+  Number getChargeLogIdBySubscription(def subscriptionId, Temporal operationDate = local()) {
+    return getChargeLogIdBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
-  Map getInvoiceBySubscription(Map input) {
-    def docId = getInvoiceIdBySubscription(input)
+  Map getChargeLogBySubscription(Map input) {
+    def docId = getChargeLogIdBySubscription(input)
     if (docId == null) {
       return null
     }
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    return hid.getTableFirst(getInvoicesTable(), where: where)
+    return hid.getTableFirst(getChargeLogsTable(), where: where)
   }
 
-  Map getInvoiceBySubscription(def subscriptionId, Temporal operationDate = local()) {
-    return getInvoiceBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
+  Map getChargeLogBySubscription(def subscriptionId, Temporal operationDate = local()) {
+    return getChargeLogBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
-  List getInvoicesBySubscription(Map input) {
+  List getChargeLogsBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       stateId        : ['not in': [getDocumentStateCanceledId()]],
@@ -144,68 +144,73 @@ trait Invoice {
     return hid.getTableData(getGoodMovesTable(), where: where, order: params.order, limit: params.limit)
   }
 
-  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
-    return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
+  List getChargeLogsBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
+    return getChargeLogsBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
-  Boolean isInvoice(CharSequence entityType) {
-    return entityType == getInvoiceType()
+  Boolean isChargeLog(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
+
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getChargeLogTypeId() || getDocument(entityIdOrEntityTypeId)?.n_doc_type_id == getChargeLogTypeId()
+    } else {
+      return entityOrEntityType == getChargeLogType()
+    }
   }
 
-  Boolean isInvoice(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
-  }
-
-  Boolean changeInvoiceEnd(Map input) {
+  Boolean changeChargeLogEnd(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
       endDate       : null,
       closeReasonId : null
     ], input)
     try {
-      logger.info("Changing invoice id ${params.docId} end date to ${params.endDate} with reason ${params.closeReasonId}")
-      LinkedHashMap invoice = hid.execute('SD_INVOICES_PKG.CHANGE_INVOICE_PERIOD', [
+      logger.info("Changing charge log id ${params.docId} end date to ${params.endDate} with reason ${params.closeReasonId}")
+      LinkedHashMap chargeLog = hid.execute('SD_CHARGE_LOGS_PKG.CHANGE_CHARGE_LOG_PERIOD', [
         num_N_DOC_ID          : params.docId,
         dt_D_OPER             : params.endDate,
         num_N_CLOSE_REASON_ID : params.closeReasonId
       ])
-      logger.info("   Invoice ${invoice.num_N_DOC_ID} end date was changed successfully!")
+      logger.info("   Charge log ${chargeLog.num_N_DOC_ID} end date was changed successfully!")
       return true
     } catch (Exception e){
-      logger.error("   Error while changing invoice end date!")
+      logger.error("   Error while changing charge log end date!")
       logger.error_oracle(e)
       return false
     }
   }
 
-  Boolean changeInvoiceEnd(def docId, Temporal endDate = local(), def closeReasonId = null) {
-    return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
+  Boolean changeChargeLogEnd(def docId, Temporal endDate = local(), def closeReasonId = null) {
+    return changeChargeLogEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
-  Boolean closeInvoice(Map input) {
-    return changeInvoiceEnd(input)
+  Boolean closeChargeLog(Map input) {
+    return changeChargeLogEnd(input)
   }
 
-  Boolean closeInvoice(def docId, Temporal endDate = local(), def closeReasonId = null) {
-    return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
+  Boolean closeChargeLog(def docId, Temporal endDate = local(), def closeReasonId = null) {
+    return changeChargeLogEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
-  Boolean cancelInvoice(def docId) {
+  Boolean cancelChargeLog(def docId) {
     try {
-      logger.info("Cancelling invoice id ${docId}")
-      hid.execute('SD_INVOICES_PKG.CANCEL_CHARGE_LOG', [
+      logger.info("Cancelling charge log id ${docId}")
+      hid.execute('SD_CHARGE_LOGS_PKG.CANCEL_CHARGE_LOG', [
         num_N_CHARGE_LOG_ID : docId
       ])
-      logger.info("   Invoice was cancelled successfully!")
+      logger.info("   Charge log was cancelled successfully!")
       return true
     } catch (Exception e){
-      logger.error("   Error while changing invoice end date!")
+      logger.error("   Error while changing charge log end date!")
       logger.error_oracle(e)
       return false
     }
   }
 
-  List getInvoiceLinesBy(Map input) {
+  List getChargeLogLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -336,25 +341,49 @@ trait Invoice {
     if (params.operationDate) {
       where.d_oper = params.operationDate
     }
-    return hid.getTableData(getInvoiceLinesTable(), where: where, order: params.order, limit: params.limit)
+    return hid.getTableData(getChargeLogLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
-  List getInvoiceLines(def docId, Integer limit = 0) {
+  List getChargeLogLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
     ]
-    return hid.getTableData(getInvoiceLinesTable(), where: where, limit: limit)
+    return hid.getTableData(getChargeLogLinesTable(), where: where, limit: limit)
   }
 
-  Map getInvoiceLineBy(Map input) {
-    return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
+  Map getChargeLogLineBy(Map input) {
+    return getChargeLogLinesBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getInvoiceLine(def line) {
+  Map getChargeLogLine(def line) {
     LinkedHashMap where = [
       n_line_id: line
     ]
-    return hid.getTableFirst(getInvoiceLinesTable(), where: where)
+    return hid.getTableFirst(getChargeLogLinesTable(), where: where)
+  }
+
+  Map addChargeLogTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addChargeLogTag(def docId, CharSequence tag) {
+    return addChargeLogTag(docId: docId, tag: tag)
+  }
+
+  Map addChargeLogTag(Map input = [:], def docId) {
+    return addChargeLogTag(input + [docId: docId])
+  }
+
+  Boolean deleteChargeLogTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteChargeLogTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteChargeLogTag(def docId, CharSequence tag) {
+    return deleteChargeLogTag(docId: docId, tag: tag)
   }
 }

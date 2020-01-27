@@ -8,7 +8,7 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
-  private static String PERSON_TYPE           = 'SUBJ_TYPE_Company'
+  private static String PERSON_TYPE           = 'SUBJ_TYPE_Person'
 
   String getPersonType() {
     return PERSON_TYPE
@@ -50,6 +50,7 @@ trait Person {
       groupId    : null,
       firmId     : getFirmId(),
       stateId    : getSubjectStateOnId(),
+      tags       : null,
       limit      : 0
     ], input)
     LinkedHashMap where = [:]
@@ -99,6 +100,9 @@ trait Person {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_PERSON_ID', params.tags)
+    }
     return hid.getTableData(getPersonsTable(), where: where, order: params.order, limit: params.limit)
   }
 
@@ -136,6 +140,7 @@ trait Person {
       groupId       : null,
       firmId        : getFirmId(),
       stateId       : getSubjectStateOnId(),
+      tags          : null,
       limit         : 0
     ], input)
     LinkedHashMap where = [:]
@@ -206,6 +211,9 @@ trait Person {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_PERSON_ID', params.tags)
+    }
     return hid.getTableData(getPersonsPrivateTable(), where: where, order: params.order, limit: params.limit)
   }
 
@@ -213,8 +221,17 @@ trait Person {
     return getPersonsPrivateBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isPerson(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
+  Boolean isPerson(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
+
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getPersonTypeId() || getPerson(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getPersonType()
+    }
   }
 
   Map createPerson(Map input) {
@@ -334,6 +351,34 @@ trait Person {
 
   Map addPersonAddParam(Map input = [:], def personId) {
     return addSubjectAddParam(input, personId)
+  }
+
+  Map addPersonTag(Map input) {
+    input.subjectId = input.subjectId ?: input.personId
+    input.remove('personId')
+    return addSubjectTag(input)
+  }
+
+  Map addPersonTag(def personId, CharSequence tag) {
+    return addPersonTag(personId: personId, tag: tag)
+  }
+
+  Map addPersonTag(Map input = [:], def personId) {
+    return addPersonTag(input + [personId: personId])
+  }
+
+  Boolean deletePersonTag(def personTagId) {
+    return deleteSubjectTag(personTagId)
+  }
+
+  Boolean deletePersonTag(Map input) {
+    input.subjectId = input.subjectId ?: input.personId
+    input.remove('personId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deletePersonTag(def personId, CharSequence tag) {
+    return deletePersonTag(personId: personId, tag: tag)
   }
 
   Boolean refreshPersons(CharSequence method = 'C') {

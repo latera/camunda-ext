@@ -12,6 +12,7 @@ trait Subject {
   private static String SUBJECT_GROUPS_TABLE          = 'SI_V_SUBJECT_BIND_GROUPS'
   private static String SUBJECTS_MV                   = 'SI_MV_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_MV         = 'SI_MV_SUBJ_VALUES'
+  private static String ENTITY_TYPE_SUBJECT           = 'ENTITY_TYPE_Subject'
   private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
   private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
   private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
@@ -40,6 +41,14 @@ trait Subject {
 
   String getSubjectAddParamsMV() {
     return SUBJECT_ADD_PARAMS_MV
+  }
+
+  String getSubjectEntityType() {
+    return ENTITY_TYPE_SUBJECT
+  }
+
+  Number getSubjectEntityTypeId() {
+    return getRefIdByCode(getSubjectEntityType())
   }
 
   String getSubjectStateOn() {
@@ -138,7 +147,7 @@ trait Subject {
       where.n_subj_state_id = params.stateId
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_SUBJECT_ID', params.tags)
     }
     return hid.getTableData(getSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }
@@ -161,12 +170,17 @@ trait Subject {
     return toIntSafe(hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where))
   }
 
-  Boolean isSubject(CharSequence entityType) {
-    return entityType.contains('SUBJ_TYPE_')
-  }
+  Boolean isSubject(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isSubject(def entityIdOrEntityTypeId) {
-    return getRefCodeById(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || getSubject(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return getRefCode(entityIdOrEntityTypeId)?.contains('SUBJ_TYPE_') || entityIdOrEntityTypeId == getSubjectEntityTypeId() || getSubject(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType.contains('SUBJ_TYPE_') || entityOrEntityType == getSubjectEntityType()
+    }
   }
 
   Boolean changeSubjectState(
@@ -521,7 +535,7 @@ trait Subject {
       return null
     }
   }
-
+  
   Map addSubjectComment(Map input = [:], def subjectId) {
     return putSubjectComment(input + [subjectId: subjectId])
   }
@@ -539,6 +553,34 @@ trait Subject {
       logger.error_oracle(e)
       return false
     }
+  }
+
+  Map addSubjectTag(Map input) {
+    input.entityId = input.subjectId
+    input.remove('subjectId')
+    return addEntityTag(input)
+  }
+
+  Map addSubjectTag(def subjectId, CharSequence tag) {
+    return addSubjectTag(subjectId: subjectId, tag: tag)
+  }
+
+  Map addSubjectTag(Map input = [:], def subjectId) {
+    return addSubjectTag(input + [subjectId: subjectId])
+  }
+
+  Boolean deleteSubjectTag(def subjTagId) {
+    return deleteEntityTag(subjTagId)
+  }
+
+  Boolean deleteSubjectTag(Map input) {
+    input.entityId = input.subjectId
+    input.remove('subjectId')
+    return deleteEntityTag(input)
+  }
+
+  Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
+    return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
   Boolean refreshSubjects(CharSequence method = 'C') {

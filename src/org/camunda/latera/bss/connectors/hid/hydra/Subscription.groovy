@@ -96,27 +96,30 @@ trait Subscription {
 
   private Map putSubscription(Map input) {
     LinkedHashMap params = mergeParams([
-      subscriptionId      : null,
-      customerId          : null,
-      accountId           : null,
-      docId               : null,
-      goodId              : null,
-      equipmentId         : null,
-      parSubscriptionId   : null,
-      prevSubscriptionId  : null,
-      quant               : null,
-      payDay              : null,
-      beginDate           : null,
-      endDate             : null,
-      invoiceEndDate      : null,
-      evaluateDiscounts   : true
+      subscriptionId     : null,
+      customerId         : null,
+      accountId          : null,
+      docId              : null,
+      goodId             : null,
+      equipmentId        : null,
+      parSubscriptionId  : null,
+      prevSubscriptionId : null,
+      quant              : null,
+      payDay             : null,
+      beginDate          : null,
+      endDate            : null,
+      chargeLogEndDate   : null,
+      evaluateDiscounts  : true
     ], input)
+
     def unitId = getGoodUnitId(params.goodId)
+
     if (unitId == getPieceUnitId() && params.quant == null) {
       params.quant = 1
     } else if (unitId == getUnknownUnitId()) {
       params.quant = null
     }
+
     try {
       logger.info("Putting subscription with params ${params}")
       LinkedHashMap subscription = hid.execute('SI_USERS_PKG.SI_USER_GOODS_PUT', [
@@ -132,7 +135,7 @@ trait Subscription {
         num_N_UNIT_ID              : params.unitId,
         dt_D_BEGIN                 : params.beginDate,
         dt_D_END                   : params.endDate,
-        dt_D_INVOICE_END           : params.invoiceEndDate,
+        dt_D_CHARGE_LOG_END        : params.chargeLogEndDate,
         num_N_PREV_SUBSCRIPTION_ID : params.prevSubscriptionId,
         b_EvaluateDiscounts        : encodeFlag(params.evaluateDiscounts)
       ])
@@ -171,7 +174,7 @@ trait Subscription {
       hid.execute('SI_USERS_PKG.SI_USER_GOODS_CLOSE', [
         num_N_SUBJ_GOOD_ID : subscriptionId,
         dt_D_END           : params.endDate,
-        b_InvoiceEnd       : encodeFlag(params.closeChargeLog ?: params.immediate),
+        b_ChargeLogEnd     : encodeFlag(params.closeChargeLog ?: params.immediate),
       ])
       logger.info("   Subscription closed successfully!")
       return true
@@ -189,9 +192,9 @@ trait Subscription {
   Boolean closeSubscriptionForce(def subscriptionId, Temporal endDate = local()) {
     Boolean result = closeSubscription(subscriptionId, endDate: endDate, closeChargeLog: true)
 
-    def invoiceId = getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: endDate)
-    if (invoiceId) {
-      result = closeInvoice(docId: invoiceId, endDate: endDate)
+    def chargeLogId = getChargeLogIdBySubscription(subscriptionId: subscriptionId, operationDate: endDate)
+    if (chargeLogId) {
+      result = closeChargeLog(docId: chargeLogId, endDate: endDate)
     }
     return result
   }
@@ -213,12 +216,15 @@ trait Subscription {
 
   Boolean deleteSubscriptionForce(def subscriptionId) {
     Boolean result = true
-    List invoices = getInvoicesBySubscription(subscriptionId: subscriptionId)
-    invoices.each { Map invoice ->
-      Boolean cancelResult = cancelInvoice(invoice.n_doc_id)
+    List chargeLogs = getChargeLogsBySubscription(subscriptionId: subscriptionId)
+
+    chargeLogs.each { Map chargeLog ->
+      Boolean cancelResult = cancelChargeLog(chargeLog.n_doc_id)
       result = result && cancelResult
     }
+
     Boolean deleteResult = deleteSubscription(subscriptionId)
+
     result = result && deleteResult
     return result
   }

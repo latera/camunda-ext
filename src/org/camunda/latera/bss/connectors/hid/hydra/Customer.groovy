@@ -5,8 +5,8 @@ import static org.camunda.latera.bss.utils.Oracle.encodeFlag
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import java.time.temporal.Temporal
-import org.camunda.latera.bss.internal.Version
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
@@ -188,7 +188,7 @@ trait Customer {
       where.n_subj_state_id = params.stateId
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_CUSTOMER_ID', params.tags)
     }
     return hid.getTableData(getCustomersTable(), where: where, order: params.order, limit: params.limit)
   }
@@ -197,12 +197,17 @@ trait Customer {
     return getCustomersBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isCustomer(CharSequence entityType) {
-    return entityType == getCustomerType()
-  }
+  Boolean isCustomer(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isCustomer(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getCustomerTypeId() || getCustomer(entityIdOrEntityTypeId) != null
+    } else {
+      return entityType == getCustomerType()
+    }
   }
 
   private Map putCustomer(Map input) {
@@ -244,11 +249,10 @@ trait Customer {
         num_N_SUBJ_STATE_ID   : params.stateId,
         num_N_SUBJ_GROUP_ID   : params.groupId,
         vch_VC_CODE           : params.code,
-        vch_VC_REM            : params.rem
+        vch_VC_REM            : params.rem,
+        num_N_RESELLER_ID     : params.resellerId
       ]
-      if (this.version > new Version('5') && notEmpty(params.resellerId)) {
-        args.num_N_RESELLER_ID = resellerId
-      }
+
       LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USERS_PUT', args)
       logger.info("   Customer ${result.num_N_SUBJECT_ID} was ${params.customerId ? 'updated' : 'created'} successfully!")
       return result
@@ -631,6 +635,34 @@ trait Customer {
   Boolean deleteCustomerSelfCareAccess(def customerId) {
     def subjServId = getCustomerAppAccessBy(customerId: customerId, appId: getSelfCareApplicationId())?.n_subj_serv_id
     return deleteCustomerAppAccess(subjServId)
+  }
+  
+  Map addCustomerTag(Map input) {
+    input.subjectId = input.subjectId ?: input.customerId
+    input.remove('customerId')
+    return addSubjectTag(input)
+  }
+
+  Map addCustomerTag(def customerId, CharSequence tag) {
+    return addCustomerTag(customerId: customerId, tag: tag)
+  }
+
+  Map addCustomerTag(Map input = [:], def customerId) {
+    return addCustomerTag(input + [customerId: customerId])
+  }
+
+  Boolean deleteCustomerTag(def customerTagId) {
+    return deleteSubjectTag(customerTagId)
+  }
+
+  Boolean deleteCustomerTag(Map input) {
+    input.subjectId = input.subjectId ?: input.customerId
+    input.remove('customerId')
+    return deleteSubjectTag(input)
+  }
+
+  Boolean deleteCustomerTag(def customerId, CharSequence tag) {
+    return deleteCustomerTag(customerId: customerId, tag: tag)
   }
 
   Boolean processCustomer(

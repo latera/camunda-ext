@@ -61,6 +61,9 @@ trait Reseller {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_RESELLER_ID', params.tags)
+    }
     return hid.getTableData(getResellersTable(), where: where, order: params.order, limit: params.limit)
   }
 
@@ -68,11 +71,16 @@ trait Reseller {
     return getResellersBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isReseller(CharSequence entityType) {
-    return entityType == getResellerType()
-  }
+  Boolean isReseller(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isReseller(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getResellerTypeId() || getReseller(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getResellerTypeId() || getReseller(entityIdOrEntityTypeId) != null
+    } else {
+      return entityType == getResellerType()
+    }
   }
 }

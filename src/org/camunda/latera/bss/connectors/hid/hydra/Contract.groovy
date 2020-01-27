@@ -73,12 +73,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isContract(CharSequence entityType) {
-    return entityType == getContractType()
-  }
+  Boolean isContract(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isContract(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractTypeId()
+    } else {
+      return entityType == getContractType()
+    }
   }
 
   private Map putContract(Map input) {
@@ -232,19 +237,43 @@ trait Contract {
     return updateContract(input + [docId: docId])
   }
 
+  Map addContractTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractTag(def docId, CharSequence tag) {
+    return addContractTag(docId: docId, tag: tag)
+  }
+
+  Map addContractTag(Map input = [:], def docId) {
+    return addContractTag(input + [docId: docId])
+  }
+
+  Boolean deleteContractTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractTag(def docId, CharSequence tag) {
+    return deleteContractTag(docId: docId, tag: tag)
+  }
+
   Boolean dissolveContract(Map input) {
     LinkedHashMap params = mergeParams([
-      docId         : null,
-      endDate       : null,
-      checkInvoices : false
+      docId           : null,
+      endDate         : null,
+      checkChargeLogs : false
     ], input)
     params.docId = params.docId ?: params.contractId
     try {
       logger.info("Dissolving contract id ${params.docId} with date ${params.endDate}")
       LinkedHashMap contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_DISSOLVE', [
-        num_N_DOC_ID    : params.docId,
-        dt_D_END        : params.endDate,
-        b_CheckInvoices : encodeFlag(params.checkInvoices)
+        num_N_DOC_ID      : params.docId,
+        dt_D_END          : params.endDate,
+        b_CheckChargeLogs : encodeFlag(params.checkChargeLogs)
       ])
       logger.info("   Contract ${contract.num_N_DOC_ID} was dissolved successfully!")
       return true
@@ -255,8 +284,8 @@ trait Contract {
     }
   }
 
-  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   String getContractAppsTable() {
@@ -303,12 +332,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isContractApp(CharSequence entityType) {
-    return entityType == getContractAppType()
-  }
+  Boolean isContractApp(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isContractApp(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractAppTypeId()
+    } else {
+      return entityType == getContractAppType()
+    }
   }
 
   private Map putContractApp(Map input) {
@@ -333,13 +367,37 @@ trait Contract {
   Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
   }
+  
+  Map addContractAppTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractAppTag(def docId, CharSequence tag) {
+    return addContractAppTag(doc: docId, tag: tag)
+  }
+
+  Map addContractAppTag(Map input = [:], def docId) {
+    return addContractAppTag(input + [doc: docId])
+  }
+
+  Boolean deleteContractAppTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractAppTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractAppTag(def docId, CharSequence tag) {
+    return deleteContractAppTag(docId: docId, tag: tag)
+  }
 
   Boolean dissolveContractApp(Map input) {
     return dissolveContract(input)
   }
 
-  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   String getAddAgreementsTable() {
@@ -386,12 +444,17 @@ trait Contract {
     return getDocumentBy(input)
   }
 
-  Boolean isAddAgreement(CharSequence entityType) {
-    return entityType == getAddAgreementType()
-  }
+  Boolean isAddAgreement(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isAddAgreement(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getAddAgreementTypeId()
+    } else {
+      return entityType == getAddAgreementType()
+    }
   }
 
   private Map putAddAgreement(Map input) {
@@ -418,12 +481,36 @@ trait Contract {
     return putAddAgreement(input + [docId: docId])
   }
 
+  Map addAddAgreementTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addAddAgreementTag(def docId, CharSequence tag) {
+    return addAddAgreementTag(doc: docId, tag: tag)
+  }
+
+  Map addAddAgreementTag(Map input = [:], def docId) {
+    return addAddAgreementTag(input + [doc: docId])
+  }
+
+  Boolean deleteAddAgreementTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteAddAgreementTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
+    return deleteAddAgreementTag(docId: docId, tag: tag)
+  }
+
   Boolean dissolveAddAgreement(Map input) {
     return dissolveContract(input)
   }
 
-  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   Boolean refreshBaseContracts(CharSequence method = 'C') {

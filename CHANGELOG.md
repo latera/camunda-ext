@@ -1,17 +1,43 @@
 v1.5 [unreleased]
 -------------------
 ### Breaking changes
+-   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
+
+v1.4.1 [unreleased]
+-------------------
+### Features
+-   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods
+-   [#7](https://github.com/latera/camunda-ext/pull/7) Add raw arg to Order constructor
+-   [#9](https://github.com/latera/camunda-ext/pull/9) Notify HOMS about task events
+-   [#10](https://github.com/latera/camunda-ext/pull/10) Send candidate users & assignee to HOMS with task event
+-   [#3](https://github.com/latera/camunda-ext/pull/3) Add methods to tag entities into hid.Hydra class
+
+### Refactoring
+-   [#8](https://github.com/latera/camunda-ext/pull/8) Prettify runCommand,  Add constants, use constants instead of magic numbers in logger, Update docs
+
+### Bugfixes
+-   [#d0b5409](https://github.com/latera/camunda-ext/commit/d0b5409) Fix stack overflow with recursive getProperty call in Order class
+-   [#adbcdfc](https://github.com/latera/camunda-ext/commit/adbcdfc) Fix hid.Hydra#createCustomerAccount method
+-   [#94b1996](https://github.com/latera/camunda-ext/commit/94b1996) Fix hid.Hydra#createAddAgreement method
+-   [#9b4ed0b](https://github.com/latera/camunda-ext/commit/9b4ed0b) Fix hid.Hydra#putObjAddress method
+-   [#1a2834b](https://github.com/latera/camunda-ext/commit/1a2834b) Fix getFreeIPAddresses and getFreeIPv6Addresses method
+-   [#77ddad0](https://github.com/latera/camunda-ext/commit/77ddad0) Fix helpers.Hydra#createAddress method parent addresses handling
+-   [#9737e0e](https://github.com/latera/camunda-ext/commit/9737e0e) Fix helpers.Hydra#addCustomerGroupBind method
+-   [#32c7f99](https://github.com/latera/camunda-ext/commit/32c7f99) Don't call customer equipment create procedure for provider equipment
+-   [#989ec5c](https://github.com/latera/camunda-ext/commit/989ec5c) Fix n_subj_address_id field name in hid.Hydra
+-   [#b14ab35](https://github.com/latera/camunda-ext/commit/b14ab35) Fix add params saving in Hydra helper
+-   [#f5042f3](https://github.com/latera/camunda-ext/commit/f5042f3) Fix hid.Hydra#getSubnetAddressesByVLAN method with code input
+-   [#85127dc](https://github.com/latera/camunda-ext/commit/85127dc) Fix hid.Hydra#addAdjustment method
+-   [#2b22ae7](https://github.com/latera/camunda-ext/commit/2b22ae7) Fix hoper.Hydra#getAddParamValue method
+-   [#d58ab24](https://github.com/latera/camunda-ext/commit/d58ab24) Fix hid.Hydra#createEquipment method
+-   [#19c0746](https://github.com/latera/camunda-ext/commit/19c0746) Fix helpers.Hydra#fetchSubscription method
 
 v1.4 [2020-01-13]
 -------------------
 ### Breaking changes
 -   [#2](https://github.com/latera/camunda-ext/pull/2) Remove deprecated Logging class
 -   [#5](https://github.com/latera/camunda-ext/pull/5) Get rid of put methods
-
-### Features
-
-### Bugfixes
 
 v1.3 [2020-01-07]
 -------------------

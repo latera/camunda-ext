@@ -9,6 +9,13 @@ trait Good {
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'
   private static String GOOD_ADD_PARAM_TYPES_TABLE = 'SR_V_GOOD_VALUES_TYPE'
   private static String SERV_SCHEMES_TABLE         = 'SR_V_SERV_SCHEMES'
+  private static String ENTITY_TYPE_GOOD           = 'ENTITY_TYPE_CatalogItem'
+  private static String GOOD_KIND_PRICE_PLAN       = 'Good_Packs'
+  private static String GOOD_KIND_SERVICE          = 'GOOD_Serv'
+  private static String GOOD_KIND_ADJUSTMENT       = 'Good_Adjustments'
+  private static String GOOD_KIND_REALIY_OBJECT    = 'Good_Realty'
+  private static String GOOD_KIND_OBJECT           = 'GOOD_Value'
+  private static String GOOD_KIND_NET_SERVICE      = 'Good_NetServ'
 
   String getGoodsTable() {
     return GOODS_TABLE
@@ -20,6 +27,62 @@ trait Good {
 
   String getGoodAddParamTypesTable() {
     return GOOD_ADD_PARAM_TYPES_TABLE
+  }
+
+  String getGoodEntityType() {
+    return ENTITY_TYPE_GOOD
+  }
+
+  Number getGoodEntityTypeId() {
+    return getRefIdByCode(getGoodEntityType())
+  }
+
+  String getPricePlanGoodKind() {
+    return GOOD_KIND_PRICE_PLAN
+  }
+
+  Number getPricePlanGoodKindId() {
+    return getRefIdByCode(getPricePlanGoodKind())
+  }
+
+  String getServiceGoodKind() {
+    return GOOD_KIND_SERVICE
+  }
+
+  Number getServiceGoodKindId() {
+    return getRefIdByCode(getServiceGoodKind())
+  }
+
+  String getAdjustmentGoodKind() {
+    return GOOD_KIND_ADJUSTMENT
+  }
+
+  Number getAdjustmentGoodKindId() {
+    return getRefIdByCode(getAdjustmentGoodKind())
+  }
+
+  String getRealtyGoodKind() {
+    return GOOD_KIND_REALIY_OBJECT
+  }
+
+  Number getRealtyGoodKindId() {
+    return getRefIdByCode(getRealtyGoodKind())
+  }
+
+  String getObjectGoodKind() {
+    return GOOD_KIND_OBJECT
+  }
+
+  Number getObjectGoodKindId() {
+    return getRefIdByCode(getObjectGoodKind())
+  }
+
+  String getNetServiceGoodKind() {
+    return GOOD_KIND_NET_SERVICE
+  }
+
+  Number getNetServiceGoodKindId() {
+    return getRefIdByCode(getNetServiceGoodKind())
   }
 
   Map getGood(def goodId) {
@@ -76,11 +139,27 @@ trait Good {
     if (params.isCustomer != null) {
       where.c_fl_customer_equipment = encodeBool(params.isCustomer)
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_GOOD_ID', params.tags)
+    }
     return hid.getTableData(getGoodsTable(), where: where, order: params.order, limit: params.limit)
   }
 
   Map getGoodBy(Map input) {
     return getGoodsBy(input + [limit: 1])?.getAt(0)
+  }
+
+  Boolean isGood(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
+
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getGoodEntityTypeId() || toIntSafe(getGood(entityIdOrEntityTypeId)?.n_good_kind_id) in [getGoodEntityTypeId(), getPricePlanGoodKindId(), getAdjustmentGoodKindId()]
+    } else {
+      return entityOrEntityType in [getGoodEntityType(), getPricePlanGoodKind(), getAdjustmentGoodKind()]
+    }
   }
 
   Number getGoodUnitId(def goodId) {

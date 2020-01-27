@@ -1,5 +1,7 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+
 trait Group {
   private static String GROUPS_TABLE = 'SI_V_SUBJ_GROUPS'
   private static String GROUP_TYPE   = 'SUBJ_TYPE_Group'
@@ -67,11 +69,16 @@ trait Group {
     return getGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
-  Boolean isGroup(CharSequence entityType) {
-    return entityType == getGroupType()
-  }
+  Boolean isGroup(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  Boolean isGroup(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getGroupTypeId() || getGroup(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getGroupTypeId() || getGroup(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getGroupType()
+    }
   }
 }

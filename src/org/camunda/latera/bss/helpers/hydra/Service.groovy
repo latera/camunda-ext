@@ -71,11 +71,11 @@ trait Service {
     def subscriptionId = order."${subscriptionPrefix}Id" ?: [is: 'null']
     def subscription = hydra.getSubscription(subscriptionId)
 
-    order."${parSubscriptionPrefix}Id"  = subscription?.n_par_subscription_id
-    order."${prevSubscriptionPrefix}Id" = subscription?.n_prev_subscription_id
-    order."${prefix}BeginDate"          = subscription?.d_begin ? local(subscription.d_begin) : null
-    order."${prefix}EndDate"            = subscription?.d_end   ? local(subscription.d_end)   : null
-    order."${prefix}IsClosed"           = decodeBool(subscription?.c_fl_closed)
+    order."${parSubscriptionPrefix}Id"     = subscription?.n_par_subscription_id
+    order."${prevSubscriptionPrefix}Id"    = subscription?.n_prev_subscription_id
+    order."${subscriptionPrefix}BeginDate" = subscription?.d_begin ? local(subscription.d_begin) : null
+    order."${subscriptionPrefix}EndDate"   = subscription?.d_end   ? local(subscription.d_end)   : null
+    order."${subscriptionPrefix}IsClosed"  = decodeBool(subscription?.c_fl_closed)
     if (isEmpty(order."${customerPrefix}Id")) {
       order."${customerPrefix}Id" = subscription?.n_customer_id
     }
@@ -200,6 +200,7 @@ trait Service {
     def equipmentId        = order."${equipmentPrefix}Id"
     def parSubscriptionId  = order."${parSubscriptionPrefix}Id"
     def prevSubscriptionId = order."${prevSubscriptionPrefix}Id"
+
     Map subscription = hydra.createSubscription(
       customerId,
       accountId          : accountId,
@@ -208,7 +209,7 @@ trait Service {
       equipmentId        : equipmentId,
       beginDate          : params.beginDate,
       endDate            : params.endDate,
-      invoiceEndDate     : params.endDate,
+      chargeLogEndDate   : params.endDate,
       payDay             : params.payDay,
       parSubscriptionId  : parSubscriptionId,
       prevSubscriptionId : prevSubscriptionId
