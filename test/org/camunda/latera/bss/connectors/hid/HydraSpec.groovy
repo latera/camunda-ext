@@ -68,4 +68,95 @@ class HydraSpec extends Specification {
         num_N_FIRM_ID: 100
       ])
   }
+
+  def "#mergeParams"() {
+    given:
+      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
+        getRefIdByCode('DOC_TYPE_Contract') >> 123
+      }
+    expect:
+      hydra.mergeParams(initial, input) == result
+    where:
+      initial         |input                                                          |result
+      [docTypeId: 234]|[docTypeId: null]                                              |[docTypeId: null]
+      [docTypeId: 234]|[docTypeId: 345]                                               |[docTypeId: 345]
+      [docTypeId: 234]|[                 docType: null]                               |[docTypeId: 234,  docType: null]
+      [docTypeId: 234]|[docTypeId: null, docType: null]                               |[docTypeId: null, docType: null]
+      [docTypeId: 234]|[docTypeId: 345,  docType: null]                               |[docTypeId: 345,  docType: null]
+      [docTypeId: 234]|[                 docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
+      [docTypeId: 234]|[docTypeId: null, docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
+      [docTypeId: 234]|[docTypeId: 345,  docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
+      [docTypeId: 234]|[                 docType: ['=':        'DOC_TYPE_Contract']]  |[docTypeId: ['=':        123]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['!=':       'DOC_TYPE_Contract']]  |[docTypeId: ['!=':       123]]
+      [docTypeId: 234]|[                 docType: ['=':         123]]                 |[docTypeId: ['=':        123]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['!=':        123]]                 |[docTypeId: ['!=':       123]]
+      [docTypeId: 234]|[                 docType: ['=':        '123']]                |[docTypeId: ['=':       '123']]
+      [docTypeId: 234]|[docTypeId: null, docType: ['!=':       '123']]                |[docTypeId: ['!=':      '123']]
+      [docTypeId: 234]|[                 docType: ['<':         123]]                 |[docTypeId: ['<':        123]]
+      [docTypeId: 234]|[                 docType: ['<=':        123]]                 |[docTypeId: ['<=':       123]]
+      [docTypeId: 234]|[                 docType: ['<':        '123']]                |[docTypeId: ['<':       '123']]
+      [docTypeId: 234]|[                 docType: ['<=':       '123']]                |[docTypeId: ['<=':      '123']]
+      [docTypeId: 234]|[docTypeId: null, docType: ['>':         123]]                 |[docTypeId: ['>':        123]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['>=':        123]]                 |[docTypeId: ['>=':       123]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['>':        '123']]                |[docTypeId: ['>':       '123']]
+      [docTypeId: 234]|[docTypeId: null, docType: ['>=':       '123']]                |[docTypeId: ['>=':      '123']]
+      [docTypeId: 234]|[                 docType: [is:          null]]                |[docTypeId: [is:         null]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['is not':    null]]                |[docTypeId: ['is not':   null]]
+      [docTypeId: 234]|[                 docType: [is:         'null']]               |[docTypeId: [is:        'null']]
+      [docTypeId: 234]|[docTypeId: null, docType: ['is not':   'null']]               |[docTypeId: ['is not':  'null']]
+      [docTypeId: 234]|[                 docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[docTypeId: null, docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[                 docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[docTypeId: null, docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
+      [docTypeId: 234]|[                 docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
+      [docTypeId: 234]|[docTypeId: null, docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
+      [docTypeId: 234]|[                 docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[                 docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
+      [docTypeId: 234]|[                 docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
+      [docTypeId: 234]|[docTypeId: null, docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
+      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
+      [docTypeId: 234]|[                 docType: [like:       'DOC_TYPE_Contract']]  |[docTypeId: [like:       'DOC_TYPE_Contract']]
+      [docTypeId: 234]|[docTypeId: null, docType: [like:       'DOC_TYPE_Contract%']] |[docTypeId: [like:       'DOC_TYPE_Contract%']]
+      [docTypeId: 234]|[docTypeId: 345,  docType: [like:       'DOC_TYPE_Contract%']] |[docTypeId: [like:       'DOC_TYPE_Contract%']]
+      [docTypeId: 234]|[                 docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
+      [docTypeId: 234]|[docTypeId: null, docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
+      [docTypeId: 234]|[docTypeId: 345,  docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
+      [docTypeId: 234]|[                 docType: ['in     (123)']]                   |[docTypeId: ['in     (123)']]
+      [docTypeId: 234]|[                 docType: ['not in (123)']]                   |[docTypeId: ['not in (123)']]
+  }
+
+  def "#getLangId with passed locale"() {
+    given:
+      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
+        getRefIdByCode('LANG_Russian') >> 123
+        getRefIdByCode('LANG_English') >> 234
+        getRefIdByCode('LANG_Es')      >> 345
+      }
+    expect:
+      hydra.getLangId(locale) == result
+    where:
+      locale    |result
+      'russian' |123
+      'ru'      |123
+      'english' |234
+      'en'      |234
+      'es'      |345
+      'unknown' |null
+  }
+
+  def "#getLangId without default argument"() {
+    given:
+      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
+        getRefIdByCode('LANG_Russian') >> 123
+      }
+    expect:
+      hydra.getLangId() == 123
+  }
 }
