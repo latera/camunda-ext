@@ -5,6 +5,7 @@ import static org.camunda.latera.bss.utils.MapUtil.isMap
 import static org.camunda.latera.bss.utils.ListUtil.isList
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.DEFAULT_FIRM
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.HID
@@ -34,7 +35,6 @@ import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.connectors.hid.hydra.Tag
 
 class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
-  private static Integer DEFAULT_FIRM = 100
   HID hid
   String user
   private String password
@@ -121,13 +121,8 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   }
 
   Number getLangId() {
-    String langCode = getLocale()
-    if (langCode == 'en') {
-      langCode = 'english'
-    } else if (langCode == 'ru') {
-      langCode = 'russian'
-    }
-    return getRefIdByCode("LANG_${capitalize(langCode)}")
+    String locale = getLocale()
+    return getRefIdByCode("LANG_${capitalize(locale)}")
   }
 
   void mainInit(Map input = [:]) {

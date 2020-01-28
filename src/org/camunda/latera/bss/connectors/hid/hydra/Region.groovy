@@ -5,10 +5,10 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 import static org.camunda.latera.bss.utils.MapUtil.keysList
+import static org.camunda.latera.bss.utils.Constants.REALTY_House
 
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
-  private static String DEFAULT_REALTY_GOOD_CODE = 'REALTY_House'
 
   /*
   Structure
@@ -211,12 +211,12 @@ trait Region {
 
   // Get default reality good
   Map getDefaultRealtyGood() {
-    return getGoodBy(code: DEFAULT_REALTY_GOOD_CODE)
+    return getGood(getDefaultRealtyGoodId())
   }
 
   // Get default reality good id
   Number getDefaultRealtyGoodId() {
-    return toIntSafe(getDefaultRealtyGood().n_good_id)
+    return REALTY_House
   }
 
   List getRegionsBy(Map input) {

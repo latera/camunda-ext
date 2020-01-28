@@ -1,5 +1,9 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_Active
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_NotActive
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_RegisterOff
+
 trait Equipment {
   private static LinkedHashMap EQUIPMENT_ENTITY_TYPE = [
     one    : 'net_device',
@@ -13,9 +17,6 @@ trait Equipment {
     one    : 'entry',
     plural : 'entries'
   ]
-  private static Integer EQUIPMENT_STATE_ACTUAL_ID       = 1040 // 'OBJ_STATE_Active'
-  private static Integer EQUIPMENT_STATE_NOT_ACTIVE_ID   = 2040 // 'OBJ_STATE_NotActive'
-  private static Integer EQUIPMENT_STATE_REGISTER_OFF_ID = 3040 // 'OBJ_STATE_RegisterOff'
 
   Map getEquipmentEntityType(def id = null) {
     return EQUIPMENT_ENTITY_TYPE + withParent(getObjectEntityType()) + withId(id)
@@ -30,15 +31,15 @@ trait Equipment {
   }
 
   Integer getEquipmentStateActualId() {
-    return EQUIPMENT_STATE_ACTUAL_ID
+    return OBJ_STATE_Active
   }
 
   Integer getEquipmentStateNotActiveId() {
-    return EQUIPMENT_STATE_NOT_ACTIVE_ID
+    return OBJ_STATE_NotActive
   }
 
   Integer getEquipmentStateRegisterOffId() {
-    return EQUIPMENT_STATE_REGISTER_OFF_ID
+    return OBJ_STATE_RegisterOff
   }
 
   private Map getEquipmentDefaultParams() {

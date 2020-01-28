@@ -2,20 +2,21 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Company
+
 trait Company {
   private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
-  private static String COMPANY_TYPE    = 'SUBJ_TYPE_Company'
 
   String getCompaniesTable() {
     return COMPANIES_TABLE
   }
 
   String getCompanyType() {
-    return COMPANY_TYPE
+    return getRefCode(getCompanyTypeId())
   }
 
   Number getCompanyTypeId() {
-    return getRefIdByCode(getCompanyType())
+    return SUBJ_TYPE_Company
   }
 
   Map getCompany(def companyId) {

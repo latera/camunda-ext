@@ -3,56 +3,55 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Numeric.isInteger
 import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Varchar
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Char
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Number
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Integer
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Date
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Ref
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Flag
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Clob
+import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_HTML
 
 trait DataType {
-  private static String STRING_TYPE  = 'DATA_TYPE_Varchar'
-  private static String CHAR_TYPE    = 'DATA_TYPE_Char'
-  private static String FLOAT_TYPE   = 'DATA_TYPE_Number'
-  private static String INTEGER_TYPE = 'DATA_TYPE_Integer'
-  private static String DATE_TYPE    = 'DATA_TYPE_Date'
-  private static String REF_TYPE     = 'DATA_TYPE_Ref'
-  private static String BOOLEAN_TYPE = 'DATA_TYPE_Flag'
-  private static String CLOB_TYPE    = 'DATA_TYPE_Clob'
-  private static String HTML_TYPE    = 'DATA_TYPE_HTML'
-
   String getStringType() {
-    return STRING_TYPE
+    return getRefCode(getStringTypeId())
   }
 
   Number getStringTypeId() {
-    return getRefIdByCode(getStringType())
+    return DATA_TYPE_Varchar
   }
 
   String getCharType() {
-    return CHAR_TYPE
+    return getRefCode(getCharTypeId())
   }
 
   Number getCharTypeId() {
-    return getRefIdByCode(getCharType())
+    return DATA_TYPE_Char
   }
 
   String getFloatType() {
-    return FLOAT_TYPE
+    return getRefCode(getFloatTypeId())
   }
 
   Number getFloatTypeId() {
-    return getRefIdByCode(getFloatType())
+    return DATA_TYPE_Number
   }
 
   String getIntegerType() {
-    return INTEGER_TYPE
+    return getRefCode(getIntegerTypeId())
   }
 
   Number getIntegerTypeId() {
-    return getRefIdByCode(getIntegerType())
+    return DATA_TYPE_Integer
   }
 
   String getDateType() {
-    return DATE_TYPE
+    return getRefCode(getDateTypeId())
   }
 
   Number getDateTypeId() {
-    return getRefIdByCode(getDateType())
+    return DATA_TYPE_Date
   }
 
   String getDateTimeType() {
@@ -64,19 +63,19 @@ trait DataType {
   }
 
   String getRefType() {
-    return REF_TYPE
+    return getRefCode(getRefTypeId())
   }
 
   Number getRefTypeId() {
-    return getRefIdByCode(getRefType())
+    return DATA_TYPE_Ref
   }
 
   String getBooleanType() {
-    return BOOLEAN_TYPE
+    return getRefCode(getBooleanTypeId())
   }
 
   Number getBooleanTypeId() {
-    return getRefIdByCode(getBooleanType())
+    return DATA_TYPE_Flag
   }
 
   String getBoolType() {
@@ -88,11 +87,11 @@ trait DataType {
   }
 
   String getCLOBType() {
-    return CLOB_TYPE
+    return getRefCode(getCLOBTypeId())
   }
 
   Number getCLOBTypeId() {
-    return getRefIdByCode(getClobType())
+    return DATA_TYPE_Clob
   }
 
   String getClobType() {
@@ -104,11 +103,11 @@ trait DataType {
   }
 
   String getHTMLType() {
-    return HTML_TYPE
+    return getRefCode(getHTMLTypeId())
   }
 
   Number getHTMLTypeId() {
-    return getRefIdByCode(getHTMLType())
+    return DATA_TYPE_HTML
   }
 
   String getHtmlType() {
