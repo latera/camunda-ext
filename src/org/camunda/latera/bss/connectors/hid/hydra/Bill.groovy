@@ -43,7 +43,7 @@ trait Bill {
   }
 
   String getDefaultPrepaidBillWorkflow() {
-    return getRefCode(getDefaultAdvanceBillWorkflowId())
+    return getRefCode(getDefaultPrepaidBillWorkflowId())
   }
 
   Number getDefaultPrepaidBillWorkflowId() {
