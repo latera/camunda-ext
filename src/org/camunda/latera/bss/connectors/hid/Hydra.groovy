@@ -16,7 +16,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Good
 import org.camunda.latera.bss.connectors.hid.hydra.Document
 import org.camunda.latera.bss.connectors.hid.hydra.Contract
 import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
-import org.camunda.latera.bss.connectors.hid.hydra.Invoice
+import org.camunda.latera.bss.connectors.hid.hydra.ChargeLog
 import org.camunda.latera.bss.connectors.hid.hydra.Bill
 import org.camunda.latera.bss.connectors.hid.hydra.Subject
 import org.camunda.latera.bss.connectors.hid.hydra.Company
@@ -31,9 +31,9 @@ import org.camunda.latera.bss.connectors.hid.hydra.Region
 import org.camunda.latera.bss.connectors.hid.hydra.Address
 import org.camunda.latera.bss.connectors.hid.hydra.Param
 import org.camunda.latera.bss.connectors.hid.hydra.Search
-import org.camunda.latera.bss.internal.Version
+import org.camunda.latera.bss.connectors.hid.hydra.Tag
 
-class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, Invoice, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search {
+class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
   private static String  DEFAULT_USER   = 'hydra'
   private static Integer DEFAULT_FIRM   = 100
   private static String  DEFAULT_LOCALE = 'ru'
@@ -44,7 +44,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   Number resellerId
   SimpleLogger logger
   String locale
-  private Version version
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
@@ -77,7 +76,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
     mainInit()
     setFirm()
-    setVersion(params.version)
   }
 
   private Map mergeParams(Map initial, Map input) {
@@ -156,36 +154,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     hid.execute('MAIN.SET_ACTIVE_FIRM', [
       num_N_FIRM_ID: firmId
     ])
-  }
-
-  void setVersion(Version version = null) {
-    if (version == null) {
-      this.version = null
-      getVersion()
-    } else {
-      this.version = version
-    }
-  }
-
-  Version getVersion() {
-    if (this.version != null) {
-      return this.version
-    }
-    try {
-      LinkedHashMap result = hid.execute('MAIN.GET_DB_VERSION', [
-        num_HydraVersion    : null,
-        num_MajorVersion    : null,
-        num_MinorVersion    : null,
-        num_Modification    : null,
-        vch_Revision        : null,
-        dt_InstallationDate : null
-      ])
-      this.version = new Version(result.num_HydraVersion, result.num_MajorVersion, result.num_MinorVersion, result.num_Modification)
-      return this.version
-
-    } catch (Exception e){
-      return null
-    }
   }
   //Other methods are imported from traits
 }

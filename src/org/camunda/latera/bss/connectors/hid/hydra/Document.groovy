@@ -17,6 +17,7 @@ trait Document {
   private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
   private static String DOCUMENTS_MV                   = 'SD_MV_DOCUMENTS'
   private static String DOCUMENT_ADD_PARAMS_MV         = 'SD_MV_DOC_VALUES'
+  private static String ENTITY_TYPE_DOCUMENT           = 'ENTITY_TYPE_Document'
   private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
   private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
   private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
@@ -79,6 +80,20 @@ trait Document {
     return DOCUMENT_ADD_PARAMS_MV
   }
 
+  /**
+   * Get document entity type ref code
+   */
+  String getDocumentEntityType() {
+    return ENTITY_TYPE_DOCUMENT
+  }
+
+  /**
+   * Get document entity type ref id
+   */
+  Number getDocumentEntityTypeId() {
+    return getRefIdByCode(getDocumentEntityType())
+  }
+  
   /**
    * Get document Actual state ref code
    */
@@ -381,7 +396,7 @@ trait Document {
       where.d_end = params.endDate
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_DOC_ID', params.tags)
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)
@@ -440,21 +455,21 @@ trait Document {
   }
 
   /**
-   * Check if entity type code is document
-   * @param entityType {@link CharSequence String}. Document type ref code
+   * Check if entity or entity type is document
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
    * @return True if given value is document, false otherwise
    */
-  Boolean isDocument(CharSequence docType) {
-    return docType.contains('DOC')
-  }
+  Boolean isDocument(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is document
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
-   * @return True if given value is document, false otherwise
-   */
-  Boolean isDocument(def docIdOrDocTypeId) {
-    return getRefCodeById(docIdOrDocTypeId)?.contains('DOC') || getDocument(docIdOrDocTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return getRefCodeById(entityIdOrEntityTypeId)?.contains('DOC') || getDocument(entityIdOrEntityTypeId) != null || entityIdOrEntityTypeId == getDocumentEntityTypeId()
+    } else {
+      return entityOrEntityType.contains('DOC') || entityOrEntityType == getDocumentEntityType()
+    }
   }
 
   /**
@@ -1373,6 +1388,34 @@ trait Document {
    */
   Boolean changeDocumentState(def docId, CharSequence state) {
     return changeDocumentState(docId, getRefIdByCode(state))
+  }
+  
+  Map addDocumentTag(Map input) {
+    input.entityId = input.docId
+    input.remove('docId')
+    return addEntityTag(input)
+  }
+
+  Map addDocumentTag(def docId, CharSequence tag) {
+    return addDocumentTag(docId: docId, tag: tag)
+  }
+
+  Map addDocumentTag(Map input = [:], def docId) {
+    return addDocumentTag(input + [docId: docId])
+  }
+
+  Boolean deleteDocumentTag(def docTagId) {
+    return deleteEntityTag(docTagId)
+  }
+
+  Boolean deleteDocumentTag(Map input) {
+    input.entityId = input.docId
+    input.remove('docId')
+    return deleteEntityTag(input)
+  }
+
+  Boolean deleteDocumentTag(def docId, CharSequence tag) {
+    return deleteEntityTag(docId: docId, tag: tag)
   }
 
   /**

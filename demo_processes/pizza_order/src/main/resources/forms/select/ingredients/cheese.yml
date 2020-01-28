@@ -1,0 +1,56 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: group1
+      type: group
+      label: Customer Data
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataCustomerName
+          type: string
+          label: Name
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerPhone
+          type: string
+          label: Phone
+          css_class: col-xs-6 col-sm-4 col-md-3
+          pattern: +1 ({{999}}) {{999}}-{{99}}-{{99}}
+    - name: group2
+      type: group
+      label: Pizza Type
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataPizzaType
+          type: select
+          css_class: col-xs-12 col-sm-6 col-md-4
+          label: ''
+          choices:
+            - Margherita
+            - Cheese
+            - Salami
+          editable: false
+    - name: group3
+      type: group
+      label: Pizza Ingredients
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataIngredientSalami
+          type: checkbox
+          label: Salami
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataIngredientPepper
+          type: checkbox
+          label: Pepper
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataIngredientMushrooms
+          type: checkbox
+          label: Mushrooms
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataIngredientVegetables
+          type: checkbox
+          label: Vegetables
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataIngredientOlives
+          type: checkbox
+          label: Olives
+          css_class: col-xs-12 col-sm-6 col-md-4

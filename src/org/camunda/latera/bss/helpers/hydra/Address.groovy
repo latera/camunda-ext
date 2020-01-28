@@ -367,7 +367,7 @@ trait Address {
       Pattern regexp = Pattern.compile("^${prefix}(RegionId|${hydra.getAddressFieldNames().join('|')})\$", Pattern.CASE_INSENSITIVE)
 
       result = parseRegion(input)
-      order.data.each { name, value ->
+      order.data.each { CharSequence name, def value ->
         def group = (name =~ regexp)
         if (group.size() > 0) {
           result[decapitalize(group[0][1])] = value
@@ -657,7 +657,6 @@ trait Address {
     if (isEmpty(params.addrType)) {
 
       // Some magic to solve CONSULT-2340
-
       // get current region fields
       Map current_address = parseAddress(params)
 
@@ -674,7 +673,7 @@ trait Address {
       Map new_address = mergeNotNull(previous_address, current_address)
 
       // save new region fields to variables
-      new_address.each { key, value ->
+      new_address.each { CharSequence key, def value ->
         String part = capitalize(key)
         order."${prefix}${part}" = value
       }

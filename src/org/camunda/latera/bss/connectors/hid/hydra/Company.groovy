@@ -83,6 +83,7 @@ trait Company {
       groupId   : null,
       firmId    : getFirmId(),
       stateId   : getSubjectStateOnId(),
+      tags      : null,
       limit     : 0
     ], input)
     LinkedHashMap where = [:]
@@ -138,6 +139,9 @@ trait Company {
     if (params.stateId) {
       where.n_subj_state_id = params.stateId
     }
+    if (params.tags) {
+      where += prepareEntityTagQuery('N_COMPANY_ID', params.tags)
+    }
     return hid.getTableData(getCompaniesTable(), where: where, order: params.order, limit: params.limit)
   }
 
@@ -170,21 +174,21 @@ trait Company {
   }
 
   /**
-   * Check if entity type code is company
-   * @param entityType {@link CharSequence String}. Subject type ref code
+   * Check if entity or entity type is company
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Subject id, subject type ref id or subject type ref code
    * @return True if given value is company, false otherwise
    */
-  Boolean isCompany(CharSequence entityType) {
-    return entityType == getCompanyType()
-  }
+  Boolean isCompany(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is company
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Subject id or subject type ref id
-   * @return True if given value is company, false otherwise
-   */
-  Boolean isCompany(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getCompanyTypeId() || getCompany(entityIdOrEntityTypeId) != null
+    } else {
+      return entityOrEntityType == getCompanyType()
+    }
   }
 
   /**
@@ -383,6 +387,58 @@ trait Company {
    */
   Map addCompanyAddParam(Map input = [:], def companyId) {
     return addSubjectAddParam(input, companyId)
+  }
+
+  /**
+   * Add tag to company
+   * @see #addSubjectTag(Map)
+   */
+  Map addCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return addSubjectTag(input)
+  }
+
+  /**
+   * Add tag to company
+   * @see #addSubjectTag(def,CharSequence)
+   */
+  Map addCompanyTag(def companyId, CharSequence tag) {
+    return addCompanyTag(companyId: companyId, tag: tag)
+  }
+
+  /**
+   * Add tag to company
+   * @see #addSubjectTag(Map,def)
+   */
+  Map addCompanyTag(Map input = [:], def companyId) {
+    return addCompanyTag(input + [companyId: companyId])
+  }
+
+  /**
+   * Delete tag from company
+   * @see #deleteCompanyTag(def)
+   */
+  Boolean deleteCompanyTag(def companyTagId) {
+    return deleteSubjectTag(companyTagId)
+  }
+
+  /**
+   * Delete tag from company
+   * @see #deleteCompanyTag(Map)
+   */
+  Boolean deleteCompanyTag(Map input) {
+    input.subjectId = input.subjectId ?: input.companyId
+    input.remove('companyId')
+    return deleteSubjectTag(input)
+  }
+
+  /**
+   * Delete tag from company
+   * @see #deleteCompanyTag(def,CharSequence)
+   */
+  Boolean deleteCompanyTag(def companyId, CharSequence tag) {
+    return deleteCompanyTag(companyId: companyId, tag: tag)
   }
 
   /**

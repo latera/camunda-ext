@@ -120,7 +120,8 @@ trait Subscription {
   }
 
   List getAvailableServices(Map input = [:], def customerId) {
-    return getAvailableServices(customerId, input)
+    LinkedHashMap params = getPaginationDefaultParams() + getAvailableServicesParams(input)
+    return getEntities(getAvailableServicesEntityType(customerId), params)
   }
 
   Map getAvailableService(Map input = [:], def customerId) {

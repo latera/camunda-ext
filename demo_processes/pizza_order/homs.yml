@@ -1,0 +1,37 @@
+order_type:
+  code: pizza_order
+  name: Pizza Order
+  fields:
+    customerName:
+      type: string
+      label: Customer Name
+    customerPhone:
+      type: string
+      label: Customer Phone
+    pizzaType:
+      type: string
+      label: Pizza Type
+    orderStatus:
+      type: string
+      label: Order Status
+    ingredientCheese:
+      type: boolean
+      label: Cheese Ingredient
+    ingredientSalami:
+      type: boolean
+      label: Salami Ingredient
+    ingredientPepper:
+      type: boolean
+      label: Pepper Ingredient
+    ingredientMushrooms:
+      type: boolean
+      label: Mushrooms Ingredient
+    ingredientVegetables:
+      type: boolean
+      label: Vegetables Ingredient
+    ingredientOlives:
+      type: boolean
+      label: Olives Ingredient
+    pizzaPrice:
+      type: number
+      label: Pizza Price

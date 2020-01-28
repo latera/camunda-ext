@@ -108,21 +108,21 @@ trait Contract {
   }
 
   /**
-   * Check if entity type code is contract
-   * @param entityType {@link CharSequence String}. Document type ref code
+   * Check if entity or entity type is contract
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
    * @return True if given value is contract, false otherwise
    */
-  Boolean isContract(CharSequence entityType) {
-    return entityType == getContractType()
-  }
+  Boolean isContract(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is contract
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
-   * @return True if given value is contract, false otherwise
-   */
-  Boolean isContract(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractTypeId()
+    } else {
+      return entityType == getContractType()
+    }
   }
 
   /**
@@ -305,26 +305,50 @@ trait Contract {
     return updateContract(input + [docId: docId])
   }
 
+  Map addContractTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractTag(def docId, CharSequence tag) {
+    return addContractTag(docId: docId, tag: tag)
+  }
+
+  Map addContractTag(Map input = [:], def docId) {
+    return addContractTag(input + [docId: docId])
+  }
+
+  Boolean deleteContractTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractTag(def docId, CharSequence tag) {
+    return deleteContractTag(docId: docId, tag: tag)
+  }
+  
   /**
    * Change contract state to Dissolved
-   * @param docId         {@link java.math.BigInteger BigInteger}
-   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on contract app, false to disable such check. Optional, default: false
+   * @param docId           {@link java.math.BigInteger BigInteger}
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract app, false to disable such check. Optional, default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveContract(Map input) {
     LinkedHashMap params = mergeParams([
-      docId         : null,
-      endDate       : null,
-      checkInvoices : false
+      docId           : null,
+      endDate         : null,
+      checkChargeLogs : false
     ], input)
     params.docId = params.docId ?: params.contractId
     try {
       logger.info("Dissolving contract id ${params.docId} with date ${params.endDate}")
       LinkedHashMap contract = hid.execute('SD_CONTRACTS_PKG.SD_CONTRACTS_DISSOLVE', [
-        num_N_DOC_ID    : params.docId,
-        dt_D_END        : params.endDate,
-        b_CheckInvoices : encodeFlag(params.checkInvoices)
+        num_N_DOC_ID      : params.docId,
+        dt_D_END          : params.endDate,
+        b_CheckChargeLogs : encodeFlag(params.checkChargeLogs)
       ])
       logger.info("   Contract ${contract.num_N_DOC_ID} was dissolved successfully!")
       return true
@@ -341,8 +365,8 @@ trait Contract {
    * Overload with positional arguments
    * @see @dissolveContract(Map)
    */
-  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   /**
@@ -418,21 +442,21 @@ trait Contract {
   }
 
   /**
-   * Check if entity type code is contract app
-   * @param entityType {@link CharSequence String}. Document type ref code
+   * Check if entity or entity type is contract app
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
    * @return True if given value is contract app, false otherwise
    */
-  Boolean isContractApp(CharSequence entityType) {
-    return entityType == getContractAppType()
-  }
+  Boolean isContractApp(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is contract app
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
-   * @return True if given value is contract app, false otherwise
-   */
-  Boolean isContractApp(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getContractAppTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getContractAppTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getContractAppTypeId()
+    } else {
+      return entityType == getContractAppType()
+    }
   }
 
   /**
@@ -488,12 +512,36 @@ trait Contract {
   Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
   }
+  
+  Map addContractAppTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addContractAppTag(def docId, CharSequence tag) {
+    return addContractAppTag(doc: docId, tag: tag)
+  }
+
+  Map addContractAppTag(Map input = [:], def docId) {
+    return addContractAppTag(input + [doc: docId])
+  }
+
+  Boolean deleteContractAppTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteContractAppTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteContractAppTag(def docId, CharSequence tag) {
+    return deleteContractAppTag(docId: docId, tag: tag)
+  }
 
   /**
    * Change contract app state to Dissolved
-   * @param docId         {@link java.math.BigInteger BigInteger}
-   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on contract, false to disable such check. Optional, default: false
+   * @param docId           {@link java.math.BigInteger BigInteger}
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract, false to disable such check. Optional, default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveContractApp(Map input) {
@@ -506,8 +554,8 @@ trait Contract {
    * Overload with positional arguments
    * @see @dissolveContractApp(Map)
    */
-  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   /**
@@ -583,21 +631,21 @@ trait Contract {
   }
 
   /**
-   * Check if entity type code is add agreement
-   * @param entityType {@link CharSequence String}. Document type ref code
+   * Check if entity or entity type is add agreement
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
    * @return True if given value is add agreement, false otherwise
    */
-  Boolean isAddAgreement(CharSequence entityType) {
-    return entityType == getAddAgreementType()
-  }
+  Boolean isAddAgreement(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is add agreement
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
-   * @return True if given value is add agreement, false otherwise
-   */
-  Boolean isAddAgreement(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId).n_doc_type_id == getAddAgreementTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getAddAgreementTypeId() || getDocument(docOrDocTypeId)?.n_doc_type_id == getAddAgreementTypeId()
+    } else {
+      return entityType == getAddAgreementType()
+    }
   }
 
   /**
@@ -657,11 +705,35 @@ trait Contract {
     return putAddAgreement(input + [docId: docId])
   }
 
+  Map addAddAgreementTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addAddAgreementTag(def docId, CharSequence tag) {
+    return addAddAgreementTag(doc: docId, tag: tag)
+  }
+
+  Map addAddAgreementTag(Map input = [:], def docId) {
+    return addAddAgreementTag(input + [doc: docId])
+  }
+
+  Boolean deleteAddAgreementTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteAddAgreementTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
+    return deleteAddAgreementTag(docId: docId, tag: tag)
+  }
+
   /**
    * Change add agreement state to Dissolved
-   * @param docId         {@link java.math.BigInteger BigInteger}
-   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkInvoices {@link CharSequence String}. True if there should be no actual invoices on add agreement, false to disable such check. Optional, default: false
+   * @param docId           {@link java.math.BigInteger BigInteger}
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on add agreement, false to disable such check. Optional, default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveAddAgreement(Map input) {
@@ -674,8 +746,8 @@ trait Contract {
    * Overload with positional arguments
    * @see @dissolveAddAgreement(Map)
    */
-  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkInvoices = false) {
-    return dissolveContract(docId: docId, endDate: endDate, checkInvoices: checkInvoices)
+  Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
+    return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
   /**Refresh base contracts tree material view

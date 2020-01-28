@@ -114,23 +114,23 @@ trait Bill {
     input.docTypeId = getBillTypeId()
     return getDocumentBy([providerId: null] + input)
   }
-
+  
   /**
-   * Check if entity type code is bill
-   * @param entityType {@link CharSequence String}. Document type ref code
+   * Check if entity or entity type is bill
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
    * @return True if given value is bill, false otherwise
    */
-  Boolean isBill(CharSequence entityType) {
-    return entityType == getBillType()
-  }
+  Boolean isBill(def entityOrEntityType) {
+    if (entityOrEntityType == null) {
+      return false
+    }
 
-  /**
-   * Check if entity id ot entity type id is bill
-   * @param entityIdOrEntityTypeId {@link java.math.BigInteger BigInteger}. Document id or document type ref id
-   * @return True if given value is bill, false otherwise
-   */
-  Boolean isBill(def entityIdOrEntityTypeId) {
-    return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
+    if (entityIdOrEntityTypeId != null) {
+      return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+    } else {
+      return entityOrEntityType == getBillType()
+    }
   }
 
   /**
@@ -364,5 +364,29 @@ trait Bill {
       n_line_id: lineId
     ]
     return hid.getTableFirst(getBillLinesTable(), where: where)
+  }
+
+  Map addBillTag(Map input) {
+    return addDocumentTag(input)
+  }
+
+  Map addBillTag(def docId, CharSequence tag) {
+    return addBillTag(docId: docId, tag: tag)
+  }
+
+  Map addBillTag(Map input = [:], def docId) {
+    return addBillTag(input + [docId: docId])
+  }
+
+  Boolean deleteBillTag(def docTagId) {
+    return deleteDocumentTag(docTagId)
+  }
+
+  Boolean deleteBillTag(Map input) {
+    return deleteDocumentTag(input)
+  }
+
+  Boolean deleteBillTag(def docId, CharSequence tag) {
+    return deleteBillTag(docId: docId, tag: tag)
   }
 }

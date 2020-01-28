@@ -18,7 +18,7 @@ trait Region {
     String regionPrefix = "${prefix}Region"
 
     Map data = hydra.getRegionTree(order."${regionPrefix}Id")
-    data.each { key, value ->
+    data.each { CharSequence key, def value ->
       String part = capitalize(key)
       order."${prefix}${part}" = value
     }
@@ -65,12 +65,12 @@ trait Region {
     Pattern pattern = Pattern.compile("^${prefix}(RegionId|${levelNames.join('|')}|${levelTypes.join('|')}|${buildingFields.join('|')})\$", Pattern.CASE_INSENSITIVE)
 
     Map result = [:]
-    order.data.each { key, value ->
+    order.data.each { CharSequence key, def value ->
       def group = (key =~ pattern)
       if (group.size() > 0) {
         String name = decapitalize(group[0][1])
         result[name] = value
-        if (notEmpty(value) && name in levelNames && isEmpty(order."${name}Type")) {
+        if (notEmpty(value) && name in levelNames && isEmpty(order."${key}Type")) {
           result["${name}Type"] = hydra.getRegionLevelFirstItem(name)
         }
       }

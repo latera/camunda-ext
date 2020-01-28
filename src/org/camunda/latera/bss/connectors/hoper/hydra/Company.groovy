@@ -1,22 +1,13 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
 trait Company {
-  private static LinkedHashMap COMPANY_ENTITY_TYPE_V1 = [
-    one    : 'company',
-    plural : 'companies'
-  ]
-
-  private static LinkedHashMap COMPANY_ENTITY_TYPE_V2 = [
+  private static LinkedHashMap COMPANY_ENTITY_TYPE = [
     one    : 'organization',
     plural : 'organizations'
   ]
 
   Map getCompanyEntityType(def id = null) {
-    if (hoper.version == 1) {
-      return COMPANY_ENTITY_TYPE_V1 + withParent(getSubjectEntityType()) + withId(id)
-    } else if (hoper.version == 2) {
-      return COMPANY_ENTITY_TYPE_V2 + withParent(getSubjectEntityType()) + withId(id)
-    }
+    return COMPANY_ENTITY_TYPE + withParent(getSubjectEntityType()) + withId(id)
   }
 
   private Map getCompanyDefaultParams() {

@@ -75,6 +75,7 @@ trait PriceOrder {
       schedDeferTypeId    : null,
       schedDeferPayDays   : null,
       unschedDeferPayDays : null,
+      tags                : null,
       limit               : 0,
       order               : [d_begin: 'asc']
     ], input)
@@ -121,7 +122,7 @@ trait PriceOrder {
       where.d_end = params.endDate
     }
     if (params.tags) {
-      where.t_tags = params.tags
+      where += prepareEntityTagQuery('N_DOC_ID', params.tags)
     }
     if (params.operationDate) {
       String oracleDate = encodeDateStr(params.operationDate)

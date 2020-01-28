@@ -12,7 +12,6 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import java.time.temporal.Temporal
-import org.camunda.latera.bss.internal.Version
 
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
@@ -147,7 +146,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -221,11 +220,7 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      if (this.version >= '5.1.2') {
-        where.vc_entrance_no = params.entrance
-      } else {
-        where.n_entrance_no = params.entrance
-      }
+      where.vc_entrance_no = params.entrance
     }
     if (params.rem) {
       where.vc_rem = params.rem
@@ -269,7 +264,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -311,7 +306,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -377,11 +372,7 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      if (this.version >= '5.1.2') {
-        where.vc_entrance_no = params.entrance
-      } else {
-        where.n_entrance_no = params.entrance
-      }
+      where.vc_entrance_no = params.entrance
     }
     if (params.rem) {
       where.vc_rem = params.rem
@@ -408,7 +399,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -447,7 +438,7 @@ trait Address {
    * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance           {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -512,7 +503,7 @@ trait Address {
    * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance           {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAddressBindTypeId()}
    * @param bindAddrType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -556,7 +547,7 @@ trait Address {
    * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance     {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm Id
    * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
@@ -609,11 +600,7 @@ trait Address {
       where.n_floor = params.floor
     }
     if (params.entrance) {
-      if (this.version >= '5.1.2') {
-        where.vc_entrance_no = params.entrance
-      } else {
-        where.n_entrance_no = params.entrance
-      }
+      where.vc_entrance_no = params.entrance
     }
     if (params.providerId) {
       where."DECODE(n_provider_id, NULL, ${params.providerId}, n_provider_id)" = params.providerId
@@ -635,7 +622,7 @@ trait Address {
    * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entrance     {@link java.math.BigInteger BigInteger}. (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2), {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param entrance     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm Id
    * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
@@ -717,7 +704,7 @@ trait Address {
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
    * @param floor          {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
    * @param state          {@link CharSequence String}. Optional
@@ -778,13 +765,9 @@ trait Address {
         num_N_FLOOR_NO          : params.floor,
         ch_C_FL_MAIN            : encodeBool(params.isMain),
         num_N_ADDR_STATE_ID     : params.stateId,
-        vch_VC_REM              : params.rem
+        vch_VC_REM              : params.rem,
+        vch_VC_ENTRANCE_NO      : params.entrance
       ]
-      if (this.version >= new Version('5.1.2')) {
-        args.vch_VC_ENTRANCE_NO = params.entrance
-      } else {
-        args.num_N_ENTRANCE_NO = params.entrance
-      }
 
       LinkedHashMap result = hid.execute('SI_ADDRESSES_PKG.SI_SUBJ_ADDRESSES_PUT_EX', args)
       logger.info("   Subject ${params.subjectId} address ${result.num_N_SUBJ_ADDRESS_ID} was ${params.subjAddressId ? 'updated' : 'created'} successfully!")
@@ -811,7 +794,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
    * @param state           {@link CharSequence String}. Optional
@@ -883,13 +866,9 @@ trait Address {
         dt_D_BEGIN             : params.beginDate ?: local(),
         dt_D_END               : params.endDate,
         num_N_ADDR_STATE_ID    : params.stateId,
-        vch_VC_REM             : params.rem
+        vch_VC_REM             : params.rem,
+        vch_VC_ENTRANCE_NO     : params.entrance
       ]
-      if (this.version >= new Version('5.1.2')) {
-        args.vch_VC_ENTRANCE_NO = params.entrance
-      } else {
-        args.num_N_ENTRANCE_NO = params.entrance
-      }
 
       LinkedHashMap result = hid.execute('SI_ADDRESSES_PKG.SI_OBJ_ADDRESSES_PUT_EX', args)
       logger.info("   Object ${params.objectId} address ${result.num_N_OBJ_ADDRESS_ID} was ${params.objAddressId ? 'updated' : 'created'} successfully!")
@@ -917,7 +896,7 @@ trait Address {
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
    * @param floor              {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
    * @param state              {@link CharSequence String}. Optional
@@ -1018,7 +997,7 @@ trait Address {
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
    * @param floor          {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
    * @param state          {@link CharSequence String}. Optional
@@ -1060,7 +1039,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
    * @param state           {@link CharSequence String}. Optional
@@ -1089,7 +1068,7 @@ trait Address {
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
    * @param floor              {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
    * @param state              {@link CharSequence String}. Optional
@@ -1125,7 +1104,7 @@ trait Address {
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
    * @param floor          {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance       {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
    * @param state          {@link CharSequence String}. Optional
@@ -1166,7 +1145,7 @@ trait Address {
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
    * @param floor           {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance        {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
    * @param state           {@link CharSequence String}. Optional
@@ -1193,7 +1172,7 @@ trait Address {
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
    * @param floor              {@link java.math.BigInteger BigInteger}. Optional
-   * @param entrance           {@link java.math.BigInteger BigInteger} (for < 5.1.2), {@link CharSequence String} (for >= 5.1.2). Optional
+   * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
    * @param state              {@link CharSequence String}. Optional
@@ -1504,8 +1483,6 @@ trait Address {
    * @param isPublic         {@link Boolean}. True to get only public IPv4 addresses, false only for private ones, null to disable filtration. Optional
    * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @param limit            {@link Integer}. Limit for result count. Optional, default: 10
-   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2.
-   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2.
    * @return List[Map] with IPv4 address data, e.g. {@code [[vc_ip: '10.10.10.10', n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24']]}
    */
   List getFreeIPAddresses(Map input) {
@@ -1514,7 +1491,6 @@ trait Address {
       objectId          : null,
       subnetAddressId   : null,
       vlanId            : null,
-      operationDate     : local(),
       firmId            : getFirmId(),
       isPublic          : null,
       limit             : 10
@@ -1549,7 +1525,6 @@ trait Address {
       }
     }
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     String filterReal = '1=1'
     if (params.isPublic != null) {
@@ -1593,71 +1568,36 @@ trait Address {
               FROM FREE_IP A
               WHERE ${filterReal}
             """, true, params.limit)
-          } else if (notEmpty(params.groupId) && this.version <= '5.1.2') {
-          addresses = hid.queryDatabase("""
-            WITH FREE_IP AS (
+          } else {
+            addresses = hid.queryDatabase("""
+              WITH FREE_IP AS (
+                SELECT
+                    SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
+                      num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
+                      num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
+                    A.N_ADDRESS_ID N_SUBNET_ID,
+                    A.VC_CODE      VC_SUBNET
+                FROM
+                    SI_V_ADDRESSES A
+                WHERE
+                    A.N_ADDRESS_ID = ${subnetAddressId}
+              ),
+              SORTED_IP AS (
+                SELECT DISTINCT
+                    *,
+                    SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(N_VALUE) VC_IP
+                FROM
+                    FREE_IP
+                ORDER BY
+                    N_VALUE
+              )
               SELECT
-                  SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                    num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                    num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
-                  A.N_ADDRESS_ID N_SUBNET_ID,
-                  A.VC_CODE      VC_SUBNET
-              FROM
-                  SI_V_ADDRESSES   A,
-                  RG_PAR_ADDRESSES RG
-              WHERE
-                  ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-              AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
-              AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-              AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-              AND RG.N_PROVIDER_ID       = ${params.firmId}
-            ),
-            SORTED_IP AS (
-              SELECT DISTINCT
-                  *,
-                  SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(A.N_VALUE) VC_IP
-              FROM
-                  FREE_IP A
-              ORDER BY
-                  N_VALUE
-            )
-            SELECT
-              'vc_ip',       A.VC_IP,
-              'n_subnet_id', A.N_SUBNET_ID,
-              'vc_subnet',   A.VC_SUBNET
-            FROM SORTED_IP A
-            WHERE ${filterReal}
-          """, true, params.limit)
-        } else {
-          addresses = hid.queryDatabase("""
-            WITH FREE_IP AS (
-              SELECT
-                  SI_ADDRESSES_PKG_S.GET_FREE_IP_ADDRESS(
-                    num_N_SUBNET_ADDR_ID => A.N_ADDRESS_ID,
-                    num_N_PROVIDER_ID    => ${params.firmId}) N_VALUE,
-                  A.N_ADDRESS_ID N_SUBNET_ID,
-                  A.VC_CODE      VC_SUBNET
-              FROM
-                  SI_V_ADDRESSES A
-              WHERE
-                  A.N_ADDRESS_ID = ${subnetAddressId}
-            ),
-            SORTED_IP AS (
-              SELECT DISTINCT
-                  *,
-                  SI_ADDRESSES_PKG_S.NUMBER_TO_IP_ADDRESS(N_VALUE) VC_IP
-              FROM
-                  FREE_IP
-              ORDER BY
-                  N_VALUE
-            )
-            SELECT
-              'vc_ip',       A.VC_IP,
-              'n_subnet_id', A.N_SUBNET_ID,
-              'vc_subnet',   A.VC_SUBNET
-            FROM SORTED_IP A
-            WHERE ${filterReal}
-          """, true)
+                'vc_ip',       A.VC_IP,
+                'n_subnet_id', A.N_SUBNET_ID,
+                'vc_subnet',   A.VC_SUBNET
+              FROM SORTED_IP A
+              WHERE ${filterReal}
+            """, true)
           }
         }
       } catch (Exception e) {}
@@ -1676,8 +1616,6 @@ trait Address {
    * @param vlan             {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
    * @param isPublic         {@link Boolean}. True to get only public IPv4 addresses, false only for private ones, null to disable filtration. Optional
    * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
-   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
-   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @return Map with IPv4 address data, e.g. {@code [vc_ip: '10.10.10.10', n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24']}
    */
   Map getFreeIPAddress(Map input) {
@@ -1700,8 +1638,6 @@ trait Address {
 
   /**
    * Get free IPv6 addresses
-   *
-   * !!! For 5.1.2 and higher only !!!
    * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
    * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address
    * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
@@ -1743,59 +1679,57 @@ trait Address {
     params.subnetAddressIds.each { def subnetAddressId ->
       try {
         if (!addresses) {
-          if (this.version >= '5.1.2') {
-            if (notEmpty(params.objectId)) {
-              if (notEmpty(subnetAddressId)) {
-                addresses = hid.queryDatabase("""
-                  SELECT
-                      'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
-                      'n_subnet_id', PA.N_ADDRESS_ID,
-                      'vc_subnet',   PA.VC_CODE VC_SUBNET
-                  FROM
-                      TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                        num_N_OBJECT_ID        => ${params.objectId},
-                        num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
-                        num_N_RANGE_ADDRESS_ID => ${subnetAddressId}
-                      )) A,
-                      SI_V_ADDRESSES PA
-                  WHERE
-                    PA.N_ADDRESS_ID  = ${subnetAddressId}
-                AND PA.N_PROVIDER_ID = ${params.firmId}
-                """, true, params.limit)
-              } else {
-                addresses = hid.queryDatabase("""
-                  SELECT
-                      'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
-                      'n_subnet_id', PA.N_ADDRESS_ID,
-                      'vc_subnet',   PA.VC_CODE VC_SUBNET
-                  FROM
-                      TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
-                        num_N_OBJECT_ID        => ${params.objectId},
-                        num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
-                        num_N_RANGE_ADDRESS_ID => NULL
-                      )) A,
-                      SI_V_ADDRESSES AA,
-                      SI_V_ADDRESSES PA
-                  WHERE
-                    AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
-                AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
-                AND PA.N_PROVIDER_ID (+)= ${params.firmId}
-                """, true, params.limit)
-              }
+          if (notEmpty(params.objectId)) {
+            if (notEmpty(subnetAddressId)) {
+              addresses = hid.queryDatabase("""
+                SELECT
+                    'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                    'n_subnet_id', PA.N_ADDRESS_ID,
+                    'vc_subnet',   PA.VC_CODE VC_SUBNET
+                FROM
+                    TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                      num_N_OBJECT_ID        => ${params.objectId},
+                      num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                      num_N_RANGE_ADDRESS_ID => ${subnetAddressId}
+                    )) A,
+                    SI_V_ADDRESSES PA
+                WHERE
+                  PA.N_ADDRESS_ID  = ${subnetAddressId}
+              AND PA.N_PROVIDER_ID = ${params.firmId}
+              """, true, params.limit)
             } else {
               addresses = hid.queryDatabase("""
                 SELECT
-                    'vc_ip', SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(SI_ADDRESS_RESTRICTIONS_PKG_S.GET_FREE_IP6_SLOW(
-                      num_N_RANGE_ADDRESS_ID => A.N_ADDRESS_ID,
-                      num_N_PROVIDER_ID      => ${params.firmId})),
-                    'n_subnet_id', A.N_ADDRESS_ID,
-                    'vc_subnet',   A.VC_CODE
+                    'vc_ip',       SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(A.VC_VALUE),
+                    'n_subnet_id', PA.N_ADDRESS_ID,
+                    'vc_subnet',   PA.VC_CODE VC_SUBNET
                 FROM
-                    SI_V_ADDRESSES A
+                    TABLE(SI_ADDRESSES_PKG_S.GET_FREE_ADDRESS_FOR_OBJECT(
+                      num_N_OBJECT_ID        => ${params.objectId},
+                      num_N_ADDR_TYPE_ID     => SYS_CONTEXT('CONST', 'ADDR_TYPE_IP6'),
+                      num_N_RANGE_ADDRESS_ID => NULL
+                    )) A,
+                    SI_V_ADDRESSES AA,
+                    SI_V_ADDRESSES PA
                 WHERE
-                    A.N_ADDRESS_ID = ${subnetAddressId}
+                  AA.N_ADDRESS_ID  (+)= A.N_ADDRESS_ID
+              AND PA.N_ADDRESS_ID  (+)= AA.N_PAR_ADDR_ID
+              AND PA.N_PROVIDER_ID (+)= ${params.firmId}
               """, true, params.limit)
             }
+          } else {
+            addresses = hid.queryDatabase("""
+              SELECT
+                  'vc_ip', SI_IP_ADDRESSES_PKG_S.VARCHAR_TO_IP6(SI_ADDRESS_RESTRICTIONS_PKG_S.GET_FREE_IP6_SLOW(
+                    num_N_RANGE_ADDRESS_ID => A.N_ADDRESS_ID,
+                    num_N_PROVIDER_ID      => ${params.firmId})),
+                  'n_subnet_id', A.N_ADDRESS_ID,
+                  'vc_subnet',   A.VC_CODE
+              FROM
+                  SI_V_ADDRESSES A
+              WHERE
+                  A.N_ADDRESS_ID = ${subnetAddressId}
+            """, true, params.limit)
           }
         }
       } catch (Exception e) {}
@@ -1805,8 +1739,6 @@ trait Address {
 
   /**
    * Get free IPv6 address
-   *
-   * !!! For 5.1.2 and higher only !!!
    * @param objectId         {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
    * @param subnetAddressId  {@link java.math.BigInteger BigInteger}. Subnet address id to use for search for free IP address
    * @param subnetAddressIds List[{@link java.math.BigInteger BigInteger}]. Subnet address ids to use for search for free IP address. Optional
@@ -1858,8 +1790,6 @@ trait Address {
    * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @param limit         Limit for result count. Optional, default: 10
-   * @param groupId       {@link java.math.BigInteger BigInteger}. Tel codes group id to use for selecting subnets. Optional, deprecated in 5.1.2
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @return List[Map] with telephone address data, e.g. {@code [[vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']]}
    */
   List getFreeTelephoneNumbers(Map input) {
@@ -1867,7 +1797,6 @@ trait Address {
       groupId       : null,
       objectId      : null,
       telCodeId     : null,
-      operationDate : local(),
       firmId        : getFirmId(),
       limit         : 10
     ]
@@ -1889,7 +1818,6 @@ trait Address {
     }
 
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     (params.telCodeIds ?: [null]).each { def telCodeId ->
       try {
@@ -1932,24 +1860,6 @@ trait Address {
                 AND PA.N_PROVIDER_ID (+)= ${params.firmId}
               """, true, params.limit)
             }
-          } else if (params.groupId && this.version <= '5.1.2') {
-            addresses = hid.queryDatabase("""
-              SELECT
-                  'vc_phone_number', SI_ADDRESSES_PKG_S.GET_FREE_PHONE_NUMBER(
-                    num_N_TEL_CODE_ID => A.N_ADDRESS_ID,
-                    num_N_PROVIDER_ID => ${params.firmId}),
-                  'n_telcode_id', A.N_ADDRESS_ID,
-                  'vc_tel_code',  A.VC_CODE
-              FROM
-                  SI_V_ADDRESSES A,
-                  RG_PAR_ADDRESSES RG
-              WHERE
-                  ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-              AND A.N_ADDRESS_ID         = RG.N_ADDRESS_ID
-              AND RG.N_PAR_ADDR_ID       = ${params.groupId}
-              AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Group')
-              AND RG.N_PROVIDER_ID       = ${params.firmId}
-            """, true, params.limit)
           } else {
             addresses = hid.queryDatabase("""
               SELECT
@@ -1978,8 +1888,6 @@ trait Address {
    * @param telCode       {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
    * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
-   * @param groupId       {@link java.math.BigInteger BigInteger}. Tel codes group id to use for selecting subnets. Optional, deprecated in 5.1.2
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @return Map with telephone address data, e.g. {@code [vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']}
    */
   Map getFreeTelephoneNumber(Map input) {
@@ -2007,8 +1915,6 @@ trait Address {
    * @param mask          {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
    * @param vlanId        {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
    * @param vlan          {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
-   * @param groupId       {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param isPublic      {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @param limit         Limit for result count. Optional, default: 10
@@ -2046,158 +1952,75 @@ trait Address {
     List addresses = []
     String date = encodeDateStr(params.operationDate)
     String filter = params.mask ? "(SI_ADDRESSES_PKG_S.GET_BITN_BY_MASK(A.N_MASK) = '${params.mask}' OR A.N_MASK = '${params.mask}')" : '1=1'
-    String notAssigned = ''
-    if (this.version >= '5.1.2') {
-      notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
-        SELECT 1
-        FROM
-            SI_V_OBJ_ADDRESSES OA
-        WHERE
-            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-        AND OA.N_ADDRESS_ID    = FA.N_SUBNET_ID
-        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-      )"""
-    } else {
-      notAssigned = """NOT EXISTS ( -- Не привязаны к оборудованию
-        SELECT 1
-        FROM
-            SI_V_OBJ_ADDRESSES OA
-        WHERE
-            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-        AND OA.N_ADDRESS_ID    = FA.N_ADDRESS_ID
-        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-      )"""
-    }
+    String notAssigned = """
+      NOT EXISTS ( -- Не привязаны к оборудованию
+      SELECT 1
+      FROM
+          SI_V_OBJ_ADDRESSES OA
+      WHERE
+          OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+      AND OA.N_ADDRESS_ID    = FA.N_SUBNET_ID
+      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+    )"""
 
-    String notAssignedChild = ''
-    if (this.version >= '5.1.2') {
-      notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
-        SELECT 1
-        FROM
-            SI_V_OBJ_ADDRESSES OA,
-            SI_V_ADDRESSES     A
-        WHERE
-            OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-        AND A.N_ADDRESS_ID     = OA.N_ADDRESS_ID
-        AND A.N_ADDR_TYPE_ID   = FA.N_ADDR_TYPE_ID
-        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-        AND A.N_PROVIDER_ID    = ${params.firmId}
-        START WITH
-            A.N_PAR_ADDR_ID    = FA.N_SUBNET_ID
-        CONNECT BY PRIOR
-            A.N_ADDRESS_ID     = A.N_PAR_ADDR_ID
-      )"""
-    } else {
-      notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
-        SELECT 1
-        FROM
-            SI_V_OBJ_ADDRESSES OA,
-            RG_PAR_ADDRESSES   RP
-        WHERE
-            OA.N_ADDR_STATE_ID     = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
-        AND OA.N_ADDR_TYPE_ID      = FA.N_ADDR_TYPE_ID
-        AND RP.N_ADDRESS_ID        = OA.N_ADDRESS_ID
-        AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
-        AND ${date} BETWEEN RP.D_BEGIN AND NVL(RP.D_END, ${date})
-        AND RP.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-        AND RP.N_PROVIDER_ID       = ${params.firmId}
-        START WITH
-            RP.N_PAR_ADDR_ID       = FA.N_ADDRESS_ID
-        CONNECT BY PRIOR
-            RP.N_ADDRESS_ID        = RP.N_PAR_ADDR_ID
-      )"""
-    }
+    String notAssignedChild = params.mask == '30' ? '1=1' : """NOT EXISTS ( -- И нет дочерних привязок к оборудованию
+      SELECT 1
+      FROM
+          SI_V_OBJ_ADDRESSES OA,
+          SI_V_ADDRESSES     A
+      WHERE
+          OA.N_ADDR_STATE_ID = SYS_CONTEXT('CONST', 'ADDR_STATE_On')
+      AND A.N_ADDRESS_ID     = OA.N_ADDRESS_ID
+      AND A.N_ADDR_TYPE_ID   = FA.N_ADDR_TYPE_ID
+      AND ${date} BETWEEN OA.D_BEGIN AND NVL(OA.D_END, ${date})
+      AND A.N_PROVIDER_ID    = ${params.firmId}
+      START WITH
+          A.N_PAR_ADDR_ID    = FA.N_SUBNET_ID
+      CONNECT BY PRIOR
+          A.N_ADDRESS_ID     = A.N_PAR_ADDR_ID
+    )"""
 
     // WARN Чтобы получение подсети работало, подсети нужного размера должны быть нарезаны
     try {
-      if (this.version >= '5.1.2') {
-        addresses = hid.queryDatabase("""
-        WITH AVAILABLE_SUBNETS AS (
-          SELECT
-              *
-          FROM
-              SI_V_PROV_SUBNETS A
-          WHERE
-              A.N_PROVIDER_ID = ${params.firmId}
-          CONNECT BY PRIOR
-              A.N_SUBNET_ID  = A.N_PAR_SUBNET_ID
-          START WITH
-              A.N_PAR_SUBNET_ID = ${params.rootId}
-        ),
-        FILTERED_SUBNETS AS (
-          SELECT
-              *
-          FROM
-              AVAILABLE_SUBNETS A
-          WHERE
-              ${filter}
-        ),
-        FREE_SUBNETS AS (
-          SELECT DISTINCT
-              *
-          FROM
-              FILTERED_SUBNETS FA
-          WHERE
-              ${notAssigned}
-          AND ${notAssignedChild}
-          ORDER BY
-              N_VALUE
-        ),
+      addresses = hid.queryDatabase("""
+      WITH AVAILABLE_SUBNETS AS (
         SELECT
-            'n_subnet_id',   S.N_ADDRESS_ID,
-            'vc_subnet',     S.VC_CODE,
-            'n_par_addr_id', S.N_PAR_ADDR_ID
-        FROM  FREE_SUBNETS S
-        WHERE ${filterReal}
-        """, true, params.limit)
-      } else {
-        addresses = hid.queryDatabase("""
-        WITH AVAILABLE_SUBNETS AS (
-          SELECT
-              RA.*
-          FROM
-              RG_PAR_ADDRESSES   RA
-          WHERE
-              RA.N_PROVIDER_ID = ${params.firmId}
-          CONNECT BY PRIOR
-              RA.N_ADDRESS_ID  = RA.N_PAR_ADDR_ID
-          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-          START WITH
-              RA.N_PAR_ADDR_ID = ${params.groupId ?: params.rootId}
-        ),
-        FILTERED_SUBNETS AS (
-          SELECT
-              AA.*,
-              A.VC_CODE,
-              A.N_VALUE,
-              A.N_MASK
-          FROM
-              AVAILABLE_SUBNETS AA,
-              SI_V_ADDRESSES    A
-          WHERE
-              A.N_ADDRESS_ID = AA.N_ADDRESS_ID
-          AND ${filter}
-          AND A.N_ADDR_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-        ),
-        FREE_SUBNETS AS (
-          SELECT DISTINCT
-              *
-          FROM
-              FILTERED_SUBNETS FA
-          WHERE
-              ${notAssigned}
-          AND ${notAssignedChild}
-          ORDER BY
-              N_VALUE
-        )
+            *
+        FROM
+            SI_V_PROV_SUBNETS A
+        WHERE
+            A.N_PROVIDER_ID = ${params.firmId}
+        CONNECT BY PRIOR
+            A.N_SUBNET_ID  = A.N_PAR_SUBNET_ID
+        START WITH
+            A.N_PAR_SUBNET_ID = ${params.rootId}
+      ),
+      FILTERED_SUBNETS AS (
         SELECT
-            'n_subnet_id',   S.N_ADDRESS_ID,
-            'vc_subnet',     S.VC_CODE,
-            'n_par_addr_id', S.N_PAR_ADDR_ID
-        FROM  FREE_SUBNETS S
-        WHERE ${filterReal}
-        """, true, params.limit)
-      }
+            *
+        FROM
+            AVAILABLE_SUBNETS A
+        WHERE
+            ${filter}
+      ),
+      FREE_SUBNETS AS (
+        SELECT DISTINCT
+            *
+        FROM
+            FILTERED_SUBNETS FA
+        WHERE
+            ${notAssigned}
+        AND ${notAssignedChild}
+        ORDER BY
+            N_VALUE
+      ),
+      SELECT
+          'n_subnet_id',   S.N_ADDRESS_ID,
+          'vc_subnet',     S.VC_CODE,
+          'n_par_addr_id', S.N_PAR_ADDR_ID
+      FROM  FREE_SUBNETS S
+      WHERE ${filterReal}
+      """, true, params.limit)
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -2211,8 +2034,6 @@ trait Address {
    * @param mask             {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
    * @param vlanId           {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
    * @param vlan             {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
-   * @param groupId          {@link java.math.BigInteger BigInteger}. Subnet group id to use for selecting subnets and their children. Optional, deprecated in 5.1.2
-   * @param operationDate    {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param isPublic         {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
    * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @return Map with IPv4 subnet data, e.g. {@code [n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]}
@@ -2241,14 +2062,7 @@ trait Address {
   Number getSubnetIdByIP(CharSequence ip) {
     def subnetId = null
     try {
-      if (this.version >= '5.1.2') {
-        subnetId = toIntSafe(getAddressBy(code: ip, addrType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6']])?.n_par_addr_id)
-      } else {
-        subnetId = toIntSafe(hid.queryFirst("""
-          SELECT SI_ADDRESSES_PKG_S.GET_SUBNET_BY_IP_ADDRESS('$ip')
-          FROM   DUAL
-        """)?.getAt(0))
-      }
+      subnetId = toIntSafe(getAddressBy(code: ip, addrType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6']])?.n_par_addr_id)
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -2385,8 +2199,6 @@ trait Address {
 
   /**
    * Get IPv6 address mask
-   *
-   * !!! For 5.1.2 and higher only !!!
    * @return String with IPv6 address mask from database, e.g. '60'
    */
   String getIPv6Mask() {
@@ -2397,18 +2209,15 @@ trait Address {
    * Get all parent IPv4 subnets for some subnet
    * @param addressId     {@link java.math.BigInteger BigInteger}. Subnet address id. Optional
    * @param address       {@link CharSequence String}. Subnet code. Optional
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @param limit         Limit for result count. Optional, default: 10
    * @return List[Map] with IPv4 subnet data, e.g. {@code [[n_address_id: 1234142301, code: '10.10.0.0/24', n_value: 168430080, n_par_addr_id: 1234142201, level: 0]]}
    */
   List getParentSubnetAddresses(Map input) {
     LinkedHashMap defaultParams = [
-      addressId     : null,
-      mask          : null,
-      operationDate : local(),
-      firmId        : getFirmId(),
-      limit         : 0
+      addressId : null,
+      firmId    : getFirmId(),
+      limit     : 0
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
       input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -2416,50 +2225,25 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     try {
-      if (this.version >= '5.1.2') {
-        addresses = hid.queryDatabase("""
-          SELECT DISTINCT
-              'n_address_id',  A.N_ADDRESS_ID,
-              'code',          A.VC_CODE,
-              'n_value',       A.N_VALUE,
-              'n_par_addr_id', A.N_PAR_ADDR_ID,
-              'level',         LEVEL
-          FROM
-              SI_V_PROV_SUBNETS A
-          WHERE
-              A.N_PROVIDER_ID   = ${params.firmId}
-          START WITH
-              A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
-          CONNECT BY PRIOR
-              A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
-          ORDER BY LEVEL ASC
-        """, true, params.level ?: params.limit)
-      } else {
-        addresses = hid.queryDatabase("""
-          SELECT DISTINCT
-              'n_address_id',  A.N_ADDRESS_ID,
-              'code',          A.VC_CODE,
-              'n_value',       A.N_VALUE,
-              'n_par_addr_id', RA.N_PAR_ADDR_ID,
-              'level',         LEVEL
-          FROM
-              SI_V_ADDRESSES   A,
-              RG_PAR_ADDRESSES RA
-          WHERE
-              RA.N_ADDRESS_ID = A.N_ADDRESS_ID
-          AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-          AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-          AND RA.N_PROVIDER_ID = ${params.firmId}
-          START WITH
-              A.N_ADDRESS_ID = ${params.addressId ?: params.subnetId}"
-          CONNECT BY PRIOR
-              RA.N_PAR_ADDR_ID = RA.N_ADDRESS_ID
-          ORDER BY LEVEL ASC
-        """, true, params.level ?: params.limit)
-      }
+      addresses = hid.queryDatabase("""
+        SELECT DISTINCT
+            'n_address_id',  A.N_ADDRESS_ID,
+            'code',          A.VC_CODE,
+            'n_value',       A.N_VALUE,
+            'n_par_addr_id', A.N_PAR_ADDR_ID,
+            'level',         LEVEL
+        FROM
+            SI_V_PROV_SUBNETS A
+        WHERE
+            A.N_PROVIDER_ID   = ${params.firmId}
+        START WITH
+            A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
+        CONNECT BY PRIOR
+            A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
+        ORDER BY LEVEL ASC
+      """, true, params.level ?: params.limit)
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -2470,15 +2254,13 @@ trait Address {
    * Get VLAN address for subnet
    * @param addressId     {@link java.math.BigInteger BigInteger}. Subnet address id. Optional
    * @param address       {@link CharSequence String}. Subnet code. Optional
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @return Map with VLAN data, e.g. {@code [n_vlan_id: 1234142301, vc_vlan: '1234']}
    */
   Map getVLANAddressBySubnet(Map input) {
     LinkedHashMap defaultParams = [
-      addressId     : null,
-      operationDate : local(),
-      firmId        : getFirmId()
+      addressId : null,
+      firmId    : getFirmId()
     ]
     if ((input.containsKey('address') && notEmpty(input.address)) || (input.containsKey('code') && notEmpty(input.code))) {
       input.addressId = getAddressBy(code: input.address ?: input.code, type: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -2486,79 +2268,36 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     LinkedHashMap address = null
-    String date = encodeDateStr(params.operationDate)
 
     try {
-      if (this.version >= '5.1.2') {
-        address = hid.queryFirst("""
-          WITH SUBNETS AS (
-            SELECT DISTINCT
-                A.N_ADDRESS_ID,
-                A.VC_CODE,
-                A.N_VALUE,
-                A.N_PAR_ADDR_ID,
-                LEVEL
-            FROM
-                SI_V_PROV_SUBNETS4 A
-            WHERE
-                A.N_PROVIDER_ID   = ${params.firmId}
-            START WITH
-                A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
-            CONNECT BY PRIOR
-                A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
-            ORDER BY LEVEL ASC
-          )
-
-          SELECT
-              'n_vlan_id',        A.N_VLAN_ID,
-              'vc_vlan',          A.VC_VLAN_CODE
+      address = hid.queryFirst("""
+        WITH SUBNETS AS (
+          SELECT DISTINCT
+              A.N_ADDRESS_ID,
+              A.VC_CODE,
+              A.N_VALUE,
+              A.N_PAR_ADDR_ID,
+              LEVEL
           FROM
-              SUBNETS             S,
-              SI_V_VLAN_ADDRESSES A
+              SI_V_PROV_SUBNETS4 A
           WHERE
-              S.N_SUBNET_ID = A.N_ADDRESS_ID
-        """, true)
-      } else {
-        address = hid.queryFirst("""
-          WITH SUBNETS AS (
-            SELECT DISTINCT
-                A.N_ADDRESS_ID,
-                A.VC_CODE,
-                A.N_VALUE,
-                RA.N_PAR_ADDR_ID,
-                LEVEL
-            FROM
-                SI_V_ADDRESSES   A,
-                RG_PAR_ADDRESSES RA
-            WHERE
-                RA.N_ADDRESS_ID        = A.N_ADDRESS_ID
-            AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_Subnet')
-            AND ${date} BETWEEN RA.D_BEGIN AND NVL(RA.D_END, ${date})
-            AND RA.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_Parent')
-            AND RA.N_PROVIDER_ID       = ${params.firmId}
-            START WITH
-                A.N_ADDRESS_ID = ${params.addressId ?: params.subnetId}"
-            CONNECT BY PRIOR
-                RA.N_PAR_ADDR_ID       = RA.N_ADDRESS_ID
-            ORDER BY LEVEL ASC
-          )
+              A.N_PROVIDER_ID   = ${params.firmId}
+          START WITH
+              A.N_SUBNET_ID     = ${params.addressId ?: params.subnetId}"
+          CONNECT BY PRIOR
+              A.N_PAR_SUBNET_ID = A.N_SUBNET_ID
+          ORDER BY LEVEL ASC
+        )
 
-          SELECT
-              'n_vlan_id',     A.N_ADDRESS_ID,
-              'vc_vlan',       A.VC_CODE
-          FROM
-              SUBNETS          S,
-              SI_V_ADDRESSES   A,
-              RG_PAR_ADDRESSES RG
-          WHERE
-              RG.N_ADDRESS_ID        = S.N_ADDRESS_ID
-          AND ${date} BETWEEN RG.D_BEGIN AND NVL(RG.D_END, ${date})
-          AND RG.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
-          AND RG.N_PROVIDER_ID       = ${params.firmId}
-          AND RG.N_PAR_ADDR_ID       = A.N_ADDRESS_ID
-          AND A.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
-        """, true)
-      }
+        SELECT
+            'n_vlan_id',        A.N_VLAN_ID,
+            'vc_vlan',          A.VC_VLAN_CODE
+        FROM
+            SUBNETS             S,
+            SI_V_VLAN_ADDRESSES A
+        WHERE
+            S.N_SUBNET_ID = A.N_ADDRESS_ID
+      """, true)
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -2578,7 +2317,6 @@ trait Address {
    * Get subnet addresses by VLAN
    * @param addressId     {@link java.math.BigInteger BigInteger}. VLAN address id. Optional
    * @param address       {@link CharSequence String}. VLAN code. Optional
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, default: current firm Id
    * @param limit         Limit for result count. Optional, default: 10
    * @return List[Map] of subnet address data, e.g. {@code [[n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]]}
@@ -2586,7 +2324,6 @@ trait Address {
   List getSubnetAddressesByVLAN(Map input) {
     LinkedHashMap defaultParams = [
       addressId     : null,
-      operationDate : local(),
       firmId        : getFirmId(),
       limit         : 0
     ]
@@ -2597,45 +2334,22 @@ trait Address {
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
     List addresses = []
-    String date = encodeDateStr(params.operationDate)
 
     try {
-      if (this.version >= '5.1.2') {
-        addresses = hid.queryDatabase("""
-          SELECT
-              'n_subnet_id',   A.N_SUBNET_ID,
-              'vc_subnet',     A.VC_CODE,
-              'n_par_addr_id', A.N_PAR_SUBNET_ID
-          FROM
-              SI_V_PROV_SUBNETS4  A,
-              SI_V_VLAN_ADDRESSES V
-          WHERE
-              V.N_VLAN_ID     = ${params.addressId ?: params.vlanId}
-          AND A.N_SUBNET_ID   = V.N_ADDRESS_ID
-          AND A.N_PROVIDER_ID = ${params.firmId}
-          ORDER BY A.N_VALUE ASC
-        """, true, params.limit)
-      } else {
-        addresses = hid.queryDatabase("""
-          SELECT
-              'n_subnet_id',   A.N_ADDRESS_ID,
-              'vc_subnet',     A.VC_CODE,
-              'n_par_addr_id', A.N_PAR_ADDR_ID
-          FROM
-              SI_V_ADDRESSES   A,
-              SI_V_ADDRESSES   V,
-              RG_PAR_ADDRESSES RV
-          WHERE
-              RV.N_ADDRESS_ID        = A.N_ADDRESS_ID
-          AND ${date} BETWEEN RV.D_BEGIN AND NVL(RV.D_END, ${date})
-          AND RV.N_ADDR_BIND_TYPE_ID = SYS_CONTEXT('CONST', 'ADDR_ADDR_TYPE_SubnetViaVLAN')
-          AND RV.N_PROVIDER_ID       = ${params.firmId}
-          AND RV.N_PAR_ADDR_ID       = V.N_ADDRESS_ID
-          AND A.N_ADDRESS_ID         = ${params.addressId ?: params.vlanId}
-          AND V.N_ADDR_TYPE_ID       = SYS_CONTEXT('CONST', 'ADDR_TYPE_VLAN')
-          ORDER BY A.N_VALUE ASC
-        """, true, params.limit)
-      }
+      addresses = hid.queryDatabase("""
+        SELECT
+            'n_subnet_id',   A.N_SUBNET_ID,
+            'vc_subnet',     A.VC_CODE,
+            'n_par_addr_id', A.N_PAR_SUBNET_ID
+        FROM
+            SI_V_PROV_SUBNETS4  A,
+            SI_V_VLAN_ADDRESSES V
+        WHERE
+            V.N_VLAN_ID     = ${params.addressId ?: params.vlanId}
+        AND A.N_SUBNET_ID   = V.N_ADDRESS_ID
+        AND A.N_PROVIDER_ID = ${params.firmId}
+        ORDER BY A.N_VALUE ASC
+      """, true, params.limit)
     } catch (Exception e){
       logger.error_oracle(e)
     }
@@ -2646,7 +2360,6 @@ trait Address {
    * Get subnet address by VLAN
    * @param addressId     {@link java.math.BigInteger BigInteger}. VLAN address id. Optional
    * @param address       {@link CharSequence String}. VLAN code. Optional
-   * @param operationDate {@link java.time.Temporal Any date type}. Filter parent addresses binds in registry by date. Optional, deprecated in 5.1.2
    * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional, Optional, default: current firm Id
    * @return Map with subnet address data, e.g. {@code [n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]}
    */
