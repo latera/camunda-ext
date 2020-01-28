@@ -114,7 +114,7 @@ trait Bill {
     input.docTypeId = getBillTypeId()
     return getDocumentBy([providerId: null] + input)
   }
-  
+
   /**
    * Check if entity or entity type is bill
    * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
@@ -366,26 +366,50 @@ trait Bill {
     return hid.getTableFirst(getBillLinesTable(), where: where)
   }
 
+  /**
+   * Add tag to bill
+   * @see #addDocumentTag(Map)
+   */
   Map addBillTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to bill
+   * @see #addDocumentTag(def,CharSequence)
+   */
   Map addBillTag(def docId, CharSequence tag) {
     return addBillTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to bill
+   * @see #addDocumentTag(Map,def)
+   */
   Map addBillTag(Map input = [:], def docId) {
     return addBillTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from bill
+   * @see #deleteDocumentTag(def)
+   */
   Boolean deleteBillTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from bill
+   * @see #deleteDocumentTag(Map)
+   */
   Boolean deleteBillTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from bill
+   * @see #deleteDocumentTag(def,CharSequence)
+   */
   Boolean deleteBillTag(def docId, CharSequence tag) {
     return deleteBillTag(docId: docId, tag: tag)
   }

@@ -582,26 +582,50 @@ trait ChargeLog {
     return hid.getTableFirst(getChargeLogLinesTable(), where: where)
   }
 
+  /**
+   * Add tag to charge log
+   * @see #addDocumentTag(Map)
+   */
   Map addChargeLogTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to charge log
+   * @see #addDocumentTag(def,CharSequence)
+   */
   Map addChargeLogTag(def docId, CharSequence tag) {
     return addChargeLogTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to charge log
+   * @see #addDocumentTag(Map,def)
+   */
   Map addChargeLogTag(Map input = [:], def docId) {
     return addChargeLogTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from charge log
+   * @see #deleteDocumentTag(def)
+   */
   Boolean deleteChargeLogTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from charge log
+   * @see #deleteDocumentTag(Map)
+   */
   Boolean deleteChargeLogTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from charge log
+   * @see #deleteDocumentTag(def,CharSequence)
+   */
   Boolean deleteChargeLogTag(def docId, CharSequence tag) {
     return deleteChargeLogTag(docId: docId, tag: tag)
   }

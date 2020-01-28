@@ -60,6 +60,7 @@ trait Company {
    * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit     {@link Integer}. Optional, default: 0 (unlimited)
    * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return List[Map] of company table rows
@@ -166,6 +167,7 @@ trait Company {
    * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return Map with company table row
    */

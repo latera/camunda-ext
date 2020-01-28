@@ -1389,31 +1389,77 @@ trait Document {
   Boolean changeDocumentState(def docId, CharSequence state) {
     return changeDocumentState(docId, getRefIdByCode(state))
   }
-  
+
+  /**
+   * Add tag to document
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
+   * @param tag   {@link CharSequence String}. Optional
+   * @return True if document tag was added successfully, false otherwise
+   */
   Map addDocumentTag(Map input) {
     input.entityId = input.docId
     input.remove('docId')
     return addEntityTag(input)
   }
 
+  /**
+   * Add tag to document
+   *
+   * Overload with tag code instead of id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tag   {@link CharSequence String}
+   * @see @addDocumentTag(Map)
+   */
   Map addDocumentTag(def docId, CharSequence tag) {
     return addDocumentTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to document
+   *
+   * Overload with mandatory doc id arg
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
+   * @param tag   {@link CharSequence String}. Optional
+   * @see @addDocumentTag(Map,def)
+   */
   Map addDocumentTag(Map input = [:], def docId) {
     return addDocumentTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from document
+   * @param docTagId {@link java.math.BigInteger BigInteger}
+   * @return True if document tag was deleted successfully, false otherwise
+   */
   Boolean deleteDocumentTag(def docTagId) {
     return deleteEntityTag(docTagId)
   }
 
+  /**
+   * Delete tag from document
+   *
+   * Overload with named args input
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
+   * @param tag   {@link CharSequence String}. Optional
+   * @see @deleteDocumentTag(def)
+   */
   Boolean deleteDocumentTag(Map input) {
     input.entityId = input.docId
     input.remove('docId')
     return deleteEntityTag(input)
   }
 
+  /**
+   * Delete tag from document
+   *
+   * Overload with doc id and tag code
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tag   {@link CharSequence String}
+   * @see @deleteDocumentTag(Map)
+   */
   Boolean deleteDocumentTag(def docId, CharSequence tag) {
     return deleteEntityTag(docId: docId, tag: tag)
   }

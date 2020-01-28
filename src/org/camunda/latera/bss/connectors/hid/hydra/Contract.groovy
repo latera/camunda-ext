@@ -305,26 +305,50 @@ trait Contract {
     return updateContract(input + [docId: docId])
   }
 
+  /**
+   * Add tag to contract
+   * @see #addDocumentTag(Map)
+   */
   Map addContractTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to contract
+   * @see #addDocumentTag(def,CharSequence)
+   */
   Map addContractTag(def docId, CharSequence tag) {
     return addContractTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to contract
+   * @see #addDocumentTag(Map,def)
+   */
   Map addContractTag(Map input = [:], def docId) {
     return addContractTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from contract
+   * @see #deleteDocumentTag(def)
+   */
   Boolean deleteContractTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from contract
+   * @see #deleteDocumentTag(Map)
+   */
   Boolean deleteContractTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from contract
+   * @see #deleteDocumentTag(def,CharSequence)
+   */
   Boolean deleteContractTag(def docId, CharSequence tag) {
     return deleteContractTag(docId: docId, tag: tag)
   }
@@ -512,27 +536,51 @@ trait Contract {
   Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
   }
-  
+
+  /**
+   * Add tag to contract app
+   * @see #addDocumentTag(Map)
+   */
   Map addContractAppTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to contract app
+   * @see #addDocumentTag(def,CharSequence)
+   */
   Map addContractAppTag(def docId, CharSequence tag) {
     return addContractAppTag(doc: docId, tag: tag)
   }
 
+  /**
+   * Add tag to contract app
+   * @see #addDocumentTag(Map,def)
+   */
   Map addContractAppTag(Map input = [:], def docId) {
     return addContractAppTag(input + [doc: docId])
   }
 
+  /**
+   * Delete tag from contract app
+   * @see #deleteDocumentTag(def)
+   */
   Boolean deleteContractAppTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from contract app
+   * @see #deleteDocumentTag(Map)
+   */
   Boolean deleteContractAppTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from contract app
+   * @see #deleteDocumentTag(def,CharSequence)
+   */
   Boolean deleteContractAppTag(def docId, CharSequence tag) {
     return deleteContractAppTag(docId: docId, tag: tag)
   }
@@ -705,26 +753,50 @@ trait Contract {
     return putAddAgreement(input + [docId: docId])
   }
 
+  /**
+   * Add tag to add agreement
+   * @see #addDocumentTag(Map)
+   */
   Map addAddAgreementTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to add agreement
+   * @see #addDocumentTag(def,CharSequence)
+   */
   Map addAddAgreementTag(def docId, CharSequence tag) {
     return addAddAgreementTag(doc: docId, tag: tag)
   }
 
+  /**
+   * Add tag to add agreement
+   * @see #addDocumentTag(Map,def)
+   */
   Map addAddAgreementTag(Map input = [:], def docId) {
     return addAddAgreementTag(input + [doc: docId])
   }
 
+  /**
+   * Delete tag from add agreement
+   * @see #deleteDocumentTag(def)
+   */
   Boolean deleteAddAgreementTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from add agreement
+   * @see #deleteDocumentTag(Map)
+   */
   Boolean deleteAddAgreementTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from add agreement
+   * @see #deleteDocumentTag(def,CharSequence)
+   */
   Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
     return deleteAddAgreementTag(docId: docId, tag: tag)
   }
