@@ -49,4 +49,5 @@ class ConstantsSpec extends Specification {
     12345                      |null
     null                       |null
   }
+
 }

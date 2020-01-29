@@ -454,6 +454,7 @@ class Constants {
       case 'Es':
         return LANG_Es
     }
+
     return null
   }
 
@@ -466,19 +467,15 @@ class Constants {
     def field = Constants.class.declaredFields.find { def it ->
       !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.name == code
     }
-    if (field) {
-      return field.get()
-    }
-    return null
+
+    return field?.get()
   }
 
   static String getContstantCode(Number value) {
     def field = Constants.declaredFields.find { def it ->
       !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == value
     }
-    if (field) {
-      return field.name
-    }
-    return null
+
+    return field?.name
   }
 }
