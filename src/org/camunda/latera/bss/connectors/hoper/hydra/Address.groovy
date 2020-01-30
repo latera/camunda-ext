@@ -27,7 +27,7 @@ trait Address {
   }
 
   Integer getDefaultAddressBindTypeId() {
-    return BIND_ADDR_TYPE_Serv
+    return BIND_ADDR_TYPE_Actual
   }
 
   Integer getDefaultAddressStateId() {
