@@ -3,18 +3,17 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Invoice
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Charged
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Reserve
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Cancelled
+import static org.camunda.latera.bss.utils.Constants.WFLOW_Invoice
 import java.time.temporal.Temporal
 
 trait Invoice {
-  private static String  INVOICES_TABLE              = 'SD_V_INVOICES_T'
-  private static String  GOOD_MOVES_TABLE            = 'SD_V_GOOD_MOVES_T'
-  private static String  INVOICE_LINES_TABLE         = 'SD_V_INVOICES_C'
-  private static String  INVOICE_TYPE                = 'DOC_TYPE_Invoice'
-  private static String  CHARGE_CHARGED_TYPE         = 'GM_TYPE_Charged'
-  private static String  CHARGE_RESERVED_TYPE        = 'GM_TYPE_Reserve'
-  private static String  CHARGE_CANCELED_TYPE        = 'GM_TYPE_Cancelled'
-  private static String  DEFAULT_INVOICE_WORKFLOW    = 'WFLOW_Invoice'
-  private static Integer DEFAULT_INVOICE_WORKFLOW_ID = 30021
+  private static String INVOICES_TABLE      = 'SD_V_INVOICES_T'
+  private static String GOOD_MOVES_TABLE    = 'SD_V_GOOD_MOVES_T'
+  private static String INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'
 
   String getInvoicesTable() {
     return INVOICES_TABLE
@@ -29,43 +28,43 @@ trait Invoice {
   }
 
   String getInvoiceType() {
-    return INVOICE_TYPE
+    return getRefCode(getInvoiceTypeId())
   }
 
   Number getInvoiceTypeId() {
-    return getRefIdByCode(getInvoiceType())
+    return DOC_TYPE_Invoice
   }
 
   String getChargeChargedType() {
-    return CHARGE_CHARGED_TYPE
+    return getRefCode(getChargeChargedTypeId())
   }
 
   Number getChargeChargedTypeId() {
-    return getRefIdByCode(getChargeChargedType())
+    return GM_TYPE_Charged
   }
 
   String getChargeReservedType() {
-    return CHARGE_RESERVED_TYPE
+    return getRefCode(getChargeReservedTypeId())
   }
 
   Number getChargeReservedTypeId() {
-    return getRefIdByCode(getChargeReservedType())
+    return GM_TYPE_Reserve
   }
 
   String getChargeCanceledType() {
-    return CHARGE_CANCELED_TYPE
+    return getRefCode(getChargeCanceledTypeId())
   }
 
   Number getChargeCanceledTypeId() {
-    return getRefIdByCode(getChargeCanceledType())
+    return GM_TYPE_Cancelled
   }
 
   String getDefaultInvoiceWorkflow() {
-    return DEFAULT_INVOICE_WORKFLOW
+    return getRefCode(getDefaultInvoiceWorkflowId())
   }
 
   Number getDefaultInvoiceWorkflowId() {
-    return DEFAULT_INVOICE_WORKFLOW_ID
+    return WFLOW_Invoice
   }
 
   Map getInvoice(def docId) {

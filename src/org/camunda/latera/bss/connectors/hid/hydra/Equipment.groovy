@@ -5,6 +5,11 @@ import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
+import static org.camunda.latera.bss.utils.Constants.ENTITY_TYPE_Object
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_Active
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_NotActive
+import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_RegisterOff
+
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
@@ -12,10 +17,6 @@ trait Equipment {
   private static String EQUIPMENT_ADD_PARAMS_TABLE   = 'SI_V_OBJ_VALUES'
   private static String OBJECTS_MV                   = 'SI_V_OBJECTS'
   private static String EQUIPMENT_ADD_PARAMS_MV      = 'SI_V_OBJ_VALUES'
-  private static String ENTITY_TYPE_OBJECT           = 'ENTITY_TYPE_Object'
-  private static String EQUIPMENT_STATE_ACTUAL       = 'OBJ_STATE_Active'
-  private static String EQUIPMENT_STATE_NOT_ACTIVE   = 'OBJ_STATE_NotActive'
-  private static String EQUIPMENT_STATE_REGISTER_OFF = 'OBJ_STATE_RegisterOff'
 
   String getObjectsTable() {
     return OBJECTS_TABLE
@@ -45,40 +46,40 @@ trait Equipment {
     return getObjectsMV()
   }
 
-  String getEquipmentEntityType() {
-    return ENTITY_TYPE_OBJECT
-  }
-
-  Number getEquipmentEntityTypeId() {
-    return getRefIdByCode(getEquipmentEntityType())
-  }
-
   String getEquipmentAddParamsMV() {
     return EQUIPMENT_ADD_PARAMS_MV
   }
 
+  String getEquipmentEntityType() {
+    return getRefCode(getEquipmentEntityTypeId())
+  }
+
+  Number getEquipmentEntityTypeId() {
+    return ENTITY_TYPE_Object
+  }
+
   String getEquipmentStateActual() {
-    return EQUIPMENT_STATE_ACTUAL
+    return getRefCode(getEquipmentStateActualId())
   }
 
   Number getEquipmentStateActualId() {
-    return getRefIdByCode(getEquipmentStateActual())
+    return OBJ_STATE_Active
   }
 
   String getEquipmentStateNotActive() {
-    return EQUIPMENT_STATE_NOT_ACTIVE
+    return getRefCode(getEquipmentStateNotActiveId())
   }
 
   Number getEquipmentStateNotActiveId() {
-    return getRefIdByCode(getEquipmentStateNotActive())
+    return OBJ_STATE_NotActive
   }
 
   String getEquipmentStateRegisterOff() {
-    return EQUIPMENT_STATE_REGISTER_OFF
+    return getRefCode(getEquipmentStateRegisterOffId())
   }
 
   Number getEquipmentStateRegisterOffId() {
-    return getRefIdByCode(getEquipmentStateRegisterOff())
+    return OBJ_STATE_RegisterOff
   }
 
   Map getObject(def objectId) {

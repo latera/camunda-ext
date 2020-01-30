@@ -4,19 +4,11 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayBegin
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
+import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Person
 
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
-  private static String PERSON_TYPE           = 'SUBJ_TYPE_Person'
-
-  String getPersonType() {
-    return PERSON_TYPE
-  }
-
-  Number getPersonTypeId() {
-    return getRefIdByCode(getPersonType())
-  }
 
   String getPersonsTable() {
     return PERSONS_TABLE
@@ -24,6 +16,14 @@ trait Person {
 
   String getPersonsPrivateTable() {
     return PERSONS_PRIVATE_TABLE
+  }
+
+  String getPersonType() {
+    return getRefCode(getPersonTypeId())
+  }
+
+  Number getPersonTypeId() {
+    return SUBJ_TYPE_Person
   }
 
   Map getPerson(def personId) {

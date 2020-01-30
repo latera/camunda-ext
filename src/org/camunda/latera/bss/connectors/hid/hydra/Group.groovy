@@ -1,21 +1,21 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Group
 
 trait Group {
   private static String GROUPS_TABLE = 'SI_V_SUBJ_GROUPS'
-  private static String GROUP_TYPE   = 'SUBJ_TYPE_Group'
 
   String getGroupsTable() {
     return GROUPS_TABLE
   }
 
   String getGroupType() {
-    return GROUP_TYPE
+    return getRefCode(getGroupTypeId())
   }
 
   Number getGroupTypeId() {
-    return getRefIdByCode(getGroupType())
+    return SUBJ_TYPE_Group
   }
 
   Map getGroup(def groupId) {

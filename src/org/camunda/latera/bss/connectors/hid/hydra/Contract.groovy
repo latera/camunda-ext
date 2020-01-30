@@ -6,21 +6,18 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_SubscriberContract
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_ContractAPP
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_AddAgreement
+import static org.camunda.latera.bss.utils.Constants.WFLOW_SubscriberContract
+import static org.camunda.latera.bss.utils.Constants.WFLOW_ContractAPP
+import static org.camunda.latera.bss.utils.Constants.WFLOW_AddAgreement
 import java.time.temporal.Temporal
 
 trait Contract {
-  private static String  CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
-  private static String  CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
-  private static String  BASE_CONTRACTS_TREE_MV = 'SD_MV_BASE_CONTRACTS_TREE'
-  private static String  CONTRACT_TYPE          = 'DOC_TYPE_SubscriberContract'
-  private static String  CONTRACT_APP_TYPE      = 'DOC_TYPE_ContractAPP'
-  private static String  ADD_AGREEMENT_TYPE     = 'DOC_TYPE_AddAgreement'
-  private static String  DEFAULT_CONTRACT_WORKFLOW         = 'WFLOW_SubscriberContract'
-  private static Integer DEFAULT_CONTRACT_WORKFLOW_ID      = 10021
-  private static String  DEFAULT_CONTRACT_APP_WORKFLOW     = 'WFLOW_ContractAPP'
-  private static Integer DEFAULT_CONTRACT_APP_WORKFLOW_ID  = 20021
-  private static String  DEFAULT_ADD_AGREEMENT_WORKFLOW    = 'WFLOW_AddAgreement'
-  private static Integer DEFAULT_ADD_AGREEMENT_WORKFLOW_ID = 130021
+  private static String CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
+  private static String CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
+  private static String BASE_CONTRACTS_TREE_MV = 'SD_MV_BASE_CONTRACTS_TREE'
 
   String getContractsTable() {
     return CONTRACTS_TABLE
@@ -35,19 +32,19 @@ trait Contract {
   }
 
   String getContractType() {
-    return CONTRACT_TYPE
+    return getRefCode(getContractTypeId())
   }
 
   Number getContractTypeId() {
-    return getRefIdByCode(CONTRACT_TYPE)
+    return DOC_TYPE_SubscriberContract
   }
 
   String getDefaultContractWorkflow() {
-    return DEFAULT_CONTRACT_WORKFLOW
+    return getRefCode(getDefaultContractWorkflowId())
   }
 
   Number getDefaultContractWorkflowId() {
-    return DEFAULT_CONTRACT_WORKFLOW_ID
+    return WFLOW_SubscriberContract
   }
 
   Map getContract(def docId) {
@@ -293,19 +290,19 @@ trait Contract {
   }
 
   String getContractAppType() {
-    return CONTRACT_APP_TYPE
+    return getRefCode(getContractAppTypeId())
   }
 
   Number getContractAppTypeId() {
-    return getRefIdByCode(CONTRACT_APP_TYPE)
+    return DOC_TYPE_ContractAPP
   }
 
   String getDefaultContractAppWorkflow() {
-    return DEFAULT_CONTRACT_APP_WORKFLOW
+    return getRefCode(getDefaultContractAppWorkflowId())
   }
 
   Number getDefaultContractAppWorkflowId() {
-    return DEFAULT_CONTRACT_APP_WORKFLOW_ID
+    return WFLOW_ContractAPP
   }
 
   Map getContractApp(def docId) {
@@ -405,19 +402,19 @@ trait Contract {
   }
 
   String getAddAgreementType() {
-    return ADD_AGREEMENT_TYPE
+    return getRefCode(getAddAgreementTypeId())
   }
 
   Number getAddAgreementTypeId() {
-    return getRefIdByCode(ADD_AGREEMENT_TYPE)
+    return DOC_TYPE_AddAgreement
   }
 
   String getDefaultAddAgreementWorkflow() {
-    return DEFAULT_ADD_AGREEMENT_WORKFLOW
+    return getRefCode(getDefaultAddAgreementWorkflowId())
   }
 
   Number getDefaultAddAgreementWorkflowId() {
-    return DEFAULT_ADD_AGREEMENT_WORKFLOW_ID
+    return WFLOW_AddAgreement
   }
 
   Map getAddAgreement(def docId) {
