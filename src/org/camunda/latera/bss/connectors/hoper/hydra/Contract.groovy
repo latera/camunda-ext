@@ -1,14 +1,15 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_SubscriberContract
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_ContractAPP
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_AddAgreement
+import static org.camunda.latera.bss.utils.Constants.WFLOW_SubscriberContract
+
 trait Contract {
   private static LinkedHashMap CONTRACT_ENTITY_TYPE = [
     one    : 'contract',
     plural : 'contracts'
   ]
-  private static Integer CONTRACT_TYPE      = 1002 // 'DOC_TYPE_SubscriberContract'
-  private static Integer CONTRACT_APP_TYPE  = 2002 // 'DOC_TYPE_ContractAPP'
-  private static Integer ADD_AGREEMENT_TYPE = 13002 // 'DOC_TYPE_AddAgreement'
-  private static Integer DEFAULT_CONTRACT_WORKFLOW_ID = 10021 // 'WFLOW_SubscriberContract'
 
   Map getContractEntityType(Map parentType, def id = null) {
     return CONTRACT_ENTITY_TYPE + withParent(parentType) + withId(id)
@@ -19,19 +20,19 @@ trait Contract {
   }
 
   Integer getContractTypeId() {
-    return CONTRACT_TYPE
+    return DOC_TYPE_SubscriberContract
   }
 
   Integer getContractAppTypeId() {
-    return CONTRACT_APP_TYPE
+    return DOC_TYPE_ContractAPP
   }
 
   Integer getAddAgreementTypeId() {
-    return ADD_AGREEMENT_TYPE
+    return DOC_TYPE_AddAgreement
   }
 
   Integer getDefaultContractWorkflowId() {
-    return DEFAULT_CONTRACT_WORKFLOW_ID
+    return WFLOW_SubscriberContract
   }
 
   private Map getContractDefaultParams() {

@@ -3,18 +3,17 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_ChargeLog
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Charged
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Reserve
+import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Cancelled
+import static org.camunda.latera.bss.utils.Constants.WFLOW_ChargeLog
 import java.time.temporal.Temporal
 
 trait ChargeLog {
-  private static String  CHARGE_LOGS_TABLE              = 'SD_V_CHARGE_LOGS_T'
-  private static String  GOOD_MOVES_TABLE               = 'SD_V_GOOD_MOVES_T'
-  private static String  CHARGE_LOG_LINES_TABLE         = 'SD_V_CHARGE_LOGS_C'
-  private static String  CHARGE_LOG_TYPE                = 'DOC_TYPE_ChargeLog'
-  private static String  CHARGE_CHARGED_TYPE            = 'GM_TYPE_Charged'
-  private static String  CHARGE_RESERVED_TYPE           = 'GM_TYPE_Reserve'
-  private static String  CHARGE_CANCELED_TYPE           = 'GM_TYPE_Cancelled'
-  private static String  DEFAULT_CHARGE_LOG_WORKFLOW    = 'WFLOW_ChargeLog'
-  private static Integer DEFAULT_CHARGE_LOG_WORKFLOW_ID = 30021
+  private static String  CHARGE_LOGS_TABLE      = 'SD_V_CHARGE_LOGS_T'
+  private static String  GOOD_MOVES_TABLE       = 'SD_V_GOOD_MOVES_T'
+  private static String  CHARGE_LOG_LINES_TABLE = 'SD_V_CHARGE_LOGS_C'
 
   /**
    * Get charge logs table name
@@ -41,70 +40,70 @@ trait ChargeLog {
    * Get charge log document type ref code
    */
   String getChargeLogType() {
-    return CHARGE_LOG_TYPE
+    return getRefCode(getChargeLogTypeId())
   }
 
   /**
    * Get charge log document type ref id
    */
   Number getChargeLogTypeId() {
-    return getRefIdByCode(getChargeLogType())
+    return DOC_TYPE_ChargeLog
   }
 
   /**
    * Get charge log line Charge state type ref code
    */
   String getChargeChargedType() {
-    return CHARGE_CHARGED_TYPE
+    return getRefCode(getChargeChargedTypeId())
   }
 
   /**
    * Get charge log line Charge state type ref id
    */
   Number getChargeChargedTypeId() {
-    return getRefIdByCode(getChargeChargedType())
+    return GM_TYPE_Charged
   }
 
   /**
    * Get charge log line Reserved state type ref code
    */
   String getChargeReservedType() {
-    return CHARGE_RESERVED_TYPE
+    return getRefCode(getChargeReservedTypeId())
   }
 
   /**
    * Get charge log line Reserved state type ref id
    */
   Number getChargeReservedTypeId() {
-    return getRefIdByCode(getChargeReservedType())
+    return GM_TYPE_Reserve
   }
 
   /**
    * Get charge log line Canceled state type ref code
    */
   String getChargeCanceledType() {
-    return CHARGE_CANCELED_TYPE
+    return getRefCode(getChargeCanceledTypeId())
   }
 
   /**
    * Get charge log line Canceled state type ref id
    */
   Number getChargeCanceledTypeId() {
-    return getRefIdByCode(getChargeCanceledType())
+    return GM_TYPE_Cancelled
   }
 
   /**
    * Get charge log document default workflow code
    */
   String getDefaultChargeLogWorkflow() {
-    return DEFAULT_CHARGE_LOG_WORKFLOW
+    return getRefCode(getDefaultChargeLogWorkflowId())
   }
 
   /**
    * Get charge log document default workflow id
    */
   Number getDefaultChargeLogWorkflowId() {
-    return DEFAULT_CHARGE_LOG_WORKFLOW_ID
+    return WFLOW_ChargeLog
   }
 
   /**

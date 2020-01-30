@@ -49,7 +49,7 @@ trait Message {
 
     List result = hid.getTableData(getMessagesTable(), where: where, order: params.order, limit: params.limit)
     if (result) {
-      result.each { message ->
+      result.each { Map message ->
         MessageCache.instance.put(messageCodeWithLang(message.vc_code, message.n_lang_id), message.vc_name)
       }
     }

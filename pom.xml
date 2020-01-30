@@ -56,7 +56,6 @@
     <sonar.organization>latera</sonar.organization>
     -->
     <sonar.host.url>http://localhost:9000</sonar.host.url>
-    <sonar.projectKey>camunda-ext</sonar.projectKey>
     <sonar.sources>src</sonar.sources>
     <sonar.tests>test</sonar.tests>
     <sonar.inclusions>**/**</sonar.inclusions>

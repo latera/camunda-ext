@@ -6,21 +6,18 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Oracle.encodeFlag
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_SubscriberContract
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_ContractAPP
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_AddAgreement
+import static org.camunda.latera.bss.utils.Constants.WFLOW_SubscriberContract
+import static org.camunda.latera.bss.utils.Constants.WFLOW_ContractAPP
+import static org.camunda.latera.bss.utils.Constants.WFLOW_AddAgreement
 import java.time.temporal.Temporal
 
 trait Contract {
-  private static String  CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
-  private static String  CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
-  private static String  BASE_CONTRACTS_TREE_MV = 'SD_MV_BASE_CONTRACTS_TREE'
-  private static String  CONTRACT_TYPE          = 'DOC_TYPE_SubscriberContract'
-  private static String  CONTRACT_APP_TYPE      = 'DOC_TYPE_ContractAPP'
-  private static String  ADD_AGREEMENT_TYPE     = 'DOC_TYPE_AddAgreement'
-  private static String  DEFAULT_CONTRACT_WORKFLOW         = 'WFLOW_SubscriberContract'
-  private static Integer DEFAULT_CONTRACT_WORKFLOW_ID      = 10021
-  private static String  DEFAULT_CONTRACT_APP_WORKFLOW     = 'WFLOW_ContractAPP'
-  private static Integer DEFAULT_CONTRACT_APP_WORKFLOW_ID  = 20021
-  private static String  DEFAULT_ADD_AGREEMENT_WORKFLOW    = 'WFLOW_AddAgreement'
-  private static Integer DEFAULT_ADD_AGREEMENT_WORKFLOW_ID = 130021
+  private static String CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
+  private static String CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
+  private static String BASE_CONTRACTS_TREE_MV = 'SD_MV_BASE_CONTRACTS_TREE'
 
   /**
    * Get contracts table name
@@ -47,28 +44,28 @@ trait Contract {
    * Get contract document type ref code
    */
   String getContractType() {
-    return CONTRACT_TYPE
+    return getRefCode(getContractTypeId())
   }
 
   /**
    * Get contract document type ref id
    */
   Number getContractTypeId() {
-    return getRefIdByCode(CONTRACT_TYPE)
+    return DOC_TYPE_SubscriberContract
   }
 
   /**
    * Get contract document default workflow code
    */
   String getDefaultContractWorkflow() {
-    return DEFAULT_CONTRACT_WORKFLOW
+    return getRefCode(getDefaultContractWorkflowId())
   }
 
   /**
    * Get contract document default workflow id
    */
   Number getDefaultContractWorkflowId() {
-    return DEFAULT_CONTRACT_WORKFLOW_ID
+    return WFLOW_SubscriberContract
   }
 
   /**
@@ -404,28 +401,28 @@ trait Contract {
    * Get contract app document type ref code
    */
   String getContractAppType() {
-    return CONTRACT_APP_TYPE
+    return getRefCode(getContractAppTypeId())
   }
 
   /**
    * Get contract app document type ref id
    */
   Number getContractAppTypeId() {
-    return getRefIdByCode(CONTRACT_APP_TYPE)
+    return DOC_TYPE_ContractAPP
   }
 
   /**
    * Get contract app document default workflow code
    */
   String getDefaultContractAppWorkflow() {
-    return DEFAULT_CONTRACT_APP_WORKFLOW
+    return getRefCode(getDefaultContractAppWorkflowId())
   }
 
   /**
    * Get contract app document default workflow id
    */
   Number getDefaultContractAppWorkflowId() {
-    return DEFAULT_CONTRACT_APP_WORKFLOW_ID
+    return WFLOW_ContractAPP
   }
 
   /**
@@ -617,28 +614,28 @@ trait Contract {
    * Get add agreement document type ref code
    */
   String getAddAgreementType() {
-    return ADD_AGREEMENT_TYPE
+    return getRefCode(getAddAgreementTypeId())
   }
 
   /**
    * Get add agreement document type ref id
    */
   Number getAddAgreementTypeId() {
-    return getRefIdByCode(ADD_AGREEMENT_TYPE)
+    return DOC_TYPE_AddAgreement
   }
 
   /**
    * Get add agreement document default workflow code
    */
   String getDefaultAddAgreementWorkflow() {
-    return DEFAULT_ADD_AGREEMENT_WORKFLOW
+    return getRefCode(getDefaultAddAgreementWorkflowId())
   }
 
   /**
    * Get add agreement document default workflow id
    */
   Number getDefaultAddAgreementWorkflowId() {
-    return DEFAULT_ADD_AGREEMENT_WORKFLOW_ID
+    return WFLOW_AddAgreement
   }
 
   /**

@@ -2,13 +2,15 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
+import static org.camunda.latera.bss.utils.Constants.CURR_Ruble
+import static org.camunda.latera.bss.utils.Constants.REF_Unknown
+import static org.camunda.latera.bss.utils.Constants.UNIT_Unknown
+import static org.camunda.latera.bss.utils.Constants.UNIT_Piece
+import org.camunda.latera.bss.utils.Constants
 import org.camunda.latera.bss.internal.RefCache
 
 trait Ref {
-  private static String REFS_TABLE       = 'SI_V_REF'
-  private static String DEFAULT_CURRENCY = 'CURR_Ruble'
-  private static String UNKNOWN_UNIT     = 'UNIT_Unknown'
-  private static String PIECE_UNIT       = 'UNIT_Piece'
+  private static String REFS_TABLE = 'SI_V_REF'
 
   String getRefsTable() {
     return REFS_TABLE
@@ -131,7 +133,12 @@ trait Ref {
   }
 
   Number getRefIdByCode(CharSequence code) {
-    def id = RefCache.instance.get(code)
+    def id = Constants.getContstantByCode(code)
+    if (id) {
+      return id
+    }
+
+    id = RefCache.instance.get(code)
     if (id) {
       return id
     }
@@ -159,7 +166,12 @@ trait Ref {
   }
 
   String getRefCode(def id) {
-    String code = RefCache.instance.getKey(id)
+    String code = Constants.getContstantCode(id)
+    if (code) {
+      return code
+    }
+
+    code = RefCache.instance.getKey(id)
     if (code) {
       return code
     }
@@ -184,33 +196,41 @@ trait Ref {
   }
 
   String getDefaultCurrency() {
-    return DEFAULT_CURRENCY
+    return getRefCode(getDefaultCurrencyId())
   }
 
   Number getDefaultCurrencyId() {
-    return getRefIdByCode(getDefaultCurrency())
+    return CURR_Ruble
+  }
+
+  String getRefUnknown() {
+    return getRefCode(getRefUnknownId())
+  }
+
+  Number getRefUnknownId() {
+    return REF_Unknown
   }
 
   String getUnknownUnit() {
-    return UNKNOWN_UNIT
+    return getRefCode(getUnknownUnitId())
   }
 
   Number getUnknownUnitId() {
-    return getRefIdByCode(getUnknownUnit())
+    return UNIT_Unknown
   }
 
   String getPieceUnit() {
-    return PIECE_UNIT
+    return getRefCode(getPieceUnitId())
   }
 
   Number getPieceUnitId() {
-    return getRefIdByCode(getPieceUnit())
+    return UNIT_Piece
   }
 
   String getOpfCode(def id) {
     String opfCode = getRefCodeById(id)
-    if (opfCode == 'REF_Unknown') {
-      opfCode = ''
+    if (opfCode == getRefUnknown()) {
+      return ''
     }
     return opfCode
   }

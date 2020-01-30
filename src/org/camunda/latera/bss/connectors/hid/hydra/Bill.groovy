@@ -1,17 +1,14 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Bill
+import static org.camunda.latera.bss.utils.Constants.WFLOW_Bill
+import static org.camunda.latera.bss.utils.Constants.WFLOW_AdvanceBill
+import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentBill
 
 trait Bill {
-  private static String  BILLS_TABLE                         = 'SD_V_BILLS_T'
-  private static String  BILL_LINES_TABLE                    = 'SD_V_BILLS_C'
-  private static String  BILL_TYPE                           = 'DOC_TYPE_Bill'
-  private static String  DEFAULT_BILL_WORKFLOW               = 'WFLOW_Bill'
-  private static Integer DEFAULT_BILL_WORKFLOW_ID            = 60021
-  private static String  DEFAULT_ADVANCE_BILL_WORKFLOW       = 'WFLOW_AdvanceBill'
-  private static Integer DEFAULT_ADVANCE_BILL_WORKFLOW_ID    = 60022
-  private static String  DEFAULT_PREPAYMENT_BILL_WORKFLOW    = 'WFLOW_PrepaymentBill'
-  private static Integer DEFAULT_PREPAYMENT_BILL_WORKFLOW_ID = 60023
+  private static String  BILLS_TABLE      = 'SD_V_BILLS_T'
+  private static String  BILL_LINES_TABLE = 'SD_V_BILLS_C'
 
   /**
    * Get bills table name
@@ -31,56 +28,56 @@ trait Bill {
    * Get bill document type ref code
    */
   String getBillType() {
-    return BILL_TYPE
+    return getRefCode(getBillTypeId())
   }
 
   /**
    * Get bill document type ref id
    */
   Number getBillTypeId() {
-    return getRefIdByCode(BILL_TYPE)
+    return DOC_TYPE_Bill
   }
 
   /**
    * Get bill document default workflow code
    */
   String getDefaultBillWorkflow() {
-    return DEFAULT_BILL_WORKFLOW
+    return getRefCode(getDefaultBillWorkflowId())
   }
 
   /**
    * Get bill document default workflow id
    */
   Number getDefaultBillWorkflowId() {
-    return DEFAULT_BILL_WORKFLOW_ID
+    return WFLOW_Bill
   }
 
   /**
    * Get advance bill document default workflow code
    */
   String getDefaultAdvanceBillWorkflow() {
-    return DEFAULT_ADVANCE_BILL_WORKFLOW
+    return getRefCode(getDefaultAdvanceBillWorkflowId())
   }
 
   /**
    * Get advance bill document default workflow id
    */
   Number getDefaultAdvanceBillWorkflowId() {
-    return DEFAULT_ADVANCE_BILL_WORKFLOW_ID
+    return WFLOW_AdvanceBill
   }
 
   /**
    * Get prepaid bill document default workflow code
    */
   String getDefaultPrepaidBillWorkflow() {
-    return DEFAULT_PREPAYMENT_BILL_WORKFLOW
+    return getRefCode(getDefaultPrepaidBillWorkflowId())
   }
 
   /**
    * Get prepaid bill document default workflow id
    */
   Number getDefaultPrepaidBillWorkflowId() {
-    return DEFAULT_PREPAYMENT_BILL_WORKFLOW_ID
+    return WFLOW_PrepaymentBill
   }
 
   /**

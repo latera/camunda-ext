@@ -11,6 +11,9 @@ import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.MapUtil.keysList
+import static org.camunda.latera.bss.utils.Constants.ADDR_TYPE_FactPlace
+import static org.camunda.latera.bss.utils.Constants.BIND_ADDR_TYPE_Actual
+import static org.camunda.latera.bss.utils.Constants.ADDR_STATE_On
 import java.time.temporal.Temporal
 
 trait Address {
@@ -19,9 +22,6 @@ trait Address {
   private static String OBJECT_ADDRESSES_TABLE    = 'SI_V_OBJ_ADDRESSES'
   private static String OBJECT_ADDRESSES_MV       = 'SI_MV_OBJ_ADDRESSES'
   private static String SUBJECT_ADDRESSES_MV      = 'SI_MV_SUBJ_ADDRESSES'
-  private static String DEFAULT_ADDRESS_TYPE      = 'ADDR_TYPE_FactPlace'
-  private static String DEFAULT_ADDRESS_BIND_TYPE = 'BIND_ADDR_TYPE_Actual'
-  private static String DEFAULT_ADDRESS_STATE     = 'ADDR_STATE_On'
 
   /*
   Structure
@@ -95,42 +95,42 @@ trait Address {
    * Get default address type
    */
   String getDefaultAddressType() {
-    return DEFAULT_ADDRESS_TYPE
+    return getRefCode(getDefaultAddressTypeId())
   }
 
   /**
    * Get default address type id
    */
   Number getDefaultAddressTypeId() {
-    return getRefIdByCode(getDefaultAddressType())
+    return ADDR_TYPE_FactPlace
   }
 
   /**
    * Get default address bind type
    */
   String getDefaultAddressBindType() {
-    return DEFAULT_ADDRESS_BIND_TYPE
+    return getRefCode(getDefaultAddressBindTypeId())
   }
 
   /**
    * Get default address bind type id
    */
   Number getDefaultAddressBindTypeId() {
-    return getRefIdByCode(getDefaultAddressBindType())
+    return BIND_ADDR_TYPE_Actual
   }
 
   /**
    * Get default address state
    */
   String getDefaultAddressState() {
-    return DEFAULT_ADDRESS_STATE
+    return getRefCode(getDefaultAddressStateId())
   }
 
   /**
    * Get default address state id
    */
   Number getDefaultAddressStateId() {
-    return getRefIdByCode(getDefaultAddressState())
+    return ADDR_STATE_On
   }
 
   /**

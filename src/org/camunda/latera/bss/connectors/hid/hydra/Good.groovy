@@ -3,19 +3,19 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.ENTITY_TYPE_CatalogItem
+import static org.camunda.latera.bss.utils.Constants.Good_Packs
+import static org.camunda.latera.bss.utils.Constants.GOOD_Serv
+import static org.camunda.latera.bss.utils.Constants.Good_Adjustments
+import static org.camunda.latera.bss.utils.Constants.Good_Realty
+import static org.camunda.latera.bss.utils.Constants.GOOD_Value
+import static org.camunda.latera.bss.utils.Constants.Good_NetServ
 
 trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'
   private static String GOOD_ADD_PARAM_TYPES_TABLE = 'SR_V_GOOD_VALUES_TYPE'
   private static String SERV_SCHEMES_TABLE         = 'SR_V_SERV_SCHEMES'
-  private static String ENTITY_TYPE_GOOD           = 'ENTITY_TYPE_CatalogItem'
-  private static String GOOD_KIND_PRICE_PLAN       = 'Good_Packs'
-  private static String GOOD_KIND_SERVICE          = 'GOOD_Serv'
-  private static String GOOD_KIND_ADJUSTMENT       = 'Good_Adjustments'
-  private static String GOOD_KIND_REALIY_OBJECT    = 'Good_Realty'
-  private static String GOOD_KIND_OBJECT           = 'GOOD_Value'
-  private static String GOOD_KIND_NET_SERVICE      = 'Good_NetServ'
 
   String getGoodsTable() {
     return GOODS_TABLE
@@ -30,59 +30,59 @@ trait Good {
   }
 
   String getGoodEntityType() {
-    return ENTITY_TYPE_GOOD
+    return getRefCode(getGoodEntityTypeId())
   }
 
   Number getGoodEntityTypeId() {
-    return getRefIdByCode(getGoodEntityType())
+    return ENTITY_TYPE_CatalogItem
   }
 
   String getPricePlanGoodKind() {
-    return GOOD_KIND_PRICE_PLAN
+    return getRefCode(getPricePlanGoodKindId())
   }
 
   Number getPricePlanGoodKindId() {
-    return getRefIdByCode(getPricePlanGoodKind())
+    return Good_Packs
   }
 
   String getServiceGoodKind() {
-    return GOOD_KIND_SERVICE
+    return getRefCode(getServiceGoodKindId())
   }
 
   Number getServiceGoodKindId() {
-    return getRefIdByCode(getServiceGoodKind())
+    return GOOD_Serv
   }
 
   String getAdjustmentGoodKind() {
-    return GOOD_KIND_ADJUSTMENT
+    return getRefCode(getAdjustmentGoodKindId())
   }
 
   Number getAdjustmentGoodKindId() {
-    return getRefIdByCode(getAdjustmentGoodKind())
+    return Good_Adjustments
   }
 
   String getRealtyGoodKind() {
-    return GOOD_KIND_REALIY_OBJECT
+    return getRefCode(getRealtyGoodKindId())
   }
 
   Number getRealtyGoodKindId() {
-    return getRefIdByCode(getRealtyGoodKind())
+    return Good_Realty
   }
 
   String getObjectGoodKind() {
-    return GOOD_KIND_OBJECT
+    return getRefCode(getObjectGoodKindId())
   }
 
   Number getObjectGoodKindId() {
-    return getRefIdByCode(getObjectGoodKind())
+    return GOOD_Value
   }
 
   String getNetServiceGoodKind() {
-    return GOOD_KIND_NET_SERVICE
+    return getRefCode(getNetServiceGoodKindId())
   }
 
   Number getNetServiceGoodKindId() {
-    return getRefIdByCode(getNetServiceGoodKind())
+    return Good_NetServ
   }
 
   Map getGood(def goodId) {
