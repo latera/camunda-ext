@@ -2,6 +2,7 @@ package org.camunda.latera.bss.connectors.hid
 
 import org.camunda.latera.bss.connectors.HID
 import org.camunda.latera.bss.internal.Version
+import org.camunda.latera.bss.utils.Constants
 import spock.lang.*
 
 class HydraSpec extends Specification {
@@ -15,7 +16,7 @@ class HydraSpec extends Specification {
     given:
       Hydra hydra = new Hydra(hid)
       String user = 'HyDrA'
-      String password = '123'
+      String password = 'DOC_TYPE_Unknow'
       String ip = '255.255.255.255'
       String app = 'NETSERV_ISP_OFFICE'
       String appId = 'test'
@@ -54,109 +55,87 @@ class HydraSpec extends Specification {
 
   def "#setFirm"() {
     given:
+      Integer someFirm = 200
       Hydra hydra = new Hydra(hid)
     when: 'firmId is passed'
-      hydra.setFirm(200)
+      hydra.setFirm(someFirm)
     then: 'procedure will be called with this value'
       1 * hid.execute('MAIN.SET_ACTIVE_FIRM', [
-        num_N_FIRM_ID: 200
+        num_N_FIRM_ID: someFirm
       ])
     when: 'firmId is not passed'
       hydra.setFirm()
     then: 'Fallback to default firmId'
       1 * hid.execute('MAIN.SET_ACTIVE_FIRM', [
-        num_N_FIRM_ID: 100
+        num_N_FIRM_ID: Constants.DEFAULT_FIRM
       ])
   }
 
   def "#mergeParams"() {
     given:
-      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
-        getRefIdByCode('DOC_TYPE_Contract') >> 123
-      }
+      Hydra hydra = new Hydra(hid)
     expect:
       hydra.mergeParams(initial, input) == result
     where:
-      initial         |input                                                          |result
-      [docTypeId: 234]|[docTypeId: null]                                              |[docTypeId: null]
-      [docTypeId: 234]|[docTypeId: 345]                                               |[docTypeId: 345]
-      [docTypeId: 234]|[                 docType: null]                               |[docTypeId: 234,  docType: null]
-      [docTypeId: 234]|[docTypeId: null, docType: null]                               |[docTypeId: null, docType: null]
-      [docTypeId: 234]|[docTypeId: 345,  docType: null]                               |[docTypeId: 345,  docType: null]
-      [docTypeId: 234]|[                 docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
-      [docTypeId: 234]|[docTypeId: null, docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
-      [docTypeId: 234]|[docTypeId: 345,  docType: 'DOC_TYPE_Contract']                |[docTypeId: 123]
-      [docTypeId: 234]|[                 docType: ['=':        'DOC_TYPE_Contract']]  |[docTypeId: ['=':        123]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['!=':       'DOC_TYPE_Contract']]  |[docTypeId: ['!=':       123]]
-      [docTypeId: 234]|[                 docType: ['=':         123]]                 |[docTypeId: ['=':        123]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['!=':        123]]                 |[docTypeId: ['!=':       123]]
-      [docTypeId: 234]|[                 docType: ['=':        '123']]                |[docTypeId: ['=':       '123']]
-      [docTypeId: 234]|[docTypeId: null, docType: ['!=':       '123']]                |[docTypeId: ['!=':      '123']]
-      [docTypeId: 234]|[                 docType: ['<':         123]]                 |[docTypeId: ['<':        123]]
-      [docTypeId: 234]|[                 docType: ['<=':        123]]                 |[docTypeId: ['<=':       123]]
-      [docTypeId: 234]|[                 docType: ['<':        '123']]                |[docTypeId: ['<':       '123']]
-      [docTypeId: 234]|[                 docType: ['<=':       '123']]                |[docTypeId: ['<=':      '123']]
-      [docTypeId: 234]|[docTypeId: null, docType: ['>':         123]]                 |[docTypeId: ['>':        123]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['>=':        123]]                 |[docTypeId: ['>=':       123]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['>':        '123']]                |[docTypeId: ['>':       '123']]
-      [docTypeId: 234]|[docTypeId: null, docType: ['>=':       '123']]                |[docTypeId: ['>=':      '123']]
-      [docTypeId: 234]|[                 docType: [is:          null]]                |[docTypeId: [is:         null]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['is not':    null]]                |[docTypeId: ['is not':   null]]
-      [docTypeId: 234]|[                 docType: [is:         'null']]               |[docTypeId: [is:        'null']]
-      [docTypeId: 234]|[docTypeId: null, docType: ['is not':   'null']]               |[docTypeId: ['is not':  'null']]
-      [docTypeId: 234]|[                 docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[docTypeId: null, docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: [in:         ['DOC_TYPE_Contract']]]|[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[                 docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[docTypeId: null, docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: [in:         [123]]]                |[docTypeId: [in:        [123]]]
-      [docTypeId: 234]|[                 docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
-      [docTypeId: 234]|[docTypeId: null, docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: [in:        ['123']]]               |[docTypeId: [in:       ['123']]]
-      [docTypeId: 234]|[                 docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':   ['DOC_TYPE_Contract']]]|[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[                 docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':   [123]]]                |[docTypeId: ['not in':  [123]]]
-      [docTypeId: 234]|[                 docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
-      [docTypeId: 234]|[docTypeId: null, docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
-      [docTypeId: 234]|[docTypeId: 345,  docType: ['not in':  ['123']]]               |[docTypeId: ['not in': ['123']]]
-      [docTypeId: 234]|[                 docType: [like:       'DOC_TYPE_Contract']]  |[docTypeId: [like:       'DOC_TYPE_Contract']]
-      [docTypeId: 234]|[docTypeId: null, docType: [like:       'DOC_TYPE_Contract%']] |[docTypeId: [like:       'DOC_TYPE_Contract%']]
-      [docTypeId: 234]|[docTypeId: 345,  docType: [like:       'DOC_TYPE_Contract%']] |[docTypeId: [like:       'DOC_TYPE_Contract%']]
-      [docTypeId: 234]|[                 docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
-      [docTypeId: 234]|[docTypeId: null, docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
-      [docTypeId: 234]|[docTypeId: 345,  docType: ['not like': 'DOC_TYPE_Contract%']] |[docTypeId: ['not like': 'DOC_TYPE_Contract%']]
-      [docTypeId: 234]|[                 docType: ['in     (123)']]                   |[docTypeId: ['in     (123)']]
-      [docTypeId: 234]|[                 docType: ['not in (123)']]                   |[docTypeId: ['not in (123)']]
-  }
-
-  def "#getLangId with passed locale"() {
-    given:
-      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
-        getRefIdByCode('LANG_Russian') >> 123
-        getRefIdByCode('LANG_English') >> 234
-        getRefIdByCode('LANG_Es')      >> 345
-      }
-    expect:
-      hydra.getLangId(locale) == result
-    where:
-      locale    |result
-      'russian' |123
-      'ru'      |123
-      'english' |234
-      'en'      |234
-      'es'      |345
-      'unknown' |null
+      initial         |input                                                                                                                                   |result
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null]                                                                                           |[docTypeId: null]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP]                                                                 |[docTypeId: Constants.DOC_TYPE_ContractAPP]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: null]                                                 |[docTypeId: Constants.DOC_TYPE_BaseContract,  docType: null]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: null]                                                 |[docTypeId: null, docType: null]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: null]                                                 |[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: null]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType:              'DOC_TYPE_SubscriberContract']           |[docTypeId: Constants.DOC_TYPE_SubscriberContract]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType:              'DOC_TYPE_SubscriberContract']           |[docTypeId: Constants.DOC_TYPE_SubscriberContract]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType:              'DOC_TYPE_SubscriberContract']           |[docTypeId: Constants.DOC_TYPE_SubscriberContract]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['=':        'DOC_TYPE_SubscriberContract']]          |[docTypeId: ['=':        Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['!=':       'DOC_TYPE_SubscriberContract']]          |[docTypeId: ['!=':       Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['=':         Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['=':        Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['!=':        Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['!=':       Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['=':        'DOC_TYPE_Unknow']]                      |[docTypeId: ['=':       'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['!=':       'DOC_TYPE_Unknow']]                      |[docTypeId: ['!=':      'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['<':         Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['<':        Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['<=':        Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['<=':       Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['<':        'DOC_TYPE_Unknow']]                      |[docTypeId: ['<':       'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['<=':       'DOC_TYPE_Unknow']]                      |[docTypeId: ['<=':      'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['>':         Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['>':        Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['>=':        Constants.DOC_TYPE_SubscriberContract]] |[docTypeId: ['>=':       Constants.DOC_TYPE_SubscriberContract]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['>':        'DOC_TYPE_Unknow']]                      |[docTypeId: ['>':       'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['>=':       'DOC_TYPE_Unknow']]                      |[docTypeId: ['>=':      'DOC_TYPE_Unknow']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [is:          null]]                                  |[docTypeId: [is:         null]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['is not':    null]]                                  |[docTypeId: ['is not':   null]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [is:         'null']]                                 |[docTypeId: [is:        'null']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['is not':   'null']]                                 |[docTypeId: ['is not':  'null']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [in:         ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: [in:         ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: [in:         ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [in:         [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: [in:         [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: [in:         [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: [in:        [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [in:         ['DOC_TYPE_Unknow']]]                    |[docTypeId: [in:       ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: [in:         ['DOC_TYPE_Unknow']]]                    |[docTypeId: [in:       ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: [in:         ['DOC_TYPE_Unknow']]]                    |[docTypeId: [in:       ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['not in':   ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['not in':   ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: ['not in':   ['DOC_TYPE_SubscriberContract']]]        |[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['not in':   [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['not in':   [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: ['not in':   [Constants.DOC_TYPE_SubscriberContract]]]|[docTypeId: ['not in':  [Constants.DOC_TYPE_SubscriberContract]]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['not in':   ['DOC_TYPE_Unknow']]]                    |[docTypeId: ['not in': ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['not in':   ['DOC_TYPE_Unknow']]]                    |[docTypeId: ['not in': ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: ['not in':   ['DOC_TYPE_Unknow']]]                    |[docTypeId: ['not in': ['DOC_TYPE_Unknow']]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: [like:       'DOC_TYPE_SubscriberContract']]          |[docTypeId: [like:       'DOC_TYPE_SubscriberContract']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: [like:       'DOC_TYPE_SubscriberContract%']]         |[docTypeId: [like:       'DOC_TYPE_SubscriberContract%']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: [like:       'DOC_TYPE_SubscriberContract%']]         |[docTypeId: [like:       'DOC_TYPE_SubscriberContract%']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ['not like': 'DOC_TYPE_SubscriberContract%']]         |[docTypeId: ['not like': 'DOC_TYPE_SubscriberContract%']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: null,                            docType: ['not like': 'DOC_TYPE_SubscriberContract%']]         |[docTypeId: ['not like': 'DOC_TYPE_SubscriberContract%']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[docTypeId: Constants.DOC_TYPE_ContractAPP,  docType: ['not like': 'DOC_TYPE_SubscriberContract%']]         |[docTypeId: ['not like': 'DOC_TYPE_SubscriberContract%']]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ["in     (${Constants.DOC_TYPE_SubscriberContract})"]]|[docTypeId: ["in     (${Constants.DOC_TYPE_SubscriberContract})"]]
+      [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ["not in (${Constants.DOC_TYPE_SubscriberContract})"]]|[docTypeId: ["not in (${Constants.DOC_TYPE_SubscriberContract})"]]
   }
 
   def "#getLangId without default argument"() {
     given:
-      Hydra hydra = Spy(Hydra, constructorArgs: [hid]) {
-        getRefIdByCode('LANG_Russian') >> 123
-      }
+      Hydra hydra = new Hydra(hid)
     expect:
-      hydra.getLangId() == 123
+      hydra.getLangId() == Constants.LANG_Ru
   }
 }
