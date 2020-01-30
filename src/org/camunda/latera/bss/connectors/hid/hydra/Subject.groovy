@@ -4,6 +4,12 @@ import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
+import static org.camunda.latera.bss.utils.Constants.ENTITY_TYPE_Subject
+import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_On
+import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_Locked
+import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_ManuallySuspended
+import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_Disabled
+import static org.camunda.latera.bss.utils.Constants.COMMENT_TYPE_Comment
 
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
@@ -12,12 +18,6 @@ trait Subject {
   private static String SUBJECT_GROUPS_TABLE          = 'SI_V_SUBJECT_BIND_GROUPS'
   private static String SUBJECTS_MV                   = 'SI_MV_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_MV         = 'SI_MV_SUBJ_VALUES'
-  private static String ENTITY_TYPE_SUBJECT           = 'ENTITY_TYPE_Subject'
-  private static String SUBJECT_STATE_ON              = 'SUBJ_STATE_On'
-  private static String SUBJECT_STATE_LOCKED          = 'SUBJ_STATE_Locked'
-  private static String SUBJECT_STATE_SUSPENDED       = 'SUBJ_STATE_ManuallySuspended'
-  private static String SUBJECT_STATE_DISABLED        = 'SUBJ_STATE_Disabled'
-  private static String SUBJECT_COMMENT_TYPE          = 'COMMENT_TYPE_Comment'
 
   String getSubjectsTable() {
     return SUBJECTS_TABLE
@@ -44,51 +44,51 @@ trait Subject {
   }
 
   String getSubjectEntityType() {
-    return ENTITY_TYPE_SUBJECT
+    return getRefCode(getSubjectEntityTypeId())
   }
 
   Number getSubjectEntityTypeId() {
-    return getRefIdByCode(getSubjectEntityType())
+    return ENTITY_TYPE_Subject
   }
 
   String getSubjectStateOn() {
-    return SUBJECT_STATE_ON
+    return getRefCode(getSubjectStateOnId())
   }
 
   Number getSubjectStateOnId() {
-    return getRefIdByCode(getSubjectStateOn())
+    return SUBJ_STATE_On
   }
 
   String getSubjectStateLocked() {
-    return SUBJECT_STATE_LOCKED
+    return getRefCode(getSubjectStateLockedId())
   }
 
   Number getSubjectStateLockedId() {
-    return getRefIdByCode(getSubjectStateLocked())
+    return SUBJ_STATE_Locked
   }
 
   String getSubjectStateSuspended() {
-    return SUBJECT_STATE_SUSPENDED
+    return getRefCode(getSubjectStateSuspendedId())
   }
 
   Number getSubjectStateSuspendedId() {
-    return getRefIdByCode(getSubjectStateSuspended())
+    return SUBJ_STATE_ManuallySuspended
   }
 
   String getSubjectStateDisabled() {
-    return SUBJECT_STATE_DISABLED
+    return getRefCode(getSubjectStateDisabledId())
   }
 
   Number getSubjectStateDisabledId() {
-    return getRefIdByCode(getSubjectStateDisabled())
+    return SUBJ_STATE_Disabled
   }
 
   String getSubjectCommentType() {
-    return SUBJECT_COMMENT_TYPE
+    return getRefCode(getSubjectCommentTypeId())
   }
 
   Number getSubjectCommentTypeId() {
-    return getRefIdByCode(getSubjectCommentType())
+    return COMMENT_TYPE_Comment
   }
 
   List getSubjectsBy(Map input) {

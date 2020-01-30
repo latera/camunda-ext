@@ -1,13 +1,14 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import static org.camunda.latera.bss.utils.Constants.ADDR_TYPE_FactPlace
+import static org.camunda.latera.bss.utils.Constants.BIND_ADDR_TYPE_Actual
+import static org.camunda.latera.bss.utils.Constants.ADDR_STATE_On
+
 trait Address {
   private static LinkedHashMap ADDRESS_ENTITY_TYPE = [
     one    : 'address',
     plural : 'addresses'
   ]
-  private static Integer DEFAULT_ADDRESS_TYPE_ID      = 1006 // 'ADDR_TYPE_FactPlace'
-  private static Integer DEFAULT_ADDRESS_BIND_TYPE_ID = 6016 // 'BIND_ADDR_TYPE_Serv'
-  private static Integer DEFAULT_ADDRESS_STATE_ID     = 1029 // 'ADDR_STATE_On'
 
   Map getAddressEntityType(Map parentType, def id = null) {
     return ADDRESS_ENTITY_TYPE + withParent(parentType) + withId(id)
@@ -22,15 +23,15 @@ trait Address {
   }
 
   Integer getDefaultAddressTypeId() {
-    return DEFAULT_ADDRESS_TYPE_ID
+    return ADDR_TYPE_FactPlace
   }
 
   Integer getDefaultAddressBindTypeId() {
-    return DEFAULT_ADDRESS_BIND_TYPE_ID
+    return BIND_ADDR_TYPE_Serv
   }
 
   Integer getDefaultAddressStateId() {
-    return DEFAULT_ADDRESS_STATE_ID
+    return ADDR_STATE_On
   }
 
   private Map getAddressDefaultParams() {

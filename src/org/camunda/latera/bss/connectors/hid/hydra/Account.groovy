@@ -4,13 +4,13 @@ import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayEnd
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
+import static org.camunda.latera.bss.utils.Constants.ACC_TYPE_Personal
+import static org.camunda.latera.bss.utils.Constants.OVERDRAFT_Manual
 import java.time.temporal.Temporal
 
 trait Account {
-  private static String ACCOUNTS_TABLE           = 'SI_V_SUBJ_ACCOUNTS'
-  private static String ACCOUNTS_MV              = 'SI_MV_SUBJ_ACCOUNTS'
-  private static String DEFAULT_ACCOUNT_TYPE     = 'ACC_TYPE_Personal'
-  private static String DEFAULT_OVERDRAFT_REASON = 'OVERDRAFT_Manual'
+  private static String ACCOUNTS_TABLE = 'SI_V_SUBJ_ACCOUNTS'
+  private static String ACCOUNTS_MV    = 'SI_MV_SUBJ_ACCOUNTS'
 
   String getAccountsTable() {
     return ACCOUNTS_TABLE
@@ -21,19 +21,19 @@ trait Account {
   }
 
   String getDefaultAccountType() {
-    return DEFAULT_ACCOUNT_TYPE
+    return getRefCode(getDefaultAccountTypeId())
   }
 
   Number getDefaultAccountTypeId() {
-    return getRefIdByCode(getDefaultAccountType())
+    return ACC_TYPE_Personal
   }
 
   String getDefaultOverdraftReason() {
-    return DEFAULT_OVERDRAFT_REASON
+    return getRefCode(getDefaultOverdraftReasonId())
   }
 
   Number getDefaultOverdraftReasonId() {
-    return getRefIdByCode(getDefaultOverdraftReason())
+    return OVERDRAFT_Manual
   }
 
   List getAccountsBy(Map input) {

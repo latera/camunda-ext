@@ -8,6 +8,19 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.MapUtil.nvl
+import static org.camunda.latera.bss.utils.Constants.ENTITY_TYPE_Document
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Actual
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Executed
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Draft
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Canceled
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Closed
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Dissolved
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Processing
+import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Prepared
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Provider
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Receiver
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
@@ -17,19 +30,6 @@ trait Document {
   private static String DOCUMENT_BINDS_TABLE           = 'SD_V_DOC_DOCUMENTS'
   private static String DOCUMENTS_MV                   = 'SD_MV_DOCUMENTS'
   private static String DOCUMENT_ADD_PARAMS_MV         = 'SD_MV_DOC_VALUES'
-  private static String ENTITY_TYPE_DOCUMENT           = 'ENTITY_TYPE_Document'
-  private static String DOCUMENT_STATE_ACTUAL          = 'DOC_STATE_Actual'
-  private static String DOCUMENT_STATE_EXECUTED        = 'DOC_STATE_Executed'
-  private static String DOCUMENT_STATE_DRAFT           = 'DOC_STATE_Draft'
-  private static String DOCUMENT_STATE_CANCELED        = 'DOC_STATE_Canceled'
-  private static String DOCUMENT_STATE_CLOSED          = 'DOC_STATE_Closed'
-  private static String DOCUMENT_STATE_DISSOLVED       = 'DOC_STATE_Dissolved'
-  private static String DOCUMENT_STATE_PROCESSING      = 'DOC_STATE_Processing'
-  private static String DOCUMENT_STATE_PREPARED        = 'DOC_STATE_Prepared'
-  private static String PROVIDER_ROLE                  = 'SUBJ_ROLE_Provider'
-  private static String RECEIVER_ROLE                  = 'SUBJ_ROLE_Receiver'
-  private static String MEMBER_ROLE                    = 'SUBJ_ROLE_Member'
-  private static String MANAGER_ROLE                   = 'SUBJ_ROLE_Manager'
 
   String getDocumentsTable() {
     return DOCUMENTS_TABLE
@@ -60,107 +60,107 @@ trait Document {
   }
 
   String getDocumentEntityType() {
-    return ENTITY_TYPE_DOCUMENT
+    return getRefCode(getDocumentEntityTypeId())
   }
 
   Number getDocumentEntityTypeId() {
-    return getRefIdByCode(getDocumentEntityType())
+    return ENTITY_TYPE_Document
   }
 
   String getDocumentStateActual() {
-    return DOCUMENT_STATE_ACTUAL
+    return getRefCode(getDocumentStateActualId())
   }
 
   Number getDocumentStateActualId() {
-    return getRefIdByCode(getDocumentStateActual())
+    return DOC_STATE_Actual
   }
 
   String getDocumentStateExecuted() {
-    return DOCUMENT_STATE_EXECUTED
+    return getRefCode(getDocumentStateExecutedId())
   }
 
   Number getDocumentStateExecutedId() {
-    return getRefIdByCode(getDocumentStateExecuted())
+    return DOC_STATE_Executed
   }
 
   String getDocumentStateDraft() {
-    return DOCUMENT_STATE_DRAFT
+    return getRefCode(getDocumentStateDraftId())
   }
 
   Number getDocumentStateDraftId() {
-    return getRefIdByCode(getDocumentStateDraft())
+    return DOC_STATE_Draft
   }
 
   String getDocumentStateCanceled() {
-    return DOCUMENT_STATE_CANCELED
+    return getRefCode(getDocumentStateCanceledId())
   }
 
   Number getDocumentStateCanceledId() {
-    return getRefIdByCode(getDocumentStateCanceled())
+    return DOC_STATE_Canceled
   }
 
   String getDocumentStateClosed() {
-    return DOCUMENT_STATE_CLOSED
+    return getRefCode(getDocumentStateClosedId())
   }
 
   Number getDocumentStateClosedId() {
-    return getRefIdByCode(getDocumentStateClosed())
+    return DOC_STATE_Closed
   }
 
   String getDocumentStateDissolved() {
-    return DOCUMENT_STATE_DISSOLVED
+    return getRefCode(getDocumentStateDissolvedId())
   }
 
   Number getDocumentStateDissolvedId() {
-    return getRefIdByCode(getDocumentStateDissolved())
+    return DOC_STATE_Dissolved
   }
 
   String getDocumentStateProcessing() {
-    return DOCUMENT_STATE_PROCESSING
+    return getRefCode(getDocumentStateProcessingId())
   }
 
   Number getDocumentStateProcessingId() {
-    return getRefIdByCode(getDocumentStateProcessing())
+    return DOC_STATE_Processing
   }
 
   String getDocumentStatePrepared() {
-    return DOCUMENT_STATE_PREPARED
+    return getRefCode(getDocumentStatePreparedId())
   }
 
   Number getDocumentStatePreparedId() {
-    return getRefIdByCode(getDocumentStatePrepared())
+    return DOC_STATE_Prepared
   }
 
   String getProviderRole() {
-    return PROVIDER_ROLE
+    return getRefCode(getProviderRoleId())
   }
 
   Number getProviderRoleId() {
-    return getRefIdByCode(getProviderRole())
+    return SUBJ_ROLE_Provider
   }
 
   String getReceiverRole() {
-    return RECEIVER_ROLE
+    return getRefCode(getReceiverRoleId())
   }
 
   Number getReceiverRoleId() {
-    return getRefIdByCode(getReceiverRole())
+    return SUBJ_ROLE_Receiver
   }
 
   String getMemberRole() {
-    return MEMBER_ROLE
+    return getRefCode(getMemberRoleId())
   }
 
   Number getMemberRoleId() {
-    return getRefIdByCode(getMemberRole())
+    return SUBJ_ROLE_Member
   }
 
   String getManagerRole() {
-    return MANAGER_ROLE
+    return getRefCode(getManagerRoleId())
   }
 
   Number getManagerRoleId() {
-    return getRefIdByCode(getManagerRole())
+    return SUBJ_ROLE_Manager
   }
 
   Map getDocument(def docId) {

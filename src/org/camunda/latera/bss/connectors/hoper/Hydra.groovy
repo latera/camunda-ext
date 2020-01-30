@@ -4,6 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution
 import org.camunda.latera.bss.logging.SimpleLogger
 import org.camunda.latera.bss.connectors.Hoper
 import static org.camunda.latera.bss.utils.MapUtil.merge
+import static org.camunda.latera.bss.utils.Constants.DEFAULT_FIRM
 import org.camunda.latera.bss.connectors.hoper.hydra.Main
 import org.camunda.latera.bss.connectors.hoper.hydra.Entity
 import org.camunda.latera.bss.connectors.hoper.hydra.Subject
@@ -20,7 +21,6 @@ import org.camunda.latera.bss.connectors.hoper.hydra.Equipment
 import org.camunda.latera.bss.connectors.hoper.hydra.Subscription
 
 class Hydra implements Main, Entity, Subject, Person, Company, File, Object, Address, Customer, Account, Document, Contract, Equipment, Subscription {
-  private static Integer DEFAULT_FIRM = 100
   Hoper hoper
   def firmId
   def resellerId

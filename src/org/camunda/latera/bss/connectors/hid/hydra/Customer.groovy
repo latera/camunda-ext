@@ -6,24 +6,24 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
+import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_User
+import static org.camunda.latera.bss.utils.Constants.SUBJ_SERV_ServiceUse
+import static org.camunda.latera.bss.utils.Constants.SUBJ_SERV_AppAccess
+import static org.camunda.latera.bss.utils.Constants.AUTH_TYPE_LoginPass
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_MD5
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_SHA1
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_SSHA1
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_Crypt
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_MD5_salty
+import static org.camunda.latera.bss.utils.Constants.PASS_HASH_TYPE_SHA1_salty
+import static org.camunda.latera.bss.utils.Constants.NETSERV_ARM_Private_Office
+import static org.camunda.latera.bss.utils.Constants.NETSERV_ARM_ISP
+import static org.camunda.latera.bss.utils.Constants.NETSERV_HID
 import java.time.temporal.Temporal
 
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
   private static String CUSTOMER_NET_SERVICES_TABLE = 'SI_SUBJ_SERVICES'
-  private static String CUSTOMER_TYPE               = 'SUBJ_TYPE_User'
-  private static String NET_SERVICE_TYPE            = 'SUBJ_SERV_ServiceUse'
-  private static String APPLICATION_TYPE            = 'SUBJ_SERV_AppAccess'
-  private static String AUTH_LOGIN_PASS_TYPE        = 'AUTH_TYPE_LoginPass'
-  private static String PASS_HASH_MD5_TYPE          = 'PASS_HASH_TYPE_MD5'
-  private static String PASS_HASH_SHA1_TYPE         = 'PASS_HASH_TYPE_SHA1'
-  private static String PASS_HASH_SSHA1_TYPE        = 'PASS_HASH_TYPE_SSHA1'
-  private static String PASS_HASH_CRYPT_TYPE        = 'PASS_HASH_TYPE_Crypt'
-  private static String PASS_HASH_MD5_SALTY_TYPE    = 'PASS_HASH_TYPE_MD5_salty'
-  private static String PASS_HASH_SHA1_SALTY_TYPE   = 'PASS_HASH_TYPE_SHA1_salty'
-  private static String SELF_CARE_APPLICATION       = 'NETSERV_ARM_Private_Office'
-  private static String ISP_APPLICATION             = 'NETSERV_ARM_ISP'
-  private static String HID_APPLICATION             = 'NETSERV_HID'
 
   String getCustomersTable() {
     return CUSTOMERS_TABLE
@@ -34,107 +34,107 @@ trait Customer {
   }
 
   String getCustomerType() {
-    return CUSTOMER_TYPE
+    return getRefCode(getCustomerTypeId())
   }
 
   Number getCustomerTypeId() {
-    return getRefIdByCode(getCustomerType())
+    return SUBJ_TYPE_User
   }
 
   String getNetServiceType() {
-    return NET_SERVICE_TYPE
+    return getRefCode(getNetServiceTypeId())
   }
 
   Number getNetServiceTypeId() {
-    return getRefIdByCode(getNetServiceType())
+    return SUBJ_SERV_ServiceUse
   }
 
   String getApplicationType() {
-    return APPLICATION_TYPE
+    return getRefCode(getApplicationTypeId())
   }
 
   Number getApplicationTypeId() {
-    return getRefIdByCode(getApplicationType())
+    return SUBJ_SERV_AppAccess
   }
 
   String getAuthLoginPassType() {
-    return AUTH_LOGIN_PASS_TYPE
+    return getRefCode(getAuthLoginPassTypeId())
   }
 
   Number getAuthLoginPassTypeId() {
-    return getRefIdByCode(getAuthLoginPassType())
+    return AUTH_TYPE_LoginPass
   }
 
   String getPassHashMD5Type() {
-    return PASS_HASH_MD5_TYPE
+    return getRefCode(getPassHashMD5TypeId())
   }
 
   Number getPassHashMD5TypeId() {
-    return getRefIdByCode(getPassHashMD5Type())
+    return PASS_HASH_TYPE_MD5
   }
 
   String getPassHashSHA1Type() {
-    return PASS_HASH_SHA1_TYPE
+    return getRefCode(getPassHashSHA1TypeId())
   }
 
   Number getPassHashSHA1TypeId() {
-    return getRefIdByCode(getPassHashSHA1Type())
+    return PASS_HASH_TYPE_SHA1
   }
 
   String getPassHashSSHA1Type() {
-    return PASS_HASH_SSHA1_TYPE
+    return getRefCode(getPassHashSSHA1TypeId())
   }
 
   Number getPassHashSSHA1TypeId() {
-    return getRefIdByCode(getPassHashSSHA1Type())
+    return PASS_HASH_TYPE_SSHA1
   }
 
   String getPassHashCryptType() {
-    return PASS_HASH_CRYPT_TYPE
+    return getRefCode(getPassHashCryptTypeId())
   }
 
   Number getPassHashCryptTypeId() {
-    return getRefIdByCode(getPassHashCryptType())
+    return PASS_HASH_TYPE_Crypt
   }
 
   String getPassHashMD5SaltyType() {
-    return PASS_HASH_MD5_SALTY_TYPE
+    return getRefCode(getPassHashMD5SaltyTypeId())
   }
 
   Number getPassHashMD5SaltyTypeId() {
-    return getRefIdByCode(getPassHashMD5SaltyType())
+    return PASS_HASH_TYPE_MD5_salty
   }
 
   String getPassHashSHA1SaltyType() {
-    return PASS_HASH_SHA1_SALTY_TYPE
+    return getRefCode(getPassHashSHA1SaltyTypeId())
   }
 
   Number getPassHashSHA1SaltyTypeId() {
-    return getRefIdByCode(getPassHashSHA1SaltyType())
+    return PASS_HASH_TYPE_SHA1_salty
   }
 
   String getSelfCareApplication() {
-    return SELF_CARE_APPLICATION
+    return getRefCode(getSelfCareApplicationId())
   }
 
   Number getSelfCareApplicationId() {
-    return getRefIdByCode(getSelfCareApplication())
+    return NETSERV_ARM_Private_Office
   }
 
   String getISPApplication() {
-    return ISP_APPLICATION
+    return getRefCode(getISPApplicationId())
   }
 
   Number getISPApplicationId() {
-    return getRefIdByCode(getISPApplication())
+    return NETSERV_ARM_ISP
   }
 
   String getHIDApplication() {
-    return HID_APPLICATION
+    return getRefCode(getHIDApplicationId())
   }
 
   Number getHIDApplicationId() {
-    return getRefIdByCode(getHIDApplication())
+    return NETSERV_HID
   }
 
   Map getCustomer(def customerId) {

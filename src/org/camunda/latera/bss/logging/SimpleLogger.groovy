@@ -3,7 +3,12 @@ package org.camunda.latera.bss.logging
 import org.camunda.bpm.engine.delegate.DelegateExecution
 import static org.camunda.latera.bss.utils.DateTimeUtil.*
 import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
-import static org.camunda.latera.bss.utils.Constants.*
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_DEBUG
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_INFO
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_WARNING
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_ERROR
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_CRITICAL
+import static org.camunda.latera.bss.utils.Constants.LOG_LEVEL_DEFAULT
 import java.time.format.DateTimeFormatter
 
 class SimpleLogger {
@@ -31,17 +36,17 @@ class SimpleLogger {
     String lvl = level.toString().toLowerCase()
     switch (lvl) {
       case 'debug':
-        return DEBUG
+        return LOG_LEVEL_DEBUG
       case 'info':
-        return INFO
+        return LOG_LEVEL_INFO
       case ['warn', 'warning']:
-        return WARNING
+        return LOG_LEVEL_WARNING
       case ['err', 'error']:
-        return ERROR
+        return LOG_LEVEL_ERROR
       case ['crit', 'critical']:
-        return CRITICAL
+        return LOG_LEVEL_CRITICAL
       default:
-        return DEFAULT
+        return LOG_LEVEL_DEFAULT
     }
   }
 

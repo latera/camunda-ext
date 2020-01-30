@@ -1,11 +1,12 @@
 package org.camunda.latera.bss.connectors.hoper.hydra
 
+import static org.camunda.latera.bss.utils.Constants.CURR_Ruble
+
 trait Account {
   private static LinkedHashMap ACCOUNT_ENTITY_TYPE = [
     one    : 'account',
     plural : 'accounts'
   ]
-  private static Integer DEFAULT_CURRENCY_ID = 1044 // 'CURR_Ruble'
 
   Map getAccountEntityType(Map parentType, def id = null) {
     return ACCOUNT_ENTITY_TYPE + withParent(parentType) + withId(id)
@@ -16,7 +17,7 @@ trait Account {
   }
 
   Integer getDefaultCurrencyId() {
-    return DEFAULT_CURRENCY_ID
+    return CURR_Ruble
   }
 
   private Map getAccountDefaultParams() {
