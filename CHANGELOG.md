@@ -33,7 +33,7 @@ v1.4.1 [unreleased]
 -   [#d58ab24](https://github.com/latera/camunda-ext/commit/d58ab24) Fix hid.Hydra#createEquipment method
 -   [#19c0746](https://github.com/latera/camunda-ext/commit/19c0746) Fix helpers.Hydra#fetchSubscription method
 -   [#12](https://github.com/latera/camunda-ext/pull/12) Fix helpers.Hydra#parseRegion method
-
+-   [#19](https://github.com/latera/camunda-ext/pull/19) Fix MailSender class methods return values
 v1.4 [2020-01-13]
 -------------------
 ### Breaking changes
