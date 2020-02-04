@@ -12,6 +12,7 @@ v1.4.1 [unreleased]
 -   [#9](https://github.com/latera/camunda-ext/pull/9) Notify HOMS about task events
 -   [#10](https://github.com/latera/camunda-ext/pull/10) Send candidate users & assignee to HOMS with task event
 -   [#3](https://github.com/latera/camunda-ext/pull/3) Add methods to tag entities into hid.Hydra class
+-   [#20](https://github.com/latera/camunda-ext/pull/20) Add newMessage method to MailSender class
 
 ### Refactoring
 -   [#8](https://github.com/latera/camunda-ext/pull/8) Prettify runCommand,  Add constants, use constants instead of magic numbers in logger, Update docs
@@ -33,7 +34,6 @@ v1.4.1 [unreleased]
 -   [#d58ab24](https://github.com/latera/camunda-ext/commit/d58ab24) Fix hid.Hydra#createEquipment method
 -   [#19c0746](https://github.com/latera/camunda-ext/commit/19c0746) Fix helpers.Hydra#fetchSubscription method
 -   [#12](https://github.com/latera/camunda-ext/pull/12) Fix helpers.Hydra#parseRegion method
--   [#20](https://github.com/latera/camunda-ext/pull/20) Add newMessage method to MailSender class
 
 v1.4 [2020-01-13]
 -------------------
