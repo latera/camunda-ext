@@ -3,6 +3,7 @@ package org.camunda.latera.bss.utils
 import static java.lang.reflect.Modifier.isStatic
 import static java.lang.reflect.Modifier.isPrivate
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 class Constants {
   public static final Integer LOG_LEVEL_DEBUG    = 0
@@ -75,11 +76,9 @@ class Constants {
 
   public static final Integer REF_TYPE_Subj_Roles           = 4
   public static final Integer SUBJ_ROLE_Receiver            = 1004
-  public static final Integer SUBJ_ROLE_Recipient           = 1004
   public static final Integer SUBJ_ROLE_Provider            = 2004
   public static final Integer SUBJ_ROLE_Member              = 3004
   public static final Integer SUBJ_ROLE_ForWho              = 4004
-  public static final Integer SUBJ_ROLE_Beneficiary         = 4004
   public static final Integer SUBJ_ROLE_Executor            = 5004
   public static final Integer SUBJ_ROLE_Manager             = 6004
   public static final Integer SUBJ_ROLE_Payer               = 7004
@@ -88,7 +87,6 @@ class Constants {
   public static final IntegerREF_TYPE_Account_Type = 42
   public static final Integer ACC_TYPE_Settlement  = 1042
   public static final Integer ACC_TYPE_Personal    = 2042
-  public static final Integer ACC_TYPE_Customer    = 2042
   public static final Integer ACC_TYPE_Cash        = 3042
   public static final Integer ACC_TYPE_EPurse      = 4042
   public static final Integer ACC_TYPE_PaySys      = 5042
@@ -171,14 +169,11 @@ class Constants {
   public static final Integer WFLOW_PaymentRequest        = 290021
 
   public static final Integer REF_TYPE_Good_Move_Type     = 47
-  public static final Integer GM_TYPE_WriteOff            = 1047
   public static final Integer GM_TYPE_Charged             = 1047
   public static final Integer GM_TYPE_Reserve             = 2047
-  public static final Integer GM_TYPE_Reserved            = 2047
   public static final Integer GM_TYPE_Request             = 3047
   public static final Integer GM_TYPE_Bind                = 4047
   public static final Integer GM_TYPE_Cancelled           = 5047
-  public static final Integer GM_TYPE_Canceled            = 5047
 
   public static final Integer REF_TYPE_Subj_Serv_Type = 66
   public static final Integer SUBJ_SERV_AppAccess     = 1066
@@ -457,7 +452,7 @@ class Constants {
     return null
   }
 
-  static Integer getContstantByCode(CharSequence code) {
+  static Integer getConstantByCode(CharSequence code) {
     def lang = getLang(code?.replace('LANG_', ''))
     if (lang) {
       return lang
@@ -470,9 +465,10 @@ class Constants {
     return field?.get()
   }
 
-  static String getContstantCode(Number value) {
+  static String getConstantCode(def value) {
+    BigInteger id = toIntSafe(value)
     def field = Constants.declaredFields.find { def it ->
-      !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == value
+      !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == id
     }
 
     return field?.name

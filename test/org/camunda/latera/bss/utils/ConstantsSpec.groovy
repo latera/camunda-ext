@@ -28,9 +28,9 @@ class ConstantsSpec extends Specification {
     null         |null
   }
 
-  def "#getContstantByCode"() {
+  def "#getConstantByCode"() {
     expect:
-    Constants.getContstantByCode(code) == result
+    Constants.getConstantByCode(code) == result
 
     where:
     code                |result
@@ -39,15 +39,17 @@ class ConstantsSpec extends Specification {
     null                |null
   }
 
-  def "#getContstantCode"() {
+  def "#getConstantCode"() {
     expect:
-    Constants.getContstantCode(code) == result
+    Constants.getConstantCode(code) == result
 
     where:
-    code                       |result
-    Constants.SUBJ_TYPE_Company|'SUBJ_TYPE_Company'
-    12345                      |null
-    null                       |null
+    code                            |result
+    Constants.SUBJ_TYPE_Company     |'SUBJ_TYPE_Company'
+    "${Constants.SUBJ_TYPE_Company}"|'SUBJ_TYPE_Company'
+    12345                           |null
+    '12345'                         |null
+    null                            |null
   }
 
 }

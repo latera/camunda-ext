@@ -12,6 +12,8 @@ v1.4.1 [unreleased]
 -   [#9](https://github.com/latera/camunda-ext/pull/9) Notify HOMS about task events
 -   [#10](https://github.com/latera/camunda-ext/pull/10) Send candidate users & assignee to HOMS with task event
 -   [#3](https://github.com/latera/camunda-ext/pull/3) Add methods to tag entities into hid.Hydra class
+-   [#20](https://github.com/latera/camunda-ext/pull/20) Add newMessage method to MailSender class
+-   [#3200317](https://github.com/latera/camunda-ext/commit/3200317) Allow to pass constant id with non-Integer type into getConstantCode method
 
 ### Refactoring
 -   [#8](https://github.com/latera/camunda-ext/pull/8) Prettify runCommand,  Add constants, use constants instead of magic numbers in logger, Update docs
@@ -33,6 +35,9 @@ v1.4.1 [unreleased]
 -   [#d58ab24](https://github.com/latera/camunda-ext/commit/d58ab24) Fix hid.Hydra#createEquipment method
 -   [#19c0746](https://github.com/latera/camunda-ext/commit/19c0746) Fix helpers.Hydra#fetchSubscription method
 -   [#12](https://github.com/latera/camunda-ext/pull/12) Fix helpers.Hydra#parseRegion method
+-   [#207b8cc](https://github.com/latera/camunda-ext/commit/207b8cc) Fix exception while getting constant with spaces in code
+-   [#7a30801](https://github.com/latera/camunda-ext/commit/7a30801) Fix names of methods getConstantByCode and getConstantCode
+-   [#19](https://github.com/latera/camunda-ext/pull/19) Fix MailSender class methods return values
 
 v1.4 [2020-01-13]
 -------------------
