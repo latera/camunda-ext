@@ -3,6 +3,7 @@ package org.camunda.latera.bss.utils
 import static java.lang.reflect.Modifier.isStatic
 import static java.lang.reflect.Modifier.isPrivate
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
+import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 
 class Constants {
   public static final Integer LOG_LEVEL_DEBUG    = 0
@@ -451,7 +452,7 @@ class Constants {
     return null
   }
 
-  static Integer getContstantByCode(CharSequence code) {
+  static Integer getConstantByCode(CharSequence code) {
     def lang = getLang(code?.replace('LANG_', ''))
     if (lang) {
       return lang
@@ -464,9 +465,10 @@ class Constants {
     return field?.get()
   }
 
-  static String getContstantCode(Number value) {
+  static String getConstantCode(def value) {
+    BigInteger id = toIntSafe(value)
     def field = Constants.declaredFields.find { def it ->
-      !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == value
+      !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == id
     }
 
     return field?.name
