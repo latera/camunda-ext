@@ -44,10 +44,12 @@ class ConstantsSpec extends Specification {
     Constants.getConstantCode(code) == result
 
     where:
-    code                       |result
-    Constants.SUBJ_TYPE_Company|'SUBJ_TYPE_Company'
-    12345                      |null
-    null                       |null
+    code                            |result
+    Constants.SUBJ_TYPE_Company     |'SUBJ_TYPE_Company'
+    "${Constants.SUBJ_TYPE_Company}"|'SUBJ_TYPE_Company'
+    12345                           |null
+    '12345'                         |null
+    null                            |null
   }
 
 }
