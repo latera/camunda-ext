@@ -451,7 +451,7 @@ class Constants {
     return null
   }
 
-  static Integer getContstantByCode(CharSequence code) {
+  static Integer getConstantByCode(CharSequence code) {
     def lang = getLang(code?.replace('LANG_', ''))
     if (lang) {
       return lang
@@ -464,7 +464,7 @@ class Constants {
     return field?.get()
   }
 
-  static String getContstantCode(Number value) {
+  static String getConstantCode(Number value) {
     def field = Constants.declaredFields.find { def it ->
       !isPrivate(it.modifiers) && isStatic(it.modifiers) && it.get() == value
     }
