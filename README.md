@@ -3,7 +3,7 @@
 # Camunda-ext
 
 Repo with helper classes for BPMN development.
-Included into [Latera Camunda docker image](https://github.com/latera/camunda-docker).
+Included into [Latera Camunda docker image](https://hub.docker.com/r/latera/camunda).
 
 # Download
 See [Releases](https://github.com/latera/camunda-ext/releases) for .jar files and [Dockerhub](https://hub.docker.com/r/latera/camunda) for docker images.
