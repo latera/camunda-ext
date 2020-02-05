@@ -93,7 +93,7 @@ class MailSender {
     return this
   }
 
-  MailSender getHost() {
+  String getHost() {
     return this.host
   }
 
@@ -103,7 +103,7 @@ class MailSender {
     return this
   }
 
-  MailSender getPort() {
+  Integer getPort() {
     return this.port
   }
 
@@ -117,7 +117,7 @@ class MailSender {
     return setPort(port.toInteger())
   }
 
-  MailSender getUser() {
+  String getUser() {
     return this.user
   }
 
@@ -162,10 +162,10 @@ class MailSender {
     return this
   }
 
-  MailSender addFile(CharSequence filename, Object datasource){
+  MailSender addFile(CharSequence name, Object datasource) {
     MimeBodyPart part = new MimeBodyPart()
     part.setDataHandler(new DataHandler(datasource, 'application/octet-stream'))
-    part.setFileName(filename.toString())
+    part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
     this.multipart.addBodyPart(part)
     return this
   }
@@ -179,14 +179,19 @@ class MailSender {
     return this
   }
 
-  void send(){
+  Boolean send() {
+    Boolean result = true
     connect()
     try {
       this.message.setContent(this.multipart)
       this.transport.sendMessage(this.message, this.message.getAllRecipients())
-    }
-    finally {
+    } catch (Exception e) {
+      logger.error(e)
+      result = false
+    } finally {
       transport.close()
     }
+
+    return result
   }
 }

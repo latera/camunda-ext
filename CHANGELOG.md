@@ -37,6 +37,7 @@ v1.4.1 [unreleased]
 -   [#12](https://github.com/latera/camunda-ext/pull/12) Fix helpers.Hydra#parseRegion method
 -   [#207b8cc](https://github.com/latera/camunda-ext/commit/207b8cc) Fix exception while getting constant with spaces in code
 -   [#7a30801](https://github.com/latera/camunda-ext/commit/7a30801) Fix names of methods getConstantByCode and getConstantCode
+-   [#19](https://github.com/latera/camunda-ext/pull/19) Fix MailSender class methods return values
 
 v1.4 [2020-01-13]
 -------------------
