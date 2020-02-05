@@ -133,7 +133,7 @@ trait Ref {
   }
 
   Number getRefIdByCode(CharSequence code) {
-    def id = Constants.getContstantByCode(code)
+    def id = Constants.getConstantByCode(code)
     if (id) {
       return id
     }
@@ -167,7 +167,7 @@ trait Ref {
   }
 
   String getRefCode(def id) {
-    String code = Constants.getContstantCode(id)
+    String code = Constants.getConstantCode(id)
     if (code) {
       return code
     }
