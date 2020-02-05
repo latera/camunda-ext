@@ -2,4 +2,10 @@
 .idea/*
 .project
 activiti-ext.iml
+docs/*
 dst/*
+build/*
+.env
+target
+.classpath
+.settings/
