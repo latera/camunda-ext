@@ -1,4 +1,4 @@
-package org.camunda.bpm.link3
+package org.camunda.bpm.latera
 
 import org.camunda.bpm.application.ProcessApplication
 import org.camunda.bpm.application.impl.ServletProcessApplication
