@@ -1,0 +1,3363 @@
+<!DOCTYPE html><html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+<style>body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 400;
+}
+
+h3 {
+  font-weight: 200;
+}
+
+.back-link {
+  font-size: small;
+}
+
+table {
+  margin: 5px;
+}
+
+div.date-test-ran {
+  font-size: small;
+  font-style: italic;
+}
+
+table.features-table {
+  width: 800px;
+}
+
+table.summary-table {
+  width: 800px;
+  text-align: left;
+  font-weight: bold;
+  font-size: small;
+}
+
+table.summary-table th {
+  background: lightblue;
+  padding: 6px;
+}
+
+table.summary-table td {
+  background: #E0E0E0;
+  padding: 6px;
+}
+
+pre.title {
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+pre.narrative {
+  font-family: inherit;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 23px;
+  letter-spacing: -1px;
+  color: #333;
+}
+
+.feature-description {
+  font-size: large;
+  background: lightblue;
+  padding: 12px;
+}
+
+.feature-toc-error {
+  color: #F89A4F;
+}
+
+.feature-toc-failure {
+  color: #FF8080;
+}
+
+.feature-toc-ignored {
+  color: lightgray;
+}
+
+.feature-toc-pass {
+  color: green;
+}
+
+.feature-description.error {
+  background: #F89A4F;
+}
+
+.feature-description.failure {
+  background: #FF8080;
+}
+
+.feature-description.ignored {
+  background: lightgray;
+}
+
+.feature-description.ignored .reason {
+  color: black;
+  font-style: italic;
+  font-size: small;
+}
+
+div.extra-info {
+  font-size: small;
+}
+
+div.spec-headers {
+  margin: 4px;
+  font-style: italic;
+}
+
+div.spec-header {
+}
+
+div.issues {
+  margin-top: 6px;
+  padding: 10px 5px 5px 5px;
+  background-color: lemonchiffon;
+  color: black;
+  font-weight: 500;
+  font-size: small;
+  max-width: 50%;
+}
+
+div.pending-feature {
+  background-color: dodgerblue;
+  color: white;
+  margin-top: 6px;
+  padding: 5px;
+  text-align: center;
+  font-size: small;
+  max-width: 120px;
+}
+
+div.problem-description {
+  padding: 10px;
+  background: pink;
+  border-radius: 10px;
+}
+
+div.problem-header {
+  font-weight: bold;
+  color: red;
+}
+
+div.problem-list {
+
+}
+
+table.ex-table th {
+  background: lightblue;
+  padding: 5px;
+}
+
+table.ex-table td {
+  background: #E0E0E0;
+  padding: 2px 5px 2px 5px;
+}
+
+table td {
+  min-width: 50px;
+}
+
+col.block-kind-col {
+  width: 70px;
+}
+
+span.spec-header {
+  font-weight: bold;
+}
+
+div.spec-text {
+  /*color: green;*/
+}
+
+div.spec-status {
+  font-style: italic;
+}
+
+.ignored {
+  color: gray;
+}
+
+td.ex-result {
+  text-align: center;
+  background: white !important;
+}
+
+.ex-pass {
+  color: darkgreen;
+}
+
+.ex-fail {
+  color: red;
+  font-weight: bold;
+}
+
+div.block-kind {
+  margin: 2px;
+  font-style: italic;
+}
+
+div.block-text {
+
+}
+
+pre.block-source {
+  background-color: whitesmoke;
+  padding: 10px;
+}
+
+pre.block-source.error {
+  background-color: pink;
+  color: red;
+  font-weight: bold;
+}
+
+pre.block-source.pre-error {
+
+}
+
+pre.block-source.before-error {
+  margin-bottom: -14px;
+}
+
+pre.block-source.after-error {
+  color: gray;
+  margin-top: -14px;
+}
+
+pre.block-source.post-error {
+  color: gray;
+}
+
+div.footer {
+  text-align: center;
+  font-size: small;
+}
+</style>
+</head>
+<body>
+<h2>Report for org.camunda.latera.bss.utils.CSVSpec</h2>
+<hr></hr>
+<div class='back-link'>
+<a href='index.html'>&lt;&lt; Back</a>
+</div>
+<div class='summary-report'>
+<h3>Summary:</h3>
+<table class='summary-table'>
+<thead>
+<th>Executed features</th>
+<th>Failures</th>
+<th>Errors</th>
+<th>Skipped</th>
+<th>Success rate</th>
+</thead>
+<tbody>
+<tr>
+<td>98</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100,0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>Features:</h3>
+<table class='features-table'>
+<colgroup>
+<col class='block-kind-col'></col>
+<col class='block-text-col'></col>
+</colgroup>
+<tbody>
+<ul id='toc'>
+<li>
+<a href='#Constructor+for+String+input' class='feature-toc-pass'>Constructor for String input</a>
+</li>
+<li>
+<a href='#Constructor+for+List%5BString%5D+input' class='feature-toc-pass'>Constructor for List[String] input</a>
+</li>
+<li>
+<a href='#Constructor+for+Map+input' class='feature-toc-pass'>Constructor for Map input</a>
+</li>
+<li>
+<a href='#Constructor+for+List%5BMap%5D+input' class='feature-toc-pass'>Constructor for List[Map] input</a>
+</li>
+<li>
+<a href='#Constructor+for+List%5BList%5D+input' class='feature-toc-pass'>Constructor for List[List] input</a>
+</li>
+<li>
+<a href='#Constructor+with+named+args+input' class='feature-toc-pass'>Constructor with named args input</a>
+</li>
+<li>
+<a href='#%23parseLines+for+List%5BString%5D+input' class='feature-toc-pass'>#parseLines for List[String] input</a>
+</li>
+<li>
+<a href='#%23parseLines+for+List%5BMap%5D+input' class='feature-toc-pass'>#parseLines for List[Map] input</a>
+</li>
+<li>
+<a href='#%23parseLines+for+List%5BList%5D+input' class='feature-toc-pass'>#parseLines for List[List] input</a>
+</li>
+<li>
+<a href='#%23parseLine+for+String+input' class='feature-toc-pass'>#parseLine for String input</a>
+</li>
+<li>
+<a href='#%23parseLine+for+Map+input' class='feature-toc-pass'>#parseLine for Map input</a>
+</li>
+<li>
+<a href='#%23parseLine+for+List+input' class='feature-toc-pass'>#parseLine for List input</a>
+</li>
+<li>
+<a href='#%23parseHeader+for+String+input' class='feature-toc-pass'>#parseHeader for String input</a>
+</li>
+<li>
+<a href='#%23parseHeader+for+Map+input' class='feature-toc-pass'>#parseHeader for Map input</a>
+</li>
+<li>
+<a href='#%23parseHeader+for+List+input' class='feature-toc-pass'>#parseHeader for List input</a>
+</li>
+<li>
+<a href='#%23isHeader+for+String+input' class='feature-toc-pass'>#isHeader for String input</a>
+</li>
+<li>
+<a href='#%23isHeader+for+List+input' class='feature-toc-pass'>#isHeader for List input</a>
+</li>
+<li>
+<a href='#%23notHeader+for+String+input' class='feature-toc-pass'>#notHeader for String input</a>
+</li>
+<li>
+<a href='#%23notHeader+for+List+input' class='feature-toc-pass'>#notHeader for List input</a>
+</li>
+<li>
+<a href='#%23getData' class='feature-toc-pass'>#getData</a>
+</li>
+<li>
+<a href='#%23toList+is+alias+for+%23getData' class='feature-toc-pass'>#toList is alias for #getData</a>
+</li>
+<li>
+<a href='#%23getDataMap' class='feature-toc-pass'>#getDataMap</a>
+</li>
+<li>
+<a href='#%23toMap+is+alias+for+%23getDataMap' class='feature-toc-pass'>#toMap is alias for #getDataMap</a>
+</li>
+<li>
+<a href='#%23setData+for+List%5BString%5D+input' class='feature-toc-pass'>#setData for List[String] input</a>
+</li>
+<li>
+<a href='#%23setData+for+List%5BMap%5D+input' class='feature-toc-pass'>#setData for List[Map] input</a>
+</li>
+<li>
+<a href='#%23setData+for+List%5BList%5D+input' class='feature-toc-pass'>#setData for List[List] input</a>
+</li>
+<li>
+<a href='#%23setData+with+skipLines' class='feature-toc-pass'>#setData with skipLines</a>
+</li>
+<li>
+<a href='#%23clear' class='feature-toc-pass'>#clear</a>
+</li>
+<li>
+<a href='#--+operator' class='feature-toc-pass'>-- operator</a>
+</li>
+<li>
+<a href='#%7E+operator' class='feature-toc-pass'>~ operator</a>
+</li>
+<li>
+<a href='#%23getHeader' class='feature-toc-pass'>#getHeader</a>
+</li>
+<li>
+<a href='#%23setHeader+for+String+input' class='feature-toc-pass'>#setHeader for String input</a>
+</li>
+<li>
+<a href='#%23setHeader+for+Map+input' class='feature-toc-pass'>#setHeader for Map input</a>
+</li>
+<li>
+<a href='#%23setHeader+for+List+input' class='feature-toc-pass'>#setHeader for List input</a>
+</li>
+<li>
+<a href='#%23getDelimiter' class='feature-toc-pass'>#getDelimiter</a>
+</li>
+<li>
+<a href='#%23setDelimiter' class='feature-toc-pass'>#setDelimiter</a>
+</li>
+<li>
+<a href='#%23getLinesDelimiter' class='feature-toc-pass'>#getLinesDelimiter</a>
+</li>
+<li>
+<a href='#%23setLinesDelimiter' class='feature-toc-pass'>#setLinesDelimiter</a>
+</li>
+<li>
+<a href='#%23addLines+for+List%5BString%5D+input' class='feature-toc-pass'>#addLines for List[String] input</a>
+</li>
+<li>
+<a href='#%23addLines+for+List%5BMap%5D+input' class='feature-toc-pass'>#addLines for List[Map] input</a>
+</li>
+<li>
+<a href='#%23addLines+for+List%5BList%5D+input' class='feature-toc-pass'>#addLines for List[List] input</a>
+</li>
+<li>
+<a href='#%23addLine+for+String+input' class='feature-toc-pass'>#addLine for String input</a>
+</li>
+<li>
+<a href='#%23addLine+for+Map+input' class='feature-toc-pass'>#addLine for Map input</a>
+</li>
+<li>
+<a href='#%23addLine+for+List+input' class='feature-toc-pass'>#addLine for List input</a>
+</li>
+<li>
+<a href='#%3C%3C+operator+for+String+input' class='feature-toc-pass'>&lt;&lt; operator for String input</a>
+</li>
+<li>
+<a href='#%3C%3C+operator+for+Map+input' class='feature-toc-pass'>&lt;&lt; operator for Map input</a>
+</li>
+<li>
+<a href='#%3C%3C+operator+for+List+input' class='feature-toc-pass'>&lt;&lt; operator for List input</a>
+</li>
+<li>
+<a href='#%2B+operator+for+String+input' class='feature-toc-pass'>+ operator for String input</a>
+</li>
+<li>
+<a href='#%2B+operator+for+List+input' class='feature-toc-pass'>+ operator for List input</a>
+</li>
+<li>
+<a href='#%2B+operator+for+Map+input+-+insert' class='feature-toc-pass'>+ operator for Map input - insert</a>
+</li>
+<li>
+<a href='#%2B+operator+for+Map+input+-+update' class='feature-toc-pass'>+ operator for Map input - update</a>
+</li>
+<li>
+<a href='#%2B+operator+for+Map+input+-+replace' class='feature-toc-pass'>+ operator for Map input - replace</a>
+</li>
+<li>
+<a href='#%5B%5D+operator' class='feature-toc-pass'>[] operator</a>
+</li>
+<li>
+<a href='#%5B%5D%3D+operator+for+String+input' class='feature-toc-pass'>[]= operator for String input</a>
+</li>
+<li>
+<a href='#%5B%5D%3D+operator+for+Map+input' class='feature-toc-pass'>[]= operator for Map input</a>
+</li>
+<li>
+<a href='#%5B%5D%3D+operator+for+List+input' class='feature-toc-pass'>[]= operator for List input</a>
+</li>
+<li>
+<a href='#%23isExists+for+Map+input+-+by+index' class='feature-toc-pass'>#isExists for Map input - by index</a>
+</li>
+<li>
+<a href='#%23isExists+for+Map+input+-+by+any+of+indexes+list' class='feature-toc-pass'>#isExists for Map input - by any of indexes list</a>
+</li>
+<li>
+<a href='#%23isExists+for+Map+input+-+by+query' class='feature-toc-pass'>#isExists for Map input - by query</a>
+</li>
+<li>
+<a href='#%23isExists+for+Map+input+-+by+line' class='feature-toc-pass'>#isExists for Map input - by line</a>
+</li>
+<li>
+<a href='#%23isExists+for+Map+input+-+by+line+part' class='feature-toc-pass'>#isExists for Map input - by line part</a>
+</li>
+<li>
+<a href='#%23isExistsWithIndex+for+List+input+-+by+index' class='feature-toc-pass'>#isExistsWithIndex for List input - by index</a>
+</li>
+<li>
+<a href='#%23isExistsWithIndex+for+List+input+-+by+any+of+indexes+list' class='feature-toc-pass'>#isExistsWithIndex for List input - by any of indexes list</a>
+</li>
+<li>
+<a href='#%23isExistsWithIndex+for+Integer+input+-+by+index' class='feature-toc-pass'>#isExistsWithIndex for Integer input - by index</a>
+</li>
+<li>
+<a href='#%23isExistsWhere+for+List+input+-+by+line' class='feature-toc-pass'>#isExistsWhere for List input - by line</a>
+</li>
+<li>
+<a href='#%23isExistsWhere+for+List+input+-+by+line+part' class='feature-toc-pass'>#isExistsWhere for List input - by line part</a>
+</li>
+<li>
+<a href='#%23isExistsWhere+for+Map+input+-+by+query' class='feature-toc-pass'>#isExistsWhere for Map input - by query</a>
+</li>
+<li>
+<a href='#%23isExistsWhere+for+String+input+-+by+line' class='feature-toc-pass'>#isExistsWhere for String input - by line</a>
+</li>
+<li>
+<a href='#%23isExistsWhere+for+String+input+-+by+line+part' class='feature-toc-pass'>#isExistsWhere for String input - by line part</a>
+</li>
+<li>
+<a href='#in+operator+for+Integer+input+-+by+index' class='feature-toc-pass'>in operator for Integer input - by index</a>
+</li>
+<li>
+<a href='#in+operator+for+Map+input+-+by+query' class='feature-toc-pass'>in operator for Map input - by query</a>
+</li>
+<li>
+<a href='#in+operator+for+String+input+-+by+line' class='feature-toc-pass'>in operator for String input - by line</a>
+</li>
+<li>
+<a href='#in+operator+for+String+input+-+by+line+part' class='feature-toc-pass'>in operator for String input - by line part</a>
+</li>
+<li>
+<a href='#%23deleteLines+for+Map+input+-+by+index' class='feature-toc-pass'>#deleteLines for Map input - by index</a>
+</li>
+<li>
+<a href='#%23deleteLines+for+Map+input+-+by+any+of+indexes+list' class='feature-toc-pass'>#deleteLines for Map input - by any of indexes list</a>
+</li>
+<li>
+<a href='#%23deleteLines+for+Map+input+-+by+query' class='feature-toc-pass'>#deleteLines for Map input - by query</a>
+</li>
+<li>
+<a href='#%23deleteLines+for+Map+input+-+by+line' class='feature-toc-pass'>#deleteLines for Map input - by line</a>
+</li>
+<li>
+<a href='#%23deleteLines+for+Map+input+-+by+line+part' class='feature-toc-pass'>#deleteLines for Map input - by line part</a>
+</li>
+<li>
+<a href='#%23deleteLinesByIndex+for+List+input+-+by+index' class='feature-toc-pass'>#deleteLinesByIndex for List input - by index</a>
+</li>
+<li>
+<a href='#%23deleteLinesByIndex+for+List+input+-+by+any+of+indexes+list' class='feature-toc-pass'>#deleteLinesByIndex for List input - by any of indexes list</a>
+</li>
+<li>
+<a href='#%23deleteLinesByIndex+for+Integer+input+-+by+index' class='feature-toc-pass'>#deleteLinesByIndex for Integer input - by index</a>
+</li>
+<li>
+<a href='#%23deleteLinesWhere+for+List+input+-+by+line' class='feature-toc-pass'>#deleteLinesWhere for List input - by line</a>
+</li>
+<li>
+<a href='#%23deleteLinesWhere+for+List+input+-+by+line+part' class='feature-toc-pass'>#deleteLinesWhere for List input - by line part</a>
+</li>
+<li>
+<a href='#%23deleteLinesWhere+for+Map+input+-+by+query' class='feature-toc-pass'>#deleteLinesWhere for Map input - by query</a>
+</li>
+<li>
+<a href='#%23deleteLinesWhere+for+String+input+-+by+line' class='feature-toc-pass'>#deleteLinesWhere for String input - by line</a>
+</li>
+<li>
+<a href='#%23deleteLinesWhere+for+String+input+-+by+line+part' class='feature-toc-pass'>#deleteLinesWhere for String input - by line part</a>
+</li>
+<li>
+<a href='#-+operator+for+List+input+-+by+index' class='feature-toc-pass'>- operator for List input - by index</a>
+</li>
+<li>
+<a href='#-+operator+for+List+input+-+by+any+of+indexes+list' class='feature-toc-pass'>- operator for List input - by any of indexes list</a>
+</li>
+<li>
+<a href='#-+operator+for+Integer+input+-+by+index' class='feature-toc-pass'>- operator for Integer input - by index</a>
+</li>
+<li>
+<a href='#-+operator+for+Map+input+-+by+query' class='feature-toc-pass'>- operator for Map input - by query</a>
+</li>
+<li>
+<a href='#-+operator+for+String+input+-+by+line' class='feature-toc-pass'>- operator for String input - by line</a>
+</li>
+<li>
+<a href='#-+operator+for+String+input+-+by+line+part' class='feature-toc-pass'>- operator for String input - by line part</a>
+</li>
+<li>
+<a href='#%23getCsv+with+header' class='feature-toc-pass'>#getCsv with header</a>
+</li>
+<li>
+<a href='#%23getCsv+without+header' class='feature-toc-pass'>#getCsv without header</a>
+</li>
+<li>
+<a href='#%23toString+is+alias+for+%23getCsv' class='feature-toc-pass'>#toString is alias for #getCsv</a>
+</li>
+<li>
+<a href='#as+operator+with+String+type+input+is+alias+for+%23toString' class='feature-toc-pass'>as operator with String type input is alias for #toString</a>
+</li>
+<li>
+<a href='#as+operator+with+List+type+input+with+header' class='feature-toc-pass'>as operator with List type input with header</a>
+</li>
+<li>
+<a href='#as+operator+with+List+type+input+without+header' class='feature-toc-pass'>as operator with List type input without header</a>
+</li>
+</ul>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+for+String+input'>
+<span>Constructor for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == str</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+for+List%5BString%5D+input'>
+<span>Constructor for List[String] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>List listOfStrings = ["a;b;c", "1;2;3"]
+def csv = new CSV(listOfStrings)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == "a;b;c\n1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+for+Map+input'>
+<span>Constructor for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Map map = [a: 1, b: 2, c: 3]
+def csv = new CSV(map)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == "a;b;c\n1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+for+List%5BMap%5D+input'>
+<span>Constructor for List[Map] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>List listOfMaps = [[a:1, b:2, c:3]]
+def csv = new CSV(listOfMaps)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == "a;b;c\n1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+for+List%5BList%5D+input'>
+<span>Constructor for List[List] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>List listOfLists = [
+  ['a', 'b', 'c'],
+  [1,    2,    3]
+]
+def csv = new CSV(listOfLists)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == "a;b;c\n1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='Constructor+with+named+args+input'>
+<span>Constructor with named args input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+String delimiter = ";"
+String linesDelimiter = "\n"
+def csv = new CSV(
+  delimiter      : delimiter,
+  linesDelimiter : linesDelimiter,
+  data           : str
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == str</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLines+for+List%5BString%5D+input'>
+<span>#parseLines for List[String] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLines(["1;2;3"]) == [['1', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLines+for+List%5BMap%5D+input'>
+<span>#parseLines for List[Map] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLines([[a:1, b:2, c:3]]) == [['1', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLines+for+List%5BList%5D+input'>
+<span>#parseLines for List[List] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLines([[1, 2, 3]]) == [['1', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLine+for+String+input'>
+<span>#parseLine for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLine("1;2;3") == ['1', '2', '3']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLine+for+Map+input'>
+<span>#parseLine for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLine([a:1, b:2, c:3]) == ['1', '2', '3']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseLine+for+List+input'>
+<span>#parseLine for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseLine([1, 2, 3]) == ['1', '2', '3']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseHeader+for+String+input'>
+<span>#parseHeader for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String delimiter = ";"
+def csv = new CSV(
+  delimiter: delimiter
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseHeader("a;b;c") == ['a', 'b', 'c']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseHeader+for+Map+input'>
+<span>#parseHeader for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String delimiter = ";"
+def csv = new CSV(
+  delimiter: delimiter
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseHeader(a:null, b:null, c:null) == ['a', 'b', 'c']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23parseHeader+for+List+input'>
+<span>#parseHeader for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String delimiter = ";"
+def csv = new CSV(
+  delimiter: delimiter
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.parseHeader(['a', 'b', 'c']) == ['a', 'b', 'c']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isHeader+for+String+input'>
+<span>#isHeader for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isHeader("a;b;c")
+!csv.isHeader("a;b")</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isHeader+for+List+input'>
+<span>#isHeader for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isHeader(['a', 'b', 'c'])
+!csv.isHeader(['a', 'b'])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23notHeader+for+String+input'>
+<span>#notHeader for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.notHeader("a;b")
+!csv.notHeader("a;b;c")</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23notHeader+for+List+input'>
+<span>#notHeader for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String header = "a;b;c"
+def csv = new CSV(header)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.notHeader(['a', 'b'])
+!csv.notHeader(['a', 'b', 'c'])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getData'>
+<span>#getData</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getData() == [['1', '2', '3']]
+csv.data == [['1', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23toList+is+alias+for+%23getData'>
+<span>#toList is alias for #getData</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.toList() == csv.data</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getDataMap'>
+<span>#getDataMap</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getDataMap() == [[a:'1', b:'2', c:'3']]
+csv.dataMap == [[a:'1', b:'2', c:'3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23toMap+is+alias+for+%23getDataMap'>
+<span>#toMap is alias for #getDataMap</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.toMap() == csv.dataMap</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setData+for+List%5BString%5D+input'>
+<span>#setData for List[String] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.data = ["3;4;5"]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setData+for+List%5BMap%5D+input'>
+<span>#setData for List[Map] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.data = [[a:3, b:4, c:5]]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setData+for+List%5BList%5D+input'>
+<span>#setData for List[List] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.data = [[3, 4, 5]]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setData+with+skipLines'>
+<span>#setData with skipLines</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>Integer skipLines = 1
+String str = "someline\na;b;c\n1;2;3"
+def csv = new CSV(
+  skipLines : skipLines,
+  data      : str
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == "a;b;c\n1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23clear'>
+<span>#clear</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.clear()</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='--+operator'>
+<span>-- operator</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv--</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%7E+operator'>
+<span>~ operator</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+-csv</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getHeader'>
+<span>#getHeader</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getHeader() == ['a', 'b', 'c']
+csv.header == ['a', 'b', 'c']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setHeader+for+String+input'>
+<span>#setHeader for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.header = "a;b;c;d"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.dataMap == [[a:'1', b:'2', c:'3', d:null]]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setHeader+for+Map+input'>
+<span>#setHeader for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.header = [a:1, b:2, c:3, d:4]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.dataMap == [[a:'1', b:'2', c:'3', d:null]]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setHeader+for+List+input'>
+<span>#setHeader for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.header = ['a', 'b', 'c', 'd']</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.dataMap == [[a:'1', b:'2', c:'3', d:null]]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getDelimiter'>
+<span>#getDelimiter</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String delimiter = ";"
+String str = "a;b;c\n1;2;3"
+def csv = new CSV(
+  delimiter : delimiter,
+  data      : str
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getDelimiter() == ";"
+csv.delimiter == ";"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setDelimiter'>
+<span>#setDelimiter</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.delimiter = ","</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.delimiter == ","
+csv as String == "a,b,c\n1,2,3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getLinesDelimiter'>
+<span>#getLinesDelimiter</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String linesDelimiter = "\n"
+String str = "a;b;c\n1;2;3"
+def csv = new CSV(
+  linesDelimiter : linesDelimiter,
+  data           : str
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getLinesDelimiter() == "\n"
+csv.linesDelimiter == "\n"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23setLinesDelimiter'>
+<span>#setLinesDelimiter</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.linesDelimiter = ","</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.linesDelimiter == ","
+csv as String == "a;b;c,1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLines+for+List%5BString%5D+input'>
+<span>#addLines for List[String] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLines(["3;4;5"])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLines+for+List%5BMap%5D+input'>
+<span>#addLines for List[Map] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLines([[a:3, b:4, c:5]])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLines+for+List%5BList%5D+input'>
+<span>#addLines for List[List] input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLines([[3 ,4 ,5]])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLine+for+String+input'>
+<span>#addLine for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLine("3;4;5")</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLine+for+Map+input'>
+<span>#addLine for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLine(a:3, b:4, c:5)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23addLine+for+List+input'>
+<span>#addLine for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.addLine([3 ,4 ,5])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%3C%3C+operator+for+String+input'>
+<span>&lt;&lt; operator for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv &lt;&lt; "3;4;5"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%3C%3C+operator+for+Map+input'>
+<span>&lt;&lt; operator for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv &lt;&lt; [a:3, b:4, c:5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%3C%3C+operator+for+List+input'>
+<span>&lt;&lt; operator for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv &lt;&lt; [3 ,4 ,5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%2B+operator+for+String+input'>
+<span>+ operator for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv += "3;4;5"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%2B+operator+for+List+input'>
+<span>+ operator for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv += [3, 4, 5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%2B+operator+for+Map+input+-+insert'>
+<span>+ operator for Map input - insert</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv += [a:3, b:4, c:5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['1', '2', '3'], ['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%2B+operator+for+Map+input+-+update'>
+<span>+ operator for Map input - update</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv += [0: [a:3]]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%2B+operator+for+Map+input+-+replace'>
+<span>+ operator for Map input - replace</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv += [0: "3;4;5"]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%5B%5D+operator'>
+<span>[] operator</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv[0] == [a:'1', b:'2', c:'3']</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%5B%5D%3D+operator+for+String+input'>
+<span>[]= operator for String input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv[0] = "3;4;5"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%5B%5D%3D+operator+for+Map+input'>
+<span>[]= operator for Map input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv[0] = [a:3, b:4, c:5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%5B%5D%3D+operator+for+List+input'>
+<span>[]= operator for List input</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv[0] = [3, 4, 5]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == [['3', '4', '5']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExists+for+Map+input+-+by+index'>
+<span>#isExists for Map input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(indexes: [0])
+!csv.isExists(indexes: [1])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExists+for+Map+input+-+by+any+of+indexes+list'>
+<span>#isExists for Map input - by any of indexes list</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(indexes: [0, 1])
+!csv.isExists(indexes: [10, 50])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExists+for+Map+input+-+by+query'>
+<span>#isExists for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(where: [a: 1])
+!csv.isExists(where: [b: null])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExists+for+Map+input+-+by+line'>
+<span>#isExists for Map input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(where: [1, 2, 3])
+!csv.isExists(where: [0, 2, 3])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExists+for+Map+input+-+by+line+part'>
+<span>#isExists for Map input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(where: [1, 2])
+!csv.isExists(where: [0, 2])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWithIndex+for+List+input+-+by+index'>
+<span>#isExistsWithIndex for List input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists([0])
+!csv.isExists([1])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWithIndex+for+List+input+-+by+any+of+indexes+list'>
+<span>#isExistsWithIndex for List input - by any of indexes list</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists([0, 1])
+!csv.isExists([10, 50])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWithIndex+for+Integer+input+-+by+index'>
+<span>#isExistsWithIndex for Integer input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExists(0)
+!csv.isExists(1)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWhere+for+List+input+-+by+line'>
+<span>#isExistsWhere for List input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExistsWhere([1, 2, 3])
+!csv.isExistsWhere([0, 2, 3])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWhere+for+List+input+-+by+line+part'>
+<span>#isExistsWhere for List input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExistsWhere([1, 2])
+!csv.isExistsWhere([0, 2])</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWhere+for+Map+input+-+by+query'>
+<span>#isExistsWhere for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExistsWhere(a: 1)
+!csv.isExistsWhere(b: null)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWhere+for+String+input+-+by+line'>
+<span>#isExistsWhere for String input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExistsWhere("1;2;3")
+!csv.isExistsWhere("0;2;3")</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23isExistsWhere+for+String+input+-+by+line+part'>
+<span>#isExistsWhere for String input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.isExistsWhere("1;2")
+!csv.isExistsWhere("0;2")</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='in+operator+for+Integer+input+-+by+index'>
+<span>in operator for Integer input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>0 in csv
+!(1 in csv)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='in+operator+for+Map+input+-+by+query'>
+<span>in operator for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>[a: 1] in csv
+!([b: null] in csv)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='in+operator+for+String+input+-+by+line'>
+<span>in operator for String input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>"1;2;3" in csv
+!("0;2;3" in csv)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='in+operator+for+String+input+-+by+line+part'>
+<span>in operator for String input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>"1;2" in csv
+!("0;2" in csv)</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLines+for+Map+input+-+by+index'>
+<span>#deleteLines for Map input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLines(indexes: [0])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLines+for+Map+input+-+by+any+of+indexes+list'>
+<span>#deleteLines for Map input - by any of indexes list</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLines(indexes: [0, 1])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLines+for+Map+input+-+by+query'>
+<span>#deleteLines for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLines(where: [a: 1])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLines+for+Map+input+-+by+line'>
+<span>#deleteLines for Map input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLines(where: [1, 2, 3])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLines+for+Map+input+-+by+line+part'>
+<span>#deleteLines for Map input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLines(where: [1, 2])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesByIndex+for+List+input+-+by+index'>
+<span>#deleteLinesByIndex for List input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesByIndex([0])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesByIndex+for+List+input+-+by+any+of+indexes+list'>
+<span>#deleteLinesByIndex for List input - by any of indexes list</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesByIndex([0, 1])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesByIndex+for+Integer+input+-+by+index'>
+<span>#deleteLinesByIndex for Integer input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesByIndex(0)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesWhere+for+List+input+-+by+line'>
+<span>#deleteLinesWhere for List input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesWhere([1, 2, 3])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesWhere+for+List+input+-+by+line+part'>
+<span>#deleteLinesWhere for List input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesWhere([1, 2])</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesWhere+for+Map+input+-+by+query'>
+<span>#deleteLinesWhere for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesWhere(a: 1)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesWhere+for+String+input+-+by+line'>
+<span>#deleteLinesWhere for String input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesWhere("1;2;3")</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23deleteLinesWhere+for+String+input+-+by+line+part'>
+<span>#deleteLinesWhere for String input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv.deleteLinesWhere("1;2")</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+List+input+-+by+index'>
+<span>- operator for List input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= [0]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+List+input+-+by+any+of+indexes+list'>
+<span>- operator for List input - by any of indexes list</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= [0, 1]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+Integer+input+-+by+index'>
+<span>- operator for Integer input - by index</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= 0</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+Map+input+-+by+query'>
+<span>- operator for Map input - by query</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= [a: 1]</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+String+input+-+by+line'>
+<span>- operator for String input - by line</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= "1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='-+operator+for+String+input+-+by+line+part'>
+<span>- operator for String input - by line part</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)
+csv -= "1;2"</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.data == []</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getCsv+with+header'>
+<span>#getCsv with header</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+String delimiter = ";"
+String lineDelimiter = "\n"
+Boolean withHeader = true
+def csv = new CSV(
+  data          : str,
+  delimiter     : delimiter,
+  lineDelimiter : lineDelimiter,
+  withHeader    : withHeader
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getCsv() == str
+csv.csv == str</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23getCsv+without+header'>
+<span>#getCsv without header</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+String delimiter = ";"
+String lineDelimiter = "\n"
+Boolean withHeader = false
+def csv = new CSV(
+  data          : str,
+  delimiter     : delimiter,
+  lineDelimiter : lineDelimiter,
+  withHeader    : withHeader
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.getCsv() == "1;2;3"
+csv.csv == "1;2;3"</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='%23toString+is+alias+for+%23getCsv'>
+<span>#toString is alias for #getCsv</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv.csv == csv.toString()</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='as+operator+with+String+type+input+is+alias+for+%23toString'>
+<span>as operator with String type input is alias for #toString</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+def csv = new CSV(str)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as String == str</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='as+operator+with+List+type+input+with+header'>
+<span>as operator with List type input with header</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+String delimiter = ";"
+String lineDelimiter = "\n"
+Boolean withHeader = true
+def csv = new CSV(
+  data          : str,
+  delimiter     : delimiter,
+  lineDelimiter : lineDelimiter,
+  withHeader    : withHeader
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as List == [['1', '2', '3']]</pre>
+</td>
+</tr>
+<tr>
+<td colspan='10'>
+<div class='feature-description' id='as+operator+with+List+type+input+without+header'>
+<span>as operator with List type input without header</span>
+<span style='float: right; font-size: 60%;'>
+<a href='#toc'>Return</a>
+</span>
+</div>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Given:</div>
+</td>
+<td>
+<pre class='block-source'>String str = "a;b;c\n1;2;3"
+String delimiter = ";"
+String lineDelimiter = "\n"
+Boolean withHeader = false
+def csv = new CSV(
+  data          : str,
+  delimiter     : delimiter,
+  lineDelimiter : lineDelimiter,
+  withHeader    : withHeader
+)</pre>
+</td>
+</tr>
+<tr>
+<td>
+<div class='block-kind'>Expect:</div>
+</td>
+<td>
+<pre class='block-source'>csv as List == [['1', '2', '3']]</pre>
+</td>
+</tr>
+</tbody>
+</table>
+<hr></hr>
+<div class='footer'>Generated by <a href='https://github.com/renatoathaydes/spock-reports'>Athaydes Spock Reports</a></div>
+</body>
+</html>
