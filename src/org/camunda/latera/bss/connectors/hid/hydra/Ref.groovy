@@ -148,14 +148,15 @@ trait Ref {
     ]
     id = hid.getTableFirst(getRefsTable(), 'n_ref_id', where)
     if (id == null) {
-      id = toIntSafe(hid.queryFirst("SELECT SYS_CONTEXT('CONST', '${code}') FROM DUAL")?.getAt(0))
-      if (id != null) {
-        code = getRefCodeById(id)
-      }
-      return id
-    } else {
+      try {
+        id = toIntSafe(hid.queryFirst("SELECT SYS_CONTEXT('CONST', '${code}') FROM DUAL")?.getAt(0))
+      } catch (Exception e) {}
+    }
+
+    if (id != null) {
       return RefCache.instance.putAndGet(code, id)
     }
+    return null
   }
 
   Number getRefIdByName(CharSequence name) {
