@@ -33,7 +33,6 @@ class MailSender {
     this.port      = (execution.getVariable('smtpPort')     ?: ENV['SMTP_PORT'] ?: 587).toInteger()
     this.user      =  execution.getVariable('smtpUser')     ?: ENV['SMTP_USER']
     this.password  =  execution.getVariable('smtpPassword') ?: ENV['SMTP_PASSWORD']
-    this.transport =  session.getTransport('smtp')
 
     Boolean auth = Boolean.valueOf(firstNotNull([
       execution.getVariable('smtpAuth'),
@@ -70,7 +69,8 @@ class MailSender {
       this.props.put('mail.smtp.ssl.trust', host)
     }
 
-    this.session = Session.getDefaultInstance(props, null)
+    this.session   = Session.getDefaultInstance(props, null)
+    this.transport = session.getTransport('smtp')
     this.newMessage()
   }
 
