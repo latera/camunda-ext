@@ -228,6 +228,14 @@ trait Subscription {
         equipmentId : parentSubscription.n_object_id
       ]
     }
+
+    if (isEmpty(input.customerId) && !notEmpty(input.accountId)) {
+      LinkedHashMap account = getAccount(input.accountId)
+      existingSubscription += [
+        customerId : account.n_subject_id
+      ]
+    }
+
     LinkedHashMap params = mergeParams(defaultParams, existingSubscription + input)
 
     def unitId = getGoodUnitId(params.goodId)
@@ -267,7 +275,7 @@ trait Subscription {
 
   /**
    * Create subscription
-   * @param customerId         {@link java.math.BigInteger BigInteger}
+   * @param customerId         {@link java.math.BigInteger BigInteger}. Optional
    * @param accountId          {@link java.math.BigInteger BigInteger}
    * @param docId              {@link java.math.BigInteger BigInteger}
    * @param goodId             {@link java.math.BigInteger BigInteger}
