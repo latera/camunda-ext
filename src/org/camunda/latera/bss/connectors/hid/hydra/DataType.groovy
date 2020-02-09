@@ -130,7 +130,7 @@ trait DataType {
   /**
    * Get boolean data type ref code
    *
-   * Alias for {#link #getBooleanType()}
+   * Alias for {@link #getBooleanType()}
    */
   String getBoolType() {
     return getBooleanType()
@@ -139,7 +139,7 @@ trait DataType {
   /**
    * Get boolean data type ref id
    *
-   * Alias for {#link #getBooleanTypeId()}
+   * Alias for {@link #getBooleanTypeId()}
    */
   Number getBoolTypeId() {
     return getBooleanTypeId()
@@ -162,7 +162,7 @@ trait DataType {
   /**
    * Get CLOB data type ref code
    *
-   * Alias for {#link #getCLOBType()}
+   * Alias for {@link #getCLOBType()}
    */
   String getClobType() {
     return getCLOBType()
@@ -171,7 +171,7 @@ trait DataType {
   /**
    * Get CLOB data type ref id
    *
-   * Alias for {#link #getCLOBTypeId()}
+   * Alias for {@link #getCLOBTypeId()}
    */
   Number getClobTypeId() {
     return getCLOBTypeId()
@@ -194,7 +194,7 @@ trait DataType {
   /**
    * Get HTML data type ref code
    *
-   * Alias for {#link #getHTMLType()}
+   * Alias for {@link #getHTMLType()}
    */
   String getHtmlType() {
     return getHTMLType()
@@ -203,7 +203,7 @@ trait DataType {
   /**
    * Get HTML data type ref id
    *
-   * Alias for {#link #getHTMLTypeId()}
+   * Alias for {@link #getHTMLTypeId()}
    */
   Number getHtmlTypeId() {
     return getHTMLTypeId()

@@ -9,10 +9,18 @@ import java.time.temporal.Temporal
 trait Subscription {
   private static String SUBSCRIPTIONS_TABLE = 'SI_V_SUBSCRIPTIONS'
 
+  /**
+   * Get subscriptions table name
+   */
   String getSubscriptionsTable() {
     return SUBSCRIPTIONS_TABLE
   }
 
+  /**
+   * Get subscription by id
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @return Map with subscription table row or null
+   */
   Map getSubscription(def subscriptionId) {
     LinkedHashMap where = [
       n_subscription_id: subscriptionId
@@ -20,6 +28,24 @@ trait Subscription {
     return hid.getTableFirst(getSubscriptionsTable(), where: where)
   }
 
+  /**
+   * Search for subscriptions by different fields value
+   * @param subscriptionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param customerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit              {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
+   * @return List[Map] of subscription table rows
+   */
   List getSubscriptionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId     : null,
@@ -82,18 +108,77 @@ trait Subscription {
     return hid.getTableData(getSubscriptionsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for subscription by different fields value
+   * @param subscriptionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param customerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
+   * @return Map wth subscription table row
+   */
   Map getSubscriptionBy(Map input) {
     return getSubscriptionsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Search for subscriptions for parent subscription id
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}
+   * @param subscriptionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param customerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit              {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
+   * @return List[Map] of subscription table rows
+   */
   List getChildSubscriptions(Map input = [:], def parSubscriptionId) {
     return getSubscriptionsBy(input + [parSubscriptionId : parSubscriptionId])
   }
 
+  /**
+   * Get child subscription by id
+   * @param childSubscriptionId {@link java.math.BigInteger BigInteger}
+   * @deprecated use {@link #getSubscription(def)} instead
+   */
   Map getChildSubscription(def childSubscriptionId) {
     return getSubscription(childSubscriptionId)
   }
 
+  /**
+   * Create or update subscription
+   * @param subscriptionId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param customerId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param docId              {@link java.math.BigInteger BigInteger}. Optional
+   * @param goodId             {@link java.math.BigInteger BigInteger}. Optional
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}. Optional
+   * @param quant              {@link Integer}. Optional
+   * @param payDay             {@link Integer}. Optional, possible values: 1..28
+   * @param beginDate          {@link java.time.Temporal Any date type}. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional
+   * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
+   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
+   * @return Map with created or updated subscription (in Oracle API procedure notation)
+   */
   private Map putSubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId     : null,
@@ -148,22 +233,77 @@ trait Subscription {
     }
   }
 
+  /**
+   * Create subscription
+   * @param customerId         {@link java.math.BigInteger BigInteger}
+   * @param accountId          {@link java.math.BigInteger BigInteger}
+   * @param docId              {@link java.math.BigInteger BigInteger}
+   * @param goodId             {@link java.math.BigInteger BigInteger}
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}. Optional
+   * @param quant              {@link Integer}. Optional
+   * @param payDay             {@link Integer}. Optional, possible values: 1..28
+   * @param beginDate          {@link java.time.Temporal Any date type}. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional
+   * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
+   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
+   * @return Map with created subscription (in Oracle API procedure notation)
+   */
   Map createSubscription(Map input = [:], def customerId) {
     return putSubscription(input + [customerId: customerId])
   }
 
+  /**
+   * Update subscription
+   * @param subscriptionId     {@link java.math.BigInteger BigInteger}
+   * @param quant              {@link Integer}. Optional
+   * @param payDay             {@link Integer}. Optional, possible values: 1..28
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional
+   * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
+   * @return Map with updated subscription (in Oracle API procedure notation)
+   */
   Map updateSubscription(Map input = [:], def subscriptionId) {
     return putSubscription(input + [subscriptionId: subscriptionId])
   }
 
+  /**
+   * Create child subscription
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}
+   * @param customerId         {@link java.math.BigInteger BigInteger}
+   * @param accountId          {@link java.math.BigInteger BigInteger}
+   * @param docId              {@link java.math.BigInteger BigInteger}
+   * @param goodId             {@link java.math.BigInteger BigInteger}
+   * @param equipmentId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}. Optional
+   * @param quant              {@link Integer}. Optional
+   * @param payDay             {@link Integer}. Optional, possible values: 1..28
+   * @param beginDate          {@link java.time.Temporal Any date type}. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}. Optional
+   * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
+   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
+   * @return Map with created child subscription (in Oracle API procedure notation)
+   */
   Map createChildSubscription(Map input = [:], def parSubscriptionId) {
     return putSubscription(input + [parSubscriptionId: parSubscriptionId])
   }
 
+  /**
+   * Update child subscription
+   * @see #updateSubscription(Map,def)
+   */
   Map updateChildSubscription(Map input = [:], def childSubscriptionId) {
     return updateSubscription(input, childSubscriptionId)
   }
 
+  /**
+   * Close subscription
+   * @param subscriptionId  {@link java.math.BigInteger BigInteger}
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: current datetime
+   * @param closeChargeLog  {@link Boolean}. Optional, default: false
+   * @return True if subscription was closed successfully, false otherwise
+   */
   Boolean closeSubscription(Map input = [:], def subscriptionId) {
     LinkedHashMap params = [
       endDate        : local(),
@@ -185,10 +325,20 @@ trait Subscription {
     }
   }
 
+  /**
+   * Close child subscription
+   * @see #closeSubscription(Map,def)
+   */
   Boolean closeChildSubscription(Map input = [:], def childSubscriptionId) {
     return closeSubscription(input, childSubscriptionId)
   }
 
+  /**
+   * Close subscription and charge logs
+   * @param subscriptionId  {@link java.math.BigInteger BigInteger}
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: current datetime
+   * @return True if subscription and charge logs were closed successfully, false otherwise
+   */
   Boolean closeSubscriptionForce(def subscriptionId, Temporal endDate = local()) {
     Boolean result = closeSubscription(subscriptionId, endDate: endDate, closeChargeLog: true)
 
@@ -199,6 +349,11 @@ trait Subscription {
     return result
   }
 
+  /**
+   * Delete subscription
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @return True if subscription was deleted successfully, false otherwise
+   */
   Boolean deleteSubscription(def subscriptionId) {
     try {
       logger.info("Deleting subscription ${subscriptionId}")
@@ -214,6 +369,11 @@ trait Subscription {
     }
   }
 
+  /**
+   * Delete subscription and all charge logs
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @return True if subscription and charge logs were deleted successfully, false otherwise
+   */
   Boolean deleteSubscriptionForce(def subscriptionId) {
     Boolean result = true
     List chargeLogs = getChargeLogsBySubscription(subscriptionId: subscriptionId)
