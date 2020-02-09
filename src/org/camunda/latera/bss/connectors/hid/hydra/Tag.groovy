@@ -154,7 +154,7 @@ trait Tag {
    * @param tagId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entityId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entityTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
+   * @param entityTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entityType   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber   {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -210,7 +210,7 @@ trait Tag {
    * @param tagId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entityId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param entityTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
+   * @param entityTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entityType   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber   {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional

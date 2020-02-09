@@ -427,18 +427,19 @@ trait Good {
 
   /**
    * Search for good add param values by different fields value
-   * @param goodId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
-   * @param date    {@link java.time.Temporal Any date type}. Optional
-   * @param number  {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param string  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param bool    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param refId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param ref     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
-   * @param limit   {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order   {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @param goodValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
+   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return List[Map] of good add param value table rows
    */
   List getGoodAddParamsBy(Map input) {
@@ -453,6 +454,9 @@ trait Good {
     ], prepareGoodAddParam(input))
     LinkedHashMap where = [:]
 
+    if (params.goodValueId) {
+      where.n_good_value_id = params.goodValueId
+    }
     if (params.goodId) {
       where.n_good_id = params.goodId
     }
@@ -479,17 +483,18 @@ trait Good {
 
   /**
    * Search for good add param value by different fields value
-   * @param goodId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
-   * @param date    {@link java.time.Temporal Any date type}. Optional
-   * @param number  {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param string  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param bool    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param refId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param ref     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
-   * @param order   {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @param goodValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return LMap with good add param value table row
    */
   Map getGoodAddParamBy(Map input) {

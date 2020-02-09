@@ -1135,7 +1135,7 @@ trait Document {
   }
 
   /**
-   * Create document add param value
+   * Create or update document add param value
    * @param docId   {@link java.math.BigInteger BigInteger}
    * @param paramId {@link java.math.BigInteger BigInteger}. Optional
    * @param param   {@link CharSequence String}. Optional
@@ -1146,7 +1146,7 @@ trait Document {
    * @param refId   {@link java.math.BigInteger BigInteger}. Optional
    * @param ref     {@link CharSequence String}. Optional
    * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created document add param value (in Oracle API procedure notation)
+   * @return Map with created or updated document add param value (in Oracle API procedure notation)
    */
   Map addDocumentAddParam(Map input = [:], def docId) {
     return putDocumentAddParam(input + [docId: docId])
@@ -1155,7 +1155,7 @@ trait Document {
   /**
    * Delete document add param value
    * @param docValueId {@link java.math.BigInteger BigInteger}
-   * @return True if document add param value is deleted successfully, false otherwise
+   * @return True if document add param value was deleted successfully, false otherwise
    */
   Boolean deleteDocumentAddParam(def docValueId) {
     try {
@@ -1339,7 +1339,7 @@ trait Document {
   /**
    * Delete document-document bind
    * @param docDocumentId {@link java.math.BigInteger BigInteger}
-   * @return True if document-document bind is deleted successfully, false otherwise
+   * @return True if document-document bind was deleted successfully, false otherwise
    */
   Boolean deleteDocumentBind(def docDocumentId) {
     try {
