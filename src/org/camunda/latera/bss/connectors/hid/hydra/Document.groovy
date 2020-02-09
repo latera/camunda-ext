@@ -969,12 +969,12 @@ trait Document {
    * {@code
    * [
    *   paramId : _, # doc add param type id
-   *   bool    : _, # if add param if boolean type
-   *   number  : _, # if add param if number type
-   *   string  : _, # if add param if string type
-   *   date    : _, # if add param if date type
-   *   refId   : _, # if add param if refId type and value can be converted to BigInteger (ref id)
-   *   ref     : _  # if add param if refId type and value cannot be converted to BigInteger (ref code)
+   *   bool    : _, # is add param if boolean type
+   *   number  : _, # is add param if number type
+   *   string  : _, # is add param if string type
+   *   date    : _, # is add param if date type
+   *   refId   : _, # is add param if refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # is add param if refId type and value cannot be converted to BigInteger (ref code)
    * ]
    * }
    * </pre>

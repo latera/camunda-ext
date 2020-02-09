@@ -7,14 +7,25 @@ trait Param {
   private static String PARAMS_TABLE       = 'SS_V_PARS'
   private static String PARAM_VALUES_TABLE = 'SS_V_PARVALUES'
 
+  /**
+   * Get params table name
+   */
   String getParamsTable() {
     return PARAMS_TABLE
   }
 
+  /**
+   * Get param values table name
+   */
   String getParamValuesTable() {
     return PARAM_VALUES_TABLE
   }
 
+  /**
+   * Get param by id
+   * @param paramId {@link java.math.BigInteger BigInteger}
+   * @return Map with param table row or null
+   */
   Map getParam(def paramId) {
     LinkedHashMap where = [
       n_par_id: paramId
@@ -22,6 +33,33 @@ trait Param {
     return hid.getTableFirst(getParamsTable(), where: where)
   }
 
+  /**
+   * Search for params by different fields value
+   * @param paramId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramGroupId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param jobId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refName      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColName   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColCode   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refCaption   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refWhere     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refOrderBy   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isVisible    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param langId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lang         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return List[Map] of param table rows
+   */
   List getParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       paramId      : null,
@@ -110,18 +148,59 @@ trait Param {
     return result
   }
 
+  /**
+   * Search for param by different fields value
+   * @param paramId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramGroupId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param jobId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refName      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColName   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refColCode   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refCaption   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refWhere     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refOrderBy   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isVisible    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param langId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lang         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return Map with param table row
+   */
   Map getParamBy(Map input) {
     return getParamsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get param by code
+   * @param code {@link CharSequence String}
+   * @return Map with param table row
+   */
   Map getParamByCode(CharSequence code) {
     return getParamBy(code: code)
   }
 
+  /**
+   * Get param by name
+   * @param name {@link CharSequence String}
+   * @return Map with param table row
+   */
   Map getParamByName(CharSequence name) {
     return getParamBy(name: name)
   }
 
+  /**
+   * Get param id by code
+   * @param code {@link CharSequence String}
+   * @return Param id
+   */
   Number getParamIdByCode(CharSequence code) {
     def id = ParamCache.instance.get(code)
     if (id) {
@@ -138,6 +217,11 @@ trait Param {
     return null
   }
 
+  /**
+   * Get param id by name
+   * @param name {@link CharSequence String}
+   * @return Param id
+   */
   Number getParamIdByName(CharSequence name) {
     LinkedHashMap where = [
       vc_name: name
@@ -145,6 +229,11 @@ trait Param {
     return toIntSafe(hid.getTableFirst(getParamsTable(), 'n_par_id', where))
   }
 
+  /**
+   * Get param code by id
+   * @param id {@link java.math.BigInteger BigInteger}
+   * @return Param code
+   */
   String getParamCode(def id) {
     String code = ParamCache.instance.getKey(id)
     if (code) {
@@ -158,10 +247,20 @@ trait Param {
     return ParamCache.instance.putAndGetKey(code, id)
   }
 
+  /**
+   * Get param name by id
+   * @param id {@link java.math.BigInteger BigInteger}
+   * @return Param name
+   */
   String getParamName(def id) {
     return getParam(id)?.vc_name
   }
 
+  /**
+   * Get param value by id
+   * @param paramValueId {@link java.math.BigInteger BigInteger}
+   * @return Map with param value table row or null
+   */
   Map getParamValue(def paramValueId) {
     LinkedHashMap where = [
       n_par_value_id: paramValueId
@@ -169,6 +268,27 @@ trait Param {
     return hid.getTableFirst(getParamValuesTable(), where: where)
   }
 
+  /**
+   * Prepare param value to save
+   * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
+   * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param code    Alias for 'param'
+   * @param value   Any type. Optional
+   * @return Map with param value
+   * <pre>
+   * {@code
+   * [
+   *   paramId : _, # param id
+   *   bool    : _, # if param is boolean type
+   *   number  : _, # if param is number type
+   *   string  : _, # if param is string type
+   *   date    : _, # if param is date type
+   *   refId   : _, # if param is refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if param is refId type and value cannot be converted to BigInteger (ref code)
+   * ]
+   * }
+   * </pre>
+   */
   Map prepareParamValue(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param') || input.containsKey('code')) {
@@ -187,6 +307,26 @@ trait Param {
     return input
   }
 
+  /**
+   * Search for param values by different fields value
+   * @param paramValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param param        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         Alias for 'param'
+   * @param subjectId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param jobId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date         {@link java.time.Temporal Any date type}. Optional
+   * @param number       {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value        Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareParamValue(Map)}. Optional
+   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return List[Map] of param value table rows
+   */
   List getParamValuesBy(Map input) {
     LinkedHashMap params = mergeParams([
       paramValueId : null,
@@ -237,6 +377,26 @@ trait Param {
     return hid.getTableData(getParamValuesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for param value by different fields value
+   * @param paramValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param param        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code         Alias for 'param'
+   * @param subjectId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param appId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param jobId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date         {@link java.time.Temporal Any date type}. Optional
+   * @param number       {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value        Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareParamValue(Map)}. Optional
+   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return Map with param value table row
+   */
   Map getParamValueBy(Map input) {
     List result = getParamValuesBy(input + [limit: 1])
     if (result) {
