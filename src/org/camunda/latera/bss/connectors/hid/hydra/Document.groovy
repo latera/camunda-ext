@@ -1510,8 +1510,7 @@ trait Document {
   }
 
   /**Refresh documents quick search material view
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @see #refreshMaterialView(CharSequence,CharSequence)
    * @return True if quick search was updated successfully, false otherwise
    */
   Boolean refreshDocuments(CharSequence method = 'C') {
@@ -1519,8 +1518,7 @@ trait Document {
   }
 
   /**Refresh documents app params quick search material view
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @see #refreshMaterialView(CharSequence,CharSequence)
    * @return True if quick search was updated successfully, false otherwise
    */
   Boolean refreshDocumentAddParams(CharSequence method = 'C') {
