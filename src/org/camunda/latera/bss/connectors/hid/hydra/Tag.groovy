@@ -236,12 +236,12 @@ trait Tag {
   /**
    * Create or update entity tag
    * @param entityTagId  {@link java.math.BigInteger BigInteger}. Optional
-   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag          {@link CharSequence String}. Optional
+   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag          {@link CharSequence String}.  Optional if 'tagId' is pased
    * @param code         Alias for 'tag'
    * @param entityId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional
-   * @param entityType   {@link CharSequence String}. Optional
+   * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional if 'entityType' is pased
+   * @param entityType   {@link CharSequence String}. Optional if 'entityTypeId' is pased
    * @param lineNumber   {@link Integer}. Optional
    * @return Map with created or updated entity tag (in Oracle API procedure notation)
    */
@@ -293,10 +293,10 @@ trait Tag {
 
   /**
    * Add tag to entity
-   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag          {@link CharSequence String}. Optional
-   * @param code         Alias for 'tag'
    * @param entityId     {@link java.math.BigInteger BigInteger}
+   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag          {@link CharSequence String}. Optional if 'tagId' is pased
+   * @param code         Alias for 'tag'
    * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @param entityType   {@link CharSequence String}. Optional
    * @param lineNumber   {@link Integer}. Optional
@@ -324,8 +324,8 @@ trait Tag {
    *
    * Overload with mandatory entity id arg
    * @param entityId {@link java.math.BigInteger BigInteger}
-   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag   {@link CharSequence String}. Optional
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
    * @see #addEntityTag(Map)
    */
   Map addEntityTag(Map input = [:], def entityId) {
@@ -357,8 +357,8 @@ trait Tag {
    *
    * Overload with named args input
    * @param entityId {@link java.math.BigInteger BigInteger}
-   * @param tagId    {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag      {@link CharSequence String}. Optional
+   * @param tagId    {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag      {@link CharSequence String}. Optional if 'tagId' is pased
    * @see @deleteEntityTag(def)
    */
   Boolean deleteEntityTag(Map input) {

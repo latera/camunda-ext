@@ -1405,8 +1405,8 @@ trait Document {
   /**
    * Add tag to document
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag   {@link CharSequence String}. Optional
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
    * @return True if document tag was added successfully, false otherwise
    */
   Map addDocumentTag(Map input) {
@@ -1432,8 +1432,8 @@ trait Document {
    *
    * Overload with mandatory doc id arg
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag   {@link CharSequence String}. Optional
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
    * @see @addDocumentTag(Map,def)
    */
   Map addDocumentTag(Map input = [:], def docId) {
@@ -1454,8 +1454,8 @@ trait Document {
    *
    * Overload with named args input
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param tagId {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag   {@link CharSequence String}. Optional
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pasednal
    * @see @deleteDocumentTag(def)
    */
   Boolean deleteDocumentTag(Map input) {

@@ -921,8 +921,8 @@ trait Subject {
   /**
    * Add tag to subject
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag       {@link CharSequence String}. Optional
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
    * @return True if subject tag was added successfully, false otherwise
    */
   Map addSubjectTag(Map input) {
@@ -948,8 +948,8 @@ trait Subject {
    *
    * Overload with mandatory doc id arg
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag       {@link CharSequence String}. Optional
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
    * @see @addSubjectTag(Map,def)
    */
   Map addSubjectTag(Map input = [:], def subjectId) {
@@ -970,8 +970,8 @@ trait Subject {
    *
    * Overload with named args input
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param tag       {@link CharSequence String}. Optional
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
    * @see @deleteSubjectTag(def)
    */
   Boolean deleteSubjectTag(Map input) {
