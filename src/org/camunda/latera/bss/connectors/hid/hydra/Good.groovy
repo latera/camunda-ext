@@ -17,74 +17,130 @@ trait Good {
   private static String GOOD_ADD_PARAM_TYPES_TABLE = 'SR_V_GOOD_VALUES_TYPE'
   private static String SERV_SCHEMES_TABLE         = 'SR_V_SERV_SCHEMES'
 
+  /**
+   * Get goods table name
+   */
   String getGoodsTable() {
     return GOODS_TABLE
   }
 
+  /**
+   * Get goods add param values table name
+   */
   String getGoodAddParamsTable() {
     return GOOD_ADD_PARAMS_TABLE
   }
 
+  /**
+   * Get goods add param types table name
+   */
   String getGoodAddParamTypesTable() {
     return GOOD_ADD_PARAM_TYPES_TABLE
   }
 
+  /**
+   * Get good entity type ref code
+   */
   String getGoodEntityType() {
     return getRefCode(getGoodEntityTypeId())
   }
 
+  /**
+   * Get good entity type ref id
+   */
   Number getGoodEntityTypeId() {
     return ENTITY_TYPE_CatalogItem
   }
 
+  /**
+   * Get price plan good type ref code
+   */
   String getPricePlanGoodKind() {
     return getRefCode(getPricePlanGoodKindId())
   }
 
+  /**
+   * Get price plan good type ref id
+   */
   Number getPricePlanGoodKindId() {
     return Good_Packs
   }
 
+  /**
+   * Get service good type ref code
+   */
   String getServiceGoodKind() {
     return getRefCode(getServiceGoodKindId())
   }
 
+  /**
+   * Get service good type ref id
+   */
   Number getServiceGoodKindId() {
     return GOOD_Serv
   }
 
+  /**
+   * Get adjustment good type ref code
+   */
   String getAdjustmentGoodKind() {
     return getRefCode(getAdjustmentGoodKindId())
   }
 
+  /**
+   * Get adjustment good type ref id
+   */
   Number getAdjustmentGoodKindId() {
     return Good_Adjustments
   }
 
+  /**
+   * Get realty good type ref code
+   */
   String getRealtyGoodKind() {
     return getRefCode(getRealtyGoodKindId())
   }
 
+  /**
+   * Get realty good type ref id
+   */
   Number getRealtyGoodKindId() {
     return Good_Realty
   }
 
+  /**
+   * Get object good type ref code
+   */
   String getObjectGoodKind() {
     return getRefCode(getObjectGoodKindId())
   }
 
+  /**
+   * Get object good type ref id
+   */
   Number getObjectGoodKindId() {
     return GOOD_Value
   }
 
+  /**
+   * Get net service good type ref code
+   */
   String getNetServiceGoodKind() {
     return getRefCode(getNetServiceGoodKindId())
   }
 
+  /**
+   * Get net service good type ref id
+   */
   Number getNetServiceGoodKindId() {
     return Good_NetServ
   }
 
+  /**
+   * Get good by id
+   * @param goodId {@link java.math.BigInteger BigInteger}
+   * @return Map with good table row or null
+   */
   Map getGood(def goodId) {
     LinkedHashMap where = [
       n_good_id: goodId
@@ -92,6 +148,26 @@ trait Good {
     return hid.getTableFirst(getGoodsTable(), where: where)
   }
 
+  /**
+   * Search for goods by different fields value
+   * @param goodId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kindId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kind       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseGoodId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unit       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isProvider {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isCustomer {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return List[Map] of good table rows
+   */
   List getGoodsBy(Map input) {
     LinkedHashMap params = mergeParams([
       goodId     : null,
@@ -145,10 +221,34 @@ trait Good {
     return hid.getTableData(getGoodsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for good by different fields value
+   * @param goodId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kindId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kind       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseGoodId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unit       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isProvider {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isCustomer {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return Map with good table rows
+   */
   Map getGoodBy(Map input) {
     return getGoodsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Check if entity or entity type is good
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Good id, Good type ref id or Good type ref code
+   * @return True if given value is good, false otherwise
+   */
   Boolean isGood(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -162,17 +262,45 @@ trait Good {
     }
   }
 
+  /**
+   * Get good unit id
+   * @param goodId {@link java.math.BigInteger BigInteger}
+   * @return God unit id
+   */
   Number getGoodUnitId(def goodId) {
     return toIntSafe(getGood(goodId).n_unit_id)
   }
 
-  Map getGoodAddParamType(def paramId) {
+  /**
+   * Get good add param type by id
+   * @param goodValueTypeId {@link java.math.BigInteger BigInteger}
+   * @return Map with good add param table row or null
+   */
+  Map getGoodAddParamType(def goodValueTypeId) {
     LinkedHashMap where = [
-      n_good_value_type_id: paramId
+      n_good_value_type_id: goodValueTypeId
     ]
     return hid.getTableFirst(getGoodAddParamTypesTable(), where: where)
   }
 
+  /**
+   * Search for good add param types by different fields value
+   * @param goodValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isObject        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return List[Map] of good add param type table rows
+   */
   List getGoodAddParamTypesBy(Map input) {
     LinkedHashMap params = mergeParams([
       goodValueTypeId : null,
@@ -219,18 +347,65 @@ trait Good {
     return hid.getTableData(getGoodAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for good add param type by different fields value
+   * @param goodValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isObject        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return Map with good add param type table row
+   */
   Map getGoodAddParamTypeBy(Map input) {
     return getGoodAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Search for good add param type by code
+   * @param code {@link CharSequence String}
+   * @return Map with good add param type table row
+   */
   Map getGoodAddParamTypeByCode(CharSequence code) {
     return getGoodAddParamTypeBy(code: code)
   }
 
+  /**
+   * Search for good add param type id by code
+   * @param code {@link CharSequence String}
+   * @return Good add param type id
+   */
   Number getGoodAddParamTypeIdByCode(CharSequence code) {
     return toIntSafe(getGoodAddParamTypeByCode(code)?.n_good_value_type_id)
   }
 
+  /**
+   * Prepare good add param value to save
+   * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
+   * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param value   Any type. Optional
+   * @return Map with add param value
+   * <pre>
+   * {@code
+   * [
+   *   paramId : _, # good add param type id
+   *   bool    : _, # if add param if boolean type
+   *   number  : _, # if add param if number type
+   *   string  : _, # if add param if string type
+   *   date    : _, # if add param if date type
+   *   refId   : _, # if add param if refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if add param if refId type and value cannot be converted to BigInteger (ref code)
+   * ]
+   * }
+   * </pre>
+   */
   Map prepareGoodAddParam(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param')) {
@@ -250,6 +425,22 @@ trait Good {
     return input
   }
 
+  /**
+   * Search for good add param values by different fields value
+   * @param goodId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date    {@link java.time.Temporal Any date type}. Optional
+   * @param number  {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
+   * @param limit   {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order   {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return List[Map] of good add param value table rows
+   */
   List getGoodAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       goodId  : null,
@@ -286,14 +477,37 @@ trait Good {
     return hid.getTableData(getGoodAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for good add param value by different fields value
+   * @param goodId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date    {@link java.time.Temporal Any date type}. Optional
+   * @param number  {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
+   * @param order   {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return LMap with good add param value table row
+   */
   Map getGoodAddParamBy(Map input) {
     return getGoodAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get serv schemes table name
+   */
   String getServSchemesTable() {
     return SERV_SCHEMES_TABLE
   }
 
+  /**
+   * Get serv scheme by id
+   * @param servSchemeId {@link java.math.BigInteger BigInteger}
+   * @return Map with serv scheme table row or null
+   */
   Map getServScheme(def servSchemeId) {
     LinkedHashMap where = [
       n_serv_scheme_id: servSchemeId
@@ -301,6 +515,53 @@ trait Good {
     return hid.getTableFirst(getServSchemesTable(), where: where)
   }
 
+  /**
+   * Search for serv schemes by different fields value
+   * @param servSchemeId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code                   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name                   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ratingMethodId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ratingMethod           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servTypeId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servType               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationTypeId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationUnitId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationUnit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param duration               {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reservedUnitId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reservedUnit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reserved               {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subscrPermissionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subscrPermission       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unsubscrPermissionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unsubscrPermission     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriodUnitId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriodUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriod             {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchivingEnabled     {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriodUnitId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriodUnit          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriod              {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchiveGroupedByAddr {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingPointId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingPoint         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param changelogCtrlId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param changelogCtrl          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param pretermCloseReasonIds  {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servEndChargeTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servEndChargeType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param restrictConditionId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param restrictCondition      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param matchingPriorityId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param matchingPriority       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchived             {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: false
+   * @param limit                  {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order                  {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return List[Map] of serv scheme table rows
+   */
   List getServSchemesBy(Map input) {
     LinkedHashMap params = mergeParams([
       servSchemeId           : null,
@@ -421,6 +682,53 @@ trait Good {
     return hid.getTableData(getServSchemesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for serv scheme by different fields value
+   * @param servSchemeId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code                   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name                   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ratingMethodId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ratingMethod           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servTypeId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servType               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationTypeId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationUnitId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param durationUnit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param duration               {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reservedUnitId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reservedUnit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reserved               {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subscrPermissionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subscrPermission       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unsubscrPermissionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unsubscrPermission     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriodUnitId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriodUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param aggrPeriod             {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchivingEnabled     {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriodUnitId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriodUnit          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param expPeriod              {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchiveGroupedByAddr {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingPointId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providingPoint         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param changelogCtrlId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param changelogCtrl          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param pretermCloseReasonIds  {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servEndChargeTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param servEndChargeType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param restrictConditionId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param restrictCondition      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param matchingPriorityId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param matchingPriority       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isArchived             {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: false
+   * @param limit                  {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order                  {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return Map with serv scheme table row
+   */
   Map getServSchemeBy(Map input) {
     return getServSchemesBy(input + [limit: 1])?.getAt(0)
   }
