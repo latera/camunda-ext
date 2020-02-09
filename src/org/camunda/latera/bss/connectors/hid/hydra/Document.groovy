@@ -518,7 +518,7 @@ trait Document {
       LinkedHashMap existingDocument = [:]
       if (notEmpty(input.docId)) {
         LinkedHashMap document = getDocument(input.docId)
-        defaultParams += [
+        existingDocument += [
           docTypeId   : document.n_doc_type_id,
           workflowId  : document.n_workflow_id,
           parentDocId : document.n_parent_doc_id,
