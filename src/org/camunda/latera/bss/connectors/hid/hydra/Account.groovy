@@ -466,8 +466,6 @@ trait Account {
   /**
    * Update customer account
    * @param accountId            {@link java.math.BigInteger BigInteger}
-   * @param currencyId           {@link java.math.BigInteger BigInteger}. Optional
-   * @param currency             {@link CharSequence String}. Optional
    * @param name                 {@link CharSequence String}. Optional
    * @param code                 {@link CharSequence String}. Optional
    * @param number               {@link CharSequence String}. Optional
@@ -753,10 +751,9 @@ trait Account {
     }
   }
 
-  /**Refresh customer accounts quick search material view
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
-   * @return True if quick search was updated successfully, false otherwise
+  /**
+   * Refresh customer accounts quick search material view
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshAccounts(CharSequence method = 'C') {
     return refreshMaterialView(getAccountsMV(), method)

@@ -94,7 +94,7 @@ trait Bill {
 
   /**
    * Search for bills by different fields value
-   * @see #getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(Map)
    */
   List getBillsBy(Map input) {
     input.docId     = input.docId ?: input.billId
@@ -104,7 +104,7 @@ trait Bill {
 
   /**
    * Search for one bill by different fields value
-   * @see #getDocumentBy(Map)
+   * @see Document#getDocumentBy(Map)
    */
   Map getBillBy(Map input) {
     input.docId     = input.docId ?: input.billId
@@ -365,7 +365,7 @@ trait Bill {
 
   /**
    * Add tag to bill
-   * @see #addDocumentTag(Map)
+   * @see Document#addDocumentTag(Map)
    */
   Map addBillTag(Map input) {
     return addDocumentTag(input)
@@ -373,7 +373,7 @@ trait Bill {
 
   /**
    * Add tag to bill
-   * @see #addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def,CharSequence)
    */
   Map addBillTag(def docId, CharSequence tag) {
     return addBillTag(docId: docId, tag: tag)
@@ -381,7 +381,7 @@ trait Bill {
 
   /**
    * Add tag to bill
-   * @see #addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(Map,def)
    */
   Map addBillTag(Map input = [:], def docId) {
     return addBillTag(input + [docId: docId])
@@ -389,7 +389,7 @@ trait Bill {
 
   /**
    * Delete tag from bill
-   * @see #deleteDocumentTag(def)
+   * @see Document#deleteDocumentTag(def)
    */
   Boolean deleteBillTag(def docTagId) {
     return deleteDocumentTag(docTagId)
@@ -397,7 +397,7 @@ trait Bill {
 
   /**
    * Delete tag from bill
-   * @see #deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(Map)
    */
   Boolean deleteBillTag(Map input) {
     return deleteDocumentTag(input)
@@ -405,7 +405,7 @@ trait Bill {
 
   /**
    * Delete tag from bill
-   * @see #deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def,CharSequence)
    */
   Boolean deleteBillTag(def docId, CharSequence tag) {
     return deleteBillTag(docId: docId, tag: tag)

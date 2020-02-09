@@ -1523,8 +1523,7 @@ trait Document {
 
   /**
    * Refresh documents quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshDocuments(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentsMV(), method)
@@ -1532,8 +1531,7 @@ trait Document {
 
   /**
    * Refresh documents app params quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshDocumentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentAddParamsMV(), method)

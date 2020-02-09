@@ -120,7 +120,7 @@ trait ChargeLog {
 
   /**
    * Search for charge logs by different fields value
-   * @see #getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(Map)
    */
   List getChargeLogsBy(Map input) {
     input.docTypeId = getChargeLogTypeId()
@@ -129,7 +129,7 @@ trait ChargeLog {
 
   /**
    * Search for one charge log by different fields value
-   * @see #getDocumentBy(Map)
+   * @see Document#getDocumentBy(Map)
    */
   Map getChargeLogBy(Map input) {
     input.docTypeId = getChargeLogTypeId()
@@ -583,7 +583,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see #addDocumentTag(Map)
+   * @see Document#addDocumentTag(Map)
    */
   Map addChargeLogTag(Map input) {
     return addDocumentTag(input)
@@ -591,7 +591,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see #addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def,CharSequence)
    */
   Map addChargeLogTag(def docId, CharSequence tag) {
     return addChargeLogTag(docId: docId, tag: tag)
@@ -599,7 +599,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see #addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(Map,def)
    */
   Map addChargeLogTag(Map input = [:], def docId) {
     return addChargeLogTag(input + [docId: docId])
@@ -607,7 +607,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see #deleteDocumentTag(def)
+   * @see Document#deleteDocumentTag(def)
    */
   Boolean deleteChargeLogTag(def docTagId) {
     return deleteDocumentTag(docTagId)
@@ -615,7 +615,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see #deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(Map)
    */
   Boolean deleteChargeLogTag(Map input) {
     return deleteDocumentTag(input)
@@ -623,7 +623,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see #deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def,CharSequence)
    */
   Boolean deleteChargeLogTag(def docId, CharSequence tag) {
     return deleteChargeLogTag(docId: docId, tag: tag)

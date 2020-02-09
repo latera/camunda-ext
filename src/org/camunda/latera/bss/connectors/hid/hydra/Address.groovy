@@ -676,7 +676,7 @@ trait Address {
    * @param input {@link LinkedHashMap Map} with region and address fields
    * @return True if region and address fields are null or empty, false otherwise
    * @see #isAddressEmpty(Map)
-   * @see #isRegionEmpty(Map)
+   * @see Region#isRegionEmpty(Map)
    */
   Boolean isRegionAddressEmpty(Map input) {
     return isAddressEmpty(input) && isRegionEmpty(input)
@@ -684,7 +684,7 @@ trait Address {
 
   /**
    * Check if address and region is not empty
-   * @see #isRegionAddressEmpty(Map)
+   * @see Region#isRegionAddressEmpty(Map)
    */
   Boolean notRegionAddressEmpty(Map input) {
     return !isRegionAddressEmpty(input)
@@ -2382,27 +2382,21 @@ trait Address {
   }
 
   /**Refresh object addresses quick search material view
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshObjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddressesMV(), method)
   }
 
   /**Refresh subject addresses quick search material view
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshSubjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getObjectAddressesMV(), method)
   }
 
   /**Refresh object and subject addresses quick search material views
-   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
-   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshEntityAddresses(CharSequence method = 'C') {
     return refreshObjAddresses(method) && refreshSubjAddresses(method)

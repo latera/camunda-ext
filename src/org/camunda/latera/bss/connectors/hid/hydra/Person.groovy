@@ -558,7 +558,7 @@ trait Person {
 
   /**
    * Search for person add params by different fields value
-   * @see #getSubjectAddParamsBy(Map)
+   * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getPersonAddParamsBy(Map input) {
     if (input.containsKey('personId')) {
@@ -570,7 +570,7 @@ trait Person {
 
   /**
    * Search for person one add param by different fields value
-   * @see #getSubjectAddParamBy(Map)
+   * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getPersonAddParamBy(Map input) {
     if (input.containsKey('personId')) {
@@ -582,7 +582,7 @@ trait Person {
 
   /**
    * Add person add param value
-   * @see #addSubjectAddParam(Map)
+   * @see Subject#addSubjectAddParam(Map)
    */
   Map addPersonAddParam(Map input = [:], def personId) {
     return addSubjectAddParam(input, personId)
@@ -590,7 +590,7 @@ trait Person {
 
   /**
    * Add tag to person
-   * @see #addSubjectTag(Map)
+   * @see Subject#addSubjectTag(Map)
    */
   Map addPersonTag(Map input) {
     input.subjectId = input.subjectId ?: input.personId
@@ -600,7 +600,7 @@ trait Person {
 
   /**
    * Add tag to person
-   * @see #addSubjectTag(def,CharSequence)
+   * @see Subject#addSubjectTag(def,CharSequence)
    */
   Map addPersonTag(def personId, CharSequence tag) {
     return addPersonTag(personId: personId, tag: tag)
@@ -608,7 +608,7 @@ trait Person {
 
   /**
    * Add tag to person
-   * @see #addSubjectTag(Map,def)
+   * @see Subject#addSubjectTag(Map,def)
    */
   Map addPersonTag(Map input = [:], def personId) {
     return addPersonTag(input + [personId: personId])
@@ -616,7 +616,7 @@ trait Person {
 
   /**
    * Delete tag from person
-   * @see #deleteSubjectTag(def)
+   * @see Subject#deleteSubjectTag(def)
    */
   Boolean deletePersonTag(def personTagId) {
     return deleteSubjectTag(personTagId)
@@ -624,7 +624,7 @@ trait Person {
 
   /**
    * Delete tag from person
-   * @see #deleteSubjectTag(Map)
+   * @see Subject#deleteSubjectTag(Map)
    */
   Boolean deletePersonTag(Map input) {
     input.subjectId = input.subjectId ?: input.personId
@@ -634,12 +634,16 @@ trait Person {
 
   /**
    * Delete tag from person
-   * @see #deleteSubjectTag(def,CharSequence)
+   * @see Subject#deleteSubjectTag(def,CharSequence)
    */
   Boolean deletePersonTag(def personId, CharSequence tag) {
     return deletePersonTag(personId: personId, tag: tag)
   }
 
+  /**
+   * Refresh persons quick search material view
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   */
   Boolean refreshPersons(CharSequence method = 'C') {
     return refreshSubjects(method)
   }

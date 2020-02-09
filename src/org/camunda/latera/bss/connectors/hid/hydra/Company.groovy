@@ -362,7 +362,7 @@ trait Company {
 
   /**
    * Search for company add params by different fields value
-   * @see #getSubjectAddParamsBy(Map)
+   * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getCompanyAddParamsBy(Map input) {
     if (input.containsKey('companyId')) {
@@ -374,7 +374,7 @@ trait Company {
 
   /**
    * Search for company one add param by different fields value
-   * @see #getSubjectAddParamBy(Map)
+   * @seeSubject #getSubjectAddParamBy(Map)
    */
   Map getCompanyAddParamBy(Map input) {
     if (input.containsKey('companyId')) {
@@ -386,7 +386,7 @@ trait Company {
 
   /**
    * Add company add param value
-   * @see #addSubjectAddParam(Map)
+   * @see Subject#addSubjectAddParam(Map)
    */
   Map addCompanyAddParam(Map input = [:], def companyId) {
     return addSubjectAddParam(input, companyId)
@@ -394,7 +394,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see #addSubjectTag(Map)
+   * @see Subject#addSubjectTag(Map)
    */
   Map addCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
@@ -404,7 +404,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see #addSubjectTag(def,CharSequence)
+   * @see Subject#addSubjectTag(def,CharSequence)
    */
   Map addCompanyTag(def companyId, CharSequence tag) {
     return addCompanyTag(companyId: companyId, tag: tag)
@@ -412,7 +412,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see #addSubjectTag(Map,def)
+   * @see Subject#addSubjectTag(Map,def)
    */
   Map addCompanyTag(Map input = [:], def companyId) {
     return addCompanyTag(input + [companyId: companyId])
@@ -420,7 +420,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteSubjectTag(def)
+   * @see Subject#deleteSubjectTag(def)
    */
   Boolean deleteCompanyTag(def companyTagId) {
     return deleteSubjectTag(companyTagId)
@@ -428,7 +428,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteSubjectTag(Map)
+   * @see Subject#deleteSubjectTag(Map)
    */
   Boolean deleteCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
@@ -438,7 +438,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteSubjectTag(def,CharSequence)
+   * @see Subject#deleteSubjectTag(def,CharSequence)
    */
   Boolean deleteCompanyTag(def companyId, CharSequence tag) {
     return deleteCompanyTag(companyId: companyId, tag: tag)
@@ -446,7 +446,7 @@ trait Company {
 
   /**
    * Refresh companies quick search material view
-   * @see #refreshSubjects(CharSequence)
+   * @see Subject#refreshSubjects(CharSequence)
    */
   Boolean refreshCompanies(CharSequence method = 'C') {
     return refreshSubjects(method)

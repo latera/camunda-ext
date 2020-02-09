@@ -754,7 +754,7 @@ trait Equipment {
 
   /**
    * Search for equipment add param types by different fields value
-   * @see #getGoodAddParamTypesBy(Map)
+   * @see Good#getGoodAddParamTypesBy(Map)
    */
   List getEquipmentAddParamTypesBy(Map input) {
     return getGoodAddParamTypesBy(input)
@@ -762,7 +762,7 @@ trait Equipment {
 
   /**
    * Search for equipment add param type by different fields value
-   * @see #getGoodAddParamTypeBy(Map)
+   * @see Good#getGoodAddParamTypeBy(Map)
    */
   Map getEquipmentAddParamTypeBy(Map input) {
     return getGoodAddParamTypeBy(input)
@@ -1296,8 +1296,7 @@ trait Equipment {
 
   /**
    * Refresh objects quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshObjects(CharSequence method = 'C') {
     return refreshMaterialView(getObjectsMV(), method)
@@ -1313,8 +1312,7 @@ trait Equipment {
 
   /**
    * Refresh equipment app params quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshEquipmentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getEquipmentAddParamsMV(), method)

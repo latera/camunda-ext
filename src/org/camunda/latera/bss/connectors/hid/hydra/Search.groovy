@@ -1,7 +1,6 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 trait Search {
-
   /**
    * Refresh all quick search material views
    * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'

@@ -458,7 +458,7 @@ trait Customer {
 
   /**
    * Search for customer add params by different fields value
-   * @see #getSubjectAddParamsBy(Map)
+   * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getCustomerAddParamsBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -470,7 +470,7 @@ trait Customer {
 
   /**
    * Search for customer one add param by different fields value
-   * @see #getSubjectAddParamBy(Map)
+   * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getCustomerAddParamBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -482,7 +482,7 @@ trait Customer {
 
   /**
    * Add customer add param value
-   * @see #addSubjectAddParam(Map)
+   * @see Subject#addSubjectAddParam(Map)
    */
   Map addCustomerAddParam(Map input = [:], def customerId) {
     return addSubjectAddParam(input, customerId)
@@ -490,7 +490,7 @@ trait Customer {
 
   /**
    * Change customer state to Active
-   * @see #enableSubject(def)
+   * @see Subject#enableSubject(def)
    */
   Boolean enableCustomer(def customerId) {
     return enableSubject(customerId)
@@ -498,7 +498,7 @@ trait Customer {
 
   /**
    * Change customer state to Suspended
-   * @see #enableSubject(def)
+   * @seeSubject #enableSubject(def)
    */
   Boolean suspendCustomer(def customerId) {
     return suspendSubject(customerId)
@@ -506,7 +506,7 @@ trait Customer {
 
   /**
    * Change customer state to Disabled
-   * @see #enableSubject(def)
+   * @see Subject#enableSubject(def)
    */
   Boolean disableCustomer(def customerId) {
     return disableSubject(customerId)
@@ -514,7 +514,7 @@ trait Customer {
 
   /**
    * Search for customer groups
-   * @see #getSubjectGroupsBy(Map)
+   * @see Subject#getSubjectGroupsBy(Map)
    */
   List getCustomerGroupsBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -526,7 +526,7 @@ trait Customer {
 
   /**
    * Search for customer group
-   * @see #getSubjectGroupBy(Map)
+   * @see Subject#getSubjectGroupBy(Map)
    */
   Map getCustomerGroupBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -538,7 +538,7 @@ trait Customer {
 
   /**
    * Get customer groups
-   * @see #getSubjectGroups(def)
+   * @see Subject#getSubjectGroups(def)
    */
   List getCustomerGroups(def customerId) {
     return getSubjectGroups(customerId)
@@ -546,7 +546,7 @@ trait Customer {
 
   /**
    * Get customer group
-   * @see #getSubjectGroup(def)
+   * @see Subject#getSubjectGroup(def)
    */
   Map getCustomerGroup(def customerId) {
     return getSubjectGroup(customerId)
@@ -554,7 +554,7 @@ trait Customer {
 
   /**
    * Add group to customer
-   * @see #addSubjectGroup(Map,def)
+   * @see Subject#addSubjectGroup(Map,def)
    */
   Map addCustomerGroup(Map input = [:], def customerId) {
     return addSubjectGroup(input, customerId)
@@ -562,7 +562,7 @@ trait Customer {
 
   /**
    * Delete group from customer
-   * @see #deleteSubjectGroup(def)
+   * @see Subject#deleteSubjectGroup(def)
    */
   Boolean deleteCustomerGroup(def customerId) {
     return deleteSubjectGroup(customerId)
@@ -572,7 +572,7 @@ trait Customer {
    * Delete group from customer
    *
    * Overload for searching and deleting customer group
-   * @see #deleteSubjectGroup(Map)
+   * @see Subject#deleteSubjectGroup(Map)
    */
   Boolean deleteCustomerGroup(Map input) {
     if (input.containsKey('customerId')) {
@@ -1152,7 +1152,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see #addSubjectTag(Map)
+   * @see Subject#addSubjectTag(Map)
    */
   Map addCustomerTag(Map input) {
     input.subjectId = input.subjectId ?: input.customerId
@@ -1162,7 +1162,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see #addSubjectTag(def,CharSequence)
+   * @see Subject#addSubjectTag(def,CharSequence)
    */
   Map addCustomerTag(def customerId, CharSequence tag) {
     return addCustomerTag(customerId: customerId, tag: tag)
@@ -1170,7 +1170,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see #addSubjectTag(Map,def)
+   * @see Subject#addSubjectTag(Map,def)
    */
   Map addCustomerTag(Map input = [:], def customerId) {
     return addCustomerTag(input + [customerId: customerId])
@@ -1178,7 +1178,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see #deleteSubjectTag(def)
+   * @see Subject#deleteSubjectTag(def)
    */
   Boolean deleteCustomerTag(def customerTagId) {
     return deleteSubjectTag(customerTagId)
@@ -1186,7 +1186,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see #deleteSubjectTag(Map)
+   * @see Subject#deleteSubjectTag(Map)
    */
   Boolean deleteCustomerTag(Map input) {
     input.subjectId = input.subjectId ?: input.customerId
@@ -1196,7 +1196,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see #deleteSubjectTag(def,CharSequence)
+   * @see Subject#deleteSubjectTag(def,CharSequence)
    */
   Boolean deleteCustomerTag(def customerId, CharSequence tag) {
     return deleteCustomerTag(customerId: customerId, tag: tag)
@@ -1234,7 +1234,7 @@ trait Customer {
    * Issue charge logs for a customer
    *
    * Overload with named args
-   * @see processCustomer(def,Temporal,Temporal)
+   * @see #processCustomer(def,Temporal,Temporal)
    */
   Boolean processCustomer(Map input) {
     LinkedHashMap params = mergeParams([

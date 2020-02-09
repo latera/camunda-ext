@@ -937,7 +937,7 @@ trait Subject {
    * Overload with tag code instead of id
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tag       {@link CharSequence String}
-   * @see @addSubjectTag(Map)
+   * @see #addSubjectTag(Map)
    */
   Map addSubjectTag(def subjectId, CharSequence tag) {
     return addSubjectTag(subjectId: subjectId, tag: tag)
@@ -950,7 +950,7 @@ trait Subject {
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see @addSubjectTag(Map,def)
+   * @see #addSubjectTag(Map,def)
    */
   Map addSubjectTag(Map input = [:], def subjectId) {
     return addSubjectTag(input + [subjectId: subjectId])
@@ -972,7 +972,7 @@ trait Subject {
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see @deleteSubjectTag(def)
+   * @see #deleteSubjectTag(def)
    */
   Boolean deleteSubjectTag(Map input) {
     input.entityId = input.subjectId
@@ -986,15 +986,14 @@ trait Subject {
    * Overload with doc id and tag code
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tag       {@link CharSequence String}
-   * @see @deleteSubjectTag(Map)
+   * @see #deleteSubjectTag(Map)
    */
   Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
     return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
   /**Refresh subjects quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshSubjects(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectsMV(), method)
@@ -1002,8 +1001,7 @@ trait Subject {
 
   /**
    * Refresh subject app params quick search material view
-   * @see #refreshMaterialView(CharSequence,CharSequence)
-   * @return True if quick search was updated successfully, false otherwise
+   * @see Search#refreshMaterialView(CharSequence,CharSequence)
    */
   Boolean refreshSubjectAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddParamsMV(), method)
