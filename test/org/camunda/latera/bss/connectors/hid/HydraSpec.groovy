@@ -24,11 +24,11 @@ class HydraSpec extends Specification {
       hydra.mainInit()
     then: 'It calls procedure at least once'
       (1.._) * hid.execute('MAIN.INIT', [
-        'vch_VC_IP'        : '127.0.0.1',
-        'vch_VC_USER'      : 'hydra',
-        'vch_VC_PASS'      : null,
-        'vch_VC_APP_CODE'  :'NETSERV_HID',
-        'vch_VC_CLN_APPID' :'HydraOMS'
+        vch_VC_IP        : '127.0.0.1',
+        vch_VC_USER      : 'hydra',
+        vch_VC_PASS      : null,
+        vch_VC_APP_CODE  :'NETSERV_HID',
+        vch_VC_CLN_APPID :'HydraOMS'
       ])
     when: 'Set custom username'
       hydra.mainInit(user: user)
@@ -132,10 +132,12 @@ class HydraSpec extends Specification {
       [docTypeId: Constants.DOC_TYPE_BaseContract]|[                                            docType: ["not in (${Constants.DOC_TYPE_SubscriberContract})"]]|[docTypeId: ["not in (${Constants.DOC_TYPE_SubscriberContract})"]]
   }
 
-  def "#getLangId without default argument"() {
+  def "#getLangId"() {
     given:
       Hydra hydra = new Hydra(hid)
     expect:
-      hydra.getLangId() == Constants.LANG_Ru
+      hydra.getLangId()     == Constants.LANG_Ru
+      hydra.getLangId('ru') == Constants.LANG_Ru
+      hydra.getLangId('en') == Constants.LANG_En
   }
 }
