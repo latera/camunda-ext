@@ -10,22 +10,39 @@ trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
 
+  /**
+   * Get persons table name
+   */
   String getPersonsTable() {
     return PERSONS_TABLE
   }
 
+  /**
+   * Get persons private data table name
+   */
   String getPersonsPrivateTable() {
     return PERSONS_PRIVATE_TABLE
   }
 
+  /**
+   * Get person subject type ref code
+   */
   String getPersonType() {
     return getRefCode(getPersonTypeId())
   }
 
+  /**
+   * Get person subject type ref id
+   */
   Number getPersonTypeId() {
     return SUBJ_TYPE_Person
   }
 
+  /**
+   * Get person by id
+   * @param companyIpersonIdd {@link java.math.BigInteger BigInteger}
+   * @return Map with person table row or null
+   */
   Map getPerson(def personId) {
     LinkedHashMap where = [
       n_subject_id: personId
@@ -33,6 +50,31 @@ trait Person {
     return hid.getTableFirst(getPersonsTable(), where: where)
   }
 
+  /**
+   * Search for persons by different fields value
+   * @param personId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firstName  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param secondName {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lastName   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param inn        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sexId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sex        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return List[Map] of person table rows
+   */
   List getPersonsBy(Map input) {
     LinkedHashMap params = mergeParams([
       personId   : null,
@@ -106,10 +148,37 @@ trait Person {
     return hid.getTableData(getPersonsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for person by different fields value
+   * @param personId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firstName  {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param secondName {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lastName   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param inn        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return Map with person table row
+   */
   Map getPersonBy(Map input) {
     return getPersonsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get person private data by id
+   * @param companyId {@link java.math.BigInteger BigInteger}
+   * @return Map with company table row or null
+   */
   Map getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -117,6 +186,38 @@ trait Person {
     return hid.getTableFirst(getPersonsPrivateTable(), where: where)
   }
 
+  /**
+   * Search for persons private data by different fields value
+   * @param personId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firstName     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param secondName    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lastName      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docSerial     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docNumber     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docDepartment {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docAuthor     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthPlace    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sexId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sex           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return List[Map] of person table rows
+   */
   List getPersonsPrivateBy(Map input) {
     LinkedHashMap params = mergeParams([
       personId      : null,
@@ -217,10 +318,47 @@ trait Person {
     return hid.getTableData(getPersonsPrivateTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for person private data by different fields value
+   * @param personId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firstName     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param secondName    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lastName      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docSerial     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docNumber     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docDepartment {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docAuthor     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param birthPlace    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sexId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sex           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @return Map with person table row
+   */
   Map getPersonPrivateBy(Map input) {
     return getPersonsPrivateBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Check if entity or entity type is person
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Subject id, subject type ref id or subject type ref code
+   * @return True if given value is person, false otherwise
+   */
   Boolean isPerson(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -234,15 +372,95 @@ trait Person {
     }
   }
 
+  /**
+   * Create person
+   * @param firstName     {@link CharSequence String}. Optional
+   * @param secondName    {@link CharSequence String}. Optional
+   * @param lastName      {@link CharSequence String}. Optional
+   * @param opfId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf           {@link CharSequence String}. Optional
+   * @param sexId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param sex           {@link CharSequence String}. Optional
+   * @param inn           {@link CharSequence String}. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType       {@link CharSequence String}. Optional
+   * @param docSerial     {@link CharSequence String}. Optional
+   * @param docNumber     {@link CharSequence String}. Optional
+   * @param docDate       {@link java.time.Temporal Any date type}. Optional
+   * @param docDepartment {@link CharSequence String}. Optional
+   * @param docAuthor     {@link CharSequence String}. Optional
+   * @param birthDate     {@link java.time.Temporal Any date type}. Optional
+   * @param birthPlace    {@link CharSequence String}. Optional
+   * @param rem           {@link CharSequence String}. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state         {@link CharSequence String}. Optional
+   * @return Map with created person private data (in Oracle API procedure notation)
+   */
   Map createPerson(Map input) {
     input.remove('personId')
     return putPerson(input)
   }
 
+  /**
+   * Update person
+   * @param personId      {@link java.math.BigInteger BigInteger}
+   * @param firstName     {@link CharSequence String}. Optional
+   * @param secondName    {@link CharSequence String}. Optional
+   * @param lastName      {@link CharSequence String}. Optional
+   * @param opfId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf           {@link CharSequence String}. Optional
+   * @param sexId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param sex           {@link CharSequence String}. Optional
+   * @param inn           {@link CharSequence String}. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType       {@link CharSequence String}. Optional
+   * @param docSerial     {@link CharSequence String}. Optional
+   * @param docNumber     {@link CharSequence String}. Optional
+   * @param docDate       {@link java.time.Temporal Any date type}. Optional
+   * @param docDepartment {@link CharSequence String}. Optional
+   * @param docAuthor     {@link CharSequence String}. Optional
+   * @param birthDate     {@link java.time.Temporal Any date type}. Optional
+   * @param birthPlace    {@link CharSequence String}. Optional
+   * @param rem           {@link CharSequence String}. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state         {@link CharSequence String}. Optional
+   * @return Map with updated person private data (in Oracle API procedure notation)
+   */
   Map updatePerson(Map input = [:], def personId) {
     return putPerson(input + [personId: personId])
   }
 
+  /**
+   * Create or update person
+   * @param personId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param firstName     {@link CharSequence String}. Optional
+   * @param secondName    {@link CharSequence String}. Optional
+   * @param lastName      {@link CharSequence String}. Optional
+   * @param opfId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf           {@link CharSequence String}. Optional
+   * @param sexId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param sex           {@link CharSequence String}. Optional
+   * @param inn           {@link CharSequence String}. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType       {@link CharSequence String}. Optional
+   * @param docSerial     {@link CharSequence String}. Optional
+   * @param docNumber     {@link CharSequence String}. Optional
+   * @param docDate       {@link java.time.Temporal Any date type}. Optional
+   * @param docDepartment {@link CharSequence String}. Optional
+   * @param docAuthor     {@link CharSequence String}. Optional
+   * @param birthDate     {@link java.time.Temporal Any date type}. Optional
+   * @param birthPlace    {@link CharSequence String}. Optional
+   * @param rem           {@link CharSequence String}. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state         {@link CharSequence String}. Optional
+   * @return Map with created person (in Oracle API procedure notation)
+   */
   private Map putPerson(Map input) {
     LinkedHashMap defaultParams = [
       personId      : null,
@@ -329,10 +547,19 @@ trait Person {
     }
   }
 
+  /**
+   * Get additional param type id by code
+   * @param code {@link CharSequence String}
+   * @return Additional param type id
+   */
   Number getPersonAddParamTypeIdByCode(CharSequence code) {
     return toIntSafe(getSubjectAddParamTypeIdByCode(code, getPersonTypeId()))
   }
 
+  /**
+   * Search for person add params by different fields value
+   * @see #getSubjectAddParamsBy(Map)
+   */
   List getPersonAddParamsBy(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
@@ -341,6 +568,10 @@ trait Person {
     return getSubjectAddParamsBy(input)
   }
 
+  /**
+   * Search for person one add param by different fields value
+   * @see #getSubjectAddParamBy(Map)
+   */
   Map getPersonAddParamBy(Map input) {
     if (input.containsKey('personId')) {
       input.subjectId = input.personId
@@ -349,34 +580,62 @@ trait Person {
     return getSubjectAddParamBy(input)
   }
 
+  /**
+   * Add person add param value
+   * @see #addSubjectAddParam(Map)
+   */
   Map addPersonAddParam(Map input = [:], def personId) {
     return addSubjectAddParam(input, personId)
   }
 
+  /**
+   * Add tag to person
+   * @see #addSubjectTag(Map)
+   */
   Map addPersonTag(Map input) {
     input.subjectId = input.subjectId ?: input.personId
     input.remove('personId')
     return addSubjectTag(input)
   }
 
+  /**
+   * Add tag to person
+   * @see #addSubjectTag(def,CharSequence)
+   */
   Map addPersonTag(def personId, CharSequence tag) {
     return addPersonTag(personId: personId, tag: tag)
   }
 
+  /**
+   * Add tag to person
+   * @see #addSubjectTag(Map,def)
+   */
   Map addPersonTag(Map input = [:], def personId) {
     return addPersonTag(input + [personId: personId])
   }
 
+  /**
+   * Delete tag from person
+   * @see #deleteSubjectTag(def)
+   */
   Boolean deletePersonTag(def personTagId) {
     return deleteSubjectTag(personTagId)
   }
 
+  /**
+   * Delete tag from person
+   * @see #deleteSubjectTag(Map)
+   */
   Boolean deletePersonTag(Map input) {
     input.subjectId = input.subjectId ?: input.personId
     input.remove('personId')
     return deleteSubjectTag(input)
   }
 
+  /**
+   * Delete tag from person
+   * @see #deleteSubjectTag(def,CharSequence)
+   */
   Boolean deletePersonTag(def personId, CharSequence tag) {
     return deletePersonTag(personId: personId, tag: tag)
   }

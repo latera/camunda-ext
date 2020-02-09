@@ -213,7 +213,7 @@ trait Company {
    * @param regionId  {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId   {@link java.math.BigInteger BigInteger}. Optional
    * @param firmId    {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
-   * @param stateId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param stateId   {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state     {@link CharSequence String}. Optional
    * @return Map with created company (in Oracle API procedure notation)
    */
@@ -315,7 +315,7 @@ trait Company {
    * @param regionId {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
    * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
-   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state    {@link CharSequence String}. Optional
    * @return Map with created company (in Oracle API procedure notation)
    */
@@ -343,7 +343,7 @@ trait Company {
    * @param regionId {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
    * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
-   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state    {@link CharSequence String}. Optional
    * @return Map with created company (in Oracle API procedure notation)
    */
@@ -420,7 +420,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteCompanyTag(def)
+   * @see #deleteSubjectTag(def)
    */
   Boolean deleteCompanyTag(def companyTagId) {
     return deleteSubjectTag(companyTagId)
@@ -428,7 +428,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteCompanyTag(Map)
+   * @see #deleteSubjectTag(Map)
    */
   Boolean deleteCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
@@ -438,7 +438,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see #deleteCompanyTag(def,CharSequence)
+   * @see #deleteSubjectTag(def,CharSequence)
    */
   Boolean deleteCompanyTag(def companyId, CharSequence tag) {
     return deleteCompanyTag(companyId: companyId, tag: tag)
