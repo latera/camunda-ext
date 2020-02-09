@@ -219,10 +219,18 @@ trait Subscription {
       ]
     }
 
+    if (notEmpty(input.parSubscriptionId)) {
+      LinkedHashMap parentSubscription = getSubscription(input.parSubscriptionId)
+      existingSubscription += [
+        customerId  : parentSubscription.n_customer_id,
+        accountId   : parentSubscription.n_account_id,
+        docId       : parentSubscription.n_doc_id,
+        equipmentId : parentSubscription.n_object_id
+      ]
+    }
     LinkedHashMap params = mergeParams(defaultParams, existingSubscription + input)
 
     def unitId = getGoodUnitId(params.goodId)
-
     if (unitId == getPieceUnitId() && params.quant == null) {
       params.quant = 1
     } else if (unitId == getUnknownUnitId()) {
@@ -294,9 +302,9 @@ trait Subscription {
   /**
    * Create child subscription
    * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}
-   * @param customerId         {@link java.math.BigInteger BigInteger}
-   * @param accountId          {@link java.math.BigInteger BigInteger}
-   * @param docId              {@link java.math.BigInteger BigInteger}
+   * @param customerId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param accountId          {@link java.math.BigInteger BigInteger}. Optional
+   * @param docId              {@link java.math.BigInteger BigInteger}. Optional
    * @param goodId             {@link java.math.BigInteger BigInteger}
    * @param equipmentId        {@link java.math.BigInteger BigInteger}. Optional
    * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}. Optional
