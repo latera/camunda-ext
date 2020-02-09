@@ -31,7 +31,7 @@ trait Company {
   /**
    * Get company by id
    * @param companyId {@link java.math.BigInteger BigInteger}
-   * @return Map with bill table row or null
+   * @return Map with company table row or null
    */
   Map getCompany(def companyId) {
     LinkedHashMap where = [

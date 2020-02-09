@@ -6,6 +6,7 @@ import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 
 trait AddParam {
+
   /**
    * Get add param data type
     <p>
