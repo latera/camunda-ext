@@ -293,25 +293,25 @@ trait Document {
 
   /**
    * Search for documents by different fields value
-   * @param docId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param parentDocId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param reasonDocId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param workflowId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param providerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
-   * @param receiverId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param memberId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param managerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
-   * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
-   * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param number         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param tags           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param receiverId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
+   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
    * @return List[Map] of document table rows
    */
   List getDocumentsBy(Map input) {
@@ -408,24 +408,24 @@ trait Document {
 
   /**
    * Search for one document by different fields value
-   * @param docId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param parentDocId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param reasonDocId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param workflowId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param providerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
-   * @param receiverId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param memberId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param managerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
-   * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
-   * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param number         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param tags           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param receiverId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
+   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param beginDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
    * @return Map with document table rows
    */
   Map getDocumentBy(Map input) {

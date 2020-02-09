@@ -215,7 +215,7 @@ trait Company {
    * @param firmId    {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
    * @param stateId   {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state     {@link CharSequence String}. Optional
-   * @return Map with created company (in Oracle API procedure notation)
+   * @return Map with created or updated company (in Oracle API procedure notation)
    */
   private Map putCompany(Map input) {
     LinkedHashMap defaultParams = [
