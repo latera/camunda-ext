@@ -458,7 +458,7 @@ trait Document {
 
   /**
    * Check if entity or entity type is document
-   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Entity id, entity type ref id or entity type ref code
    * @return True if given value is document, false otherwise
    */
   Boolean isDocument(def entityOrEntityType) {
@@ -952,6 +952,7 @@ trait Document {
    * @param code      {@link CharSequence String}
    * @param docTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Document add param type id
+   * @deprecated
    */
   Number getDocumentAddParamTypeIdByCode(CharSequence code) {
     return toIntSafe(getDocumentAddParamTypeByCode(code)?.n_doc_value_type_id)
@@ -969,12 +970,12 @@ trait Document {
    * {@code
    * [
    *   paramId : _, # doc add param type id
-   *   bool    : _, # is add param if boolean type
-   *   number  : _, # is add param if number type
-   *   string  : _, # is add param if string type
-   *   date    : _, # is add param if date type
-   *   refId   : _, # is add param if refId type and value can be converted to BigInteger (ref id)
-   *   ref     : _  # is add param if refId type and value cannot be converted to BigInteger (ref code)
+   *   bool    : _, # if add param is boolean type
+   *   number  : _, # if add param is number type
+   *   string  : _, # if add param is string type
+   *   date    : _, # if add param is date type
+   *   refId   : _, # if add param is refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if add param is refId type and value cannot be converted to BigInteger (ref code)
    * ]
    * }
    * </pre>
@@ -1001,34 +1002,39 @@ trait Document {
 
   /**
    * Search for document add param values by different fields value
-   * @param docId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
-   * @param date      {@link java.time.Temporal Any date type}. Optional
-   * @param number    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param string    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param bool      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param refId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param ref       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param value     Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @param limit     {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date       {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return List[Map] of document add param value table rows
    */
   List getDocumentAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
-      docId   : null,
-      paramId : null,
-      date    : null,
-      string  : null,
-      number  : null,
-      bool    : null,
-      refId   : null,
-      limit   : 0
+      docValueId : null,
+      docId      : null,
+      paramId    : null,
+      date       : null,
+      string     : null,
+      number     : null,
+      bool       : null,
+      refId      : null,
+      limit      : 0
     ], prepareDocumentAddParam(input))
     LinkedHashMap where = [:]
 
+    if (params.docValueId) {
+      where.n_doc_value_id = params.docValueId
+    }
     if (params.docId) {
       where.n_doc_id = params.docId
     }
@@ -1055,18 +1061,19 @@ trait Document {
 
   /**
    * Search for one document add param value by different fields value
-   * @param docId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
-   * @param date      {@link java.time.Temporal Any date type}. Optional
-   * @param number    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param string    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param bool      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param refId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param ref       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param value     Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
+   * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param date       {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
    * @return Map with document add param value table row
    */
   Map getDocumentAddParamBy(Map input) {
@@ -1086,7 +1093,7 @@ trait Document {
    * @param refId      {@link java.math.BigInteger BigInteger}. Optional
    * @param ref        {@link CharSequence String}. Optional
    * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created document add param value (in Oracle API procedure notation)
+   * @return Map with created or updated document add param value (in Oracle API procedure notation)
    */
   private Map putDocumentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
@@ -1164,7 +1171,6 @@ trait Document {
       return false
     }
   }
-
 
   /**
    * Delete document add param value
@@ -1515,7 +1521,8 @@ trait Document {
     return changeDocumentState(docId, getDocumentStateDissolvedId())
   }
 
-  /**Refresh documents quick search material view
+  /**
+   * Refresh documents quick search material view
    * @see #refreshMaterialView(CharSequence,CharSequence)
    * @return True if quick search was updated successfully, false otherwise
    */
@@ -1523,7 +1530,8 @@ trait Document {
     return refreshMaterialView(getDocumentsMV(), method)
   }
 
-  /**Refresh documents app params quick search material view
+  /**
+   * Refresh documents app params quick search material view
    * @see #refreshMaterialView(CharSequence,CharSequence)
    * @return True if quick search was updated successfully, false otherwise
    */

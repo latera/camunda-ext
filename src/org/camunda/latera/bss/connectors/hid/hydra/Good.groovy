@@ -246,7 +246,7 @@ trait Good {
 
   /**
    * Check if entity or entity type is good
-   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Good id, Good type ref id or Good type ref code
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Entity id, entity type ref id or entity type ref code
    * @return True if given value is good, false otherwise
    */
   Boolean isGood(def entityOrEntityType) {

@@ -448,7 +448,7 @@ trait Customer {
   }
 
   /**
-   * Get additional param type id by code
+   * Get customer additional param type id by code
    * @param code {@link CharSequence String}
    * @return Additional param type id
    */
@@ -571,7 +571,7 @@ trait Customer {
   /**
    * Delete group from customer
    *
-   * Alias with named args input
+   * Overload for searching and deleting customer group
    * @see #deleteSubjectGroup(Map)
    */
   Boolean deleteCustomerGroup(Map input) {
@@ -811,7 +811,7 @@ trait Customer {
   /**
    * Change net service subscription password
    *
-   * Alias with mandatory customerId arg
+   * Overload for searching and deleting net service subscription
    * @param customerId      {@link java.math.BigInteger BigInteger}
    * @param netServiceId    {@link java.math.BigInteger BigInteger}. Optional if 'netService' arg is passed
    * @param netService      {@link CharSequence String}. Optional if 'netServiceId' arg is passed
@@ -855,7 +855,7 @@ trait Customer {
   /**
    * Delete net service subscription
    *
-   * Alias with named args input
+   * Overload for searching and deleting net service subscription
    * @param subjServId     {@link java.math.BigInteger BigInteger}. Optional
    * @param customerId     {@link java.math.BigInteger BigInteger}. Optional
    * @param netServiceId   {@link java.math.BigInteger BigInteger}. Optional
@@ -1006,7 +1006,7 @@ trait Customer {
   /**
    * Change applicationsubscription password
    *
-   * Alias with mandatory customerId arg
+   * Overload with mandatory customerId arg
    * @see #changeAppPassword(Map)
    */
   Boolean changeAppPassword(Map input = [:], def customerId) {
@@ -1025,7 +1025,7 @@ trait Customer {
   /**
    * Delete application subscription
    *
-   * Alias with named args input
+   * Overload for searching and deleting app subscription
    * @param subjServId     {@link java.math.BigInteger BigInteger}. Optional
    * @param customerId     {@link java.math.BigInteger BigInteger}. Optional
    * @param applicationId  {@link java.math.BigInteger BigInteger}. Optional
@@ -1126,7 +1126,7 @@ trait Customer {
   /**
    * Change Self-Care subscription password
    *
-   * Alias with mandatory customerId arg
+   * Overload with mandatory customerId arg
    * @param customerId      {@link java.math.BigInteger BigInteger}
    * @param login           {@link CharSequence String}. Optional
    * @param oldPassword     {@link CharSequence String}. Optional, pass null if you don't want to check old password
@@ -1233,7 +1233,7 @@ trait Customer {
   /**
    * Issue charge logs for a customer
    *
-   * Alias with named args
+   * Overload with named args
    * @see processCustomer(def,Temporal,Temporal)
    */
   Boolean processCustomer(Map input) {

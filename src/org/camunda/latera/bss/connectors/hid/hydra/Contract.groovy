@@ -819,7 +819,8 @@ trait Contract {
     return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
   }
 
-  /**Refresh base contracts tree material view
+  /**
+   * Refresh base contracts tree material view
    * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
    * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
    * @return True if quick search was updated successfully, false otherwise
@@ -828,7 +829,8 @@ trait Contract {
     return refreshMaterialView(getBaseContractsTreeMV(), method)
   }
 
-  /**Refresh contracts tree material view
+  /**
+   * Refresh contracts tree material view
    * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
    * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
    * @return True if quick search was updated successfully, false otherwise
@@ -838,7 +840,7 @@ trait Contract {
   }
 
   /**
-  /**Refresh contracts tree material view
+   * Refresh contracts tree material view
    * @see #refreshContracts(CharSequence)
    */
   Boolean refreshContractsTree(CharSequence method = 'C') {
