@@ -78,6 +78,15 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     setFirm()
   }
 
+  /**
+    Merge default params with input
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#mergeParams"></iframe>
+    @param initial Default params map
+    @param input New params map
+    @return Map with merged params
+  */
   private Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
 
@@ -137,10 +146,29 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return result
   }
 
+  /**
+    Merge default params with new ones
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#getLangId"></iframe>
+    @param langCode String short lang name, e.g. 'en', 'ru', etc
+    @return Lang constant id
+  */
   Number getLangId(CharSequence langCode = getLocale()) {
     return getRefIdByCode("LANG_${capitalize(langCode)}")
   }
 
+  /**
+    Call MAIN.INIT procedure
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#mainInit"></iframe>
+    @param ip String. Optional, default: '127.0.0.1'
+    @param user String. Optional, default: 'homs' user
+    @param password String. Optional, default: homs user password
+    @param app String. Optional, default: 'NETSERV_HID'
+    @param appId String. Optional, default: 'HydraOMS'
+  */
   void mainInit(Map input = [:]) {
     LinkedHashMap params = [
       ip       : '127.0.0.1',
@@ -159,6 +187,13 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     ])
   }
 
+  /**
+    Call MAIN.SET_ACTIVE_FIRM procedure
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#setFirm"></iframe>
+    @param firmId BigInteger. Optional, default: current firm id
+  */
   void setFirm(def firmId = getFirmId()) {
     hid.execute('MAIN.SET_ACTIVE_FIRM', [
       num_N_FIRM_ID: firmId
