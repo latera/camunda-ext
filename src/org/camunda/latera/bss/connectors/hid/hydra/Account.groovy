@@ -5,6 +5,7 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayEnd
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Constants.ACC_TYPE_Personal
+import static org.camunda.latera.bss.utils.Constants.ACC_TYPE_Settlement
 import static org.camunda.latera.bss.utils.Constants.OVERDRAFT_Manual
 import java.time.temporal.Temporal
 
@@ -36,7 +37,35 @@ trait Account {
    * Get default account type (personal) ref Id
    */
   Number getDefaultAccountTypeId() {
+    return getCustomerAccountTypeId()
+  }
+
+  /**
+   * Get customer account type (personal) ref code
+   */
+  String getCustomerAccountType() {
+    return getRefCode(getCustomerAccountTypeId())
+  }
+
+  /**
+   * Get customer account type (personal) ref Id
+   */
+  Number getCustomerAccountTypeId() {
     return ACC_TYPE_Personal
+  }
+
+  /**
+   * Get base subject account type (settlement) ref code
+   */
+  String getBaseSubjectAccountType() {
+    return getRefCode(getBaseSubjectAccountTypeId())
+  }
+
+  /**
+   * Get account type (personal) ref Id
+   */
+  Number getBaseSubjectAccountTypeId() {
+    return ACC_TYPE_Settlement
   }
 
   /**
@@ -57,7 +86,7 @@ trait Account {
    * Search for accounts by different fields value
    * @param accountId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjectId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: see {@link #getDefaultAccountTypeId()}
+   * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bankId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param currencyId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param currency      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -75,7 +104,7 @@ trait Account {
     LinkedHashMap params = mergeParams([
       accountId        : null,
       subjectId        : null,
-      accountTypeId    : getDefaultAccountTypeId(),
+      accountTypeId    : null,
       bankId           : null,
       currencyId       : null,
       code             : null,
@@ -177,7 +206,7 @@ trait Account {
    */
   List getCompanyAccounts(
     def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccounts(companyId, accountTypeId)
   }
@@ -190,7 +219,7 @@ trait Account {
    */
   List getPersonAccounts(
     def personId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccounts(personId, accountTypeId)
   }
@@ -203,7 +232,7 @@ trait Account {
    */
   List getCustomerAccounts(
     def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getCustomerAccountTypeId()
   ) {
     return getSubjectAccounts(customerId, accountTypeId)
   }
@@ -229,7 +258,7 @@ trait Account {
    */
   Map getCompanyAccount(
     def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccount(companyId, accountTypeId)
   }
@@ -242,7 +271,7 @@ trait Account {
    */
   Map getPersonAccount(
     def personId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccount(personId, accountTypeId)
   }
@@ -255,7 +284,7 @@ trait Account {
    */
   Map getCustomerAccount(
     def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getCustomerAccountTypeId()
   ) {
     return getSubjectAccount(customerId, accountTypeId)
   }
