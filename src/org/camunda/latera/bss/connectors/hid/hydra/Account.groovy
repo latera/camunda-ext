@@ -84,6 +84,9 @@ trait Account {
 
   /**
    * Search for accounts by different fields value
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getAccountsBy"></iframe>
    * @param accountId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjectId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -155,6 +158,9 @@ trait Account {
 
   /**
    * Search for one account by different fields value
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getAccountBy"></iframe>
    * @param accountId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjectId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param accountTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: see {@link #getDefaultAccountTypeId()}
@@ -175,6 +181,9 @@ trait Account {
 
   /**
    * Get account by id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getAccount"></iframe>
    * @param accountId {@link java.math.BigInteger BigInteger}
    * @return Map with subject account table row or null
    */
@@ -187,6 +196,9 @@ trait Account {
 
   /**
    * Get accounts by subject id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getSubjectAccounts"></iframe>
    * @param subjectId     {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with subject account table row or null
@@ -200,6 +212,9 @@ trait Account {
 
   /**
    * Get accounts by company id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getCompanyAccounts"></iframe>
    * @param companyId     {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of company account table rows
@@ -213,6 +228,9 @@ trait Account {
 
   /**
    * Get accounts by person id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getPersonAccounts"></iframe>
    * @param personId      {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of person account table rows
@@ -226,6 +244,9 @@ trait Account {
 
   /**
    * Get accounts by customer id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getCustomerAccounts"></iframe>
    * @param customerId    {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return List[Map] of customer account table rows
@@ -239,6 +260,9 @@ trait Account {
 
   /**
    * Get first account by subject id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getSubjectAccount"></iframe>
    * @param subjectId     {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with subject account table row or null
@@ -252,6 +276,9 @@ trait Account {
 
   /**
    * Get first account by company id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getCompanyAccount"></iframe>
    * @param companyId     {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with company account table row or null
@@ -265,6 +292,9 @@ trait Account {
 
   /**
    * Get first account by person id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getPersonAccount"></iframe>
    * @param personId      {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with person account table row or null
@@ -278,6 +308,9 @@ trait Account {
 
   /**
    * Get first account by customer id
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AccountSpec.html#getCustomerAccount"></iframe>
    * @param customerId    {@link java.math.BigInteger BigInteger}
    * @param accountTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @return Map with customer account table row or null
@@ -367,7 +400,7 @@ trait Account {
     def accountId,
     Temporal operationDate = local()
   ) {
-    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_total).doubleValue()
+    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_total)?.doubleValue()
   }
 
   /**
@@ -380,7 +413,7 @@ trait Account {
     def accountId,
     Temporal operationDate = local()
   ) {
-    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_free).doubleValue()
+    return toFloatSafe(getAccountBalance(accountId, operationDate)?.n_sum_free)?.doubleValue()
   }
 
   /**
@@ -392,7 +425,7 @@ trait Account {
     return toFloatSafe(hid.queryFirst("""
     SELECT SI_ACCOUNTS_PKG_S.GET_ACTUAL_CHARGE_LOGS_AMOUNT(${accountId})
     FROM   DUAL
-  """)?.getAt(0)).doubleValue()
+  """)?.getAt(0))?.doubleValue()
   }
 
   /**
