@@ -304,7 +304,7 @@ trait Document {
    * @param managerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
    * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current date time, but only if beginDate and endDate are not set
+   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
    * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param number         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -418,7 +418,7 @@ trait Document {
    * @param managerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not canceled
    * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Default: current date time, but only if beginDate and endDate are not set
+   * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
    * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param number         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -491,7 +491,7 @@ trait Document {
    * @param beginDate   {@link java.time.Temporal Any date type}. Optional
    * @param endDate     {@link java.time.Temporal Any date type}. Optional
    * @param firmId      {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
-   * @return Map with created document (in Oracle API procedure notation)
+   * @return Map with created or updated document (in Oracle API procedure notation)
    */
   private Map putDocument(Map input) {
     LinkedHashMap defaultParams = [
