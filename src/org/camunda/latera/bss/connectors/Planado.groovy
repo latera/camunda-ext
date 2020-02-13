@@ -10,17 +10,15 @@ import java.security.MessageDigest
 class Planado {
   String url
   private String token
-  Integer version
   HTTPRestProcessor http
   SimpleLogger logger
 
   Planado(DelegateExecution execution) {
-    this.logger  =  new SimpleLogger(execution)
-    def ENV      =  System.getenv()
+    this.logger =  new SimpleLogger(execution)
+    def ENV     =  System.getenv()
 
-    this.url     =  execution.getVariable('planadoUrl')                                                   ?: ENV['PLANADO_URL']     ?: 'https://api.planadoapp.com'
-    this.version = (execution.getVariable('planadoVersion') ?: execution.getVariable('planadoApiVersion') ?: ENV['PLANADO_VERSION'] ?: ENV['PLANADO_API_VERSION'] ?: 1)?.toInteger()
-    this.token   =  execution.getVariable('planadoToken')   ?: execution.getVariable('planadoApiKey')     ?: ENV['PLANADO_TOKEN']   ?: ENV['PLANADO_API_KEY']
+    this.url   =  execution.getVariable('planadoUrl')                                             ?: ENV['PLANADO_URL']   ?: 'https://api.planadoapp.com'
+    this.token =  execution.getVariable('planadoToken') ?: execution.getVariable('planadoApiKey') ?: ENV['PLANADO_TOKEN'] ?: ENV['PLANADO_API_KEY']
 
     LinkedHashMap headers = ['X-Planado-Api-Token': token]
     this.http = new HTTPRestProcessor(
@@ -293,7 +291,7 @@ class Planado {
   }
 
   def sendRequest(Map input, CharSequence method = 'get') {
-    input.path = "/api/v${this.version}/${input.path}".toString()
+    input.path = "/api/v1/${input.path}".toString()
     return http.sendRequest(input, method)
   }
 }

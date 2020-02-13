@@ -66,6 +66,7 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
+    <vavr.version>0.10.2</vavr.version>
   </properties>
   <repositories>
     <repository>
@@ -249,6 +250,12 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j-simple.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vavr</groupId>
+      <artifactId>vavr</artifactId>
+      <version>${vavr.version}</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <build>
