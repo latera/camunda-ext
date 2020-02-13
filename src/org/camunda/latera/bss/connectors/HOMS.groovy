@@ -168,9 +168,10 @@ class HOMS {
     return attachFiles([file], prefix, save)
   }
 
-  void sendTaskEvent(String taskId, String eventName, List<String> users) {
+  void sendTaskEvent(String taskId, String eventName, String assignee, List<String> users) {
     LinkedHashMap body = [
       event_name: eventName,
+      assignee:   assignee,
       users:      users
     ]
 
