@@ -15,7 +15,7 @@ import javax.mail.internet.MimeUtility
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 
-class MailSender {
+class MailSender implements AutoCloseable {
   private String     host
   private Integer    port
   private String     user
@@ -180,18 +180,21 @@ class MailSender {
   }
 
   Boolean send() {
-    Boolean result = true
     connect()
     try {
       this.message.setContent(this.multipart)
       this.transport.sendMessage(this.message, this.message.getAllRecipients())
+      return true
     } catch (Exception e) {
       logger.error(e)
-      result = false
-    } finally {
-      transport.close()
     }
 
-    return result
+    return false
+  }
+
+  void close() {
+    if (this.transport.isConnected()) {
+      this.transport.close()
+    }
   }
 }
