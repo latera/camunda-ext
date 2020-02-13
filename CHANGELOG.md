@@ -22,6 +22,7 @@ v1.4.1 [2020-02-14]
 -   [#3](https://github.com/latera/camunda-ext/pull/3) Add methods to tag entities into hid.Hydra class
 -   [#20](https://github.com/latera/camunda-ext/pull/20) Add newMessage method to MailSender class
 -   [#3200317](https://github.com/latera/camunda-ext/commit/3200317) Allow to pass constant id with non-Integer type into getConstantCode method
+-   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
 
 ### Refactoring
 -   [#8](https://github.com/latera/camunda-ext/pull/8) Prettify runCommand,  Add constants, use constants instead of magic numbers in logger, Update docs
