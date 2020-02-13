@@ -39,6 +39,7 @@ v1.4.1 [unreleased]
 -   [#7a30801](https://github.com/latera/camunda-ext/commit/7a30801) Fix names of methods getConstantByCode and getConstantCode
 -   [#19](https://github.com/latera/camunda-ext/pull/19) Fix MailSender class methods return values
 -   [#21](https://github.com/latera/camunda-ext/pull/21) Fix HID#queryDatabase return value codepage for List output
+-   [#23](https://github.com/latera/camunda-ext/pull/23) Fix SMTP connection auto close after sending e-mail
 
 v1.4 [2020-01-13]
 -------------------
