@@ -16,8 +16,8 @@ trait File {
     return getFileEntityType(getSubjectEntityType(subjectId), id)
   }
 
-  Map getContractFileEntityType(def contractId, def id = null) {
-    return getFileEntityType(getContractEntityType(contractId), id)
+  Map getDocumentFileEntityType(def documentId, def id = null) {
+    return getFileEntityType(getDocumentEntityType(documentId), id)
   }
 
   private Map getFileDefaultParams() {
@@ -57,11 +57,11 @@ trait File {
     return result
   }
 
-  List getContractFiles(Map input = [:], def contractId) {
+  List getDocumentFiles(Map input = [:], def documentId) {
     LinkedHashMap params = getPaginationDefaultParams() + input
 
     List result = []
-    List files  = getEntities(getContractFileEntityType(contractId), params)
+    List files  = getEntities(getDocumentFileEntityType(documentId), params)
     if (files) {
       files.each { it ->
         result.add([
@@ -87,8 +87,8 @@ trait File {
     return file
   }
 
-  Map getContractFile(def contractId, def fileId) {
-    LinkedHashMap file = getEntity(getContractFileEntityType(contractId), fileId)
+  Map getDocumentFile(def documentId, def fileId) {
+    LinkedHashMap file = getEntity(getDocumentFileEntityType(documentId), fileId)
     if (file) {
       LinkedHashMap result = [
         n_doc_file_id : file.n_doc_file_id,
@@ -104,8 +104,8 @@ trait File {
     return getSubjectFile(input.subjectId, input.fileId)
   }
 
-  Map getContractFile(Map input) {
-    return getContractFile(input.contractId, input.fileId)
+  Map getDocumentFile(Map input) {
+    return getDocumentFile(input.documentId, input.fileId)
   }
 
   Map createSubjectFile(Map input = [:], def subjectId) {
@@ -113,9 +113,9 @@ trait File {
     return createEntity(getSubjectFileEntityType(subjectId), params)
   }
 
-  Map createContractFile(Map input = [:], def contractId) {
+  Map createDocumentFile(Map input = [:], def documentId) {
     LinkedHashMap params = getFileParams(input)
-    return createEntity(getContractFileEntityType(contractId), params)
+    return createEntity(getDocumentFileEntityType(documentId), params)
   }
 
   List createSubjectFiles(Object[] input = [], def subjectId) {
@@ -126,10 +126,10 @@ trait File {
     return result
   }
 
-  List createContractFiles(Object[] input = [], def contractId) {
+  List createDocumentFiles(Object[] input = [], def documentId) {
     List result = []
     input.each { Map item ->
-      result += createContractFile(item, contractId)
+      result += createDocumentFile(item, documentId)
     }
     return result
   }
@@ -138,8 +138,8 @@ trait File {
     return createSubjectFiles(input as Object[], subjectId)
   }
 
-  List createContractFiles(def contractId, List input) {
-    return createContractFiles(input as Object[], contractId)
+  List createDocumentFiles(def documentId, List input) {
+    return createDocumentFiles(input as Object[], documentId)
   }
 
   Map updateSubjectFile(Map input = [:], def subjectId, def fileId) {
@@ -147,9 +147,9 @@ trait File {
     return updateEntity(getSubjectFileEntityType(subjectId), fileId, params)
   }
 
-  Map updateContractFile(Map input = [:], def contractId, def fileId) {
+  Map updateDocumentFile(Map input = [:], def documentId, def fileId) {
     LinkedHashMap params = getFileParams(input)
-    return updateEntity(getContractFileEntityType(contractId), fileId, params)
+    return updateEntity(getDocumentFileEntityType(documentId), fileId, params)
   }
 
   List updateSubjectFiles(Object[] input = [], def subjectId) {
@@ -160,10 +160,10 @@ trait File {
     return result
   }
 
-  List updateContractFiles(Object[] input = [], def contractId) {
+  List updateDocumentFiles(Object[] input = [], def documentId) {
     List result = []
     input.each { Map item ->
-      result += updateContractFile(item + [contractId: contractId])
+      result += updateDocumentFile(item + [documentId: documentId])
     }
     return result
   }
@@ -172,23 +172,23 @@ trait File {
     return updateSubjectFiles(input as Object[], subjectId)
   }
 
-  List updateContractFiles(def contractId, List input) {
-    return updateContractFiles(input as Object[], subjectId)
+  List updateDocumentFiles(def documentId, List input) {
+    return updateDocumentFiles(input as Object[], documentId)
   }
 
   Boolean deleteSubjectFile(def subjectId, def fileId) {
     return deleteEntity(getSubjectFileEntityType(subjectId), fileId)
   }
 
-  Boolean deleteContractFile(def contractId, def fileId) {
-    return deleteEntity(getContractFileEntityType(contractId), fileId)
+  Boolean deleteDocumentFile(def documentId, def fileId) {
+    return deleteEntity(getDocumentFileEntityType(documentId), fileId)
   }
 
   Boolean deleteSubjectFile(Map input) {
     return deleteSubjectFile(input.subjectId, input.fileId)
   }
 
-  Boolean deleteContractFile(Map input) {
-    return deleteContractFile(input.contractId, input.fileId)
+  Boolean deleteDocumentFile(Map input) {
+    return deleteDocumentFile(input.documentId, input.fileId)
   }
 }
