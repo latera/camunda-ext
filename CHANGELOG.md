@@ -4,7 +4,7 @@ v1.5 [unreleased]
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
 
-v1.4.1 [unreleased]
+v1.4.1 [2020-02-14]
 -------------------
 ### Features
 -   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods
