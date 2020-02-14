@@ -1,4 +1,4 @@
-v1.4.1 [unreleased]
+v1.4.1 [2020-02-14]
 -------------------
 ### Features
 -   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods
