@@ -233,7 +233,7 @@ trait Contract {
         }
 
         if (params.memberId || params.memberAccountId) {
-          Boolean memberAdded = addDocumentMemberMap(
+          Boolean memberAdded = addDocumentMember(
             result.num_N_DOC_ID,
             params.memberId,
             params.memberAccountId,
