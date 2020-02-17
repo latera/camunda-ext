@@ -8,6 +8,7 @@ v1.4.2 [unreleased]
 -------------------
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
+-   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
 
 v1.4.1 [2020-02-14]
 -------------------
