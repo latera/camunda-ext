@@ -9,6 +9,9 @@ v1.4.2 [unreleased]
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
 
+### Bugfixes
+-   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
+
 v1.4.1 [2020-02-14]
 -------------------
 ### Features

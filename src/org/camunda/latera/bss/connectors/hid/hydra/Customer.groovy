@@ -332,7 +332,7 @@ trait Customer {
     return getSubjectGroups(customerId)
   }
 
-  List getCustomerGroup(def customerId) {
+  Map getCustomerGroup(def customerId) {
     return getSubjectGroup(customerId)
   }
 
