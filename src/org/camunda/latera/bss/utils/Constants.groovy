@@ -38,7 +38,7 @@ class Constants {
   public static final Integer DOC_TYPE_ChargeLog            = 3002
   public static final Integer DOC_TYPE_CashWarrant          = 4002
   public static final Integer DOC_TYPE_PaymentOrder         = 5002
-  public static final Integer DOC_TYPE_Bill                 = 6002
+  public static final Integer DOC_TYPE_Invoice              = 6002
   public static final Integer DOC_TYPE_PriceOrder           = 7002
   public static final Integer DOC_TYPE_BaseContract         = 9002
   public static final Integer DOC_TYPE_RecordOfBank         = 11002
@@ -145,9 +145,9 @@ class Constants {
   public static final Integer WFLOW_ChargeLog             = 30021
   public static final Integer WFLOW_CashWarrant           = 40021
   public static final Integer WFLOW_PaymentOrder          = 50021
-  public static final Integer WFLOW_Bill                  = 60021
-  public static final Integer WFLOW_AdvanceBill           = 60022
-  public static final Integer WFLOW_PrepaymentBill        = 60023
+  public static final Integer WFLOW_Invoice               = 60021
+  public static final Integer WFLOW_ProformaInvoice       = 60022
+  public static final Integer WFLOW_PrepaymentInvoice     = 60023
   public static final Integer WFLOW_PriceOrder            = 70021
   public static final Integer WFLOW_BaseContract          = 90021
   public static final Integer WFLOW_RecordOfBank          = 110021
