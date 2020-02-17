@@ -9,6 +9,9 @@ v1.4.2 [unreleased]
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
 
+### Bugfixes
+-   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
+
 v1.4.1 [2020-02-14]
 -------------------
 ### Features
