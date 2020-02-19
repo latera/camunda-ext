@@ -8,6 +8,7 @@ v1.4.2 [unreleased]
 -------------------
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
+-   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
 
 v1.4.1 [2020-02-14]
 -------------------
