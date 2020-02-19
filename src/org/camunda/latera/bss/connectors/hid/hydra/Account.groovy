@@ -5,6 +5,7 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.DateTimeUtil.dayEnd
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Constants.ACC_TYPE_Personal
+import static org.camunda.latera.bss.utils.Constants.ACC_TYPE_Settlement
 import static org.camunda.latera.bss.utils.Constants.OVERDRAFT_Manual
 import java.time.temporal.Temporal
 
@@ -20,12 +21,20 @@ trait Account {
     return ACCOUNTS_MV
   }
 
-  String getDefaultAccountType() {
-    return getRefCode(getDefaultAccountTypeId())
+  String getCustomerAccountType() {
+    return getRefCode(getCustomerAccountTypeId())
   }
 
-  Number getDefaultAccountTypeId() {
+  Number getCustomerAccountTypeId() {
     return ACC_TYPE_Personal
+  }
+
+  String getBaseSubjectAccountType() {
+    return getRefCode(getBaseSubjectAccountTypeId())
+  }
+
+  Number getBaseSubjectAccountTypeId() {
+    return ACC_TYPE_Settlement
   }
 
   String getDefaultOverdraftReason() {
@@ -40,7 +49,7 @@ trait Account {
     LinkedHashMap params = mergeParams([
       accountId        : null,
       subjectId        : null,
-      accountTypeId    : getDefaultAccountTypeId(),
+      accountTypeId    : null,
       bankId           : null,
       currencyId       : null,
       code             : null,
@@ -102,56 +111,56 @@ trait Account {
 
   List getSubjectAccounts(
     def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = null
   ) {
     return getAccountsBy(subjectId: subjectId, accountTypeId: accountTypeId)
   }
 
   List getCompanyAccounts(
     def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccounts(companyId, accountTypeId)
   }
 
   List getPersonAccounts(
     def personId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccounts(personId, accountTypeId)
   }
 
   List getCustomerAccounts(
     def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getCustomerAccountTypeId()
   ) {
     return getSubjectAccounts(customerId, accountTypeId)
   }
 
   Map getSubjectAccount(
     def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = null
   ) {
     return getAccountBy(subjectId: subjectId, accountTypeId: accountTypeId)
   }
 
   Map getCompanyAccount(
     def companyId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccount(companyId, accountTypeId)
   }
 
   Map getPersonAccount(
     def personId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getBaseSubjectAccountTypeId()
   ) {
     return getSubjectAccount(personId, accountTypeId)
   }
 
   Map getCustomerAccount(
     def customerId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = getCustomerAccountTypeId()
   ) {
     return getSubjectAccount(customerId, accountTypeId)
   }
@@ -279,7 +288,7 @@ trait Account {
     return putCustomerAccount(input + [accountId: accountId])
   }
 
-  Boolean putAdjustment(Map input) {
+  private Boolean putAdjustment(Map input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
       docId         : null,
@@ -317,7 +326,7 @@ trait Account {
     return putAdjustment(input + [accountId: accountId])
   }
 
-  Boolean putPermanentOverdraft(Map input) {
+  private Boolean putPermanentOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       reasonId  : getDefaultOverdraftReasonId(),
@@ -344,20 +353,20 @@ trait Account {
     return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
   }
 
-  Boolean putPermanentOverdraft(
+  Boolean addPermanentOverdraft(Map input, def accountId) {
+    return putPermanentOverdraft(input + [accountId: accountId])
+  }
+
+  Boolean addPermanentOverdraft(
     def accountId,
     Double sum = 0,
     def reasonId = getDefaultOverdraftReasonId()
   ) {
-    return putPermanentOverdraft(
+    return putPermanentOverdraft([
       accountId : accountId,
       sum       : sum,
       reasonId  : reasonId
-    )
-  }
-
-  Boolean addPermanentOverdraft(Map input = [:], def accountId) {
-    return putPermanentOverdraft(input + [accountId: accountId])
+    ])
   }
 
   Boolean deletePermanentOverdraft(def accountId) {
@@ -375,7 +384,7 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(Map input) {
+  private Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       sum       : 0,
@@ -403,8 +412,22 @@ trait Account {
     }
   }
 
-  Boolean addTemporalOverdraft(Map input = [:], def accountId) {
+  Boolean addTemporalOverdraft(Map input, def accountId) {
     return putTemporalOverdraft(input + [accountId: accountId])
+  }
+
+  Boolean addTemporalOverdraft(
+    def accountId,
+    Double sum = 0,
+    Temporal endDate = dayEnd(),
+    def reasonId = getDefaultOverdraftReasonId()
+  ) {
+    return putTemporalOverdraft([
+      accountId : accountId,
+      sum       : sum,
+      endDate   : endDate,
+      reasonId  : reasonId
+    ])
   }
 
   Boolean deleteTemporalOverdraft(def accountId) {

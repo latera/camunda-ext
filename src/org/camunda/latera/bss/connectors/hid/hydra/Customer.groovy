@@ -332,7 +332,7 @@ trait Customer {
     return getSubjectGroups(customerId)
   }
 
-  List getCustomerGroup(def customerId) {
+  Map getCustomerGroup(def customerId) {
     return getSubjectGroup(customerId)
   }
 
@@ -600,7 +600,7 @@ trait Customer {
   }
 
   Map getCustomerSelfCareAccessBy(Map input) {
-    input.appId = getSelfCareAppId()
+    input.applicationId = getSelfCareAppId()
     return getCustomerAppAccessBy(input)
   }
 
@@ -635,7 +635,7 @@ trait Customer {
   }
 
   Boolean changeSelfCarePassword(Map input) {
-    return changeAppPassword(input + [appId: getSelfCareApplicationId()])
+    return changeAppPassword(input + [applicationId: getSelfCareApplicationId()])
   }
 
   Boolean changeSelfCarePassword(Map input = [:], def customerId) {
@@ -643,7 +643,7 @@ trait Customer {
   }
 
   Boolean deleteCustomerSelfCareAccess(def customerId) {
-    def subjServId = getCustomerAppAccessBy(customerId: customerId, appId: getSelfCareApplicationId())?.n_subj_serv_id
+    def subjServId = getCustomerAppAccessBy(customerId: customerId, applicationId: getSelfCareApplicationId())?.n_subj_serv_id
     return deleteCustomerAppAccess(subjServId)
   }
   
