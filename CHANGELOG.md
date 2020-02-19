@@ -13,8 +13,6 @@ v1.4.2 [unreleased]
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
 -   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
-
-### Bugfixes
 -   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
 
 v1.4.1 [2020-02-14]
