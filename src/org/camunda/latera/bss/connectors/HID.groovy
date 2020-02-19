@@ -81,16 +81,16 @@ WHERE ROWNUM <= ${limit}"""
     }
   }
 
-  List queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
+  List<List> queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, false, limit, page)
   }
 
-  List queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
+  List<Map> queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, true, limit, page)
   }
 
   def queryFirst(CharSequence query, Boolean asMap = false) {
-    List result = this.queryDatabase(query, asMap, 1)
+    List result = queryDatabase(query, asMap, 1)
 
     if (result) {
       return result.getAt(0)
@@ -107,7 +107,7 @@ WHERE ROWNUM <= ${limit}"""
     return queryFirst(query, true)
   }
 
-  def execute(CharSequence execName, Map params) {
+  Map execute(CharSequence execName, Map params) {
     LinkedHashMap encodedParams = [:]
     params.each{ CharSequence key, def value ->
       if (isDate(value)) {
@@ -128,7 +128,7 @@ WHERE ROWNUM <= ${limit}"""
     return this.proxy.invokeMethod(execName, [encodedParams])
   }
 
-  def execute(Map params = [:], CharSequence execName) {
+  Map execute(Map params = [:], CharSequence execName) {
     return execute(execName, params)
   }
 }
