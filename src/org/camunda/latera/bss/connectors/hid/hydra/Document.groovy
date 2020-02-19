@@ -569,17 +569,21 @@ trait Document {
 
   List getDocumentAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
-      docId   : null,
-      paramId : null,
-      date    : null,
-      string  : null,
-      number  : null,
-      bool    : null,
-      refId   : null,
-      limit   : 0
+      docValueId : null,
+      docId      : null,
+      paramId    : null,
+      date       : null,
+      string     : null,
+      number     : null,
+      bool       : null,
+      refId      : null,
+      limit      : 0
     ], prepareDocumentAddParam(input))
     LinkedHashMap where = [:]
 
+    if (params.docValueId) {
+      where.n_doc_value_id = params.docValueId
+    }
     if (params.docId) {
       where.n_doc_id = params.docId
     }

@@ -9,18 +9,22 @@ class NumericSpec extends Specification {
     Numeric.toIntSafe(input) == result
 
     where:
-    input|result
-    0    |0
-    1    |1
-    1.1  |1
-    '1'  |1
-    '1.1'|1
-    '1,1'|1
-    'a'  |null
-    null |null
-    false|null
-    []   |null
-    [:]  |null
+    input |result
+    0     |0
+    1     |1
+    1.1   |1
+    '0'   |0
+    '1'   |1
+    '01'  |1
+    '1.1' |1
+    '1,1' |1
+    '01.1'|1
+    '01,1'|1
+    'a'   |null
+    null  |null
+    false |null
+    []    |null
+    [:]   |null
   }
 
   def "#toIntSafe with default value"() {
@@ -28,18 +32,22 @@ class NumericSpec extends Specification {
     Numeric.toIntSafe(input, defaultValue) == result
 
     where:
-    input|defaultValue||result
-    0    |-1          ||0
-    1    |0           ||1
-    1.1  |0           ||1
-    '1'  |0           ||1
-    '1.1'|0           ||1
-    '1,1'|0           ||1
-    'a'  |0           ||0
-    null |0           ||0
-    false|0           ||0
-    []   |0           ||0
-    [:]  |0           ||0
+    input |defaultValue||result
+    0     |-1          ||0
+    1     |0           ||1
+    1.1   |0           ||1
+    '0'   |-1          ||0
+    '1'   |0           ||1
+    '01'  |0           ||1
+    '1.1' |0           ||1
+    '01.1'|0           ||1
+    '1,1' |0           ||1
+    '01,1'|0           ||1
+    'a'   |0           ||0
+    null  |0           ||0
+    false |0           ||0
+    []    |0           ||0
+    [:]   |0           ||0
   }
 
   def "#toIntStrict with default value"() {
@@ -47,18 +55,21 @@ class NumericSpec extends Specification {
     Numeric.toIntStrict(input, defaultValue) == result
 
     where:
-    input|defaultValue||result
-    0    |-1          ||0
-    1    |0           ||1
-    1.1  |0           ||0
-    '1'  |0           ||1
-    '1.1'|0           ||0
-    '1,1'|0           ||0
-    'a'  |0           ||0
-    null |0           ||0
-    false|0           ||0
-    []   |0           ||0
-    [:]  |0           ||0
+    input |defaultValue||result
+    0     |-1          ||0
+    1     |0           ||1
+    1.1   |0           ||0
+    '01'  |0           ||1
+    '1'   |0           ||1
+    '1.1' |0           ||0
+    '01.1'|0           ||0
+    '1,1' |0           ||0
+    '01,1'|0           ||0
+    'a'   |0           ||0
+    null  |0           ||0
+    false |0           ||0
+    []    |0           ||0
+    [:]   |0           ||0
   }
 
   def "#toFloatSafe without default value"() {
@@ -66,18 +77,21 @@ class NumericSpec extends Specification {
     Numeric.toFloatSafe(input) == result
 
     where:
-    input|result
-    0    |0
-    1    |1
-    1.1  |1.1
-    '1'  |1
-    '1.1'|1.1
-    '1,1'|1.1
-    'a'  |null
-    null |null
-    false|null
-    []   |null
-    [:]  |null
+    input |result
+    0     |0
+    1     |1
+    1.1   |1.1
+    '1'   |1
+    '01'  |1
+    '1.1' |1.1
+    '01.1'|1.1
+    '1,1' |1.1
+    '01,1'|1.1
+    'a'   |null
+    null  |null
+    false |null
+    []    |null
+    [:]   |null
   }
 
   def "#toFloatSafe with default value"() {
@@ -85,18 +99,21 @@ class NumericSpec extends Specification {
     Numeric.toFloatSafe(input, defaultValue) == result
 
     where:
-    input|defaultValue||result
-    0    |-1          ||0
-    1    |0           ||1
-    1.1  |0           ||1.1
-    '1'  |0           ||1
-    '1.1'|0           ||1.1
-    '1,1'|0           ||1.1
-    'a'  |0           ||0
-    null |0           ||0
-    false|0           ||0
-    []   |0           ||0
-    [:]  |0           ||0
+    input |defaultValue||result
+    0     |-1          ||0
+    1     |0           ||1
+    1.1   |0           ||1.1
+    '1'   |0           ||1
+    '01'  |0           ||1
+    '1.1' |0           ||1.1
+    '01.1'|0           ||1.1
+    '1,1' |0           ||1.1
+    '01,1'|0           ||1.1
+    'a'   |0           ||0
+    null  |0           ||0
+    false |0           ||0
+    []    |0           ||0
+    [:]   |0           ||0
   }
 
   def "#isInteger"() {
@@ -104,18 +121,21 @@ class NumericSpec extends Specification {
     Numeric.isInteger(input) == result
 
     where:
-    input|result
-    0    |true
-    1    |true
-    1.1  |false
-    '1'  |true
-    '1.1'|false
-    '1,1'|false
-    'a'  |false
-    null |false
-    false|false
-    []   |false
-    [:]  |false
+    input |result
+    0     |true
+    1     |true
+    1.1   |false
+    '1'   |true
+    '01'  |true
+    '1.1' |false
+    '01.1'|false
+    '1,1' |false
+    '01,1'|false
+    'a'   |false
+    null  |false
+    false |false
+    []    |false
+    [:]   |false
   }
 
   def "#isIntegerStrict"() {
@@ -123,19 +143,22 @@ class NumericSpec extends Specification {
     Numeric.isIntegerStrict(input) == result
 
     where:
-    input|result
-    0    |true
-    1    |true
-    1.0  |false
-    1.1  |false
-    '1'  |true
-    '1.1'|false
-    '1,1'|false
-    'a'  |false
-    null |false
-    false|false
-    []   |false
-    [:]  |false
+    input |result
+    0     |true
+    1     |true
+    1.0   |false
+    1.1   |false
+    '1'   |true
+    '01'  |true
+    '1.1' |false
+    '01.1'|false
+    '1,1' |false
+    '01,1'|false
+    'a'   |false
+    null  |false
+    false |false
+    []    |false
+    [:]   |false
   }
 
   def "#isFloat"() {
@@ -143,18 +166,21 @@ class NumericSpec extends Specification {
     Numeric.isFloat(input) == result
 
     where:
-    input|result
-    0    |true
-    1    |true
-    1.1  |true
-    '1'  |true
-    '1.1'|true
-    '1,1'|true
-    'a'  |false
-    null |false
-    false|false
-    []   |false
-    [:]  |false
+    input |result
+    0     |true
+    1     |true
+    1.1   |true
+    '1'   |true
+    '01'  |true
+    '1.1' |true
+    '01.1'|true
+    '1,1' |true
+    '01,1'|true
+    'a'   |false
+    null  |false
+    false |false
+    []    |false
+    [:]   |false
   }
 
   def "#isNumber"() {
@@ -162,18 +188,21 @@ class NumericSpec extends Specification {
     Numeric.isNumber(input) == result
 
     where:
-    input|result
-    0    |true
-    1    |true
-    1.1  |true
-    '1'  |true
-    '1.1'|true
-    '1,1'|true
-    'a'  |false
-    null |false
-    false|false
-    []   |false
-    [:]  |false
+    input |result
+    0     |true
+    1     |true
+    1.1   |true
+    '1'   |true
+    '01'  |true
+    '1.1' |true
+    '01.1'|true
+    '1,1' |true
+    '01,1'|true
+    'a'   |false
+    null  |false
+    false |false
+    []    |false
+    [:]   |false
   }
 
   def "#round"() {

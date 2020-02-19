@@ -288,7 +288,7 @@ trait Account {
     return putCustomerAccount(input + [accountId: accountId])
   }
 
-  Boolean putAdjustment(Map input) {
+  private Boolean putAdjustment(Map input) {
     LinkedHashMap params = mergeParams([
       accountId     : null,
       docId         : null,
@@ -326,7 +326,7 @@ trait Account {
     return putAdjustment(input + [accountId: accountId])
   }
 
-  Boolean putPermanentOverdraft(Map input) {
+  private Boolean putPermanentOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       reasonId  : getDefaultOverdraftReasonId(),
@@ -353,20 +353,20 @@ trait Account {
     return putPermanentOverdraft(params.accountId, params.sum, params.reasonId)
   }
 
-  Boolean putPermanentOverdraft(
+  Boolean addPermanentOverdraft(Map input, def accountId) {
+    return putPermanentOverdraft(input + [accountId: accountId])
+  }
+
+  Boolean addPermanentOverdraft(
     def accountId,
     Double sum = 0,
     def reasonId = getDefaultOverdraftReasonId()
   ) {
-    return putPermanentOverdraft(
+    return putPermanentOverdraft([
       accountId : accountId,
       sum       : sum,
       reasonId  : reasonId
-    )
-  }
-
-  Boolean addPermanentOverdraft(Map input = [:], def accountId) {
-    return putPermanentOverdraft(input + [accountId: accountId])
+    ])
   }
 
   Boolean deletePermanentOverdraft(def accountId) {
@@ -384,7 +384,7 @@ trait Account {
     }
   }
 
-  Boolean putTemporalOverdraft(Map input) {
+  private Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
       accountId : null,
       sum       : 0,
@@ -412,8 +412,22 @@ trait Account {
     }
   }
 
-  Boolean addTemporalOverdraft(Map input = [:], def accountId) {
+  Boolean addTemporalOverdraft(Map input, def accountId) {
     return putTemporalOverdraft(input + [accountId: accountId])
+  }
+
+  Boolean addTemporalOverdraft(
+    def accountId,
+    Double sum = 0,
+    Temporal endDate = dayEnd(),
+    def reasonId = getDefaultOverdraftReasonId()
+  ) {
+    return putTemporalOverdraft([
+      accountId : accountId,
+      sum       : sum,
+      endDate   : endDate,
+      reasonId  : reasonId
+    ])
   }
 
   Boolean deleteTemporalOverdraft(def accountId) {
