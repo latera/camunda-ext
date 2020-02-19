@@ -4,6 +4,9 @@ v1.4.2 [unreleased]
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
 -   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
 
+### Bugfixes
+-   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
+
 v1.4.1 [2020-02-14]
 -------------------
 ### Features
