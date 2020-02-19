@@ -6,8 +6,6 @@ v1.4.2 [unreleased]
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
-
-### Bugfixes
 -   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
 
 v1.4.1 [2020-02-14]
