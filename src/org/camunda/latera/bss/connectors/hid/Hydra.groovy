@@ -35,11 +35,13 @@ import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.connectors.hid.hydra.Tag
 
 class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
+  private static String DEFAULT_USER   = 'hydra'
+  private static String DEFAULT_LOCALE = 'ru'
   HID hid
   String user
   private String password
-  def firmId
-  def resellerId
+  Number firmId
+  Number resellerId
   SimpleLogger logger
   String locale
   Map regionHierarchyOverride
@@ -49,10 +51,10 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     this.hid        = new HID(execution)
     def ENV         = System.getenv()
 
-    this.locale     = execution.getVariable('locale')
-    this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: 'hydra'
+    this.locale     = execution.getVariable('locale') ?: DEFAULT_LOCALE
+    this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: DEFAULT_USER
     this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
-    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId')     ?: (execution.getVariable('homsOrderDataFirmId') ?: getDefaultFirmId()))
+    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId')     ?: (execution.getVariable('homsOrderDataFirmId') ?: DEFAULT_FIRM))
     this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
     this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
@@ -104,24 +106,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return result
   }
 
-  Number getDefaultFirmId() {
-    return DEFAULT_FIRM
-  }
-
-  Number getFirmId() {
-    return firmId
-  }
-
-  Number getResellerId() {
-    return resellerId
-  }
-
-  String getLocale() {
-    return locale ?: 'ru'
-  }
-
   Number getLangId() {
-    String locale = getLocale()
     return getRefIdByCode("LANG_${capitalize(locale)}")
   }
 
