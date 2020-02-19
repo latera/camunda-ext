@@ -3,12 +3,22 @@ v1.5 [unreleased]
 ### Breaking changes
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
+-   [#35](https://github.com/latera/camunda-ext/pull/35) Set private modifier for hid.hydra.Account#put* methods
 
 v1.4.2 [unreleased]
 -------------------
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
+-   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
+-   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
 -   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
+
+### Bugfixes
+-   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
+-   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
+-   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
+-   [#26](https://github.com/latera/camunda-ext/pull/26) Fix passing appCode into hid.Hydra#mainInit method
+-   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
 
 v1.4.1 [2020-02-14]
 -------------------
