@@ -126,7 +126,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
       vch_VC_IP        : params.ip,
       vch_VC_USER      : params.user,
       vch_VC_PASS      : params.password,
-      vch_VC_APP_CODE  : params.app ?: params.appCode,
+      vch_VC_APP_CODE  : params.appCode ?: params.app,
       vch_VC_CLN_APPID : params.appId
     ])
   }
