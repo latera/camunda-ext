@@ -166,17 +166,17 @@ class PlanadoV2 {
     LinkedHashMap payload = [
       external_id       : extId,
       organization      : true,
-      organization_name : data.companyName     ?: '',
+      organization_name : data.companyName    ?: '',
       site_address      : [
-        formatted   : data.addressStreet       ?: '',
-        entrance_no : data.addressEntrance     ?: '',
-        floor       : data.addressFloor        ?: '',
-        apartment   : data.addressApartment    ?: '',
-        description : data.addressDescription  ?: ''
+        formatted   : data.addressStreet      ?: '',
+        entrance_no : data.addressEntrance    ?: '',
+        floor       : data.addressFloor       ?: '',
+        apartment   : data.addressApartment   ?: '',
+        description : data.addressDescription ?: ''
       ],
       contacts : [[
-        name  : data.contactName               ?: '',
-        value : data.phone                     ?: '',
+        name  : data.contactName              ?: '',
+        value : data.phone                    ?: '',
         type  : 'phone'
       ]]
     ]
@@ -203,10 +203,11 @@ class PlanadoV2 {
     }
 
     LinkedHashMap payload = [
-      template_id  : toIntSafe(data.templateId),
-      client_id    : data.clientId,
-      scheduled_at : data.startDate,
-      description  : data.description ?: ''
+      template_id   : toIntSafe(data.templateId),
+      client_id     : data.clientId,
+      scheduled_at  : data.startDate,
+      description   : data.description  ?: '',
+      custom_fields : data.customFields ?: []
     ]
 
     logger.info('Creating new job')
@@ -220,6 +221,9 @@ class PlanadoV2 {
     LinkedHashMap payload = [:].with {
       if (data.containsKey('description')) {
         description = data.description
+      }
+      if (data.containsKey('customFields')) {
+        custom_fields = data.customFields
       }
 
       it
