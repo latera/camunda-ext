@@ -3,6 +3,7 @@ v1.5 [unreleased]
 ### Breaking changes
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
+-   [#35](https://github.com/latera/camunda-ext/pull/35) Set private modifier for hid.hydra.Account#put* methods
 
 v1.4.2 [unreleased]
 -------------------
