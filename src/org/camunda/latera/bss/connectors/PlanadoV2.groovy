@@ -214,6 +214,24 @@ class PlanadoV2 {
     sendRequest('post', 'jobs', body: payload).getOrNull()
   }
 
+  Map updateJob(Map data, def jobId) {
+    logger.info("Updating job ${jobId}")
+
+    LinkedHashMap payload = [:].with {
+      if (data.containsKey('description')) {
+        description = data.description
+      }
+
+      it
+    }
+
+    if (payload.size() == 0) {
+      throw new Exception("No params for update")
+    }
+
+    sendRequest('patch', "jobs/${jobId}", body: payload).getOrNull()
+  }
+
   Map getJob(def jobId) {
     sendRequest('get', "jobs/${jobId}").getOrNull()
   }
