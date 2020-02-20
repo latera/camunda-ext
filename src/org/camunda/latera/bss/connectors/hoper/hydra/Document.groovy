@@ -12,6 +12,15 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Provider
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Receiver
 
 trait Document {
+  private static LinkedHashMap DOCUMENT_ENTITY_TYPE = [
+    one    : 'document',
+    plural : 'documents'
+  ]
+
+  Map getDocumentEntityType(def id = null) {
+    return DOCUMENT_ENTITY_TYPE + withId(id)
+  }
+
   Integer getDocumentStateActualId() {
     return DOC_STATE_Actual
   }
