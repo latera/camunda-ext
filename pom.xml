@@ -73,6 +73,10 @@
       <id>maven.thingml.org</id>
       <url>http://maven.thingml.org/thirdparty</url>
     </repository>
+    <repository>
+      <id>jcenter</id>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
   </repositories>
   <dependencyManagement>
     <dependencies>
@@ -143,6 +147,12 @@
     <dependency>
       <groupId>io.github.http-builder-ng</groupId>
       <artifactId>http-builder-ng-core</artifactId>
+      <version>${http-builder-ng.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.http-builder-ng</groupId>
+      <artifactId>http-builder-ng-okhttp</artifactId>
       <version>${http-builder-ng.version}</version>
       <scope>compile</scope>
     </dependency>
