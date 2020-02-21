@@ -12,9 +12,10 @@ v1.4.2 [unreleased]
 -   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
 -   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
 -   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
+-   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
 
 ### Bugfixes
--   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
+-   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
 -   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
 -   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
 -   [#26](https://github.com/latera/camunda-ext/pull/26) Fix passing appCode into hid.Hydra#mainInit method
