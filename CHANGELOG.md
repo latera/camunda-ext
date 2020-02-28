@@ -14,6 +14,7 @@ v1.4.2 [unreleased]
 -   [#26](https://github.com/latera/camunda-ext/pull/26) Fix passing appCode into hid.Hydra#mainInit method
 -   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
 -   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
+-   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
 
 v1.4.1 [2020-02-14]
 -------------------
