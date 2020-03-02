@@ -27,20 +27,6 @@ trait Account {
   }
 
   /**
-   * Get default account type (personal) ref code
-   */
-  String getDefaultAccountType() {
-    return getRefCode(getDefaultAccountTypeId())
-  }
-
-  /**
-   * Get default account type (personal) ref Id
-   */
-  Number getDefaultAccountTypeId() {
-    return getCustomerAccountTypeId()
-  }
-
-  /**
    * Get customer account type (personal) ref code
    */
   String getCustomerAccountType() {
@@ -48,7 +34,7 @@ trait Account {
   }
 
   /**
-   * Get customer account type (personal) ref Id
+   * Get customer account type (personal) ref id
    */
   Number getCustomerAccountTypeId() {
     return ACC_TYPE_Personal
@@ -62,7 +48,7 @@ trait Account {
   }
 
   /**
-   * Get account type (personal) ref Id
+   * Get base subject account type (settlement) ref id
    */
   Number getBaseSubjectAccountTypeId() {
     return ACC_TYPE_Settlement
@@ -205,7 +191,7 @@ trait Account {
    */
   List getSubjectAccounts(
     def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = null
   ) {
     return getAccountsBy(subjectId: subjectId, accountTypeId: accountTypeId)
   }
@@ -269,7 +255,7 @@ trait Account {
    */
   Map getSubjectAccount(
     def subjectId,
-    def accountTypeId = getDefaultAccountTypeId()
+    def accountTypeId = null
   ) {
     return getAccountBy(subjectId: subjectId, accountTypeId: accountTypeId)
   }

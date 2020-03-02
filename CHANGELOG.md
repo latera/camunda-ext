@@ -3,8 +3,28 @@ v1.5 [unreleased]
 ### Breaking changes
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
+-   [#35](https://github.com/latera/camunda-ext/pull/35) Set private modifier for hid.hydra.Account#put* methods
+-   [#36](https://github.com/latera/camunda-ext/pull/36) Rename Bill to Invoice
 
-v1.4.1 [unreleased]
+v1.4.2 [unreleased]
+-------------------
+### Features
+-   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
+-   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
+-   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
+-   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
+-   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
+
+### Bugfixes
+-   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
+-   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
+-   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
+-   [#26](https://github.com/latera/camunda-ext/pull/26) Fix passing appCode into hid.Hydra#mainInit method
+-   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
+-   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
+-   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
+
+v1.4.1 [2020-02-14]
 -------------------
 ### Features
 -   [#4](https://github.com/latera/camunda-ext/pull/4) Allow partial updates in hid.Hydra#update* methods
@@ -38,6 +58,8 @@ v1.4.1 [unreleased]
 -   [#207b8cc](https://github.com/latera/camunda-ext/commit/207b8cc) Fix exception while getting constant with spaces in code
 -   [#7a30801](https://github.com/latera/camunda-ext/commit/7a30801) Fix names of methods getConstantByCode and getConstantCode
 -   [#19](https://github.com/latera/camunda-ext/pull/19) Fix MailSender class methods return values
+-   [#21](https://github.com/latera/camunda-ext/pull/21) Fix HID#queryDatabase return value codepage for List output
+-   [#23](https://github.com/latera/camunda-ext/pull/23) Fix SMTP connection auto close after sending e-mail
 
 v1.4 [2020-01-13]
 -------------------

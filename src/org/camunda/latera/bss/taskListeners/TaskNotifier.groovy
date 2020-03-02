@@ -19,6 +19,7 @@ class TaskNotifier implements TaskListener {
         new HOMS(task.getExecution()).sendTaskEvent(
           task.getId(),
           task.getEventName(),
+          assignee,
           [*candidates, assignee].unique(false) - null
         )
       }

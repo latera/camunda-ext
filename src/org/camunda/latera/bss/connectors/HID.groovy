@@ -1,15 +1,16 @@
 package org.camunda.latera.bss.connectors
 
 import groovy.net.xmlrpc.XMLRPCServerProxy
-import static org.camunda.latera.bss.utils.StringUtil.isString
 import static org.camunda.latera.bss.utils.Numeric.isIntegerStrict
 import static org.camunda.latera.bss.utils.Numeric.isNumber
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
-import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
 import static org.camunda.latera.bss.utils.DateTimeUtil.isDate
 import static org.camunda.latera.bss.utils.Oracle.encodeDate
 import static org.camunda.latera.bss.utils.Oracle.encodeNull
+import static org.camunda.latera.bss.utils.StringUtil.isString
+import static org.camunda.latera.bss.utils.StringUtil.varcharToUnicode
+import static org.camunda.latera.bss.utils.ListUtil.isList
 import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
@@ -78,15 +79,8 @@ WHERE ROWNUM <= ${limit}"""
         // There is row number, just remove it
         row.removeAt(0)
 
-        // Convert codepage from
-        List convertedRow = []
-        row.each{ def value ->
-          if (isString(value)) {
-            convertedRow.add(varcharToUnicode(value))
-          } else {
-            convertedRow.add(value)
-          }
-        }
+        // Convert codepage from Oracle internal to Unicode
+        List convertedRow = convertRow(row)
 
         if (asMap) {
           // Use "'VC_VALUE', VC_VALUE" format because SELECT procedure don't return column names
@@ -99,6 +93,26 @@ WHERE ROWNUM <= ${limit}"""
     }
 
     return result
+  }
+
+  private List convertRow(List row) {
+    List result = []
+    row.each{ def value ->
+      if (isList(value)) {
+        result.add(convertRow(value))
+      } else {
+        result.add(convertCodepage(value))
+      }
+    }
+    return result
+  }
+
+  private def convertCodepage(def value) {
+    if (isString(value)) {
+      return varcharToUnicode(value)
+    } else {
+      return value
+    }
   }
 
   /**

@@ -67,11 +67,16 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
+    <vavr.version>0.10.2</vavr.version>
   </properties>
   <repositories>
     <repository>
       <id>maven.thingml.org</id>
       <url>http://maven.thingml.org/thirdparty</url>
+    </repository>
+    <repository>
+      <id>jcenter</id>
+      <url>https://jcenter.bintray.com</url>
     </repository>
   </repositories>
   <dependencyManagement>
@@ -143,6 +148,12 @@
     <dependency>
       <groupId>io.github.http-builder-ng</groupId>
       <artifactId>http-builder-ng-core</artifactId>
+      <version>${http-builder-ng.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.http-builder-ng</groupId>
+      <artifactId>http-builder-ng-okhttp</artifactId>
       <version>${http-builder-ng.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -256,6 +267,12 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j-simple.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.vavr</groupId>
+      <artifactId>vavr</artifactId>
+      <version>${vavr.version}</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <build>

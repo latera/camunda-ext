@@ -444,13 +444,15 @@ trait Good {
    */
   List getGoodAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
-      goodId  : null,
-      paramId : null,
-      date    : null,
-      string  : null,
-      number  : null,
-      bool    : null,
-      refId   : null
+      goodValueId : null,
+      goodId      : null,
+      paramId     : null,
+      date        : null,
+      string      : null,
+      number      : null,
+      bool        : null,
+      refId       : null,
+      limit       : 0
     ], prepareGoodAddParam(input))
     LinkedHashMap where = [:]
 

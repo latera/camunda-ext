@@ -15,9 +15,10 @@ import javax.mail.internet.MimeUtility
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 
-class MailSender {
+class MailSender implements AutoCloseable {
   private String     host
   private Integer    port
+  private Boolean    auth
   private String     user
   private String     password
   private Session    session
@@ -34,7 +35,7 @@ class MailSender {
     this.user      =  execution.getVariable('smtpUser')     ?: ENV['SMTP_USER']
     this.password  =  execution.getVariable('smtpPassword') ?: ENV['SMTP_PASSWORD']
 
-    Boolean auth = Boolean.valueOf(firstNotNull([
+    this.auth = Boolean.valueOf(firstNotNull([
       execution.getVariable('smtpAuth'),
       ENV['SMTP_AUTH'],
       true
@@ -55,14 +56,18 @@ class MailSender {
     this.props = System.getProperties()
     this.props.put('mail.smtp.host',     host)
     this.props.put('mail.smtp.port',     port)
-    this.props.put('mail.smtp.user',     user)
-    this.props.put('mail.smtp.password', password)
     this.props.put('mail.smtp.auth',     auth)
     this.props.put('mail.mime.encodefilename', true)
+
+    if (this.auth) {
+      this.props.put('mail.smtp.user',     user)
+      this.props.put('mail.smtp.password', password)
+    }
 
     if (tls) {
       this.props.put('mail.smtp.starttls.enable', tls.toString()) // DO NOT REMOVE toString() here !!!
     }
+
     if (ssl) {
       this.props.put('mail.smtp.ssl.trust', ssl)
     } else if (tls) {
@@ -79,16 +84,21 @@ class MailSender {
       if (isEmpty(this.host)) {
         throw new Exception("Empty host name!")
       }
+
       if (isEmpty(this.port)) {
         throw new Exception("Empty port number!")
       }
-      if (isEmpty(this.user)) {
-        throw new Exception("Empty user name!")
+
+      if (this.auth) {
+        if (isEmpty(this.user)) {
+          throw new Exception("Empty user name!")
+        }
+        if (isEmpty(this.password)) {
+          throw new Exception("Empty password!")
+        }
       }
-      if (isEmpty(this.password)) {
-        throw new Exception("Empty password!")
-      }
-      this.transport.connect(this.host, this.port, this.user, this.password)
+
+      this.transport.connect()
     }
     return this
   }
@@ -180,18 +190,21 @@ class MailSender {
   }
 
   Boolean send() {
-    Boolean result = true
     connect()
     try {
       this.message.setContent(this.multipart)
       this.transport.sendMessage(this.message, this.message.getAllRecipients())
+      return true
     } catch (Exception e) {
       logger.error(e)
-      result = false
-    } finally {
-      transport.close()
     }
 
-    return result
+    return false
+  }
+
+  void close() {
+    if (this.transport.isConnected()) {
+      this.transport.close()
+    }
   }
 }

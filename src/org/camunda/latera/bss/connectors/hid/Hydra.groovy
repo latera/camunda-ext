@@ -18,7 +18,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Document
 import org.camunda.latera.bss.connectors.hid.hydra.Contract
 import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
 import org.camunda.latera.bss.connectors.hid.hydra.ChargeLog
-import org.camunda.latera.bss.connectors.hid.hydra.Bill
+import org.camunda.latera.bss.connectors.hid.hydra.Invoice
 import org.camunda.latera.bss.connectors.hid.hydra.Subject
 import org.camunda.latera.bss.connectors.hid.hydra.Company
 import org.camunda.latera.bss.connectors.hid.hydra.Person
@@ -34,7 +34,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Param
 import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.connectors.hid.hydra.Tag
 
-class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
+class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Invoice, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
   private static String DEFAULT_USER   = 'hydra'
   private static String DEFAULT_LOCALE = 'ru'
   HID hid
@@ -151,11 +151,10 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#getLangId"></iframe>
-    @param langCode String short lang name, e.g. 'en', 'ru', etc
     @return Lang constant id
   */
-  Number getLangId(CharSequence langCode = getLocale()) {
-    return getRefIdByCode("LANG_${capitalize(langCode)}")
+  Number getLangId() {
+    return getRefIdByCode("LANG_${capitalize(locale)}")
   }
 
   /**

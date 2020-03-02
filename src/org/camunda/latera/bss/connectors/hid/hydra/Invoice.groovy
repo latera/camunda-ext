@@ -1,164 +1,164 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
-import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Bill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_Bill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_AdvanceBill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentBill
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Invoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_Invoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_ProformaInvoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentInvoice
 
-trait Bill {
-  private static String  BILLS_TABLE      = 'SD_V_BILLS_T'
-  private static String  BILL_LINES_TABLE = 'SD_V_BILLS_C'
+trait Invoice {
+  private static String INVOICES_TABLE      = 'SD_V_INVOICES_T'
+  private static String INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'
 
   /**
-   * Get bills table name
+   * Get invoices table name
    */
-  String getBillsTable() {
-    return BILLS_TABLE
+  String getInvoicesTable() {
+    return INVOICES_TABLE
   }
 
   /**
-   * Get bill lines table name
+   * Get invoice lines table name
    */
-  String getBillLinesTable() {
-    return BILL_LINES_TABLE
+  String getInvoiceLinesTable() {
+    return INVOICE_LINES_TABLE
   }
 
   /**
-   * Get bill document type ref code
+   * Get invoice document type ref code
    */
-  String getBillType() {
-    return getRefCode(getBillTypeId())
+  String getInvoiceType() {
+    return getRefCode(getInvoiceTypeId())
   }
 
   /**
-   * Get bill document type ref id
+   * Get invoice document type ref id
    */
-  Number getBillTypeId() {
-    return DOC_TYPE_Bill
+  Number getInvoiceTypeId() {
+    return DOC_TYPE_Invoice
   }
 
   /**
-   * Get bill document default workflow code
+   * Get invoice document default workflow code
    */
-  String getDefaultBillWorkflow() {
-    return getRefCode(getDefaultBillWorkflowId())
+  String getDefaultInvoiceWorkflow() {
+    return getRefCode(getDefaultInvoiceWorkflowId())
   }
 
   /**
-   * Get bill document default workflow id
+   * Get invoice document default workflow id
    */
-  Number getDefaultBillWorkflowId() {
-    return WFLOW_Bill
+  Number getDefaultInvoiceWorkflowId() {
+    return WFLOW_Invoice
   }
 
   /**
-   * Get advance bill document default workflow code
+   * Get advance invoice document default workflow code
    */
-  String getDefaultAdvanceBillWorkflow() {
-    return getRefCode(getDefaultAdvanceBillWorkflowId())
+  String getDefaultProformaInvoiceWorkflow() {
+    return getRefCode(getDefaultProformaInvoiceWorkflowId())
   }
 
   /**
-   * Get advance bill document default workflow id
+   * Get advance invoice document default workflow id
    */
-  Number getDefaultAdvanceBillWorkflowId() {
-    return WFLOW_AdvanceBill
+  Number getDefaultProformaInvoiceWorkflowId() {
+    return WFLOW_ProformaInvoice
   }
 
   /**
-   * Get prepaid bill document default workflow code
+   * Get prepaid invoice document default workflow code
    */
-  String getDefaultPrepaidBillWorkflow() {
-    return getRefCode(getDefaultPrepaidBillWorkflowId())
+  String getDefaultPrepaymentInvoiceWorkflow() {
+    return getRefCode(getDefaultPrepaymentInvoiceWorkflowId())
   }
 
   /**
-   * Get prepaid bill document default workflow id
+   * Get prepaid invoice document default workflow id
    */
-  Number getDefaultPrepaidBillWorkflowId() {
-    return WFLOW_PrepaymentBill
+  Number getDefaultPrepaymentInvoiceWorkflowId() {
+    return WFLOW_PrepaymentInvoice
   }
 
   /**
-   * Get bill by id
+   * Get invoice by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with bill table row or null
+   * @return Map with invoice table row or null
    */
-  Map getBill(def docId) {
+  Map getInvoice(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    return hid.getTableFirst(getBillsTable(), where: where)
+    return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
   /**
-   * Search for bills by different fields value
+   * Search for invoices by different fields value
    * @see Document#getDocumentsBy(Map)
    */
-  List getBillsBy(Map input) {
-    input.docId     = input.docId ?: input.billId
-    input.docTypeId = getBillTypeId()
+  List getInvoicesBy(Map input) {
+    input.docId     = input.docId ?: input.invoiceId
+    input.docTypeId = getInvoiceTypeId()
     return getDocumentsBy([providerId: null] + input)
   }
 
   /**
-   * Search for one bill by different fields value
+   * Search for one invoice by different fields value
    * @see Document#getDocumentBy(Map)
    */
-  Map getBillBy(Map input) {
-    input.docId     = input.docId ?: input.billId
-    input.docTypeId = getBillTypeId()
+  Map getInvoiceBy(Map input) {
+    input.docId     = input.docId ?: input.invoiceId
+    input.docTypeId = getInvoiceTypeId()
     return getDocumentBy([providerId: null] + input)
   }
 
   /**
-   * Check if entity or entity type is bill
+   * Check if entity or entity type is invoice
    * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
-   * @return True if given value is bill, false otherwise
+   * @return True if given value is invoice, false otherwise
    */
-  Boolean isBill(def entityOrEntityType) {
+  Boolean isInvoice(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
     }
 
     Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
     if (entityIdOrEntityTypeId != null) {
-      return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+      return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
     } else {
-      return entityOrEntityType == getBillType()
+      return entityOrEntityType == getInvoiceType()
     }
   }
 
   /**
-   * Change bill state to Actual
+   * Change invoice state to Actual
    * @param docId {@link java.math.BigInteger BigInteger}. Document id
    * @return True if state change was successfull, false otherwise
    */
-  Boolean actualizeBill(def docId) {
+  Boolean actualizeInvoice(def docId) {
     return actualizeDocument(docId)
   }
 
   /**
-   * Change bill state to Executed
+   * Change invoice state to Executed
    * @param docId {@link java.math.BigInteger BigInteger}. Document id
    * @return True if state change was successfull, false otherwise
    */
-  Boolean executeBill(def docId) {
+  Boolean executeInvoice(def docId) {
     return executeDocument(docId)
   }
 
   /**
-   * Change bill state to Canceled
+   * Change invoice state to Canceled
    * @param docId {@link java.math.BigInteger BigInteger}. Document id
    * @return True if state change was successfull, false otherwise
    */
-  Boolean cancelBill(def docId) {
+  Boolean cancelInvoice(def docId) {
     return cancelDocument(docId)
   }
 
   /**
-   * Search for bill lines by different fields value
+   * Search for invoice lines by different fields value
    * @param docId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber     {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -190,9 +190,9 @@ trait Bill {
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
    * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return List[Map] of bill line table rows
+   * @return List[Map] of invoice line table rows
    */
-  List getBillLinesBy(Map input) {
+  List getInvoiceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -296,25 +296,25 @@ trait Bill {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    return hid.getTableData(getBillLinesTable(), where: where, order: params.order, limit: params.limit)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
   /**
-   * Get bill lines by doc id
+   * Get invoice lines by doc id
    * @param docId {@link java.math.BigInteger BigInteger}
    * @param limit {@link Integer}. Optional, default: 0 (unlimited)
-   * @return List[Map] of bill line table rows
+   * @return List[Map] of invoice line table rows
    */
-  List getBillLines(def docId, Integer limit = 0) {
+  List getInvoiceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
     ]
-    return hid.getTableData(getBillLinesTable(), where: where, limit: limit)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, limit: limit)
   }
 
   /**
-   * Search for one bill line by different fields value
+   * Search for one invoice line by different fields value
    * @param docId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber     {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -345,69 +345,69 @@ trait Bill {
    * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return Map with bill line table row
+   * @return Map with invoice line table row
    */
-  Map getBillLineBy(Map input) {
-    return getBillLinesBy(input + [limit: 1])?.getAt(0)
+  Map getInvoiceLineBy(Map input) {
+    return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
   }
 
   /**
-   * Get bill line by id
+   * Get invoice line by id
    * @param lineId {@link java.math.BigInteger BigInteger}
-   * @return Map with bill line table row
+   * @return Map with invoice line table row
    */
-  Map getBillLine(def lineId) {
+  Map getInvoiceLine(def lineId) {
     LinkedHashMap where = [
       n_line_id: lineId
     ]
-    return hid.getTableFirst(getBillLinesTable(), where: where)
+    return hid.getTableFirst(getInvoiceLinesTable(), where: where)
   }
 
   /**
-   * Add tag to bill
+   * Add tag to invoice
    * @see Document#addDocumentTag(Map)
    */
-  Map addBillTag(Map input) {
+  Map addInvoiceTag(Map input) {
     return addDocumentTag(input)
   }
 
   /**
-   * Add tag to bill
+   * Add tag to invoice
    * @see Document#addDocumentTag(def,CharSequence)
    */
-  Map addBillTag(def docId, CharSequence tag) {
-    return addBillTag(docId: docId, tag: tag)
+  Map addInvoiceTag(def docId, CharSequence tag) {
+    return addInvoiceTag(docId: docId, tag: tag)
   }
 
   /**
-   * Add tag to bill
+   * Add tag to invoice
    * @see Document#addDocumentTag(Map,def)
    */
-  Map addBillTag(Map input = [:], def docId) {
-    return addBillTag(input + [docId: docId])
+  Map addInvoiceTag(Map input = [:], def docId) {
+    return addInvoiceTag(input + [docId: docId])
   }
 
   /**
-   * Delete tag from bill
+   * Delete tag from invoice
    * @see Document#deleteDocumentTag(def)
    */
-  Boolean deleteBillTag(def docTagId) {
+  Boolean deleteInvoiceTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
   /**
-   * Delete tag from bill
+   * Delete tag from invoice
    * @see Document#deleteDocumentTag(Map)
    */
-  Boolean deleteBillTag(Map input) {
+  Boolean deleteInvoiceTag(Map input) {
     return deleteDocumentTag(input)
   }
 
   /**
-   * Delete tag from bill
+   * Delete tag from invoice
    * @see Document#deleteDocumentTag(def,CharSequence)
    */
-  Boolean deleteBillTag(def docId, CharSequence tag) {
-    return deleteBillTag(docId: docId, tag: tag)
+  Boolean deleteInvoiceTag(def docId, CharSequence tag) {
+    return deleteInvoiceTag(docId: docId, tag: tag)
   }
 }
