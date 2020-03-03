@@ -37,12 +37,6 @@ services:
       - default
       - db
       - bpm
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/camunda/app/welcome"]
-      interval: 10m
-      timeout: 5s
-      retries: 3
-      start_period: 180s
 networks:
   db:
     internal: true
