@@ -626,8 +626,8 @@ trait Customer {
     if (params.customerId || params.subjectId) {
       where.n_subject_id = params.customerId ?: params.subjectId
     }
-    if (params.netServiceId || params.applicationId || params.appId) {
-      where.n_service_id = params.netServiceId ?: params.applicationId ?: params.applId
+    if (params.netServiceId) {
+      where.n_service_id = params.netServiceId
     }
     if (params.objectId) {
       where.n_object_id = params.objectId
@@ -713,15 +713,14 @@ trait Customer {
         num_N_AUTH_TYPE_ID      : params.authTypeId,
         vch_VC_LOGIN            : params.login
       ])
-      if (access && notEmpty(params.password)) {
+      if (access) {
         Boolean passwordIsSet = changeNetServicePassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
         if (!passwordIsSet) {
           throw new Exception('Error while setting application password!')
         }
-        access += [vch_VC_PASS: params.password]
       }
       logger.info("   Customer now have access to net service!")
-      return access
+      return access += [vch_VC_PASS: params.password]
     } catch (Exception e){
       logger.error("   Error while providing access to net service!")
       logger.error_oracle(e)
@@ -956,15 +955,14 @@ trait Customer {
         num_N_AUTH_TYPE_ID      : params.authTypeId,
         vch_VC_LOGIN            : params.login
       ])
-      if (access && notEmpty(password)) {
+      if (access) {
         Boolean passwordIsSet = changeAppPassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
         if (!passwordIsSet) {
           throw new Exception('Error while setting application password!')
         }
-        access += [vch_VC_PASS: params.password]
       }
       logger.info("   Customer now have access to application!")
-      return access
+      return access += [vch_VC_PASS: params.password]
     } catch (Exception e){
       logger.error("   Error while providing access to application!")
       logger.error_oracle(e)

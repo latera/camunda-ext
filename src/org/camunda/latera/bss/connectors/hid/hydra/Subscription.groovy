@@ -182,7 +182,7 @@ trait Subscription {
    * @return Map with created or updated subscription (in Oracle API procedure notation)
    */
   private Map putSubscription(Map input) {
-    LinkedHashMap defaultParams = [
+    LinkedHashMap params = mergeParams([
       subscriptionId     : null,
       customerId         : null,
       accountId          : null,
@@ -197,46 +197,7 @@ trait Subscription {
       endDate            : null,
       chargeLogEndDate   : null,
       evaluateDiscounts  : true
-    ]
-
-    LinkedHashMap existingSubscription = [:]
-    if (notEmpty(input.subscriptionId)) {
-      LinkedHashMap subscription = getSubscription(input.subscriptionId)
-      existingSubscription += [
-        subscriptionId     : subscription.n_subscription_id,
-        customerId         : subscription.n_customer_id,
-        accountId          : subscription.n_account_id,
-        docId              : subscription.n_doc_id,
-        goodId             : subscription.n_service_id,
-        equipmentId        : subscription.n_object_id,
-        parSubscriptionId  : subscription.n_par_subscription_id,
-        prevSubscriptionId : subscription.n_prev_subscription_id,
-        quant              : subscription.n_quant,
-        payDay             : subscription.n_pay_day,
-        beginDate          : subscription.d_begin,
-        endDate            : subscription.d_end,
-        chargeLogEndDate   : subscription.d_charge_log_end
-      ]
-    }
-
-    if (notEmpty(input.parSubscriptionId)) {
-      LinkedHashMap parentSubscription = getSubscription(input.parSubscriptionId)
-      existingSubscription += [
-        customerId  : parentSubscription.n_customer_id,
-        accountId   : parentSubscription.n_account_id,
-        docId       : parentSubscription.n_doc_id,
-        equipmentId : parentSubscription.n_object_id
-      ]
-    }
-
-    if (isEmpty(input.customerId) && !notEmpty(input.accountId)) {
-      LinkedHashMap account = getAccount(input.accountId)
-      existingSubscription += [
-        customerId : account.n_subject_id
-      ]
-    }
-
-    LinkedHashMap params = mergeParams(defaultParams, existingSubscription + input)
+    ])
 
     def unitId = getGoodUnitId(params.goodId)
     if (unitId == getPieceUnitId() && params.quant == null) {

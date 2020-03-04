@@ -210,10 +210,11 @@ trait Contract {
         logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was put successfully!")
 
         if (params.providerId) {
-          Boolean providerAdded = addDocumentProvider(
+          Boolean providerAdded = addDocumentSubject(
             result.num_N_DOC_ID,
-            params.providerId,
-            params.providerAccountId,
+            subjectId  : params.providerId,
+            accountId  : params.providerAccountId,
+            roleId     : getProviderRoleId(),
             workflowId : params.workflowId
           )
           if (!providerAdded) {
@@ -221,10 +222,11 @@ trait Contract {
           }
         }
         if (params.receiverId) {
-          Boolean receiverAdded = addDocumentReceiver(
+          Boolean receiverAdded = addDocumentSubject(
             result.num_N_DOC_ID,
-            params.receiverId,
-            params.receiverAccountId,
+            subjectId  : params.receiverId,
+            accountId  : params.receiverAccountId,
+            roleId     : getReceiverRoleId(),
             workflowId : params.workflowId
           )
           if (!receiverAdded) {
@@ -233,10 +235,11 @@ trait Contract {
         }
 
         if (params.memberId || params.memberAccountId) {
-          Boolean memberAdded = addDocumentMember(
+          Boolean memberAdded = addDocumentSubject(
             result.num_N_DOC_ID,
-            params.memberId,
-            params.memberAccountId,
+            subjectId  : params.memberId,
+            accountId  : params.memberAccountId,
+            roleId     : getMemberRoleId(),
             workflowId : params.workflowId
           )
           if (!memberAdded) {
@@ -245,10 +248,11 @@ trait Contract {
         }
 
         if (params.managerId || params.managerAccountId) {
-          Boolean managerAdded = addDocumentManager(
+          Boolean managerAdded = addDocumentSubject(
             result.num_N_DOC_ID,
-            params.managerId,
-            params.managerAccountId,
+            subjectId  : params.managerId,
+            accountId  : params.managerAccountId,
+            roleId     : getManagerRoleId(),
             workflowId : params.workflowId
           )
           if (!managerAdded) {

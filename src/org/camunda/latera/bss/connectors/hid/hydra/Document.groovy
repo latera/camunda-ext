@@ -803,48 +803,6 @@ trait Document {
   }
 
   /**
-   * Create document-subject bind
-   *
-   * Overload with positional args
-   * @see #addDocumentSubject(Map, def)
-   */
-  Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
-    return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
-  }
-
-  /**
-   * Create document-subject provider
-   * @see #addDocumentSubject(Map, def, def)
-   */
-  Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
-    return putDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
-  }
-
-  /**
-   * Create document-subject receiver
-   * @see #addDocumentSubject(Map, def, def)
-   */
-  Boolean addDocumentReceiver(Map input = [:], def docId, def subjectId, def accountId = null) {
-    return putDocumentSubject(input + [roleId: getReceiverRoleId()], docId, subjectId, accountId)
-  }
-
-  /**
-   * Create document-subject member
-   * @see #addDocumentSubject(Map, def, def)
-   */
-  Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
-    return putDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
-  }
-
-  /**
-   * Create document-subject manager
-   * @see #addDocumentSubject(Map, def, def)
-   */
-  Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
-    return putDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
-  }
-
-  /**
    * Get document add param type by id
    * @param docValueTypeId {@link java.math.BigInteger BigInteger}
    * @return Map with document add param table row or null

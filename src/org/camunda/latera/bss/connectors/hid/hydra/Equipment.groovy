@@ -501,8 +501,8 @@ trait Equipment {
       limit           : 0
     ], input)
     LinkedHashMap where = [:]
-    if (params.componentId || params.entryId) {
-      where.n_object_id = params.componentId ?: parans.entryId
+    if (params.componentId) {
+      where.n_object_id = params.componentId
     }
     if (params.equipmentId || params.objectId) {
       where.n_main_object_id = params.equipmentId ?: params.objectId
