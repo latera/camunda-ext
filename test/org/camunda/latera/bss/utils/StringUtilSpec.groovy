@@ -211,6 +211,28 @@ class StringUtilSpec extends Specification {
     ''          |''
   }
 
+  def "#tagify"() {
+    expect:
+    StringUtil.tagify(input) == result
+
+    where:
+    input       |result
+    'some'      |'some'
+    'some text' |'some_text'
+    'Some text' |'some_text'
+    'Some Text' |'some_text'
+    'some Text' |'some_text'
+    'some_text' |'some_text'
+    'Some_text' |'some_text'
+    'Some_Text' |'some_text'
+    'some_Text' |'some_text'
+    'sometext'  |'sometext'
+    'Sometext'  |'sometext'
+    'SomeText'  |'sometext'
+    'someText'  |'sometext'
+    ''          |''
+  }
+
   def "#capitalize"() {
     expect:
     StringUtil.capitalize(input) == result
