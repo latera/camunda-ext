@@ -117,9 +117,6 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return rows with as columns list
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.HID.html#queryDatabaseList"></iframe>
     @param query String
     @param limit Integer, default: 0
     @param page Integer, default: 1
@@ -130,9 +127,6 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return rows as columns with names
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.HID.html#queryDatabaseMap"></iframe>
     @param query String
     @param limit Integer, default: 0
     @param page Integer, default: 1
@@ -159,9 +153,6 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return first row as columns list
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.HID.html#queryFirstList"></iframe>
     @param query String
   */
   List queryFirstList(CharSequence query) {
@@ -170,9 +161,6 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return first row as columns with names
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.HID.html#queryFirstMap"></iframe>
     @param query String
   */
   Map queryFirstMap(CharSequence query) {
@@ -181,9 +169,6 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Call procedure
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.HID.html#execute"></iframe>
     @param execName Procedure name
     @param params Arguments
   */

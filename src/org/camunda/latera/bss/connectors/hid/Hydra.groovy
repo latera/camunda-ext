@@ -80,9 +80,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Merge default params with input
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#mergeParams"></iframe>
     @param initial Default params map
     @param input New params map
     @return Map with merged params
@@ -148,9 +145,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Merge default params with new ones
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#getLangId"></iframe>
     @return Lang constant id
   */
   Number getLangId() {
@@ -159,9 +153,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Call MAIN.INIT procedure
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#mainInit"></iframe>
     @param ip String. Optional, default: '127.0.0.1'
     @param user String. Optional, default: 'homs' user
     @param password String. Optional, default: homs user password
@@ -188,9 +179,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Call MAIN.SET_ACTIVE_FIRM procedure
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.connectors.hid.Hydra.html#setFirm"></iframe>
     @param firmId BigInteger. Optional, default: current firm id
   */
   void setFirm(def firmId = getFirmId()) {
