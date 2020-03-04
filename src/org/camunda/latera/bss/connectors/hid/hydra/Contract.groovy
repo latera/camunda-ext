@@ -158,24 +158,22 @@ trait Contract {
         ])
         logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was put successfully!")
 
-        if (params.providerId) {
-          Boolean providerAdded = addDocumentSubject(
+        if (params.providerId || params.providerAccountId) {
+          Boolean providerAdded = addDocumentProvider(
             result.num_N_DOC_ID,
-            subjectId  : params.providerId,
-            accountId  : params.providerAccountId,
-            roleId     : getProviderRoleId(),
+            params.providerId,
+            params.providerAccountId,
             workflowId : params.workflowId
           )
           if (!providerAdded) {
             throw new Exception("Cannot set provider ${params.providerId} for document ${result.num_N_DOC_ID}")
           }
         }
-        if (params.receiverId) {
-          Boolean receiverAdded = addDocumentSubject(
+        if (params.receiverId || params.receiverAccountId) {
+          Boolean receiverAdded = addDocumentReceiver(
             result.num_N_DOC_ID,
-            subjectId  : params.receiverId,
-            accountId  : params.receiverAccountId,
-            roleId     : getReceiverRoleId(),
+            params.receiverId,
+            params.receiverAccountId,
             workflowId : params.workflowId
           )
           if (!receiverAdded) {
@@ -184,11 +182,10 @@ trait Contract {
         }
 
         if (params.memberId || params.memberAccountId) {
-          Boolean memberAdded = addDocumentSubject(
+          Boolean memberAdded = addDocumentMember(
             result.num_N_DOC_ID,
-            subjectId  : params.memberId,
-            accountId  : params.memberAccountId,
-            roleId     : getMemberRoleId(),
+            params.memberId,
+            params.memberAccountId,
             workflowId : params.workflowId
           )
           if (!memberAdded) {
@@ -197,11 +194,10 @@ trait Contract {
         }
 
         if (params.managerId || params.managerAccountId) {
-          Boolean managerAdded = addDocumentSubject(
+          Boolean managerAdded = addDocumentManager(
             result.num_N_DOC_ID,
-            subjectId  : params.managerId,
-            accountId  : params.managerAccountId,
-            roleId     : getManagerRoleId(),
+            params.managerId,
+            params.managerAccountId,
             workflowId : params.workflowId
           )
           if (!managerAdded) {

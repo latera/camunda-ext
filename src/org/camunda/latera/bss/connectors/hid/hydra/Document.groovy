@@ -462,7 +462,7 @@ trait Document {
       roleId     : null,
       workflowId : null
     ], input)
-    if (params.workflowId == null) {
+    if (isEmpty(params.workflowId)) {
       params.workflowId = getDocumentWorkflowId(params.docId)
     }
     try {
@@ -484,6 +484,48 @@ trait Document {
 
   Boolean addDocumentSubject(Map input = [:], def docId) {
     return putDocumentSubject(input + [docId: docId])
+  }
+
+  /**
+   * Create document-subject bind
+   *
+   * Overload with positional args
+   * @see #addDocumentSubject(Map, def)
+   */
+  Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
+  }
+
+    /**
+   * Create document-subject provider
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject receiver
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentReceiver(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getReceiverRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject member
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject manager
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
   }
 
   Map getDocumentAddParamType(def paramId) {
