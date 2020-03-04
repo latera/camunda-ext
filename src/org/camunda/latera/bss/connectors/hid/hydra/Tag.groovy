@@ -25,11 +25,11 @@ trait Tag {
 
   /**
    * Convert input to tag
-   * @param input {@link CharSequence String}
+   * @param value {@link CharSequence String}
    * @return Value converted with removed spaces and converted to snake case
    */
-  String tagify(CharSequence input) {
-    return input?.toLowerCase()?.replaceAll(/\s+/, '_')?.replaceAll(/[\W\D_]/, '=')
+  String tagify(CharSequence value) {
+    return snakeCase(value)
   }
 
   /**
