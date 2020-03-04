@@ -432,13 +432,18 @@ trait Customer {
         vch_VC_LOGIN            : params.login
       ])
       if (access) {
-        Boolean passwordIsSet = changeNetServicePassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
-        if (!passwordIsSet) {
-          throw new Exception('Error while setting application password!')
+        Boolean passwordIsNeed = notEmpty(params.password)
+
+        if (passwordIsNeed) {
+          Boolean passwordIsSet = changeNetServicePassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
+          if (!passwordIsSet) {
+            throw new Exception('Error while setting application password!')
+          }
+          access += [vch_VC_PASS: params.password]
         }
       }
       logger.info("   Customer now have access to net service!")
-      return access + [vch_VC_PASS: params.password]
+      return access
     } catch (Exception e){
       logger.error("   Error while providing access to net service!")
       logger.error_oracle(e)
@@ -556,13 +561,18 @@ trait Customer {
         vch_VC_LOGIN            : params.login
       ])
       if (access) {
-        Boolean passwordIsSet = changeAppPassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
-        if (!passwordIsSet) {
-          throw new Exception('Error while setting application password!')
+        Boolean passwordIsNeed = notEmpty(params.password)
+
+        if (passwordIsNeed) {
+          Boolean passwordIsSet = changeAppPassword(subjServId: access.num_N_SUBJ_SERV_ID, newPassword: params.password)
+          if (!passwordIsSet) {
+            throw new Exception('Error while setting application password!')
+          }
+          access += [vch_VC_PASS: params.password]
         }
       }
       logger.info("   Customer now have access to application!")
-      return access + [vch_VC_PASS: params.password]
+      return access
     } catch (Exception e){
       logger.error("   Error while providing access to application!")
       logger.error_oracle(e)
