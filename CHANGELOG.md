@@ -23,6 +23,7 @@ v1.4.2 [unreleased]
 -   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
 -   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
 -   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
+-   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
 
 v1.4.1 [2020-02-14]
 -------------------
