@@ -24,7 +24,7 @@ trait Param {
   /**
    * Get param by id
    * @param paramId {@link java.math.BigInteger BigInteger}
-   * @return Map with param table row or null
+   * @return Param table row
    */
   Map getParam(def paramId) {
     LinkedHashMap where = [
@@ -56,11 +56,11 @@ trait Param {
    * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param langId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lang         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return List[Map] of param table rows
+   * @return Param table rows
    */
-  List getParamsBy(Map input) {
+  List<Map> getParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       paramId      : null,
       paramGroupId : null,
@@ -172,7 +172,7 @@ trait Param {
    * @param langId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lang         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return Map with param table row
+   * @return Param table row
    */
   Map getParamBy(Map input) {
     return getParamsBy(input + [limit: 1])?.getAt(0)
@@ -181,7 +181,7 @@ trait Param {
   /**
    * Get param by code
    * @param code {@link CharSequence String}
-   * @return Map with param table row
+   * @return Param table row
    */
   Map getParamByCode(CharSequence code) {
     return getParamBy(code: code)
@@ -190,7 +190,7 @@ trait Param {
   /**
    * Get param by name
    * @param name {@link CharSequence String}
-   * @return Map with param table row
+   * @return Param table row
    */
   Map getParamByName(CharSequence name) {
     return getParamBy(name: name)
@@ -259,7 +259,7 @@ trait Param {
   /**
    * Get param value by id
    * @param paramValueId {@link java.math.BigInteger BigInteger}
-   * @return Map with param value table row or null
+   * @return Param value table row
    */
   Map getParamValue(def paramValueId) {
     LinkedHashMap where = [
@@ -274,7 +274,7 @@ trait Param {
    * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
    * @param code    Alias for 'param'
    * @param value   Any type. Optional
-   * @return Map with param value
+   * @return Param value
    * <pre>
    * {@code
    * [
@@ -323,11 +323,11 @@ trait Param {
    * @param refId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ref          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param value        Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareParamValue(Map)}. Optional
-   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of param value table rows
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Param value table rows
    */
-  List getParamValuesBy(Map input) {
+  List<Map> getParamValuesBy(Map input) {
     LinkedHashMap params = mergeParams([
       paramValueId : null,
       paramId      : null,
@@ -393,9 +393,9 @@ trait Param {
    * @param refId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ref          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param value        Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareParamValue(Map)}. Optional
-   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with param value table row
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Param value table row
    */
   Map getParamValueBy(Map input) {
     List result = getParamValuesBy(input + [limit: 1])

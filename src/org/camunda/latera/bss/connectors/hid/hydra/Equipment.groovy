@@ -47,7 +47,7 @@ trait Equipment {
   }
 
   /**
-   * Get equipment add param values table name
+   * Get equipment additional parameter values table name
    */
   String getEquipmentAddParamsTable() {
     return EQUIPMENT_ADD_PARAMS_TABLE
@@ -68,7 +68,7 @@ trait Equipment {
   }
 
   /**
-   * Get equipment add params quick search material view name
+   * Get equipment additional parameters quick search material view name
    */
   String getEquipmentAddParamsMV() {
     return EQUIPMENT_ADD_PARAMS_MV
@@ -133,7 +133,7 @@ trait Equipment {
   /**
    * Get object by id
    * @param objectId {@link java.math.BigInteger BigInteger}
-   * @return Map with object table row or null
+   * @return Object table row
    */
   Map getObject(def objectId) {
     LinkedHashMap where = [
@@ -145,7 +145,7 @@ trait Equipment {
   /**
    * Get equipment by id
    * @param equipmentId {@link java.math.BigInteger BigInteger}
-   * @return Map with equipment table row or null
+   * @return Equipment table row
    */
   Map getEquipment(def equipmentId) {
     return getObject(equipmentId)
@@ -163,13 +163,13 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param serialNo    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param invNo       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return List[Map] of object table rows
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Object table rows
    */
-  List getObjectsBy(Map input) {
+  List<Map> getObjectsBy(Map input) {
     LinkedHashMap params = mergeParams([
       objectId    : null,
       typeId      : null,
@@ -228,10 +228,10 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param serialNo    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param invNo       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return Map with object table row
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Object table row
    */
   Map getObjectBy(Map input) {
     return getObjectsBy(input + [limit: 1])?.getAt(0)
@@ -275,13 +275,13 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param serialNo    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param invNo       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return List[Map] of object table rows
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Object table rows
    */
-  List getCustomerObjects(Map input = [:], def customerId) {
+  List<Map> getCustomerObjects(Map input = [:], def customerId) {
     return getObjectsBy(input + [ownerId: customerId])
   }
 
@@ -297,10 +297,10 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param serialNo    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param invNo       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return Map with  object table row
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Object table row
    */
   Map getCustomerObject(Map input = [:], def customerId) {
     return getObjectBy(input + [ownerId: customerId])
@@ -319,12 +319,12 @@ trait Equipment {
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
    * @param addressId   {@link java.math.BigInteger BigInteger}. Optional
-   * @param createIp    {@link Boolean}. Optional, default: false
+   * @param createIp    {@link Boolean}. Optional. Default: false
    * @param mac         {@link CharSequence String}. Optional
    * @param bindMainId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRoleId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRole    {@link CharSequence String}. Optional
-   * @return Map with created or updated equipment (in Oracle API procedure notation)
+   * @return Created or updated equipment (in Oracle API procedure notation)
    */
   private Map putEquipment(Map input) {
     LinkedHashMap defaultParams = [
@@ -421,12 +421,12 @@ trait Equipment {
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
    * @param addressId   {@link java.math.BigInteger BigInteger}. Optional
-   * @param createIp    {@link Boolean}. Optional, default: false
+   * @param createIp    {@link Boolean}. Optional. Default: false
    * @param mac         {@link CharSequence String}. Optional
    * @param bindMainId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRoleId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRole    {@link CharSequence String}. Optional
-   * @return Map with created equipment (in Oracle API procedure notation)
+   * @return Created equipment (in Oracle API procedure notation)
    */
   Map createEquipment(Map input) {
     input.remove('equipmentId')
@@ -444,12 +444,12 @@ trait Equipment {
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
    * @param addressId   {@link java.math.BigInteger BigInteger}. Optional
-   * @param createIp    {@link Boolean}. Optional, default: false
+   * @param createIp    {@link Boolean}. Optional. Default: false
    * @param mac         {@link CharSequence String}. Optional
    * @param bindMainId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRoleId  {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRole    {@link CharSequence String}. Optional
-   * @return Map with created equipment (in Oracle API procedure notation)
+   * @return Created equipment (in Oracle API procedure notation)
    */
   Map createCustomerEquipment(Map input = [:], def customerId) {
     return createEquipment(input + [ownerId: customerId])
@@ -463,7 +463,7 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}. Optional
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
-   * @return Map with updated equipment (in Oracle API procedure notation)
+   * @return Updated equipment (in Oracle API procedure notation)
    */
   Map updateEquipment(Map input = [:], def equipmentId) {
     return putEquipment(input + [equipmentId: equipmentId])
@@ -482,13 +482,13 @@ trait Equipment {
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return List[Map] of equipment component table rows
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Equipment component table rows
    */
-  List getEquipmentComponentsBy(Map input) {
+  List<Map> getEquipmentComponentsBy(Map input) {
     LinkedHashMap params = mergeParams([
       componentId     : null,
       equipmentId     : null,
@@ -541,10 +541,10 @@ trait Equipment {
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return Map with equipment component table row
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Equipment component table row
    */
   Map getEquipmentComponentBy(Map input) {
     return getEquipmentComponentsBy(input + [limit: 1])?.getAt(0)
@@ -561,13 +561,13 @@ trait Equipment {
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return List[Map] of equipment component table rows
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Equipment component table rows
    */
-  List getEquipmentEntries(Map input = [:], def equipmentId) {
+  List<Map> getEquipmentEntries(Map input = [:], def equipmentId) {
     return getEquipmentComponentsBy(input + [equipmentId: equipmentId])
   }
 
@@ -582,10 +582,10 @@ trait Equipment {
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: actual
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: actual
    * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC, VC_DOC_NO DESC
-   * @return Map with equipment component table row
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Equipment component table row
    */
   Map getEquipmentComponent(def componentId) {
     return getEquipmentComponentBy(componentId: componentId)
@@ -605,7 +605,7 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}. Optional
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
-   * @return Map with created or updated equipment component (in Oracle API procedure notation)
+   * @return Created or updated equipment component (in Oracle API procedure notation)
    */
   private Map putEquipmentComponent(Map input) {
     LinkedHashMap defaultParams = [
@@ -671,7 +671,7 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}. Optional
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
-   * @return Map with created equipment component (in Oracle API procedure notation)
+   * @return Created equipment component (in Oracle API procedure notation)
    */
   Map createEquipmentComponent(Map input = [:], def equipmentId) {
     input.remove('entryId')
@@ -689,7 +689,7 @@ trait Equipment {
    * @param extCode     {@link CharSequence String}. Optional
    * @param serialNo    {@link CharSequence String}. Optional
    * @param invNo       {@link CharSequence String}. Optional
-   * @return Map with updated equipment component (in Oracle API procedure notation)
+   * @return Updated equipment component (in Oracle API procedure notation)
    */
   Map updateComponent(Map input = [:], def componentId) {
     return putEquipmentComponent(input + [componentId: componentId])
@@ -744,16 +744,16 @@ trait Equipment {
   }
 
   /**
-   * Get equipment add param type by id
+   * Get equipment additional parameter type by id
    * @param goodValueTypeId {@link java.math.BigInteger BigInteger}
-   * @return Map with object add param table row or null
+   * @return Object additional parameter table row
    */
   Map getEquipmentAddParamType(def goodValueTypeId) {
     return getGoodAddParamType(goodValueTypeId)
   }
 
   /**
-   * Search for equipment add param types by different fields value
+   * Search for equipment additional parameter types by different fields value
    * @see Good#getGoodAddParamTypesBy(Map)
    */
   List getEquipmentAddParamTypesBy(Map input) {
@@ -761,7 +761,7 @@ trait Equipment {
   }
 
   /**
-   * Search for equipment add param type by different fields value
+   * Search for equipment additional parameter type by different fields value
    * @see Good#getGoodAddParamTypeBy(Map)
    */
   Map getEquipmentAddParamTypeBy(Map input) {
@@ -769,16 +769,16 @@ trait Equipment {
   }
 
   /**
-   * Search for object add param type by code
+   * Search for object additional parameter type by code
    * @param code {@link CharSequence String}
-   * @return Map with object add param type table row
+   * @return Object additional parameter type table row
    */
   Map getEquipmentAddParamTypeByCode(CharSequence code) {
     return getEquipmentAddParamTypeBy(code: code)
   }
 
   /**
-   * Get object add param type by id
+   * Get object additional parameter type by id
    * @see #getEquipmentAddParamType(def)
    */
   Map getObjectAddParamType(def objValueTypeId) {
@@ -786,7 +786,7 @@ trait Equipment {
   }
 
   /**
-   * Search for object add param types by different fields value
+   * Search for object additional parameter types by different fields value
    * @see #getEquipmentAddParamTypesBy(Map)
    */
   List getObjectAddParamTypesBy(Map input) {
@@ -794,7 +794,7 @@ trait Equipment {
   }
 
   /**
-   * Search for object add param type by different fields value
+   * Search for object additional parameter type by different fields value
    * @see #getEquipmentAddParamTypeBy(Map)
    */
   Map getObjectAddParamTypeBy(Map input) {
@@ -802,7 +802,7 @@ trait Equipment {
   }
 
   /**
-   * Search for object add param type by code
+   * Search for object additional parameter type by code
    * @see #getEquipmentAddParamTypeByCode(Map)
    */
   Map getObjectAddParamTypeByCode(CharSequence code) {
@@ -810,21 +810,21 @@ trait Equipment {
   }
 
   /**
-   * Prepare equipment add param value to save
+   * Prepare equipment additional parameter value to save
    * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
    * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
    * @param value   Any type. Optional
-   * @return Map with add param value
+   * @return Additional parameter value as Map
    * <pre>
    * {@code
    * [
-   *   paramId : _, # good add param type id
-   *   bool    : _, # if add param is boolean type
-   *   number  : _, # if add param is number type
-   *   string  : _, # if add param is string type
-   *   date    : _, # if add param is date type
-   *   refId   : _, # if add param is refId type and value can be converted to BigInteger (ref id)
-   *   ref     : _  # if add param is refId type and value cannot be converted to BigInteger (ref code)
+   *   paramId : _, # good additional parameter type id
+   *   bool    : _, # if additional parameter is boolean type
+   *   number  : _, # if additional parameter is number type
+   *   string  : _, # if additional parameter is string type
+   *   date    : _, # if additional parameter is date type
+   *   refId   : _, # if additional parameter is refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if additional parameter is refId type and value cannot be converted to BigInteger (ref code)
    * ]
    * }
    * </pre>
@@ -849,7 +849,7 @@ trait Equipment {
   }
 
   /**
-   * Search for equipment add param values by different fields value
+   * Search for equipment additional parameter values by different fields value
    * @param objValueId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param equipmentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
@@ -861,11 +861,11 @@ trait Equipment {
    * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
-   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of equipment add param value table rows
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Equipment additional parameter value table rows
    */
-  List getEquipmentAddParamsBy(Map input) {
+  List<Map> getEquipmentAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       objValueId  : null,
       equipmentId : null,
@@ -907,7 +907,7 @@ trait Equipment {
   }
 
   /**
-   * Search for equipment add param value by different fields value
+   * Search for equipment additional parameter value by different fields value
    * @param objValueId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param equipmentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
@@ -919,16 +919,16 @@ trait Equipment {
    * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareGoodAddParam(Map)}. Optional
-   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with equipment add param value table row
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Equipment additional parameter value table row
    */
   Map getEquipmentAddParamBy(Map input) {
     return getEquipmentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
   /**
-   * Create or update equipment add param value
+   * Create or update equipment additional parameter value
    * @param objValueId  {@link java.math.BigInteger BigInteger}. Optional
    * @param equipmentId {@link java.math.BigInteger BigInteger}. Optional
    * @param paramId     {@link java.math.BigInteger BigInteger}. Optional
@@ -940,7 +940,7 @@ trait Equipment {
    * @param refId       {@link java.math.BigInteger BigInteger}. Optional
    * @param ref         {@link CharSequence String}. Optional
    * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created or updated equipment add param value (in Oracle API procedure notation)
+   * @return Created or updated equipment additional parameter value (in Oracle API procedure notation)
    */
   private Map putEquipmentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
@@ -983,7 +983,7 @@ trait Equipment {
   }
 
   /**
-   * Create or update object add param value
+   * Create or update object additional parameter value
    * @param objectId {@link java.math.BigInteger BigInteger}
    * @param paramId  {@link java.math.BigInteger BigInteger}. Optional
    * @param param    {@link CharSequence String}. Optional
@@ -994,14 +994,14 @@ trait Equipment {
    * @param refId    {@link java.math.BigInteger BigInteger}. Optional
    * @param ref      {@link CharSequence String}. Optional
    * @param value    Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created object add param value (in Oracle API procedure notation)
+   * @return Created object additional parameter value (in Oracle API procedure notation)
    */
   Map addObjectAddParam(Map input = [:], def objectId) {
     return putEquipmentAddParam(input + [equipmentId: objectId])
   }
 
   /**
-   * Create or update equipment add param value
+   * Create or update equipment additional parameter value
    * @param equipmentId {@link java.math.BigInteger BigInteger}
    * @param paramId     {@link java.math.BigInteger BigInteger}. Optional
    * @param param       {@link CharSequence String}. Optional
@@ -1012,14 +1012,14 @@ trait Equipment {
    * @param refId       {@link java.math.BigInteger BigInteger}. Optional
    * @param ref         {@link CharSequence String}. Optional
    * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created equipment add param value (in Oracle API procedure notation)
+   * @return Created equipment additional parameter value (in Oracle API procedure notation)
    */
   Map addEquipmentAddParam(Map input = [:], def equipmentId) {
     return addObjectAddParam(input, equipmentId)
   }
 
   /**
-   * Create or update equipment component add param value
+   * Create or update equipment component additional parameter value
    * @param componentId {@link java.math.BigInteger BigInteger}
    * @param paramId     {@link java.math.BigInteger BigInteger}. Optional
    * @param param       {@link CharSequence String}. Optional
@@ -1030,16 +1030,16 @@ trait Equipment {
    * @param refId       {@link java.math.BigInteger BigInteger}. Optional
    * @param ref         {@link CharSequence String}. Optional
    * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
-   * @return Map with created equipment component add param value (in Oracle API procedure notation)
+   * @return Created equipment component additional parameter value (in Oracle API procedure notation)
    */
   Map addEquipmentComponentAddParam(Map input, def componentId) {
     return addObjectAddParam(input, componentId)
   }
 
   /**
-   * Delete equipment add param value
+   * Delete equipment additional parameter value
    * @param objValueId {@link java.math.BigInteger BigInteger}
-   * @return True if equipment add param value was deleted successfully, false otherwise
+   * @return True if equipment additional parameter value was deleted successfully, false otherwise
    */
   Boolean deleteEquipmentAddParam(def objValueId) {
     try {
@@ -1057,9 +1057,9 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment add param value
+   * Delete equipment additional parameter value
    *
-   * Overload for searching and deleting add param value
+   * Overload for searching and deleting additional parameter value
    * @see #getEquipmentAddParamBy(Map)
    * @see #deleteEquipmentAddParam(def)
    */
@@ -1069,7 +1069,7 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment compnent add param value
+   * Delete equipment compnent additional parameter value
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteEquipmentComponentAddParam(def objValueId) {
@@ -1077,9 +1077,9 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment component add param value
+   * Delete equipment component additional parameter value
    *
-   * Overload for searching and deleting add param value
+   * Overload for searching and deleting additional parameter value
    * @see #deleteEquipmentAddParam(Map)
    */
   Boolean deleteEquipmentComponentAddParam(Map input) {
@@ -1090,7 +1090,7 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment compnent add param value
+   * Delete equipment compnent additional parameter value
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteObjectAddParam(def objValueId) {
@@ -1098,9 +1098,9 @@ trait Equipment {
   }
 
   /**
-   * Delete object add param value
+   * Delete object additional parameter value
    *
-   * Overload for searching and deleting add param value
+   * Overload for searching and deleting additional parameter value
    * @see #getEquipmentAddParamBy(Map)
    * @see #deleteEquipmentAddParam(def)
    */
@@ -1119,11 +1119,11 @@ trait Equipment {
    * @param bindComponentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindRoleId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindRole        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of equipment-equipment bind table rows
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Equipment-equipment bind table rows
    */
-  List getEquipmentBindsBy(Map input) {
+  List<Map> getEquipmentBindsBy(Map input) {
     LinkedHashMap params = mergeParams([
       bindId          : null,
       mainId          : null,
@@ -1164,9 +1164,9 @@ trait Equipment {
    * @param bindComponentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindRoleId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindRole        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with equipment-equipment bind table row
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Euipment-equipment bind table row
    */
   Map getEquipmentBindBy(Map input) {
     return getEquipmentBindsBy(input + [limit: 1])?.getAt(0)
@@ -1181,7 +1181,7 @@ trait Equipment {
    * @param bindComponentId {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRoleId      {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRole        {@link CharSequence String}. Optional
-   * @return Map with created or updated equipment-equipment bind (in Oracle API procedure notation)
+   * @return Created or updated equipment-equipment bind (in Oracle API procedure notation)
    */
   private Map putEquipmentBind(Map input) {
     LinkedHashMap params = mergeParams([
@@ -1219,7 +1219,7 @@ trait Equipment {
    * @param bindComponentId {@link java.math.BigInteger BigInteger}. Optional
    * @param bindRoleId      {@link java.math.BigInteger BigInteger}. Optional if 'bindRole' is passed
    * @param bindRole        {@link CharSequence String}. Optional if 'bindRoleId' is passed
-   * @return Map with created equipment-equipment bind (in Oracle API procedure notation)
+   * @return Created equipment-equipment bind (in Oracle API procedure notation)
    */
   Map addEquipmentBind(Map input) {
     return putEquipmentBind(input)

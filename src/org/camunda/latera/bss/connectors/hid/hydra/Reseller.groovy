@@ -28,8 +28,8 @@ trait Reseller {
 
   /**
    * Get reseller by id
-   * @param resellerId {@link java.math.BigInteger BigInteger}. Optional, default: current reseller id
-   * @return Map with reseller table row or null
+   * @param resellerId {@link java.math.BigInteger BigInteger}. Optional. Default: current reseller id
+   * @return Reseller table row
    */
   Map getReseller(def resellerId = getResellerId()) {
     LinkedHashMap where = [
@@ -49,13 +49,13 @@ trait Reseller {
    * @param currency      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of reseller table rows
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Reseller table rows
    */
-  List getResellersBy(Map input) {
+  List<Map> getResellersBy(Map input) {
     LinkedHashMap params = mergeParams([
       resellerId    : null,
       baseSubjectId : null,
@@ -110,10 +110,10 @@ trait Reseller {
    * @param currency      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with reseller table row
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Reseller table row
    */
   Map getResellerBy(Map input) {
     return getResellersBy(input + [limit: 1])?.getAt(0)

@@ -31,7 +31,7 @@ trait Company {
   /**
    * Get company by id
    * @param companyId {@link java.math.BigInteger BigInteger}
-   * @return Map with company table row or null
+   * @return Company table row
    */
   Map getCompany(def companyId) {
     LinkedHashMap where = [
@@ -60,13 +60,13 @@ trait Company {
    * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit     {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of company table rows
+   * @param limit     {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Company table rows
    */
-  List getCompaniesBy(Map input) {
+  List<Map> getCompaniesBy(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       regionId  : null,
@@ -167,10 +167,10 @@ trait Company {
    * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with company table row
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Company table row
    */
   Map getCompanyBy(Map input) {
     return getCompaniesBy(input + [limit: 1])?.getAt(0)
@@ -212,10 +212,10 @@ trait Company {
    * @param rem       {@link CharSequence String}. Optional
    * @param regionId  {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId   {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId    {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId    {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId   {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state     {@link CharSequence String}. Optional
-   * @return Map with created or updated company (in Oracle API procedure notation)
+   * @return Created or updated company (in Oracle API procedure notation)
    */
   private Map putCompany(Map input) {
     LinkedHashMap defaultParams = [
@@ -314,10 +314,10 @@ trait Company {
    * @param rem      {@link CharSequence String}. Optional
    * @param regionId {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state    {@link CharSequence String}. Optional
-   * @return Map with created company (in Oracle API procedure notation)
+   * @return Created company (in Oracle API procedure notation)
    */
   Map createCompany(Map input) {
     input.remove('companyId')
@@ -342,26 +342,26 @@ trait Company {
    * @param rem      {@link CharSequence String}. Optional
    * @param regionId {@link java.math.BigInteger BigInteger}. Optional
    * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state    {@link CharSequence String}. Optional
-   * @return Map with created company (in Oracle API procedure notation)
+   * @return Updated company (in Oracle API procedure notation)
    */
   Map updateCompany(Map input = [:], def companyId) {
     return putCompany(input + [companyId: companyId])
   }
 
   /**
-   * Get additional param type id by code
+   * Get additional parameter type id by code
    * @param code {@link CharSequence String}
-   * @return Additional param type id
+   * @return Additional parameter type id
    */
   Number getCompanyAddParamTypeIdByCode(CharSequence code) {
     return getSubjectAddParamTypeIdByCode(code, getCompanyTypeId())
   }
 
   /**
-   * Search for company add params by different fields value
+   * Search for company additional parameters by different fields value
    * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getCompanyAddParamsBy(Map input) {
@@ -373,7 +373,7 @@ trait Company {
   }
 
   /**
-   * Search for company one add param by different fields value
+   * Search for company one additional parameter by different fields value
    * @seeSubject #getSubjectAddParamBy(Map)
    */
   Map getCompanyAddParamBy(Map input) {
@@ -385,7 +385,7 @@ trait Company {
   }
 
   /**
-   * Add company add param value
+   * Add company additional parameter value
    * @see Subject#addSubjectAddParam(Map)
    */
   Map addCompanyAddParam(Map input = [:], def companyId) {

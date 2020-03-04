@@ -30,7 +30,7 @@ trait Group {
   /**
    * Get group by id
    * @param groupId {@link java.math.BigInteger BigInteger}
-   * @return Map with group table row or null
+   * @return Group table row
    */
   Map getGroup(def groupId) {
     LinkedHashMap where = [
@@ -49,12 +49,12 @@ trait Group {
    * @param code           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of group table rows
+   * @param firmId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Group table rows
    */
-  List getGroupsBy(Map input) {
+  List<Map> getGroupsBy(Map input) {
     LinkedHashMap params = mergeParams([
       groupId       : null,
       subjectTypeId : null,
@@ -104,9 +104,9 @@ trait Group {
    * @param code           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with group table row
+   * @param firmId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Group table row
    */
   Map getGroupBy(Map input) {
     return getGroupsBy(input + [limit: 1])?.getAt(0)

@@ -23,7 +23,7 @@ trait ChargeLog {
   }
 
   /**
-   * Get good moves table name
+   * Get charge log content table name
    */
   String getGoodMovesTable() {
     return GOOD_MOVES_TABLE
@@ -51,14 +51,14 @@ trait ChargeLog {
   }
 
   /**
-   * Get charge log line Charge state type ref code
+   * Get charge log line state ref code
    */
   String getChargeChargedType() {
     return getRefCode(getChargeChargedTypeId())
   }
 
   /**
-   * Get charge log line Charge state type ref id
+   * Get charge log line state ref id
    */
   Number getChargeChargedTypeId() {
     return GM_TYPE_Charged
@@ -109,7 +109,7 @@ trait ChargeLog {
   /**
    * Get charge log by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with charge log table row or null
+   * @return Ccharge log table row
    */
   Map getChargeLog(def docId) {
     LinkedHashMap where = [
@@ -139,7 +139,7 @@ trait ChargeLog {
   /**
    * Get charge log id for subscription
    * @param subscriptionId {@link java.math.BigInteger BigInteger}
-   * @param operationDate {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @return Charge log id or null
    */
   Number getChargeLogIdBySubscription(Map input) {
@@ -175,8 +175,8 @@ trait ChargeLog {
   /**
    * Get charge log for subscription
    * @param subscriptionId {@link java.math.BigInteger BigInteger}
-   * @param operationDate {@link java.time.Temporal Any date type}. Optional, default: current date time
-   * @return Map with charge log table row
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @return Charge log table row
    */
   Map getChargeLogBySubscription(Map input) {
     def docId = getChargeLogIdBySubscription(input)
@@ -202,13 +202,13 @@ trait ChargeLog {
   /**
    * Get charge logs for subscription
    * @param subscriptionId {@link java.math.BigInteger BigInteger}
-   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional, default: not canceled
+   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional. Default: not canceled
    * @param state          {@link CharSequence String}. Optional
-   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, default: current date time
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @return List[Map] with good moves table row
+   * @param operationDate  {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @return Charge log content table rows
    */
-  List getChargeLogsBySubscription(Map input) {
+  List<Map> getChargeLogsBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       stateId        : ['not in': [getDocumentStateCanceledId()]],
@@ -259,7 +259,7 @@ trait ChargeLog {
   /**
    * Set charge log end date
    * @param docId         {@link java.math.BigInteger BigInteger}
-   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @param endDate       {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @param closeReasonId {@link java.math.BigInteger BigInteger}. Optional
    * @param closeReason   {@link CharSequence String}. Optional
    * @return True if charge log end date was changed successfully
@@ -344,7 +344,7 @@ trait ChargeLog {
    * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param baseGoodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param moveType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unitId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param unit            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -372,11 +372,11 @@ trait ChargeLog {
    * @param operationDate   {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param beginDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate         {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return List[Map] of charge log line table rows
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Charge log line table rows
    */
-  List getChargeLogLinesBy(Map input) {
+  List<Map> getChargeLogLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -513,10 +513,10 @@ trait ChargeLog {
   /**
    * Get charge log lines by doc id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param limit {@link Integer}. Optional, default: 0 (unlimited)
-   * @return List[Map] of charge log line table rows
+   * @param limit {@link Integer}. Optional. Default: 0 (unlimited)
+   * @return Charge log line table rows
    */
-  List getChargeLogLines(def docId, Integer limit = 0) {
+  List<Map> getChargeLogLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
@@ -534,7 +534,7 @@ trait ChargeLog {
    * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param baseGoodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param moveType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unitId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param unit            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -562,8 +562,8 @@ trait ChargeLog {
    * @param operationDate   {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param beginDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate         {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return Map with charge log line table row
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Charge log line table row
    */
   Map getChargeLogLineBy(Map input) {
     return getChargeLogLinesBy(input + [limit: 1])?.getAt(0)
@@ -572,7 +572,7 @@ trait ChargeLog {
   /**
    * Get charge log line by id
    * @param lineId {@link java.math.BigInteger BigInteger}
-   * @return Map with charge log line table row
+   * @return Charge log line table row
    */
   Map getChargeLogLine(def line) {
     LinkedHashMap where = [

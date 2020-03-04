@@ -29,7 +29,7 @@ trait Message {
   /**
    * Get message by id
    * @param messageId {@link java.math.BigInteger BigInteger}
-   * @return Map with message table row or null
+   * @return Message table row
    */
   Map getMessage(def messageId) {
     LinkedHashMap where = [
@@ -43,13 +43,13 @@ trait Message {
    * @param messageId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param langId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current lang
+   * @param langId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current lang
    * @param lang      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit     {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit     {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return List[Map] of message table rows
+   * @return Message table rows
    */
-  List getMessagesBy(Map input) {
+  List<Map> getMessagesBy(Map input) {
     LinkedHashMap params = mergeParams([
       messageId : null,
       name      : null,
@@ -86,11 +86,11 @@ trait Message {
    * @param messageId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param langId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current lang
+   * @param langId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current lang
    * @param lang      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit     {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit     {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return Map with message table row
+   * @return Message table row
    */
   Map getMessageBy(Map input) {
     return getMessagesBy(input + [limit: 1])?.getAt(0)
@@ -99,7 +99,7 @@ trait Message {
   /**
    * Get message by code
    * @param code {@link CharSequence String}
-   * @return Map with message table row
+   * @return Message table row
    */
   Map getMessageByCode(CharSequence code) {
     return getMessageBy(code: code)
@@ -108,7 +108,7 @@ trait Message {
   /**
    * Get message by name
    * @param name {@link CharSequence String}
-   * @return Map with message table row
+   * @return Message table row
    */
   Map getMessageByName(CharSequence name) {
     return getMessageBy(name: name)

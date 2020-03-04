@@ -22,7 +22,7 @@ trait Ref {
   /**
    * Get ref by id
    * @param refId {@link java.math.BigInteger BigInteger}
-   * @return Map with ref table row or null
+   * @return Ref table row
    */
   Map getRef(def refId) {
     LinkedHashMap where = [
@@ -56,11 +56,11 @@ trait Ref {
    * @param number3    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isManual   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return List[Map] of ref table rows
+   * @return Ref table rows
    */
-  List getRefsBy(Map input) {
+  List<Map> getRefsBy(Map input) {
     LinkedHashMap params = mergeParams([
       refId      : null,
       typeId     : null,
@@ -182,7 +182,7 @@ trait Ref {
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isManual   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return Map with ref table row
+   * @return Ref table row
    */
   Map getRefBy(Map input) {
     return getRefsBy(input + [limit: 1])?.getAt(0)
@@ -191,7 +191,7 @@ trait Ref {
   /**
    * Get ref by code
    * @param code {@link CharSequence String}
-   * @return Map with ref table row
+   * @return Ref table row
    */
   Map getRefByCode(CharSequence code) {
     return getRefBy(code: code)
@@ -200,7 +200,7 @@ trait Ref {
   /**
    * Get ref by name
    * @param name {@link CharSequence String}
-   * @return Map with ref table row
+   * @return Ref table row
    */
   Map getRefByName(CharSequence name) {
     return getRefBy(name: name)

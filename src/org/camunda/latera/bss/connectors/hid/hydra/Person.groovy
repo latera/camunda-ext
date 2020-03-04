@@ -41,7 +41,7 @@ trait Person {
   /**
    * Get person by id
    * @param companyIpersonIdd {@link java.math.BigInteger BigInteger}
-   * @return Map with person table row or null
+   * @return Person table row
    */
   Map getPerson(def personId) {
     LinkedHashMap where = [
@@ -69,13 +69,13 @@ trait Person {
    * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of person table rows
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Person table rows
    */
-  List getPersonsBy(Map input) {
+  List<Map> getPersonsBy(Map input) {
     LinkedHashMap params = mergeParams([
       personId   : null,
       regionId   : null,
@@ -165,10 +165,10 @@ trait Person {
    * @param groupId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with person table row
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Person table row
    */
   Map getPersonBy(Map input) {
     return getPersonsBy(input + [limit: 1])?.getAt(0)
@@ -177,7 +177,7 @@ trait Person {
   /**
    * Get person private data by id
    * @param companyId {@link java.math.BigInteger BigInteger}
-   * @return Map with company table row or null
+   * @return Person private data table row
    */
   Map getPersonPrivate(def subjectId) {
     LinkedHashMap where = [
@@ -212,13 +212,13 @@ trait Person {
    * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of person table rows
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Person private data table rows
    */
-  List getPersonsPrivateBy(Map input) {
+  List<Map> getPersonsPrivateBy(Map input) {
     LinkedHashMap params = mergeParams([
       personId      : null,
       regionId      : null,
@@ -344,11 +344,11 @@ trait Person {
    * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with person table row
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Person private data table row
    */
   Map getPersonPrivateBy(Map input) {
     return getPersonsPrivateBy(input + [limit: 1])?.getAt(0)
@@ -393,10 +393,10 @@ trait Person {
    * @param birthPlace    {@link CharSequence String}. Optional
    * @param rem           {@link CharSequence String}. Optional
    * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with created person private data (in Oracle API procedure notation)
+   * @return Created person private data (in Oracle API procedure notation)
    */
   Map createPerson(Map input) {
     input.remove('personId')
@@ -425,10 +425,10 @@ trait Person {
    * @param birthPlace    {@link CharSequence String}. Optional
    * @param rem           {@link CharSequence String}. Optional
    * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with updated person private data (in Oracle API procedure notation)
+   * @return Updated person private data (in Oracle API procedure notation)
    */
   Map updatePerson(Map input = [:], def personId) {
     return putPerson(input + [personId: personId])
@@ -456,10 +456,10 @@ trait Person {
    * @param birthPlace    {@link CharSequence String}. Optional
    * @param rem           {@link CharSequence String}. Optional
    * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with created person (in Oracle API procedure notation)
+   * @return Created person (in Oracle API procedure notation)
    */
   private Map putPerson(Map input) {
     LinkedHashMap defaultParams = [
@@ -548,16 +548,16 @@ trait Person {
   }
 
   /**
-   * Get additional param type id by code
+   * Get additional parameter type id by code
    * @param code {@link CharSequence String}
-   * @return Additional param type id
+   * @return Additional parameter type id
    */
   Number getPersonAddParamTypeIdByCode(CharSequence code) {
     return toIntSafe(getSubjectAddParamTypeIdByCode(code, getPersonTypeId()))
   }
 
   /**
-   * Search for person add params by different fields value
+   * Search for person additional parameters by different fields value
    * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getPersonAddParamsBy(Map input) {
@@ -569,7 +569,7 @@ trait Person {
   }
 
   /**
-   * Search for person one add param by different fields value
+   * Search for person one additional parameter by different fields value
    * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getPersonAddParamBy(Map input) {
@@ -581,7 +581,7 @@ trait Person {
   }
 
   /**
-   * Add person add param value
+   * Add person additional parameter value
    * @see Subject#addSubjectAddParam(Map)
    */
   Map addPersonAddParam(Map input = [:], def personId) {

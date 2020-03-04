@@ -67,7 +67,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     Merge default params with input
     @param initial Default params map
     @param input New params map
-    @return Map with merged params
+    @return Merged params
   */
   private Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
@@ -138,11 +138,11 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Call MAIN.INIT procedure
-    @param ip String. Optional, default: '127.0.0.1'
-    @param user String. Optional, default: 'homs' user
-    @param password String. Optional, default: homs user password
-    @param app String. Optional, default: 'NETSERV_HID'
-    @param appId String. Optional, default: 'HydraOMS'
+    @param ip String. Optional. Default: '127.0.0.1'
+    @param user String. Optional. Default: 'homs' user
+    @param password String. Optional. Default: homs user password
+    @param app String. Optional. Default: 'NETSERV_HID'
+    @param appId String. Optional. Default: 'HydraOMS'
   */
   void mainInit(Map input = [:]) {
     LinkedHashMap params = [
@@ -164,7 +164,7 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
 
   /**
     Call MAIN.SET_ACTIVE_FIRM procedure
-    @param firmId BigInteger. Optional, default: current firm id
+    @param firmId BigInteger. Optional. Default: current firm id
   */
   void setFirm(def firmId = getFirmId()) {
     hid.execute('MAIN.SET_ACTIVE_FIRM', [

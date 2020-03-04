@@ -224,7 +224,7 @@ trait Customer {
   /**
    * Get customer by id
    * @param customerId {@link java.math.BigInteger BigInteger}
-   * @return Map with customer table row or null
+   * @return Customer table row
    */
   Map getCustomer(def customerId) {
     LinkedHashMap where = [
@@ -241,16 +241,16 @@ trait Customer {
    * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current reseller id
+   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of customer table rows
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Customer table rows
    */
-  List getCustomersBy(Map input) {
+  List<Map> getCustomersBy(Map input) {
     LinkedHashMap params = mergeParams([
       customerId    : null,
       baseSubjectId : null,
@@ -307,14 +307,14 @@ trait Customer {
    * @param code          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param groupId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current reseller id
+   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
    * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with of customer table row
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Customer table row
    */
   Map getCustomerBy(Map input) {
     return getCustomersBy(input + [limit: 1])?.getAt(0)
@@ -345,11 +345,11 @@ trait Customer {
    * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
    * @param code          {@link CharSequence String}. Optional
    * @param rem           {@link CharSequence String}. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param resellerId    {@link java.math.BigInteger BigInteger}. Optional. Default: current reseller id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with created or updated customer (in Oracle API procedure notation)
+   * @return Created or updated customer (in Oracle API procedure notation)
    */
   private Map putCustomer(Map input) {
     LinkedHashMap defaultParams = [
@@ -410,11 +410,11 @@ trait Customer {
    * @param groupId       {@link java.math.BigInteger BigInteger}
    * @param code          {@link CharSequence String}. Optional
    * @param rem           {@link CharSequence String}. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
+   * @param firmId        {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param resellerId    {@link java.math.BigInteger BigInteger}. Optional. Default: current reseller id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with created customer (in Oracle API procedure notation)
+   * @return Created customer (in Oracle API procedure notation)
    */
   Map createCustomer(Map input) {
     input.remove('customerId')
@@ -441,23 +441,23 @@ trait Customer {
    * @param resellerId    {@link java.math.BigInteger BigInteger}. Optional. Default: current reseller id
    * @param stateId       {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
    * @param state         {@link CharSequence String}. Optional
-   * @return Map with updated customer (in Oracle API procedure notation)
+   * @return Updated customer (in Oracle API procedure notation)
    */
   Map updateCustomer(Map input = [:], def customerId) {
     return putCustomer(input + [customerId: customerId])
   }
 
   /**
-   * Get customer additional param type id by code
+   * Get customer additional parameter type id by code
    * @param code {@link CharSequence String}
-   * @return Additional param type id
+   * @return Additional parameter type id
    */
   Number getCustomerAddParamTypeIdByCode(CharSequence code) {
     return getSubjectAddParamTypeIdByCode(code, getCustomerTypeId())
   }
 
   /**
-   * Search for customer add params by different fields value
+   * Search for customer additional parameters by different fields value
    * @see Subject#getSubjectAddParamsBy(Map)
    */
   List getCustomerAddParamsBy(Map input) {
@@ -469,7 +469,7 @@ trait Customer {
   }
 
   /**
-   * Search for customer one add param by different fields value
+   * Search for customer one additional parameter by different fields value
    * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getCustomerAddParamBy(Map input) {
@@ -481,7 +481,7 @@ trait Customer {
   }
 
   /**
-   * Add customer add param value
+   * Add customer additional parameter value
    * @see Subject#addSubjectAddParam(Map)
    */
   Map addCustomerAddParam(Map input = [:], def customerId) {
@@ -598,11 +598,11 @@ trait Customer {
    * @param passwordHash   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of net service subscription table rows
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Net service subscription table rows
    */
-  List getCustomerNetServicesAccessBy(Map input) {
+  List<Map> getCustomerNetServicesAccessBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -669,8 +669,8 @@ trait Customer {
    * @param passwordHash   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with net servise subscription table row
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Net servise subscription table row
    */
   Map getCustomerNetServiceAccessBy(Map input) {
     return getCustomerNetServicesAccessBy(input + [limit: 1])?.getAt(0)
@@ -689,7 +689,7 @@ trait Customer {
    * @param authType       {@link CharSequence String}. Optional if 'authTypeId' arg is passed
    * @param login          {@link CharSequence String}. Optional
    * @param password       {@link CharSequence String}. Optional
-   * @return Map with created or updated net service subscription (in Oracle API procedure notation)
+   * @return Created or updated net service subscription (in Oracle API procedure notation)
    */
   private Map putCustomerNetServiceAccess(Map input) {
     LinkedHashMap params = mergeParams([
@@ -745,7 +745,7 @@ trait Customer {
    * @param authType       {@link CharSequence String}. Optional if 'authTypeId' arg is passed
    * @param login          {@link CharSequence String}. Optional
    * @param password       {@link CharSequence String}. Optional
-   * @return Map with created net service subscription (in Oracle API procedure notation)
+   * @return Created net service subscription (in Oracle API procedure notation)
    */
   Map addCustomerNetServiceAccess(Map input = [:], def customerId) {
     return putCustomerNetServiceAccess(input + [customerId: customerId])
@@ -892,11 +892,11 @@ trait Customer {
    * @param passwordHash   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of application subscription table rows
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Application subscription table rows
    */
-  List getCustomerAppsAccessBy(Map input) {
+  List<Map> getCustomerAppsAccessBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjServId     : null,
       customerId     : null,
@@ -922,9 +922,9 @@ trait Customer {
    * @param passwordHash   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with application subscription table row
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Application subscription table row
    */
   Map getCustomerAppAccessBy(Map input) {
     return getCustomerAppsAccessBy(input + [limit: 1])?.getAt(0)
@@ -938,7 +938,7 @@ trait Customer {
    * @param application    {@link CharSequence String}. Optional if 'applicationId' arg is passed
    * @param login          {@link CharSequence String}. Optional
    * @param password       {@link CharSequence String}. Optional
-   * @return Map with created or updated net service subscription (in Oracle API procedure notation)
+   * @return Created or updated net service subscription (in Oracle API procedure notation)
    */
   private Map putCustomerAppAccess(Map input) {
     LinkedHashMap params = mergeParams([
@@ -987,7 +987,7 @@ trait Customer {
    * @param application    {@link CharSequence String}. Optional if 'applicationId' arg is passed
    * @param login          {@link CharSequence String}. Optional
    * @param password       {@link CharSequence String}. Optional
-   * @return Map with created application subscription (in Oracle API procedure notation)
+   * @return Created application subscription (in Oracle API procedure notation)
    */
   Map addCustomerAppAccess(Map input = [:], def customerId) {
     return putCustomerAppAccess(input + [customerId: customerId])
@@ -1058,9 +1058,9 @@ trait Customer {
    * @param passwordHash   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with Self-Care subscription table row
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Self-Care subscription table row
    */
   Map getCustomerSelfCareAccessBy(Map input) {
     input.applicationId = getSelfCareAppId()
@@ -1072,9 +1072,9 @@ trait Customer {
    * @param customerId {@link java.math.BigInteger BigInteger}. Optional
    * @param login      {@link CharSequence String}. Optional
    * @param password   {@link CharSequence String}. Optional
-   * @param force      {@link Boolean}. Replace old password with new one of not. Optional, default: false
-   * @param firmId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
-   * @return Map with created or updated Self-Care subscription (in Oracle API procedure notation)
+   * @param force      {@link Boolean}. Replace old password with new one of not. Optional. Default: false
+   * @param firmId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @return Created or updated Self-Care subscription (in Oracle API procedure notation)
    */
   private Map putCustomerSelfCareAccess(Map input) {
     LinkedHashMap params = mergeParams([
@@ -1107,9 +1107,9 @@ trait Customer {
    * @param customerId {@link java.math.BigInteger BigInteger}
    * @param login      {@link CharSequence String}. Optional
    * @param password   {@link CharSequence String}. Optional
-   * @param force      {@link Boolean}. Replace old password with new one of not. Optional, default: false
-   * @param firmId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm Id
-   * @return Map with created application subscription (in Oracle API procedure notation)
+   * @param force      {@link Boolean}. Replace old password with new one of not. Optional. Default: false
+   * @param firmId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @return Created application subscription (in Oracle API procedure notation)
    */
   Map addCustomerSelfCareAccess(Map input = [:], def customerId) {
     return putCustomerSelfCareAccess(input + [customerId: customerId])
@@ -1213,7 +1213,7 @@ trait Customer {
   /**
    * Issue charge logs for a customer
    * @param customerId {@link java.math.BigInteger BigInteger}
-   * @param beginDate  {@link java.time.Temporal Any date type}. Optional, default: current datetime
+   * @param beginDate  {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @param endDate    {@link java.time.Temporal Any date type}. Optional
    * @return True if charge logs were issued successfully, false otherwise
    */
@@ -1241,7 +1241,7 @@ trait Customer {
   /**
    * Issue charge logs for a customer
    *
-   * Overload with named args
+   * Overload for names arguments
    * @see #processCustomer(def,Temporal,Temporal)
    */
   Boolean processCustomer(Map input) {

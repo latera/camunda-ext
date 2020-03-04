@@ -15,14 +15,17 @@ import org.camunda.latera.bss.connectors.hid.Table
 import org.camunda.bpm.engine.delegate.DelegateExecution
 
 class HID implements Table {
+  String url
+  String user
+  private String password
   private static String DEFAULT_URL  = 'http://hid:10080/xml-rpc/db'
   private static String DEFAULT_USER = 'hydra'
   XMLRPCServerProxy proxy
 
   HID(DelegateExecution execution) {
     def ENV       = System.getenv()
-    this.url      = execution.getVariable('hidUrl')      ?: ENV['HID_URL']  ?: 'http://hid:10080/xml-rpc/db'
-    this.user     = execution.getVariable('hidUser')     ?: ENV['HID_USER'] ?: 'hydra'
+    this.url      = execution.getVariable('hidUrl')      ?: ENV['HID_URL']  ?: DEFAULT_URL
+    this.user     = execution.getVariable('hidUser')     ?: ENV['HID_USER'] ?: DEFAULT_USER
     this.password = execution.getVariable('hidPassword') ?: ENV['HID_PASSWORD']
 
     this.proxy = new XMLRPCServerProxy(this.url)
@@ -31,10 +34,10 @@ class HID implements Table {
 
   /**
     Query database and return rows
-    @param query String
+    @param query SELECT query
     @param asMap If true, return columns with names, otherwise return columns list
-    @param limit Integer, default: 0
-    @param page Integer, default: 1
+    @param limit Limit rows count
+    @param page Page number to start count rows
   */
   List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
     List result = []
@@ -88,10 +91,10 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   /**
-    Query database and return rows with as columns list
-    @param query String
-    @param limit Integer, default: 0
-    @param page Integer, default: 1
+    Query database and return rows as columns list
+    @param query SELECT query
+    @param limit Limit rows count
+    @param page Page number to start count rows
   */
   List<List> queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, false, limit, page)
@@ -99,10 +102,9 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return rows as columns with names
-    @param query String
-    @param limit Integer, default: 0
-    @param page Integer, default: 1
-    @return List[Map]
+    @param query SELECT query
+    @param limit Limit rows count
+    @param page Page number to start count rows
   */
   List<Map> queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, true, limit, page)
@@ -110,8 +112,8 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return first row
-    @param query String
-    @param asMap If true, return columns with names, otherwise return columns list
+    @param query SELECT query
+    @param asMap If true, return columns with names, otherwise return columns list. Default: false
   */
   def queryFirst(CharSequence query, Boolean asMap = false) {
     List result = queryDatabase(query, asMap, 1)
@@ -125,7 +127,7 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return first row as columns list
-    @param query String
+    @param query SELECT query
   */
   List queryFirstList(CharSequence query) {
     return queryFirst(query, false)
@@ -133,7 +135,7 @@ WHERE ROWNUM <= ${limit}"""
 
   /**
     Query database and return first row as columns with names
-    @param query String
+    @param query SELECT query
   */
   Map queryFirstMap(CharSequence query) {
     return queryFirst(query, true)

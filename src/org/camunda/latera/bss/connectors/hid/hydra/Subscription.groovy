@@ -21,7 +21,7 @@ trait Subscription {
   /**
    * Get subscription by id
    * @param subscriptionId {@link java.math.BigInteger BigInteger}
-   * @return Map with subscription table row or null
+   * @return Subscription table row
    */
   Map getSubscription(def subscriptionId) {
     LinkedHashMap where = [
@@ -41,14 +41,14 @@ trait Subscription {
    * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
    * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit              {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
-   * @return List[Map] of subscription table rows
+   * @param limit              {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC
+   * @return Subscription table rows
    */
-  List getSubscriptionsBy(Map input) {
+  List<Map> getSubscriptionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId     : null,
       customerId         : null,
@@ -121,11 +121,11 @@ trait Subscription {
    * @param parSubscriptionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
    * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
-   * @return Map wth subscription table row
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC
+   * @return Subscription table row
    */
   Map getSubscriptionBy(Map input) {
     return getSubscriptionsBy(input + [limit: 1])?.getAt(0)
@@ -142,14 +142,14 @@ trait Subscription {
    * @param equipmentId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param prevSubscriptionId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isClosed           {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current date time, but only if beginDate and endDate are not set
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
    * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit              {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC
-   * @return List[Map] of subscription table rows
+   * @param limit              {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC
+   * @return Subscription table rows
    */
-  List getChildSubscriptions(Map input = [:], def parSubscriptionId) {
+  List<Map> getChildSubscriptions(Map input = [:], def parSubscriptionId) {
     return getSubscriptionsBy(input + [parSubscriptionId : parSubscriptionId])
   }
 
@@ -178,8 +178,8 @@ trait Subscription {
    * @param beginDate          {@link java.time.Temporal Any date type}. Optional
    * @param endDate            {@link java.time.Temporal Any date type}. Optional
    * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
-   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
-   * @return Map with created or updated subscription (in Oracle API procedure notation)
+   * @param evaluateDiscounts  {@link Boolean}. Optional. Default: true
+   * @return Created or updated subscription (in Oracle API procedure notation)
    */
   private Map putSubscription(Map input) {
     LinkedHashMap params = mergeParams([
@@ -248,8 +248,8 @@ trait Subscription {
    * @param beginDate          {@link java.time.Temporal Any date type}. Optional
    * @param endDate            {@link java.time.Temporal Any date type}. Optional
    * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
-   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
-   * @return Map with created subscription (in Oracle API procedure notation)
+   * @param evaluateDiscounts  {@link Boolean}. Optional. Default: true
+   * @return Created subscription (in Oracle API procedure notation)
    */
   Map createSubscription(Map input = [:], def customerId) {
     return putSubscription(input + [customerId: customerId])
@@ -262,7 +262,7 @@ trait Subscription {
    * @param payDay             {@link Integer}. Optional, possible values: 1..28
    * @param endDate            {@link java.time.Temporal Any date type}. Optional
    * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
-   * @return Map with updated subscription (in Oracle API procedure notation)
+   * @return Updated subscription (in Oracle API procedure notation)
    */
   Map updateSubscription(Map input = [:], def subscriptionId) {
     return putSubscription(input + [subscriptionId: subscriptionId])
@@ -283,8 +283,8 @@ trait Subscription {
    * @param beginDate          {@link java.time.Temporal Any date type}. Optional
    * @param endDate            {@link java.time.Temporal Any date type}. Optional
    * @param chargeLogEndDate   {@link java.time.Temporal Any date type}. Optional
-   * @param evaluateDiscounts  {@link Boolean}. Optional, default: true
-   * @return Map with created child subscription (in Oracle API procedure notation)
+   * @param evaluateDiscounts  {@link Boolean}. Optional. Default: true
+   * @return Created child subscription (in Oracle API procedure notation)
    */
   Map createChildSubscription(Map input = [:], def parSubscriptionId) {
     return putSubscription(input + [parSubscriptionId: parSubscriptionId])
@@ -301,8 +301,8 @@ trait Subscription {
   /**
    * Close subscription
    * @param subscriptionId  {@link java.math.BigInteger BigInteger}
-   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: current datetime
-   * @param closeChargeLog  {@link Boolean}. Optional, default: false
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param closeChargeLog  {@link Boolean}. Optional. Default: false
    * @return True if subscription was closed successfully, false otherwise
    */
   Boolean closeSubscription(Map input = [:], def subscriptionId) {
@@ -337,7 +337,7 @@ trait Subscription {
   /**
    * Close subscription and charge logs
    * @param subscriptionId  {@link java.math.BigInteger BigInteger}
-   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: current datetime
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional. Default: current datetime
    * @return True if subscription and charge logs were closed successfully, false otherwise
    */
   Boolean closeSubscriptionForce(def subscriptionId, Temporal endDate = local()) {

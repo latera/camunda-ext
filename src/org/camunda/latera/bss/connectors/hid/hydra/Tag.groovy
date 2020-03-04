@@ -37,11 +37,11 @@ trait Tag {
    * @param tagId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit       {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return List[Map] of tag table rows
+   * @return Tag table rows
    */
-  List getTagsBy(Map input) {
+  List<Map> getTagsBy(Map input) {
     LinkedHashMap params = mergeParams([
       tagId       : null,
       code        : null,
@@ -67,9 +67,9 @@ trait Tag {
    * @param tagId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit      {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return Map with tag table row
+   * @return tag table row
    */
   Map getTagBy(Map input) {
     return getTagsBy(input + [limit: 1])?.getAt(0)
@@ -78,7 +78,7 @@ trait Tag {
   /**
    * Search for tag by code
    * @param code {@link CharSequence String}
-   * @return Map with tag table row
+   * @return tag table row
    */
   Map getTagByCode(CharSequence code) {
     return getTagBy(code: code)
@@ -96,7 +96,7 @@ trait Tag {
   /**
    * Get tag by id
    * @param tagId {@link java.math.BigInteger BigInteger}
-   * @return Map with tag table row or null
+   * @return tag table row
    */
   Map getTag(def tagId) {
     LinkedHashMap where = [
@@ -109,7 +109,7 @@ trait Tag {
    * Prepare inner query to search for entities by tag
    * @param entityPrimaryKey {@link CharSequence String}. Primary key of entity table to join, e.g. n_subject_id
    * @param where {@link CharSequence String} or {@link LinkedHashMap Map} with WHERE for vc_code tag table column, e.g. {@code [in: ['some_tag']]}
-   * @return SELECT query which can be used in getEntitiesBy and getEntityBy methods calls
+   * @return WHERE clause which can be used in getEntitiesBy and getEntityBy methods calls
    */
   Map prepareEntityTagQuery(CharSequence entityPrimaryKey, def where) {
     LinkedHashMap parentWhere = [:]
@@ -158,11 +158,11 @@ trait Tag {
    * @param entityType   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber   {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit        {@link Integer}. Optional, default: 0 (unlimited)
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return List[Map] of entity tag table rows
+   * @return Entity tag table rows
    */
-  List getEntitiyTagsBy(Map input) {
+  List<Map> getEntitiyTagsBy(Map input) {
     LinkedHashMap defaultParams = [
       entityTagId  : null,
       tagId        : null,
@@ -215,7 +215,7 @@ trait Tag {
    * @param lineNumber   {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order        {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return Map with entity tag table row
+   * @return Entity tag table row
    */
   Map getEntityTagBy(Map input) {
     return getEntitiyTagsBy(input + [limit: 1])?.getAt(0)
@@ -224,7 +224,7 @@ trait Tag {
   /**
    * Get entity tag by id
    * @param entityTagId {@link java.math.BigInteger BigInteger}
-   * @return Map with entity tag table row or null
+   * @return Entity tag table row
    */
   Map getEntityTag(def entityTagId) {
     LinkedHashMap where = [
@@ -243,7 +243,7 @@ trait Tag {
    * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional if 'entityType' is pased
    * @param entityType   {@link CharSequence String}. Optional if 'entityTypeId' is pased
    * @param lineNumber   {@link Integer}. Optional
-   * @return Map with created or updated entity tag (in Oracle API procedure notation)
+   * @return Created or updated entity tag (in Oracle API procedure notation)
    */
   private Map putEntityTag(Map input) {
     LinkedHashMap defaultParams = [
@@ -300,7 +300,7 @@ trait Tag {
    * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @param entityType   {@link CharSequence String}. Optional
    * @param lineNumber   {@link Integer}. Optional
-   * @return Map with created entity tag (in Oracle API procedure notation)
+   * @return Created entity tag (in Oracle API procedure notation)
    */
   Map addEntityTag(Map input) {
     return putEntityTag(input)
@@ -355,7 +355,7 @@ trait Tag {
   /**
    * Delete tag from entity
    *
-   * Overload with named args input
+   * Overload for names arguments input
    * @param entityId {@link java.math.BigInteger BigInteger}
    * @param tagId    {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag      {@link CharSequence String}. Optional if 'tagId' is pased

@@ -8,11 +8,11 @@ import static org.camunda.latera.bss.utils.Oracle.decodeBool
 trait AddParam {
 
   /**
-   * Get add param data type
+   * Get additional parameter data type
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamDataType%28Map%29"></iframe>
-   * @param param {@link Map} with add param type row
+   * @param param {@link Map} with additional parameter type row
    * @return 'string', 'bool', 'number', 'date' or 'refId'
    */
   String getAddParamDataType(Map param) {
@@ -31,11 +31,11 @@ trait AddParam {
   }
 
   /**
-   * Get add param data type with value
+   * Get additional parameter data type with value
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamDataType%28Map%2Cdef%29"></iframe>
-   * @param param {@link Map} with add param type row
+   * @param param {@link Map} with additional parameter type row
    * @param value Any type
    * @return Tuple['string'|'bool'|'number'|'date'|'refId'|'ref', value]. If ref code passed, 'ref' returned, otherwise 'refId'
    */
@@ -54,11 +54,11 @@ trait AddParam {
   }
 
   /**
-   * Get add param value or value+type
+   * Get additional parameter value or value+type
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamValue"></iframe>
-   * @param value {@link Map} with add param row
+   * @param value {@link Map} with additional parameter row
    * @param withType Return just converted value or value+type
    * @param visualRefValue If true, return ref value code, otherwise return id. Default: false
    * @return Value converted into proper class or Tuple['string'|'bool'|'number'|'date'|'refId', Value]
@@ -105,9 +105,9 @@ trait AddParam {
   }
 
   /**
-   * Get add param value or value+type
+   * Get additional parameter value or value+type
    *
-   * Overload with named args.
+   * Overload for names arguments.
    * @see #getAddParamValue(Map, Boolean, Boolean)
    */
   def getAddParamValue(Map input, Map value) {
@@ -119,9 +119,9 @@ trait AddParam {
   }
 
   /**
-   * Get add param value without type
+   * Get additional parameter value without type
    *
-   * Overload which return only value
+   * Overload for returning only value.
    * @see #getAddParamValue(Map, Boolean, Boolean)
    */
   def getAddParamValueRaw(Map value, Boolean visualRefValue = false) {

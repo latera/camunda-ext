@@ -83,7 +83,7 @@ trait Invoice {
   /**
    * Get invoice by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with invoice table row or null
+   * @return Invoice table row
    */
   Map getInvoice(def docId) {
     LinkedHashMap where = [
@@ -165,7 +165,7 @@ trait Invoice {
    * @param parLineId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param objectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param moveTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param moveType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unitId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param unit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -188,11 +188,11 @@ trait Invoice {
    * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return List[Map] of invoice line table rows
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Invoice line table rows
    */
-  List getInvoiceLinesBy(Map input) {
+  List<Map> getInvoiceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -302,10 +302,10 @@ trait Invoice {
   /**
    * Get invoice lines by doc id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param limit {@link Integer}. Optional, default: 0 (unlimited)
-   * @return List[Map] of invoice line table rows
+   * @param limit {@link Integer}. Optional. Default: 0 (unlimited)
+   * @return Invoice line table rows
    */
-  List getInvoiceLines(def docId, Integer limit = 0) {
+  List<Map> getInvoiceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
@@ -321,7 +321,7 @@ trait Invoice {
    * @param parLineId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param objectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param moveTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param moveType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unitId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param unit           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -344,8 +344,8 @@ trait Invoice {
    * @param operationDate  {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param beginDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param endDate        {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return Map with invoice line table row
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Invoice line table row
    */
   Map getInvoiceLineBy(Map input) {
     return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
@@ -354,7 +354,7 @@ trait Invoice {
   /**
    * Get invoice line by id
    * @param lineId {@link java.math.BigInteger BigInteger}
-   * @return Map with invoice line table row
+   * @return Invoice line table row
    */
   Map getInvoiceLine(def lineId) {
     LinkedHashMap where = [

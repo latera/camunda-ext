@@ -26,7 +26,7 @@ trait PriceOrder {
    * @param parentDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param reasonDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param workflowId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param stateId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param operationDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -49,11 +49,11 @@ trait PriceOrder {
    * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit               {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC_LINE_NO DESC
-   * @return List[Map] of price order table rows
+   * @param limit               {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC_LINE_NO DESC
+   * @return Price order table rows
    */
-  List getPriceOrdersBy(Map input) {
+  List<Map> getPriceOrdersBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId               : null,
       parentDocId         : null,
@@ -164,7 +164,7 @@ trait PriceOrder {
    * @param parentDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param reasonDocId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param workflowId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param providerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param stateId             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param state               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param operationDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -187,8 +187,8 @@ trait PriceOrder {
    * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: D_BEGIN ASC_LINE_NO DESC
-   * @return Map with price order table row
+   * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC_LINE_NO DESC
+   * @return Price order table row
    */
   Map getPriceOrder(def docId) {
     LinkedHashMap where = [
@@ -204,7 +204,7 @@ trait PriceOrder {
    * @param lineNumber        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param parLineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param goodType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param price             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param priceWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -231,14 +231,14 @@ trait PriceOrder {
    * @param speedUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param addressId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param timeIntervalId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param priceParam        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param userRem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit             {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return List[Map] of price order line table rows
+   * @param limit             {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Price order line table rows
    */
-  List getPriceLinesBy(Map input) {
+  List<Map> getPriceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -359,10 +359,10 @@ trait PriceOrder {
   /**
    * Get price order lines by doc id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @param limit {@link Integer}. Optional, default: 0 (unlimited)
-   * @return List[Map] of price order line table rows
+   * @param limit {@link Integer}. Optional. Default: 0 (unlimited)
+   * @return Price order line table rows
    */
-  List getPriceLines(def docId, Integer limit = 0) {
+  List<Map> getPriceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
@@ -376,7 +376,7 @@ trait PriceOrder {
    * @param lineNumber        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param parLineId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param goodTypeId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not cancelled
    * @param goodType          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param price             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param priceWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -403,12 +403,12 @@ trait PriceOrder {
    * @param speedUnit         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param addressId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param timeIntervalId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional, default: current firm id
+   * @param providerId        {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param priceParam        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param userRem           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit             {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
-   * @return Map with price order line table row
+   * @param limit             {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order             {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: N_LINE_NO DESC
+   * @return Price order line table row
    */
   Map getPriceLineBy(Map input) {
     return getPriceLinesBy(input + [limit: 1])?.getAt(0)
@@ -417,7 +417,7 @@ trait PriceOrder {
   /**
    * Get price order line by id
    * @param lineId {@link java.math.BigInteger BigInteger}
-   * @return Map with price order line table row
+   * @return Price order line table row
    */
   Map getPriceLine(def lineId) {
     LinkedHashMap where = [

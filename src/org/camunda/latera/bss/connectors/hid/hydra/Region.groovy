@@ -375,11 +375,11 @@ trait Region {
    * @param home            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ownership       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param zip             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return List[Map] of region table rows
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Region table rows
    */
-  List getRegionsBy(Map input) {
+  List<Map> getRegionsBy(Map input) {
     LinkedHashMap params = mergeParams([
       hierarchyTypeId : getRefIdByCode('HIER_REG_TYPE_Federal'),
       parRegionId     : null,
@@ -457,8 +457,8 @@ trait Region {
    * @param home            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param ownership       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param zip             {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: [:]
-   * @return Map with region table row
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Region table row
    */
   Map getRegionBy(Map input) {
     return getRegionsBy(input + [limit: 1])?.getAt(0)
@@ -467,7 +467,7 @@ trait Region {
   /**
    * Get region by id
    * @param regionId {@link java.math.BigInteger BigInteger}
-   * @return Map with region table row
+   * @return Region table row
    */
   Map getRegion(def regionId) {
     return getRegionBy(regionId: regionId)
@@ -476,7 +476,7 @@ trait Region {
   /**
    * Get region tree
    * @param regionId {@link java.math.BigInteger BigInteger}
-   * @return Map with region tree.
+   * @return Region tree.
    * Region tree is a map with fields:
    * <pre>
    * {@code
@@ -585,7 +585,7 @@ trait Region {
    * @param building     {@link CharSequence String}. Optional
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
-   * @return Map with created region (in Oracle API procedure notation)
+   * @return Created region (in Oracle API procedure notation)
    */
   private Map putRegion(Map input) {
     LinkedHashMap defaultParams = [
@@ -653,7 +653,7 @@ trait Region {
    * @param building     {@link CharSequence String}. Optional
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
-   * @return Map with created region (in Oracle API procedure notation)
+   * @return Created region (in Oracle API procedure notation)
    * @since 1.4
    */
   Map createRegion(Map input) {
@@ -674,7 +674,7 @@ trait Region {
    * @param building     {@link CharSequence String}. Optional
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
-   * @return Map with created region (in Oracle API procedure notation)
+   * @return Updated region (in Oracle API procedure notation)
    * @deprecated use {@link #updateRegion(Map, def)}
    */
   Map updateRegion(Map input) {
@@ -694,7 +694,7 @@ trait Region {
    * @param building     {@link CharSequence String}. Optional
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
-   * @return Map with created region (in Oracle API procedure notation)
+   * @return Updated region (in Oracle API procedure notation)
    * @since 1.4
    */
   Map updateRegion(Map input = [:], def regionId) {

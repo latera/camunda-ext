@@ -71,7 +71,7 @@ trait Contract {
   /**
    * Get contract by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with contract table row or null
+   * @return Contract table row
    */
   Map getContract(def docId) {
     LinkedHashMap where = [
@@ -128,13 +128,13 @@ trait Contract {
    * @param contractId     Alias for docId
    * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
    * @param baseContractId Alias for parentDocId
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
-   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract default workflow
+   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param receiverId     {@link java.math.BigInteger BigInteger}. Optional
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created or updated contract (in Oracle API procedure notation)
+   * @return Created or updated contract (in Oracle API procedure notation)
    */
   private Map putContract(Map input) {
     LinkedHashMap defaultParams = [
@@ -279,12 +279,12 @@ trait Contract {
    * Create contract
    * @param customerId     {@link java.math.BigInteger BigInteger}
    * @param baseContractId {@link java.math.BigInteger BigInteger}. Optional
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
-   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional, default: current firm id
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract default workflow
+   * @param providerId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created contract (in Oracle API procedure notation)
+   * @return Created contract (in Oracle API procedure notation)
    */
   Map createContract(Map input = [:], def customerId) {
     input.remove('docId')
@@ -296,11 +296,11 @@ trait Contract {
    * Update contract
    * @param docId          {@link java.math.BigInteger BigInteger}
    * @param baseContractId {@link java.math.BigInteger BigInteger}. Optional
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract default workflow
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract default workflow
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with updated contract (in Oracle API procedure notation)
+   * @return Updated contract (in Oracle API procedure notation)
    */
   Map updateContract(Map input = [:], def docId) {
     return updateContract(input + [docId: docId])
@@ -357,8 +357,8 @@ trait Contract {
   /**
    * Change contract state to Dissolved
    * @param docId           {@link java.math.BigInteger BigInteger}
-   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract app, false to disable such check. Optional, default: false
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional. Default: currrent datetime
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract app, false to disable such check. Optional. Default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveContract(Map input) {
@@ -432,7 +432,7 @@ trait Contract {
   /**
    * Get contract app by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with contract app table row or null
+   * @return Contract app table row
    */
   Map getContractApp(def docId) {
     return getContract(docId)
@@ -490,11 +490,11 @@ trait Contract {
    * @param contractAppId  Alias for docId
    * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
    * @param contractId     Alias for parentDocId
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract app default workflow
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created or updated contract app (in Oracle API procedure notation)
+   * @return Created or updated contract app (in Oracle API procedure notation)
    */
   private Map putContractApp(Map input) {
     LinkedHashMap params = [
@@ -512,11 +512,11 @@ trait Contract {
   /**
    * Create contract app
    * @param contractId     {@link java.math.BigInteger BigInteger}
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract app default workflow
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created contract app (in Oracle API procedure notation)
+   * @return Created contract app (in Oracle API procedure notation)
    */
   Map createContractApp(Map input = [:], def contractId) {
     input.remove('docId')
@@ -528,11 +528,11 @@ trait Contract {
    * Update contract app
    * @param docId          {@link java.math.BigInteger BigInteger}
    * @param contractId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: contract app default workflow
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: contract app default workflow
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with updated contract app (in Oracle API procedure notation)
+   * @return Updated contract app (in Oracle API procedure notation)
    */
   Map updateContractApp(Map input = [:], def docId) {
     return putContractApp(input + [docId: docId])
@@ -589,8 +589,8 @@ trait Contract {
   /**
    * Change contract app state to Dissolved
    * @param docId           {@link java.math.BigInteger BigInteger}
-   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract, false to disable such check. Optional, default: false
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional. Default: currrent datetime
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on contract, false to disable such check. Optional. Default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveContractApp(Map input) {
@@ -645,7 +645,7 @@ trait Contract {
   /**
    * Get add agreement by id
    * @param docId {@link java.math.BigInteger BigInteger}
-   * @return Map with add agreement table row or null
+   * @return Add agreement table row
    */
   Map getAddAgreement(def docId) {
     return getContract(docId)
@@ -704,11 +704,11 @@ trait Contract {
    * @param agreementId    Alias for docId
    * @param parentDocId    {@link java.math.BigInteger BigInteger}. Optional
    * @param contractId     Alias for parentDocId
-   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional, default: add agreement default workflow
+   * @param workflowId     {@link java.math.BigInteger BigInteger}. Optional. Default: add agreement default workflow
    * @param beginDate      {@link java.time.Temporal Any date type}. Optional
    * @param endDate        {@link java.time.Temporal Any date type}. Optional
    * @param number         {@link CharSequence String}. Optional
-   * @return Map with created or updated add agreement (in Oracle API procedure notation)
+   * @return Created or updated add agreement (in Oracle API procedure notation)
    */
   private Map putAddAgreement(Map input) {
     LinkedHashMap params = [
@@ -730,7 +730,7 @@ trait Contract {
    * @param beginDate  {@link java.time.Temporal Any date type}. Optional
    * @param endDate    {@link java.time.Temporal Any date type}. Optional
    * @param number     {@link CharSequence String}. Optional
-   * @return Map with created add agreement (in Oracle API procedure notation)
+   * @return Ceated add agreement (in Oracle API procedure notation)
    */
   Map createAddAgreement(Map input = [:], def contractId) {
     input.remove('docId')
@@ -748,7 +748,7 @@ trait Contract {
    * @param beginDate  {@link java.time.Temporal Any date type}. Optional
    * @param endDate    {@link java.time.Temporal Any date type}. Optional
    * @param number     {@link CharSequence String}. Optional
-   * @return Map with created updated add agreement (in Oracle API procedure notation)
+   * @return Updated add agreement (in Oracle API procedure notation)
    */
   Map updateAddAgreement(Map input = [:], def docId) {
     return putAddAgreement(input + [docId: docId])
@@ -805,8 +805,8 @@ trait Contract {
   /**
    * Change add agreement state to Dissolved
    * @param docId           {@link java.math.BigInteger BigInteger}
-   * @param endDate         {@link java.time.Temporal Any date type}. Optional, default: currrent date time
-   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on add agreement, false to disable such check. Optional, default: false
+   * @param endDate         {@link java.time.Temporal Any date type}. Optional. Default: currrent datetime
+   * @param checkChargeLogs {@link CharSequence String}. True if there should be no actual charge logs on add agreement, false to disable such check. Optional. Default: false
    * @return True if contract was successfully dissolved, false otherwise
    */
   Boolean dissolveAddAgreement(Map input) {
