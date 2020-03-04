@@ -562,6 +562,24 @@ trait Address {
     }
   }
 
+  private Boolean isSubjectAddress(def entityAddressId, def entityTypeId = null, def entityId = null) {
+    if (notEmpty(entityTypeId) || notEmpty(entityId)) {
+      return isSubject(entityTypeId ?: entityId)
+    } else {
+      LinkedHashMap objAddress = getObjAddress(entityAddressId)
+      if (objAddress) {
+        return false
+      }
+
+      LinkedHashMap subjAddress = getSubjAddress(entityAddressId)
+      if (subjAddress) {
+        return true
+      }
+    }
+
+    return null
+  }
+
   private Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId    : null,
@@ -584,7 +602,15 @@ trait Address {
       endDate            : null
     ], input)
 
-    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
+    Boolean isSubj = false
+
+    if (notEmpty(params.entityAddressId)) {
+      isSubj = isSubjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+    }
+
+    if (isSubj == null) {
+      throw new Exception ("No address found!")
+    }
 
     if (isSubj) {
       params.subjAddressId   = params.entityAddressId
@@ -723,40 +749,15 @@ trait Address {
 
     Boolean isSubj = false
 
-    if (params.entityAddressId) {
-      if (params.entityTypeId || params.entityId) {
-        isSubj = isSubject(params.entityTypeId ?: params.entityId)
-      } else {
-        LinkedHashMap objAddress = getEntityAddress(
-          entityAddressId : params.entityAddressId,
-          entityId        : params.entityId,
-          addressId       : params.addressId,
-          addrTypeId      : params.addrTypeId,
-          bindAddrTypeId  : params.bindAddrTypeId,
-          stateId         : params.stateId,
-          isMain          : params.isMain
-        )
-        LinkedHashMap subjAddress = getEntityAddress(
-          entityType      : 'SUBJ_TYPE_Company',
-          entityAddressId : params.entityAddressId,
-          entityId        : params.entityId,
-          addressId       : params.addressId,
-          addrTypeId      : params.addrTypeId,
-          bindAddrTypeId  : params.bindAddrTypeId,
-          stateId         : params.stateId,
-          isMain          : params.isMain
-        )
-        if (objAddress) {
-          isSubj = false
-        } else if (subjAddress) {
-          isSubj = true
-        } else {
-          logger.info("No address found!")
-          return true
-        }
+    if (notEmpty(params.entityAddressId)) {
+      isSubj = isSubjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+
+      if (isSubj == null) {
+        logger.info("No address found!")
+        return true
       }
     } else {
-      LinkedHashMap address = getEntityAddress(
+      LinkedHashMap address = getEntityAddressBy(
         addressId      : params.addressId,
         entityTypeId   : params.entityTypeId,
         entityId       : params.entityId,
@@ -771,10 +772,10 @@ trait Address {
       }
       if (address.n_obj_address_id) {
         isSubj = false
-        params.entityAddressId = address?.n_obj_address_id
+        params.entityAddressId = address.n_obj_address_id
       } else {
         isSubj = true
-        params.entityAddressId = address?.n_subj_address_id
+        params.entityAddressId = address.n_subj_address_id
       }
     }
 

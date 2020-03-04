@@ -24,6 +24,7 @@ v1.4.2 [unreleased]
 -   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
 -   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
 -   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
+-   [#46](https://github.com/latera/camunda-ext/pull/46) Fix hid.Hydra#deleteEntityAddress method
 
 v1.4.1 [2020-02-14]
 -------------------
