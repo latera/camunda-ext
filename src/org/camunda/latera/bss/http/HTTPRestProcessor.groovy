@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.http
 
-import groovyx.net.http.HttpBuilder
+import groovyx.net.http.OkHttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
 import org.camunda.latera.bss.logging.SimpleLogger
@@ -10,7 +10,7 @@ import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 import static org.camunda.latera.bss.utils.JSON.escape
 
 class HTTPRestProcessor {
-  HttpBuilder httpClient
+  OkHttpBuilder httpClient
   String baseUrl
   String basePath
   SimpleLogger logger
@@ -46,7 +46,7 @@ class HTTPRestProcessor {
     params.remove('supressResponseBodyLog')
     params.remove('execution')
 
-    this.httpClient = HttpBuilder.configure {
+    this.httpClient = OkHttpBuilder.configure {
       request.uri = this.baseUrl.toString()
       params.remove('baseUrl')
 

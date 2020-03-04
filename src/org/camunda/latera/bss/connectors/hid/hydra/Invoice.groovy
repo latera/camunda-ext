@@ -1,98 +1,98 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
-import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Bill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_Bill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_AdvanceBill
-import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentBill
+import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_Invoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_Invoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_ProformaInvoice
+import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentInvoice
 
-trait Bill {
-  private static String  BILLS_TABLE      = 'SD_V_BILLS_T'
-  private static String  BILL_LINES_TABLE = 'SD_V_BILLS_C'
+trait Invoice {
+  private static String  INVOICES_TABLE      = 'SD_V_INVOICES_T'
+  private static String  INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'
 
-  String getBillsTable() {
-    return BILLS_TABLE
+  String getInvoicesTable() {
+    return INVOICES_TABLE
   }
 
-  String getBillLinesTable() {
-    return BILL_LINES_TABLE
+  String getInvoiceLinesTable() {
+    return INVOICE_LINES_TABLE
   }
 
-  String getBillType() {
-    return getRefCode(getBillTypeId())
+  String getInvoiceType() {
+    return getRefCode(getInvoiceTypeId())
   }
 
-  Number getBillTypeId() {
-    return DOC_TYPE_Bill
+  Number getInvoiceTypeId() {
+    return DOC_TYPE_Invoice
   }
 
-  String getDefaultBillWorkflow() {
-    return getRefCode(getDefaultBillWorkflowId())
+  String getDefaultInvoiceWorkflow() {
+    return getRefCode(getDefaultInvoiceWorkflowId())
   }
 
-  Number getDefaultBillWorkflowId() {
-    return WFLOW_Bill
+  Number getDefaultInvoiceWorkflowId() {
+    return WFLOW_Invoice
   }
 
-  String getDefaultAdvanceBillWorkflow() {
-    return getRefCode(getDefaultAdvanceBillWorkflowId())
+  String getDefaultProformaInvoiceWorkflow() {
+    return getRefCode(getDefaultProformaInvoiceWorkflowId())
   }
 
-  Number getDefaultAdvanceBillWorkflowId() {
-    return WFLOW_AdvanceBill
+  Number getDefaultProformaInvoiceWorkflowId() {
+    return WFLOW_ProformaInvoice
   }
 
-  String getDefaultPrepaidBillWorkflow() {
-    return getRefCode(getDefaultPrepaidBillWorkflowId())
+  String getDefaultPrepaymentInvoiceWorkflow() {
+    return getRefCode(getDefaultPrepaymentInvoiceWorkflowId())
   }
 
-  Number getDefaultPrepaidBillWorkflowId() {
-    return WFLOW_PrepaymentBill
+  Number getDefaultPrepaymentInvoiceWorkflowId() {
+    return WFLOW_PrepaymentInvoice
   }
 
-  Map getBill(def docId) {
+  Map getInvoice(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
     ]
-    return hid.getTableFirst(getBillsTable(), where: where)
+    return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
-  List getBillsBy(Map input) {
-    input.docTypeId  = getBillTypeId()
+  List getInvoicesBy(Map input) {
+    input.docTypeId  = getInvoiceTypeId()
     return getDocumentsBy([providerId: null] + input)
   }
 
-  Map getBillBy(Map input) {
-    input.docTypeId = getBillTypeId()
+  Map getInvoiceBy(Map input) {
+    input.docTypeId = getInvoiceTypeId()
     return getDocumentBy([providerId: null] + input)
   }
 
-  Boolean isBill(def entityOrEntityType) {
+  Boolean isInvoice(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
     }
 
     Number entityIdOrEntityTypeId = toIntSafe(entityOrEntityType)
     if (entityIdOrEntityTypeId != null) {
-      return entityIdOrEntityTypeId == getBillTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getBillTypeId()
+      return entityIdOrEntityTypeId == getInvoiceTypeId() || getDocument(entityIdOrEntityTypeId).n_doc_type_id == getInvoiceTypeId()
     } else {
-      return entityOrEntityType == getBillType()
+      return entityOrEntityType == getInvoiceType()
     }
   }
 
-  Boolean actualizeBill(def docId) {
+  Boolean actualizeInvoice(def docId) {
     return actualizeDocument(docId)
   }
 
-  Boolean executeBill(def docId) {
+  Boolean executeInvoice(def docId) {
     return executeDocument(docId)
   }
 
-  Boolean cancelBill(def docId) {
+  Boolean cancelInvoice(def docId) {
     return cancelDocument(docId)
   }
 
-  List getBillLinesBy(Map input) {
+  List getInvoiceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -196,49 +196,49 @@ trait Bill {
       String oracleDate = encodeDateStr(params.operationDate)
       where[oracleDate] = [between: "d_begin and nvl(d_end, ${oracleDate})"]
     }
-    return hid.getTableData(getBillLinesTable(), where: where, order: params.order, limit: params.limit)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
-  List getBillLines(def docId, Integer limit = 0) {
+  List getInvoiceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
     ]
-    return hid.getTableData(getBillLinesTable(), where: where, limit: limit)
+    return hid.getTableData(getInvoiceLinesTable(), where: where, limit: limit)
   }
 
-  Map getBillLineBy(Map input) {
-    return getBillLinesBy(input + [limit: 1])?.getAt(0)
+  Map getInvoiceLineBy(Map input) {
+    return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
   }
 
-  Map getBillLine(def lineId) {
+  Map getInvoiceLine(def lineId) {
     LinkedHashMap where = [
       n_line_id: lineId
     ]
-    return hid.getTableFirst(getBillLinesTable(), where: where)
+    return hid.getTableFirst(getInvoiceLinesTable(), where: where)
   }
 
-  Map addBillTag(Map input) {
+  Map addInvoiceTag(Map input) {
     return addDocumentTag(input)
   }
 
-  Map addBillTag(def docId, CharSequence tag) {
-    return addBillTag(docId: docId, tag: tag)
+  Map addInvoiceTag(def docId, CharSequence tag) {
+    return addInvoiceTag(docId: docId, tag: tag)
   }
 
-  Map addBillTag(Map input = [:], def docId) {
-    return addBillTag(input + [docId: docId])
+  Map addInvoiceTag(Map input = [:], def docId) {
+    return addInvoiceTag(input + [docId: docId])
   }
 
-  Boolean deleteBillTag(def docTagId) {
+  Boolean deleteInvoiceTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
-  Boolean deleteBillTag(Map input) {
+  Boolean deleteInvoiceTag(Map input) {
     return deleteDocumentTag(input)
   }
 
-  Boolean deleteBillTag(def docId, CharSequence tag) {
-    return deleteBillTag(docId: docId, tag: tag)
+  Boolean deleteInvoiceTag(def docId, CharSequence tag) {
+    return deleteInvoiceTag(docId: docId, tag: tag)
   }
 }

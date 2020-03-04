@@ -4,6 +4,7 @@ v1.5 [unreleased]
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
 -   [#35](https://github.com/latera/camunda-ext/pull/35) Set private modifier for hid.hydra.Account#put* methods
+-   [#36](https://github.com/latera/camunda-ext/pull/36) Rename Bill to Invoice
 
 v1.4.2 [unreleased]
 -------------------
@@ -11,13 +12,17 @@ v1.4.2 [unreleased]
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
 -   [#38](https://github.com/latera/camunda-ext/pull/38) Add method for job updating into PlanadoV2 class
 -   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
+-   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
+-   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
 
 ### Bugfixes
--   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class                    
+-   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
 -   [#28](https://github.com/latera/camunda-ext/pull/28) Fix return types of HID class methods
 -   [#30](https://github.com/latera/camunda-ext/pull/30) Fix wrong Self-Care app id passing into method calls
 -   [#26](https://github.com/latera/camunda-ext/pull/26) Fix passing appCode into hid.Hydra#mainInit method
 -   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
+-   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
+-   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
 -   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
 
 v1.4.1 [2020-02-14]
@@ -30,7 +35,6 @@ v1.4.1 [2020-02-14]
 -   [#3](https://github.com/latera/camunda-ext/pull/3) Add methods to tag entities into hid.Hydra class
 -   [#20](https://github.com/latera/camunda-ext/pull/20) Add newMessage method to MailSender class
 -   [#3200317](https://github.com/latera/camunda-ext/commit/3200317) Allow to pass constant id with non-Integer type into getConstantCode method
--   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
 
 ### Refactoring
 -   [#8](https://github.com/latera/camunda-ext/pull/8) Prettify runCommand,  Add constants, use constants instead of magic numbers in logger, Update docs
