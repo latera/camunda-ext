@@ -18,7 +18,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Document
 import org.camunda.latera.bss.connectors.hid.hydra.Contract
 import org.camunda.latera.bss.connectors.hid.hydra.PriceOrder
 import org.camunda.latera.bss.connectors.hid.hydra.ChargeLog
-import org.camunda.latera.bss.connectors.hid.hydra.Bill
+import org.camunda.latera.bss.connectors.hid.hydra.Invoice
 import org.camunda.latera.bss.connectors.hid.hydra.Subject
 import org.camunda.latera.bss.connectors.hid.hydra.Company
 import org.camunda.latera.bss.connectors.hid.hydra.Person
@@ -34,7 +34,7 @@ import org.camunda.latera.bss.connectors.hid.hydra.Param
 import org.camunda.latera.bss.connectors.hid.hydra.Search
 import org.camunda.latera.bss.connectors.hid.hydra.Tag
 
-class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Bill, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
+class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contract, PriceOrder, ChargeLog, Invoice, Subject, Company, Person, Reseller, Group, Customer, Account, Subscription, Equipment, Region, Address, Param, Search, Tag {
   private static String DEFAULT_USER   = 'hydra'
   private static String DEFAULT_LOCALE = 'ru'
   HID hid
