@@ -197,7 +197,7 @@ trait Subscription {
       endDate            : null,
       chargeLogEndDate   : null,
       evaluateDiscounts  : true
-    ])
+    ], input)
 
     def unitId = getGoodUnitId(params.goodId)
     if (unitId == getPieceUnitId() && params.quant == null) {
@@ -208,7 +208,7 @@ trait Subscription {
 
     try {
       logger.info("Putting subscription with params ${params}")
-      LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USER_GOODS_PUT', [
+      LinkedHashMap subscription = hid.execute('SI_USERS_PKG.SI_USER_GOODS_PUT', [
         num_N_SUBJ_GOOD_ID         : params.subscriptionId,
         num_N_GOOD_ID              : params.goodId,
         num_N_SUBJECT_ID           : params.customerId,
@@ -225,8 +225,8 @@ trait Subscription {
         num_N_PREV_SUBSCRIPTION_ID : params.prevSubscriptionId,
         b_EvaluateDiscounts        : encodeFlag(params.evaluateDiscounts)
       ])
-      logger.info("   Subscription ${result.num_N_SUBJ_GOOD_ID} was put successfully!")
-      return result
+      logger.info("   Subscription ${subscription.num_N_SUBJ_GOOD_ID} was put successfully!")
+      return subscription
     } catch (Exception e){
       logger.error("   Error while putting subscription!")
       logger.error_oracle(e)
