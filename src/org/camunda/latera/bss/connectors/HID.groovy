@@ -19,43 +19,14 @@ class HID implements Table {
   private static String DEFAULT_USER = 'hydra'
   XMLRPCServerProxy proxy
 
-  HID(Map params = [:]) {
-    if (params.proxy != null) {
-      this.proxy = params.proxy
-    } else {
-      def ENV = System.getenv()
-
-      String url      = params.url      ?: ENV['HID_URL']  ?: DEFAULT_URL
-      String user     = params.user     ?: ENV['HID_USER'] ?: DEFAULT_USER
-      String password = params.password ?: ENV['HID_PASSWORD']
-
-      this.proxy = new XMLRPCServerProxy(url)
-      proxy.setBasicAuth(user, password)
-    }
-  }
-
-  HID(XMLRPCServerProxy proxy) {
-    this(proxy: proxy)
-  }
-
   HID(DelegateExecution execution) {
-    this(
-      url      : execution.getVariable('hidUrl'),
-      user     : execution.getVariable('hidUser'),
-      password : execution.getVariable('hidPassword')
-    )
-  }
+    def ENV       = System.getenv()
+    this.url      = execution.getVariable('hidUrl')      ?: ENV['HID_URL']  ?: 'http://hid:10080/xml-rpc/db'
+    this.user     = execution.getVariable('hidUser')     ?: ENV['HID_USER'] ?: 'hydra'
+    this.password = execution.getVariable('hidPassword') ?: ENV['HID_PASSWORD']
 
-  HID(CharSequence url, CharSequence user, CharSequence password) {
-    this(
-      url      : url,
-      user     : user,
-      password : password
-    )
-  }
-
-  Map call(CharSequence name, def params) {
-    return proxy.invokeMethod(name, params)
+    this.proxy = new XMLRPCServerProxy(this.url)
+    this.proxy.setBasicAuth(this.user, this.password)
   }
 
   /**
@@ -73,7 +44,8 @@ ${query}
 )
 WHERE ROWNUM <= ${limit}"""
     }
-    List rows = call('SELECT', [query.toString(), page]).SelectResult
+    LinkedHashMap answer = this.proxy.invokeMethod('SELECT', [query.toString(), page])
+    List rows = answer.SelectResult
     if (rows) {
       rows.each{ List row ->
         // There is row number, just remove it
@@ -190,7 +162,7 @@ WHERE ROWNUM <= ${limit}"""
       }
       encodedParams[key] = encodeNull(value)
     }
-    return call(execName, [encodedParams])
+    return this.proxy.invokeMethod(execName, [encodedParams])
   }
 
   /**

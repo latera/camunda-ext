@@ -47,36 +47,21 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
   Map regionHierarchyOverride
 
   Hydra(DelegateExecution execution) {
-    this(
-      new HID(execution),
-      logger          : new SimpleLogger(execution),
-      user            : execution.getVariable('hydraUser'),
-      password        : execution.getVariable('hydraPassword'),
-      firmId          : execution.getVariable('hydraFirmId')     ?: execution.getVariable('homsOrderDataFirmId'),
-      resellerId      : execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'),
-      locale          : execution.getVariable('locale'),
-      regionHierarchy : execution.getVariable('regionHierarchy')
-    )
-  }
-
-  Hydra(Map params = [:], HID hid) {
-    this(params + [hid: hid])
-  }
-
-  Hydra(Map params = [:]) {
+    this.logger     = new SimpleLogger(execution)
+    this.hid        = new HID(execution)
     def ENV         = System.getenv()
-    this.hid        = params.hid      ?: new HID()
-    this.logger     = params.logger   ?: new SimpleLogger()
-    this.user       = params.user     ?: ENV['HYDRA_USER'] ?: DEFAULT_USER
-    this.password   = params.password ?: ENV['HYDRA_PASSWORD']
-    this.locale     = params.locale   ?: DEFAULT_LOCALE
-    this.firmId     = toIntSafe(params.firmId) ?: DEFAULT_FIRM
-    this.resellerId = toIntSafe(params.resellerId)
-    this.regionHierarchyOverride = params.regionHierarchy
+
+    this.locale     = execution.getVariable('locale') ?: DEFAULT_LOCALE
+    this.user       = ENV['HYDRA_USER']     ?: execution.getVariable('hydraUser') ?: DEFAULT_USER
+    this.password   = ENV['HYDRA_PASSWORD'] ?: execution.getVariable('hydraPassword')
+    this.firmId     = toIntSafe(execution.getVariable('hydraFirmId')     ?: (execution.getVariable('homsOrderDataFirmId') ?: DEFAULT_FIRM))
+    this.resellerId = toIntSafe(execution.getVariable('hydraResellerId') ?: execution.getVariable('homsOrderDataResellerId'))
+    this.regionHierarchyOverride = execution.getVariable('regionHierarchy')
 
     mainInit()
     setFirm()
   }
+
 
   /**
     Merge default params with input
