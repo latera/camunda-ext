@@ -57,7 +57,11 @@ trait Document {
     return SUBJ_ROLE_Provider
   }
 
-  Integer getReceiverRoleId() {
+  Integer getRecipientRoleId() {
     return SUBJ_ROLE_Receiver
+  }
+
+  Integer getReceiverRoleId() {
+    return getRecipientRoleId()
   }
 }
