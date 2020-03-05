@@ -9,9 +9,6 @@ trait AddParam {
 
   /**
    * Get additional parameter data type
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamDataType%28Map%29"></iframe>
    * @param param {@link Map} with additional parameter type row
    * @return 'string', 'bool', 'number', 'date' or 'refId'
    */
@@ -32,9 +29,6 @@ trait AddParam {
 
   /**
    * Get additional parameter data type with value
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamDataType%28Map%2Cdef%29"></iframe>
    * @param param {@link Map} with additional parameter type row
    * @param value Any type
    * @return Tuple['string'|'bool'|'number'|'date'|'refId'|'ref', value]. If ref code passed, 'ref' returned, otherwise 'refId'
@@ -55,9 +49,6 @@ trait AddParam {
 
   /**
    * Get additional parameter value or value+type
-    <p>
-    Examples:
-    <iframe style="width:100%;height:200px;border:none;" src="/camunda-ext/test-reports/org.camunda.latera.bss.connectors.hid.hydra.AddParamSpec#getAddParamValue"></iframe>
    * @param value {@link Map} with additional parameter row
    * @param withType Return just converted value or value+type
    * @param visualRefValue If true, return ref value code, otherwise return id. Default: false
