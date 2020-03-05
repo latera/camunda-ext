@@ -241,6 +241,17 @@ class StringUtil {
   }
 
   /**
+    Convert input to tag format
+    <p>
+    Examples:
+    <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23tagify"></iframe>
+    @param input String to convert to tag
+  */
+  static String tagify(CharSequence input) {
+    return input.toLowerCase().replaceAll(/\s+/, '_').replaceAll(/[^\w\d_-]/, '').toString()
+  }
+
+  /**
     Convert first word letter to capital one
     <p>
     Examples:
