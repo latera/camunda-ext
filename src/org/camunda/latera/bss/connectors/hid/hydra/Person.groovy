@@ -569,7 +569,7 @@ trait Person {
   }
 
   /**
-   * Search for person one additional parameter by different fields value
+   * Search for person additional parameter by different fields value
    * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getPersonAddParamBy(Map input) {

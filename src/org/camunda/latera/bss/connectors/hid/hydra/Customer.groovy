@@ -469,7 +469,7 @@ trait Customer {
   }
 
   /**
-   * Search for customer one additional parameter by different fields value
+   * Search for customer additional parameter by different fields value
    * @see Subject#getSubjectAddParamBy(Map)
    */
   Map getCustomerAddParamBy(Map input) {

@@ -373,7 +373,7 @@ trait Company {
   }
 
   /**
-   * Search for company one additional parameter by different fields value
+   * Search for company additional parameter by different fields value
    * @seeSubject #getSubjectAddParamBy(Map)
    */
   Map getCompanyAddParamBy(Map input) {

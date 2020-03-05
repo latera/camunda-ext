@@ -36,8 +36,8 @@ class HID implements Table {
     Query database and return rows
     @param query SELECT query
     @param asMap If true, return columns with names, otherwise return columns list
-    @param limit Limit rows count
-    @param page Page number to start count rows
+    @param limit Max rows count
+    @param page Page number to return data from
   */
   List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
     List result = []
@@ -93,8 +93,8 @@ WHERE ROWNUM <= ${limit}"""
   /**
     Query database and return rows as columns list
     @param query SELECT query
-    @param limit Limit rows count
-    @param page Page number to start count rows
+    @param limit Max rows count
+    @param page Page number to return data from
   */
   List<List> queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, false, limit, page)
@@ -103,8 +103,8 @@ WHERE ROWNUM <= ${limit}"""
   /**
     Query database and return rows as columns with names
     @param query SELECT query
-    @param limit Limit rows count
-    @param page Page number to start count rows
+    @param limit Max rows count
+    @param page Page number to return data from
   */
   List<Map> queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, true, limit, page)
