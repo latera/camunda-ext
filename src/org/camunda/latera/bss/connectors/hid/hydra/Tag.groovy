@@ -1,9 +1,9 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
-import static org.camunda.latera.bss.utils.StringUtil.snakeCase
 import static org.camunda.latera.bss.utils.StringUtil.trim
 import static org.camunda.latera.bss.utils.MapUtil.isMap
+import org.camunda.latera.bss.utils.StringUtil
 
 trait Tag {
   private static String TAGS_TABLE        = 'SI_V_TAGS'
@@ -28,8 +28,8 @@ trait Tag {
    * @param value {@link CharSequence String}
    * @return Value converted with removed spaces and converted to snake case
    */
-  String tagify(CharSequence value) {
-    return snakeCase(value)
+  String tagify(CharSequence input) {
+    return StringUtil.tagify(input)
   }
 
   /**
