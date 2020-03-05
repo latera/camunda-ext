@@ -83,28 +83,14 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
         if (params.containsKey(noIdName) && params[noIdName] != null) { // addressTypeId: ..., addressType: 'ADDR_TYPE_IP', excluding addressType: null
           if (isMap(params[noIdName])) { //addrType: [in: ...]
             Map where = params[noIdName]
-            ['in', 'not in', '=', '!='].each { CharSequence operator ->
+            ['in', 'not in'].each { CharSequence operator ->
               // addressTypeId: ..., addressType: [in: ['ADDR_TYPE_IP', 'ADDR_TYPE_IP6'], 'not in': ['ADDR_TYPE_Subnet']]
-              if (where.containsKey(operator)) {
-                if (isList(where[operator])) {
-                  List newWhere = []
-                  where[operator].each { def val ->
-                    def newVal = null
-                    if (isString(val)) { //addressType: [in: ['ADDR_TYPE_IP'], ...]
-                      newVal = getRefIdByCode(val) // -> addressTypeId: [in: [123, 456], 'not in': [789]]
-                    }
-                    if (newVal == null) { //addressType: [in: [123], ...]
-                      newVal = val // -> addressTypeId: [in: [123], ...] without any changes
-                    }
-                    newWhere << newVal
-                  }
-                  where[operator] = newWhere
-                } else if (isString(where[operator])) { //addressType: ['!=': 'ADDR_TYPE_IP']
-                  def newVal = getRefIdByCode(where[operator])
-                  if (newVal != null) {
-                    where[operator] = newVal // -> addressTypeId: ['!=': 123]
-                  }
+              if (where.containsKey(operator) && isList(where[operator])) {
+                List newWhere = []
+                where[operator].each { CharSequence code ->
+                  newWhere << getRefIdByCode(code)  // -> addressTypeId: [in: [123, 456], 'not in': [789]]
                 }
+                where[operator] = newWhere
               }
             } // overwise addressType: [like: 'A%'] -> addressTypeId: [like: 'A%']
             result[name] = where
@@ -118,7 +104,6 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
         }
       }
     }
-
     //And then remove non-id key if id was set above
     params.each{ CharSequence name, def value ->
       if (!keysToExclude.contains(name)) {
