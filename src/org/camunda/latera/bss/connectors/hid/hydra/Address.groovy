@@ -315,9 +315,7 @@ trait Address {
   }
 
   Map getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
-    Boolean isSubj = isSubject(entityOrEntityTypeId)
-
-    if (isSubj) {
+    if (isSubject(entityOrEntityTypeId)) {
       return getSubjAddress(entityAddressId)
     } else {
       return getObjAddress(entityAddressId)
