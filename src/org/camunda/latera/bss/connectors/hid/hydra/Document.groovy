@@ -69,14 +69,14 @@ trait Document {
   /**
    * Get documents quick search material view name
    */
-  String getDocumentsMV() {
+  private String getDocumentsMV() {
     return DOCUMENTS_MV
   }
 
   /**
    * Get documents app param values quick search material view name
    */
-  String getDocumentAddParamsMV() {
+  private String getDocumentAddParamsMV() {
     return DOCUMENT_ADD_PARAMS_MV
   }
 

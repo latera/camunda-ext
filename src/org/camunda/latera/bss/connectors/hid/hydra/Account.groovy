@@ -22,7 +22,7 @@ trait Account {
   /**
    * Get accounts quick search material view name
    */
-  String getAccountsMV() {
+  private String getAccountsMV() {
     return ACCOUNTS_MV
   }
 

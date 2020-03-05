@@ -29,14 +29,14 @@ trait Contract {
   /**
    * Get contracts tree material view
    */
-  String getContractsTreeMV() {
+  private String getContractsTreeMV() {
     return CONTRACTS_TREE_MV
   }
 
   /**
    * Get base contracts tree material view
    */
-  String getBaseContractsTreeMV() {
+  private String getBaseContractsTreeMV() {
     return BASE_CONTRACTS_TREE_MV
   }
 

@@ -50,14 +50,14 @@ trait Subject {
   /**
    * Get subjects quick search material view name
    */
-  String getSubjectsMV() {
+  private String getSubjectsMV() {
     return SUBJECTS_MV
   }
 
   /**
    * Get subject additional parameter values quick search material view name
    */
-  String getSubjectAddParamsMV() {
+  private String getSubjectAddParamsMV() {
     return SUBJECT_ADD_PARAMS_MV
   }
 

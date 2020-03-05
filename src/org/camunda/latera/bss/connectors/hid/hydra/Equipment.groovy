@@ -56,21 +56,21 @@ trait Equipment {
   /**
    * Get object quick search material view name
    */
-  String getObjectsMV() {
+  private String getObjectsMV() {
     return OBJECTS_MV
   }
 
   /**
    * Get equipment quick search material view name
    */
-  String getEquipmentMV() {
+  private String getEquipmentMV() {
     return getObjectsMV()
   }
 
   /**
    * Get equipment additional parameters quick search material view name
    */
-  String getEquipmentAddParamsMV() {
+  private String getEquipmentAddParamsMV() {
     return EQUIPMENT_ADD_PARAMS_MV
   }
 

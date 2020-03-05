@@ -58,14 +58,14 @@ trait Address {
   /**
    * Get subject addresses material view name
    */
-  String getSubjectAddressesMV() {
+  private String getSubjectAddressesMV() {
     return SUBJECT_ADDRESSES_MV
   }
 
   /**
    * Get object addresses material view name
    */
-  String getObjectAddressesMV() {
+  private String getObjectAddressesMV() {
     return OBJECT_ADDRESSES_MV
   }
 
