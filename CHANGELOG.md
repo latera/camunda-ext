@@ -23,6 +23,8 @@ v1.4.2 [unreleased]
 -   [#34](https://github.com/latera/camunda-ext/pull/34) Search settlement accounts for base subjects, not personal ones
 -   [#41](https://github.com/latera/camunda-ext/pull/41) Use http-builder-ng-okhttp with PATCH requests support
 -   [#42](https://github.com/latera/camunda-ext/pull/42) Fix MailSender usage without auth
+-   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
+-   [#47](https://github.com/latera/camunda-ext/pull/47) Fix hid.Hydra#tagify method
 -   [#44](https://github.com/latera/camunda-ext/pull/44) Add subjTypeId to hid.Hydra#prepareSubjAddParam method
 
 v1.4.1 [2020-02-14]
