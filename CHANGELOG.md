@@ -15,6 +15,7 @@ v1.4.2 [unreleased]
 -   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
 -   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
 -   [#39](https://github.com/latera/camunda-ext/pull/39) Add html and Content-Disposition to file attachment to mail sender
+-   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
