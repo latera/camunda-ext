@@ -14,6 +14,9 @@ v1.4.2 [unreleased]
 -   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
 -   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
 -   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
+-   [#39](https://github.com/latera/camunda-ext/pull/39) Add html and Content-Disposition to file attachment to mail sender
+-   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
+-   [#43](https://github.com/latera/camunda-ext/pull/43) Allow to start pizza_order process from third-party systems
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
@@ -26,6 +29,7 @@ v1.4.2 [unreleased]
 -   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
 -   [#47](https://github.com/latera/camunda-ext/pull/47) Fix hid.Hydra#tagify method
 -   [#2239604](https://github.com/latera/camunda-ext/commit/2239604) Fix hid.Hydra#mergeParams method
+-   [#44](https://github.com/latera/camunda-ext/pull/44) Add subjTypeId to hid.Hydra#prepareSubjAddParam method
 -   [#46](https://github.com/latera/camunda-ext/pull/46) Fix hid.Hydra#deleteEntityAddress method
 
 v1.4.1 [2020-02-14]
