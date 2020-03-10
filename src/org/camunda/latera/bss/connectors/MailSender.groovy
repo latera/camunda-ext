@@ -5,6 +5,7 @@ import javax.activation.DataHandler
 import javax.mail.Message
 import javax.mail.Message.RecipientType
 import javax.mail.Multipart
+import javax.mail.Part
 import javax.mail.Session
 import javax.mail.Transport
 import javax.mail.internet.InternetAddress
@@ -172,19 +173,30 @@ class MailSender implements AutoCloseable {
     return this
   }
 
-  MailSender addFile(CharSequence name, Object datasource) {
+  MailSender addHTMLPart(CharSequence body) {
     MimeBodyPart part = new MimeBodyPart()
-    part.setDataHandler(new DataHandler(datasource, 'application/octet-stream'))
-    part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
+    part.setText(body.toString(), 'utf-8', 'html')
     this.multipart.addBodyPart(part)
     return this
   }
 
-  MailSender attachFile(CharSequence name, CharSequence urlStr = '') {
+  MailSender addFile(CharSequence name, Object datasource, String disposition = Part.ATTACHMENT) {
+    MimeBodyPart part = new MimeBodyPart()
+    part.setDataHandler(new DataHandler(datasource, 'application/octet-stream'))
+    part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
+    part.setDisposition(disposition)
+    part.setHeader('Content-ID', "<${name}>")
+    this.multipart.addBodyPart(part)
+    return this
+  }
+
+  MailSender attachFile(CharSequence name, CharSequence urlStr = '', String disposition = Part.ATTACHMENT) {
     MimeBodyPart part = new MimeBodyPart()
     URL url = new URL(urlStr)
     part.setDataHandler(new DataHandler(url))
     part.setFileName(MimeUtility.encodeText(name, 'UTF-8', null))
+    part.setDisposition(disposition)
+    part.setHeader('Content-ID', "<${name}>")
     this.multipart.addBodyPart(part)
     return this
   }

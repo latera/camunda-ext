@@ -19,13 +19,13 @@ COPY ./demo_processes/*/target/*.war /camunda/webapps/
 COPY ./seed/target/*.war /camunda/webapps/
 COPY ./target/camunda-ext-*.jar /camunda/lib/camunda-ext.jar
 
-ENV DB_DRIVER=
-ENV DB_HOST=
-ENV DB_PORT=
-ENV DB_NAME=
-ENV DB_USERNAME=
-ENV DB_PASSWORD=
-ENV DB_URL=
+ENV DB_DRIVER= \
+    DB_HOST= \
+    DB_PORT= \
+    DB_NAME= \
+    DB_USERNAME= \
+    DB_PASSWORD= \
+    DB_URL=
 
 LABEL maintainer="Hydra Billing <info@hydra-billing.com>" \
   org.opencontainers.image.authors="Hydra Billing <info@hydra-billing.com>" \
@@ -37,3 +37,6 @@ LABEL maintainer="Hydra Billing <info@hydra-billing.com>" \
   org.openbuildservice.disturl="https://github.com/latera/camunda-ext/releases" \
   org.opencontainers.image.source="https://github.com/latera/camunda-ext.git" \
   org.opencontainers.image.documentation="https://latera.github.io/camunda-ext"
+
+HEALTHCHECK --start-period=60s \
+  CMD wget -q --spider http://127.0.0.1:8080/camunda/app/welcome
