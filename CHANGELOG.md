@@ -19,6 +19,7 @@ v1.4.2 [unreleased]
 -   [#29](https://github.com/latera/camunda-ext/pull/29) Fix calling changePassword in net serv access put methods
 -   [#47](https://github.com/latera/camunda-ext/pull/47) Fix hid.Hydra#tagify method
 -   [#2239604](https://github.com/latera/camunda-ext/commit/2239604) Fix hid.Hydra#mergeParams method
+-   [#44](https://github.com/latera/camunda-ext/pull/44) Add subjTypeId to hid.Hydra#prepareSubjAddParam method
 
 v1.4.1 [2020-02-14]
 -------------------
