@@ -6,6 +6,7 @@ v1.4.2 [unreleased]
 -   [#33](https://github.com/latera/camunda-ext/pull/33) Allow to pass goodValueId into hid.Hydra#getGoodAddParamsBy
 -   [#24](https://github.com/latera/camunda-ext/pull/24) Add methods for files to document attaching
 -   [#39](https://github.com/latera/camunda-ext/pull/39) Add custom fields in create and update methods in PlanadoV2 class
+-   [#39](https://github.com/latera/camunda-ext/pull/39) Add html and Content-Disposition to file attachment to mail sender
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
