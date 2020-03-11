@@ -9,7 +9,7 @@ import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Dissolved
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Processing
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Prepared
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Provider
-import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Receiver
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Recipient
 
 trait Document {
   private static LinkedHashMap DOCUMENT_ENTITY_TYPE = [
@@ -58,10 +58,6 @@ trait Document {
   }
 
   Integer getRecipientRoleId() {
-    return SUBJ_ROLE_Receiver
-  }
-
-  Integer getReceiverRoleId() {
-    return getRecipientRoleId()
+    return SUBJ_ROLE_Recipient
   }
 }

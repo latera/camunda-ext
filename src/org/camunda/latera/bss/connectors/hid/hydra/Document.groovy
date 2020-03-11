@@ -18,7 +18,7 @@ import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Dissolved
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Processing
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Prepared
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Provider
-import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Receiver
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Recipient
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
@@ -139,20 +139,12 @@ trait Document {
     return SUBJ_ROLE_Provider
   }
 
-  String getReceiverRole() {
-    return getRefCode(getReceiverRoleId())
-  }
-
-  Number getReceiverRoleId() {
-    return SUBJ_ROLE_Receiver
-  }
-
   String getRecipientRole() {
     return getRefCode(getRecipientRoleId())
   }
 
   Number getRecipientRoleId() {
-    return getReceiverRoleId()
+    return SUBJ_ROLE_Recipient
   }
 
   String getMemberRole() {

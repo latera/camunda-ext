@@ -75,7 +75,7 @@ class Constants {
   public static final Integer DOC_STATE_Suspended           = 14003
 
   public static final Integer REF_TYPE_Subj_Roles           = 4
-  public static final Integer SUBJ_ROLE_Receiver            = 1004
+  public static final Integer SUBJ_ROLE_Recipient           = 1004
   public static final Integer SUBJ_ROLE_Provider            = 2004
   public static final Integer SUBJ_ROLE_Member              = 3004
   public static final Integer SUBJ_ROLE_ForWho              = 4004
