@@ -306,9 +306,8 @@ trait Address {
       beginDate          : null,
       endDate            : null
     ], input)
-    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
 
-    if (isSubj) {
+    if (isSubject(params.entityTypeId ?: params.entityId)) {
       params.subjAddressId = params.entityAddressId
       params.subjectId     = params.entityId
       return getSubjAddressesBy(params)
@@ -325,9 +324,7 @@ trait Address {
   }
 
   Map getEntityAddress(def entityOrEntityTypeId, def entityAddressId) {
-    Boolean isSubj = isSubject(entityOrEntityTypeId)
-
-    if (isSubj) {
+    if (isSubject(entityOrEntityTypeId)) {
       return getSubjAddress(entityAddressId)
     } else {
       return getObjAddress(entityAddressId)
@@ -583,6 +580,22 @@ trait Address {
     }
   }
 
+  private Boolean isSubjectAddress(def entityAddressId, def entityTypeId = null, def entityId = null) {
+    if (notEmpty(entityTypeId) || notEmpty(entityId)) {
+      return isSubject(entityTypeId ?: entityId)
+    }
+
+    return notEmpty(getSubjAddress(entityAddressId))
+  }
+
+  private Boolean isObjectAddress(def entityAddressId, def entityTypeId = null, def entityId = null) {
+    if (notEmpty(entityTypeId) || notEmpty(entityId)) {
+      return isObject(entityTypeId ?: entityId)
+    }
+
+    return notEmpty(getObjAddress(entityAddressId))
+  }
+
   private Map putEntityAddress(Map input) {
     LinkedHashMap params = mergeParams([
       entityAddressId    : null,
@@ -605,9 +618,22 @@ trait Address {
       endDate            : null
     ], input)
 
-    Boolean isSubj = isSubject(params.entityTypeId ?: params.entityId)
+    Boolean isSubjectAddr = false
+    Boolean isObjectAddr  = false
 
-    if (isSubj) {
+    if (notEmpty(params.entityAddressId)) {
+      isSubjectAddr = isSubjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+
+      if (!isSubjectAddr) {
+        isObjectAddr = isObjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+      }
+    }
+
+    if (!isSubjectAddr && !isObjectAddr) {
+      throw new Exception ("No address found!")
+    }
+
+    if (isSubjAddr) {
       params.subjAddressId   = params.entityAddressId
       params.subjectId       = params.entityId
       LinkedHashMap address  = putSubjAddress(params)
@@ -742,42 +768,22 @@ trait Address {
       isMain          : null
     ], input)
 
-    Boolean isSubj = false
+    Boolean isSubjectAddr = false
+    Boolean isObjectAddr  = false
 
-    if (params.entityAddressId) {
-      if (params.entityTypeId || params.entityId) {
-        isSubj = isSubject(params.entityTypeId ?: params.entityId)
-      } else {
-        LinkedHashMap objAddress = getEntityAddress(
-          entityAddressId : params.entityAddressId,
-          entityId        : params.entityId,
-          addressId       : params.addressId,
-          addrTypeId      : params.addrTypeId,
-          bindAddrTypeId  : params.bindAddrTypeId,
-          stateId         : params.stateId,
-          isMain          : params.isMain
-        )
-        LinkedHashMap subjAddress = getEntityAddress(
-          entityType      : 'SUBJ_TYPE_Company',
-          entityAddressId : params.entityAddressId,
-          entityId        : params.entityId,
-          addressId       : params.addressId,
-          addrTypeId      : params.addrTypeId,
-          bindAddrTypeId  : params.bindAddrTypeId,
-          stateId         : params.stateId,
-          isMain          : params.isMain
-        )
-        if (objAddress) {
-          isSubj = false
-        } else if (subjAddress) {
-          isSubj = true
-        } else {
-          logger.info("No address found!")
-          return true
-        }
+    if (notEmpty(params.entityAddressId)) {
+      isSubjectAddr = isSubjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+
+      if (!isSubjectAddr) {
+        isObjectAddr = isObjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
+      }
+
+      if (!isSubjectAddr && !isObjectAddr) {
+        logger.info("No address found!")
+        return true
       }
     } else {
-      LinkedHashMap address = getEntityAddress(
+      LinkedHashMap address = getEntityAddressBy(
         addressId      : params.addressId,
         entityTypeId   : params.entityTypeId,
         entityId       : params.entityId,
@@ -790,18 +796,21 @@ trait Address {
         logger.info("No address found!")
         return true
       }
+
       if (address.n_obj_address_id) {
-        isSubj = false
-        params.entityAddressId = address?.n_obj_address_id
+        isObjectAddr = true
+        params.entityAddressId = address.n_obj_address_id
       } else {
-        isSubj = true
-        params.entityAddressId = address?.n_subj_address_id
+        isSubjectAddr = true
+        params.entityAddressId = address.n_subj_address_id
       }
     }
 
-    if (isSubj) {
+    if (isSubjectAddr) {
       return deleteSubjAddress(params.entityAddressId)
-    } else {
+    }
+
+    if (isObjectAddr) {
       return deleteObjAddress(params.entityAddressId)
     }
   }
