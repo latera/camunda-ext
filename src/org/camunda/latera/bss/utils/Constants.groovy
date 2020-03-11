@@ -75,7 +75,7 @@ class Constants {
   public static final Integer DOC_STATE_Suspended           = 14003
 
   public static final Integer REF_TYPE_Subj_Roles           = 4
-  public static final Integer SUBJ_ROLE_Receiver            = 1004
+  public static final Integer SUBJ_ROLE_Recipient           = 1004
   public static final Integer SUBJ_ROLE_Provider            = 2004
   public static final Integer SUBJ_ROLE_Member              = 3004
   public static final Integer SUBJ_ROLE_ForWho              = 4004
@@ -84,7 +84,7 @@ class Constants {
   public static final Integer SUBJ_ROLE_Payer               = 7004
   public static final Integer SUBJ_ROLE_Customer            = 8004
 
-  public static final IntegerREF_TYPE_Account_Type = 42
+  public static final Integer REF_TYPE_Account_Type = 42
   public static final Integer ACC_TYPE_Settlement  = 1042
   public static final Integer ACC_TYPE_Personal    = 2042
   public static final Integer ACC_TYPE_Cash        = 3042
