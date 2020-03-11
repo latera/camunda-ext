@@ -84,7 +84,7 @@ class Constants {
   public static final Integer SUBJ_ROLE_Payer               = 7004
   public static final Integer SUBJ_ROLE_Customer            = 8004
 
-  public static final IntegerREF_TYPE_Account_Type = 42
+  public static final Integer REF_TYPE_Account_Type = 42
   public static final Integer ACC_TYPE_Settlement  = 1042
   public static final Integer ACC_TYPE_Personal    = 2042
   public static final Integer ACC_TYPE_Cash        = 3042

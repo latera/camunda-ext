@@ -139,11 +139,27 @@ trait Document {
     return SUBJ_ROLE_Provider
   }
 
+  /**
+   * Get document receiver role ref code
+   * @deprecated Use {@link #getReceiverRole} instead
+   */
   String getReceiverRole() {
     return getRefCode(getReceiverRoleId())
   }
 
+  /**
+   * Get document receiver role ref id
+   * @deprecated Use {@link #getRecipientRoleId} instead
+   */
   Number getReceiverRoleId() {
+    return getRecipientRoleId()
+  }
+
+  String getRecipientRole() {
+    return getRefCode(getRecipientRoleId())
+  }
+
+  Number getRecipientRoleId() {
     return SUBJ_ROLE_Receiver
   }
 
@@ -180,29 +196,49 @@ trait Document {
     return hid.prepareTableQuery(getDocumentSubjectsTable(), fields: pars.column, where: pars.where, tableAlias: 'DS', asMap: false)
   }
 
+  Map fallbackReceiverToRecipient(Map input) {
+    Map result = input + [:]
+
+    if (isEmpty(input.recipientId) && notEmpty(input.receiverId)) {
+      result.recipientId = input.receiverId
+      result.remove('receiverId')
+    }
+    if (isEmpty(input.recipientAccountId) && notEmpty(input.receiverAccountId)) {
+      result.recipientAccountId = input.receiverAccountId
+      result.remove('receiverAccountId')
+    }
+
+    return result
+  }
+
   List getDocumentsBy(Map input) {
-    LinkedHashMap params = mergeParams([
-      docId         : null,
-      docTypeId     : null,
-      parentDocId   : null,
-      reasonDocId   : null,
-      workflowId    : null,
-      providerId    : getFirmId(),
-      receiverId    : null,
-      memberId      : null,
-      managerId     : null,
-      stateId       : ['not in': [getDocumentStateCanceledId()]],
-      operationDate : null,
-      beginDate     : null,
-      endDate       : null,
-      number        : null,
-      tags          : null,
-      limit         : 0,
-      order         : [d_begin: 'desc', vc_doc_no: 'desc']
-    ], input)
+    LinkedHashMap defaultParams = [
+      docId              : null,
+      docTypeId          : null,
+      parentDocId        : null,
+      reasonDocId        : null,
+      workflowId         : null,
+      providerId         : getFirmId(),
+      providerAccountId  : null,
+      recipientId        : null,
+      recipientAccountId : null,
+      memberId           : null,
+      memberAccountId    : null,
+      managerId          : null,
+      managerAccountId   : null,
+      stateId            : ['not in': [getDocumentStateCanceledId()]],
+      operationDate      : null,
+      beginDate          : null,
+      endDate            : null,
+      number             : null,
+      tags               : null,
+      limit              : 0,
+      order              : [d_begin: 'desc', vc_doc_no: 'desc']
+    ]
+
+    LinkedHashMap params = mergeParams(defaultParams, fallbackReceiverToRecipient(input))
     LinkedHashMap where  = [:]
     LinkedHashMap fields = ['*': null]
-
     if (params.docId) {
       where.n_doc_id = params.docId
     }
@@ -223,10 +259,12 @@ trait Document {
       fields.n_provider_account_id = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
       where['_EXISTS']             = subSelectForRole(getProviderRoleId(), where: nvl(n_subject_id: params.providerId, n_account_id: params.providerAccountId))
     }
-    if (params.receiverId || params.receiverAccountId) {
-      fields.n_receiver_id         = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]])
-      fields.n_receiver_account_id = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['__EXISTS']            = subSelectForRole(getReceiverRoleId(), where: nvl(n_subject_id: params.receiverId, n_account_id: params.receiverAccountId))
+    if (params.recipientId || params.recipientAccountId) {
+      fields.n_recipient_id         = subSelectForRole(getRecipientRoleId(), where: [rownum: ['<=': 1]])
+      fields.n_recipient_account_id = subSelectForRole(getRecipientRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
+      fields.n_receiver_id          = fields.n_recipient_id
+      fields.n_receiver_account_id  = fields.n_recipient_account_id
+      where['__EXISTS']             = subSelectForRole(getRecipientRoleId(), where: nvl(n_subject_id: params.recipientId, n_account_id: params.recipientAccountId))
     }
     if (params.memberId || params.memberAccountId) {
       fields.n_member_id           = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]])
@@ -431,12 +469,28 @@ trait Document {
     return getDocumentProviderBy(docId: docId)
   }
 
-  Map getDocumentReceiverBy(Map input) {
-    return getDocumentSubjectBy(input + [roleId: getReceiverRoleId()])
+  Map getDocumentRecipientBy(Map input) {
+    return getDocumentSubjectBy(input + [roleId: getRecipientRoleId()])
   }
 
+  Map getDocumentRecipient(def docId) {
+    return getDocumentRecipientBy(docId: docId)
+  }
+
+  /**
+   * Get document receiver
+   * @deprecated Use {@link #getDocumentRecipientBy} instead
+   */
+  Map getDocumentReceiverBy(Map input) {
+    return getDocumentRecipientBy(input)
+  }
+
+  /**
+   * Get document receiver by doc id
+   * @deprecated Use {@link #getDocumentRecipient} instead
+   */
   Map getDocumentReceiver(def docId) {
-    return getDocumentReceiverBy(docId: docId)
+    return getDocumentRecipient(docId)
   }
 
   Map getDocumentMemberBy(Map input) {
@@ -462,7 +516,7 @@ trait Document {
       roleId     : null,
       workflowId : null
     ], input)
-    if (params.workflowId == null) {
+    if (isEmpty(params.workflowId)) {
       params.workflowId = getDocumentWorkflowId(params.docId)
     }
     try {
@@ -484,6 +538,48 @@ trait Document {
 
   Boolean addDocumentSubject(Map input = [:], def docId) {
     return putDocumentSubject(input + [docId: docId])
+  }
+
+  /**
+   * Create document-subject bind
+   *
+   * Overload with positional args
+   * @see #addDocumentSubject(Map, def)
+   */
+  Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
+  }
+
+  /**
+   * Create document-subject provider
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject recipient
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentRecipient(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getRecipientRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject member
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject manager
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
   }
 
   Map getDocumentAddParamType(def paramId) {
