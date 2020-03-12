@@ -99,7 +99,7 @@ class MailSender implements AutoCloseable {
         }
       }
 
-      this.transport.connect()
+      this.transport.connect(this.host, this.port, this.user, this.password)
     }
     return this
   }
