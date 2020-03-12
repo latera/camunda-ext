@@ -85,16 +85,22 @@ trait Contract {
 
   private Map putContract(Map input) {
     LinkedHashMap defaultParams = [
-      docId       : null,
-      docTypeId   : getContractTypeId(),
-      parentDocId : null,
-      workflowId  : getDefaultContractWorkflowId(),
-      providerId  : getFirmId(),
-      receiverId  : null,
-      stateId     : getDocumentStateActualId(),
-      beginDate   : local(),
-      endDate     : null,
-      number      : null
+      docId              : null,
+      docTypeId          : getContractTypeId(),
+      parentDocId        : null,
+      workflowId         : getDefaultContractWorkflowId(),
+      providerId         : getFirmId(),
+      providerAccountId  : null,
+      recipientId        : null,
+      recipientAccountId : null,
+      memberId           : null,
+      memberAccountId    : null,
+      managerId          : null,
+      managerAccountId   : null,
+      stateId            : getDocumentStateActualId(),
+      beginDate          : local(),
+      endDate            : null,
+      number             : null
     ]
     String _docTypeName = ''
 
@@ -102,9 +108,11 @@ trait Contract {
       LinkedHashMap existingContract = [:]
       if (isEmpty(input.docId) && notEmpty(input.contractId)) {
         input.docId = input.contractId
+        input.remove('contractId')
       }
       if (isEmpty(input.parentDocId) && notEmpty(input.baseContractId)) {
         input.parentDocId = input.baseContractId
+        input.remove('baseContractId')
       }
 
       if (notEmpty(input.docId)) {
@@ -115,14 +123,14 @@ trait Contract {
           parentDocId : contract.n_par_doc_id,
           workflowId  : contract.n_workflow_id,
           providerId  : contract.n_provider_id,
-          receiverId  : contract.n_receiver_id,
+          recipientId : contract.n_recipient_id,
           stateId     : contract.n_doc_state_id,
           beginDate   : contract.d_begin,
           endDate     : contract.d_end,
           number      : contract.vc_doc_no
         ]
       }
-      LinkedHashMap params = mergeParams(defaultParams, existingContract + input)
+      LinkedHashMap params = mergeParams(defaultParams, existingContract + fallbackReceiverToRecipient(input))
 
       if (params.docTypeId == getContractTypeId()) {
         _docTypeName = 'contract'
@@ -133,12 +141,12 @@ trait Contract {
       }
       String docTypeName = capitalize(_docTypeName)
 
-      List paramsNames = keysList(defaultParams) - ['parentDocId', 'providerId', 'receiverId', 'number']
+      List paramsNames = keysList(defaultParams) - ['parentDocId', 'providerId', 'recipientId', 'number']
       LinkedHashMap result = [:]
       if (isEmpty(input.docId) && params.subMap(paramsNames) == defaultParams.subMap(paramsNames) && isEmpty(params.number)) {
         logger.info("Creating new ${_docTypeName} with params ${params}")
         result = hid.execute('SI_USERS_PKG.CREATE_CONTRACT', [
-          num_N_USER_ID          : params.receiverId,
+          num_N_USER_ID          : params.recipientId,
           num_N_FIRM_ID          : params.providerId,
           num_N_BASE_CONTRACT_ID : params.parentDocId,
           num_N_CONTRACT_ID      : null
@@ -158,37 +166,34 @@ trait Contract {
         ])
         logger.info("   ${docTypeName} ${result.num_N_DOC_ID} was put successfully!")
 
-        if (params.providerId) {
-          Boolean providerAdded = addDocumentSubject(
+        if (params.providerId || params.providerAccountId) {
+          Boolean providerAdded = addDocumentProvider(
             result.num_N_DOC_ID,
-            subjectId  : params.providerId,
-            accountId  : params.providerAccountId,
-            roleId     : getProviderRoleId(),
+            params.providerId,
+            params.providerAccountId,
             workflowId : params.workflowId
           )
           if (!providerAdded) {
             throw new Exception("Cannot set provider ${params.providerId} for document ${result.num_N_DOC_ID}")
           }
         }
-        if (params.receiverId) {
-          Boolean receiverAdded = addDocumentSubject(
+        if (params.recipientId || params.recipientAccountId) {
+          Boolean recipientAdded = addDocumentRecipient(
             result.num_N_DOC_ID,
-            subjectId  : params.receiverId,
-            accountId  : params.receiverAccountId,
-            roleId     : getReceiverRoleId(),
+            params.recipientId,
+            params.recipientAccountId,
             workflowId : params.workflowId
           )
-          if (!receiverAdded) {
-            throw new Exception("Cannot set receiver ${params.receiverId} for document ${result.num_N_DOC_ID}")
+          if (!recipientAdded) {
+            throw new Exception("Cannot set recipient ${params.recipientId} for document ${result.num_N_DOC_ID}")
           }
         }
 
         if (params.memberId || params.memberAccountId) {
-          Boolean memberAdded = addDocumentSubject(
+          Boolean memberAdded = addDocumentMember(
             result.num_N_DOC_ID,
-            subjectId  : params.memberId,
-            accountId  : params.memberAccountId,
-            roleId     : getMemberRoleId(),
+            params.memberId,
+            params.memberAccountId,
             workflowId : params.workflowId
           )
           if (!memberAdded) {
@@ -197,11 +202,10 @@ trait Contract {
         }
 
         if (params.managerId || params.managerAccountId) {
-          Boolean managerAdded = addDocumentSubject(
+          Boolean managerAdded = addDocumentManager(
             result.num_N_DOC_ID,
-            subjectId  : params.managerId,
-            accountId  : params.managerAccountId,
-            roleId     : getManagerRoleId(),
+            params.managerId,
+            params.managerAccountId,
             workflowId : params.workflowId
           )
           if (!managerAdded) {
@@ -227,7 +231,7 @@ trait Contract {
   Map createContract(Map input = [:], def customerId) {
     input.remove('docId')
     input.remove('contractId')
-    return putContract(input + [receiverId: customerId])
+    return putContract(input + [recipientId: customerId])
   }
 
   Map updateContract(Map input = [:], def docId) {
@@ -314,8 +318,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
-    input.receiverId = null
-    input.providerId = null
+    input.recipientId = null
+    input.providerId  = null
     return getDocumentsBy(input)
   }
 
@@ -324,8 +328,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getContractAppTypeId()
     }
-    input.receiverId = null
-    input.providerId = null
+    input.recipientId = null
+    input.providerId  = null
     return getDocumentBy(input)
   }
 
@@ -350,7 +354,7 @@ trait Contract {
     params.docId       = params.docId       ?: params.contractAppId
     params.parentDocId = params.parentDocId ?: params.contractId
     params.providerId  = null
-    params.receiverId  = null
+    params.recipientId = null
     params.remove('contractId')
     return putContract(params)
   }
@@ -426,8 +430,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getAddAgreementTypeId()
     }
-    input.receiverId = null
-    input.providerId = null
+    input.recipientId = null
+    input.providerId  = null
     return getDocumentsBy(input)
   }
 
@@ -436,8 +440,8 @@ trait Contract {
     if (!input.docTypeId) {
       input.docTypeId = getAddAgreementTypeId()
     }
-    input.receiverId = null
-    input.providerId = null
+    input.recipientId = null
+    input.providerId  = null
     return getDocumentBy(input)
   }
 
@@ -461,8 +465,8 @@ trait Contract {
     ] + input
     params.docId       = params.docId       ?: params.addAgreementId ?: params.agreementId
     params.parentDocId = params.parentDocId ?: params.contractId
+    params.recipientId = null
     params.providerId  = null
-    params.receiverId  = null
     params.remove('contractId')
     return putContract(params)
   }

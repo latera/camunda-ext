@@ -17,6 +17,7 @@ v1.4.2 [unreleased]
 -   [#39](https://github.com/latera/camunda-ext/pull/39) Add html and Content-Disposition to file attachment to mail sender
 -   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
 -   [#43](https://github.com/latera/camunda-ext/pull/43) Allow to start pizza_order process from third-party systems
+-   [#45](https://github.com/latera/camunda-ext/pull/45) Add method for adding document-subject bind
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
@@ -30,6 +31,7 @@ v1.4.2 [unreleased]
 -   [#47](https://github.com/latera/camunda-ext/pull/47) Fix hid.Hydra#tagify method
 -   [#2239604](https://github.com/latera/camunda-ext/commit/2239604) Fix hid.Hydra#mergeParams method
 -   [#44](https://github.com/latera/camunda-ext/pull/44) Add subjTypeId to hid.Hydra#prepareSubjAddParam method
+-   [#46](https://github.com/latera/camunda-ext/pull/46) Fix hid.Hydra#deleteEntityAddress method
 -   [#49](https://github.com/latera/camunda-ext/pull/49) Fix MailSender auth
 
 v1.4.1 [2020-02-14]
