@@ -182,7 +182,7 @@ trait Subscription {
    * @return Created or updated subscription (in Oracle API procedure notation)
    */
   private Map putSubscription(Map input) {
-    LinkedHashMap params = mergeParams([
+    LinkedHashMap defaultParams = [
       subscriptionId     : null,
       customerId         : null,
       accountId          : null,
@@ -197,7 +197,46 @@ trait Subscription {
       endDate            : null,
       chargeLogEndDate   : null,
       evaluateDiscounts  : true
-    ], input)
+    ]
+
+    LinkedHashMap existingSubscription = [:]
+    if (notEmpty(input.subscriptionId)) {
+      LinkedHashMap subscription = getSubscription(input.subscriptionId)
+      existingSubscription += [
+        subscriptionId     : subscription.n_subscription_id,
+        customerId         : subscription.n_customer_id,
+        accountId          : subscription.n_account_id,
+        docId              : subscription.n_doc_id,
+        goodId             : subscription.n_service_id,
+        equipmentId        : subscription.n_object_id,
+        parSubscriptionId  : subscription.n_par_subscription_id,
+        prevSubscriptionId : subscription.n_prev_subscription_id,
+        quant              : subscription.n_quant,
+        payDay             : subscription.n_pay_day,
+        beginDate          : subscription.d_begin,
+        endDate            : subscription.d_end,
+        chargeLogEndDate   : subscription.d_charge_log_end
+      ]
+    }
+
+    if (notEmpty(input.parSubscriptionId)) {
+      LinkedHashMap parentSubscription = getSubscription(input.parSubscriptionId)
+      existingSubscription += [
+        customerId  : parentSubscription.n_customer_id,
+        accountId   : parentSubscription.n_account_id,
+        docId       : parentSubscription.n_doc_id,
+        equipmentId : parentSubscription.n_object_id
+      ]
+    }
+
+    if (isEmpty(input.customerId) && !notEmpty(input.accountId)) {
+      LinkedHashMap account = getAccount(input.accountId)
+      existingSubscription += [
+        customerId : account.n_subject_id
+      ]
+    }
+
+    LinkedHashMap params = mergeParams(defaultParams, existingSubscription + input)
 
     def unitId = getGoodUnitId(params.goodId)
     if (unitId == getPieceUnitId() && params.quant == null) {
@@ -208,7 +247,7 @@ trait Subscription {
 
     try {
       logger.info("Putting subscription with params ${params}")
-      LinkedHashMap subscription = hid.execute('SI_USERS_PKG.SI_USER_GOODS_PUT', [
+      LinkedHashMap result = hid.execute('SI_USERS_PKG.SI_USER_GOODS_PUT', [
         num_N_SUBJ_GOOD_ID         : params.subscriptionId,
         num_N_GOOD_ID              : params.goodId,
         num_N_SUBJECT_ID           : params.customerId,
@@ -225,8 +264,8 @@ trait Subscription {
         num_N_PREV_SUBSCRIPTION_ID : params.prevSubscriptionId,
         b_EvaluateDiscounts        : encodeFlag(params.evaluateDiscounts)
       ])
-      logger.info("   Subscription ${subscription.num_N_SUBJ_GOOD_ID} was put successfully!")
-      return subscription
+      logger.info("   Subscription ${result.num_N_SUBJ_GOOD_ID} was put successfully!")
+      return result
     } catch (Exception e){
       logger.error("   Error while putting subscription!")
       logger.error_oracle(e)

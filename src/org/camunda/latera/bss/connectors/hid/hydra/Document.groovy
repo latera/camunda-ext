@@ -18,7 +18,7 @@ import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Dissolved
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Processing
 import static org.camunda.latera.bss.utils.Constants.DOC_STATE_Prepared
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Provider
-import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Receiver
+import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Recipient
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
@@ -221,17 +221,17 @@ trait Document {
   }
 
   /**
-   * Get document Receiver role ref code
+   * Get document Recipient role ref code
    */
-  String getReceiverRole() {
-    return getRefCode(getReceiverRoleId())
+  String getRecipientRole() {
+    return getRefCode(getRecipientRoleId())
   }
 
   /**
-   * Get document Receiver role ref id
+   * Get document Recipient role ref id
    */
-  Number getReceiverRoleId() {
-    return SUBJ_ROLE_Receiver
+  Number getRecipientRoleId() {
+    return SUBJ_ROLE_Recipient
   }
 
   /**
@@ -291,52 +291,76 @@ trait Document {
     return hid.prepareTableQuery(getDocumentSubjectsTable(), fields: pars.column, where: pars.where, tableAlias: 'DS', asMap: false)
   }
 
+  Map fallbackReceiverToRecipient(Map input) {
+    Map result = input + [:]
+
+    if (isEmpty(input.recipientId) && notEmpty(input.receiverId)) {
+      result.recipientId = input.receiverId
+      result.remove('receiverId')
+    }
+    if (isEmpty(input.recipientAccountId) && notEmpty(input.receiverAccountId)) {
+      result.recipientAccountId = input.receiverAccountId
+      result.remove('receiverAccountId')
+    }
+
+    return result
+  }
+
   /**
    * Search for documents by different fields value
-   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param parentDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param reasonDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param workflowId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param providerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
-   * @param receiverId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param memberId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param managerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not canceled
-   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param operationDate {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
-   * @param beginDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param endDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @param docId              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param providerAccountId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param recipientId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param recipientAccountId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberAccountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerAccountId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not canceled
+   * @param state              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit              {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
    * @return Document table rows
    */
   List<Map> getDocumentsBy(Map input) {
-    LinkedHashMap params = mergeParams([
-      docId         : null,
-      docTypeId     : null,
-      parentDocId   : null,
-      reasonDocId   : null,
-      workflowId    : null,
-      providerId    : getFirmId(),
-      receiverId    : null,
-      memberId      : null,
-      managerId     : null,
-      stateId       : ['not in': [getDocumentStateCanceledId()]],
-      operationDate : null,
-      beginDate     : null,
-      endDate       : null,
-      number        : null,
-      tags          : null,
-      limit         : 0,
-      order         : [d_begin: 'desc', vc_doc_no: 'desc']
-    ], input)
+    LinkedHashMap defaultParams = [
+      docId              : null,
+      docTypeId          : null,
+      parentDocId        : null,
+      reasonDocId        : null,
+      workflowId         : null,
+      providerId         : getFirmId(),
+      providerAccountId  : null,
+      recipientId        : null,
+      recipientAccountId : null,
+      memberId           : null,
+      memberAccountId    : null,
+      managerId          : null,
+      managerAccountId   : null,
+      stateId            : ['not in': [getDocumentStateCanceledId()]],
+      operationDate      : null,
+      beginDate          : null,
+      endDate            : null,
+      number             : null,
+      tags               : null,
+      limit              : 0,
+      order              : [d_begin: 'desc', vc_doc_no: 'desc']
+    ]
+
+    LinkedHashMap params = mergeParams(defaultParams, fallbackReceiverToRecipient(input))
     LinkedHashMap where  = [:]
     LinkedHashMap fields = ['*': null]
-
     if (params.docId) {
       where.n_doc_id = params.docId
     }
@@ -357,10 +381,12 @@ trait Document {
       fields.n_provider_account_id = subSelectForRole(getProviderRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
       where['_EXISTS']             = subSelectForRole(getProviderRoleId(), where: nvl(n_subject_id: params.providerId, n_account_id: params.providerAccountId))
     }
-    if (params.receiverId || params.receiverAccountId) {
-      fields.n_receiver_id         = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]])
-      fields.n_receiver_account_id = subSelectForRole(getReceiverRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
-      where['__EXISTS']            = subSelectForRole(getReceiverRoleId(), where: nvl(n_subject_id: params.receiverId, n_account_id: params.receiverAccountId))
+    if (params.recipientId || params.recipientAccountId) {
+      fields.n_recipient_id         = subSelectForRole(getRecipientRoleId(), where: [rownum: ['<=': 1]])
+      fields.n_recipient_account_id = subSelectForRole(getRecipientRoleId(), where: [rownum: ['<=': 1]], column: 'n_account_id')
+      fields.n_receiver_id          = fields.n_recipient_id
+      fields.n_receiver_account_id  = fields.n_recipient_account_id
+      where['__EXISTS']             = subSelectForRole(getRecipientRoleId(), where: nvl(n_subject_id: params.recipientId, n_account_id: params.recipientAccountId))
     }
     if (params.memberId || params.memberAccountId) {
       fields.n_member_id           = subSelectForRole(getMemberRoleId(),   where: [rownum: ['<=': 1]])
@@ -702,20 +728,20 @@ trait Document {
   }
 
   /**
-   * Search for receiver document-subject bind by different fields value
+   * Search for recipient document-subject bind by different fields value
    * @see #getDocumentSubjectBy(Map)
    */
-  Map getDocumentReceiverBy(Map input) {
-    return getDocumentSubjectBy(input + [roleId: getReceiverRoleId()])
+  Map getDocumentRecipientBy(Map input) {
+    return getDocumentSubjectBy(input + [roleId: getRecipientRoleId()])
   }
 
   /**
-   * Get receiver for document by doc id
+   * Get recipient for document by doc id
    * @param docId {@link java.math.BigInteger BigInteger}
    * @return Document-subject bind table row
    */
-  Map getDocumentReceiver(def docId) {
-    return getDocumentReceiverBy(docId: docId)
+  Map getDocumentRecipient(def docId) {
+    return getDocumentRecipientBy(docId: docId)
   }
 
   /**
@@ -769,7 +795,7 @@ trait Document {
       roleId     : null,
       workflowId : null
     ], input)
-    if (params.workflowId == null) {
+    if (isEmpty(params.workflowId)) {
       params.workflowId = getDocumentWorkflowId(params.docId)
     }
     try {
@@ -803,11 +829,53 @@ trait Document {
   }
 
   /**
+   * Create document-subject bind
+   *
+   * Overload with positional args
+   * @see #addDocumentSubject(Map, def)
+   */
+  Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
+  }
+
+  /**
+   * Create document-subject provider
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject recipient
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentRecipient(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getRecipientRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject member
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
+   * Create document-subject manager
+   * @see #addDocumentSubject(Map, def, def)
+   */
+  Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
+    return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
+  }
+
+  /**
    * Get document additional parameter type by id
    * @param docValueTypeId {@link java.math.BigInteger BigInteger}
    * @return Document additional parameter table row
    */
-  Map getDocumentAddParamType(def docValueTypeId) {
+  Map getDocumentAddParamType(def paramId) {
     LinkedHashMap where = [
       n_doc_value_type_id: docValueTypeId
     ]

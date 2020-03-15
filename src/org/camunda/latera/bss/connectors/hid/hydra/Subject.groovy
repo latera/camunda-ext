@@ -480,7 +480,8 @@ trait Subject {
   Map prepareSubjectAddParam(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param')) {
-      param = getSubjectAddParamTypeByCode(input.param.toString(), getSubjectTypeId(input.subjectId))
+      def subjTypeId = input.subjTypeId ?: getSubjectTypeId(input.subjectId)
+      param = getSubjectAddParamTypeByCode(input.param.toString(), subjTypeId)
       input.paramId = param?.n_subj_value_type_id
       input.remove('param')
     } else if (input.containsKey('paramId')) {

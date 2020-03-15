@@ -35,7 +35,7 @@ trait Contract {
     String prefix = "${capitalize(params.prefix)}Contract"
 
     def customerId = order."${customerPrefix}Id" ?: [is: 'null']
-    Map contract = hydra.getContractBy(receiverId: customerId, operationDate: local())
+    Map contract = hydra.getContractBy(recipientId: customerId, operationDate: local())
 
     order."${prefix}Id" = contract?.n_doc_id
     fetchContract(prefix: params.prefix, baseContractPrefix: params.baseContractPrefix)
