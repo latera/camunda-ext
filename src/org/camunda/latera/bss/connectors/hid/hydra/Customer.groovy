@@ -21,6 +21,9 @@ import static org.camunda.latera.bss.utils.Constants.NETSERV_ARM_ISP
 import static org.camunda.latera.bss.utils.Constants.NETSERV_HID
 import java.time.temporal.Temporal
 
+/**
+  * Customer specific methods
+  */
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
   private static String CUSTOMER_NET_SERVICES_TABLE = 'SI_SUBJ_SERVICES'

@@ -4,6 +4,9 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Company
 
+/**
+  * Company specific methods
+  */
 trait Company {
   private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
 

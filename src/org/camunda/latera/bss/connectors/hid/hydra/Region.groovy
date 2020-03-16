@@ -7,6 +7,9 @@ import static org.camunda.latera.bss.utils.StringUtil.joinNonEmpty
 import static org.camunda.latera.bss.utils.MapUtil.keysList
 import static org.camunda.latera.bss.utils.Constants.REALTY_House
 
+/**
+  * Region and address specific methods
+  */
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
 

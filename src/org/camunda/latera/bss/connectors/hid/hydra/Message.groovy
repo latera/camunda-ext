@@ -2,6 +2,9 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import org.camunda.latera.bss.internal.MessageCache
 
+/**
+  * System messages specific methods
+  */
 trait Message {
   private static String MESSAGES_TABLE = 'SS_MESSAGES'
 

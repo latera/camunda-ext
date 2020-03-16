@@ -13,6 +13,9 @@ import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Flag
 import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Clob
 import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_HTML
 
+/**
+  * Data type specific methods
+  */
 trait DataType {
 
   /**
@@ -86,14 +89,14 @@ trait DataType {
   }
 
   /**
-   * Get datetimt data type ref code
+   * Get datetime type ref code
    */
   String getDateTimeType() {
     return getDateType()
   }
 
   /**
-   * Get datetimt data type ref id
+   * Get datetime type ref id
    */
   Number getDateTimeTypeId() {
     return getDateTypeId()

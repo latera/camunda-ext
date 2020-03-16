@@ -11,6 +11,9 @@ import static org.camunda.latera.bss.utils.Constants.Good_Realty
 import static org.camunda.latera.bss.utils.Constants.GOOD_Value
 import static org.camunda.latera.bss.utils.Constants.Good_NetServ
 
+/**
+  * Services (goods) specific methods
+  */
 trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'

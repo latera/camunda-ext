@@ -3,6 +3,9 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Group
 
+/**
+  * Subject group specific methods
+  */
 trait Group {
   private static String GROUPS_TABLE = 'SI_V_SUBJ_GROUPS'
 

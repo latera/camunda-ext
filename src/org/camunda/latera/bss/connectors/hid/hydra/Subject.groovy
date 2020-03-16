@@ -11,6 +11,9 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_ManuallySuspende
 import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_Disabled
 import static org.camunda.latera.bss.utils.Constants.COMMENT_TYPE_Comment
 
+/**
+  * Subject specific methods
+  */
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'

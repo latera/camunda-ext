@@ -5,6 +5,9 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 
+/**
+  * Additional parameters specific methods
+  */
 trait AddParam {
 
   /**

@@ -5,6 +5,9 @@ import static org.camunda.latera.bss.utils.StringUtil.trim
 import static org.camunda.latera.bss.utils.MapUtil.isMap
 import org.camunda.latera.bss.utils.StringUtil
 
+/**
+  * Tag specific methods
+  */
 trait Tag {
   private static String TAGS_TABLE        = 'SI_V_TAGS'
   private static String ENTITY_TAGS_TABLE = 'SI_V_ENTITIES_TAGS'

@@ -8,6 +8,9 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import java.time.temporal.Temporal
 
+/**
+  * Service subscription specific methods
+  */
 trait Subscription {
   private static String SUBSCRIPTIONS_TABLE = 'SI_V_SUBSCRIPTIONS'
 

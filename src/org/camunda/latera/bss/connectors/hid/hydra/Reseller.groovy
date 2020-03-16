@@ -2,6 +2,9 @@ package org.camunda.latera.bss.connectors.hid.hydra
 
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Reseller
 
+/**
+  * Reseller specific methods
+  */
 trait Reseller {
   private static String RESELLERS_TABLE = 'SI_V_RESELLERS'
 

@@ -22,6 +22,9 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Recipient
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
+/**
+  * Document specific methods
+  */
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
   private static String DOCUMENT_SUBJECTS_TABLE        = 'SI_V_DOC_SUBJECTS'

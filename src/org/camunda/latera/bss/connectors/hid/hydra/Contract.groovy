@@ -14,6 +14,9 @@ import static org.camunda.latera.bss.utils.Constants.WFLOW_ContractAPP
 import static org.camunda.latera.bss.utils.Constants.WFLOW_AddAgreement
 import java.time.temporal.Temporal
 
+/**
+  * Contract, contract app and add agreement specific methods
+  */
 trait Contract {
   private static String CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
   private static String CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'

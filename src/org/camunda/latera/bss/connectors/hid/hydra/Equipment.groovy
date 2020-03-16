@@ -10,6 +10,9 @@ import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_Active
 import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_NotActive
 import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_RegisterOff
 
+/**
+  * Customer equipment and objects specific methods
+  */
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'

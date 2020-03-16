@@ -6,6 +6,9 @@ import static org.camunda.latera.bss.utils.Constants.WFLOW_Invoice
 import static org.camunda.latera.bss.utils.Constants.WFLOW_ProformaInvoice
 import static org.camunda.latera.bss.utils.Constants.WFLOW_PrepaymentInvoice
 
+/**
+  * Invoice specific methods
+  */
 trait Invoice {
   private static String INVOICES_TABLE      = 'SD_V_INVOICES_T'
   private static String INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'

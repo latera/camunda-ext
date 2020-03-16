@@ -16,6 +16,9 @@ import static org.camunda.latera.bss.utils.Constants.BIND_ADDR_TYPE_Actual
 import static org.camunda.latera.bss.utils.Constants.ADDR_STATE_On
 import java.time.temporal.Temporal
 
+/**
+  * Address specific methods
+  */
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
   private static String SUBJECT_ADDRESSES_TABLE   = 'SI_V_SUBJ_ADDRESSES'

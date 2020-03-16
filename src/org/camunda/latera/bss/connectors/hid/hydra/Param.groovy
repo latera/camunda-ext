@@ -3,6 +3,9 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import org.camunda.latera.bss.internal.ParamCache
 
+/**
+  * System params specific methods
+  */
 trait Param {
   private static String PARAMS_TABLE       = 'SS_V_PARS'
   private static String PARAM_VALUES_TABLE = 'SS_V_PARVALUES'

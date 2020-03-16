@@ -6,6 +6,9 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Person
 
+/**
+  * Person (individual) specific methods
+  */
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
