@@ -298,7 +298,7 @@ trait Subject {
    * Change subject state
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param stateId   {@link java.math.BigInteger BigInteger}
-   * @return True is state was changed successfully, false otherwise
+   * @return True if state was changed successfully, false otherwise
    */
   Boolean changeSubjectState(
     def subjectId,
@@ -322,7 +322,7 @@ trait Subject {
   /**
    * Change subject state to Active
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @return True is state was changed successfully, false otherwise
+   * @return True if state was changed successfully, false otherwise
    */
   Boolean enableSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateOnId())
@@ -331,7 +331,7 @@ trait Subject {
   /**
    * Change subject state to Suspended
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @return True is state was changed successfully, false otherwise
+   * @return True if state was changed successfully, false otherwise
    */
   Boolean suspendSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateSuspendedId())
@@ -340,7 +340,7 @@ trait Subject {
   /**
    * Change subject state to Disabled
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @return True is state was changed successfully, false otherwise
+   * @return True if state was changed successfully, false otherwise
    */
   Boolean disableSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateDisabledId())

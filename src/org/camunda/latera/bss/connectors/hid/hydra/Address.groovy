@@ -76,7 +76,7 @@ trait Address {
    */
   Map getAddressFields(CharSequence buildingType = null) {
     Map result = getBuildingFields(buildingType)
-    ADDRESS_FIELDS.each{ key, value ->
+    ADDRESS_FIELDS.each{ String key, String value ->
       result[key] = getMessageNameByCode(value)
     }
     return result
@@ -145,7 +145,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -263,7 +263,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -305,7 +305,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -398,7 +398,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -437,7 +437,7 @@ trait Address {
    * @param regionId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor              {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -501,7 +501,7 @@ trait Address {
    * @param regionId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor              {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rem                {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param bindAddrTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: see {@link #getDefaultAddressBindTypeId()}
@@ -543,7 +543,7 @@ trait Address {
    * @param regionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -618,7 +618,7 @@ trait Address {
    * @param regionId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param rawAddress   {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param flat         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param floor        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param floor        {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param entrance     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param providerId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
    * @param rem          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -700,7 +700,7 @@ trait Address {
    * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
-   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor          {@link Integer}. Optional
    * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
@@ -790,7 +790,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor           {@link Integer}. Optional
    * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
@@ -908,7 +908,7 @@ trait Address {
    * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
-   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor              {@link Integer}. Optional
    * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
@@ -989,7 +989,7 @@ trait Address {
    * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
-   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor          {@link Integer}. Optional
    * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
@@ -1031,7 +1031,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor           {@link Integer}. Optional
    * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
@@ -1060,7 +1060,7 @@ trait Address {
    * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
-   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor              {@link Integer}. Optional
    * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
@@ -1096,7 +1096,7 @@ trait Address {
    * @param regionId       {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress     {@link CharSequence String}. Optional
    * @param flat           {@link CharSequence String}. Optional
-   * @param floor          {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor          {@link Integer}. Optional
    * @param entrance       {@link CharSequence String}. Optional
    * @param rem            {@link CharSequence String}. Optional
    * @param stateId        {@link java.math.BigInteger BigInteger}. Optional
@@ -1137,7 +1137,7 @@ trait Address {
    * @param regionId        {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress      {@link CharSequence String}. Optional
    * @param flat            {@link CharSequence String}. Optional
-   * @param floor           {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor           {@link Integer}. Optional
    * @param entrance        {@link CharSequence String}. Optional
    * @param rem             {@link CharSequence String}. Optional
    * @param stateId         {@link java.math.BigInteger BigInteger}. Optional
@@ -1164,7 +1164,7 @@ trait Address {
    * @param regionId           {@link java.math.BigInteger BigInteger}. Optional
    * @param rawAddress         {@link CharSequence String}. Optional
    * @param flat               {@link CharSequence String}. Optional
-   * @param floor              {@link java.math.BigInteger BigInteger}. Optional
+   * @param floor              {@link Integer}. Optional
    * @param entrance           {@link CharSequence String}. Optional
    * @param rem                {@link CharSequence String}. Optional
    * @param stateId            {@link java.math.BigInteger BigInteger}. Optional
@@ -1463,13 +1463,12 @@ trait Address {
    */
   List<Map> getFreeIPAddresses(Map input) {
     LinkedHashMap defaultParams = [
-      groupId           : null,
-      objectId          : null,
-      subnetAddressId   : null,
-      vlanId            : null,
-      firmId            : getFirmId(),
-      isPublic          : null,
-      limit             : 10
+      objectId        : null,
+      subnetAddressId : null,
+      vlanId          : null,
+      firmId          : getFirmId(),
+      isPublic        : null,
+      limit           : 10
     ]
     if (input.containsKey('subnetAddress') && notEmpty(input.subnetAddress)) {
       input.subnetAddressId = getAddressBy(code: input.subnetAddress, addrType: 'ADDR_TYPE_Subnet')?.n_address_id
@@ -1721,7 +1720,7 @@ trait Address {
    * @param subnetAddress    {@link CharSequence String}. Subnet address code to use for search for free IP address. Optional
    * @param subnetAddresses  List[{@link CharSequence String}]. Subnet addresses codes to use for search for free IP addressltration. Optional
    * @param firmId           {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
-   * @return IPv6 address data, e.g. {@code [[vc_ip: '2400:ca00:2000:a000::', n_subnet_id: 1234142301, vc_subnet: '2400:ca00:2000:a000::/52 ']]}
+   * @return IPv6 address data, e.g. {@code [vc_ip: '2400:ca00:2000:a000::', n_subnet_id: 1234142301, vc_subnet: '2400:ca00:2000:a000::/52 ']}
    */
   Map getFreeIPv6Address(Map input) {
     List result = getFreeIPv6Addresses(input + [limit: 1])
@@ -1770,11 +1769,10 @@ trait Address {
    */
   List<Map> getFreeTelephoneNumbers(Map input) {
     LinkedHashMap defaultParams = [
-      groupId       : null,
-      objectId      : null,
-      telCodeId     : null,
-      firmId        : getFirmId(),
-      limit         : 10
+      objectId  : null,
+      telCodeId : null,
+      firmId    : getFirmId(),
+      limit     : 10
     ]
     if (input.containsKey('telCode') && notEmpty(input.telCode)) {
       input.telCodeId = getAddressBy(code: input.telCode, addrType: 'ADDR_TYPE_TelCode')?.n_address_id
@@ -1898,7 +1896,6 @@ trait Address {
    */
   List<Map> getFreeSubnetAddresses(Map input) {
     LinkedHashMap defaultParams = [
-      groupId       : null,
       rootId        : null,
       mask          : null,
       vlanId        : null,
@@ -1915,7 +1912,7 @@ trait Address {
       input.vlanId = getAddressBy(code: input.vlan, addrType: 'ADDR_TYPE_VLAN')?.n_address_id
       input.remove('vlan')
     }
-    if (input.vlanId && !input.groupId && !input.rootId) {
+    if (input.vlanId && !input.rootId) {
       input.rootId = getSubnetAddressByVLAN(vlanId: input.vlanId)?.n_subnet_id
     }
     LinkedHashMap params = mergeParams(defaultParams, input)
