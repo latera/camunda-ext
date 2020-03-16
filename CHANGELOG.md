@@ -18,6 +18,7 @@ v1.4.2 [unreleased]
 -   [#32](https://github.com/latera/camunda-ext/pull/32) Allow to pass only specific fields into hid.Hydra#updateSubscription method
 -   [#43](https://github.com/latera/camunda-ext/pull/43) Allow to start pizza_order process from third-party systems
 -   [#45](https://github.com/latera/camunda-ext/pull/45) Add method for adding document-subject bind
+-   [#50](https://github.com/latera/camunda-ext/pull/50) Add PDF conversion option to Imprint print interface
 
 ### Bugfixes
 -   [#27](https://github.com/latera/camunda-ext/pull/27) Remove redundant get methods from hid.Hydra class
@@ -304,6 +305,11 @@ v1.2 [2019-08-25]
 -   [#16c5551](https://github.com/latera/camunda-ext/commit/16c5551) Fix list of lists JSON escaping
 -   [#42b0665](https://github.com/latera/camunda-ext/commit/42b0665) Fix STARTTLS issue with GMail SMTP
 -   [#5db94c4](https://github.com/latera/camunda-ext/commit/5db94c4) Change contact filling in Planado class
+
+v1.1.1 [unreleased]
+---------------------
+### Features
+-   [#50](https://github.com/latera/camunda-ext/pull/50) Add PDF conversion option to Imprint print interface
 
 v1.1 [2019-05-05]
 ---------------------
