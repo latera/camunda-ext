@@ -36,7 +36,7 @@ class Imprint {
     )
   }
 
-  def print(CharSequence template, Map data = [:]) {
+  def print(CharSequence template, Map data = [:], Boolean convertToPDF = false) {
     logger.info('Printing begin...')
     if (!data) {
       data = Order.getData(execution)
@@ -54,7 +54,8 @@ class Imprint {
                   monthFull     : format(now, MONTH_FULL_FORMAT, this.locale),
                   todayFull     : format(now, FULL_DATE_FORMAT,  this.locale),
                   homsOrderCode : execution.getVariable('homsOrderCode')
-                ] + data
+                ] + data,
+      options  : [ convert_to_pdf : convertToPDF ]
     ]
     try {
       return this.http.sendRequest(
