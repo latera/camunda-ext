@@ -1,3 +1,8 @@
+v1.1.1 [unreleased]
+---------------------
+### Features
+-   [#50](https://github.com/latera/camunda-ext/pull/50) Add PDF conversion option to Imprint print interface
+
 v1.1 [2019-05-05]
 ---------------------
 ### Features
@@ -13,7 +18,6 @@ v1.1 [2019-05-05]
 -   [#f904daf](https://github.com/latera/camunda-ext/commit/f904daf) Added options to hide request & response body for RESTProcessor
 -   [#97ed434](https://github.com/latera/camunda-ext/commit/97ed434) Added utils: Numeric, Order
 -   [#8e37bf1](https://github.com/latera/camunda-ext/commit/8e37bf1) Some logging methods usage fixes
--   [#50](https://github.com/latera/camunda-ext/pull/50) Add PDF conversion option to Imprint print interface
 
 v1.0 [2018-10-22]
 ---------------------
