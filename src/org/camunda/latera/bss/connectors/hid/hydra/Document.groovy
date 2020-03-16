@@ -878,7 +878,7 @@ trait Document {
    * @param docValueTypeId {@link java.math.BigInteger BigInteger}
    * @return Document additional parameter table row
    */
-  Map getDocumentAddParamType(def paramId) {
+  Map getDocumentAddParamType(def docValueTypeId) {
     LinkedHashMap where = [
       n_doc_value_type_id: docValueTypeId
     ]
