@@ -85,7 +85,7 @@ trait Contract {
 
   /**
    * Search for contracts by different fields value
-   * @see Document#getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(java.util.Map)
    */
   List getContractsBy(Map input) {
     input.docId = input.docId ?: input.contractId
@@ -97,7 +97,7 @@ trait Contract {
 
   /**
    * Search for one contract by different fields value
-   * @see Document#getDocumentBy(Map)
+   * @see Document#getDocumentBy(java.util.Map)
    */
   Map getContractBy(Map input) {
     input.docId = input.docId ?: input.contractId
@@ -315,7 +315,7 @@ trait Contract {
 
   /**
    * Add tag to contract
-   * @see Document#addDocumentTag(Map)
+   * @see Document#addDocumentTag(java.util.Map)
    */
   Map addContractTag(Map input) {
     return addDocumentTag(input)
@@ -323,7 +323,7 @@ trait Contract {
 
   /**
    * Add tag to contract
-   * @see Document#addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def, java.lang.CharSequence)
    */
   Map addContractTag(def docId, CharSequence tag) {
     return addContractTag(docId: docId, tag: tag)
@@ -331,7 +331,7 @@ trait Contract {
 
   /**
    * Add tag to contract
-   * @see Document#addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(java.util.Map, def)
    */
   Map addContractTag(Map input = [:], def docId) {
     return addContractTag(input + [docId: docId])
@@ -347,7 +347,7 @@ trait Contract {
 
   /**
    * Delete tag from contract
-   * @see Document#deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(java.util.Map)
    */
   Boolean deleteContractTag(Map input) {
     return deleteDocumentTag(input)
@@ -355,7 +355,7 @@ trait Contract {
 
   /**
    * Delete tag from contract
-   * @see Document#deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
    */
   Boolean deleteContractTag(def docId, CharSequence tag) {
     return deleteContractTag(docId: docId, tag: tag)
@@ -395,7 +395,7 @@ trait Contract {
    * Change contract state to Dissolved
    *
    * Overload with positional arguments
-   * @see #dissolveContract(Map)
+   * @see #dissolveContract(java.util.Map)
    */
   Boolean dissolveContract(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
@@ -447,7 +447,7 @@ trait Contract {
 
   /**
    * Search for contract apps by different fields value
-   * @see Document#getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(java.util.Map)
    */
   List getContractAppsBy(Map input) {
     input.docId = input.docId ?: input.contractAppId
@@ -461,7 +461,7 @@ trait Contract {
 
   /**
    * Search for one contract app by different fields value
-   * @see Document#getDocumentBy(Map)
+   * @see Document#getDocumentBy(java.util.Map)
    */
   Map getContractAppBy(Map input) {
     input.docId = input.docId ?: input.contractAppId
@@ -547,7 +547,7 @@ trait Contract {
 
   /**
    * Add tag to contract app
-   * @see Document#addDocumentTag(Map)
+   * @see Document#addDocumentTag(java.util.Map)
    */
   Map addContractAppTag(Map input) {
     return addDocumentTag(input)
@@ -555,7 +555,7 @@ trait Contract {
 
   /**
    * Add tag to contract app
-   * @see Document#addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def, java.lang.CharSequence)
    */
   Map addContractAppTag(def docId, CharSequence tag) {
     return addContractAppTag(doc: docId, tag: tag)
@@ -563,7 +563,7 @@ trait Contract {
 
   /**
    * Add tag to contract app
-   * @see Document#addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(java.util.Map, def)
    */
   Map addContractAppTag(Map input = [:], def docId) {
     return addContractAppTag(input + [doc: docId])
@@ -579,7 +579,7 @@ trait Contract {
 
   /**
    * Delete tag from contract app
-   * @see Document#deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(java.util.Map)
    */
   Boolean deleteContractAppTag(Map input) {
     return deleteDocumentTag(input)
@@ -587,7 +587,7 @@ trait Contract {
 
   /**
    * Delete tag from contract app
-   * @see Document#deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
    */
   Boolean deleteContractAppTag(def docId, CharSequence tag) {
     return deleteContractAppTag(docId: docId, tag: tag)
@@ -608,7 +608,7 @@ trait Contract {
    * Change contract app state to Dissolved
    *
    * Overload with positional arguments
-   * @see #dissolveContractApp(Map)
+   * @see #dissolveContractApp(java.util.Map)
    */
   Boolean dissolveContractApp(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
@@ -660,7 +660,7 @@ trait Contract {
 
   /**
    * Search for add agreements by different fields value
-   * @see Document#getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(java.util.Map)
    */
   List getAddAgreementsBy(Map input) {
     input.docId = input.docId ?: input.contractId
@@ -674,7 +674,7 @@ trait Contract {
 
   /**
    * Search for one add agreement by different fields value
-   * @see Document#getDocumentBy(Map)
+   * @see Document#getDocumentBy(java.util.Map)
    */
   Map getAddAgreementBy(Map input) {
     input.docId = input.docId ?: input.contractId
@@ -763,7 +763,7 @@ trait Contract {
 
   /**
    * Add tag to add agreement
-   * @see Document#addDocumentTag(Map)
+   * @see Document#addDocumentTag(java.util.Map)
    */
   Map addAddAgreementTag(Map input) {
     return addDocumentTag(input)
@@ -771,7 +771,7 @@ trait Contract {
 
   /**
    * Add tag to add agreement
-   * @see Document#addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def, java.lang.CharSequence)
    */
   Map addAddAgreementTag(def docId, CharSequence tag) {
     return addAddAgreementTag(doc: docId, tag: tag)
@@ -779,7 +779,7 @@ trait Contract {
 
   /**
    * Add tag to add agreement
-   * @see Document#addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(java.util.Map, def)
    */
   Map addAddAgreementTag(Map input = [:], def docId) {
     return addAddAgreementTag(input + [doc: docId])
@@ -795,7 +795,7 @@ trait Contract {
 
   /**
    * Delete tag from add agreement
-   * @see Document#deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(java.util.Map)
    */
   Boolean deleteAddAgreementTag(Map input) {
     return deleteDocumentTag(input)
@@ -803,7 +803,7 @@ trait Contract {
 
   /**
    * Delete tag from add agreement
-   * @see Document#deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
    */
   Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
     return deleteAddAgreementTag(docId: docId, tag: tag)
@@ -824,7 +824,7 @@ trait Contract {
    * Change add agreement state to Dissolved
    *
    * Overload with positional arguments
-   * @see #dissolveAddAgreement(Map)
+   * @see #dissolveAddAgreement(java.util.Map)
    */
   Boolean dissolveAddAgreement(def docId, Temporal endDate = local(), Boolean checkChargeLogs = false) {
     return dissolveContract(docId: docId, endDate: endDate, checkChargeLogs: checkChargeLogs)
@@ -832,7 +832,7 @@ trait Contract {
 
   /**
    * Refresh base contracts tree material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshBaseContracts(CharSequence method = 'C') {
     return refreshMaterialView(getBaseContractsTreeMV(), method)
@@ -840,7 +840,7 @@ trait Contract {
 
   /**
    * Refresh contracts tree material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshContracts(CharSequence method = 'C') {
     return refreshContractsTree(method)
@@ -848,7 +848,7 @@ trait Contract {
 
   /**
    * Refresh contracts tree material view
-   * @see #refreshContracts(CharSequence)
+   * @see #refreshContracts(java.lang.CharSequence)
    */
   Boolean refreshContractsTree(CharSequence method = 'C') {
     return refreshMaterialView(getContractsTreeMV(), method)

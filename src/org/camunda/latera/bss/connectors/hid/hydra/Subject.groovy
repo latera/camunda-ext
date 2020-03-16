@@ -680,7 +680,7 @@ trait Subject {
    * Delete subject additional parameter value
    *
    * Overload for searching and deleting additional parameter value
-   * @see #getSubjectAddParamBy(Map)
+   * @see #getSubjectAddParamBy(java.util.Map)
    * @see #deleteSubjectAddParam(def)
    */
   Boolean deleteSubjectAddParam(Map input) {
@@ -806,7 +806,7 @@ trait Subject {
    * Delete subject-group bind
    *
    * Overload for searching and deleting subject group
-   * @see #getSubjectGroupBy(Map)
+   * @see #getSubjectGroupBy(java.util.Map)
    * @see #deleteSubjectGroup(def)
    */
   Boolean deleteSubjectGroup(Map input) {
@@ -940,7 +940,7 @@ trait Subject {
    * Overload with tag code instead of id
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tag       {@link CharSequence String}
-   * @see #addSubjectTag(Map)
+   * @see #addSubjectTag(java.util.Map)
    */
   Map addSubjectTag(def subjectId, CharSequence tag) {
     return addSubjectTag(subjectId: subjectId, tag: tag)
@@ -953,7 +953,7 @@ trait Subject {
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see #addSubjectTag(Map,def)
+   * @see #addSubjectTag(java.util.Map, def)
    */
   Map addSubjectTag(Map input = [:], def subjectId) {
     return addSubjectTag(input + [subjectId: subjectId])
@@ -989,14 +989,14 @@ trait Subject {
    * Overload with doc id and tag code
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tag       {@link CharSequence String}
-   * @see #deleteSubjectTag(Map)
+   * @see #deleteSubjectTag(java.util.Map)
    */
   Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
     return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
   /**Refresh subjects quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshSubjects(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectsMV(), method)
@@ -1004,7 +1004,7 @@ trait Subject {
 
   /**
    * Refresh subject app params quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshSubjectAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddParamsMV(), method)

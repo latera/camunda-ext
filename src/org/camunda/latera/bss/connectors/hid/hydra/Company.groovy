@@ -365,7 +365,7 @@ trait Company {
 
   /**
    * Search for company additional parameters by different fields value
-   * @see Subject#getSubjectAddParamsBy(Map)
+   * @see Subject#getSubjectAddParamsBy(java.util.Map)
    */
   List getCompanyAddParamsBy(Map input) {
     if (input.containsKey('companyId')) {
@@ -389,7 +389,7 @@ trait Company {
 
   /**
    * Add company additional parameter value
-   * @see Subject#addSubjectAddParam(Map)
+   * @see Subject#addSubjectAddParam(java.util.Map)
    */
   Map addCompanyAddParam(Map input = [:], def companyId) {
     return addSubjectAddParam(input, companyId)
@@ -397,7 +397,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see Subject#addSubjectTag(Map)
+   * @see Subject#addSubjectTag(java.util.Map)
    */
   Map addCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
@@ -407,7 +407,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see Subject#addSubjectTag(def,CharSequence)
+   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
    */
   Map addCompanyTag(def companyId, CharSequence tag) {
     return addCompanyTag(companyId: companyId, tag: tag)
@@ -415,7 +415,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see Subject#addSubjectTag(Map,def)
+   * @see Subject#addSubjectTag(java.util.Map, def)
    */
   Map addCompanyTag(Map input = [:], def companyId) {
     return addCompanyTag(input + [companyId: companyId])
@@ -431,7 +431,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see Subject#deleteSubjectTag(Map)
+   * @see Subject#deleteSubjectTag(java.util.Map)
    */
   Boolean deleteCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
@@ -441,7 +441,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see Subject#deleteSubjectTag(def,CharSequence)
+   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
    */
   Boolean deleteCompanyTag(def companyId, CharSequence tag) {
     return deleteCompanyTag(companyId: companyId, tag: tag)
@@ -449,7 +449,7 @@ trait Company {
 
   /**
    * Refresh companies quick search material view
-   * @see Subject#refreshSubjects(CharSequence)
+   * @see Subject#refreshSubjects(java.lang.CharSequence)
    */
   Boolean refreshCompanies(CharSequence method = 'C') {
     return refreshSubjects(method)

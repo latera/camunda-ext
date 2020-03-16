@@ -428,7 +428,7 @@ trait Customer {
    * Create customer
    *
    * Alias for with mandatory baseSubjectId field
-   * @see #createCustomer(Map)}
+   * @see #createCustomer(java.util.Map)}
    */
   Map createCustomer(Map input, def baseSubjectId) {
     return createCustomer(input + [baseSubjectId: baseSubjectId])
@@ -461,7 +461,7 @@ trait Customer {
 
   /**
    * Search for customer additional parameters by different fields value
-   * @see Subject#getSubjectAddParamsBy(Map)
+   * @see Subject#getSubjectAddParamsBy(java.util.Map)
    */
   List getCustomerAddParamsBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -473,7 +473,7 @@ trait Customer {
 
   /**
    * Search for customer additional parameter by different fields value
-   * @see Subject#getSubjectAddParamBy(Map)
+   * @see Subject#getSubjectAddParamBy(java.util.Map)
    */
   Map getCustomerAddParamBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -485,7 +485,7 @@ trait Customer {
 
   /**
    * Add customer additional parameter value
-   * @see Subject#addSubjectAddParam(Map)
+   * @see Subject#addSubjectAddParam(java.util.Map)
    */
   Map addCustomerAddParam(Map input = [:], def customerId) {
     return addSubjectAddParam(input, customerId)
@@ -517,7 +517,7 @@ trait Customer {
 
   /**
    * Search for customer groups
-   * @see Subject#getSubjectGroupsBy(Map)
+   * @see Subject#getSubjectGroupsBy(java.util.Map)
    */
   List getCustomerGroupsBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -529,7 +529,7 @@ trait Customer {
 
   /**
    * Search for customer group
-   * @see Subject#getSubjectGroupBy(Map)
+   * @see Subject#getSubjectGroupBy(java.util.Map)
    */
   Map getCustomerGroupBy(Map input) {
     if (input.containsKey('customerId')) {
@@ -557,7 +557,7 @@ trait Customer {
 
   /**
    * Add group to customer
-   * @see Subject#addSubjectGroup(Map,def)
+   * @see Subject#addSubjectGroup(java.util.Map, def)
    */
   Map addCustomerGroup(Map input = [:], def customerId) {
     return addSubjectGroup(input, customerId)
@@ -575,7 +575,7 @@ trait Customer {
    * Delete group from customer
    *
    * Overload for searching and deleting customer group
-   * @see Subject#deleteSubjectGroup(Map)
+   * @see Subject#deleteSubjectGroup(java.util.Map)
    */
   Boolean deleteCustomerGroup(Map input) {
     if (input.containsKey('customerId')) {
@@ -1018,7 +1018,7 @@ trait Customer {
    * Change applicationsubscription password
    *
    * Overload with mandatory customerId arg
-   * @see #changeAppPassword(Map)
+   * @see #changeAppPassword(java.util.Map)
    */
   Boolean changeAppPassword(Map input = [:], def customerId) {
     return changeAppPassword(input + [customerId: customerId])
@@ -1163,7 +1163,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see Subject#addSubjectTag(Map)
+   * @see Subject#addSubjectTag(java.util.Map)
    */
   Map addCustomerTag(Map input) {
     input.subjectId = input.subjectId ?: input.customerId
@@ -1173,7 +1173,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see Subject#addSubjectTag(def,CharSequence)
+   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
    */
   Map addCustomerTag(def customerId, CharSequence tag) {
     return addCustomerTag(customerId: customerId, tag: tag)
@@ -1181,7 +1181,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see Subject#addSubjectTag(Map,def)
+   * @see Subject#addSubjectTag(java.util.Map, def)
    */
   Map addCustomerTag(Map input = [:], def customerId) {
     return addCustomerTag(input + [customerId: customerId])
@@ -1197,7 +1197,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see Subject#deleteSubjectTag(Map)
+   * @see Subject#deleteSubjectTag(java.util.Map)
    */
   Boolean deleteCustomerTag(Map input) {
     input.subjectId = input.subjectId ?: input.customerId
@@ -1207,7 +1207,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see Subject#deleteSubjectTag(def,CharSequence)
+   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
    */
   Boolean deleteCustomerTag(def customerId, CharSequence tag) {
     return deleteCustomerTag(customerId: customerId, tag: tag)

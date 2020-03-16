@@ -282,7 +282,7 @@ trait Account {
   /**
    * Get account by subject id and other field values
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @see #getAccountBy(Map)
+   * @see #getAccountBy(java.util.Map)
    * @return Subject account table row
    */
   Map getSubjectAccountBy(Map input = [:], def subjectId) {
@@ -292,7 +292,7 @@ trait Account {
   /**
    * Get account by company id and other field values
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @see #getAccountBy(Map)
+   * @see #getAccountBy(java.util.Map)
    * @return Company account table row
    */
   Map getCompanyAccountBy(Map input = [:], def companyId) {
@@ -302,7 +302,7 @@ trait Account {
   /**
    * Get account by person id and other field values
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @see #getAccountBy(Map)
+   * @see #getAccountBy(java.util.Map)
    * @return Person account table row
    */
   Map getPersonAccountBy(Map input = [:], def personId) {
@@ -312,7 +312,7 @@ trait Account {
   /**
    * Get account by customer id and other field values
    * @param subjectId {@link java.math.BigInteger BigInteger}
-   * @see #getAccountBy(Map)
+   * @see #getAccountBy(java.util.Map)
    * @return Customer account table row
    */
   Map getCustomerAccountBy(Map input = [:], def customerId) {
@@ -772,7 +772,7 @@ trait Account {
 
   /**
    * Refresh customer accounts quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshAccounts(CharSequence method = 'C') {
     return refreshMaterialView(getAccountsMV(), method)
@@ -780,7 +780,7 @@ trait Account {
 
   /**
    * Refresh customer accounts quick search material view
-   * @see #refreshAccounts(CharSequence)
+   * @see #refreshAccounts(java.lang.CharSequence)
    */
   Boolean refreshCustomerAccounts(CharSequence method = 'C') {
     return refreshAccounts(method)

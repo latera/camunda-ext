@@ -665,7 +665,7 @@ trait Address {
 
   /**
    * Check if address is not empty
-   * @see #isAddressEmpty(Map)
+   * @see #isAddressEmpty(java.util.Map)
    */
   Boolean notAddressEmpty(Map input) {
     return !isAddressEmpty(input)
@@ -675,8 +675,8 @@ trait Address {
    * Check if address and region is empty
    * @param input {@link LinkedHashMap Map} with region and address fields
    * @return True if region and address fields are null or empty, false otherwise
-   * @see #isAddressEmpty(Map)
-   * @see Region#isRegionEmpty(Map)
+   * @see #isAddressEmpty(java.util.Map)
+   * @see Region#isRegionEmpty(java.util.Map)
    */
   Boolean isRegionAddressEmpty(Map input) {
     return isAddressEmpty(input) && isRegionEmpty(input)
@@ -684,7 +684,7 @@ trait Address {
 
   /**
    * Check if address and region is not empty
-   * @see Region#isRegionAddressEmpty(Map)
+   * @see Region#isRegionAddressEmpty(java.util.Map)
    */
   Boolean notRegionAddressEmpty(Map input) {
     return !isRegionAddressEmpty(input)
@@ -1007,7 +1007,7 @@ trait Address {
 
   /**
    * Create person address
-   * @see #createSubjAddress(Map, def)
+   * @see #createSubjAddress(java.util.Map, def)
    */
   Map createPersonAddress(Map input = [:], def personId) {
     return createSubjAddress(input, personId)
@@ -1015,7 +1015,7 @@ trait Address {
 
   /**
    * Create company address
-   * @see #createSubjAddress(Map, def)
+   * @see #createSubjAddress(java.util.Map, def)
    */
   Map createCompanyAddress(Map input = [:], def companyId) {
     return createSubjAddress(input, companyId)
@@ -1080,7 +1080,7 @@ trait Address {
 
   /**
    * Create or update subject or object address
-   * @see #createEntityAddress(Map, def)
+   * @see #createEntityAddress(java.util.Map, def)
    */
   Map createEntityAddress(Map input = [:], def entityId, def entityTypeId) {
     input.remove('entityAddressId')
@@ -1113,7 +1113,7 @@ trait Address {
 
   /**
    * Update person address
-   * @see #updateSubjAddress(Map, def)
+   * @see #updateSubjAddress(java.util.Map, def)
    */
   Map updatePersonAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
@@ -1121,7 +1121,7 @@ trait Address {
 
   /**
    * Update company address
-   * @see #updateSubjAddress(Map, def)
+   * @see #updateSubjAddress(java.util.Map, def)
    */
   Map updateCompanyAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
@@ -1440,7 +1440,7 @@ trait Address {
 
   /**
    * Close entity address
-   * @see #closeObjAddress(Map)
+   * @see #closeObjAddress(java.util.Map)
    */
   Boolean closeEntityAddress(Map input) {
     def objectId     = input.entityId
@@ -1608,7 +1608,7 @@ trait Address {
   /**
    * Get free IPv4 address code
    * @return String with IPv4 address code, e.g. {@code '10.10.10.10'}
-   * @see #getFreeIPAddress(Map)
+   * @see #getFreeIPAddress(java.util.Map)
    */
   String getFreeIP(Map input) {
     return getFreeIPAddress(input)?.vc_ip
@@ -1737,7 +1737,7 @@ trait Address {
   /**
    * Get free IPv6 address code
    * @return SIPv6 address code, e.g. {@code '2400:ca00:2000:a000::'}
-   * @see #getFreeIPv6Address(Map)
+   * @see #getFreeIPv6Address(java.util.Map)
    */
   String getFreeIPv6(Map input) {
     return getFreeIPv6Address(input)?.vc_ip
@@ -1746,7 +1746,7 @@ trait Address {
   /**
    * Get free IPv6 subnet
    * @return IPv6 subnet code, e.g. {@code '2400:ca00:2000:a000::/60'}
-   * @see #getFreeIPv6(Map)
+   * @see #getFreeIPv6(java.util.Map)
    * @see #getSubnetv6Mask()
    */
   String getFreeIPv6Subnet(Map input) {
@@ -1879,7 +1879,7 @@ trait Address {
   /**
    * Get free telephone number
    * @return Telephone number, e.g. {@code '79123456789'}
-   * @see #getFreeTelephoneNumber(Map)
+   * @see #getFreeTelephoneNumber(java.util.Map)
    */
   String getFreePhoneNumber(Map input) {
     return getFreeTelephoneNumber(input)?.vc_phone_number
@@ -2026,7 +2026,7 @@ trait Address {
   /**
    * Get free IPv4 subnet code
    * @return IPv4 subnet code, e.g. {@code '10.10.0.0/24'}
-   * @see #getFreeSubnetAddress(Map)
+   * @see #getFreeSubnetAddress(java.util.Map)
    */
   String getFreeSubnet(Map input) {
     return getFreeSubnetAddress(input)?.vc_subnet
@@ -2351,28 +2351,28 @@ trait Address {
   /**
    * Get subnet code by VLAN
    * @return Subnet code, e.g. '10.10.0.0/24'
-   * @see #getSubnetAddressByVLAN(Map)
+   * @see #getSubnetAddressByVLAN(java.util.Map)
    */
   String getSubnetByVLAN(Map input) {
     return getSubnetAddressByVLAN(input)?.vc_subnet
   }
 
   /**Refresh object addresses quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshObjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddressesMV(), method)
   }
 
   /**Refresh subject addresses quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshSubjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getObjectAddressesMV(), method)
   }
 
   /**Refresh object and subject addresses quick search material views
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshEntityAddresses(CharSequence method = 'C') {
     return refreshObjAddresses(method) && refreshSubjAddresses(method)

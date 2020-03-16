@@ -260,7 +260,7 @@ trait Equipment {
 
   /**
    * Search for equipment by different fields value
-   * @see #getObjectBy(Map)
+   * @see #getObjectBy(java.util.Map)
    */
   Map getEquipmentBy(Map input) {
     return getObjectBy(input)
@@ -757,7 +757,7 @@ trait Equipment {
 
   /**
    * Search for equipment additional parameter types by different fields value
-   * @see Good#getGoodAddParamTypesBy(Map)
+   * @see Good#getGoodAddParamTypesBy(java.util.Map)
    */
   List getEquipmentAddParamTypesBy(Map input) {
     return getGoodAddParamTypesBy(input)
@@ -765,7 +765,7 @@ trait Equipment {
 
   /**
    * Search for equipment additional parameter type by different fields value
-   * @see Good#getGoodAddParamTypeBy(Map)
+   * @see Good#getGoodAddParamTypeBy(java.util.Map)
    */
   Map getEquipmentAddParamTypeBy(Map input) {
     return getGoodAddParamTypeBy(input)
@@ -790,7 +790,7 @@ trait Equipment {
 
   /**
    * Search for object additional parameter types by different fields value
-   * @see #getEquipmentAddParamTypesBy(Map)
+   * @see #getEquipmentAddParamTypesBy(java.util.Map)
    */
   List getObjectAddParamTypesBy(Map input) {
     return getEquipmentAddParamTypesBy(input)
@@ -798,7 +798,7 @@ trait Equipment {
 
   /**
    * Search for object additional parameter type by different fields value
-   * @see #getEquipmentAddParamTypeBy(Map)
+   * @see #getEquipmentAddParamTypeBy(java.util.Map)
    */
   Map getObjectAddParamTypeBy(Map input) {
     return getEquipmentAddParamTypeBy(input)
@@ -806,7 +806,7 @@ trait Equipment {
 
   /**
    * Search for object additional parameter type by code
-   * @see #getEquipmentAddParamTypeByCode(Map)
+   * @see #getEquipmentAddParamTypeByCode(java.util.Map)
    */
   Map getObjectAddParamTypeByCode(CharSequence code) {
     return getEquipmentAddParamTypeByCode(code)
@@ -1063,7 +1063,7 @@ trait Equipment {
    * Delete equipment additional parameter value
    *
    * Overload for searching and deleting additional parameter value
-   * @see #getEquipmentAddParamBy(Map)
+   * @see #getEquipmentAddParamBy(java.util.Map)
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteEquipmentAddParam(Map input) {
@@ -1083,7 +1083,7 @@ trait Equipment {
    * Delete equipment component additional parameter value
    *
    * Overload for searching and deleting additional parameter value
-   * @see #deleteEquipmentAddParam(Map)
+   * @see #deleteEquipmentAddParam(java.util.Map)
    */
   Boolean deleteEquipmentComponentAddParam(Map input) {
     input.equipmentId = input.componentId
@@ -1104,7 +1104,7 @@ trait Equipment {
    * Delete object additional parameter value
    *
    * Overload for searching and deleting additional parameter value
-   * @see #getEquipmentAddParamBy(Map)
+   * @see #getEquipmentAddParamBy(java.util.Map)
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteObjectAddParam(Map input) {
@@ -1299,7 +1299,7 @@ trait Equipment {
 
   /**
    * Refresh objects quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshObjects(CharSequence method = 'C') {
     return refreshMaterialView(getObjectsMV(), method)
@@ -1307,7 +1307,7 @@ trait Equipment {
 
   /**
    * Refresh equipment quick search material view
-   * @see #refreshObjects(CharSequence)
+   * @see #refreshObjects(java.lang.CharSequence)
    */
   Boolean refreshEquipment(CharSequence method = 'C') {
     return refreshObjects(method)
@@ -1315,7 +1315,7 @@ trait Equipment {
 
   /**
    * Refresh equipment app params quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshEquipmentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getEquipmentAddParamsMV(), method)

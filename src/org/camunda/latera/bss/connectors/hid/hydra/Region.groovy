@@ -225,7 +225,7 @@ trait Region {
    * @param code     {@link CharSequence String}. Region level key, e.g. 'state'
    * @param position {@link Integer}. Item position, e.g. 0. Default: 0
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevel(CharSequence)
+   * @see #getRegionLevel(java.lang.CharSequence)
    */
   String getRegionLevelItem(CharSequence code, Integer position = 0) {
     return getRegionLevel(code)[position]
@@ -236,7 +236,7 @@ trait Region {
    * @param index    {@link Integer}. Region level index, e.g. 0
    * @param position {@link Integer}. Item position, e.g. 0. Default: 0
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevel(Integer)
+   * @see #getRegionLevel(java.lang.Integer)
    */
   String getRegionLevelItem(Integer item, Integer position = 0) {
     return getRegionLevel(item)[position]
@@ -246,7 +246,7 @@ trait Region {
    * Get region hierarchy level first item by level key
    * @param code {@link CharSequence String}. Region level key, e.g. 'state'
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevelItem(CharSequence)
+   * @see #getRegionLevelItem(java.lang.CharSequence, java.lang.Integer)
    */
   String getRegionLevelFirstItem(CharSequence code) {
     return getRegionLevelItem(code, 0)
@@ -256,7 +256,7 @@ trait Region {
    * Get region hierarchy level first item by level index
    * @param index {@link Integer}. Region level index, e.g. 0
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevelItem(Integer)
+   * @see #getRegionLevelItem(java.lang.Integer, java.lang.Integer)
    */
   String getRegionLevelFirstItem(Integer index) {
     return getRegionLevelItem(index, 0)
@@ -284,7 +284,7 @@ trait Region {
    * Get building fields
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
    * @return Building fields, e.g. {@code [building: 'зд.', home: 'д.', ...]}
-   * @see #getBuildingTypeId(CharSequence)
+   * @see #getBuildingTypeId(java.lang.CharSequence)
    */
   Map getBuildingFields(CharSequence buildingType = null) {
     Map result = [
@@ -301,7 +301,7 @@ trait Region {
    * @param code         {@link CharSequence String}. Field code, e.g. 'building'
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
    * @return Building field name, e.g. 'зд.'
-   * @see #getBuildingFields(CharSequence)
+   * @see #getBuildingFields(java.lang.CharSequence)
    */
   String getBuildingField(CharSequence code, CharSequence buildingType = null) {
     return getBuildingFields(buildingType)[code]
@@ -312,7 +312,7 @@ trait Region {
    * @param position     {@link Integer}. Field position, e.g. 0
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
    * @return Building field name, e.g. 'зд.'
-   * @see #getBuildingFields(Integer)
+   * @see #getBuildingFields(java.lang.Integer)
    */
   String getBuildingField(Integer position, CharSequence buildingType = null) {
     return getBuildingFields(buildingType)[position]
@@ -678,7 +678,7 @@ trait Region {
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
    * @return Updated region (in Oracle API procedure notation)
-   * @deprecated use {@link #updateRegion(Map, def)}
+   * @deprecated use {@link #updateRegion(java.util.Map, def)}
    */
   Map updateRegion(Map input) {
     return putRegion(input)
@@ -724,7 +724,7 @@ trait Region {
 
   /**
    * Check if region is not empty
-   * @see #isRegionEmpty(Map)
+   * @see #isRegionEmpty(java.util.Map)
    */
   Boolean notRegionEmpty(Map input) {
     return !isRegionEmpty(input)

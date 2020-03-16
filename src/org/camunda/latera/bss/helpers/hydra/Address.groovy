@@ -936,7 +936,7 @@ trait Address {
    * Determine if execution variables with entity address are not empty
    *
    * @return True if entity address is not empty, false otherwise
-   * @see #isAddressEmpty(Map)
+   * @see #isAddressEmpty(java.util.Map)
    */
   Boolean notAddressEmpty(Map input = [:]) {
     return !isAddressEmpty(input)
@@ -983,7 +983,7 @@ trait Address {
    * Determine if execution variables with base subject address are empty
    *
    * @return True if base subject address is not empty, false otherwise
-   * @see #isBaseSubjectAddressEmpty(Map)
+   * @see #isBaseSubjectAddressEmpty(java.util.Map)
    */
   Boolean notBaseSubjectAddressEmpty(Map input = [:]) {
     return !isBaseSubjectAddressEmpty(input)
@@ -1024,7 +1024,7 @@ trait Address {
    * Determine if execution variables with base subject phone number is not empty
    *
    * @return True if base subject phone number is not empty, false otherwise
-   * @see #isBaseSubjectPhoneEmpty(Map)
+   * @see #isBaseSubjectPhoneEmpty(java.util.Map)
    */
   Boolean notBaseSubjectPhoneEmpty(Map input = [:]) {
     return !isBaseSubjectPhoneEmpty(input)
@@ -1044,7 +1044,7 @@ trait Address {
    * Determine if execution variables with base subject phone number is not empty
    *
    * @return True if base subject phone number is not empty, false otherwise
-   * @see #isBaseSubjectTelephoneEmpty(Map)
+   * @see #isBaseSubjectTelephoneEmpty(java.util.Map)
    */
   Boolean notBaseSubjectTelephoneEmpty(Map input = [:]) {
     return !isBaseSubjectTelephoneEmpty(input)
@@ -1085,7 +1085,7 @@ trait Address {
    * Determine if execution variables with base subject e-mail is not empty
    *
    * @return True if base subject e-mail is not empty, false otherwise
-   * @see #isBaseSubjectEmailEmpty(Map)
+   * @see #isBaseSubjectEmailEmpty(java.util.Map)
    */
   Boolean notBaseSubjectEmailEmpty(Map input = [:]) {
     return !isBaseSubjectEmailEmpty(input)
@@ -1135,7 +1135,7 @@ trait Address {
    * Determine if execution variables with equipment address are empty
    *
    * @return True if equipment address is not empty, false otherwise
-   * @see #isEquipmentAddressEmpty(Map)
+   * @see #isEquipmentAddressEmpty(java.util.Map)
    */
   Boolean notEquipmentAddressEmpty(Map input = [:]) {
     return !isEquipmentAddressEmpty(input)
@@ -1178,7 +1178,7 @@ trait Address {
    * Determine if execution variable with equipment MAC address is not empty
    *
    * @return True if equipment MAC address is not empty, false otherwise
-   * @see #isEquipmentMACEmpty(Map)
+   * @see #isEquipmentMACEmpty(java.util.Map)
    */
   Boolean notEquipmentMACEmpty(Map input = [:]) {
     return !isEquipmentMACEmpty(input)
@@ -1221,7 +1221,7 @@ trait Address {
    * Determine if execution variable with equipment IP address is not empty
    *
    * @return True if equipment IP address is not empty, false otherwise
-   * @see #isEquipmentIPEmpty(Map)
+   * @see #isEquipmentIPEmpty(java.util.Map)
    */
   Boolean notEquipmentIPEmpty(Map input = [:]) {
     return !isEquipmentIPEmpty(input)
@@ -1264,7 +1264,7 @@ trait Address {
    * Determine if execution variable with equipment IPv6 subnet is not empty
    *
    * @return True if equipment IPv6 subnet is not empty, false otherwise
-   * @see #isEquipmentSubnet6Empty(Map)
+   * @see #isEquipmentSubnet6Empty(java.util.Map)
    */
   Boolean notEquipmentSubnet6Empty(Map input = [:]) {
     return !isEquipmentSubnet6Empty(input)
@@ -1307,7 +1307,7 @@ trait Address {
    * Determine if execution variable with equipment VLAN address is not empty
    *
    * @return True if equipment VLAN address is not empty, false otherwise
-   * @see #isEquipmentVLANEmpty(Map)
+   * @see #isEquipmentVLANEmpty(java.util.Map)
    */
   Boolean notEquipmentVLANEmpty(Map input = [:]) {
     return !isEquipmentVLANEmpty(input)
@@ -1350,7 +1350,7 @@ trait Address {
    * Determine if execution variable with equipment IPv4 subnet is not empty
    *
    * @return True if equipment IPv4 subnet is not empty, false otherwise
-   * @see #isEquipmentSubnetEmpty(Map)
+   * @see #isEquipmentSubnetEmpty(java.util.Map)
    */
   Boolean notEquipmentSubnetEmpty(Map input = [:]) {
     return !isEquipmentSubnetEmpty(input)
@@ -1393,7 +1393,7 @@ trait Address {
    * Determine if execution variable with equipment phone number is not empty
    *
    * @return True if equipment phone number is not empty, false otherwise
-   * @see #isEquipmentPhoneEmpty(Map)
+   * @see #isEquipmentPhoneEmpty(java.util.Map)
    */
   Boolean notEquipmentPhoneEmpty(Map input = [:]) {
     return !isEquipmentPhoneEmpty(input)
@@ -1413,7 +1413,7 @@ trait Address {
    * Determine if execution variable with equipment phone number is not empty
    *
    * @return True if equipment phone number is not empty, false otherwise
-   * @see #isEquipmentTelephoneEmpty(Map)
+   * @see #isEquipmentTelephoneEmpty(java.util.Map)
    */
   Boolean notEquipmentTelephoneEmpty(Map input = [:]) {
     return !isEquipmentTelephoneEmpty(input)
@@ -2167,7 +2167,7 @@ trait Address {
    * Create equipment phone number and fill up execution variables
    *
    * Alias for {@link #createEquipmentPhone(Map)}
-   * @see #createEquipmentPhone(Map)
+   * @see #createEquipmentPhone(java.util.Map)
    */
   Boolean createEquipmentTelephone(Map input = [:]) {
     return createEquipmentPhone(input)

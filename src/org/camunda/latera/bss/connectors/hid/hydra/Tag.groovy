@@ -315,7 +315,7 @@ trait Tag {
    * Overload with tag code instead of id
    * @param entityId {@link java.math.BigInteger BigInteger}
    * @param tag      {@link CharSequence String}
-   * @see #addEntityTag(Map)
+   * @see #addEntityTag(java.util.Map)
    */
   Map addEntityTag(def entityId, CharSequence tag) {
     return addEntityTag(entityId: entityId, tag: tag)
@@ -329,7 +329,7 @@ trait Tag {
    * @param entityId {@link java.math.BigInteger BigInteger}
    * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see #addEntityTag(Map)
+   * @see #addEntityTag(java.util.Map)
    */
   Map addEntityTag(Map input = [:], def entityId) {
     return addEntityTag(input + [entityId: entityId])
@@ -376,7 +376,7 @@ trait Tag {
    * Overload with eneity id and tag code
    * @param entityId {@link java.math.BigInteger BigInteger}
    * @param tag      {@link CharSequence String}
-   * @see @deleteEntityTag(Map)
+   * @see @deleteEntityTag(java.util.Map)
    */
   Boolean deleteEntityTag(def entityId, CharSequence tag) {
     return deleteEntityTag(entityId: entityId, tag: tag)

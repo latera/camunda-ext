@@ -487,7 +487,7 @@ trait Region {
    * Determine if execution variables with entity address region are empty
    *
    * @return True if entity address region is not empty, false otherwise
-   * @see #isRegionEmpty(Map)
+   * @see #isRegionEmpty(java.util.Map)
    */
   Boolean notRegionEmpty(Map input = [:]) {
     return !isRegionEmpty(input)
@@ -497,7 +497,7 @@ trait Region {
    * Determine if execution variables with base subject address region are empty
    *
    * @return True if base subject address region is not empty, false otherwise
-   * @see #isBaseSubjectRegionEmpty(Map)
+   * @see #isBaseSubjectRegionEmpty(java.util.Map)
    */
   Boolean notBaseSubjectRegionEmpty(Map input = [:]) {
     return !isBaseSubjectRegionEmpty(input)
@@ -507,7 +507,7 @@ trait Region {
    * Determine if execution variables with equipment address region are empty
    *
    * @return True if equipment address region is not empty, false otherwise
-   * @see #isEquipmentRegionEmpty(Map)
+   * @see #isEquipmentRegionEmpty(java.util.Map)
    */
   Boolean notEquipmentRegionEmpty(Map input = [:]) {
     return !isEquipmentRegionEmpty(input)
@@ -658,7 +658,7 @@ trait Region {
    * Determine if execution variables with entity address and region are not empty
    *
    * @return True if entity address and region variables are not empty, false otherwise
-   * @see #isRegionAddressEmpty(Map)
+   * @see #isRegionAddressEmpty(java.util.Map)
    */
   Boolean notRegionAddressEmpty(Map input = [:]) {
     return !isRegionAddressEmpty(input)
@@ -668,7 +668,7 @@ trait Region {
    * Determine if execution variables with base subject address and region are not empty
    *
    * @return True if base subject address and region variables are empty, false otherwise
-   * @see #isBaseSubjectRegionAddressEmpty(Map)
+   * @see #isBaseSubjectRegionAddressEmpty(java.util.Map)
    */
   Boolean notBaseSubjectRegionAddressEmpty(Map input = [:]) {
     return !isBaseSubjectRegionAddressEmpty(input)
@@ -678,7 +678,7 @@ trait Region {
    * Determine if execution variables with equipment address and region are not empty
    *
    * @return True if equipment address and region variables are not empty, false otherwise
-   * @see #isEquipmentRegionAddressEmpty(Map)
+   * @see #isEquipmentRegionAddressEmpty(java.util.Map)
    */
   Boolean notEquipmentRegionAddressEmpty(Map input = [:]) {
     return !isEquipmentRegionAddressEmpty(input)

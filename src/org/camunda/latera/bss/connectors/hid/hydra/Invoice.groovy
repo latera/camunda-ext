@@ -97,7 +97,7 @@ trait Invoice {
 
   /**
    * Search for invoices by different fields value
-   * @see Document#getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(java.util.Map)
    */
   List getInvoicesBy(Map input) {
     input.docId     = input.docId ?: input.invoiceId
@@ -107,7 +107,7 @@ trait Invoice {
 
   /**
    * Search for one invoice by different fields value
-   * @see Document#getDocumentBy(Map)
+   * @see Document#getDocumentBy(java.util.Map)
    */
   Map getInvoiceBy(Map input) {
     input.docId     = input.docId ?: input.invoiceId
@@ -368,7 +368,7 @@ trait Invoice {
 
   /**
    * Add tag to invoice
-   * @see Document#addDocumentTag(Map)
+   * @see Document#addDocumentTag(java.util.Map)
    */
   Map addInvoiceTag(Map input) {
     return addDocumentTag(input)
@@ -376,7 +376,7 @@ trait Invoice {
 
   /**
    * Add tag to invoice
-   * @see Document#addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def, java.lang.CharSequence)
    */
   Map addInvoiceTag(def docId, CharSequence tag) {
     return addInvoiceTag(docId: docId, tag: tag)
@@ -384,7 +384,7 @@ trait Invoice {
 
   /**
    * Add tag to invoice
-   * @see Document#addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(java.util.Map, def)
    */
   Map addInvoiceTag(Map input = [:], def docId) {
     return addInvoiceTag(input + [docId: docId])
@@ -400,7 +400,7 @@ trait Invoice {
 
   /**
    * Delete tag from invoice
-   * @see Document#deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(java.util.Map)
    */
   Boolean deleteInvoiceTag(Map input) {
     return deleteDocumentTag(input)
@@ -408,7 +408,7 @@ trait Invoice {
 
   /**
    * Delete tag from invoice
-   * @see Document#deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
    */
   Boolean deleteInvoiceTag(def docId, CharSequence tag) {
     return deleteInvoiceTag(docId: docId, tag: tag)

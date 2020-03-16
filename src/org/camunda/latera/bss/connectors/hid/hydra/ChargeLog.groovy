@@ -123,7 +123,7 @@ trait ChargeLog {
 
   /**
    * Search for charge logs by different fields value
-   * @see Document#getDocumentsBy(Map)
+   * @see Document#getDocumentsBy(java.util.Map)
    */
   List getChargeLogsBy(Map input) {
     input.docTypeId = getChargeLogTypeId()
@@ -132,7 +132,7 @@ trait ChargeLog {
 
   /**
    * Search for one charge log by different fields value
-   * @see Document#getDocumentBy(Map)
+   * @see Document#getDocumentBy(java.util.Map)
    */
   Map getChargeLogBy(Map input) {
     input.docTypeId = getChargeLogTypeId()
@@ -169,7 +169,7 @@ trait ChargeLog {
    * Get charge log id for subscription
    *
    * Overload with positional args
-   * @see #getChargeLogIdBySubscription(Map)
+   * @see #getChargeLogIdBySubscription(java.util.Map)
    */
   Number getChargeLogIdBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getChargeLogIdBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
@@ -196,7 +196,7 @@ trait ChargeLog {
    * Get charge log for subscription
    *
    * Overload with positional args
-   * @see #getChargeLogBySubscription(Map)
+   * @see #getChargeLogBySubscription(java.util.Map)
    */
   Map getChargeLogBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getChargeLogBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
@@ -235,7 +235,7 @@ trait ChargeLog {
    * Get charge logs for subscription
    *
    * Overload with positional args
-   * @see #getChargeLogsBySubscription(Map)
+   * @see #getChargeLogsBySubscription(java.util.Map)
    */
   List getChargeLogsBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
     return getChargeLogsBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
@@ -293,7 +293,7 @@ trait ChargeLog {
    * Set charge log end date
    *
    * Overload with positional args
-   * @see #changeChargeLogEnd(Map)
+   * @see #changeChargeLogEnd(java.util.Map)
    */
   Boolean changeChargeLogEnd(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeChargeLogEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
@@ -301,7 +301,7 @@ trait ChargeLog {
 
   /**
    * Close charge log
-   * @see #changeChargeLogEnd(Map)
+   * @see #changeChargeLogEnd(java.util.Map)
    */
   Boolean closeChargeLog(Map input) {
     return changeChargeLogEnd(input)
@@ -311,7 +311,7 @@ trait ChargeLog {
    * Close charge log
    *
    * Overload with positional args
-   * @see #closeChargeLog(Map)
+   * @see #closeChargeLog(java.util.Map)
    */
   Boolean closeChargeLog(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeChargeLogEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
@@ -586,7 +586,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see Document#addDocumentTag(Map)
+   * @see Document#addDocumentTag(java.util.Map)
    */
   Map addChargeLogTag(Map input) {
     return addDocumentTag(input)
@@ -594,7 +594,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see Document#addDocumentTag(def,CharSequence)
+   * @see Document#addDocumentTag(def, java.lang.CharSequence)
    */
   Map addChargeLogTag(def docId, CharSequence tag) {
     return addChargeLogTag(docId: docId, tag: tag)
@@ -602,7 +602,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see Document#addDocumentTag(Map,def)
+   * @see Document#addDocumentTag(java.util.Map, def)
    */
   Map addChargeLogTag(Map input = [:], def docId) {
     return addChargeLogTag(input + [docId: docId])
@@ -618,7 +618,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see Document#deleteDocumentTag(Map)
+   * @see Document#deleteDocumentTag(java.util.Map)
    */
   Boolean deleteChargeLogTag(Map input) {
     return deleteDocumentTag(input)
@@ -626,7 +626,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see Document#deleteDocumentTag(def,CharSequence)
+   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
    */
   Boolean deleteChargeLogTag(def docId, CharSequence tag) {
     return deleteChargeLogTag(docId: docId, tag: tag)

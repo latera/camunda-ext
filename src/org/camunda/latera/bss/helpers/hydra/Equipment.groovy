@@ -897,7 +897,7 @@ trait Equipment {
    * Get equipment data by its phone number and fill up execution variables
    *
    * Alias for {@link #fetchEquipmentByPhone(Map)}
-   * @see #fetchEquipmentByPhone(Map)
+   * @see #fetchEquipmentByPhone(java.util.Map)
    */
   void fetchEquipmentByTelephone(Map input = [:]) {
     fetchEquipmentByPhone(input)

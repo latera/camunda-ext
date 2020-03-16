@@ -715,7 +715,7 @@ trait Document {
 
   /**
    * Search for provider document-subject bind by different fields value
-   * @see #getDocumentSubjectBy(Map)
+   * @see #getDocumentSubjectBy(java.util.Map)
    */
   Map getDocumentProviderBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getProviderRoleId()])
@@ -732,7 +732,7 @@ trait Document {
 
   /**
    * Search for recipient document-subject bind by different fields value
-   * @see #getDocumentSubjectBy(Map)
+   * @see #getDocumentSubjectBy(java.util.Map)
    */
   Map getDocumentRecipientBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getRecipientRoleId()])
@@ -749,7 +749,7 @@ trait Document {
 
   /**
    * Search for member document-subject bind by different fields value
-   * @see #getDocumentSubjectBy(Map)
+   * @see #getDocumentSubjectBy(java.util.Map)
    */
   Map getDocumentMemberBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getMemberRoleId()])
@@ -766,7 +766,7 @@ trait Document {
 
   /**
    * Search for manager document-subject bind by different fields value
-   * @see #getDocumentSubjectBy(Map)
+   * @see #getDocumentSubjectBy(java.util.Map)
    */
   Map getDocumentManagerBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getManagerRoleId()])
@@ -789,7 +789,7 @@ trait Document {
    * @param role       {@link CharSequence String}. Optional if 'roleId' is passed
    * @param workflowId {@link java.math.BigInteger BigInteger}. Optional if document exist, mandatory if not
    * @return Created document-subject bind (in Oracle API procedure notation)
-   * @deprecated use {@link #addDocumentSubject(Map,def)}
+   * @deprecated use {@link #addDocumentSubject(java.util.Map, def)}
    */
   Boolean putDocumentSubject(Map input) {
     LinkedHashMap params = mergeParams([
@@ -835,7 +835,7 @@ trait Document {
    * Create document-subject bind
    *
    * Overload with positional args
-   * @see #addDocumentSubject(Map, def)
+   * @see #addDocumentSubject(java.util.Map, def)
    */
   Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
     return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
@@ -843,7 +843,7 @@ trait Document {
 
   /**
    * Create document-subject provider
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
@@ -851,7 +851,7 @@ trait Document {
 
   /**
    * Create document-subject recipient
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentRecipient(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getRecipientRoleId()], docId, subjectId, accountId)
@@ -859,7 +859,7 @@ trait Document {
 
   /**
    * Create document-subject member
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
@@ -867,7 +867,7 @@ trait Document {
 
   /**
    * Create document-subject manager
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
@@ -1205,7 +1205,7 @@ trait Document {
    * Delete document additional parameter value
    *
    * Overload for searching and deleting additional parameter value
-   * @see #getDocumentAddParamBy(Map)
+   * @see #getDocumentAddParamBy(java.util.Map)
    * @see #deleteDocumentAddParam(def)
    */
   Boolean deleteDocumentAddParam(Map input) {
@@ -1389,7 +1389,7 @@ trait Document {
    * Delete document-document bind
    *
    * Overload for searching and deleting document-document bind
-   * @see #getDocumentBindBy(Map)
+   * @see #getDocumentBindBy(java.util.Map)
    * @see #deleteDocumentBind(def)
    */
   Boolean deleteDocumentBind(Map input) {
@@ -1450,7 +1450,7 @@ trait Document {
    * Overload with tag code instead of id
    * @param docId {@link java.math.BigInteger BigInteger}
    * @param tag   {@link CharSequence String}
-   * @see @addDocumentTag(Map)
+   * @see @addDocumentTag(java.util.Map)
    */
   Map addDocumentTag(def docId, CharSequence tag) {
     return addDocumentTag(docId: docId, tag: tag)
@@ -1463,7 +1463,7 @@ trait Document {
    * @param docId {@link java.math.BigInteger BigInteger}
    * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see @addDocumentTag(Map,def)
+   * @see @addDocumentTag(java.util.Map, def)
    */
   Map addDocumentTag(Map input = [:], def docId) {
     return addDocumentTag(input + [docId: docId])
@@ -1499,7 +1499,7 @@ trait Document {
    * Overload with doc id and tag code
    * @param docId {@link java.math.BigInteger BigInteger}
    * @param tag   {@link CharSequence String}
-   * @see @deleteDocumentTag(Map)
+   * @see @deleteDocumentTag(java.util.Map)
    */
   Boolean deleteDocumentTag(def docId, CharSequence tag) {
     return deleteEntityTag(docId: docId, tag: tag)
@@ -1552,7 +1552,7 @@ trait Document {
 
   /**
    * Refresh documents quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshDocuments(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentsMV(), method)
@@ -1560,7 +1560,7 @@ trait Document {
 
   /**
    * Refresh documents app params quick search material view
-   * @see Search#refreshMaterialView(CharSequence,CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshDocumentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentAddParamsMV(), method)

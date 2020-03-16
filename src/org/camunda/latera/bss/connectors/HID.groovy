@@ -171,7 +171,7 @@ WHERE ROWNUM <= ${limit}"""
     Call procedure
 
     Overload with named arguments
-    @see #execute(CharSequence,Map)
+    @see #execute(java.lang.CharSequence,Map)
   */
   Map execute(Map params = [:], CharSequence execName) {
     return execute(execName, params)
