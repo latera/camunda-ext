@@ -29,7 +29,7 @@ class Imprint {
                                            execution : execution)
   }
 
-  def print(String template, LinkedHashMap data) {
+  def print(String template, LinkedHashMap data, Boolean convertToPDF = false) {
     this.logger.info("Printing begin...")
     def body = [
       template : template,
@@ -37,7 +37,8 @@ class Imprint {
                   now       : DateTimeUtil.format(DateTimeUtil.local()),
                   today     : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.SIMPLE_DATE_FORMAT),
                   todayFull : DateTimeUtil.format(DateTimeUtil.local(), DateTimeUtil.FULL_DATE_FORMAT, this.locale)
-                ] + data
+                ] + data,
+      options  : [ convert_to_pdf : convertToPDF ]
     ]
     def result = this.processor.sendRequest(path        : '/api/print',
                                             body        : body,
