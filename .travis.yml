@@ -10,7 +10,7 @@ cache:
     - docker_images
 branches:
   only:
-  - v1.1
+  - /[\d]+\.\d+/
 env:
   global:
     - DOCKERHUB_REPO=latera/camunda

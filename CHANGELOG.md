@@ -1,4 +1,4 @@
-v1.1.1 [unreleased]
+v1.1.1 [2020-03-20]
 ---------------------
 ### Features
 -   [#50](https://github.com/latera/camunda-ext/pull/50) Add PDF conversion option to Imprint print interface
