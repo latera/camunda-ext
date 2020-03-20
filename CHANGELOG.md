@@ -1,4 +1,4 @@
-v1.4.2 [unreleased]
+v1.4.2 [2020-03-20]
 -------------------
 ### Features
 -   [#25](https://github.com/latera/camunda-ext/pull/25) Add Planado APIv2 connector
