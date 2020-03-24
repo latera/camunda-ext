@@ -13,24 +13,27 @@ import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMessage
 import javax.mail.internet.MimeMultipart
 import javax.mail.internet.MimeUtility
+import org.camunda.latera.bss.logging.SimpleLogger
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 
 class MailSender implements AutoCloseable {
-  private String     host
-  private Integer    port
-  private Boolean    auth
-  private String     user
-  private String     password
-  private Session    session
-  private Message    message
-  private Multipart  multipart
-  private Properties props
-  private Transport  transport
+  private String       host
+  private Integer      port
+  private Boolean      auth
+  private String       user
+  private String       password
+  private Session      session
+  private Message      message
+  private Multipart    multipart
+  private Properties   props
+  private Transport    transport
+  private SimpleLogger logger
 
   MailSender(DelegateExecution execution) {
     def ENV       = System.getenv()
 
+    this.logger    = new SimpleLogger(execution)
     this.host      =  execution.getVariable('smtpHost')     ?: ENV['SMTP_HOST']
     this.port      = (execution.getVariable('smtpPort')     ?: ENV['SMTP_PORT'] ?: 587).toInteger()
     this.user      =  execution.getVariable('smtpUser')     ?: ENV['SMTP_USER']
