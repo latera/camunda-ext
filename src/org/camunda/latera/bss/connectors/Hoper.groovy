@@ -33,7 +33,7 @@ class Hoper {
       ]
     ]
     return http.sendRequest(
-      'get',
+      'post',
       path : 'login',
       body : auth,
       supressRequestBodyLog  : true,
