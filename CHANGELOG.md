@@ -1,3 +1,8 @@
+v1.4.3 [unreleased]
+-------------------
+### Bugfixes
+-   [#52](https://github.com/latera/camunda-ext/pull/52) Use post method when getting authToken
+
 v1.4.2 [2020-03-20]
 -------------------
 ### Features
