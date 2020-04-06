@@ -4,8 +4,8 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 /**
-  * Customer helper methods collection
-  */
+ * Customer helper methods collection
+ */
 trait Customer {
   /**
    * Get customer data by id and fill up execution variables
@@ -60,7 +60,7 @@ trait Customer {
   }
 
   /**
-   * Get customer hid account id and fill up execution variables
+   * Get customer by account id and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>

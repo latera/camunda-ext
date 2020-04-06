@@ -3,8 +3,8 @@ package org.camunda.latera.bss.helpers.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 /**
-  * File helper methods collection
-  */
+ * File helper methods collection
+ */
 trait File {
   /**
    * Attach files to a customer and fill up execution variables

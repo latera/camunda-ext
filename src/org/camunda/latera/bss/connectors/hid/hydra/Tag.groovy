@@ -6,8 +6,8 @@ import static org.camunda.latera.bss.utils.MapUtil.isMap
 import org.camunda.latera.bss.utils.StringUtil
 
 /**
-  * Tag specific methods
-  */
+ * Tag specific methods
+ */
 trait Tag {
   private static String TAGS_TABLE        = 'SI_V_TAGS'
   private static String ENTITY_TAGS_TABLE = 'SI_V_ENTITIES_TAGS'
@@ -40,8 +40,8 @@ trait Tag {
    * @param tagId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
-   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
    * @return Tag table rows
    */
   List<Map> getTagsBy(Map input) {
@@ -72,7 +72,7 @@ trait Tag {
    * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
-   * @return tag table row
+   * @return Tag table row
    */
   Map getTagBy(Map input) {
     return getTagsBy(input + [limit: 1])?.getAt(0)
@@ -81,7 +81,7 @@ trait Tag {
   /**
    * Search for tag by code
    * @param code {@link CharSequence String}
-   * @return tag table row
+   * @return Tag table row
    */
   Map getTagByCode(CharSequence code) {
     return getTagBy(code: code)
@@ -99,7 +99,7 @@ trait Tag {
   /**
    * Get tag by id
    * @param tagId {@link java.math.BigInteger BigInteger}
-   * @return tag table row
+   * @return Tag table row
    */
   Map getTag(def tagId) {
     LinkedHashMap where = [
@@ -111,7 +111,7 @@ trait Tag {
   /**
    * Prepare inner query to search for entities by tag
    * @param entityPrimaryKey {@link CharSequence String}. Primary key of entity table to join, e.g. n_subject_id
-   * @param where {@link CharSequence String} or {@link LinkedHashMap Map} with WHERE for vc_code tag table column, e.g. {@code [in: ['some_tag']]}
+   * @param where            {@link CharSequence String} or {@link LinkedHashMap Map} with WHERE for vc_code tag table column, e.g. {@code [in: ['some_tag']]}
    * @return WHERE clause which can be used in getEntitiesBy and getEntityBy methods calls
    */
   Map prepareEntityTagQuery(CharSequence entityPrimaryKey, def where) {
@@ -239,12 +239,12 @@ trait Tag {
   /**
    * Create or update entity tag
    * @param entityTagId  {@link java.math.BigInteger BigInteger}. Optional
-   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
-   * @param tag          {@link CharSequence String}.  Optional if 'tagId' is pased
+   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is passed
+   * @param tag          {@link CharSequence String}.  Optional if 'tagId' is passed
    * @param code         Alias for 'tag'
    * @param entityId     {@link java.math.BigInteger BigInteger}. Optional
-   * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional if 'entityType' is pased
-   * @param entityType   {@link CharSequence String}. Optional if 'entityTypeId' is pased
+   * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional if 'entityType' is passed
+   * @param entityType   {@link CharSequence String}. Optional if 'entityTypeId' is passed
    * @param lineNumber   {@link Integer}. Optional
    * @return Created or updated entity tag (in Oracle API procedure notation)
    */
@@ -297,8 +297,8 @@ trait Tag {
   /**
    * Add tag to entity
    * @param entityId     {@link java.math.BigInteger BigInteger}
-   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
-   * @param tag          {@link CharSequence String}. Optional if 'tagId' is pased
+   * @param tagId        {@link java.math.BigInteger BigInteger}. Optional if 'tag' is passed
+   * @param tag          {@link CharSequence String}. Optional if 'tagId' is passed
    * @param code         Alias for 'tag'
    * @param entityTypeId {@link java.math.BigInteger BigInteger}. Optional
    * @param entityType   {@link CharSequence String}. Optional
@@ -327,8 +327,8 @@ trait Tag {
    *
    * Overload with mandatory entity id arg
    * @param entityId {@link java.math.BigInteger BigInteger}
-   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
-   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is passed
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is passed
    * @see #addEntityTag(java.util.Map)
    */
   Map addEntityTag(Map input = [:], def entityId) {
@@ -360,8 +360,8 @@ trait Tag {
    *
    * Overload for names arguments input
    * @param entityId {@link java.math.BigInteger BigInteger}
-   * @param tagId    {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
-   * @param tag      {@link CharSequence String}. Optional if 'tagId' is pased
+   * @param tagId    {@link java.math.BigInteger BigInteger}. Optional if 'tag' is passed
+   * @param tag      {@link CharSequence String}. Optional if 'tagId' is passed
    * @see @deleteEntityTag(def)
    */
   Boolean deleteEntityTag(Map input) {
@@ -373,7 +373,7 @@ trait Tag {
   /**
    * Delete tag from entity
    *
-   * Overload with eneity id and tag code
+   * Overload with entity id and tag code
    * @param entityId {@link java.math.BigInteger BigInteger}
    * @param tag      {@link CharSequence String}
    * @see @deleteEntityTag(java.util.Map)

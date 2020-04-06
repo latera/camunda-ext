@@ -8,8 +8,8 @@ import static org.camunda.latera.bss.utils.MapUtil.keysList
 import static org.camunda.latera.bss.utils.Constants.REALTY_House
 
 /**
-  * Region and address specific methods
-  */
+ * Region and address specific methods
+ */
 trait Region {
   private static String REGIONS_TABLE = 'SR_V_REGIONS'
 
@@ -283,7 +283,7 @@ trait Region {
   /**
    * Get building fields
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
-   * @return Building fields, e.g. {@code [building: 'зд.', home: 'д.', ...]}
+   * @return Building fields, e.g. {@code [building: 'bldg.', home: 'h.', ...]}
    * @see #getBuildingTypeId(java.lang.CharSequence)
    */
   Map getBuildingFields(CharSequence buildingType = null) {
@@ -300,7 +300,7 @@ trait Region {
    * Get building field short name by field code
    * @param code         {@link CharSequence String}. Field code, e.g. 'building'
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
-   * @return Building field name, e.g. 'зд.'
+   * @return Building field name, e.g. 'bldg.'
    * @see #getBuildingFields(java.lang.CharSequence)
    */
   String getBuildingField(CharSequence code, CharSequence buildingType = null) {
@@ -311,7 +311,7 @@ trait Region {
    * Get building field by position
    * @param position     {@link Integer}. Field position, e.g. 0
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'
-   * @return Building field name, e.g. 'зд.'
+   * @return Building field name, e.g. 'bldg.'
    * @see #getBuildingFields(java.lang.Integer)
    */
   String getBuildingField(Integer position, CharSequence buildingType = null) {

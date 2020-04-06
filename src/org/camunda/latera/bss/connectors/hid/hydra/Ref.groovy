@@ -10,8 +10,8 @@ import org.camunda.latera.bss.utils.Constants
 import org.camunda.latera.bss.internal.RefCache
 
 /**
-  * Reference and constants specific methods
-  */
+ * Reference and constants specific methods
+ */
 trait Ref {
   private static String REFS_TABLE = 'SI_V_REF'
 

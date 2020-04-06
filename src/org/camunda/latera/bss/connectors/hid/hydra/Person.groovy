@@ -7,8 +7,8 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Person
 
 /**
-  * Person (individual) specific methods
-  */
+ * Person (individual) specific methods
+ */
 trait Person {
   private static String PERSONS_TABLE         = 'SI_V_PERSONS'
   private static String PERSONS_PRIVATE_TABLE = 'SI_V_PERSONS_PRIVATE'
@@ -43,7 +43,7 @@ trait Person {
 
   /**
    * Get person by id
-   * @param companyIpersonIdd {@link java.math.BigInteger BigInteger}
+   * @param personIdd {@link java.math.BigInteger BigInteger}
    * @return Person table row
    */
   Map getPerson(def personId) {

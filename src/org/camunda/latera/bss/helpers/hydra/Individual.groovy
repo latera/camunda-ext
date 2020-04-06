@@ -6,8 +6,8 @@ import static org.camunda.latera.bss.utils.StringUtil.trim
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
 /**
-  * Individual (person) helper methods collection
-  */
+ * Individual (person) helper methods collection
+ */
 trait Individual {
   /**
    * Get individual (person) data by id and fill up execution variables

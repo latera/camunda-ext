@@ -12,8 +12,8 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_Disabled
 import static org.camunda.latera.bss.utils.Constants.COMMENT_TYPE_Comment
 
 /**
-  * Subject specific methods
-  */
+ * Subject specific methods
+ */
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'
@@ -160,13 +160,13 @@ trait Subject {
    * @param creatorId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
-   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
-   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @param resellerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
    * @return Subject table rows
    */
   List<Map> getSubjectsBy(Map input) {
@@ -242,13 +242,13 @@ trait Subject {
    * @param creatorId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param resellerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
-   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
-   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
-   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @param resellerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
    * @return Subject table row
    */
   Map getSubjectBy(Map input) {
@@ -461,10 +461,10 @@ trait Subject {
   /**
    * Prepare subject additional parameter value to save
    * @param paramId    {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
-   * @param param      {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param param      {@link CharSequence String}. Optional if 'paramId' is passed
    * @param subjectId  {@link java.math.BigInteger BigInteger}. Existing subject id to find additional parameter type. Optional
    * @param subjTypeId {@link java.math.BigInteger BigInteger}. Subject type if to find additional parameter type. Optional
-   * @param value     Any type. Optional
+   * @param value      Any type. Optional
    * @return Additional parameter value as Map
    * <pre>
    * {@code
@@ -506,8 +506,8 @@ trait Subject {
    * @param subjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -566,8 +566,8 @@ trait Subject {
    * @param subjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param subjType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -949,7 +949,7 @@ trait Subject {
   /**
    * Add tag to subject
    *
-   * Overload with mandatory doc id arg
+   * Overload with mandatory subject id arg
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
@@ -969,7 +969,7 @@ trait Subject {
   }
 
   /**
-   * Delete tag from document
+   * Delete tag from subject
    *
    * Overload for names arguments input
    * @param subjectId {@link java.math.BigInteger BigInteger}
@@ -984,9 +984,9 @@ trait Subject {
   }
 
   /**
-   * Delete tag from document
+   * Delete tag from subject
    *
-   * Overload with doc id and tag code
+   * Overload with subject id and tag code
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tag       {@link CharSequence String}
    * @see #deleteSubjectTag(java.util.Map)
@@ -995,7 +995,8 @@ trait Subject {
     return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
-  /**Refresh subjects quick search material view
+  /**
+   * Refresh subjects quick search material view
    * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshSubjects(CharSequence method = 'C') {

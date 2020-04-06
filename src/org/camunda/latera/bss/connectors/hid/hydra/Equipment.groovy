@@ -11,8 +11,8 @@ import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_NotActive
 import static org.camunda.latera.bss.utils.Constants.OBJ_STATE_RegisterOff
 
 /**
-  * Customer equipment and objects specific methods
-  */
+ * Customer equipment and objects specific methods
+ */
 trait Equipment {
   private static String OBJECTS_TABLE                = 'SI_V_OBJECTS'
   private static String EQUIPMENT_COMPONENTS_TABLE   = 'SI_V_OBJECTS_SPEC'
@@ -481,7 +481,7 @@ trait Equipment {
    * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId          Alias fo 'typeId'
    * @param componentTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodSpecId      Alias fo 'typeId'
+   * @param goodSpecId      Alias fo 'componentTypeId'
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -540,7 +540,7 @@ trait Equipment {
    * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId          Alias fo 'typeId'
    * @param componentTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodSpecId      Alias fo 'typeId'
+   * @param goodSpecId      Alias fo 'componentTypeId'
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -560,7 +560,7 @@ trait Equipment {
    * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId          Alias fo 'typeId'
    * @param componentTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodSpecId      Alias fo 'typeId'
+   * @param goodSpecId      Alias fo 'componentTypeId'
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -581,7 +581,7 @@ trait Equipment {
    * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId          Alias fo 'typeId'
    * @param componentTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param goodSpecId      Alias fo 'typeId'
+   * @param goodSpecId      Alias fo 'componentTypeId'
    * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -815,7 +815,7 @@ trait Equipment {
   /**
    * Prepare equipment additional parameter value to save
    * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
-   * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param param   {@link CharSequence String}. Optional if 'paramId' is passed
    * @param value   Any type. Optional
    * @return Additional parameter value as Map
    * <pre>
@@ -855,8 +855,8 @@ trait Equipment {
    * Search for equipment additional parameter values by different fields value
    * @param objValueId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param equipmentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -913,8 +913,8 @@ trait Equipment {
    * Search for equipment additional parameter value by different fields value
    * @param objValueId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param equipmentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -1072,7 +1072,7 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment compnent additional parameter value
+   * Delete equipment component additional parameter value
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteEquipmentComponentAddParam(def objValueId) {
@@ -1093,7 +1093,7 @@ trait Equipment {
   }
 
   /**
-   * Delete equipment compnent additional parameter value
+   * Delete equipment component additional parameter value
    * @see #deleteEquipmentAddParam(def)
    */
   Boolean deleteObjectAddParam(def objValueId) {
@@ -1169,7 +1169,7 @@ trait Equipment {
    * @param bindRole        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
-   * @return Euipment-equipment bind table row
+   * @return Equipment-equipment bind table row
    */
   Map getEquipmentBindBy(Map input) {
     return getEquipmentBindsBy(input + [limit: 1])?.getAt(0)
@@ -1215,7 +1215,7 @@ trait Equipment {
   }
 
   /**
-   * Create pment-equipment bind
+   * Create equipment-equipment bind
    * @param mainId          {@link java.math.BigInteger BigInteger}
    * @param componentId     {@link java.math.BigInteger BigInteger}. Optional
    * @param bindMainId      {@link java.math.BigInteger BigInteger}
@@ -1289,7 +1289,7 @@ trait Equipment {
   }
 
   /**
-   * Change equipment state to Unredistered
+   * Change equipment state to Unregistered
    * @param equipmentId {@link java.math.BigInteger BigInteger}
    * @return True if equipment state was changed successfully, false otherwise
    */

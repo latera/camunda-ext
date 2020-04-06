@@ -4,8 +4,8 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
 /**
-  * Equipment helper methods collection
-  */
+ * Equipment helper methods collection
+ */
 trait Equipment {
   /**
    * Get equipment data by id and fill up execution variables

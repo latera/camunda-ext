@@ -23,8 +23,8 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
 /**
-  * Document specific methods
-  */
+ * Document specific methods
+ */
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
   private static String DOCUMENT_SUBJECTS_TABLE        = 'SI_V_DOC_SUBJECTS'
@@ -596,7 +596,7 @@ trait Document {
   }
 
   /**
-   * Ureate or update document
+   * Create or update document
    * @param docTypeId   {@link java.math.BigInteger BigInteger}. Optional
    * @param docType     {@link CharSequence String}. Optional
    * @param workflowId  {@link java.math.BigInteger BigInteger}. Optional
@@ -613,7 +613,7 @@ trait Document {
    * @param beginDate   {@link java.time.Temporal Any date type}. Optional
    * @param endDate     {@link java.time.Temporal Any date type}. Optional
    * @param firmId      {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
-   * @returnCreated document (in Oracle API procedure notation)
+   * @return Created document (in Oracle API procedure notation)
    */
   Map createDocument(Map input) {
     input.remove('docId')
@@ -666,7 +666,7 @@ trait Document {
    * @param subjectId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
    * @return Document-subject bind table rows
    */
   List<Map> getDocumentSubjectsBy(Map input) {
@@ -990,7 +990,7 @@ trait Document {
   /**
    * Prepare document additional parameter value to save
    * @param paramId   {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
-   * @param param     {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param param     {@link CharSequence String}. Optional if 'paramId' is passed
    * @param docId     {@link java.math.BigInteger BigInteger}. Existing document id to find additional parameter type. Optional
    * @param docTypeId {@link java.math.BigInteger BigInteger}. Doc type if to find additional parameter type. Optional
    * @param value     Any type. Optional
@@ -1034,8 +1034,8 @@ trait Document {
    * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date       {@link java.time.Temporal Any date type}. Optional
    * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -1093,8 +1093,8 @@ trait Document {
    * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date       {@link java.time.Temporal Any date type}. Optional
    * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -1233,8 +1233,8 @@ trait Document {
    * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param docBindId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param lineNumber    {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
-   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
    * @return Document-document bind table rows
    */
   List<Map> getDocumentBindsBy(Map input) {

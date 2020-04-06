@@ -5,8 +5,8 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
 /**
-  * Account helper methods collection
-  */
+ * Account helper methods collection
+ */
 trait Account {
   /**
    * Get account data by id and fill up execution variables
@@ -18,7 +18,7 @@ trait Account {
    * <p>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*AccountNumber} {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*AccountNumber}     {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*AccountCurrencyId} {@link java.math.BigInteger BigInteger}</li>
    *   <li>{@code homsOrderData*AccountCurrency}   {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*AccountBalanceSum} {@link Double}</li>
@@ -60,7 +60,7 @@ trait Account {
    *  <li>{@code homsOrderData*AccountBalanceSum} {@link Double}</li>
    *  <li>{@code homsOrderData*AccountFreeSum}    {@link Double}</li>
    * </ul>
-   * @param prefix         {@link CharSequence String}. Account  prefix. Optional. Default: empty string
+   * @param prefix {@link CharSequence String}. Account  prefix. Optional. Default: empty string
    * @param customerPrefix {@link CharSequence String}. Customer prefix. Optional. Default: empty string
    */
   void fetchCustomerAccount(Map input = [:]) {
@@ -100,7 +100,7 @@ trait Account {
    *   <li>{@code homsOrderData*AccountId}      {@link java.math.BigInteger BigInteger}</li>
    *   <li>{@code homsOrderData*AccountCreated} {@link Boolean}. Same as return value</li>
    * </ul>
-   * @param prefix         {@link CharSequence String}. Account  prefix. Optional. Default: empty string
+   * @param prefix {@link CharSequence String}. Account  prefix. Optional. Default: empty string
    * @param customerPrefix {@link CharSequence String}. Customer prefix. Optional. Default: empty string
    * @return True if customer account was created successfully, false otherwise
    */

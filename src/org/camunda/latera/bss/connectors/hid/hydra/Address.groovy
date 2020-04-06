@@ -17,8 +17,8 @@ import static org.camunda.latera.bss.utils.Constants.ADDR_STATE_On
 import java.time.temporal.Temporal
 
 /**
-  * Address specific methods
-  */
+ * Address specific methods
+ */
 trait Address {
   private static String MAIN_ADDRESSES_TABLE      = 'SI_V_ADDRESSES'
   private static String SUBJECT_ADDRESSES_TABLE   = 'SI_V_SUBJ_ADDRESSES'
@@ -75,7 +75,7 @@ trait Address {
   /**
    * Get place address fields with their short names
    * @param buildingType {@link CharSequence String}. Custom building type code which will be used instead of 'REGION_TYPE_Building'. Optional
-   * @return Map[field, fieldShortName], e.g. {@code [building: 'зд.', home: ..., entrance: '', ...]}
+   * @return Map[field, fieldShortName], e.g. {@code [building: 'bldg.', home: ..., entrance: '', ...]}
    */
   Map getAddressFields(CharSequence buildingType = null) {
     Map result = getBuildingFields(buildingType)
@@ -1184,7 +1184,7 @@ trait Address {
   /**
    * Get place address fields with short name position indicator and value
    * @param input {@link LinkedHashMap Map} with address fields
-   * @return List[List[fieldType, isAfter, value]], e.g. {@code [['building', 'N', 'зд.'], ['home', 'N', 'д.'], ..]}
+   * @return List[List[fieldType, isAfter, value]], e.g. {@code [['building', 'N', 'bldg.'], ['home', 'N', 'h.'], ..]}
    */
   List getAddressItems(Map input) {
     List addressItems = []
@@ -1198,7 +1198,7 @@ trait Address {
   /**
    * Build place full address of it's parts
    * @param input {@link LinkedHashMap Map} with region and address fields
-   * @return String with full address, e.g. {@code 'Россия, г. Москва, ул. Заводская, зд. 1, д. 2, кв. 5'}
+   * @return String with full address, e.g. {@code 'Russia, Moscow city, Zavodskaya st., bldg. 1, corp. 2, flat 5'}
    */
   String calcAddress(Map input) {
     List address = []
@@ -1761,13 +1761,13 @@ trait Address {
 
   /**
    * Get free telephone addresses
-   * @param objectId      {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
-   * @param telCodeId     {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
-   * @param telCodeIds    List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional
-   * @param telCode       {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
-   * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
-   * @param limit         Limit for result count. Optional. Default: 10
+   * @param objectId   {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param telCodeId  {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
+   * @param telCodeIds List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional
+   * @param telCode    {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
+   * @param telCodes   List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
+   * @param firmId     {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
+   * @param limit      Limit for result count. Optional. Default: 10
    * @return Telephone addresses data, e.g. {@code [[vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']]}
    */
   List<Map> getFreeTelephoneNumbers(Map input) {
@@ -1859,12 +1859,12 @@ trait Address {
 
   /**
    * Get free telephone address
-   * @param objectId      {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
-   * @param telCodeId     {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
-   * @param telCodeIds    List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional. Optional
-   * @param telCode       {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
-   * @param telCodes      List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
+   * @param objectId   {@link java.math.BigInteger BigInteger}. Object id to use resource pool restrictions. Optional
+   * @param telCodeId  {@link java.math.BigInteger BigInteger}. Telephone code address id to use for search for free phone numbers. Optional
+   * @param telCodeIds List[{@link java.math.BigInteger BigInteger}]. Telephone code ids to use for search for free phone numbers. Optional. Optional
+   * @param telCode    {@link CharSequence String}. Telephone code to use for search for free phone numbers. Optional
+   * @param telCodes   List[{@link CharSequence String}]. Telephone codes to use for search for free phone numbers. Optional
+   * @param firmId     {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
    * @return Telephone address data, e.g. {@code [vc_phone_number: '79123456789', n_telcode_id: 1234142301, vc_tel_code: '79123']}
    */
   Map getFreeTelephoneNumber(Map input) {
@@ -1887,14 +1887,15 @@ trait Address {
 
   /**
    * Get free IPv4 subnet addresses
-   * !!! Unlike IPv4, IPv6 or telephones, subnets should already exist in database to return here !!!
-   * @param rootId        {@link java.math.BigInteger BigInteger}. Subnet address id to use for selecting child subnets. Optional
-   * @param mask          {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
-   * @param vlanId        {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
-   * @param vlan          {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
-   * @param isPublic      {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
-   * @param firmId        {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
-   * @param limit         Limit for result count. Optional. Default: 10
+   *
+   * <b>Unlike IPv4, IPv6 or telephones, subnets should already exist in database to return here</b>
+   * @param rootId   {@link java.math.BigInteger BigInteger}. Subnet address id to use for selecting child subnets. Optional
+   * @param mask     {@link java.math.BigInteger BigInteger}. Mask of subnet to return, e.g. 30. Optional
+   * @param vlanId   {@link java.math.BigInteger BigInteger}. Vlan id to use for restricting IP subnets list. Optional
+   * @param vlan     {@link CharSequence String}. Vlan code to use for restricting IP subnets list. Optional
+   * @param isPublic {@link Boolean}. True to get only public subnets, false only for private ones, null to disable filtration. Optional
+   * @param firmId   {@link java.math.BigInteger BigInteger}. Provider id to get addresses from. Optional. Default: current firm id
+   * @param limit    Limit for result count. Optional. Default: 10
    * @return IPv4 subnets data, e.g. {@code [[n_subnet_id: 1234142301, vc_subnet: '10.10.0.0/24', n_par_addr_id: 1234142201]]}
    */
   List<Map> getFreeSubnetAddresses(Map input) {
@@ -2357,21 +2358,24 @@ trait Address {
     return getSubnetAddressByVLAN(input)?.vc_subnet
   }
 
-  /**Refresh object addresses quick search material view
+  /**
+   * Refresh object addresses quick search material view
    * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshObjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddressesMV(), method)
   }
 
-  /**Refresh subject addresses quick search material view
+  /**
+   * Refresh subject addresses quick search material view
    * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshSubjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getObjectAddressesMV(), method)
   }
 
-  /**Refresh object and subject addresses quick search material views
+  /**
+   * Refresh object and subject addresses quick search material views
    * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
    */
   Boolean refreshEntityAddresses(CharSequence method = 'C') {

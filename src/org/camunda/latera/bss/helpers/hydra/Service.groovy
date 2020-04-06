@@ -9,8 +9,8 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 
 /**
-  * Service and subscription helper methods collection
-  */
+ * Service and subscription helper methods collection
+ */
 trait Service {
   /**
    * Get service (good) data by price line id and fill up execution variables
@@ -199,7 +199,7 @@ trait Service {
   }
 
   /**
-   * Get subscription data by its customer id , account id, contract id, service id, equipment id and dates, and fill up execution variables
+   * Get subscription data by its customer id, account id, contract id, service id, equipment id and dates, and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>

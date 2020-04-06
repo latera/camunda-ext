@@ -4,8 +4,8 @@ import static org.camunda.latera.bss.utils.Oracle.encodeBool
 import org.camunda.latera.bss.internal.ParamCache
 
 /**
-  * System params specific methods
-  */
+ * System params specific methods
+ */
 trait Param {
   private static String PARAMS_TABLE       = 'SS_V_PARS'
   private static String PARAM_VALUES_TABLE = 'SS_V_PARVALUES'
@@ -274,7 +274,7 @@ trait Param {
   /**
    * Prepare param value to save
    * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
-   * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param param   {@link CharSequence String}. Optional if 'paramId' is passed
    * @param code    Alias for 'param'
    * @param value   Any type. Optional
    * @return Param value

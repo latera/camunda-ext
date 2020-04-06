@@ -11,8 +11,8 @@ import static org.camunda.latera.bss.utils.Constants.WFLOW_ChargeLog
 import java.time.temporal.Temporal
 
 /**
-  * Charge logs specific methods
-  */
+ * Charge logs specific methods
+ */
 trait ChargeLog {
   private static String  CHARGE_LOGS_TABLE      = 'SD_V_CHARGE_LOGS_T'
   private static String  GOOD_MOVES_TABLE       = 'SD_V_GOOD_MOVES_T'

@@ -12,8 +12,8 @@ import static org.camunda.latera.bss.utils.Constants.GOOD_Value
 import static org.camunda.latera.bss.utils.Constants.Good_NetServ
 
 /**
-  * Services (goods) specific methods
-  */
+ * Services (goods) specific methods
+ */
 trait Good {
   private static String GOODS_TABLE                = 'SR_V_GOODS'
   private static String GOOD_ADD_PARAMS_TABLE      = 'SR_V_GOOD_VALUES'
@@ -392,7 +392,7 @@ trait Good {
   /**
    * Prepare good additional parameter value to save
    * @param paramId {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
-   * @param param   {@link CharSequence String}. Optional is 'paramId' is passed
+   * @param param   {@link CharSequence String}. Optional if 'paramId' is passed
    * @param value   Any type. Optional
    * @return Additional parameter value as Map
    * <pre>
@@ -432,8 +432,8 @@ trait Good {
    * Search for good additional parameter values by different fields value
    * @param goodValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -490,8 +490,8 @@ trait Good {
    * Search for good additional parameter value by different fields value
    * @param goodValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param goodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
-   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'param' is passed
-   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional is 'paramId' is passed
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
    * @param date        {@link java.time.Temporal Any date type}. Optional
    * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional

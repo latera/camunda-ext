@@ -3,8 +3,8 @@ package org.camunda.latera.bss.connectors.hid.hydra
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 
 /**
-  * Price orders specific methods
-  */
+ * Price orders specific methods
+ */
 trait PriceOrder {
   private static String PRICE_ORDERS_TABLE = 'SD_V_PRICE_ORDERS_T'
   private static String PRICE_LINES_TABLE  = 'SD_V_PRICE_ORDERS_C'
@@ -49,7 +49,7 @@ trait PriceOrder {
    * @param deferTypeId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param deferType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferTypeId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit               {@link Integer}. Optional. Default: 0 (unlimited)
@@ -187,7 +187,7 @@ trait PriceOrder {
    * @param deferTypeId         {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
    * @param deferType           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferTypeId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
-   * @param schedDeferTypeId    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param schedDeferType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param schedDeferPayDays   {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param unschedDeferPayDays {@link Integet}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param order               {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC_LINE_NO DESC

@@ -15,8 +15,8 @@ import static org.camunda.latera.bss.utils.Constants.WFLOW_AddAgreement
 import java.time.temporal.Temporal
 
 /**
-  * Contract, contract app and add agreement specific methods
-  */
+ * Contract, contract app and add agreement specific methods
+ */
 trait Contract {
   private static String CONTRACTS_TABLE        = 'SD_V_CONTRACTS'
   private static String CONTRACTS_TREE_MV      = 'SD_MV_CONTRACTS_TREE'
@@ -737,7 +737,7 @@ trait Contract {
    * @param beginDate  {@link java.time.Temporal Any date type}. Optional
    * @param endDate    {@link java.time.Temporal Any date type}. Optional
    * @param number     {@link CharSequence String}. Optional
-   * @return Ceated add agreement (in Oracle API procedure notation)
+   * @return Created add agreement (in Oracle API procedure notation)
    */
   Map createAddAgreement(Map input = [:], def contractId) {
     input.remove('docId')

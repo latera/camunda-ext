@@ -10,8 +10,8 @@ import static org.camunda.latera.bss.utils.Constants.OVERDRAFT_Manual
 import java.time.temporal.Temporal
 
 /**
-  * Account specific methods
-  */
+ * Account specific methods
+ */
 trait Account {
   private static String ACCOUNTS_TABLE = 'SI_V_SUBJ_ACCOUNTS'
   private static String ACCOUNTS_MV    = 'SI_MV_SUBJ_ACCOUNTS'

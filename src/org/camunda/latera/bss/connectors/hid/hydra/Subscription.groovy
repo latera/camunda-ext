@@ -9,8 +9,8 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import java.time.temporal.Temporal
 
 /**
-  * Service subscription specific methods
-  */
+ * Service subscription specific methods
+ */
 trait Subscription {
   private static String SUBSCRIPTIONS_TABLE = 'SI_V_SUBSCRIPTIONS'
 
@@ -413,7 +413,7 @@ trait Subscription {
   }
 
   /**
-   * Delete subscription and all charge logs
+   * Delete subscription and cancel all charge logs
    * @param subscriptionId {@link java.math.BigInteger BigInteger}
    * @return True if subscription and charge logs were deleted successfully, false otherwise
    */

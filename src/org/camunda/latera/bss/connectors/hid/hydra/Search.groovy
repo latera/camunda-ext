@@ -1,8 +1,8 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
 /**
-  * Quick search specific methods
-  */
+ * Quick search specific methods
+ */
 trait Search {
   /**
    * Refresh all quick search material views

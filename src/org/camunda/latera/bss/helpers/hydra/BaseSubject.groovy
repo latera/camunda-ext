@@ -4,8 +4,8 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
 /**
-  * Base subject helper methods collection
-  */
+ * Base subject helper methods collection
+ */
 trait BaseSubject {
   /**
    * Get base subject data by id and fill up execution variables

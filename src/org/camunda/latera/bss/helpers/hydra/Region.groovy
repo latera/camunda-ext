@@ -7,8 +7,8 @@ import static org.camunda.latera.bss.utils.StringUtil.decapitalize
 import java.util.regex.Pattern
 
 /**
-  * Region helper methods collection
-  */
+ * Region helper methods collection
+ */
 trait Region {
   /**
    * Get street address region hierarchy items by region id and fill up execution variables

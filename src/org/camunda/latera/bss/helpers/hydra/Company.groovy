@@ -5,8 +5,8 @@ import static org.camunda.latera.bss.utils.StringUtil.trim
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
 /**
-  * Company helper methods collection
-  */
+ * Company helper methods collection
+ */
 trait Company {
   /**
    * Get company data by id and fill up execution variables

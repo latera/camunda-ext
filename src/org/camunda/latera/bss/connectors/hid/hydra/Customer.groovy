@@ -22,8 +22,8 @@ import static org.camunda.latera.bss.utils.Constants.NETSERV_HID
 import java.time.temporal.Temporal
 
 /**
-  * Customer specific methods
-  */
+ * Customer specific methods
+ */
 trait Customer {
   private static String CUSTOMERS_TABLE             = 'SI_V_USERS'
   private static String CUSTOMER_NET_SERVICES_TABLE = 'SI_SUBJ_SERVICES'
@@ -183,14 +183,14 @@ trait Customer {
   }
 
   /**
-   * Get Self-Care code
+   * Get Self-Care Portal application code
    */
   String getSelfCareApplication() {
     return getRefCode(getSelfCareApplicationId())
   }
 
   /**
-   * Get Self-Care id
+   * Get Self-Care Portal application id
    */
   Number getSelfCareApplicationId() {
     return NETSERV_ARM_Private_Office
@@ -1015,7 +1015,7 @@ trait Customer {
   }
 
   /**
-   * Change applicationsubscription password
+   * Change application subscription password
    *
    * Overload with mandatory customerId arg
    * @see #changeAppPassword(java.util.Map)
@@ -1053,7 +1053,7 @@ trait Customer {
   }
 
   /**
-   * Search for Self-Care subscription by different fields value
+   * Search for Self-Care Portal subscription by different fields value
    * @param subjServId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param customerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param login          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
@@ -1063,7 +1063,7 @@ trait Customer {
    * @param hashType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
    * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
    * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
-   * @return Self-Care subscription table row
+   * @return Self-Care Portal subscription table row
    */
   Map getCustomerSelfCareAccessBy(Map input) {
     input.applicationId = getSelfCareAppId()
@@ -1071,13 +1071,13 @@ trait Customer {
   }
 
   /**
-   * Create or update Self-Care subscription
+   * Create or update Self-Care Portal subscription
    * @param customerId {@link java.math.BigInteger BigInteger}. Optional
    * @param login      {@link CharSequence String}. Optional
    * @param password   {@link CharSequence String}. Optional
    * @param force      {@link Boolean}. Replace old password with new one of not. Optional. Default: false
    * @param firmId     {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
-   * @return Created or updated Self-Care subscription (in Oracle API procedure notation)
+   * @return Created or updated Self-Care Portal subscription (in Oracle API procedure notation)
    */
   private Map putCustomerSelfCareAccess(Map input) {
     LinkedHashMap params = mergeParams([
@@ -1106,7 +1106,7 @@ trait Customer {
   }
 
   /**
-   * Create Self-Care subscription
+   * Create Self-Care Portal subscription
    * @param customerId {@link java.math.BigInteger BigInteger}
    * @param login      {@link CharSequence String}. Optional
    * @param password   {@link CharSequence String}. Optional
@@ -1119,7 +1119,7 @@ trait Customer {
   }
 
   /**
-   * Change Self-Care subscription password
+   * Change Self-Care Portal subscription password
    * @param subjServId      {@link java.math.BigInteger BigInteger}. Optional
    * @param customerId      {@link java.math.BigInteger BigInteger}. Optional
    * @param login           {@link CharSequence String}. Optional
@@ -1135,7 +1135,7 @@ trait Customer {
   }
 
   /**
-   * Change Self-Care subscription password
+   * Change Self-Care Portal subscription password
    *
    * Overload with mandatory customerId arg
    * @param customerId      {@link java.math.BigInteger BigInteger}
@@ -1152,9 +1152,9 @@ trait Customer {
   }
 
   /**
-   * Delete Self-Care subscription by customerId
+   * Delete Self-Care Portal subscription by customerId
    * @param customerId {@link java.math.BigInteger BigInteger}
-   * @return True if Self-Care subscription was deleted successfully, false otherwise
+   * @return True if Self-Care Portal subscription was deleted successfully, false otherwise
    */
   Boolean deleteCustomerSelfCareAccess(def customerId) {
     def subjServId = getCustomerAppAccessBy(customerId: customerId, applicationId: getSelfCareApplicationId())?.n_subj_serv_id
@@ -1244,8 +1244,8 @@ trait Customer {
   /**
    * Issue charge logs for a customer
    *
-   * Overload for names arguments
-   * @see #processCustomer(def,Temporal,Temporal)
+   * Overload for named arguments
+   * @see #processCustomer(def, Temporal, Temporal)
    */
   Boolean processCustomer(Map input) {
     LinkedHashMap params = mergeParams([

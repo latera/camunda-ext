@@ -8,8 +8,8 @@ import static org.camunda.latera.bss.utils.MapUtil.mergeNotNull
 import java.util.regex.Pattern
 
 /**
-  * Address helper methods collection
-  */
+ * Address helper methods collection
+ */
 trait Address {
   /**
    * Get base subject phone and e-mail by base subject id and fill up execution variables
@@ -55,13 +55,13 @@ trait Address {
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * <p>
    * {@code if addrType != ''}:
    * <ul>
    *   <li>{@code homsOrderData*%Entity%*%AddrType%}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*%Entity%*%AddrType%Id} {@link CharSequence String}. Subject address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*%Entity%*%AddrType%Id} {@link java.math.BigInteger BigInteger}. Subject address id. Set only if withId == true</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param entityPrefix  {@link CharSequence String}. Entity prefix. Optional. Default: empty string
@@ -137,7 +137,7 @@ trait Address {
   }
 
   /**
-   * Get base subject address (street, Telephone, EMail) by his id and fill up execution variables
+   * Get base subject address (street, Telephone, EMail) by its id and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>
@@ -151,7 +151,7 @@ trait Address {
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link CharSequence String}. Subject address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Subject address id. Set only if withId == true</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
@@ -176,7 +176,7 @@ trait Address {
   }
 
   /**
-   * Get base subject phone by his id and fill up execution variables
+   * Get base subject phone by its id and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>
@@ -186,7 +186,7 @@ trait Address {
    * Output execution variables:
    * <ul>
    *   <li>{@code homsOrderData*BaseSubject*Telephone}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*BaseSubject*TelephoneId} {@link CharSequence String}. Subject address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*BaseSubject*TelephoneId} {@link java.math.BigInteger BigInteger}. Subject address id. Set only if withId == true</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
@@ -209,7 +209,7 @@ trait Address {
   }
 
   /**
-   * Get base subject phone by his id and fill up execution variables
+   * Get base subject phone by its id and fill up execution variables
    *
    * Alias for {@link #fetchBaseSubjectPhone(java.util.Map)}
    * @see #fetchBaseSubjectPhone(java.util.Map)
@@ -219,7 +219,7 @@ trait Address {
   }
 
   /**
-   * Get base subject e-mail by his id and fill up execution variables
+   * Get base subject e-mail by its id and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>
@@ -229,7 +229,7 @@ trait Address {
    * Output execution variables:
    * <ul>
    *   <li>{@code homsOrderData*BaseSubject*EMail}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*BaseSubject*EMailId} {@link CharSequence String}. Subject address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*BaseSubject*EMailId} {@link java.math.BigInteger BigInteger}. Subject address id. Set only if withId == true</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
@@ -266,7 +266,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -309,7 +309,7 @@ trait Address {
    * Output execution variables:
    * <ul>
    *   <li>{@code homsOrderData*Equipment**MAC}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*Equipment**MACId} {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**MACId} {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -352,7 +352,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**IP}        {@link CharSequence String}. Address code</li>
    *   <li>{@code homsOrderData*Equipment**IPMask}    {@link CharSequence String}. Parent subnet mask code (in CIDR notation, e.g. '30')</li>
    *   <li>{@code homsOrderData*Equipment**IPGateway} {@link CharSequence String}. Parent subnet gateway code</li>
-   *   <li>{@code homsOrderData*Equipment**IPId}      {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**IPId}      {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -398,7 +398,7 @@ trait Address {
    * Output execution variables:
    * <ul>
    *   <li>{@code homsOrderData*Equipment**VLAN}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*Equipment**VLANId} {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**VLANId} {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -441,7 +441,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**Subnet}        {@link CharSequence String}. Address code</li>
    *   <li>{@code homsOrderData*Equipment**SubnetMask}    {@link CharSequence String}. Subnet mask code  (in CIDR notation, e.g. '30')</li>
    *   <li>{@code homsOrderData*Equipment**SubnetGateway} {@link CharSequence String}. Subnet gateway code</li>
-   *   <li>{@code homsOrderData*Equipment**SubnetId}      {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**SubnetId}      {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -489,7 +489,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**Subnet6}        {@link CharSequence String}. Address code</li>
    *   <li>{@code homsOrderData*Equipment**Subnet6Mask}    {@link CharSequence String}. Subnet mask code (in CIDR notation, e.g. '60')</li>
    *   <li>{@code homsOrderData*Equipment**Subnet6Gateway} {@link CharSequence String}. Subnet gateway code</li>
-   *   <li>{@code homsOrderData*Equipment**Subnet6Id}      {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**Subnet6Id}      {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -535,7 +535,7 @@ trait Address {
    * Output execution variables:
    * <ul>
    *   <li>{@code homsOrderData*Equipment**Telephone}   {@link CharSequence String}. Address code</li>
-   *   <li>{@code homsOrderData*Equipment**TelephoneId} {@link CharSequence String}. Object address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**TelephoneId} {@link java.math.BigInteger BigInteger}. Object address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -725,7 +725,7 @@ trait Address {
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * <p>
    * {@code if addrType != ''}:
@@ -791,7 +791,7 @@ trait Address {
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
@@ -834,7 +834,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
    * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
@@ -882,7 +882,7 @@ trait Address {
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*%Entity%*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*%Entity%*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * <p>
    * {@code if addrType != ''}:
@@ -951,7 +951,7 @@ trait Address {
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*BaseSubject*%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * <p>
    * Output execution variables:
@@ -1100,7 +1100,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Floor}     {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Flat}      {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Address}   {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId} {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
    * </ul>
    * <p>
    * Output execution variables:
@@ -1465,7 +1465,7 @@ trait Address {
    * @param entityPrefix {@link CharSequence String}. Entity prefix. Optional. Default: empty string
    * @param bindAddrType {@link CharSequence String}. Entity-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param addrType     {@link CharSequence String}. Address type without 'ADDR_TYPE_' part. Optional. Default: empty string (street address)
-   * @return String with full address, e.g. {@code 'Россия, г. Москва, ул. Заводская, зд. 1, д. 2, кв. 5'} {@code if addrType == '' (street address)}, otherwise {@code '127.0.0.1'}
+   * @return String with full address, e.g. {@code 'Russia, Moscow city, Zavodskaya st., bldg. 1, corp. 2, flat 5'} {@code if addrType == '' (street address)}, otherwise {@code '127.0.0.1'}
    * @see org.camunda.latera.bss.connectors.hid.hydra.Address#calcAddress(java.util.Map)
    */
   String calcAddress(Map input = [:]) {
@@ -1555,7 +1555,7 @@ trait Address {
    * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
    * @param bindAddrType  {@link CharSequence String}. Subject-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param addrType      {@link CharSequence String}. Address type without 'ADDR_TYPE_' part. Optional. Default: empty string (street address)
-   * @return String with full address, e.g. {@code 'Россия, г. Москва, ул. Заводская, зд. 1, д. 2, кв. 5'}
+   * @return String with full address, e.g. {@code 'Russia, Moscow city, Zavodskaya st., bldg. 1, corp. 2, flat 5'}
    * @see org.camunda.latera.bss.connectors.hid.hydra.Address#calcAddress(java.util.Map)
    */
   String calcBaseSubjectAddress(Map input = [:]) {
@@ -1597,7 +1597,7 @@ trait Address {
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Floor}          {@link Integer}. Floor number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Flat}           {@link CharSequence String}. Flat number</li>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%Address}        {@link CharSequence String}. Calculated address</li>
-   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId}      {@link CharSequence String}. Entity address id. Set only if withId == true</li>
+   *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressId}      {@link java.math.BigInteger BigInteger}. Entity address id. Set only if withId == true</li>
     * </ul>
    * <p>
    * Output execution variables:
@@ -1610,7 +1610,7 @@ trait Address {
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Entity-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Serv'
    * @param addrType        {@link CharSequence String}. Address type without 'ADDR_TYPE_' part. Optional. Default: empty string (street address)
-   * @return String with full address, e.g. {@code 'Россия, г. Москва, ул. Заводская, зд. 1, д. 2, кв. 5'}
+   * @return String with full address, e.g. {@code 'Russia, Moscow city, Zavodskaya st., bldg. 1, corp. 2, flat 5'}
    * @see org.camunda.latera.bss.connectors.hid.hydra.Address#calcAddress(java.util.Map)
    */
   String calcEquipmentAddress(Map input = [:]) {
@@ -1809,7 +1809,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*BaseSubject*TelephoneId}      {@link CharSequence String}. Subject address id</li>
+   *   <li>{@code homsOrderData*BaseSubject*TelephoneId}      {@link java.math.BigInteger BigInteger}. Subject address id</li>
    *   <li>{@code homsOrderData*BaseSubject*TelephoneCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -1851,7 +1851,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*BaseSubject*EMailId}      {@link CharSequence String}. Subject address id</li>
+   *   <li>{@code homsOrderData*BaseSubject*EMailId}      {@link java.math.BigInteger BigInteger}. Subject address id</li>
    *   <li>{@code homsOrderData*BaseSubject*EMailCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix        {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -1874,7 +1874,7 @@ trait Address {
   }
 
   /**
-   * Create object address and fill up execution variables
+   * Create equipment address and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>
@@ -1935,7 +1935,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**MACId}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**MACId}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**MACCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -1975,7 +1975,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**IPId}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**IPId}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**IPCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -2015,7 +2015,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**Subnet6Id}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**Subnet6Id}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**Subnet6Created} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -2055,7 +2055,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**VLANId}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**VLANId}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**VLANCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -2095,7 +2095,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**SubnetId}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**SubnetId}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**SubnetCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -2135,7 +2135,7 @@ trait Address {
    * </ul>
    * Output execution variables:
    * <ul>
-   *   <li>{@code homsOrderData*Equipment**TelephoneId}      {@link CharSequence String}. Object address id</li>
+   *   <li>{@code homsOrderData*Equipment**TelephoneId}      {@link java.math.BigInteger BigInteger}. Object address id</li>
    *   <li>{@code homsOrderData*Equipment**TelephoneCreated} {@link CharSequence String}. Same as return value</li>
    * </ul>
    * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
@@ -2174,7 +2174,7 @@ trait Address {
   }
 
   /**
-   * Get free IPv4 address, save it to Hydra and fill up execution variables
+   * Get free IPv4 address, assign it to equipment and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>
@@ -2381,8 +2381,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**%BindAddrType%AddressClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Serv'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2419,13 +2419,13 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**MACClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
    * @param isMain          {@link Boolean}. If true search only main object addresses, if false search only non-main object addresses if null - disable filter. Optional. Default: true
-   * @return True if equipment MACaddress was closed successfully, false otherwise
+   * @return True if equipment MAC address was closed successfully, false otherwise
    */
   Boolean closeEquipmentMAC(Map input = [:]) {
     Map params = [
@@ -2456,8 +2456,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**IPClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2493,8 +2493,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**Subnet6Closed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2530,8 +2530,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**VLANClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2567,8 +2567,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**SubnetClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2604,8 +2604,8 @@ trait Address {
    * <ul>
    *   <li>{@code homsOrderData*Equipment**TelephoneClosed} {@link Boolean}. Same as result value</li>
    * </ul>
-   * @param prefix          {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
-   * @param equipmentPrefix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
+   * @param prefix          {@link CharSequence String}. Address prefix. Optional. Default: empty string
+   * @param equipmentPrefix {@link CharSequence String}. Equipment prefix. Optional. Default: empty string
    * @param equipmentSuffix {@link CharSequence String}. Equipment suffix. Optional. Default: empty string
    * @param bindAddrType    {@link CharSequence String}. Equipment-address bind type without 'BIND_ADDR_TYPE_' part. Optional. Default: 'Actual'
    * @param endDate         {@link java.time.Temporal Any date type}. Equipment address end date. Optional. Default: current datetime
@@ -2895,7 +2895,7 @@ trait Address {
   }
 
   /**
-   * Delete equipment Iv4P address and fill up execution variables
+   * Delete equipment IPv4 address and fill up execution variables
    * <p>
    * Input execution variables:
    * <ul>

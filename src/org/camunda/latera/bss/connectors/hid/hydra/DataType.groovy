@@ -14,8 +14,8 @@ import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_Clob
 import static org.camunda.latera.bss.utils.Constants.DATA_TYPE_HTML
 
 /**
-  * Data type specific methods
-  */
+ * Data type specific methods
+ */
 trait DataType {
 
   /**

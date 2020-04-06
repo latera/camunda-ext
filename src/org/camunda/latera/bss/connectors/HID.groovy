@@ -33,12 +33,12 @@ class HID implements Table {
   }
 
   /**
-    Query database and return rows
-    @param query SELECT query
-    @param asMap If true, return columns with names, otherwise return columns list
-    @param limit Max rows count
-    @param page Page number to return data from
-  */
+   * Query database and return rows
+   * @param query SELECT query
+   * @param asMap If true, return columns with names, otherwise return columns list
+   * @param limit Max rows count
+   * @param page Page number to return data from
+   */
   List queryDatabase(CharSequence query, Boolean asMap = false, Integer limit = 0, Integer page = 1) {
     List result = []
     if (limit != 0 && limit != null) {
@@ -91,30 +91,30 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   /**
-    Query database and return rows as columns list
-    @param query SELECT query
-    @param limit Max rows count
-    @param page Page number to return data from
+   * Query database and return rows as columns list
+   * @param query SELECT query
+   * @param limit Max rows count
+   * @param page Page number to return data from
   */
   List<List> queryDatabaseList(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, false, limit, page)
   }
 
   /**
-    Query database and return rows as columns with names
-    @param query SELECT query
-    @param limit Max rows count
-    @param page Page number to return data from
-  */
+   * Query database and return rows as columns with names
+   * @param query SELECT query
+   * @param limit Max rows count
+   * @param page Page number to return data from
+   */
   List<Map> queryDatabaseMap(CharSequence query, Integer limit = 0, Integer page = 1) {
     return queryDatabase(query, true, limit, page)
   }
 
   /**
-    Query database and return first row
-    @param query SELECT query
-    @param asMap If true, return columns with names, otherwise return columns list. Default: false
-  */
+   * Query database and return first row
+   * @param query SELECT query
+   * @param asMap If true, return columns with names, otherwise return columns list. Default: false
+   */
   def queryFirst(CharSequence query, Boolean asMap = false) {
     List result = queryDatabase(query, asMap, 1)
 
@@ -126,26 +126,26 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   /**
-    Query database and return first row as columns list
-    @param query SELECT query
-  */
+   * Query database and return first row as columns list
+   * @param query SELECT query
+   */
   List queryFirstList(CharSequence query) {
     return queryFirst(query, false)
   }
 
   /**
-    Query database and return first row as columns with names
-    @param query SELECT query
-  */
+   * Query database and return first row as columns with names
+   * @param query SELECT query
+   */
   Map queryFirstMap(CharSequence query) {
     return queryFirst(query, true)
   }
 
   /**
-    Call procedure
-    @param execName Procedure name
-    @param params Arguments
-  */
+   * Call procedure
+   * @param execName Procedure name
+   * @param params Arguments
+   */
   Map execute(CharSequence execName, Map params) {
     LinkedHashMap encodedParams = [:]
     params.each{ CharSequence key, def value ->
@@ -168,11 +168,11 @@ WHERE ROWNUM <= ${limit}"""
   }
 
   /**
-    Call procedure
-
-    Overload with named arguments
-    @see #execute(java.lang.CharSequence,Map)
-  */
+   * Call procedure
+   *
+   * Overload with named arguments
+   * @see #execute(java.lang.CharSequence, Map)
+   */
   Map execute(Map params = [:], CharSequence execName) {
     return execute(execName, params)
   }

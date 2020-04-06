@@ -3,8 +3,8 @@ package org.camunda.latera.bss.helpers.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 /**
-  * Reseller helper methods collection
-  */
+ * Reseller helper methods collection
+ */
 trait Reseller {
   /**
    * Get reseller data by id and fill up execution variables

@@ -5,8 +5,8 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 
 /**
-  * Contract, contract app and add agreement helper methods collection
-  */
+ * Contract, contract app and add agreement helper methods collection
+ */
 trait Contract {
   /**
    * Get contract data by id and fill up execution variables

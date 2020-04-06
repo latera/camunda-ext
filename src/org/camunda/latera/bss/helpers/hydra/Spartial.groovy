@@ -4,9 +4,9 @@ import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import org.camunda.latera.bss.http.HTTPRestProcessor
 
 /**
-  * Spartial helper methods collection
-  * @deprecated Use in-process class instead
-  */
+ * Spartial helper methods collection
+ * @deprecated Use in-process class instead
+ */
 trait Spartial {
   /**
    * Get equipment satellite targeting data and fill up execution variables

@@ -3,8 +3,8 @@ package org.camunda.latera.bss.helpers.hydra
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 
 /**
-  * Group helper methods collection
-  */
+ * Group helper methods collection
+ */
 trait Group {
   /**
    * Get group data by id and fill up execution variables
