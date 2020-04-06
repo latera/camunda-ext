@@ -1,0 +1,29 @@
+requests:
+  put:
+    '/orders/ord-123':
+      'asd=123':
+        response:
+          status: 200
+          obj1: 123
+          obj2: 123
+  post:
+    '/orders/ord-123':
+      'asd=123':
+        response:
+          status: 200
+          obj1: 123
+          obj2: 123
+  get:
+    '/orders/ord-123':
+      'asd=123':
+        response:
+          status: 200
+          obj1: 123
+          obj2: 123
+  delete:
+    '/orders/ord-123':
+      'asd=123':
+        response:
+          status: 200
+          obj1: 123
+          obj2: 123
