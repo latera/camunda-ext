@@ -9,8 +9,9 @@
     <connection>scm:git:git@github.com:latera/camunda-ext.git</connection>
     <developerConnection>scm:git:git@github.com:latera/camunda-ext.git</developerConnection>
     <url>https://github.com/latera/camunda-ext</url>
-</scm>
+  </scm>
   <properties>
+    <kotlin.version>1.3.61</kotlin.version>
     <skipTests>true</skipTests>
     <jacoco.skip>${skipTests}</jacoco.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,6 +102,11 @@
       <artifactId>camunda-engine</artifactId>
       <version>${camunda.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib</artifactId>
+        <version>${kotlin.version}</version>
     </dependency>
     <dependency>
       <groupId>org.camunda.bpm.model</groupId>
@@ -314,6 +320,22 @@
             <version>${groovy.version}</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <version>${kotlin.version}</version>
+        <executions>
+            <execution>
+                <id>compile</id>
+                <goals> <goal>compile</goal> </goals>
+                <configuration>
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/org/camunda/latera/kotlin</sourceDir>
+                    </sourceDirs>
+                </configuration>
+            </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
