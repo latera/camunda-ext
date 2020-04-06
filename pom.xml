@@ -68,6 +68,7 @@
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
     <vavr.version>0.10.2</vavr.version>
+    <snakeyaml.version>1.26</snakeyaml.version>
   </properties>
   <repositories>
     <repository>
@@ -272,6 +273,11 @@
       <artifactId>vavr</artifactId>
       <version>${vavr.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>${snakeyaml.version}</version>
     </dependency>
   </dependencies>
   <build>

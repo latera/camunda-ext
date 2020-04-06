@@ -5,6 +5,8 @@ v1.5 [unreleased]
 -   [#13](https://github.com/latera/camunda-ext/pull/13) Fix id and non-id fields in helpers.hydra.Individual trait methods
 -   [#35](https://github.com/latera/camunda-ext/pull/35) Set private modifier for hid.hydra.Account#put* methods
 -   [#36](https://github.com/latera/camunda-ext/pull/36) Rename Bill to Invoice
+### Refactoring
+-   [#54](https://github.com/latera/camunda-ext/pull/54) Add ymlAPI for testing
 
 v1.4.3 [unreleased]
 -------------------
