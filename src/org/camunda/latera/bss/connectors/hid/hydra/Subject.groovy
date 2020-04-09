@@ -953,7 +953,7 @@ trait Subject {
    * @param subjectId {@link java.math.BigInteger BigInteger}
    * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
    * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
-   * @see #addSubjectTag(java.util.Map, def)
+   * @see #addSubjectTag(java.util.Map,def)
    */
   Map addSubjectTag(Map input = [:], def subjectId) {
     return addSubjectTag(input + [subjectId: subjectId])
@@ -997,7 +997,7 @@ trait Subject {
 
   /**
    * Refresh subjects quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshSubjects(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectsMV(), method)
@@ -1005,7 +1005,7 @@ trait Subject {
 
   /**
    * Refresh subject app params quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshSubjectAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddParamsMV(), method)

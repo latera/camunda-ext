@@ -780,7 +780,7 @@ trait Account {
 
   /**
    * Refresh customer accounts quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshAccounts(CharSequence method = 'C') {
     return refreshMaterialView(getAccountsMV(), method)

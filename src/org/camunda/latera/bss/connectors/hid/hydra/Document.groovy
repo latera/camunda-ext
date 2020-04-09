@@ -821,7 +821,7 @@ trait Document {
    * @param role       {@link CharSequence String}. Optional if 'roleId' is passed
    * @param workflowId {@link java.math.BigInteger BigInteger}. Optional if document exist, mandatory if not
    * @return Created document-subject bind (in Oracle API procedure notation)
-   * @deprecated use {@link #addDocumentSubject(java.util.Map, def)}
+   * @deprecated use {@link #addDocumentSubject(java.util.Map,def)}
    */
   Boolean putDocumentSubject(Map input) {
     LinkedHashMap params = mergeParams([
@@ -867,7 +867,7 @@ trait Document {
    * Create document-subject bind
    *
    * Overload with positional args
-   * @see #addDocumentSubject(java.util.Map, def)
+   * @see #addDocumentSubject(java.util.Map,def)
    */
   Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
     return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
@@ -875,7 +875,7 @@ trait Document {
 
   /**
    * Create document-subject provider
-   * @see #addDocumentSubject(java.util.Map, def, def)
+   * @see #addDocumentSubject(java.util.Map,def,def)
    */
   Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
@@ -883,7 +883,7 @@ trait Document {
 
   /**
    * Create document-subject recipient
-   * @see #addDocumentSubject(java.util.Map, def, def)
+   * @see #addDocumentSubject(java.util.Map,def,def)
    */
   Boolean addDocumentRecipient(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getRecipientRoleId()], docId, subjectId, accountId)
@@ -891,7 +891,7 @@ trait Document {
 
   /**
    * Create document-subject member
-   * @see #addDocumentSubject(java.util.Map, def, def)
+   * @see #addDocumentSubject(java.util.Map,def,def)
    */
   Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
@@ -899,7 +899,7 @@ trait Document {
 
   /**
    * Create document-subject manager
-   * @see #addDocumentSubject(java.util.Map, def, def)
+   * @see #addDocumentSubject(java.util.Map,def,def)
    */
   Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
@@ -1584,7 +1584,7 @@ trait Document {
 
   /**
    * Refresh documents quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshDocuments(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentsMV(), method)
@@ -1592,7 +1592,7 @@ trait Document {
 
   /**
    * Refresh documents app params quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshDocumentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentAddParamsMV(), method)
