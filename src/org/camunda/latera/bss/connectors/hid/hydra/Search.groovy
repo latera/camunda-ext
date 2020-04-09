@@ -1,6 +1,15 @@
 package org.camunda.latera.bss.connectors.hid.hydra
 
+/**
+ * Quick search specific methods
+ */
 trait Search {
+  /**
+   * Refresh all quick search material views
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if quick search was updated successfully, false otherwise
+   */
   Boolean refreshQuickSearch(CharSequence method = 'C') {
     try {
       logger.info("Refreshing all quick search views")
@@ -16,6 +25,13 @@ trait Search {
     }
   }
 
+  /**
+   * Refresh quick search material view
+   * @param view   {@link CharSequence String}
+   * @param method {@link CharSequence String} from list: 'C', 'F', 'P', '?'
+   * @see <a href="https://docs.oracle.com/database/121/DWHSG/refresh.htm#DWHSG8366">Oracle documentation</a>
+   * @return True if material view was updated successfully, false otherwise
+   */
   Boolean refreshMaterialView(CharSequence view, CharSequence method = 'C') {
     try {
       logger.info("Refreshing material view ${view}")

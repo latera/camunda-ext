@@ -5,7 +5,16 @@ import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Numeric.toFloatSafe
 import static org.camunda.latera.bss.utils.Oracle.decodeBool
 
+/**
+ * Additional parameters specific methods
+ */
 trait AddParam {
+
+  /**
+   * Get additional parameter data type
+   * @param param {@link Map} with additional parameter type row
+   * @return 'string', 'bool', 'number', 'date' or 'refId'
+   */
   String getAddParamDataType(Map param) {
     Number typeId = toIntSafe(param.n_data_type_id)
     if (typeId == getStringTypeId()) {
@@ -21,6 +30,12 @@ trait AddParam {
     }
   }
 
+  /**
+   * Get additional parameter data type with value
+   * @param param {@link Map} with additional parameter type row
+   * @param value Any type
+   * @return Tuple['string'|'bool'|'number'|'date'|'refId'|'ref', value]. If ref code passed, 'ref' returned, otherwise 'refId'
+   */
   List getAddParamDataType(Map param, def value) {
     String dataType = getAddParamDataType(param)
     if (dataType == 'refId') {
@@ -35,6 +50,13 @@ trait AddParam {
     }
   }
 
+  /**
+   * Get additional parameter value or value+type
+   * @param value {@link Map} with additional parameter row
+   * @param withType Return just converted value or value+type
+   * @param visualRefValue If true, return ref value code, otherwise return id. Default: false
+   * @return Value converted into proper class or Tuple['string'|'bool'|'number'|'date'|'refId', Value]
+   */
   def getAddParamValue(Map value, Boolean withType = true, Boolean visualRefValue = false) {
     Map param = [:]
     def val = null
@@ -76,6 +98,12 @@ trait AddParam {
     }
   }
 
+  /**
+   * Get additional parameter value or value+type
+   *
+   * Overload for names arguments.
+   * @see #getAddParamValue(Map, Boolean, Boolean)
+   */
   def getAddParamValue(Map input, Map value) {
     LinkedHashMap params = [
       withType       : true,
@@ -84,6 +112,12 @@ trait AddParam {
     return getAddParamValue(value, params.withType, params.visualRefValue)
   }
 
+  /**
+   * Get additional parameter value without type
+   *
+   * Overload for returning only value.
+   * @see #getAddParamValue(Map, Boolean, Boolean)
+   */
   def getAddParamValueRaw(Map value, Boolean visualRefValue = false) {
     return getAddParamValue(value, withType: false, visualRefValue: visualRefValue)
   }

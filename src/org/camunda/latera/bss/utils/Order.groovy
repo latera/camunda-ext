@@ -345,7 +345,7 @@ class Order implements GroovyObject {
   }
 
   List getFiles(CharSequence prefix = '') {
-    return this.class.getFiles(prefix, this._execution)
+    return this.getClass().getFiles(prefix, this._execution)
   }
 
   static List setFiles(CharSequence prefix = '', def value, DelegateExecution execution) {
@@ -353,7 +353,7 @@ class Order implements GroovyObject {
   }
 
   List setFiles(CharSequence prefix = '', def value) {
-    return this.class.setFiles(prefix, value, this._execution)
+    return this.getClass().setFiles(prefix, value, this._execution)
   }
 
   static Map getFile(CharSequence name, CharSequence prefix = '', DelegateExecution execution) {
@@ -367,7 +367,7 @@ class Order implements GroovyObject {
   }
 
   Map getFile(CharSequence name, CharSequence prefix = '') {
-    return this.class.getFile(name, prefix, this._execution)
+    return this.getClass().getFile(name, prefix, this._execution)
   }
 
   static List getFilesContent(CharSequence prefix = '', DelegateExecution execution) {

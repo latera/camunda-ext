@@ -2,8 +2,36 @@ package org.camunda.latera.bss.helpers.hydra
 
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
+/**
+ * Company helper methods collection
+ */
 trait Company {
+  /**
+   * Get company data by id and fill up execution variables
+   * <p>
+   * Input execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectId} {@link java.math.BigInteger BigInteger}</li>
+   * </ul>
+   * <p>
+   * Output execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectName}  {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectCode}  {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectINN}   {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectKPP}   {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectOPFId} {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*CompanyName}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*CompanyCode}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*CompanyOGRN}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*CompanyOCPO}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*CompanyOKVED}     {@link CharSequence String}</li>
+   * </ul>
+   * @param prefix        {@link CharSequence String}. Company prefix. Optional. Default: empty string
+   * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
+   */
   void fetchCompany(Map input = [:]) {
     Map params = [
       subjectPrefix : '',
@@ -13,7 +41,11 @@ trait Company {
     String subjectPrefix = "${capitalize(params.subjectPrefix)}BaseSubject"
     String prefix = "${capitalize(params.prefix)}Company"
 
-    def baseSubjectId = order."${subjectPrefix}Id" ?: [is: 'null']
+    def baseSubjectId = order."${subjectPrefix}Id"
+    if (isEmpty(baseSubjectId)) {
+      return
+    }
+
     Map company = hydra.getCompany(baseSubjectId)
     String opfCode = ''
 
@@ -35,6 +67,30 @@ trait Company {
     order."${prefix}OKVED"        = company?.vc_okved
   }
 
+  /**
+   * Create company and fill up execution variables
+   * <p>
+   * Input execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectINN}   {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*BaseSubjectKPP}   {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*BaseSubjectOPFId} {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*CompanyName}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*CompanyCode}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*CompanyOGRN}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*CompanyOCPO}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*CompanyOKVED}     {@link CharSequence String}. Optional</li>
+   * </ul>
+   * <p>
+   * Output execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectId}      {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*BaseSubjectCreated} {@link Boolean}. Same as return value</li>
+   * </ul>
+   * @param prefix        {@link CharSequence String}. Company prefix. Optional. Default: empty string
+   * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
+   * @return True if company was created successfully, false otherwise
+   */
   Boolean createCompany(Map input = [:]) {
     Map params = [
       subjectPrefix : '',
@@ -51,12 +107,12 @@ trait Company {
       opfCode = hydra.getOpfCode(opfId)
     }
     String companyCode = trim(order."${prefix}Code")
-    String name = trim([opfCode, (opfCode ? "\"${companyCode}\"" : companyCode)].join(' '))
+    String companyName = trim([opfCode, (opfCode ? "\"${companyCode}\"" : companyCode)].join(' '))
 
     Map company = hydra.createCompany(
-      name  : name.toString(),
-      code  : order."${prefix}Code",
-      opfId : order."${subjectPrefix}OPFId",
+      name  : companyName,
+      code  : companyCode,
+      opfId : opfId,
       inn   : trim(order."${subjectPrefix}INN"),
       kpp   : trim(order."${subjectPrefix}KPP"),
       ogrn  : trim(order."${prefix}OGRN"),

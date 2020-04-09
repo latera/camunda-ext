@@ -9,13 +9,24 @@ import static org.camunda.latera.bss.utils.Constants.UNIT_Piece
 import org.camunda.latera.bss.utils.Constants
 import org.camunda.latera.bss.internal.RefCache
 
+/**
+ * Reference and constants specific methods
+ */
 trait Ref {
   private static String REFS_TABLE = 'SI_V_REF'
 
+  /**
+   * Get refs table name
+   */
   String getRefsTable() {
     return REFS_TABLE
   }
 
+  /**
+   * Get ref by id
+   * @param refId {@link java.math.BigInteger BigInteger}
+   * @return Ref table row
+   */
   Map getRef(def refId) {
     LinkedHashMap where = [
       n_ref_id: refId
@@ -23,11 +34,39 @@ trait Ref {
     return hid.getTableFirst(getRefsTable(), where: where)
   }
 
-  List getRefsBy(Map input) {
+  /**
+   * Search for refs by different fields value
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parRefId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parRef     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseRefId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseRef    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string2    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string3    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool2      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool3      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date2      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date3      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number2    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number3    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isManual   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return Ref table rows
+   */
+  List<Map> getRefsBy(Map input) {
     LinkedHashMap params = mergeParams([
       refId      : null,
       typeId     : null,
-      refTypeId  : null,
       parRefId   : null,
       baseRefId  : null,
       name       : null,
@@ -54,7 +93,7 @@ trait Ref {
       where.n_ref_id = params.refId
     }
     if (params.refTypeId ?: params.typeId) {
-      where.n_ref_type_id = params.refTypeId
+      where.n_ref_type_id = params.refTypeId ?: params.typeId
     }
     if (params.parRefId) {
       where.n_par_ref_id = params.parRefId
@@ -120,18 +159,61 @@ trait Ref {
     return result
   }
 
+  /**
+   * Search for ref by different fields value
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parRefId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parRef     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseRefId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseRef    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string2    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string3    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool2      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool3      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date2      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param date3      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number2    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number3    {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isEditable {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isManual   {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional
+   * @return Ref table row
+   */
   Map getRefBy(Map input) {
     return getRefsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get ref by code
+   * @param code {@link CharSequence String}
+   * @return Ref table row
+   */
   Map getRefByCode(CharSequence code) {
     return getRefBy(code: code)
   }
 
+  /**
+   * Get ref by name
+   * @param name {@link CharSequence String}
+   * @return Ref table row
+   */
   Map getRefByName(CharSequence name) {
     return getRefBy(name: name)
   }
 
+  /**
+   * Get ref id by code
+   * @param code {@link CharSequence String}
+   * @return Ref id
+   */
   Number getRefIdByCode(CharSequence code) {
     def id = Constants.getConstantByCode(code)
     if (id) {
@@ -159,6 +241,11 @@ trait Ref {
     return null
   }
 
+  /**
+   * Get ref id by name
+   * @param name {@link CharSequence String}
+   * @return Ref id
+   */
   Number getRefIdByName(CharSequence name) {
     LinkedHashMap where = [
       vc_name: name
@@ -166,6 +253,11 @@ trait Ref {
     return toIntSafe(hid.getTableFirst(getRefsTable(), 'n_ref_id', where))
   }
 
+  /**
+   * Get ref code by id
+   * @param id {@link java.math.BigInteger BigInteger}
+   * @return Ref code
+   */
   String getRefCode(def id) {
     String code = Constants.getConstantCode(id)
     if (code) {
@@ -184,50 +276,92 @@ trait Ref {
     return RefCache.instance.putAndGetKey(code, id)
   }
 
+  /**
+   * Get ref code by id
+   *
+   * Alias for {#link #getRefCode(def)}
+   */
   String getRefCodeById(def id) {
     return getRefCode(id)
   }
 
+  /**
+   * Get ref name by id
+   * @param id {@link java.math.BigInteger BigInteger}
+   * @return Ref name
+   */
   String getRefName(def id) {
     return getRef(id)?.vc_name
   }
 
+  /**
+   * Get ref name by id
+   *
+   * Alias for {#link #getRefName(def)}
+   */
   String getRefNameById(def id) {
     return getRefName(id)
   }
 
+  /**
+   * Get default currency ref id
+   */
   String getDefaultCurrency() {
     return getRefCode(getDefaultCurrencyId())
   }
 
+  /**
+   * Get default currency ref code
+   */
   Number getDefaultCurrencyId() {
     return CURR_Ruble
   }
 
+  /**
+   * Get unknown ref code
+   */
   String getRefUnknown() {
     return getRefCode(getRefUnknownId())
   }
 
+  /**
+   * Get unknown ref id
+   */
   Number getRefUnknownId() {
     return REF_Unknown
   }
 
+  /**
+   * Get unknown unit ref code
+   */
   String getUnknownUnit() {
     return getRefCode(getUnknownUnitId())
   }
 
+  /**
+   * Get unknown unit ref id
+   */
   Number getUnknownUnitId() {
     return UNIT_Unknown
   }
 
+  /**
+   * Get piece unit ref code
+   */
   String getPieceUnit() {
     return getRefCode(getPieceUnitId())
   }
 
+  /**
+   * Get piece unit ref id
+   */
   Number getPieceUnitId() {
     return UNIT_Piece
   }
 
+  /**
+   * Get opf code by id
+   */
   String getOpfCode(def id) {
     String opfCode = getRefCodeById(id)
     if (opfCode == getRefUnknown()) {

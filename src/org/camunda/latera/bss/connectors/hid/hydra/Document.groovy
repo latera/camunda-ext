@@ -22,6 +22,9 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Recipient
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Member
 import static org.camunda.latera.bss.utils.Constants.SUBJ_ROLE_Manager
 
+/**
+ * Document specific methods
+ */
 trait Document {
   private static String DOCUMENTS_TABLE                = 'SD_V_DOCUMENTS'
   private static String DOCUMENT_SUBJECTS_TABLE        = 'SI_V_DOC_SUBJECTS'
@@ -31,138 +34,242 @@ trait Document {
   private static String DOCUMENTS_MV                   = 'SD_MV_DOCUMENTS'
   private static String DOCUMENT_ADD_PARAMS_MV         = 'SD_MV_DOC_VALUES'
 
+  /**
+   * Get documents table name
+   */
   String getDocumentsTable() {
     return DOCUMENTS_TABLE
   }
 
+  /**
+   * Get documents-subjects binds table name
+   */
   String getDocumentSubjectsTable() {
     return DOCUMENT_SUBJECTS_TABLE
   }
 
+  /**
+   * Get documents additional parameter values table name
+   */
   String getDocumentAddParamsTable() {
     return DOCUMENT_ADD_PARAMS_TABLE
   }
 
+  /**
+   * Get documents additional parameter types table name
+   */
   String getDocumentAddParamTypesTable() {
     return DOCUMENT_ADD_PARAM_TYPES_TABLE
   }
 
+  /**
+   * Get document-document binds table name
+   */
   String getDocumentBindsTable() {
     return DOCUMENT_BINDS_TABLE
   }
 
-  String getDocumentsMV() {
+  /**
+   * Get documents quick search material view name
+   */
+  private String getDocumentsMV() {
     return DOCUMENTS_MV
   }
 
-  String getDocumentAddParamsMV() {
+  /**
+   * Get documents app param values quick search material view name
+   */
+  private String getDocumentAddParamsMV() {
     return DOCUMENT_ADD_PARAMS_MV
   }
 
+  /**
+   * Get document entity type ref code
+   */
   String getDocumentEntityType() {
     return getRefCode(getDocumentEntityTypeId())
   }
 
+  /**
+   * Get document entity type ref id
+   */
   Number getDocumentEntityTypeId() {
     return ENTITY_TYPE_Document
   }
-
+  
+  /**
+   * Get document Actual state ref code
+   */
   String getDocumentStateActual() {
     return getRefCode(getDocumentStateActualId())
   }
 
+  /**
+   * Get document Actual state ref id
+   */
   Number getDocumentStateActualId() {
     return DOC_STATE_Actual
   }
 
+  /**
+   * Get document Executed state ref code
+   */
   String getDocumentStateExecuted() {
     return getRefCode(getDocumentStateExecutedId())
   }
 
+  /**
+   * Get document Executed state ref id
+   */
   Number getDocumentStateExecutedId() {
     return DOC_STATE_Executed
   }
 
+  /**
+   * Get document Draft state ref id
+   */
   String getDocumentStateDraft() {
     return getRefCode(getDocumentStateDraftId())
   }
 
+  /**
+   * Get document Draft state ref id
+   */
   Number getDocumentStateDraftId() {
     return DOC_STATE_Draft
   }
 
+  /**
+   * Get document Canceled state ref code
+   */
   String getDocumentStateCanceled() {
     return getRefCode(getDocumentStateCanceledId())
   }
 
+  /**
+   * Get document Canceled state ref id
+   */
   Number getDocumentStateCanceledId() {
     return DOC_STATE_Canceled
   }
 
+  /**
+   * Get document Closed state ref code
+   */
   String getDocumentStateClosed() {
     return getRefCode(getDocumentStateClosedId())
   }
 
+  /**
+   * Get document Closed state ref id
+   */
   Number getDocumentStateClosedId() {
     return DOC_STATE_Closed
   }
 
+  /**
+   * Get document Dissolved state ref code
+   */
   String getDocumentStateDissolved() {
     return getRefCode(getDocumentStateDissolvedId())
   }
 
+  /**
+   * Get document Dissolved state ref id
+   */
   Number getDocumentStateDissolvedId() {
     return DOC_STATE_Dissolved
   }
 
+  /**
+   * Get document Processing state ref code
+   */
   String getDocumentStateProcessing() {
     return getRefCode(getDocumentStateProcessingId())
   }
 
+  /**
+   * Get document Processing state ref id
+   */
   Number getDocumentStateProcessingId() {
     return DOC_STATE_Processing
   }
 
+  /**
+   * Get document Prepared state ref code
+   */
   String getDocumentStatePrepared() {
     return getRefCode(getDocumentStatePreparedId())
   }
 
+  /**
+   * Get document Prepared state ref id
+   */
   Number getDocumentStatePreparedId() {
     return DOC_STATE_Prepared
   }
 
+  /**
+   * Get document Provider role ref code
+   */
   String getProviderRole() {
     return getRefCode(getProviderRoleId())
   }
 
+  /**
+   * Get document Provider role ref id
+   */
   Number getProviderRoleId() {
     return SUBJ_ROLE_Provider
   }
 
+  /**
+   * Get document Recipient role ref code
+   */
   String getRecipientRole() {
     return getRefCode(getRecipientRoleId())
   }
 
+  /**
+   * Get document Recipient role ref id
+   */
   Number getRecipientRoleId() {
     return SUBJ_ROLE_Recipient
   }
 
+  /**
+   * Get document Member role ref code
+   */
   String getMemberRole() {
     return getRefCode(getMemberRoleId())
   }
 
+  /**
+   * Get document Member role ref id
+   */
   Number getMemberRoleId() {
     return SUBJ_ROLE_Member
   }
 
+  /**
+   * Get document Manager role ref code
+   */
   String getManagerRole() {
     return getRefCode(getManagerRoleId())
   }
 
+  /**
+   * Get document Manager role ref id
+   */
   Number getManagerRoleId() {
     return SUBJ_ROLE_Manager
   }
 
+  /**
+   * Get document by id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document table row
+   */
   Map getDocument(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -170,6 +277,13 @@ trait Document {
     return hid.getTableFirst(getDocumentsTable(), where: where)
   }
 
+  /**
+   * Generate SELECT for document-subject bind filtering
+   * @param roleId {@link java.math.BigInteger BigInteger}. Subject role id
+   * @param where  {@link LinkedHashMap Map} with WHERE clause. Optional. Default: [:]
+   * @param column {@link CharSequence String}. Optional. Default: 'n_subject_id'
+   * @return Document table row
+   */
   private String subSelectForRole(Map inp = [:], def roleId) {
     LinkedHashMap pars = [
       where  : [:],
@@ -195,7 +309,34 @@ trait Document {
     return result
   }
 
-  List getDocumentsBy(Map input) {
+  /**
+   * Search for documents by different fields value
+   * @param docId              {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param providerAccountId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param recipientId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param recipientAccountId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberAccountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerAccountId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId            {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not canceled
+   * @param state              {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate      {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
+   * @param beginDate          {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate            {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags               {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit              {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order              {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Document table rows
+   */
+  List<Map> getDocumentsBy(Map input) {
     LinkedHashMap defaultParams = [
       docId              : null,
       docTypeId          : null,
@@ -294,10 +435,37 @@ trait Document {
     return hid.getTableData(getDocumentsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one document by different fields value
+   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param reasonDocId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param workflowId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param providerId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param receiverId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param memberId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param managerId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: not canceled
+   * @param state         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current datetime, but only if beginDate and endDate are not set
+   * @param beginDate     {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param number        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param tags          {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: D_BEGIN ASC, VC_DOC_NO DESC
+   * @return Document table rows
+   */
   Map getDocumentBy(Map input) {
     return getDocumentsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get document type id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document type ref id
+   */
   Number getDocumentTypeId(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -305,6 +473,11 @@ trait Document {
     return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_doc_type_id', where))
   }
 
+  /**
+   * Get document workflow id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document workflow id
+   */
   Number getDocumentWorkflowId(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -312,6 +485,11 @@ trait Document {
     return toIntSafe(hid.getTableFirst(getDocumentsTable(), 'n_workflow_id', where))
   }
 
+  /**
+   * Check if entity or entity type is document
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Entity id, entity type ref id or entity type ref code
+   * @return True if given value is document, false otherwise
+   */
   Boolean isDocument(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -325,6 +503,27 @@ trait Document {
     }
   }
 
+  /**
+   * Create or update document
+   * @param docId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param docTypeId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType     {@link CharSequence String}. Optional
+   * @param workflowId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param parentDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param reasonDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevDocId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param stornoDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param docDate     {@link java.time.Temporal Any date type}. Optional
+   * @param docTime     {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link CharSequence String}. Optional
+   * @param name        {@link CharSequence String}. Optional
+   * @param code        {@link CharSequence String}. Optional
+   * @param rem         {@link CharSequence String}. Optional
+   * @param beginDate   {@link java.time.Temporal Any date type}. Optional
+   * @param endDate     {@link java.time.Temporal Any date type}. Optional
+   * @param firmId      {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @return Created or updated document (in Oracle API procedure notation)
+   */
   private Map putDocument(Map input) {
     LinkedHashMap defaultParams = [
       docId       : null,
@@ -348,7 +547,7 @@ trait Document {
       LinkedHashMap existingDocument = [:]
       if (notEmpty(input.docId)) {
         LinkedHashMap document = getDocument(input.docId)
-        defaultParams += [
+        existingDocument += [
           docTypeId   : document.n_doc_type_id,
           workflowId  : document.n_workflow_id,
           parentDocId : document.n_parent_doc_id,
@@ -396,15 +595,61 @@ trait Document {
     }
   }
 
+  /**
+   * Create or update document
+   * @param docTypeId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType     {@link CharSequence String}. Optional
+   * @param workflowId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param parentDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param reasonDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevDocId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param stornoDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param docDate     {@link java.time.Temporal Any date type}. Optional
+   * @param docTime     {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link CharSequence String}. Optional
+   * @param name        {@link CharSequence String}. Optional
+   * @param code        {@link CharSequence String}. Optional
+   * @param rem         {@link CharSequence String}. Optional
+   * @param beginDate   {@link java.time.Temporal Any date type}. Optional
+   * @param endDate     {@link java.time.Temporal Any date type}. Optional
+   * @param firmId      {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @return Created document (in Oracle API procedure notation)
+   */
   Map createDocument(Map input) {
     input.remove('docId')
     return putDocument(input)
   }
 
+  /**
+   * Update document
+   * @param docId       {@link java.math.BigInteger BigInteger}
+   * @param docTypeId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param docType     {@link CharSequence String}. Optional
+   * @param workflowId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param parentDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param reasonDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param prevDocId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param stornoDocId {@link java.math.BigInteger BigInteger}. Optional
+   * @param docDate     {@link java.time.Temporal Any date type}. Optional
+   * @param docTime     {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link CharSequence String}. Optional
+   * @param name        {@link CharSequence String}. Optional
+   * @param code        {@link CharSequence String}. Optional
+   * @param rem         {@link CharSequence String}. Optional
+   * @param beginDate   {@link java.time.Temporal Any date type}. Optional
+   * @param endDate     {@link java.time.Temporal Any date type}. Optional
+   * @param firmId      {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @return Updated document (in Oracle API procedure notation)
+   */
   Map updateDocument(Map input = [:], def docId) {
     return putDocument(input + [docId: docId])
   }
 
+  /**
+   * Get document-subject bind by id
+   * @param docSubjectId {@link java.math.BigInteger BigInteger}
+   * @return Document-subject bin table row
+   */
   Map getDocumentSubject(def docSubjectId) {
     LinkedHashMap where = [
       n_doc_subject_id: docSubjectId
@@ -412,7 +657,19 @@ trait Document {
     return hid.getTableFirst(getDocumentSubjectsTable(), where: where)
   }
 
-  List getDocumentSubjectsBy(Map input) {
+  /**
+   * Search for document-subject binds by different fields value
+   * @param docSubjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param roleId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param role         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit        {@link Integer}. Optional. Default: 0 (unlimited)
+   * @return Document-subject bind table rows
+   */
+  List<Map> getDocumentSubjectsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docSubjectId  : null,
       docId         : null,
@@ -441,42 +698,99 @@ trait Document {
     return hid.getTableData(getDocumentSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one document-subject bind by different fields value
+   * @param docSubjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param roleId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param role         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param accountId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @return Document-subject bind table row
+   */
   Map getDocumentSubjectBy(Map input) {
     return getDocumentSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Search for provider document-subject bind by different fields value
+   * @see #getDocumentSubjectBy(java.util.Map)
+   */
   Map getDocumentProviderBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getProviderRoleId()])
   }
 
+  /**
+   * Get provider for document by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document-subject bind table row
+   */
   Map getDocumentProvider(def docId) {
     return getDocumentProviderBy(docId: docId)
   }
 
+  /**
+   * Search for recipient document-subject bind by different fields value
+   * @see #getDocumentSubjectBy(java.util.Map)
+   */
   Map getDocumentRecipientBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getRecipientRoleId()])
   }
 
+  /**
+   * Get recipient for document by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document-subject bind table row
+   */
   Map getDocumentRecipient(def docId) {
     return getDocumentRecipientBy(docId: docId)
   }
 
+  /**
+   * Search for member document-subject bind by different fields value
+   * @see #getDocumentSubjectBy(java.util.Map)
+   */
   Map getDocumentMemberBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getMemberRoleId()])
   }
 
+  /**
+   * Get member for document by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document-subject bind table row
+   */
   Map getDocumentMember(def docId) {
     return getDocumentMemberBy(docId: docId)
   }
 
+  /**
+   * Search for manager document-subject bind by different fields value
+   * @see #getDocumentSubjectBy(java.util.Map)
+   */
   Map getDocumentManagerBy(Map input) {
     return getDocumentSubjectBy(input + [roleId: getManagerRoleId()])
   }
 
+  /**
+   * Get manager for document by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Document-subject bind table row
+   */
   Map getDocumentManager(def docId) {
     return getDocumentManagerBy(docId: docId)
   }
 
+  /**
+   * Create document-subject bind
+   * @param docId      {@link java.math.BigInteger BigInteger}
+   * @param subjectId  {@link java.math.BigInteger BigInteger}
+   * @param roleId     {@link java.math.BigInteger BigInteger}. Optional if 'role' is passed
+   * @param role       {@link CharSequence String}. Optional if 'roleId' is passed
+   * @param workflowId {@link java.math.BigInteger BigInteger}. Optional if document exist, mandatory if not
+   * @return Created document-subject bind (in Oracle API procedure notation)
+   * @deprecated use {@link #addDocumentSubject(java.util.Map, def)}
+   */
   Boolean putDocumentSubject(Map input) {
     LinkedHashMap params = mergeParams([
       docId      : null,
@@ -504,6 +818,15 @@ trait Document {
     }
   }
 
+  /**
+   * Create document-subject bind
+   * @param docId      {@link java.math.BigInteger BigInteger}
+   * @param subjectId  {@link java.math.BigInteger BigInteger}
+   * @param roleId     {@link java.math.BigInteger BigInteger}. Optional if 'role' is passed
+   * @param role       {@link CharSequence String}. Optional if 'roleId' is passed
+   * @param workflowId {@link java.math.BigInteger BigInteger}. Optional if document exist, mandatory if not
+   * @return Created document-subject bind (in Oracle API procedure notation)
+   */
   Boolean addDocumentSubject(Map input = [:], def docId) {
     return putDocumentSubject(input + [docId: docId])
   }
@@ -512,7 +835,7 @@ trait Document {
    * Create document-subject bind
    *
    * Overload with positional args
-   * @see #addDocumentSubject(Map, def)
+   * @see #addDocumentSubject(java.util.Map, def)
    */
   Boolean addDocumentSubject(Map input = [:], def docId, def subjectId, def accountId = null) {
     return putDocumentSubject(input + [docId: docId, subjectId: subjectId, accountId: accountId])
@@ -520,7 +843,7 @@ trait Document {
 
   /**
    * Create document-subject provider
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentProvider(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getProviderRoleId()], docId, subjectId, accountId)
@@ -528,7 +851,7 @@ trait Document {
 
   /**
    * Create document-subject recipient
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentRecipient(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getRecipientRoleId()], docId, subjectId, accountId)
@@ -536,7 +859,7 @@ trait Document {
 
   /**
    * Create document-subject member
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentMember(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getMemberRoleId()], docId, subjectId, accountId)
@@ -544,20 +867,43 @@ trait Document {
 
   /**
    * Create document-subject manager
-   * @see #addDocumentSubject(Map, def, def)
+   * @see #addDocumentSubject(java.util.Map, def, def)
    */
   Boolean addDocumentManager(Map input = [:], def docId, def subjectId, def accountId = null) {
     return addDocumentSubject(input + [roleId: getManagerRoleId()], docId, subjectId, accountId)
   }
 
-  Map getDocumentAddParamType(def paramId) {
+  /**
+   * Get document additional parameter type by id
+   * @param docValueTypeId {@link java.math.BigInteger BigInteger}
+   * @return Document additional parameter table row
+   */
+  Map getDocumentAddParamType(def docValueTypeId) {
     LinkedHashMap where = [
-      n_doc_value_type_id: paramId
+      n_doc_value_type_id: docValueTypeId
     ]
     return hid.getTableFirst(getDocumentAddParamTypesTable(), where: where)
   }
 
-  List getDocumentAddParamTypesBy(Map input) {
+  /**
+   * Search for document additional parameter types by different fields value
+   * @param docValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit          {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document additional parameter type table rows
+   */
+  List<Map> getDocumentAddParamTypesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docValueTypeId  : null,
       docTypeId       : null,
@@ -599,18 +945,70 @@ trait Document {
     return hid.getTableData(getDocumentAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one document additional parameter type by different fields value
+   * @param docValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document additional parameter type table row
+   */
   Map getDocumentAddParamTypeBy(Map input) {
     return getDocumentAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get document additional parameter type by code
+   * @param code      {@link CharSequence String}
+   * @param docTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @return Document additional parameter type table row
+   */
   Map getDocumentAddParamTypeByCode(CharSequence code, def docTypeId = null) {
     return getDocumentAddParamTypeBy(code: code, docTypeId: docTypeId)
   }
 
+  /**
+   * Get document additional parameter type id by code
+   * @param code      {@link CharSequence String}
+   * @param docTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @return Document additional parameter type id
+   * @deprecated
+   */
   Number getDocumentAddParamTypeIdByCode(CharSequence code) {
     return toIntSafe(getDocumentAddParamTypeByCode(code)?.n_doc_value_type_id)
   }
 
+  /**
+   * Prepare document additional parameter value to save
+   * @param paramId   {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
+   * @param param     {@link CharSequence String}. Optional if 'paramId' is passed
+   * @param docId     {@link java.math.BigInteger BigInteger}. Existing document id to find additional parameter type. Optional
+   * @param docTypeId {@link java.math.BigInteger BigInteger}. Doc type if to find additional parameter type. Optional
+   * @param value     Any type. Optional
+   * @return Additional parameter value as Map
+   * <pre>
+   * {@code
+   * [
+   *   paramId : _, # doc additional parameter type id
+   *   bool    : _, # if additional parameter is boolean type
+   *   number  : _, # if additional parameter is number type
+   *   string  : _, # if additional parameter is string type
+   *   date    : _, # if additional parameter is date type
+   *   refId   : _, # if additional parameter is refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if additional parameter is refId type and value cannot be converted to BigInteger (ref code)
+   * ]
+   * }
+   * </pre>
+   */
   Map prepareDocumentAddParam(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param')) {
@@ -631,7 +1029,25 @@ trait Document {
     return input
   }
 
-  List getDocumentAddParamsBy(Map input) {
+  /**
+   * Search for document additional parameter values by different fields value
+   * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
+   * @param date       {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param limit      {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document additional parameter value table rows
+   */
+  List<Map> getDocumentAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docValueId : null,
       docId      : null,
@@ -672,10 +1088,42 @@ trait Document {
     return hid.getTableData(getDocumentAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one document additional parameter value by different fields value
+   * @param docValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
+   * @param date       {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param order      {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document additional parameter value table row
+   */
   Map getDocumentAddParamBy(Map input) {
     return getDocumentAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Create or update document additional parameter value
+   * @param docValueId {@link java.math.BigInteger BigInteger}. Optional
+   * @param docId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param paramId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param param      {@link CharSequence String}. Optional
+   * @param date       {@link java.time.Temporal Any date type}. Optional
+   * @param number     {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param string     {@link CharSequence String}. Optional
+   * @param bool       {@link Boolean}. Optional
+   * @param refId      {@link java.math.BigInteger BigInteger}. Optional
+   * @param ref        {@link CharSequence String}. Optional
+   * @param value      Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @return Created or updated document additional parameter value (in Oracle API procedure notation)
+   */
   private Map putDocumentAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       docValueId : null,
@@ -715,10 +1163,29 @@ trait Document {
     }
   }
 
+  /**
+   * Create or update document additional parameter value
+   * @param docId   {@link java.math.BigInteger BigInteger}
+   * @param paramId {@link java.math.BigInteger BigInteger}. Optional
+   * @param param   {@link CharSequence String}. Optional
+   * @param date    {@link java.time.Temporal Any date type}. Optional
+   * @param number  {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param string  {@link CharSequence String}. Optional
+   * @param bool    {@link Boolean}. Optional
+   * @param refId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param ref     {@link CharSequence String}. Optional
+   * @param value   Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @return Created or updated document additional parameter value (in Oracle API procedure notation)
+   */
   Map addDocumentAddParam(Map input = [:], def docId) {
     return putDocumentAddParam(input + [docId: docId])
   }
 
+  /**
+   * Delete document additional parameter value
+   * @param docValueId {@link java.math.BigInteger BigInteger}
+   * @return True if document additional parameter value was deleted successfully, false otherwise
+   */
   Boolean deleteDocumentAddParam(def docValueId) {
     try {
       logger.info("Deleting document additional value id ${docValueId}")
@@ -734,11 +1201,23 @@ trait Document {
     }
   }
 
+  /**
+   * Delete document additional parameter value
+   *
+   * Overload for searching and deleting additional parameter value
+   * @see #getDocumentAddParamBy(java.util.Map)
+   * @see #deleteDocumentAddParam(def)
+   */
   Boolean deleteDocumentAddParam(Map input) {
     def docValueId = getDocumentAddParamBy(input)?.n_doc_value_id
     return deleteDocumentAddParam(docValueId)
   }
 
+  /**
+   * Get document-document bind by id
+   * @param docDocumentId {@link java.math.BigInteger BigInteger}
+   * @return Document-document bind table row
+   */
   Map getDocumentBind(def docDocumentId) {
     LinkedHashMap where = [
       n_doc_document_id: docDocumentId
@@ -746,7 +1225,19 @@ trait Document {
     return hid.getTableFirst(getDocumentBindsTable(), where: where)
   }
 
-  List getDocumentBindsBy(Map input) {
+  /**
+   * Search for document-document binds by different fields value
+   * @param docDocumentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docBindId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber    {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit         {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order         {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document-document bind table rows
+   */
+  List<Map> getDocumentBindsBy(Map input) {
     LinkedHashMap params = mergeParams([
       docDocumentId : null,
       bindTypeId    : null,
@@ -775,10 +1266,31 @@ trait Document {
     return hid.getTableData(getDocumentBindsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one document-document bind by different fields value
+   * @param docDocumentId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindTypeId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bindType      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param docBindId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber    {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order          {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Document-document bind table row
+   */
   Map getDocumentBindBy(Map input) {
     return getDocumentBindsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Create or update document-document bind
+   * @param docDocumentId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindTypeId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindType      {@link CharSequence String}. Optional
+   * @param docId         {@link java.math.BigInteger BigInteger}. Optional
+   * @param docBindId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param lineNumber    {@link Integer}. Optional
+   * @return Created or updated document-document bind (in Oracle API procedure notation)
+   */
   private Map putDocumentBind(Map input) {
     LinkedHashMap defaultParams = [
       docDocumentId : null,
@@ -827,10 +1339,37 @@ trait Document {
     }
   }
 
+  /**
+   * Create document-document bind
+   * @param docId      {@link java.math.BigInteger BigInteger}
+   * @param docBindId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindType   {@link CharSequence String}. Optional
+   * @param lineNumber {@link Integer}. Optional
+   * @return Created document-document bind (in Oracle API procedure notation)
+   */
   Map addDocumentBind(Map input = [:], def docId) {
     return putDocumentBind(input + [docId: docId])
   }
 
+  /**
+   * Create document-document bind
+   * @param docId      {@link java.math.BigInteger BigInteger}
+   * @param docBindId  {@link java.math.BigInteger BigInteger}
+   * @param bindTypeId {@link java.math.BigInteger BigInteger}. Optional
+   * @param bindType   {@link CharSequence String}. Optional
+   * @param lineNumber {@link Integer}. Optional
+   * @return Created document-document bind (in Oracle API procedure notation)
+   */
+  Map addDocumentBind(Map input = [:], def docId, def docBindId) {
+    return putDocumentBind(input + [docId: docId, docBindId: docBindId])
+  }
+
+  /**
+   * Delete document-document bind
+   * @param docDocumentId {@link java.math.BigInteger BigInteger}
+   * @return True if document-document bind was deleted successfully, false otherwise
+   */
   Boolean deleteDocumentBind(def docDocumentId) {
     try {
       logger.info("Deleting doc-doc bind id ${docDocumentId}")
@@ -846,15 +1385,25 @@ trait Document {
     }
   }
 
+  /**
+   * Delete document-document bind
+   *
+   * Overload for searching and deleting document-document bind
+   * @see #getDocumentBindBy(java.util.Map)
+   * @see #deleteDocumentBind(def)
+   */
   Boolean deleteDocumentBind(Map input) {
     def docDocumentId = getDocumentBind(input)?.n_doc_document_id
     return deleteDocumentBind(docDocumentId)
   }
 
-  Boolean changeDocumentState(
-    def docId,
-    def stateId
-  ) {
+  /**
+   * Change document state
+   * @param docId   {@link java.math.BigInteger BigInteger}
+   * @param stateId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was changed successfully, false otherwise
+   */
+  Boolean changeDocumentState(def docId, def stateId) {
     try {
       logger.info("Changing document ${docId} state to ${stateId}")
       hid.execute('SD_DOC_STATES_PKG.SD_DOCUMENTS_CHANGE_STATE', [
@@ -870,58 +1419,149 @@ trait Document {
     }
   }
 
+  /**
+   * Change document state
+   *
+   * Overload with state code instead of id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param state {@link CharSequence String}
+   * @see @deleteDocumentBind(def,def)
+   */
+  Boolean changeDocumentState(def docId, CharSequence state) {
+    return changeDocumentState(docId, getRefIdByCode(state))
+  }
+
+  /**
+   * Add tag to document
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
+   * @return True if document tag was added successfully, false otherwise
+   */
   Map addDocumentTag(Map input) {
     input.entityId = input.docId
     input.remove('docId')
     return addEntityTag(input)
   }
 
+  /**
+   * Add tag to document
+   *
+   * Overload with tag code instead of id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tag   {@link CharSequence String}
+   * @see @addDocumentTag(java.util.Map)
+   */
   Map addDocumentTag(def docId, CharSequence tag) {
     return addDocumentTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to document
+   *
+   * Overload with mandatory doc id arg
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pased
+   * @see @addDocumentTag(java.util.Map, def)
+   */
   Map addDocumentTag(Map input = [:], def docId) {
     return addDocumentTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from document
+   * @param docTagId {@link java.math.BigInteger BigInteger}
+   * @return True if document tag was deleted successfully, false otherwise
+   */
   Boolean deleteDocumentTag(def docTagId) {
     return deleteEntityTag(docTagId)
   }
 
+  /**
+   * Delete tag from document
+   *
+   * Overload for names arguments input
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tagId {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag   {@link CharSequence String}. Optional if 'tagId' is pasednal
+   * @see @deleteDocumentTag(def)
+   */
   Boolean deleteDocumentTag(Map input) {
     input.entityId = input.docId
     input.remove('docId')
     return deleteEntityTag(input)
   }
 
+  /**
+   * Delete tag from document
+   *
+   * Overload with doc id and tag code
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param tag   {@link CharSequence String}
+   * @see @deleteDocumentTag(java.util.Map)
+   */
   Boolean deleteDocumentTag(def docId, CharSequence tag) {
     return deleteEntityTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Change document state to Actual
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was chanched successfully, false otherwise
+   */
   Boolean actualizeDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateActualId())
   }
 
+  /**
+   * Change document state to Executed
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was chanched successfully, false otherwise
+   */
   Boolean executeDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateExecutedId())
   }
 
+  /**
+   * Change document state to Cancel
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was chanched successfully, false otherwise
+   */
   Boolean cancelDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateCanceledId())
   }
 
+  /**
+   * Change document state to Closed
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was chanched successfully, false otherwise
+   */
   Boolean closeDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateClosedId())
   }
 
+  /**
+   * Change document state to Dissolved
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if document state was chanched successfully, false otherwise
+   */
   Boolean dissolveDocument(def docId) {
     return changeDocumentState(docId, getDocumentStateDissolvedId())
   }
 
+  /**
+   * Refresh documents quick search material view
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   */
   Boolean refreshDocuments(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentsMV(), method)
   }
 
+  /**
+   * Refresh documents app params quick search material view
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   */
   Boolean refreshDocumentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getDocumentAddParamsMV(), method)
   }

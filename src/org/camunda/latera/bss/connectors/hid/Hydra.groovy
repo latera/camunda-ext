@@ -62,6 +62,12 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     setFirm()
   }
 
+  /**
+   * Merge default params with input
+   * @param initial default params map
+   * @param input new params map
+   * @return Merged params
+   */
   private Map mergeParams(Map initial, Map input) {
     LinkedHashMap params = initial + input
 
@@ -121,10 +127,22 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     return result
   }
 
+  /**
+   * Merge default params with new ones
+   * @return Lang constant id
+   */
   Number getLangId() {
     return getRefIdByCode("LANG_${capitalize(locale)}")
   }
 
+  /**
+   * Call MAIN.INIT procedure
+   * @param ip       {@link CharSequence String}. Optional. Default: '127.0.0.1'
+   * @param user     {@link CharSequence String}. Optional. Default: 'homs' user
+   * @param password {@link CharSequence String}. Optional
+   * @param app      {@link CharSequence String}. Optional. Default: 'NETSERV_HID'
+   * @param appId    {@link CharSequence String}. Optional. Default: 'HydraOMS'
+   */
   void mainInit(Map input = [:]) {
     LinkedHashMap params = [
       ip       : '127.0.0.1',
@@ -143,6 +161,10 @@ class Hydra implements Ref, Message, DataType, AddParam, Good, Document, Contrac
     ])
   }
 
+  /**
+   * Call MAIN.SET_ACTIVE_FIRM procedure
+   * @param firmId BigInteger. Optional. Default: current firm id
+   */
   void setFirm(def firmId = getFirmId()) {
     hid.execute('MAIN.SET_ACTIVE_FIRM', [
       num_N_FIRM_ID: firmId

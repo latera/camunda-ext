@@ -3,8 +3,42 @@ package org.camunda.latera.bss.helpers.hydra
 import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.StringUtil.capitalize
 import static org.camunda.latera.bss.utils.StringUtil.trim
+import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 
+/**
+ * Individual (person) helper methods collection
+ */
 trait Individual {
+  /**
+   * Get individual (person) data by id and fill up execution variables
+   * <p>
+   * Input execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectId} {@link java.math.BigInteger BigInteger}</li>
+   * </ul>
+   * <p>
+   * Output execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectName}            {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectCode}            {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectINN}             {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectKPP}             {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*BaseSubjectOPFId}           {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*IndividualFirstName}        {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualSecondName}       {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualLastName}         {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualGenderId}         {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*IndividualBirthDate}        {@link java.time.LocalDateTime LocalDateTime}</li>
+   *   <li>{@code homsOrderData*IndividualIdentTypeId}      {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*IndividualIdentSerial}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualIdentNumber}      {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualIssuedAuthor}     {@link CharSequence String}</li>
+   *   <li>{@code homsOrderData*IndividualIssuedDate}       {@link java.time.LocalDateTime LocalDateTime}</li>
+   *   <li>{@code homsOrderData*IndividualIssuedDepartment} {@link CharSequence String}</li>
+   * </ul
+   * @param prefix        {@link CharSequence String}. Individual (person) prefix. Optional. Default: empty strin
+   * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
+   */
   void fetchIndividual(Map input = [:]) {
     Map params = [
       subjectPrefix : '',
@@ -14,7 +48,11 @@ trait Individual {
     String subjectPrefix = "${capitalize(params.subjectPrefix)}BaseSubject"
     String prefix = "${capitalize(params.prefix)}Individual"
 
-    def baseSubjectId = order."${subjectPrefix}Id" ?: [is: 'null']
+    def baseSubjectId = order."${subjectPrefix}Id"
+    if (isEmpty(baseSubjectId)) {
+      return
+    }
+
     Map person        = hydra.getPerson(baseSubjectId)
     Map personPrivate = hydra.getPersonPrivate(baseSubjectId)
     String opfCode = ''
@@ -45,6 +83,36 @@ trait Individual {
     order."${prefix}IdentIssuedDepartment" = personPrivate?.vc_doc_department
   }
 
+  /**
+   * Create individual (person) and fill up execution variables
+   * <p>
+   * Input execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectINN}             {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*BaseSubjectKPP}             {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*BaseSubjectOPFId}           {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualFirstName}        {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualSecondName}       {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualLastName}         {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualGenderId}         {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualBirthDate}        {@link java.time.Temporal Any date type}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIdentTypeId}      {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIdentSerial}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIdentNumber}      {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIssuedAuthor}     {@link CharSequence String}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIssuedDate}       {@link java.time.Temporal Any date type}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIssuedDepartment} {@link CharSequence String}. Optional</li>
+   * </ul>
+   * <p>
+   * Output execution variables:
+   * <ul>
+   *   <li>{@code homsOrderData*BaseSubjectId}      {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*BaseSubjectCreated} {@link Boolean}. Same as return value</li>
+   * </ul>
+   * @param prefix        {@link CharSequence String}. Individual (person) prefix. Optional. Default: empty string
+   * @param subjectPrefix {@link CharSequence String}. Base subject prefix. Optional. Default: empty string
+   * @return True if individual (person) was created successfully, false otherwise
+   */
   Boolean createIndividual(Map input = [:]) {
     Map params = [
       subjectPrefix : '',
