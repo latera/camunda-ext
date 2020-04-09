@@ -95,13 +95,13 @@ class MapUtil {
   /**
     Merge 2 maps into one.
     <p>
-    Same as #merge(Map, Map), but if second map value is null but first is not, value is being preserved.
+    Same as #merge(Map,Map), but if second map value is null but first is not, value is being preserved.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23mergeNotNull"></iframe>
     @param first Primary map
     @param second Secondary map
-    @see #merge(Map, Map)
+    @see #merge(Map,Map)
   */
   static Map mergeNotNull(Map first, Map second) {
     LinkedHashMap result = [:]
@@ -140,13 +140,13 @@ class MapUtil {
   /**
     Convert map keys to camelCase.
     <p>
-    Same as #camelizeKeys(Map, Boolean), but for List[Map] input
+    Same as #camelizeKeys(Map,Boolean), but for List[Map] input
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23camelizeKeys+with+List+input+-+without+firstUpper"></iframe>
     @param input List[Map]
     @param firstUpper If true return first letter capital otherwise not
-    @see #camelizeKeys(Map, Boolean)
+    @see #camelizeKeys(Map,Boolean)
   */
   static List camelizeKeys(List input, Boolean firstUpper = false) {
     List result = []
@@ -163,13 +163,13 @@ class MapUtil {
   /**
     Convert map keys to camelCase.
     <p>
-    Same as #camelizeKeys(Map, Boolean), but recursive.
+    Same as #camelizeKeys(Map,Boolean), but recursive.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+Map+input+-+without+firstUpper"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
-    @see #deepCamelizeKeys(Map, Boolean)
+    @see #deepCamelizeKeys(Map,Boolean)
   */
   static Map deepCamelizeKeys(Map input, Boolean firstUpper = false) {
     LinkedHashMap result = [:]
@@ -186,13 +186,13 @@ class MapUtil {
   /**
     Convert map keys to camelCase.
     <p>
-    Same as #deepCamelizeKeys(Map, Boolean), but for List[Map] input.
+    Same as #deepCamelizeKeys(Map,Boolean), but for List[Map] input.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23deepCamelizeKeys+with+List+input+-+without+firstUpper"></iframe>
     @param input Map
     @param firstUpper If true return first letter capital otherwise not
-    @see #camelizeKeys(Map, Boolean)
+    @see #camelizeKeys(Map,Boolean)
   */
   static List deepCamelizeKeys(List input, Boolean firstUpper = false) {
     List result = []

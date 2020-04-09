@@ -1299,7 +1299,7 @@ trait Equipment {
 
   /**
    * Refresh objects quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshObjects(CharSequence method = 'C') {
     return refreshMaterialView(getObjectsMV(), method)
@@ -1315,7 +1315,7 @@ trait Equipment {
 
   /**
    * Refresh equipment app params quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshEquipmentAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getEquipmentAddParamsMV(), method)

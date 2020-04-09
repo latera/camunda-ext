@@ -246,7 +246,7 @@ trait Region {
    * Get region hierarchy level first item by level key
    * @param code {@link CharSequence String}. Region level key, e.g. 'state'
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevelItem(java.lang.CharSequence, java.lang.Integer)
+   * @see #getRegionLevelItem(java.lang.CharSequence,java.lang.Integer)
    */
   String getRegionLevelFirstItem(CharSequence code) {
     return getRegionLevelItem(code, 0)
@@ -256,7 +256,7 @@ trait Region {
    * Get region hierarchy level first item by level index
    * @param index {@link Integer}. Region level index, e.g. 0
    * @return Item, e.g. 'REGION_TYPE_State'
-   * @see #getRegionLevelItem(java.lang.Integer, java.lang.Integer)
+   * @see #getRegionLevelItem(java.lang.Integer,java.lang.Integer)
    */
   String getRegionLevelFirstItem(Integer index) {
     return getRegionLevelItem(index, 0)
@@ -678,7 +678,7 @@ trait Region {
    * @param construct    {@link CharSequence String}. Optional
    * @param ownership    {@link CharSequence String}. Optional
    * @return Updated region (in Oracle API procedure notation)
-   * @deprecated use {@link #updateRegion(java.util.Map, def)}
+   * @deprecated use {@link #updateRegion(java.util.Map,def)}
    */
   Map updateRegion(Map input) {
     return putRegion(input)

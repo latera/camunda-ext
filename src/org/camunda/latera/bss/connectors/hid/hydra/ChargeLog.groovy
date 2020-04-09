@@ -594,7 +594,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see Document#addDocumentTag(def, java.lang.CharSequence)
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
    */
   Map addChargeLogTag(def docId, CharSequence tag) {
     return addChargeLogTag(docId: docId, tag: tag)
@@ -602,7 +602,7 @@ trait ChargeLog {
 
   /**
    * Add tag to charge log
-   * @see Document#addDocumentTag(java.util.Map, def)
+   * @see Document#addDocumentTag(java.util.Map,def)
    */
   Map addChargeLogTag(Map input = [:], def docId) {
     return addChargeLogTag(input + [docId: docId])
@@ -626,7 +626,7 @@ trait ChargeLog {
 
   /**
    * Delete tag from charge log
-   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
    */
   Boolean deleteChargeLogTag(def docId, CharSequence tag) {
     return deleteChargeLogTag(docId: docId, tag: tag)
