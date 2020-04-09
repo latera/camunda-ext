@@ -1007,7 +1007,7 @@ trait Address {
 
   /**
    * Create person address
-   * @see #createSubjAddress(java.util.Map, def)
+   * @see #createSubjAddress(java.util.Map,def)
    */
   Map createPersonAddress(Map input = [:], def personId) {
     return createSubjAddress(input, personId)
@@ -1015,7 +1015,7 @@ trait Address {
 
   /**
    * Create company address
-   * @see #createSubjAddress(java.util.Map, def)
+   * @see #createSubjAddress(java.util.Map,def)
    */
   Map createCompanyAddress(Map input = [:], def companyId) {
     return createSubjAddress(input, companyId)
@@ -1080,7 +1080,7 @@ trait Address {
 
   /**
    * Create or update subject or object address
-   * @see #createEntityAddress(java.util.Map, def)
+   * @see #createEntityAddress(java.util.Map,def)
    */
   Map createEntityAddress(Map input = [:], def entityId, def entityTypeId) {
     input.remove('entityAddressId')
@@ -1113,7 +1113,7 @@ trait Address {
 
   /**
    * Update person address
-   * @see #updateSubjAddress(java.util.Map, def)
+   * @see #updateSubjAddress(java.util.Map,def)
    */
   Map updatePersonAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
@@ -1121,7 +1121,7 @@ trait Address {
 
   /**
    * Update company address
-   * @see #updateSubjAddress(java.util.Map, def)
+   * @see #updateSubjAddress(java.util.Map,def)
    */
   Map updateCompanyAddress(Map input = [:], def subjAddressId) {
     return updateSubjAddress(input, subjAddressId)
@@ -1402,7 +1402,7 @@ trait Address {
    * Close object address
    * @param input {@link LinkedHashMap Map} with address to close
    * @see #getObjAddress(def)
-   * @see #closeObjAddress(def, Temporal)
+   * @see #closeObjAddress(def,Temporal)
    */
   Boolean closeObjAddress(Map input) {
     LinkedHashMap params = mergeParams([
@@ -2360,7 +2360,7 @@ trait Address {
 
   /**
    * Refresh object addresses quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshObjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddressesMV(), method)
@@ -2368,7 +2368,7 @@ trait Address {
 
   /**
    * Refresh subject addresses quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshSubjAddresses(CharSequence method = 'C') {
     return refreshMaterialView(getObjectAddressesMV(), method)
@@ -2376,7 +2376,7 @@ trait Address {
 
   /**
    * Refresh object and subject addresses quick search material views
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshEntityAddresses(CharSequence method = 'C') {
     return refreshObjAddresses(method) && refreshSubjAddresses(method)

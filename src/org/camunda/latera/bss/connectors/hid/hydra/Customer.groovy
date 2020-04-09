@@ -557,7 +557,7 @@ trait Customer {
 
   /**
    * Add group to customer
-   * @see Subject#addSubjectGroup(java.util.Map, def)
+   * @see Subject#addSubjectGroup(java.util.Map,def)
    */
   Map addCustomerGroup(Map input = [:], def customerId) {
     return addSubjectGroup(input, customerId)
@@ -1173,7 +1173,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#addSubjectTag(def,java.lang.CharSequence)
    */
   Map addCustomerTag(def customerId, CharSequence tag) {
     return addCustomerTag(customerId: customerId, tag: tag)
@@ -1181,7 +1181,7 @@ trait Customer {
 
   /**
    * Add tag to customer
-   * @see Subject#addSubjectTag(java.util.Map, def)
+   * @see Subject#addSubjectTag(java.util.Map,def)
    */
   Map addCustomerTag(Map input = [:], def customerId) {
     return addCustomerTag(input + [customerId: customerId])
@@ -1207,7 +1207,7 @@ trait Customer {
 
   /**
    * Delete tag from customer
-   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#deleteSubjectTag(def,java.lang.CharSequence)
    */
   Boolean deleteCustomerTag(def customerId, CharSequence tag) {
     return deleteCustomerTag(customerId: customerId, tag: tag)
@@ -1245,7 +1245,7 @@ trait Customer {
    * Issue charge logs for a customer
    *
    * Overload for named arguments
-   * @see #processCustomer(def, Temporal, Temporal)
+   * @see #processCustomer(def,Temporal,Temporal)
    */
   Boolean processCustomer(Map input) {
     LinkedHashMap params = mergeParams([

@@ -603,7 +603,7 @@ trait Person {
 
   /**
    * Add tag to person
-   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#addSubjectTag(def,java.lang.CharSequence)
    */
   Map addPersonTag(def personId, CharSequence tag) {
     return addPersonTag(personId: personId, tag: tag)
@@ -611,7 +611,7 @@ trait Person {
 
   /**
    * Add tag to person
-   * @see Subject#addSubjectTag(java.util.Map, def)
+   * @see Subject#addSubjectTag(java.util.Map,def)
    */
   Map addPersonTag(Map input = [:], def personId) {
     return addPersonTag(input + [personId: personId])
@@ -637,7 +637,7 @@ trait Person {
 
   /**
    * Delete tag from person
-   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#deleteSubjectTag(def,java.lang.CharSequence)
    */
   Boolean deletePersonTag(def personId, CharSequence tag) {
     return deletePersonTag(personId: personId, tag: tag)
@@ -645,7 +645,7 @@ trait Person {
 
   /**
    * Refresh persons quick search material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshPersons(CharSequence method = 'C') {
     return refreshSubjects(method)

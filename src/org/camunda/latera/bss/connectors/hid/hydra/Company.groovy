@@ -407,7 +407,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#addSubjectTag(def,java.lang.CharSequence)
    */
   Map addCompanyTag(def companyId, CharSequence tag) {
     return addCompanyTag(companyId: companyId, tag: tag)
@@ -415,7 +415,7 @@ trait Company {
 
   /**
    * Add tag to company
-   * @see Subject#addSubjectTag(java.util.Map, def)
+   * @see Subject#addSubjectTag(java.util.Map,def)
    */
   Map addCompanyTag(Map input = [:], def companyId) {
     return addCompanyTag(input + [companyId: companyId])
@@ -441,7 +441,7 @@ trait Company {
 
   /**
    * Delete tag from company
-   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
+   * @see Subject#deleteSubjectTag(def,java.lang.CharSequence)
    */
   Boolean deleteCompanyTag(def companyId, CharSequence tag) {
     return deleteCompanyTag(companyId: companyId, tag: tag)

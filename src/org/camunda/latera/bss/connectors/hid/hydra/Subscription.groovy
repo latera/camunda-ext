@@ -334,7 +334,7 @@ trait Subscription {
 
   /**
    * Update child subscription
-   * @see #updateSubscription(java.util.Map, def)
+   * @see #updateSubscription(java.util.Map,def)
    */
   Map updateChildSubscription(Map input = [:], def childSubscriptionId) {
     return updateSubscription(input, childSubscriptionId)
@@ -370,7 +370,7 @@ trait Subscription {
 
   /**
    * Close child subscription
-   * @see #closeSubscription(java.util.Map, def)
+   * @see #closeSubscription(java.util.Map,def)
    */
   Boolean closeChildSubscription(Map input = [:], def childSubscriptionId) {
     return closeSubscription(input, childSubscriptionId)

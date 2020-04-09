@@ -376,7 +376,7 @@ trait Invoice {
 
   /**
    * Add tag to invoice
-   * @see Document#addDocumentTag(def, java.lang.CharSequence)
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
    */
   Map addInvoiceTag(def docId, CharSequence tag) {
     return addInvoiceTag(docId: docId, tag: tag)
@@ -384,7 +384,7 @@ trait Invoice {
 
   /**
    * Add tag to invoice
-   * @see Document#addDocumentTag(java.util.Map, def)
+   * @see Document#addDocumentTag(java.util.Map,def)
    */
   Map addInvoiceTag(Map input = [:], def docId) {
     return addInvoiceTag(input + [docId: docId])
@@ -408,7 +408,7 @@ trait Invoice {
 
   /**
    * Delete tag from invoice
-   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
    */
   Boolean deleteInvoiceTag(def docId, CharSequence tag) {
     return deleteInvoiceTag(docId: docId, tag: tag)

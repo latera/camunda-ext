@@ -102,7 +102,7 @@ trait AddParam {
    * Get additional parameter value or value+type
    *
    * Overload for names arguments.
-   * @see #getAddParamValue(Map, Boolean, Boolean)
+   * @see #getAddParamValue(Map,Boolean,Boolean)
    */
   def getAddParamValue(Map input, Map value) {
     LinkedHashMap params = [
@@ -116,7 +116,7 @@ trait AddParam {
    * Get additional parameter value without type
    *
    * Overload for returning only value.
-   * @see #getAddParamValue(Map, Boolean, Boolean)
+   * @see #getAddParamValue(Map,Boolean,Boolean)
    */
   def getAddParamValueRaw(Map value, Boolean visualRefValue = false) {
     return getAddParamValue(value, withType: false, visualRefValue: visualRefValue)

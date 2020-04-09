@@ -323,7 +323,7 @@ trait Contract {
 
   /**
    * Add tag to contract
-   * @see Document#addDocumentTag(def, java.lang.CharSequence)
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
    */
   Map addContractTag(def docId, CharSequence tag) {
     return addContractTag(docId: docId, tag: tag)
@@ -331,7 +331,7 @@ trait Contract {
 
   /**
    * Add tag to contract
-   * @see Document#addDocumentTag(java.util.Map, def)
+   * @see Document#addDocumentTag(java.util.Map,def)
    */
   Map addContractTag(Map input = [:], def docId) {
     return addContractTag(input + [docId: docId])
@@ -355,7 +355,7 @@ trait Contract {
 
   /**
    * Delete tag from contract
-   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
    */
   Boolean deleteContractTag(def docId, CharSequence tag) {
     return deleteContractTag(docId: docId, tag: tag)
@@ -555,7 +555,7 @@ trait Contract {
 
   /**
    * Add tag to contract app
-   * @see Document#addDocumentTag(def, java.lang.CharSequence)
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
    */
   Map addContractAppTag(def docId, CharSequence tag) {
     return addContractAppTag(doc: docId, tag: tag)
@@ -563,7 +563,7 @@ trait Contract {
 
   /**
    * Add tag to contract app
-   * @see Document#addDocumentTag(java.util.Map, def)
+   * @see Document#addDocumentTag(java.util.Map,def)
    */
   Map addContractAppTag(Map input = [:], def docId) {
     return addContractAppTag(input + [doc: docId])
@@ -587,7 +587,7 @@ trait Contract {
 
   /**
    * Delete tag from contract app
-   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
    */
   Boolean deleteContractAppTag(def docId, CharSequence tag) {
     return deleteContractAppTag(docId: docId, tag: tag)
@@ -771,7 +771,7 @@ trait Contract {
 
   /**
    * Add tag to add agreement
-   * @see Document#addDocumentTag(def, java.lang.CharSequence)
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
    */
   Map addAddAgreementTag(def docId, CharSequence tag) {
     return addAddAgreementTag(doc: docId, tag: tag)
@@ -779,7 +779,7 @@ trait Contract {
 
   /**
    * Add tag to add agreement
-   * @see Document#addDocumentTag(java.util.Map, def)
+   * @see Document#addDocumentTag(java.util.Map,def)
    */
   Map addAddAgreementTag(Map input = [:], def docId) {
     return addAddAgreementTag(input + [doc: docId])
@@ -803,7 +803,7 @@ trait Contract {
 
   /**
    * Delete tag from add agreement
-   * @see Document#deleteDocumentTag(def, java.lang.CharSequence)
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
    */
   Boolean deleteAddAgreementTag(def docId, CharSequence tag) {
     return deleteAddAgreementTag(docId: docId, tag: tag)
@@ -832,7 +832,7 @@ trait Contract {
 
   /**
    * Refresh base contracts tree material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshBaseContracts(CharSequence method = 'C') {
     return refreshMaterialView(getBaseContractsTreeMV(), method)
@@ -840,7 +840,7 @@ trait Contract {
 
   /**
    * Refresh contracts tree material view
-   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   * @see Search#refreshMaterialView(java.lang.CharSequence,java.lang.CharSequence)
    */
   Boolean refreshContracts(CharSequence method = 'C') {
     return refreshContractsTree(method)
