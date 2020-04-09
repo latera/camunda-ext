@@ -11,6 +11,9 @@ import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_ManuallySuspende
 import static org.camunda.latera.bss.utils.Constants.SUBJ_STATE_Disabled
 import static org.camunda.latera.bss.utils.Constants.COMMENT_TYPE_Comment
 
+/**
+ * Subject specific methods
+ */
 trait Subject {
   private static String SUBJECTS_TABLE                = 'SI_V_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_TABLE      = 'SI_V_SUBJ_VALUES'
@@ -19,79 +22,154 @@ trait Subject {
   private static String SUBJECTS_MV                   = 'SI_MV_SUBJECTS'
   private static String SUBJECT_ADD_PARAMS_MV         = 'SI_MV_SUBJ_VALUES'
 
+  /**
+   * Get subjects table name
+   */
   String getSubjectsTable() {
     return SUBJECTS_TABLE
   }
 
+  /**
+   * Get subject additional parameter values table name
+   */
   String getSubjectAddParamsTable() {
     return SUBJECT_ADD_PARAMS_TABLE
   }
 
+  /**
+   * Get subject additional parameter types table name
+   */
   String getSubjectAddParamTypesTable() {
     return SUBJECT_ADD_PARAM_TYPES_TABLE
   }
 
+  /**
+   * Get subject groups table name
+   */
   String getSubjectGroupsTable() {
     return SUBJECT_GROUPS_TABLE
   }
 
+  /**
+   * Get subjects quick search material view name
+   */
   String getSubjectsMV() {
     return SUBJECTS_MV
   }
 
+  /**
+   * Get subject additional parameter values quick search material view name
+   */
   String getSubjectAddParamsMV() {
     return SUBJECT_ADD_PARAMS_MV
   }
 
+  /**
+   * Get subject entity type ref code
+   */
   String getSubjectEntityType() {
     return getRefCode(getSubjectEntityTypeId())
   }
 
+  /**
+   * Get subject entity type ref id
+   */
   Number getSubjectEntityTypeId() {
     return ENTITY_TYPE_Subject
   }
 
+  /**
+   * Get active subject state ref code
+   */
   String getSubjectStateOn() {
     return getRefCode(getSubjectStateOnId())
   }
 
+  /**
+   * Get active subject state ref id
+   */
   Number getSubjectStateOnId() {
     return SUBJ_STATE_On
   }
 
+  /**
+   * Get locked subject state ref code
+   */
   String getSubjectStateLocked() {
     return getRefCode(getSubjectStateLockedId())
   }
 
+  /**
+   * Get locked subject state ref id
+   */
   Number getSubjectStateLockedId() {
     return SUBJ_STATE_Locked
   }
 
+  /**
+   * Get suspended subject state ref code
+   */
   String getSubjectStateSuspended() {
     return getRefCode(getSubjectStateSuspendedId())
   }
 
+  /**
+   * Get suspended subject state ref id
+   */
   Number getSubjectStateSuspendedId() {
     return SUBJ_STATE_ManuallySuspended
   }
 
+  /**
+   * Get disabled subject state ref code
+   */
   String getSubjectStateDisabled() {
     return getRefCode(getSubjectStateDisabledId())
   }
 
+  /**
+   * Get disabled subject state ref id
+   */
   Number getSubjectStateDisabledId() {
     return SUBJ_STATE_Disabled
   }
 
+  /**
+   * Get subject comment type ref code
+   */
   String getSubjectCommentType() {
     return getRefCode(getSubjectCommentTypeId())
   }
 
+  /**
+   * Get subject comment type ref id
+   */
   Number getSubjectCommentTypeId() {
     return COMMENT_TYPE_Comment
   }
 
-  List getSubjectsBy(Map input) {
+  /**
+   * Search for subjects by different fields value
+   * @param subjectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseSubjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentSubjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param resellerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject table rows
+   */
+  List<Map> getSubjectsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjectId        : null,
       baseSubjectId    : null,
@@ -152,10 +230,36 @@ trait Subject {
     return hid.getTableData(getSubjectsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for subject by different fields value
+   * @param subjectId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseSubjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parentSubjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param typeId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param type            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ownerId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param resellerId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current reseller id
+   * @param stateId         {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state           {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject table row
+   */
   Map getSubjectBy(Map input) {
     return getSubjectsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get subject by id
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return Subject table row
+   */
   Map getSubject(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -163,6 +267,11 @@ trait Subject {
     return hid.getTableFirst(getSubjectsTable(), where: where)
   }
 
+  /**
+   * Get subject type id
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return Subject type id
+   */
   Number getSubjectTypeId(def subjectId) {
     LinkedHashMap where = [
       n_subject_id: subjectId
@@ -170,6 +279,11 @@ trait Subject {
     return toIntSafe(hid.getTableFirst(getSubjectsTable(), 'n_subj_type_id', where))
   }
 
+  /**
+   * Check if entity or entity type is subject
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Entity id, entity type ref id or entity type ref code
+   * @return True if given value is subject, false otherwise
+   */
   Boolean isSubject(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -183,6 +297,12 @@ trait Subject {
     }
   }
 
+  /**
+   * Change subject state
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param stateId   {@link java.math.BigInteger BigInteger}
+   * @return True if state was changed successfully, false otherwise
+   */
   Boolean changeSubjectState(
     def subjectId,
     def stateId
@@ -202,26 +322,65 @@ trait Subject {
     }
   }
 
+  /**
+   * Change subject state to Active
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return True if state was changed successfully, false otherwise
+   */
   Boolean enableSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateOnId())
   }
 
+  /**
+   * Change subject state to Suspended
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return True if state was changed successfully, false otherwise
+   */
   Boolean suspendSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateSuspendedId())
   }
 
+  /**
+   * Change subject state to Disabled
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return True if state was changed successfully, false otherwise
+   */
   Boolean disableSubject(def subjectId) {
     return changeSubjectState(subjectId, getSubjectStateDisabledId())
   }
 
-  Map getSubjectAddParamType(def paramId) {
+  /**
+   * Get subject additional parameter type by id
+   * @param subjValueTypeId {@link java.math.BigInteger BigInteger}
+   * @return Subject additional parameter table row
+   */
+  Map getSubjectAddParamType(def subjValueTypeId) {
     LinkedHashMap where = [
-      n_subj_value_type_id: paramId
+      n_subj_value_type_id: subjValueTypeId
     ]
     return hid.getTableFirst(getSubjectAddParamTypesTable(), where: where)
   }
 
-  List getSubjectAddParamTypesBy(Map input) {
+  /**
+   * Search for subject additional parameter types by different fields value
+   * @param subjValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isReadOnly      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject additional parameter type table rows
+   */
+  List<Map> getSubjectAddParamTypesBy(Map input) {
     def params = mergeParams([
       subjValueTypeId : null,
       subjTypeId      : null,
@@ -267,14 +426,60 @@ trait Subject {
     return hid.getTableData(getSubjectAddParamTypesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for subject additional parameter type by different fields value
+   * @param subjValueTypeId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param dataType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refTypeId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refType         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param canModify       {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMulti         {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isReadOnly      {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param rem             {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject additional parameter type table row
+   */
   Map getSubjectAddParamTypeBy(Map input) {
     return getSubjectAddParamTypesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Search for subject additional parameter type by code
+   * @param code       {@link CharSequence String}
+   * @param subjTypeId {@link java.math.BigInteger BigInteger} Optional
+   * @return Subject additional parameter type table row
+   */
   Map getSubjectAddParamTypeByCode(CharSequence code, def subjTypeId = null) {
     return getSubjectAddParamTypeBy(code: code, subjTypeId: subjTypeId)
   }
 
+  /**
+   * Prepare subject additional parameter value to save
+   * @param paramId    {@link java.math.BigInteger BigInteger}. Optional if 'param' is passed
+   * @param param      {@link CharSequence String}. Optional if 'paramId' is passed
+   * @param subjectId  {@link java.math.BigInteger BigInteger}. Existing subject id to find additional parameter type. Optional
+   * @param subjTypeId {@link java.math.BigInteger BigInteger}. Subject type if to find additional parameter type. Optional
+   * @param value      Any type. Optional
+   * @return Additional parameter value as Map
+   * <pre>
+   * {@code
+   * [
+   *   paramId : _, # doc additional parameter type id
+   *   bool    : _, # if additional parameter is boolean type
+   *   number  : _, # if additional parameter is number type
+   *   string  : _, # if additional parameter is string type
+   *   date    : _, # if additional parameter is date type
+   *   refId   : _, # if additional parameter is refId type and value can be converted to BigInteger (ref id)
+   *   ref     : _  # if additional parameter is refId type and value cannot be converted to BigInteger (ref code)
+   * ]
+   * }
+   * </pre>
+   */
   Map prepareSubjectAddParam(Map input) {
     LinkedHashMap param = null
     if (input.containsKey('param')) {
@@ -295,7 +500,26 @@ trait Subject {
     return input
   }
 
-  List getSubjectAddParamsBy(Map input) {
+  /**
+   * Search for subject additional parameter values by different fields value
+   * @param subjValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject additional parameter value table rows
+   */
+  List<Map> getSubjectAddParamsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjValueId : null,
       subjectId   : null,
@@ -336,10 +560,44 @@ trait Subject {
     return hid.getTableData(getSubjectAddParamsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for subject additional parameter value by different fields value
+   * @param subjValueId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjectId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjTypeId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subjType    {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param paramId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'param' is passed
+   * @param param       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional if 'paramId' is passed
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param string      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param bool        {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ref         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @param limit       {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order       {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Subject additional parameter value table row
+   */
   Map getSubjectAddParamBy(Map input) {
     return getSubjectAddParamsBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Create or update subject additional parameter value
+   * @param subjValueId {@link java.math.BigInteger BigInteger}. Optional
+   * @param subjectId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param paramId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param param       {@link CharSequence String}. Optional
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param string      {@link CharSequence String}. Optional
+   * @param bool        {@link Boolean}. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param ref         {@link CharSequence String}. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @return Created or updated subject additional parameter value (in Oracle API procedure notation)
+   */
   private Map putSubjectAddParam(Map input) {
     LinkedHashMap params = mergeParams([
       subjValueId : null,
@@ -380,10 +638,29 @@ trait Subject {
     }
   }
 
+  /**
+   * Create or update subject additional parameter value
+   * @param subjectId   {@link java.math.BigInteger BigInteger}
+   * @param paramId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param param       {@link CharSequence String}. Optional
+   * @param date        {@link java.time.Temporal Any date type}. Optional
+   * @param number      {@link Double}, {@link Integer}, {@link java.math.BigInteger BigInteger}. Optional
+   * @param string      {@link CharSequence String}. Optional
+   * @param bool        {@link Boolean}. Optional
+   * @param refId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param ref         {@link CharSequence String}. Optional
+   * @param value       Any type which is automatically converted to 'date', 'string', 'name', 'bool' or 'refId', see {@link #prepareDocumentAddParam(Map)}. Optional
+   * @return Created or updated subject additional parameter value (in Oracle API procedure notation)
+   */
   Map addSubjectAddParam(Map input = [:], def subjectId) {
     return putSubjectAddParam(input + [subjectId: subjectId])
   }
 
+  /**
+   * Delete subject additional parameter value
+   * @param subjValueId {@link java.math.BigInteger BigInteger}
+   * @return True if subject additional parameter value is deleted successfully, false otherwise
+   */
   Boolean deleteSubjectAddParam(def subjValueId) {
     try {
       logger.info("Deleting subject additional value id ${subjValueId}")
@@ -399,12 +676,28 @@ trait Subject {
     }
   }
 
+  /**
+   * Delete subject additional parameter value
+   *
+   * Overload for searching and deleting additional parameter value
+   * @see #getSubjectAddParamBy(java.util.Map)
+   * @see #deleteSubjectAddParam(def)
+   */
   Boolean deleteSubjectAddParam(Map input) {
     def subjValueId = getSubjectAddParamBy(input)?.n_subj_value_id
     return deleteSubjectAddParam(subjValueId)
   }
 
-  List getSubjectGroupsBy(Map input) {
+  /**
+   * Search for subject-group binds by different fields value
+   * @param subjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMain    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit     {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: C_FL_MAIN DESC
+   * @return Subject-group bind table rows
+   */
+  List<Map> getSubjectGroupsBy(Map input) {
     LinkedHashMap params = mergeParams([
       subjectId : null,
       groupId   : null,
@@ -426,18 +719,44 @@ trait Subject {
     return hid.getTableData(getSubjectGroupsTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for subject-group bind by different fields value
+   * @param subjectId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param isMain    {@link Boolean}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: C_FL_MAIN DESC
+   * @return Subject-group bind table row
+   */
   Map getSubjectGroupBy(Map input) {
     return getSubjectGroupsBy(input + [limit: 1])?.getAt(0)
   }
 
-  List getSubjectGroups(def subjectId) {
+  /**
+   * Get subject-group binds for subject
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return Subject-group bind table rows
+   */
+  List<Map> getSubjectGroups(def subjectId) {
     return getSubjectGroupsBy(subjectId: subjectId)
   }
 
+  /**
+   * Get subject-group bind for subject
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @return Subject-group bind table row
+   */
   Map getSubjectGroup(def subjectId) {
     return getSubjectGroupBy(subjectId: subjectId, isMain: true)
   }
 
+  /**
+   * Create or update subject-group bind
+   * @param subjSubjectId {@link java.math.BigInteger BigInteger}. Optional
+   * @param subjectId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param groupId       {@link java.math.BigInteger BigInteger}. Optional
+   * @param isMain        {@link Boolean}. Optional
+   * @return Created or updated subject-group bind (in Oracle API procedure notation)
+   */
   private Map putSubjectGroup(Map input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
@@ -463,10 +782,33 @@ trait Subject {
     }
   }
 
+  /**
+   * Created subject-group bind
+   * @param subjectId     {@link java.math.BigInteger BigInteger}
+   * @param groupId       {@link java.math.BigInteger BigInteger}
+   * @param isMain        {@link Boolean}. Optional
+   * @return Created subject-group bind (in Oracle API procedure notation)
+   */
   Map addSubjectGroup(Map input = [:], def subjectId) {
     return putSubjectGroup(input + [subjectId: subjectId])
   }
 
+  /**
+   * Delete subject-group bind
+   * @param subjSubjectId {@link java.math.BigInteger BigInteger}
+   * @return True if subject-group bind was deleted successfully, false otherwise
+   */
+  Boolean deleteSubjectGroup(def subjSubjectId) {
+    return deleteSubjGroup(subjSubjectId: subjSubjectId)
+  }
+
+  /**
+   * Delete subject-group bind
+   *
+   * Overload for searching and deleting subject group
+   * @see #getSubjectGroupBy(java.util.Map)
+   * @see #deleteSubjectGroup(def)
+   */
   Boolean deleteSubjectGroup(Map input) {
     LinkedHashMap params = mergeParams([
       subjSubjectId : null,
@@ -497,10 +839,17 @@ trait Subject {
     }
   }
 
-  Boolean deleteSubjectGroup(def subjSubjectId) {
-    return deleteSubjGroup(subjSubjectId: subjSubjectId)
-  }
-
+  /**
+   * Create or update subject comment
+   * @param lineId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param subjectId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param typeId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param type          {@link CharSequence String}. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param signalDate    {@link java.time.Temporal Any date type}. Optional
+   * @param content       {@link CharSequence String}. Optional
+   * @param authorId      {@link java.math.BigInteger BigInteger}. Optional
+   */
   private Map putSubjectComment(Map input) {
     LinkedHashMap params = mergeParams([
       lineId        : null,
@@ -536,11 +885,27 @@ trait Subject {
       return null
     }
   }
-  
+
+  /**
+   * Create subject comment
+   * @param subjectId     {@link java.math.BigInteger BigInteger}
+   * @param lineId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param typeId        {@link java.math.BigInteger BigInteger}. Optional
+   * @param type          {@link CharSequence String}. Optional
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional. Default: current datetime
+   * @param signalDate    {@link java.time.Temporal Any date type}. Optional
+   * @param content       {@link CharSequence String}
+   * @param authorId      {@link java.math.BigInteger BigInteger}. Optional
+   */
   Map addSubjectComment(Map input = [:], def subjectId) {
     return putSubjectComment(input + [subjectId: subjectId])
   }
 
+  /**
+   * Delete subject comment
+   * @param lineId {@link java.math.BigInteger BigInteger}
+   * @return True if subject comment was deleted successfully, false otherwise
+   */
   Boolean deleteSubjectComment(def lineId) {
     try {
       logger.info("Deleting subject comment line id ${lineId}")
@@ -556,38 +921,92 @@ trait Subject {
     }
   }
 
+  /**
+   * Add tag to subject
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
+   * @return True if subject tag was added successfully, false otherwise
+   */
   Map addSubjectTag(Map input) {
     input.entityId = input.subjectId
     input.remove('subjectId')
     return addEntityTag(input)
   }
 
+  /**
+   * Add tag to subject
+   *
+   * Overload with tag code instead of id
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param tag       {@link CharSequence String}
+   * @see #addSubjectTag(java.util.Map)
+   */
   Map addSubjectTag(def subjectId, CharSequence tag) {
     return addSubjectTag(subjectId: subjectId, tag: tag)
   }
 
+  /**
+   * Add tag to subject
+   *
+   * Overload with mandatory subject id arg
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
+   * @see #addSubjectTag(java.util.Map, def)
+   */
   Map addSubjectTag(Map input = [:], def subjectId) {
     return addSubjectTag(input + [subjectId: subjectId])
   }
 
+  /**
+   * Delete tag from subject
+   * @param subjTagId {@link java.math.BigInteger BigInteger}
+   * @return True if subject tag was deleted successfully, false otherwise
+   */
   Boolean deleteSubjectTag(def subjTagId) {
     return deleteEntityTag(subjTagId)
   }
 
+  /**
+   * Delete tag from subject
+   *
+   * Overload for names arguments input
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param tagId     {@link java.math.BigInteger BigInteger}. Optional if 'tag' is pased
+   * @param tag       {@link CharSequence String}. Optional if 'tagId' is pased
+   * @see #deleteSubjectTag(def)
+   */
   Boolean deleteSubjectTag(Map input) {
     input.entityId = input.subjectId
     input.remove('subjectId')
     return deleteEntityTag(input)
   }
 
+  /**
+   * Delete tag from subject
+   *
+   * Overload with subject id and tag code
+   * @param subjectId {@link java.math.BigInteger BigInteger}
+   * @param tag       {@link CharSequence String}
+   * @see #deleteSubjectTag(java.util.Map)
+   */
   Boolean deleteSubjectTag(def subjectId, CharSequence tag) {
     return deleteSubjectTag(subjectId: subjectId, tag: tag)
   }
 
+  /**
+   * Refresh subjects quick search material view
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   */
   Boolean refreshSubjects(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectsMV(), method)
   }
 
+  /**
+   * Refresh subject app params quick search material view
+   * @see Search#refreshMaterialView(java.lang.CharSequence, java.lang.CharSequence)
+   */
   Boolean refreshSubjectAddParams(CharSequence method = 'C') {
     return refreshMaterialView(getSubjectAddParamsMV(), method)
   }

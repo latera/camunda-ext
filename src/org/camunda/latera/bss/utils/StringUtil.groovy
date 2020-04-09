@@ -223,7 +223,7 @@ class StringUtil {
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.StringUtilSpec.html#%23camelize+with+named+arguments+-+without+firstUpper"></iframe>
     @param input String for camelize
     @param firstUpper Whether return first letter capital or not
-    @see #camelize(CharSequence,Boolean)
+    @see #camelize(CharSequence, Boolean)
   */
   static String camelize(Map options, CharSequence input) {
     return camelize(input, options.firstUpper)

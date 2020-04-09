@@ -4,21 +4,38 @@ import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.Constants.SUBJ_TYPE_Company
 
+/**
+ * Company specific methods
+ */
 trait Company {
   private static String COMPANIES_TABLE = 'SI_V_COMPANIES'
 
+  /**
+   * Get companies table name
+   */
   String getCompaniesTable() {
     return COMPANIES_TABLE
   }
 
+  /**
+   * Get company subject type ref code
+   */
   String getCompanyType() {
     return getRefCode(getCompanyTypeId())
   }
 
+  /**
+   * Get company subject type ref id
+   */
   Number getCompanyTypeId() {
     return SUBJ_TYPE_Company
   }
 
+  /**
+   * Get company by id
+   * @param companyId {@link java.math.BigInteger BigInteger}
+   * @return Company table row
+   */
   Map getCompany(def companyId) {
     LinkedHashMap where = [
       n_subject_id: companyId
@@ -26,7 +43,33 @@ trait Company {
     return hid.getTableFirst(getCompaniesTable(), where: where)
   }
 
-  List getCompaniesBy(Map input) {
+  /**
+   * Search for companies by different fields value
+   * @param companyId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param inn       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kpp       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocato     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocfs      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocogu     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocopf     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ogrn      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param okved     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit     {@link Integer}. Optional. Default: 0 (unlimited)
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Company table rows
+   */
+  List<Map> getCompaniesBy(Map input) {
     LinkedHashMap params = mergeParams([
       companyId : null,
       regionId  : null,
@@ -107,10 +150,40 @@ trait Company {
     return hid.getTableData(getCompaniesTable(), where: where, order: params.order, limit: params.limit)
   }
 
+  /**
+   * Search for one company by different fields value
+   * @param companyId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param regionId  {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param creatorId {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param name      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param code      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param inn       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param kpp       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocato     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocfs      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocogu     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ocopf     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param ogrn      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param okved     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opfId     {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param opf       {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param groupId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param stateId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param state     {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param firmId    {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional. Default: current firm id
+   * @param tags      {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order     {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional. Default: [:]
+   * @return Company table row
+   */
   Map getCompanyBy(Map input) {
     return getCompaniesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Check if entity or entity type is company
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Subject id, subject type ref id or subject type ref code
+   * @return True if given value is company, false otherwise
+   */
   Boolean isCompany(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -123,7 +196,30 @@ trait Company {
       return entityOrEntityType == getCompanyType()
     }
   }
-  
+
+  /**
+   * Create or update company
+   * @param companyId {@link java.math.BigInteger BigInteger}. Optional
+   * @param name      {@link CharSequence String}. Optional
+   * @param code      {@link CharSequence String}. Optional
+   * @param opfId     {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf       {@link CharSequence String}. Optional
+   * @param inn       {@link CharSequence String}. Optional
+   * @param kpp       {@link CharSequence String}. Optional
+   * @param ocato     {@link CharSequence String}. Optional
+   * @param ocfs      {@link CharSequence String}. Optional
+   * @param ocogu     {@link CharSequence String}. Optional
+   * @param ocopf     {@link CharSequence String}. Optional
+   * @param ogrn      {@link CharSequence String}. Optional
+   * @param okved     {@link CharSequence String}. Optional
+   * @param rem       {@link CharSequence String}. Optional
+   * @param regionId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param groupId   {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId    {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @param stateId   {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state     {@link CharSequence String}. Optional
+   * @return Created or updated company (in Oracle API procedure notation)
+   */
   private Map putCompany(Map input) {
     LinkedHashMap defaultParams = [
       companyId : null,
@@ -204,19 +300,73 @@ trait Company {
     }
   }
 
+  /**
+   * Create company
+   * @param name     {@link CharSequence String}. Optional
+   * @param code     {@link CharSequence String}. Optional
+   * @param opfId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf      {@link CharSequence String}. Optional
+   * @param inn      {@link CharSequence String}. Optional
+   * @param kpp      {@link CharSequence String}. Optional
+   * @param ocato    {@link CharSequence String}. Optional
+   * @param ocfs     {@link CharSequence String}. Optional
+   * @param ocogu    {@link CharSequence String}. Optional
+   * @param ocopf    {@link CharSequence String}. Optional
+   * @param ogrn     {@link CharSequence String}. Optional
+   * @param okved    {@link CharSequence String}. Optional
+   * @param rem      {@link CharSequence String}. Optional
+   * @param regionId {@link java.math.BigInteger BigInteger}. Optional
+   * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state    {@link CharSequence String}. Optional
+   * @return Created company (in Oracle API procedure notation)
+   */
   Map createCompany(Map input) {
     input.remove('companyId')
     return putCompany(input)
   }
 
+  /**
+   * Update company
+   * @param companyId{@link java.math.BigInteger BigInteger}
+   * @param name     {@link CharSequence String}. Optional
+   * @param code     {@link CharSequence String}. Optional
+   * @param opfId    {@link java.math.BigInteger BigInteger}. Optional
+   * @param opf      {@link CharSequence String}. Optional
+   * @param inn      {@link CharSequence String}. Optional
+   * @param kpp      {@link CharSequence String}. Optional
+   * @param ocato    {@link CharSequence String}. Optional
+   * @param ocfs     {@link CharSequence String}. Optional
+   * @param ocogu    {@link CharSequence String}. Optional
+   * @param ocopf    {@link CharSequence String}. Optional
+   * @param ogrn     {@link CharSequence String}. Optional
+   * @param okved    {@link CharSequence String}. Optional
+   * @param rem      {@link CharSequence String}. Optional
+   * @param regionId {@link java.math.BigInteger BigInteger}. Optional
+   * @param groupId  {@link java.math.BigInteger BigInteger}. Optional
+   * @param firmId   {@link java.math.BigInteger BigInteger}. Optional. Default: current firm id
+   * @param stateId  {@link java.math.BigInteger BigInteger}. Optional. Default: active subject state
+   * @param state    {@link CharSequence String}. Optional
+   * @return Updated company (in Oracle API procedure notation)
+   */
   Map updateCompany(Map input = [:], def companyId) {
     return putCompany(input + [companyId: companyId])
   }
 
+  /**
+   * Get additional parameter type id by code
+   * @param code {@link CharSequence String}
+   * @return Additional parameter type id
+   */
   Number getCompanyAddParamTypeIdByCode(CharSequence code) {
     return getSubjectAddParamTypeIdByCode(code, getCompanyTypeId())
   }
 
+  /**
+   * Search for company additional parameters by different fields value
+   * @see Subject#getSubjectAddParamsBy(java.util.Map)
+   */
   List getCompanyAddParamsBy(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
@@ -225,6 +375,10 @@ trait Company {
     return getSubjectAddParamsBy(input)
   }
 
+  /**
+   * Search for company additional parameter by different fields value
+   * @seeSubject #getSubjectAddParamBy(Map)
+   */
   Map getCompanyAddParamBy(Map input) {
     if (input.containsKey('companyId')) {
       input.subjectId = input.companyId
@@ -233,38 +387,70 @@ trait Company {
     return getSubjectAddParamBy(input)
   }
 
+  /**
+   * Add company additional parameter value
+   * @see Subject#addSubjectAddParam(java.util.Map)
+   */
   Map addCompanyAddParam(Map input = [:], def companyId) {
     return addSubjectAddParam(input, companyId)
   }
 
+  /**
+   * Add tag to company
+   * @see Subject#addSubjectTag(java.util.Map)
+   */
   Map addCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
     input.remove('companyId')
     return addSubjectTag(input)
   }
 
+  /**
+   * Add tag to company
+   * @see Subject#addSubjectTag(def, java.lang.CharSequence)
+   */
   Map addCompanyTag(def companyId, CharSequence tag) {
     return addCompanyTag(companyId: companyId, tag: tag)
   }
 
+  /**
+   * Add tag to company
+   * @see Subject#addSubjectTag(java.util.Map, def)
+   */
   Map addCompanyTag(Map input = [:], def companyId) {
     return addCompanyTag(input + [companyId: companyId])
   }
 
+  /**
+   * Delete tag from company
+   * @see Subject#deleteSubjectTag(def)
+   */
   Boolean deleteCompanyTag(def companyTagId) {
     return deleteSubjectTag(companyTagId)
   }
 
+  /**
+   * Delete tag from company
+   * @see Subject#deleteSubjectTag(java.util.Map)
+   */
   Boolean deleteCompanyTag(Map input) {
     input.subjectId = input.subjectId ?: input.companyId
     input.remove('companyId')
     return deleteSubjectTag(input)
   }
 
+  /**
+   * Delete tag from company
+   * @see Subject#deleteSubjectTag(def, java.lang.CharSequence)
+   */
   Boolean deleteCompanyTag(def companyId, CharSequence tag) {
     return deleteCompanyTag(companyId: companyId, tag: tag)
   }
 
+  /**
+   * Refresh companies quick search material view
+   * @see Subject#refreshSubjects(java.lang.CharSequence)
+   */
   Boolean refreshCompanies(CharSequence method = 'C') {
     return refreshSubjects(method)
   }

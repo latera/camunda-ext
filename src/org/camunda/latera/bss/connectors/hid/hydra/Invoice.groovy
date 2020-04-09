@@ -15,58 +15,102 @@ trait Invoice {
   private static String GOOD_MOVES_TABLE    = 'SD_V_GOOD_MOVES_T'
   private static String INVOICE_LINES_TABLE = 'SD_V_INVOICES_C'
 
+  /**
+   * Get invoices table name
+   */
   String getInvoicesTable() {
     return INVOICES_TABLE
   }
 
+  /**
+   * Get good moves table name
+   */
   String getGoodMovesTable() {
     return GOOD_MOVES_TABLE
   }
 
+  /**
+   * Get invoice lines table name
+   */
   String getInvoiceLinesTable() {
     return INVOICE_LINES_TABLE
   }
 
+  /**
+   * Get invoice document type ref code
+   */
   String getInvoiceType() {
     return getRefCode(getInvoiceTypeId())
   }
 
+  /**
+   * Get invoice document type ref id
+   */
   Number getInvoiceTypeId() {
     return DOC_TYPE_Invoice
   }
 
+  /**
+   * Get charge log line Charge state type ref code
+   */
   String getChargeChargedType() {
     return getRefCode(getChargeChargedTypeId())
   }
 
+  /**
+   * Get charge log line Charge state type ref id
+   */
   Number getChargeChargedTypeId() {
     return GM_TYPE_Charged
   }
 
+  /**
+   * Get charge log line Reserved state type ref code
+   */
   String getChargeReservedType() {
     return getRefCode(getChargeReservedTypeId())
   }
 
+  /**
+   * Get charge log line Reserved state type ref id
+   */
   Number getChargeReservedTypeId() {
     return GM_TYPE_Reserve
   }
 
+  /**
+   * Get charge log line Canceled state type ref code
+   */
   String getChargeCanceledType() {
     return getRefCode(getChargeCanceledTypeId())
   }
 
+  /**
+   * Get charge log line Canceled state type ref id
+   */
   Number getChargeCanceledTypeId() {
     return GM_TYPE_Cancelled
   }
 
+  /**
+   * Get invoice document default workflow code
+   */
   String getDefaultInvoiceWorkflow() {
     return getRefCode(getDefaultInvoiceWorkflowId())
   }
 
+  /**
+   * Get invoice document default workflow id
+   */
   Number getDefaultInvoiceWorkflowId() {
     return WFLOW_Invoice
   }
 
+  /**
+   * Get invoice by id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return Invoice table row or null
+   */
   Map getInvoice(def docId) {
     LinkedHashMap where = [
       n_doc_id: docId
@@ -74,16 +118,30 @@ trait Invoice {
     return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
-  List getInvoicesBy(Map input) {
+  /**
+   * Search for invoices by different fields value
+   * @see #getDocumentsBy(Map)
+   */
+  List<Map> getInvoicesBy(Map input) {
     input.docTypeId = getInvoiceTypeId()
     return getDocumentsBy(input)
   }
 
+  /**
+   * Search for one invoice by different fields value
+   * @see #getDocumentBy(Map)
+   */
   Map getInvoiceBy(Map input) {
     input.docTypeId = getInvoiceTypeId()
     return getDocumentBy(input)
   }
 
+  /**
+   * Get invoice id for subscription
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @return Invoice id or null
+   */
   Number getInvoiceIdBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
@@ -104,10 +162,22 @@ trait Invoice {
     }
   }
 
+  /**
+   * Get invoice id for subscription
+   *
+   * Overload with positional args
+   * @see #getInvoiceIdBySubscription(Map)
+   */
   Number getInvoiceIdBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getInvoiceIdBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
+  /**
+   * Get invoice for subscription
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @param operationDate {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @return Invoice table row
+   */
   Map getInvoiceBySubscription(Map input) {
     def docId = getInvoiceIdBySubscription(input)
     if (docId == null) {
@@ -119,11 +189,27 @@ trait Invoice {
     return hid.getTableFirst(getInvoicesTable(), where: where)
   }
 
+
+  /**
+   * Get invoice for subscription
+   *
+   * Overload with positional args
+   * @see #getInvoiceBySubscription(Map)
+   */
   Map getInvoiceBySubscription(def subscriptionId, Temporal operationDate = local()) {
     return getInvoiceBySubscription(subscriptionId: subscriptionId, operationDate: operationDate)
   }
 
-  List getInvoicesBySubscription(Map input) {
+  /**
+   * Get invoices for subscription
+   * @param subscriptionId {@link java.math.BigInteger BigInteger}
+   * @param stateId        {@link java.math.BigInteger BigInteger}. Optional, default: not canceled
+   * @param state          {@link CharSequence String}. Optional
+   * @param operationDate  {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @param limit          {@link Integer}. Optional, default: 0 (unlimited)
+   * @return List[Map] with good moves table row
+   */
+  List<Map> getInvoicesBySubscription(Map input) {
     LinkedHashMap params = mergeParams([
       subscriptionId : null,
       stateId        : ['not in': [getDocumentStateCanceledId()]],
@@ -143,10 +229,22 @@ trait Invoice {
     return hid.getTableData(getGoodMovesTable(), where: where, order: params.order, limit: params.limit)
   }
 
-  List getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
+
+  /**
+   * Get invoices for subscription
+   *
+   * Overload with positional args
+   * @see #getInvoicesBySubscription(Map)
+   */
+  List<Map> getInvoicesBySubscription(def subscriptionId, def stateId = ['not in': [getDocumentStateCanceledId()]], def operationDate = null) {
     return getInvoicesBySubscription(subscriptionId: subscriptionId, stateId: stateId, operationDate: operationDate)
   }
 
+  /**
+   * Check if entity or entity type is invoice
+   * @param entityOrEntityType {@link java.math.BigInteger BigInteger} or {@link CharSequence String}. Document id, document type ref id or document type ref code
+   * @return True if given value is invoice, false otherwise
+   */
   Boolean isInvoice(def entityOrEntityType) {
     if (entityOrEntityType == null) {
       return false
@@ -160,6 +258,14 @@ trait Invoice {
     }
   }
 
+  /**
+   * Set invoice end date
+   * @param docId         {@link java.math.BigInteger BigInteger}
+   * @param endDate       {@link java.time.Temporal Any date type}. Optional, default: current date time
+   * @param closeReasonId {@link java.math.BigInteger BigInteger}. Optional
+   * @param closeReason   {@link CharSequence String}. Optional
+   * @return True if invoice end date was changed successfully
+   */
   Boolean changeInvoiceEnd(Map input) {
     LinkedHashMap params = mergeParams([
       docId         : null,
@@ -182,18 +288,39 @@ trait Invoice {
     }
   }
 
+  /**
+   * Set invoice end date
+   *
+   * Overload with positional args
+   * @see #changeInvoiceEnd(Map)
+   */
   Boolean changeInvoiceEnd(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
+  /**
+   * Close invoice
+   * @see #changeInvoiceEnd(Map)
+   */
   Boolean closeInvoice(Map input) {
     return changeInvoiceEnd(input)
   }
 
+  /**
+   * Close invoice
+   *
+   * Overload with positional args
+   * @see #closeInvoice(Map)
+   */
   Boolean closeInvoice(def docId, Temporal endDate = local(), def closeReasonId = null) {
     return changeInvoiceEnd(docId: docId, endDate: endDate, closeReasonId: closeReasonId)
   }
 
+  /**
+   * Change invoice state to Canceled
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @return True if invoice state was changed successfully
+   */
   Boolean cancelInvoice(def docId) {
     try {
       logger.info("Cancelling invoice id ${docId}")
@@ -209,7 +336,49 @@ trait Invoice {
     }
   }
 
-  List getInvoiceLinesBy(Map input) {
+  /**
+   * Search for invoice lines by different fields value
+   * @param docId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber      {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parLineId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subcriptionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseGoodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unit            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitBaseId      {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unitBase        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId      {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quant           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantBase       {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param price           {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param priceWoTax      {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param baseSum         {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseSumWoTax    {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sum             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumTax          {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param discountLineId  {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param discountDocId   {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param priceLineId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param priceOrderId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param provisionRuleId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param operationDate   {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate         {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param limit           {@link Integer}. Optional, default: 0 (unlimited)
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
+   * @return Invoice line table rows
+   */
+  List<Map> getInvoiceLinesBy(Map input) {
     LinkedHashMap params = mergeParams([
       docId             : null,
       lineId            : null,
@@ -343,7 +512,13 @@ trait Invoice {
     return hid.getTableData(getInvoiceLinesTable(), where: where, order: params.order, limit: params.limit)
   }
 
-  List getInvoiceLines(def docId, Integer limit = 0) {
+  /**
+   * Get invoice lines by doc id
+   * @param docId {@link java.math.BigInteger BigInteger}
+   * @param limit {@link Integer}. Optional, default: 0 (unlimited)
+   * @return Invoice line table rows
+   */
+  List<Map> getInvoiceLines(def docId, Integer limit = 0) {
     LinkedHashMap where = [
       n_doc_id       : docId,
       n_move_type_id : ['not in': [getChargeCanceledTypeId()]]
@@ -351,10 +526,56 @@ trait Invoice {
     return hid.getTableData(getInvoiceLinesTable(), where: where, limit: limit)
   }
 
+  /**
+   * Search for one invoice line by different fields value
+   * @param docId           {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param lineNumber      {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param parLineId       {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param subcriptionId   {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param goodId          {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseGoodId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param objectId        {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param moveTypeId      {@link java.math.BigInteger BigInteger}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional, default: not cancelled
+   * @param moveType        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitId          {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unit            {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param unitBaseId      {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param unitBase        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param taxRateId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param taxRate         {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param currencyId      {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param currency        {@link CharSequence String}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quant           {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param quantBase       {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param price           {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param priceWoTax      {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param addressId       {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param baseSum         {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param baseSumWoTax    {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sum             {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumTax          {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param sumWoTax        {@link Double}, {@link Integer}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param discountLineId  {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param discountDocId   {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param priceLineId     {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param priceOrderId    {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param provisionRuleId {@link java.math.BigInteger BigInteger} with WHERE clause or SELECT query. Optional
+   * @param operationDate   {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param beginDate       {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param endDate         {@link java.time.Temporal Any date type}, {@link LinkedHashMap Map} with WHERE clause or SELECT query. Optional
+   * @param order           {@link LinkedHashMap Map} or {@link List} with ORDER clause. Optional, default: N_LINE_NO DESC
+   * @return Invoice line table row
+   */
   Map getInvoiceLineBy(Map input) {
     return getInvoiceLinesBy(input + [limit: 1])?.getAt(0)
   }
 
+  /**
+   * Get invoice line by id
+   * @param lineId {@link java.math.BigInteger BigInteger}
+   * @return Invoice line table row
+   */
   Map getInvoiceLine(def line) {
     LinkedHashMap where = [
       n_line_id: line
@@ -362,26 +583,50 @@ trait Invoice {
     return hid.getTableFirst(getInvoiceLinesTable(), where: where)
   }
 
+  /**
+   * Add tag to invoice
+   * @see Document#addDocumentTag(java.util.Map)
+   */
   Map addInvoiceTag(Map input) {
     return addDocumentTag(input)
   }
 
+  /**
+   * Add tag to invoice
+   * @see Document#addDocumentTag(def,java.lang.CharSequence)
+   */
   Map addInvoiceTag(def docId, CharSequence tag) {
     return addInvoiceTag(docId: docId, tag: tag)
   }
 
+  /**
+   * Add tag to invoice
+   * @see Document#addDocumentTag(java.util.Map,def)
+   */
   Map addInvoiceTag(Map input = [:], def docId) {
     return addInvoiceTag(input + [docId: docId])
   }
 
+  /**
+   * Delete tag from invoice
+   * @see Document#deleteDocumentTag(def)
+   */
   Boolean deleteInvoiceTag(def docTagId) {
     return deleteDocumentTag(docTagId)
   }
 
+  /**
+   * Delete tag from invoice
+   * @see Document#deleteDocumentTag(java.util.Map)
+   */
   Boolean deleteInvoiceTag(Map input) {
     return deleteDocumentTag(input)
   }
 
+  /**
+   * Delete tag from invoice
+   * @see Document#deleteDocumentTag(def,java.lang.CharSequence)
+   */
   Boolean deleteInvoiceTag(def docId, CharSequence tag) {
     return deleteInvoiceTag(docId: docId, tag: tag)
   }
