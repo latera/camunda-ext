@@ -8,11 +8,13 @@ import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
 import static org.camunda.latera.bss.utils.ListUtil.firstNotNull
 import static org.camunda.latera.bss.utils.JSON.escape
+import org.camunda.latera.bss.http.YmlApiProcessor
 
 class HTTPRestProcessor {
   OkHttpBuilder httpClient
   String baseUrl
   String basePath
+  Boolean testEnv
   SimpleLogger logger
   Boolean supressRequestBodyLog
   Boolean supressResponseBodyLog
@@ -21,6 +23,7 @@ class HTTPRestProcessor {
     this.logger = new SimpleLogger(params.execution)
     def ENV     = System.getenv()
 
+    this.testEnv  = ENV['CAMUNDA_EXT_ENV'] == 'test'
     this.baseUrl  = params.baseUrl
     this.basePath = parsePath(this.baseUrl)
     this.supressRequestBodyLog  = Boolean.valueOf(firstNotNull([
@@ -141,22 +144,29 @@ class HTTPRestProcessor {
       logger.debug("--------------------")
     }
 
-    def result = httpClient."${method}" {
-      response.success responseBlock(false, supressResponseBody)
-      response.failure responseBlock(true,  supressResponseBody)
+    def result = [:]
+    if (this.testEnv) {
+      YmlApiProcessor ymlAPI = new YmlApiProcessor();
+      result = ymlAPI.sendRequest(params, method)
+    } else {
+      result = httpClient."${method}" {
+        response.success responseBlock(false, supressResponseBody)
+        response.failure responseBlock(true,  supressResponseBody)
 
-      if (params.path) {
-        request.uri.path = absolutePath(params.path.toString())
-        params.remove('path')
-      }
-      if (params.query) {
-        request.uri.query = params.query
-        params.remove('query')
-      }
-      params.each { k,v ->
-        request."${k}" = v
+        if (params.path) {
+          request.uri.path = absolutePath(params.path.toString())
+          params.remove('path')
+        }
+        if (params.query) {
+          request.uri.query = params.query
+          params.remove('query')
+        }
+        params.each { k,v ->
+          request."${k}" = v
+        }
       }
     }
+
     logger.info("\\ HTTP request sent")
     result
   }
