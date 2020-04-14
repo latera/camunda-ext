@@ -570,7 +570,7 @@ trait Account {
    * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
    * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
-   * @deprecated Use {@link #addPermanentOverdraft(Map)} instead
+   * @deprecated Use {@link #addPermanentOverdraft(Map,def)} instead
    */
   Boolean putPermanentOverdraft(Map input) {
     LinkedHashMap params = mergeParams([
@@ -630,10 +630,6 @@ trait Account {
     )
   }
 
-  Boolean addPermanentOverdraft(Map input = [:], def accountId) {
-    return putPermanentOverdraft(input + [accountId: accountId])
-  }
-
   /**
    * Delete permanent overdraft from account
    * @param accountId {@link java.math.BigInteger BigInteger}
@@ -662,7 +658,7 @@ trait Account {
    * @param reasonId  {@link java.math.BigInteger BigInteger}. Optional. Default: manual overdraft
    * @param reason    {@link CharSequence String}. Optional
    * @return True if overdraft was set successfully, false otherwise
-   * @deprecated Use {@link #addTemporalOverdraft(Map)} instead
+   * @deprecated Use {@link #addTemporalOverdraft(Map,def)} instead
    */
   Boolean putTemporalOverdraft(Map input) {
     LinkedHashMap params = mergeParams([

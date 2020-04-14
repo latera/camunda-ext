@@ -348,7 +348,7 @@ trait Contract {
 
     def contractAppId = order."${prefix}Id"
     if (isEmpty(contractAppId)) {
-      return contractAppId
+      return
     }
 
     Map contractApp = hydra.getContractApp(contractAppId)
@@ -614,7 +614,7 @@ trait Contract {
 
     def addAgreementId = order."${prefix}Id"
     if (isEmpty(addAgreementId)) {
-      return addAgreementId
+      return
     }
 
     Map addAgreement = hydra.getAddAgreement(addAgreementId)
