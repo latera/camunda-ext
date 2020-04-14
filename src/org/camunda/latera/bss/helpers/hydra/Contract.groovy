@@ -35,7 +35,11 @@ trait Contract {
     String baseContractPrefix = "${capitalize(params.baseContractPrefix)}BaseContract"
     String prefix = "${capitalize(params.prefix)}Contract"
 
-    def contractId = order."${prefix}Id" ?: [is: null]
+    def contractId = order."${prefix}Id"
+    if (isEmpty(contractId)) {
+      return
+    }
+
     Map contract  = hydra.getContract(contractId)
 
     order."${prefix}Number" = contract?.vc_doc_no
@@ -333,7 +337,7 @@ trait Contract {
    * @param prefix         {@link CharSequence String}. Contract app prefix. Optional. Default: empty string
    * @param contractPrefix {@link CharSequence String}. Contract prefix. Optional. Default: empty string
    */
-  Boolean fetchContractApp(Map input = [:]) {
+  void fetchContractApp(Map input = [:]) {
     Map params = [
       contractPrefix : '',
       prefix         : ''
@@ -342,7 +346,12 @@ trait Contract {
     String prefix = "${capitalize(params.prefix)}ContractApp"
     String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
 
-    Map contractApp = hydra.getContractApp(order."${prefix}Id")
+    def contractAppId = order."${prefix}Id"
+    if (isEmpty(contractAppId)) {
+      return
+    }
+
+    Map contractApp = hydra.getContractApp(contractAppId)
 
     order."${prefix}Number" = contractApp?.vc_doc_no
     order."${prefix}Name"   = contractApp?.vc_name
@@ -603,7 +612,12 @@ trait Contract {
     String prefix = "${capitalize(params.prefix)}AddAgreement"
     String contractPrefix = "${capitalize(params.contractPrefix)}Contract"
 
-    Map addAgreement = hydra.getAddAgreement(order."${prefix}Id")
+    def addAgreementId = order."${prefix}Id"
+    if (isEmpty(addAgreementId)) {
+      return
+    }
+
+    Map addAgreement = hydra.getAddAgreement(addAgreementId)
 
     order."${prefix}Number" = addAgreement?.vc_doc_no
     order."${prefix}Name"   = addAgreement?.vc_name
