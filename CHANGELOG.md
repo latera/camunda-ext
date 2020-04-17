@@ -8,7 +8,12 @@ v1.5 [unreleased]
 ### Refactoring
 -   [#54](https://github.com/latera/camunda-ext/pull/54) Add ymlAPI for testing
 
-v1.4.3 [unreleased]
+v1.4.4 [2020-04-17]
+-------------------
+### Bugfixes
+-   [#57](https://github.com/latera/camunda-ext/pull/57) Fix contract helper null-value escape
+
+v1.4.3 [2020-03-26]
 -------------------
 ### Bugfixes
 -   [#52](https://github.com/latera/camunda-ext/pull/52) Use post method when getting authToken
