@@ -1,3 +1,7 @@
+v1.4.4 [2020-04-17]
+### Bugfixes
+-   [#57](https://github.com/latera/camunda-ext/pull/57) Fix contract helper null-value escape
+
 v1.4.3 [2020-03-26]
 -------------------
 ### Bugfixes
