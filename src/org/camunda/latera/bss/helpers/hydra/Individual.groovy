@@ -27,9 +27,9 @@ trait Individual {
    *   <li>{@code homsOrderData*IndividualFirstName}        {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*IndividualSecondName}       {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*IndividualLastName}         {@link CharSequence String}</li>
-   *   <li>{@code homsOrderData*IndividualGenderId}         {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*IndividualGender}           {@link java.math.BigInteger BigInteger}</li>
    *   <li>{@code homsOrderData*IndividualBirthDate}        {@link java.time.LocalDateTime LocalDateTime}</li>
-   *   <li>{@code homsOrderData*IndividualIdentTypeId}      {@link java.math.BigInteger BigInteger}</li>
+   *   <li>{@code homsOrderData*IndividualIdentType}        {@link java.math.BigInteger BigInteger}</li>
    *   <li>{@code homsOrderData*IndividualIdentSerial}      {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*IndividualIdentNumber}      {@link CharSequence String}</li>
    *   <li>{@code homsOrderData*IndividualIssuedAuthor}     {@link CharSequence String}</li>
@@ -94,9 +94,9 @@ trait Individual {
    *   <li>{@code homsOrderData*IndividualFirstName}        {@link CharSequence String}. Optional</li>
    *   <li>{@code homsOrderData*IndividualSecondName}       {@link CharSequence String}. Optional</li>
    *   <li>{@code homsOrderData*IndividualLastName}         {@link CharSequence String}. Optional</li>
-   *   <li>{@code homsOrderData*IndividualGenderId}         {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualGender}           {@link java.math.BigInteger BigInteger}. Optional</li>
    *   <li>{@code homsOrderData*IndividualBirthDate}        {@link java.time.Temporal Any date type}. Optional</li>
-   *   <li>{@code homsOrderData*IndividualIdentTypeId}      {@link java.math.BigInteger BigInteger}. Optional</li>
+   *   <li>{@code homsOrderData*IndividualIdentType}        {@link java.math.BigInteger BigInteger}. Optional</li>
    *   <li>{@code homsOrderData*IndividualIdentSerial}      {@link CharSequence String}. Optional</li>
    *   <li>{@code homsOrderData*IndividualIdentNumber}      {@link CharSequence String}. Optional</li>
    *   <li>{@code homsOrderData*IndividualIssuedAuthor}     {@link CharSequence String}. Optional</li>
