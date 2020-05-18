@@ -1,3 +1,8 @@
+v1.1.2 [unreleased]
+---------------------
+### Bugfixes
+-   [#59](https://github.com/latera/camunda-ext/pull/59) Fix `getRegionsBy` return type
+
 v1.1.1 [2020-03-20]
 ---------------------
 ### Features
