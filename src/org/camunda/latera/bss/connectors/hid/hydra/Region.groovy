@@ -69,7 +69,7 @@ trait Region {
     return getDefaultRealtyGood().n_good_id
   }
 
-  LinkedHashMap getRegionsBy(LinkedHashMap input) {
+  List getRegionsBy(LinkedHashMap input) {
     LinkedHashMap params = mergeParams([
       hierarchyTypeId : getRefIdByCode('HIER_REG_TYPE_Federal'),
       parRegionId     : null,
