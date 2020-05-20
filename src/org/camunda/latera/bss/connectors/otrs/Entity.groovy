@@ -23,7 +23,7 @@ trait Entity {
       logger.info("Creating ${type} with params ${paramsWoBase64}")
       result = sendRequest(
         'post',
-        path : "${type}Create/",
+        path : "${type}Create",
         body : params,
         supressRequestBodyLog  : supress,
         supressResponseBodyLog : supress
