@@ -13,7 +13,9 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.iso
 import static org.camunda.latera.bss.utils.StringUtil.forceNvl as nvlString
 import static org.camunda.latera.bss.utils.ListUtil.forceNvl as nvlList
 import static org.camunda.latera.bss.utils.ListUtil.parse as parseList
+import static org.camunda.latera.bss.utils.ListUtil.isList
 import static org.camunda.latera.bss.utils.MapUtil.parse  as parseMap
+import static org.camunda.latera.bss.utils.MapUtil.isMap
 import org.camunda.latera.bss.connectors.Minio
 
 class Order implements GroovyObject {
@@ -215,7 +217,8 @@ class Order implements GroovyObject {
           value = value as String
         } catch (Exception e) {}
       }
-      if (name.endsWith('List') || name.endsWith('JSON') || name.endsWith('Map')) {
+      if ((name.endsWith('List') || name.endsWith('JSON') || name.endsWith('Map')) &&
+          (isList(value) || isMap(value))) {
         try {
           // servicesMap: [a:1, b:'2'] -> servicesMap: '{a:1, b:'2'}'
           // serviceList: [1, 2, '3']  -> serviceList: "[1,2,'3']"
