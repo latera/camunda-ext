@@ -235,7 +235,7 @@ class Order implements GroovyObject {
         // LocalDateTime, LocalDate, Date -> '2019-12-31T23:59:59'
         value = iso(value)
       }
-      if (isNumber(value)) {
+      if (value instanceof BigInteger || value instanceof BigDecimal) {
         // BigDecimal and BigInteger values are stored in serializable format, so convert them to String
         // 12101201 -> '12101201'
         value = value.toString()
