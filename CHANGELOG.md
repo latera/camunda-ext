@@ -14,6 +14,7 @@ v1.4.5 [unreleased]
 ### Bugfixes
 -   [#62](https://github.com/latera/camunda-ext/pull/62) Fix OTRS entity path
 -   [#60](https://github.com/latera/camunda-ext/pull/60) Fix saving JSON when update HOMS order
+-   [#63](https://github.com/latera/camunda-ext/pull/63) Cast BigInteger and BigDecimal to String
 
 v1.4.4 [2020-04-17]
 -------------------
