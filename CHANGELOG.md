@@ -1,4 +1,4 @@
-v1.4.5 [unreleased]
+v1.4.5 [2020-05-28]
 -------------------
 ### Bugfixes
 -   [#62](https://github.com/latera/camunda-ext/pull/62) Fix OTRS entity path
