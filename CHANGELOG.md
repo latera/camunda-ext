@@ -1,3 +1,8 @@
+v1.4.6 [unreleased]
+-------------------
+### Bugfixes
+-   [#63](https://github.com/latera/camunda-ext/pull/63) Cast BigInteger and BigDecimal to String
+
 v1.4.5 [2020-05-28]
 -------------------
 ### Bugfixes
