@@ -35,7 +35,6 @@
     <commons-codec.version>1.11</commons-codec.version>
     <commons-collections.version>3.2.1</commons-collections.version>
     <ezmorph.version>1.0.6</ezmorph.version>
-    <org.apache.xml.resolver.version>3.8.0</org.apache.xml.resolver.version>
     <json-lib.version>2.4</json-lib.version>
     <json-lib.classifier>jdk15</json-lib.classifier>
     <groovy-xmlrpc.version>0.8</groovy-xmlrpc.version>
@@ -69,10 +68,6 @@
     <vavr.version>0.10.2</vavr.version>
   </properties>
   <repositories>
-    <repository>
-      <id>maven.thingml.org</id>
-      <url>http://maven.thingml.org/thirdparty</url>
-    </repository>
     <repository>
       <id>jcenter</id>
       <url>https://jcenter.bintray.com</url>
@@ -175,12 +170,6 @@
       <groupId>net.sf.ezmorph</groupId>
       <artifactId>ezmorph</artifactId>
       <version>${ezmorph.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.maven</groupId>
-      <artifactId>org.apache.xml.resolver</artifactId>
-      <version>${org.apache.xml.resolver.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>net.sf.json-lib</groupId>
