@@ -2,11 +2,14 @@ FROM alpine as artifacts
 
 RUN apk add git maven openjdk8 bash zip curl -f
 
-COPY ./demo_processes /usr/src/demo_processes
-COPY ./org            /usr/src/org
-COPY ./src            /usr/src/src
-COPY ./seed           /usr/src/seed
-COPY ./pom.xml        /usr/src/pom.xml
+COPY ./demo_processes/pizza_order/src      /usr/src/demo_processes/pizza_order/src
+COPY ./demo_processes/pizza_order/pom.xml  /usr/src/demo_processes/pizza_order/pom.xml
+COPY ./demo_processes/pizza_order/build.sh /usr/src/demo_processes/pizza_order/build.sh
+COPY ./seed/src                            /usr/src/seed/src
+COPY ./seed/pom.xml                        /usr/src/seed/pom.xml
+COPY ./seed/build.sh                       /usr/src/seed/build.sh
+COPY ./src                                 /usr/src/src
+COPY ./pom.xml                             /usr/src/pom.xml
 
 ENV ROOT_DIR /usr/src/
 
