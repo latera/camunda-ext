@@ -5,6 +5,15 @@ RUN apk add git maven openjdk8 bash zip curl -f
 COPY ./demo_processes/pizza_order/src      /usr/src/demo_processes/pizza_order/src
 COPY ./demo_processes/pizza_order/pom.xml  /usr/src/demo_processes/pizza_order/pom.xml
 COPY ./demo_processes/pizza_order/build.sh /usr/src/demo_processes/pizza_order/build.sh
+
+COPY ./demo_processes/new_customer/src      /usr/src/demo_processes/new_customer/src
+COPY ./demo_processes/new_customer/pom.xml  /usr/src/demo_processes/new_customer/pom.xml
+COPY ./demo_processes/new_customer/build.sh /usr/src/demo_processes/new_customer/build.sh
+
+COPY ./demo_processes/relocate_customer/src      /usr/src/demo_processes/relocate_customer/src
+COPY ./demo_processes/relocate_customer/pom.xml  /usr/src/demo_processes/relocate_customer/pom.xml
+COPY ./demo_processes/relocate_customer/build.sh /usr/src/demo_processes/relocate_customer/build.sh
+
 COPY ./seed/src                            /usr/src/seed/src
 COPY ./seed/pom.xml                        /usr/src/seed/pom.xml
 COPY ./seed/build.sh                       /usr/src/seed/build.sh

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0pn16uh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
+  <bpmn:process id="new_customer" name="New Customer" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_0my6meb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1jedmqv" name="Enter customer&#39;s address" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:formKey="deployment:forms/address.yml" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_0wgazvt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c4rrti</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_06c6pzs" name="Check address availability" camunda:asyncBefore="true" camunda:asyncAfter="true" scriptFormat="groovy" camunda:resource="deployment://scripts/check_address.groovy">
+      <bpmn:incoming>Flow_0c4rrti</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sjhyod</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0c4rrti" sourceRef="Activity_1jedmqv" targetRef="Activity_06c6pzs" />
+    <bpmn:endEvent id="Event_0h6vbg6">
+      <bpmn:incoming>Flow_1oe79ak</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1oe79ak" sourceRef="Activity_1pk04of" targetRef="Event_0h6vbg6" />
+    <bpmn:userTask id="Activity_1pk04of" name="Address is unavailable" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:formKey="deployment:forms/unavailable.yml" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_165nwlr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oe79ak</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_1u3vwq1" name="Choose plan" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:formKey="deployment:forms/plan.yml" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_0ip19kq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0734f19</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0734f19" sourceRef="Activity_1u3vwq1" targetRef="Activity_08wwoqp" />
+    <bpmn:endEvent id="Event_1obs8hs">
+      <bpmn:incoming>Flow_1mxcizi</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0zd6pcs" sourceRef="Activity_0dhj8f6" targetRef="Activity_00magse" />
+    <bpmn:userTask id="Activity_0dhj8f6" name="Confirmation" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:formKey="deployment:forms/confirm.yml" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_1eowk6s</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zd6pcs</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_08wwoqp" name="Enter customer&#39;s personal data" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:formKey="deployment:forms/customer.yml" camunda:assignee="${initiator}">
+      <bpmn:incoming>Flow_0734f19</bpmn:incoming>
+      <bpmn:outgoing>Flow_1eowk6s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1eowk6s" sourceRef="Activity_08wwoqp" targetRef="Activity_0dhj8f6" />
+    <bpmn:exclusiveGateway id="Gateway_1r173xe" name="Is address available?" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_1sjhyod</bpmn:incoming>
+      <bpmn:outgoing>Flow_165nwlr</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ip19kq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1sjhyod" sourceRef="Activity_06c6pzs" targetRef="Gateway_1r173xe" />
+    <bpmn:sequenceFlow id="Flow_165nwlr" name="No" sourceRef="Gateway_1r173xe" targetRef="Activity_1pk04of">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">homsOrderDataIsAddressIsAvailable == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ip19kq" name="Yes" sourceRef="Gateway_1r173xe" targetRef="Activity_1u3vwq1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">homsOrderDataIsAddressIsAvailable == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:scriptTask id="Activity_088zt91" name="Set Process Parameters" scriptFormat="groovy" camunda:resource="deployment://scripts/internal/init.groovy">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="org.camunda.latera.bss.executionListeners.StartOrder" event="end" />
+        <camunda:executionListener class="org.camunda.latera.bss.executionListeners.GetOrderData" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0my6meb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wgazvt</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0my6meb" sourceRef="StartEvent_1" targetRef="Activity_088zt91" />
+    <bpmn:sequenceFlow id="Flow_0wgazvt" sourceRef="Activity_088zt91" targetRef="Activity_1jedmqv" />
+    <bpmn:sequenceFlow id="Flow_1mxcizi" sourceRef="Activity_00magse" targetRef="Event_1obs8hs" />
+    <bpmn:scriptTask id="Activity_00magse" name="Save data" camunda:asyncBefore="true" camunda:asyncAfter="true" scriptFormat="groovy" camunda:resource="deployment://scripts/save_data.groovy">
+      <bpmn:incoming>Flow_0zd6pcs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mxcizi</bpmn:outgoing>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="new_customer">
+      <bpmndi:BPMNEdge id="Flow_0c4rrti_di" bpmnElement="Flow_0c4rrti">
+        <di:waypoint x="540" y="177" />
+        <di:waypoint x="630" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oe79ak_di" bpmnElement="Flow_1oe79ak">
+        <di:waypoint x="960" y="80" />
+        <di:waypoint x="1032" y="80" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0734f19_di" bpmnElement="Flow_0734f19">
+        <di:waypoint x="960" y="290" />
+        <di:waypoint x="1016" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sjhyod_di" bpmnElement="Flow_1sjhyod">
+        <di:waypoint x="730" y="177" />
+        <di:waypoint x="775" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_165nwlr_di" bpmnElement="Flow_165nwlr">
+        <di:waypoint x="800" y="152" />
+        <di:waypoint x="800" y="80" />
+        <di:waypoint x="860" y="80" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="808" y="113" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ip19kq_di" bpmnElement="Flow_0ip19kq">
+        <di:waypoint x="800" y="202" />
+        <di:waypoint x="800" y="290" />
+        <di:waypoint x="860" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="806" y="233" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zd6pcs_di" bpmnElement="Flow_0zd6pcs">
+        <di:waypoint x="1270" y="290" />
+        <di:waypoint x="1340" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1eowk6s_di" bpmnElement="Flow_1eowk6s">
+        <di:waypoint x="1116" y="290" />
+        <di:waypoint x="1170" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0my6meb_di" bpmnElement="Flow_0my6meb">
+        <di:waypoint x="188" y="177" />
+        <di:waypoint x="260" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wgazvt_di" bpmnElement="Flow_0wgazvt">
+        <di:waypoint x="360" y="177" />
+        <di:waypoint x="440" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mxcizi_di" bpmnElement="Flow_1mxcizi">
+        <di:waypoint x="1440" y="290" />
+        <di:waypoint x="1505" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_195x104_di" bpmnElement="Activity_1jedmqv">
+        <dc:Bounds x="440" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yvtktc_di" bpmnElement="Activity_06c6pzs">
+        <dc:Bounds x="630" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0h6vbg6_di" bpmnElement="Event_0h6vbg6">
+        <dc:Bounds x="1032" y="62" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bh42cg_di" bpmnElement="Activity_1pk04of">
+        <dc:Bounds x="860" y="40" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lp47u6_di" bpmnElement="Activity_1u3vwq1">
+        <dc:Bounds x="860" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1r173xe_di" bpmnElement="Gateway_1r173xe" isMarkerVisible="true">
+        <dc:Bounds x="775" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="835" y="163" width="51" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1obs8hs_di" bpmnElement="Event_1obs8hs">
+        <dc:Bounds x="1505" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10r65uf_di" bpmnElement="Activity_08wwoqp">
+        <dc:Bounds x="1016" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y6rtav_di" bpmnElement="Activity_088zt91">
+        <dc:Bounds x="260" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="202" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tcli7b_di" bpmnElement="Activity_0dhj8f6">
+        <dc:Bounds x="1170" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1an0xx4_di" bpmnElement="Activity_00magse">
+        <dc:Bounds x="1340" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

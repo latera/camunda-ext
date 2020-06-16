@@ -1,0 +1,46 @@
+order_type:
+  code: relocate_customer
+  name: Relocate Customer
+  fields:
+    customerCity:
+      type: string
+      label: Customer City
+    customerStreet:
+      type: string
+      label: Customer Street
+    customerHouse:
+      type: string
+      label: Customer House
+    customerEntrance:
+      type: string
+      label: Customer House
+    addressIsAvailable:
+      type: boolean
+      label: Customer address is available
+
+    changePlan:
+      type: boolean
+      label: Change Plan
+
+    planId:
+      type: number
+      label: Customer Plan
+    planComment:
+      type: string
+      label: Comment to plan
+
+    customerName:
+      type: string
+      label: Customer Name
+    customerSurname:
+      type: string
+      label: Customer Surname
+    customerPhone:
+      type: string
+      label: Customer Phone
+    customerEmail:
+      type: string
+      label: Customer Email
+    installDate:
+      type: datetime
+      label: Install Date

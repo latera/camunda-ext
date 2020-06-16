@@ -1,0 +1,46 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: static
+      type: static
+      html: <div class="alert alert-success"><h4>Connection is Available</h4> <small>The solution is based on an automatic availability check in the billing</small></div>
+      css_class: col-xs-12
+    - name: group1
+      type: group
+      label: Contact Details
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataCustomerName
+          type: string
+          label: Name
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerSurname
+          type: string
+          label: Surname
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerPhone
+          type: string
+          label: Phone
+          required: true
+          pattern: +{{9}} ({{999}}) {{999}}-{{99}}-{{99}}
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerEmail
+          type: string
+          label: Email
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataInstallDate
+          type: datetime
+          label: Install date
+          css_class: col-xs-6 col-sm-4 col-md-3
+    - name: group2
+      type: group
+      label: Change plan
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataChangePlan
+          type: checkbox
+          label: 'Customer wants to change plan'
+          css_class: col-xs-12 col-sm-6 col-md-4

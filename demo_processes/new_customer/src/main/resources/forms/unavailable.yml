@@ -1,0 +1,6 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: static
+      type: static
+      html: <div class="alert alert-danger"><h4>Connection is Unavailable</h4> <small>The solution is based on an automatic availability check in the billing</small></div>
