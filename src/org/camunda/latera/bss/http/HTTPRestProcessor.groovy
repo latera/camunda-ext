@@ -113,7 +113,9 @@ class HTTPRestProcessor {
     }
   }
 
-  def sendRequest(Map params, CharSequence method = 'get') {
+  def sendRequest(Map paramsInput, CharSequence method = 'get') {
+    Map params = paramsInput.clone()
+
     Boolean supressRequestBody  = false
     Boolean supressResponseBody = false
     if (params.supressRequestBodyLog != null) {
@@ -155,12 +157,14 @@ class HTTPRestProcessor {
 
         if (params.path) {
           request.uri.path = absolutePath(params.path.toString())
-          params.remove('path')
         }
         if (params.query) {
           request.uri.query = params.query
-          params.remove('query')
         }
+
+        params.remove('query')
+        params.remove('path')
+
         params.each { k,v ->
           request."${k}" = v
         }
