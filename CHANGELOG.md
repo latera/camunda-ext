@@ -2,6 +2,7 @@ v1.4.6 [unreleased]
 -------------------
 ### Bugfixes
 -   [#63](https://github.com/latera/camunda-ext/pull/63) Cast BigInteger and BigDecimal to String
+-   [#75](https://github.com/latera/camunda-ext/pull/75) Remove query and path from HTTPRestProcessor after processing
 
 v1.4.5 [2020-05-28]
 -------------------
