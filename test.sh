@@ -1,2 +1,3 @@
 #!/bin/bash
-mvn clean compile package -DskipTests=false $@
+
+CAMUNDA_EXT_ENV=test mvn clean compile package -DskipTests=false
