@@ -33,7 +33,7 @@
     <commons-io.version>2.6</commons-io.version>
     <http-builder.version>0.7.1</http-builder.version>
     <http-builder-ng.version>1.0.3</http-builder-ng.version>
-    <commons-beanutils.version>1.8.0</commons-beanutils.version>
+    <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-lang.version>2.5</commons-lang.version>
     <commons-codec.version>1.11</commons-codec.version>
     <commons-collections.version>3.2.1</commons-collections.version>
