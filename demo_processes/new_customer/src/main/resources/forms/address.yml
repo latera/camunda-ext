@@ -1,0 +1,97 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: homsOrderDataCustomerCity
+      type: select
+      label: City
+      nullable: false
+      required: true
+      choices:
+        - Moscow
+        - Saint Petersburg
+        - Novosibirsk
+        - Yekaterinburg
+        - Nizhniy Novgorod
+        - Samara
+        - Omsk
+        - Kazan
+        - Chelyabinsk
+        - Rostov-na-Donu
+        - Ufa
+        - Perm
+        - Volgograd
+        - Krasnoyarsk
+        - Voronezh
+        - Saratov
+        - Krasnodar
+        - Ulyanovsk
+        - Izhevsk
+        - Yaroslavl
+        - Barnaul
+        - Vladivostok
+        - Irkutsk
+        - Khabarovsk
+        - Makhachkala
+        - Orenburg
+        - Novokuznetsk
+        - Tomsk
+        - Ryazan
+        - Tyumen
+        - Lipetsk
+        - Penza
+        - Astrakhan
+        - Tula
+        - Kemerovo
+        - Krasnyye Chelny
+        - Kirov
+        - Cheboksary
+        - Kaliningrad
+        - Bryansk
+        - Afanasovo
+        - Magnitogorsk
+        - Kursk
+        - Tver
+        - Surgut
+        - Nizhniy Tagil
+        - Vladikavkaz
+        - Stavropol
+        - Ulan-Ude
+        - Arkhangelsk
+        - Belgorod
+        - Kurgan
+        - Kaluga
+        - Orël
+        - Novyy Sochi
+        - Yoshkar-Ola
+        - Volzhskiy
+        - Smolensk
+        - Podolsk
+        - Murmansk
+        - Vladimir
+        - Cherepovets
+        - Chita
+        - Nalchik
+        - Saransk
+        - Tambov
+        - Vologda
+        - Taganrog
+        - Kostroma
+        - Komsomolsk-na-Amure
+        - Prokopyevsk
+        - Sterlitamak
+      css_class: col-xs-6 col-sm-4 col-md-3
+    - name: homsOrderDataCustomerStreet
+      type: string
+      label: Street
+      required: true
+      css_class: col-xs-6 col-sm-4 col-md-3
+    - name: homsOrderDataCustomerHouse
+      type: string
+      label: House
+      required: true
+      css_class: col-xs-6 col-sm-4 col-md-3
+    - name: homsOrderDataCustomerEntrance
+      type: string
+      label: Entrance
+      required: true
+      css_class: col-xs-6 col-sm-4 col-md-3

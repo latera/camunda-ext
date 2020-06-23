@@ -1,0 +1,38 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: static
+      type: static
+      html: <div class="alert alert-success"><h4>Connection is Available</h4> <small>The solution is based on an automatic availability check in the billing</small></div>
+      css_class: col-xs-12
+    - name: homsOrderDataPlanId
+      type: select_table
+      label: Plan
+      css_class: col-xs-12
+      required: true
+      nullable: false
+      rows:
+        - name: Name
+          type: string
+          alignment: center
+        - name: Speed, mb/s
+          type: number
+          alignment: center
+        - name: TV channels
+          type: number
+          alignment: center
+        - name: Price, $
+          type: string
+          alignment: center
+      choices:
+        - [1, Home alone,                 30,  0,   5]
+        - [2, Movie lover,                50,  101, 6.5]
+        - [3, Game lover,                 100, 0,   7]
+        - [4, Like a pro,                 200, 0,   8]
+        - [5, For a family,               50,  201, 7.5]
+        - [6, For a family with teenager, 200, 201, 10]
+    - name: homsOrderDataPlanComment
+      type: text
+      label: Comment from customer
+      css_class: col-xs-12
+

@@ -1,0 +1,81 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: group1
+      type: group
+      label: New Address
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataCustomerCity
+          type: string
+          label: City
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-2
+        - name: homsOrderDataCustomerStreet
+          type: string
+          label: Street
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+        - name: homsOrderDataCustomerHouse
+          type: string
+          label: House
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-2
+        - name: homsOrderDataCustomerEntrance
+          type: string
+          label: Entrance
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-2
+
+    - name: group2
+      type: group
+      label: Contact Details
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataCustomerName
+          type: string
+          label: Name
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+        - name: homsOrderDataCustomerSurname
+          type: string
+          label: Surname
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+        - name: homsOrderDataCustomerPhone
+          type: string
+          label: Phone
+          pattern: +1 ({{999}}) {{999}}-{{99}}-{{99}}
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+        - name: homsOrderDataCustomerEmail
+          type: string
+          label: Email
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+        - name: homsOrderDataInstallDate
+          type: datetime
+          label: Install date
+          editable: false
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+
+    - name: group3
+      type: group
+      label: New Plan
+      css_class: col-xs-12
+      delete_if:
+        - variable: homsOrderDataChangePlan
+          condition: $var == false
+      fields:
+        - name: homsOrderDataPlanId
+          type: select
+          editable: false
+          label: ''
+          css_class: col-xs-2 col-sm-2 col-md-1 col-lg-3
+          choices:
+            - [1, Home alone]
+            - [2, Movie lover]
+            - [3, Game lover]
+            - [4, Like a pro]
+            - [5, For a family]
+            - [6, For a family with teenager]

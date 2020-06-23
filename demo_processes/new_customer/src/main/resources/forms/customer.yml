@@ -1,0 +1,67 @@
+form:
+  css_class: col-xs-12 col-sm-6 col-md-5 col-lg-4
+  fields:
+    - name: group1
+      type: group
+      label: Customer Personal Data
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataCustomerName
+          type: string
+          label: Name
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerSurname
+          type: string
+          label: Surname
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerPhone
+          type: string
+          label: Phone
+          required: true
+          pattern: +{{9}} ({{999}}) {{999}}-{{99}}-{{99}}
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataCustomerEmail
+          type: string
+          label: Email
+          required: true
+          css_class: col-xs-6 col-sm-4 col-md-3
+        - name: homsOrderDataInstallDate
+          type: datetime
+          label: Install date
+          css_class: col-xs-6 col-sm-4 col-md-3
+    - name: group2
+      type: group
+      label: Customer Documents
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataUploadedFile
+          type: file_upload
+          label: Attach docs
+          css_class: col-md-4 col-xs-4 col-lg-4
+        - name: homsOrderDataFileList
+          type: file_list
+          label: Attached files
+          css_class: col-md-8 col-xs-8 col-lg-8
+    - name: group3
+      type: group
+      label: How did you hear about us
+      css_class: col-xs-12
+      fields:
+        - name: homsOrderDataFromFriends
+          type: checkbox
+          label: Friends
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataFromTV
+          type: checkbox
+          label: TV
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataFromFacebookAds
+          type: checkbox
+          label: Facebook Ads
+          css_class: col-xs-12 col-sm-6 col-md-4
+        - name: homsOrderDataFromOther
+          type: string
+          label: Other
+          css_class: col-xs-12 col-sm-6 col-md-4
