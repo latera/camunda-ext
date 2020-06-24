@@ -45,7 +45,7 @@
       <artifactId>camunda-ext</artifactId>
       <version>${camunda-ext.version}</version>
       <scope>system</scope>
-      <systemPath>/usr/src/target/camunda-ext-1.5.jar</systemPath>
+      <systemPath>/usr/src/target/camunda-ext-${camunda-ext.version}.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.codehaus.groovy</groupId>
