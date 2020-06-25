@@ -9,7 +9,7 @@ v1.5 [2020-06-25]
 ### Refactoring
 -   [#54](https://github.com/latera/camunda-ext/pull/54) Add ymlAPI for testing
 
-v1.4.6 [unreleased]
+v1.4.6 [2020-06-25]
 -------------------
 ### Bugfixes
 -   [#63](https://github.com/latera/camunda-ext/pull/63) Cast BigInteger and BigDecimal to String
