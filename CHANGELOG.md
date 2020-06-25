@@ -1,4 +1,4 @@
-v1.5 [unreleased]
+v1.5 [2020-06-25]
 -------------------
 ### Breaking changes
 -   [#11](https://github.com/latera/camunda-ext/pull/11) Rename Invoice to Charge log
