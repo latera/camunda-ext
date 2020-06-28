@@ -13,6 +13,7 @@
   <properties>
     <kotlin.version>1.3.72</kotlin.version>
     <junit-jupiter.version>5.4.2</junit-jupiter.version>
+    <junit-vintage.version>5.4.2</junit-vintage.version>
     <assertj-core.version>3.12.2</assertj-core.version>
     <skipTests>true</skipTests>
     <jacoco.skip>${skipTests}</jacoco.skip>
@@ -78,6 +79,10 @@
       <id>jcenter</id>
       <url>https://jcenter.bintray.com</url>
     </repository>
+    <repository>
+      <id>maven.org</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
   </repositories>
   <dependencyManagement>
     <dependencies>
@@ -109,27 +114,33 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>org.jetbrains.kotlin</groupId>
-        <artifactId>kotlin-stdlib</artifactId>
-        <version>${kotlin.version}</version>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib</artifactId>
+      <version>${kotlin.version}</version>
     </dependency>
     <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
-        <version>${assertj-core.version}</version>
-        <scope>test</scope>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj-core.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>${junit-jupiter.version}</version>
-        <scope>test</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>${junit-jupiter.version}</version>
-        <scope>test</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit-vintage.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.camunda.bpm.model</groupId>
@@ -398,27 +409,29 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <version>${kotlin.version}</version>
         <executions>
-            <execution>
-                <id>compile</id>
-                <goals> <goal>compile</goal> </goals>
-                <configuration>
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/org/camunda/latera/kotlin</sourceDir>
-                    </sourceDirs>
-                </configuration>
-            </execution>
-            <execution>
-              <id>test-compile</id>
-              <goals>
-                  <goal>test-compile</goal>
-              </goals>
-              <configuration>
-                    <sourceDirs>
-                        <sourceDir>${project.basedir}/src/org/camunda/latera/kotlin</sourceDir>
-                        <testSourceDirectory>${project.basedir}/test/kotlin</testSourceDirectory>
-                    </sourceDirs>
-                </configuration>
-            </execution>
+          <execution>
+            <id>compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <sourceDirs>
+                <sourceDir>${project.basedir}/src/org/camunda/latera/kotlin</sourceDir>
+              </sourceDirs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-compile</id>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+            <configuration>
+              <sourceDirs>
+                <sourceDir>${project.basedir}/src/org/camunda/latera/kotlin</sourceDir>
+                <testSourceDirectory>${project.basedir}/test/kotlin</testSourceDirectory>
+              </sourceDirs>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -498,51 +511,50 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
-
       <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>prepare-agent</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>report-aggregate</id>
-              <phase>prepare-package</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>${sonar-maven-plugin.version}</version>
-        </plugin>
-        <!--
-        <plugin>
-          <groupId>org.eluder.coveralls</groupId>
-          <artifactId>coveralls-maven-plugin</artifactId>
-          <version>4.3.0</version>
-          <configuration>
-            <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
-          </configuration>
-          <executions>
-            <execution>
-              <id>report-export</id>
-              <phase>prepare-package</phase>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        -->
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report-aggregate</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>${sonar-maven-plugin.version}</version>
+      </plugin>
+      <!--
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>4.3.0</version>
+        <configuration>
+          <repoToken>yourcoverallsprojectrepositorytoken</repoToken>
+        </configuration>
+        <executions>
+          <execution>
+            <id>report-export</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      -->
       <plugin>
         <groupId>com.bluetrainsoftware.maven</groupId>
         <artifactId>groovydoc-maven-plugin</artifactId>
