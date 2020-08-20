@@ -17,13 +17,14 @@ form:
           alignment: center
         - name: Speed, mb/s
           type: number
-          alignment: center
+          alignment: right
         - name: TV channels
           type: number
-          alignment: center
+          alignment: right
         - name: Price, $
-          type: string
-          alignment: center
+          type: number
+          alignment: right
+          precision: 2
       choices:
         - [1, Home alone,                 30,  0,   5]
         - [2, Movie lover,                50,  101, 6.5]
@@ -34,5 +35,6 @@ form:
     - name: homsOrderDataPlanComment
       type: text
       label: Comment from customer
-      css_class: col-xs-12
+      rows: 6
+      css_class: col-xs-6
 
