@@ -1,5 +1,8 @@
 v1.5.1 [unreleased]
 -------------------
+### Breaking changes
+-   [#85](https://github.com/latera/camunda-ext/pull/85) Change default history level to 'none'
+
 ### Features
 -   [#82](https://github.com/latera/camunda-ext/pull/82) Add new Jasper report methods
 
