@@ -87,7 +87,7 @@ if [[ "$HTTP_PROXY" == "true" ]]; then
     /camunda/conf/server.xml
 fi
 
-export HISTORY_LEVEL="${HISTORY_LEVEL:-${BPM_HISTORY_LEVEL:-full}}"
+export HISTORY_LEVEL="${HISTORY_LEVEL:-${BPM_HISTORY_LEVEL:-none}}"
 
 XML_PROPERTIES="//bpm-platform/process-engine/properties"
 XML_HISTORY_LEVEL="${XML_PROPERTIES}[@name='history']"
