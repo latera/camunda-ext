@@ -73,6 +73,7 @@
     <groovydoc-maven-plugin.version>2.1</groovydoc-maven-plugin.version>
     <vavr.version>0.10.2</vavr.version>
     <snakeyaml.version>1.26</snakeyaml.version>
+    <dokka.version>0.10.0</dokka.version>
   </properties>
   <repositories>
     <repository>
@@ -563,6 +564,41 @@
           <destinationDirectory>${project.basedir}/docs</destinationDirectory>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.jetbrains.dokka</groupId>
+        <artifactId>dokka-maven-plugin</artifactId>
+        <version>${dokka.version}</version>
+        <executions>
+          <execution>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>dokka</goal>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDir>${project.basedir}/kotlin-docs</outputDir>
+          <sourceDirectories>
+            <dir>${project.basedir}/src/org/camunda/latera/kotlin</dir>
+          </sourceDirectories>
+          <sourceLinks>
+            <link>
+              <lineSuffix>#L</lineSuffix>
+            </link>
+          </sourceLinks>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jcenter</id>
+      <name>JCenter</name>
+      <url>https://jcenter.bintray.com/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
 </project>

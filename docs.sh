@@ -16,6 +16,8 @@ fi
 
 # Generate docs
 mvn compile groovydoc:generate com.bluetrainsoftware.maven:groovydoc-maven-plugin:2.1:attach-docs $@
+# Generate docs for kotlin
+mvn org.jetbrains.dokka:dokka-maven-plugin:dokka
 
 # If this is a Travis build, use Github Pages relative urls /camunda-ext/version
 # Otherwise use just /camunda-ext without version,
@@ -26,7 +28,7 @@ else
   export DOC_BASE_URL="/$PROJECT"
 fi
 
-# Remove docs deneration datetime
+# Remove docs generation datetime
 # And replace $docBaseUrl in doc urls
 unamestr=`uname`
 if [[ "$unamestr" == "Linux" ]]; then
@@ -48,3 +50,8 @@ if [[ "x$VERSION" != "x" ]]; then
 
   gh-pages-multi deploy --no-history -t $VERSION
 fi
+
+# Push kotlin docs
+mv kotlin-docs/style.css kotlin-docs/bss/style.css
+find kotlin-docs -type f -name "*.html" -exec sed -i '' -e 's!..\/style.css!style.css!' {} ';'
+gh-pages-multi deploy --no-history -s kotlin-docs/bss -t "kotlin-${VERSION}"
