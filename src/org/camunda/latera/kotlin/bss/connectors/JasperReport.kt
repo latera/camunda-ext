@@ -68,9 +68,24 @@ data class ExecutionStatusResponse(
              val value: String,
              val errorDescriptor: ErrorDescriptor? = null)
 
+/**
+ * JasperReport class is responsible for handling reqeuests to JasperReports API.
+ *
+ * @property url url which will be used for sending requests to JasperReports API.
+ * @property user login for JasperReports API.
+ * @property password password for JasperReports API.
+ * @constructor Creates JasperReport instance.
+ */
 class JasperReport(val url: String, val user: String, val password: String) {
   private val baseUrl: java.net.URI = java.net.URI(this.url)
 
+  /**
+   * Performs 'Running a Report Asynchronously' method.
+   * Runs report asynchronously.
+   * @param params instance of ExecuteReportParams containing parameters for request.
+   * @return instance of ExecuteReportResponse containing the response results,
+   * contains the requestID needed to track the execution until completion.
+   */
   fun executeReport(params: ExecuteReportParams): ExecuteReportResponse {
     val executeReportUrl: String = this.baseUrl.resolve("/reportExecutions").toString()
 
@@ -86,6 +101,13 @@ class JasperReport(val url: String, val user: String, val password: String) {
     return response
   }
 
+  /**
+   * Performs 'Requesting Report Output' method.
+   * Downdloads report output.
+   * @param requestId request id.
+   * @param exportId export id.
+   * @return request response.
+   */
   fun getReportResult(requestId: String, exportId: String):  String {
     val reportResultUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/exports/${exportId}/outputResource").toString()
 
@@ -100,6 +122,15 @@ class JasperReport(val url: String, val user: String, val password: String) {
     return response
   }
 
+  /**
+   * Performs 'Requesting Report Output' method.
+   * Downnloads attachments.
+   * @param requestId request id.
+   * @param exportId export id.
+   * @param fileName filename.
+   * @param attachmentsPrefix attachment prefix, default value = 'attachments'.
+   * @return request response.
+   */
   fun getFileFromReport(requestId: String, exportId: String, fileName: String, attachmentsPrefix: String = "attachments"): String {
     val fileFromReportUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/exports/${exportId}/${attachmentsPrefix}/${fileName}").toString()
 
@@ -114,6 +145,12 @@ class JasperReport(val url: String, val user: String, val password: String) {
     return response
   }
 
+  /**
+   * Performs 'Requesting Report Execution Details' method.
+   * Gets report details.
+   * @param requestId request id.
+   * @return instance of ExecutionDetailsResponse containing the response results.
+   */
   fun getReportExecutionDetails(requestId: String): ExecutionDetailsResponse {
     val executionDetailsUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}").toString()
 
@@ -128,6 +165,12 @@ class JasperReport(val url: String, val user: String, val password: String) {
     return response
   }
 
+  /**
+   * Performs 'Polling Report Execution' method.
+   * Gets status of the report execution.
+   * @param requestId request id.
+   * @return instance of ExecutionStatusResponse containing the response results.
+   */
   fun getReportExecutionStatus(requestId: String): ExecutionStatusResponse {
     val executionStatusUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/status").toString()
 
