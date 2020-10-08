@@ -1,4 +1,4 @@
-package org.camunda.latera.bss.connectors
+package org.camunda.latera.bss.connectors.Jasper
 
 import org.camunda.latera.bss.HttpClient.HttpProcessor
 import io.ktor.client.request.*
@@ -12,7 +12,7 @@ data class Export(
 
 data class ExecuteReportParams(
              val reportUnitUri: String,
-             val parameters: Map<String, Any>,
+             val parameters: LinkedHashMap<String, Any>,
              val outputFormat: String = "pdf",
              val freshData: Boolean = false,
              val saveDataSnapshot: Boolean = false,
@@ -70,9 +70,30 @@ data class ExecutionStatusResponse(
 
 class JasperReport(val url: String, val user: String, val password: String) {
   private val baseUrl: java.net.URI = java.net.URI(this.url)
+  /**
+   * createExecuteReportParams - method creates ExecuteReportParams object from LinkedHashMap.
+   * @param LinkedHashMap<String, Any> params for request
+   * @return instance of ExecuteReportParams
+   */
+  fun createExecuteReportParams(params: LinkedHashMap<String, Any>): ExecuteReportParams {
+    return ExecuteReportParams(
+             reportUnitUri = params.get("reportUnitUri") as String,
+             parameters = params.get("parameters") as LinkedHashMap<String, Any>,
+             outputFormat = params.get("outputFormat") as String? ?: "pdf",
+             freshData = params.get("freshData") as Boolean? ?: false,
+             saveDataSnapshot = params.get("saveDataSnapshot") as Boolean? ?: false,
+             interactive = params.get("interactive") as Boolean? ?: true,
+             allowInlineScripts = params.get("allowInlineScripts") as Boolean? ?: true,
+             ignorePagination = params.get("ignorePagination") as Boolean?,
+             pages = params.get("pages") as Int?,
+             async = params.get("async") as Boolean? ?: false,
+             transformerKey = params.get("transformerKey") as String?,
+             attachmentsPrefix = params.get("attachmentsPrefix") as String? ?: "attachments",
+             baseUrl = params.get("baseUrl") as String?)
+  }
 
   fun executeReport(params: ExecuteReportParams): ExecuteReportResponse {
-    val executeReportUrl: String = this.baseUrl.resolve("/reportExecutions").toString()
+    val executeReportUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions").toString()
 
     val client = HttpProcessor.getJasperClient(this.user, this.password)
     val response = runBlocking {
@@ -87,7 +108,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   }
 
   fun getReportResult(requestId: String, exportId: String):  String {
-    val reportResultUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/exports/${exportId}/outputResource").toString()
+    val reportResultUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/exports/${exportId}/outputResource").toString()
 
     val client = HttpProcessor.getJasperClient(this.user, this.password)
     val response = runBlocking {
@@ -101,7 +122,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   }
 
   fun getFileFromReport(requestId: String, exportId: String, fileName: String, attachmentsPrefix: String = "attachments"): String {
-    val fileFromReportUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/exports/${exportId}/${attachmentsPrefix}/${fileName}").toString()
+    val fileFromReportUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/exports/${exportId}/${attachmentsPrefix}/${fileName}").toString()
 
     val client = HttpProcessor.getJasperClient(this.user, this.password)
     val response = runBlocking {
@@ -115,7 +136,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   }
 
   fun getReportExecutionDetails(requestId: String): ExecutionDetailsResponse {
-    val executionDetailsUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}").toString()
+    val executionDetailsUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}").toString()
 
     val client = HttpProcessor.getJasperClient(this.user, this.password)
     val response = runBlocking {
@@ -129,7 +150,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   }
 
   fun getReportExecutionStatus(requestId: String): ExecutionStatusResponse {
-    val executionStatusUrl: String = this.baseUrl.resolve("/reportExecutions/${requestId}/status").toString()
+    val executionStatusUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/status").toString()
 
     val client = HttpProcessor.getJasperClient(this.user, this.password)
     val response = runBlocking {

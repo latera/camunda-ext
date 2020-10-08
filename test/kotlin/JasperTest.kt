@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.function.Executable
-import org.camunda.latera.bss.connectors.JasperReport
-import org.camunda.latera.bss.connectors.ExecuteReportParams
+import org.camunda.latera.bss.connectors.Jasper.*
 
 
 class JasperTest {
@@ -20,10 +19,11 @@ class JasperTest {
     @DisplayName("Jasper connector executeReport")
     fun executeReport() {
       val report: JasperReport = JasperReport("http://127.0.0.1/", "test_user", "password")
-      val params: ExecuteReportParams = ExecuteReportParams(
-        reportUnitUri = "testReport",
-        parameters = emptyMap<String, Any>()
-      )
+      val params: ExecuteReportParams = report.createExecuteReportParams(
+        linkedMapOf<String, Any>(
+          "reportUnitUri" to "testReport",
+          "parameters" to linkedMapOf<String, Any>()))
+
       val result = report.executeReport(params)
       assertAll("Should return ExecuteReportResponse",
         Executable { assertEquals(result.currentPage, 1) },
