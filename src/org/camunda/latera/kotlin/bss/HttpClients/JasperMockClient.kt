@@ -1,6 +1,6 @@
 package org.camunda.latera.bss.HttpClient
 
-import org.camunda.latera.bss.connectors.*
+import org.camunda.latera.bss.connectors.Jasper.*
 import io.ktor.client.request.*
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.GsonSerializer
