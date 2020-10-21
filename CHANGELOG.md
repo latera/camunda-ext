@@ -1,3 +1,14 @@
+v1.5.1 [2020-10-21]
+-------------------
+### Breaking changes
+-   [#85](https://github.com/latera/camunda-ext/pull/85) Change default history level to 'none'
+
+### Features
+-   [#82](https://github.com/latera/camunda-ext/pull/82) Add new Jasper report methods
+
+### Bugfixes
+-   [#80](https://github.com/latera/camunda-ext/pull/80) Add junit-vintage for groovy tests
+
 v1.5 [2020-06-25]
 -------------------
 ### Breaking changes
