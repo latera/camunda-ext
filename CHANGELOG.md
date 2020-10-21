@@ -1,4 +1,4 @@
-v1.5.1 [unreleased]
+v1.5.1 [2020-10-21]
 -------------------
 ### Breaking changes
 -   [#85](https://github.com/latera/camunda-ext/pull/85) Change default history level to 'none'
