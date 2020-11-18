@@ -9,7 +9,11 @@ RUN rm -rf /camunda/webapps/camunda-invoice \
     apk add wget curl busybox-extras -f
 
 USER camunda
-RUN sed -i 's/<!-- <filter>/<filter>/' /camunda/webapps/engine-rest/WEB-INF/web.xml && sed -i 's/<\/filter-mapping> -->/<\/filter-mapping>/' /camunda/webapps/engine-rest/WEB-INF/web.xml
+
+RUN sed -i 's/<!-- <filter>/<filter>/' /camunda/webapps/engine-rest/WEB-INF/web.xml && \
+    sed -i 's/<\/filter-mapping> -->/<\/filter-mapping>/' /camunda/webapps/engine-rest/WEB-INF/web.xml && \
+    sed -i 's/connectionTimeout="20000"/connectionTimeout="600000"/g' /camunda/conf/server.xml
+
 COPY --chown=camunda:camunda ./camunda.sh /camunda/
 COPY ./context.xml /camunda/conf/
 

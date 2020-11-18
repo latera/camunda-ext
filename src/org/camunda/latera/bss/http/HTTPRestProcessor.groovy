@@ -1,5 +1,6 @@
 package org.camunda.latera.bss.http
 
+import java.util.concurrent.TimeUnit
 import groovyx.net.http.OkHttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
@@ -57,7 +58,12 @@ class HTTPRestProcessor {
       response.success responseBlock(false, this.supressRequestBodyLog)
       response.failure responseBlock(true,  this.supressResponseBodyLog)
 
-      client.clientCustomizer { it.followRedirects = true }
+      client.clientCustomizer {
+        it.followRedirects = true
+        it.connectTimeout(ENV['HTTP_CONNECT_TIMEOUT_SEC'].toInteger(), TimeUnit.SECONDS)
+        it.readTimeout(ENV['HTTP_READ_TIMEOUT_SEC'].toInteger(), TimeUnit.SECONDS)
+        it.writeTimeout(ENV['HTTP_WRITE_TIMEOUT_SEC'].toInteger(), TimeUnit.SECONDS)
+      }
 
       if (notEmpty(params.user) && notEmpty(params.password)) {
         request.auth.basic(params.user, params.password)
