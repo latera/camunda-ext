@@ -71,7 +71,7 @@ class MapUtil {
   /**
     Merge 2 maps into one.
     <p>
-    GString are converted into String ones.
+    The second map values replaces or adds values to the first one using the appropriate keys.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23merge"></iframe>
@@ -95,7 +95,7 @@ class MapUtil {
   /**
     Merge 2 maps into one.
     <p>
-    Same as #merge(Map,Map), but if second map value is null but first is not, value is being preserved.
+    If the second map values is not null, it replaces or adds values to the first one using the appropriate keys.
     <p>
     Examples:
     <iframe style="width:100%;height:200px;border:none;" src="${docBaseUrl}/test-reports/org.camunda.latera.bss.utils.MapUtilSpec.html#%23mergeNotNull"></iframe>
