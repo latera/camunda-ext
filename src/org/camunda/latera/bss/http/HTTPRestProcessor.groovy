@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit
 import groovyx.net.http.OkHttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
+import static groovyx.net.http.util.SslUtils.ignoreSslIssues
 import org.camunda.latera.bss.logging.SimpleLogger
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
@@ -64,6 +65,8 @@ class HTTPRestProcessor {
         it.readTimeout(ENV['HTTP_READ_TIMEOUT_SEC'].toInteger(), TimeUnit.SECONDS)
         it.writeTimeout(ENV['HTTP_WRITE_TIMEOUT_SEC'].toInteger(), TimeUnit.SECONDS)
       }
+
+      !ENV['HTTP_USE_SSL'].toBoolean() && ignoreSslIssues(execution)
 
       if (notEmpty(params.user) && notEmpty(params.password)) {
         request.auth.basic(params.user, params.password)
