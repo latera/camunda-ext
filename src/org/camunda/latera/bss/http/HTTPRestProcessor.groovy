@@ -3,6 +3,7 @@ package org.camunda.latera.bss.http
 import groovyx.net.http.OkHttpBuilder
 import groovyx.net.http.FromServer
 import groovyx.net.http.HttpException
+import static groovyx.net.http.util.SslUtils.ignoreSslIssues
 import org.camunda.latera.bss.logging.SimpleLogger
 import static org.camunda.latera.bss.utils.StringUtil.notEmpty
 import static org.camunda.latera.bss.utils.StringUtil.isEmpty
@@ -55,6 +56,8 @@ class HTTPRestProcessor {
       response.failure responseBlock(true,  this.supressResponseBodyLog)
 
       client.clientCustomizer { it.followRedirects = true }
+
+      !ENV['HTTP_USE_SSL'].toBoolean() && ignoreSslIssues(execution)
 
       if (notEmpty(params.user) && notEmpty(params.password)) {
         request.auth.basic(params.user, params.password)
