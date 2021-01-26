@@ -68,7 +68,12 @@ data class ExecutionStatusResponse(
              val value: String,
              val errorDescriptor: ErrorDescriptor? = null)
 
-class JasperReport(val url: String, val user: String, val password: String) {
+class JasperReport(
+  val url: String,
+  val user: String,
+  val password: String,
+  val useSSL: Boolean = true
+) {
   private val baseUrl: java.net.URI = java.net.URI(this.url)
   /**
    * createExecuteReportParams - method creates ExecuteReportParams object from LinkedHashMap.
@@ -95,7 +100,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   fun executeReport(params: ExecuteReportParams): ExecuteReportResponse {
     val executeReportUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions").toString()
 
-    val client = HttpProcessor.getJasperClient(this.user, this.password)
+    val client = HttpProcessor.getJasperClient(this.user, this.password, this.useSSL)
     val response = runBlocking {
       client.post<ExecuteReportResponse>(executeReportUrl){
         contentType(ContentType.Application.Json)
@@ -110,7 +115,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   fun getReportResult(requestId: String, exportId: String):  String {
     val reportResultUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/exports/${exportId}/outputResource").toString()
 
-    val client = HttpProcessor.getJasperClient(this.user, this.password)
+    val client = HttpProcessor.getJasperClient(this.user, this.password, this.useSSL)
     val response = runBlocking {
       client.get<String>(reportResultUrl){
         contentType(ContentType.Application.Json)
@@ -124,7 +129,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   fun getFileFromReport(requestId: String, exportId: String, fileName: String, attachmentsPrefix: String = "attachments"): String {
     val fileFromReportUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/exports/${exportId}/${attachmentsPrefix}/${fileName}").toString()
 
-    val client = HttpProcessor.getJasperClient(this.user, this.password)
+    val client = HttpProcessor.getJasperClient(this.user, this.password, this.useSSL)
     val response = runBlocking {
       client.get<String>(fileFromReportUrl){
         contentType(ContentType.Application.Json)
@@ -138,7 +143,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   fun getReportExecutionDetails(requestId: String): ExecutionDetailsResponse {
     val executionDetailsUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}").toString()
 
-    val client = HttpProcessor.getJasperClient(this.user, this.password)
+    val client = HttpProcessor.getJasperClient(this.user, this.password, this.useSSL)
     val response = runBlocking {
       client.get<ExecutionDetailsResponse>(executionDetailsUrl){
         contentType(ContentType.Application.Json)
@@ -152,7 +157,7 @@ class JasperReport(val url: String, val user: String, val password: String) {
   fun getReportExecutionStatus(requestId: String): ExecutionStatusResponse {
     val executionStatusUrl: String = this.baseUrl.resolve(this.baseUrl.path + "/rest_v2/reportExecutions/${requestId}/status").toString()
 
-    val client = HttpProcessor.getJasperClient(this.user, this.password)
+    val client = HttpProcessor.getJasperClient(this.user, this.password, this.useSSL)
     val response = runBlocking {
       client.get<ExecutionStatusResponse>(executionStatusUrl){
         contentType(ContentType.Application.Json)

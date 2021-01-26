@@ -7,9 +7,11 @@ import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.auth.Auth
 import io.ktor.client.features.auth.providers.*
 import io.ktor.client.features.json.JsonFeature
+import org.apache.http.ssl.SSLContextBuilder
+import org.apache.http.conn.ssl.*
 
 object JasperClient {
-  fun getClient(user: String, passwd: String): HttpClient {
+  fun getClient(user: String, passwd: String, useSSL: Boolean = true): HttpClient {
     return HttpClient(Apache) {
       install(JsonFeature) {
         serializer = GsonSerializer{
@@ -20,6 +22,19 @@ object JasperClient {
         basic {
           username = user
           password = passwd
+        }
+      }
+      
+      if (!useSSL) {
+        engine {
+          customizeClient {
+            setSSLContext(
+                SSLContextBuilder.create()
+                    .loadTrustMaterial(TrustAllStrategy())
+                    .build()
+            )
+            setSSLHostnameVerifier(NoopHostnameVerifier())
+          }
         }
       }
     }
