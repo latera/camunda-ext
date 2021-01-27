@@ -1,7 +1,8 @@
 v1.5.2 [unreleased]
 -------------------
 ### Features
--   [#82](https://github.com/latera/camunda-ext/pull/90) Increase default HTTP timeouts
+-   [#90](https://github.com/latera/camunda-ext/pull/90) Increase default HTTP timeouts
+-   [#93](https://github.com/latera/camunda-ext/pull/93) Allow to disable certificate check for HTTP clients
 
 v1.5.1 [2020-10-21]
 -------------------
@@ -27,6 +28,11 @@ v1.5 [2020-06-25]
 
 ### Refactoring
 -   [#54](https://github.com/latera/camunda-ext/pull/54) Add ymlAPI for testing
+
+v1.4.7 [unreleased]
+-------------------
+### Features
+-   [#93](https://github.com/latera/camunda-ext/pull/93) Allow to disable certificate check for HTTP clients
 
 v1.4.6 [2020-06-25]
 -------------------
