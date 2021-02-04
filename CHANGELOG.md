@@ -29,7 +29,7 @@ v1.5 [2020-06-25]
 ### Refactoring
 -   [#54](https://github.com/latera/camunda-ext/pull/54) Add ymlAPI for testing
 
-v1.4.7 [unreleased]
+v1.4.7 [2021-02-04]
 -------------------
 ### Features
 -   [#93](https://github.com/latera/camunda-ext/pull/93) Allow to disable certificate check for HTTP clients
