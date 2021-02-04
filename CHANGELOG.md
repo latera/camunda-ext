@@ -1,4 +1,4 @@
-v1.5.2 [unreleased]
+v1.5.2 [2021-02-04]
 -------------------
 ### Features
 -   [#90](https://github.com/latera/camunda-ext/pull/90) Increase default HTTP timeouts
