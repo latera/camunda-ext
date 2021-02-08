@@ -1,4 +1,4 @@
-v1.4.7 [2021-02-04]
+v1.4.7 [unreleased]
 -------------------
 ### Features
 -   [#93](https://github.com/latera/camunda-ext/pull/93) Allow to disable certificate check for HTTP clients
