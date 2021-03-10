@@ -168,12 +168,10 @@ class Constants {
   public static final Integer WFLOW_DiscountCertificate   = 280021
   public static final Integer WFLOW_PaymentRequest        = 290021
 
-  public static final Integer REF_TYPE_Good_Move_Type     = 47
-  public static final Integer GM_TYPE_Charged             = 1047
-  public static final Integer GM_TYPE_Reserve             = 2047
-  public static final Integer GM_TYPE_Request             = 3047
-  public static final Integer GM_TYPE_Bind                = 4047
-  public static final Integer GM_TYPE_Cancelled           = 5047
+  public static final Integer REF_TYPE_ChargeState  = 47
+  public static final Integer CHARGE_STATE_Charged  = 1047
+  public static final Integer CHARGE_STATE_Reserved = 2047
+  public static final Integer CHARGE_STATE_Canceled = 5047
 
   public static final Integer REF_TYPE_Subj_Serv_Type = 66
   public static final Integer SUBJ_SERV_AppAccess     = 1066
