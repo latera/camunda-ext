@@ -4,9 +4,9 @@ import static org.camunda.latera.bss.utils.DateTimeUtil.local
 import static org.camunda.latera.bss.utils.Oracle.encodeDateStr
 import static org.camunda.latera.bss.utils.Numeric.toIntSafe
 import static org.camunda.latera.bss.utils.Constants.DOC_TYPE_ChargeLog
-import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Charged
-import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Reserve
-import static org.camunda.latera.bss.utils.Constants.GM_TYPE_Cancelled
+import static org.camunda.latera.bss.utils.Constants.CHARGE_STATE_Charged
+import static org.camunda.latera.bss.utils.Constants.CHARGE_STATE_Reserved
+import static org.camunda.latera.bss.utils.Constants.CHARGE_STATE_Canceled
 import static org.camunda.latera.bss.utils.Constants.WFLOW_ChargeLog
 import java.time.temporal.Temporal
 
@@ -64,7 +64,7 @@ trait ChargeLog {
    * Get charge log line state ref id
    */
   Number getChargeChargedTypeId() {
-    return GM_TYPE_Charged
+    return CHARGE_STATE_Charged
   }
 
   /**
@@ -78,7 +78,7 @@ trait ChargeLog {
    * Get charge log line Reserved state type ref id
    */
   Number getChargeReservedTypeId() {
-    return GM_TYPE_Reserve
+    return CHARGE_STATE_Reserved
   }
 
   /**
@@ -92,7 +92,7 @@ trait ChargeLog {
    * Get charge log line Canceled state type ref id
    */
   Number getChargeCanceledTypeId() {
-    return GM_TYPE_Cancelled
+    return CHARGE_STATE_Canceled
   }
 
   /**
