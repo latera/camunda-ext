@@ -7,5 +7,3 @@ if (StringUtil.isEmpty(orderCode)) {
   def homs = new HOMS(execution)
   homs.createOrder('pizza_order')
 }
-
-execution.setBusinessKey(execution.getVariable('homsOrderCode'))
