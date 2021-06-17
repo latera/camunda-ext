@@ -168,14 +168,15 @@ class HOMS {
     return attachFiles([file], prefix, save)
   }
 
-  void sendTaskEvent(String taskId, String eventName, String assignee, List<String> users) {
+  void sendTaskEvent(String taskId, String eventName, String assignee, List<String> users, Long version) {
     LinkedHashMap body = [
       event_name: eventName,
       assignee:   assignee,
-      users:      users
+      users:      users,
+      version:    version
     ]
 
-    logger.info("/ Sending event ${eventName} for task ${taskId} ...")
+    logger.info("/ Sending event ${eventName} with version ${version} for task ${taskId} ...")
 
     this.http.sendRequest(
       'put',
@@ -183,6 +184,6 @@ class HOMS {
       body: body
     )
 
-    logger.info("\\ Event ${eventName} for task ${taskId} sent")
+    logger.info("\\ Event ${eventName} with version ${version} for task ${taskId} has been sent")
   }
 }
