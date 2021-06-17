@@ -13,6 +13,7 @@ class TaskNotifier implements TaskListener {
   void notify(DelegateTask task) {
     TransactionListener listener = new TransactionListener() {
       void execute(CommandContext commandContext) {
+        Long version            = System.currentTimeMillis()
         String assignee         = getAssignee(task)
         List<String> candidates = getCandidates(task)
 
@@ -20,7 +21,8 @@ class TaskNotifier implements TaskListener {
           task.getId(),
           task.getEventName(),
           assignee,
-          [*candidates, assignee].unique(false) - null
+          [*candidates, assignee].unique(false) - null,
+          version
         )
       }
     }
