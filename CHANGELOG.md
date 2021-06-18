@@ -1,4 +1,4 @@
-v1.5.3 [unreleased]
+v1.5.4 [unreleased]
 -------------------
 ### Features
 - [#98](https://github.com/latera/camunda-ext/pull/98) Generate version for task event
