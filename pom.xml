@@ -11,10 +11,10 @@
     <url>https://github.com/latera/camunda-ext</url>
   </scm>
   <properties>
-    <kotlin.version>1.4.30</kotlin.version>
-    <junit-jupiter.version>5.7.0</junit-jupiter.version>
-    <junit-vintage.version>5.7.0</junit-vintage.version>
-    <assertj-core.version>3.19.0</assertj-core.version>
+    <kotlin.version>1.4.32</kotlin.version>
+    <junit-jupiter.version>5.7.2</junit-jupiter.version>
+    <junit-vintage.version>5.7.2</junit-vintage.version>
+    <assertj-core.version>3.20.1</assertj-core.version>
     <skipTests>true</skipTests>
     <jacoco.skip>${skipTests}</jacoco.skip>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,7 +53,7 @@
     <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
     <sonar.projectKey>camunda-ext</sonar.projectKey>
     <sonar.projectName>camunda-ext</sonar.projectName>
-    <ktor.version>1.5.1</ktor.version>
+    <ktor.version>1.5.4</ktor.version>
     <gson.version>2.8.6</gson.version>
     <!--
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
