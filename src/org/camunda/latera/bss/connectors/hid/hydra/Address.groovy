@@ -952,13 +952,15 @@ trait Address {
       if (!isSubjectAddr) {
         isObjectAddr = isObjectAddress(params.entityAddressId, params.entityTypeId, params.entityId)
       }
+    
+      if (!isSubjectAddr && !isObjectAddr) {
+        throw new Exception ("No address found!")
+      }
+    } else {
+      isSubjectAddr = isSubject(params.entityTypeId ?: params.entityId)
     }
 
-    if (!isSubjectAddr && !isObjectAddr) {
-      throw new Exception ("No address found!")
-    }
-
-    if (isSubjAddr) {
+    if (isSubjectAddr) {
       params.subjAddressId   = params.entityAddressId
       params.subjectId       = params.entityId
       LinkedHashMap address  = putSubjAddress(params)
