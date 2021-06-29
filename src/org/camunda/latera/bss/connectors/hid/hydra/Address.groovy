@@ -839,7 +839,7 @@ trait Address {
           rawAddress      : objAddress.vc_address,
           flat            : objAddress.vc_flat,
           floor           : objAddress.n_floor,
-          entrance        : objAddress.n_entrance_no ?: objAddressId.vc_entrance_no,
+          entrance        : objAddress.n_entrance_no ?: objAddress.vc_entrance_no,
           rem             : objAddress.vc_rem,
           stateId         : objAddress.n_addr_state_id,
           isMain          : decodeBool(objAddress.c_fl_main),
