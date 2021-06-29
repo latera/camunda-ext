@@ -826,9 +826,9 @@ trait Subject {
         }
       }
 
-      logger.info("Deleting subject group id ${subjSubjectId}")
+      logger.info("Deleting subject group id ${params.subjSubjectId}")
       hid.execute('SI_SUBJECTS_PKG.SI_SUBJ_SUBJECTS_DEL', [
-        num_N_SUBJ_SUBJECT_ID : subjSubjectId
+        num_N_SUBJ_SUBJECT_ID : params.subjSubjectId
       ])
       logger.info("   Subject group was deleted successfully!")
       return true
