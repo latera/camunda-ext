@@ -376,7 +376,7 @@ trait Customer {
           customerId    : customer.n_subject_id,
           baseSubjectId : customer.n_base_subject_id,
           groupId       : customer.n_subj_group_id,
-          code          : customer.vc_cpde,
+          code          : customer.vc_code,
           rem           : customer.vc_rem,
           firmId        : customer.n_firm_id,
           resellerId    : customer.n_reseller_id,
