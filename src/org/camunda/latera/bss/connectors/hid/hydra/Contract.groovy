@@ -310,7 +310,7 @@ trait Contract {
    * @return Updated contract (in Oracle API procedure notation)
    */
   Map updateContract(Map input = [:], def docId) {
-    return updateContract(input + [docId: docId])
+    return putContract(input + [docId: docId])
   }
 
   /**
