@@ -1,3 +1,11 @@
+v1.5.5 [2021-07-08]
+-------------------
+### Bugfixes
+- [#101](https://github.com/latera/camunda-ext/pull/101) Fix typo in putCustomer method
+- [#102](https://github.com/latera/camunda-ext/pull/102) Fix typo in putObjAddress method
+- [#103](https://github.com/latera/camunda-ext/pull/103) Fix passing arguments in deleteSubjectGroup
+- [#104](https://github.com/latera/camunda-ext/pull/104) Fix saving addresses via putEntityAddress
+
 v1.5.4 [2021-06-18]
 -------------------
 ### Features
